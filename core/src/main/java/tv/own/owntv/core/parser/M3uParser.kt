@@ -92,7 +92,7 @@ class M3uParser {
                     pendingHeaders = null // a new entry starts; drop anything the previous one left
                     pendingDrm = null
                     pending = PendingExtInf(
-                        name = line.substringAfterLast(',').trim(),
+                        name = displayName(line, attrs),
                         logo = attrs.attr("tvg-logo"),
                         groupTitle = attrs.attr("group-title"),
                         tvgId = attrs.attr("tvg-id"),
@@ -235,6 +235,39 @@ class M3uParser {
     }
 
     private fun Map<String, String>.attr(key: String): String? = this[key]?.takeIf { it.isNotBlank() }
+
+    /**
+     * The display name: everything after the first comma that sits outside a quoted attribute value.
+     *
+     * This used to be `substringAfterLast(',')`, which cut every name that contains a comma of its
+     * own — `Movie, The (1999)` came out as `The (1999)`. The ugly title is the smaller problem: the
+     * M3U stable key is derived from the name, so a truncated name re-keys the row and its favourites,
+     * history and resume position are orphaned at the next sync. Quoted values are skipped, so a
+     * `group-title="News, Politics"` still cannot be mistaken for the separator — the one case the
+     * last-comma rule did get right.
+     *
+     * A line with no separator, or with nothing after it, falls back to `tvg-name` instead of taking
+     * the whole `#EXTINF…` line, or an empty string, as the title. An entry with neither is dropped
+     * at its URL line as before.
+     */
+    private fun displayName(line: String, attrs: Map<String, String>): String {
+        var inQuote = false
+        for (i in line.indices) {
+            when (line[i]) {
+                '"' -> inQuote = !inQuote
+                ',' -> if (!inQuote) return line.substring(i + 1).trim().ifBlank { attrs.attr("tvg-name").orEmpty() }
+            }
+        }
+        // Only an unbalanced quote arrives here with a comma still on the line. That line is
+        // malformed either way, so it keeps the last-comma reading it always had rather than being
+        // dropped. Without any comma, `tvg-name` is the only name there is.
+        val last = line.lastIndexOf(',')
+        return if (last >= 0) {
+            line.substring(last + 1).trim().ifBlank { attrs.attr("tvg-name").orEmpty() }
+        } else {
+            attrs.attr("tvg-name").orEmpty()
+        }
+    }
 
     /**
      * Per-channel HTTP headers from the three conventions playlists use (F16). Returns null for every

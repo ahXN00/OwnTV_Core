@@ -3,6 +3,26 @@
 Core is versioned independently of the apps. A core version number never lines up with an OwnTV TV
 app `v4.x` release, and the two must not be confused. Tags here are prefixed `core-`.
 
+## core-1.0.19 — unreleased
+
+### 📃 M3U titles keep their commas
+
+- **The display name is what follows the first comma outside a quoted attribute, not the last
+  one.** `M3uParser` took `substringAfterLast(',')`, so `Movie, The (1999)` was listed as
+  `The (1999)` and `Live, Love, Music` as `Music`. The stable key an M3U row is upserted by is
+  derived from the name, so every such title also changed key whenever its trailing text did, and
+  its favourites, history and resume position were orphaned at that resync. Quoted values are still
+  skipped, so a `group-title="News, Politics"` cannot be mistaken for the separator, and a line
+  with an unbalanced quote keeps the last-comma reading it always had rather than being dropped.
+- **A line with no separator, or with nothing after it, falls back to `tvg-name`** instead of
+  taking the raw `#EXTINF…` text as the title. With neither there is nothing to call the entry,
+  and it is skipped as before.
+- Titles without a comma parse to the same name as before, so an ordinary live lineup is not
+  re-keyed. A title that *was* truncated gets its full name — and a new key — on the first sync
+  after this change; favourites, history and resume position pinned to the truncated row do not
+  survive that one sync, because the relink looks for the old name, which no longer exists. Only
+  titles containing a comma are affected.
+
 ## core-1.0.18 — 2026-09-05
 
 Additive. The TV app was rebuilt and verified against it (Rule 5).
