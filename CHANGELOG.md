@@ -3,6 +3,21 @@
 Core is versioned independently of the apps. A core version number never lines up with an OwnTV TV
 app `v4.x` release, and the two must not be confused. Tags here are prefixed `core-`.
 
+## core-1.0.19 — unreleased
+
+### 🔤 Alphabetical sort reaches the channels inside a folder
+
+- **`LiveQueries.livePagingSource` already receives the Live TV sort mode and applies it to the All
+  and Catch-up lists, but the Folder and Custom-category branches never looked at it** — switching to
+  alphabetical sorted the rail's folders A–Z while the channels inside each one stayed in provider
+  order. `ChannelDao.pagingByCategoryAlpha` already existed for the plain-folder case with no caller;
+  folders that carry a manual order and custom categories had no alpha variant at all, so two new
+  queries (`ChannelDao.pagingByCategoryManualAlpha`, `CustomCategoryDao.pagingChannelsAlpha`) fill
+  those in.
+- A folder or custom category with a manual order keeps its manually placed channels exactly where
+  the user put them and sorts the rest A–Z — the same "manual order wins, the rest goes A–Z"
+  convention the folder list itself already uses (`alphaRest`). Playlist mode is unchanged.
+
 ## core-1.0.18 — 2026-09-05
 
 Additive. The TV app was rebuilt and verified against it (Rule 5).

@@ -40,13 +40,16 @@ fun livePagingSource(
             LiveKey.Favorites -> channelDao.pagingFavoritesManual(profileId, ContentOrderEntity.FAV_CONTEXT, ids)
             LiveKey.History -> channelDao.pagingHistory(profileId, ids)
             LiveKey.Catchup -> if (playlist) channelDao.pagingCatchupOriginal(ids) else channelDao.pagingCatchup(ids)
-            is LiveKey.Custom -> customCategoryDao.pagingChannels(profileId, key.id, ids)
+            is LiveKey.Custom -> if (playlist) customCategoryDao.pagingChannels(profileId, key.id, ids) else customCategoryDao.pagingChannelsAlpha(profileId, key.id, ids)
             is LiveKey.Folder -> {
                 val ctxKey = contextKey(key.id) ?: ""
                 // C3 fast path: no manual order in this folder → the plain indexed query has
                 // the identical (sortOrder, name) order without the join-sort.
-                if (!hasManualOrder(ctxKey)) channelDao.pagingByCategory(key.id)
-                else channelDao.pagingByCategoryManual(key.id, profileId, ctxKey)
+                if (!hasManualOrder(ctxKey)) {
+                    if (playlist) channelDao.pagingByCategory(key.id) else channelDao.pagingByCategoryAlpha(key.id)
+                } else {
+                    if (playlist) channelDao.pagingByCategoryManual(key.id, profileId, ctxKey) else channelDao.pagingByCategoryManualAlpha(key.id, profileId, ctxKey)
+                }
             }
         }
     } else {

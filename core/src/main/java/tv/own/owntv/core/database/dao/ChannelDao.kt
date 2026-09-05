@@ -201,6 +201,17 @@ interface ChannelDao {
     )
     fun pagingByCategoryManual(categoryId: Long, profileId: Long, contextKey: String): PagingSource<Int, ChannelEntity>
 
+    /** A–Z variant of [pagingByCategoryManual]: manually placed channels keep their saved position,
+     *  the rest sort by name instead of falling back to provider order — the same "manual order wins,
+     *  the rest goes A–Z" convention the folder list itself uses (see `alphaRest`). */
+    @Query(
+        "SELECT c.* FROM channels c " +
+            "LEFT JOIN content_order o ON o.itemId = c.id AND o.profileId = :profileId AND o.mediaType = 'LIVE' AND o.contextKey = :contextKey " +
+            "WHERE c.categoryId = :categoryId " +
+            "ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, c.name",
+    )
+    fun pagingByCategoryManualAlpha(categoryId: Long, profileId: Long, contextKey: String): PagingSource<Int, ChannelEntity>
+
     @Query(
         "SELECT c.* FROM channels c " +
             "INNER JOIN favorites f ON f.itemId = c.id AND f.mediaType = 'LIVE' " +

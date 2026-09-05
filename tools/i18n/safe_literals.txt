@@ -722,7 +722,8 @@
 4	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	INNER JOIN favorites f ON f.itemId = c.id AND f.mediaType = 'LIVE'
 4	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	INNER JOIN watch_history h ON h.itemId = c.id AND h.mediaType = 'LIVE'
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	LEFT JOIN categories cat ON c.categoryId = cat.id
-4	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	LEFT JOIN content_order o ON o.itemId = c.id AND o.profileId = :profileId AND o.mediaType = 'LIVE' AND o.contextKey = :contextKey
+5	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	LEFT JOIN content_order o ON o.itemId = c.id AND o.profileId = :profileId AND o.mediaType = 'LIVE' AND o.contextKey = :contextKey
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, c.name
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, c.sortOrder, c.name
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, c.sortOrder, c.name LIMIT :limit
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, f.addedAt DESC
@@ -763,7 +764,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT DISTINCT LOWER(TRIM(epgChannelId)) FROM channels
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT DISTINCT LOWER(TRIM(epgChannelId)) FROM channels WHERE epgChannelId IS NOT NULL AND epgChannelId != ''
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT DISTINCT epgChannelId FROM epg_programmes WHERE sourceId IN (:sourceIds)
-8	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT c.* FROM channels c
+9	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT c.* FROM channels c
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT c.* FROM channels c INNER JOIN favorites f ON f.itemId = c.id AND f.mediaType = 'LIVE'
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT c.* FROM channels c INNER JOIN watch_history h ON h.itemId = c.id AND h.mediaType = 'LIVE'
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT c.*, cat.name AS categoryName FROM channels c
@@ -772,7 +773,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT remoteId FROM channels WHERE sourceId = :sourceId AND remoteId IS NOT NULL
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT remoteId FROM channels WHERE sourceId = :sourceId AND remoteId IS NOT NULL LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT remoteId, id, contentHash, sortOrder FROM channels WHERE sourceId = :sourceId AND remoteId IS NOT NULL
-2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	WHERE c.categoryId = :categoryId
+3	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	WHERE c.categoryId = :categoryId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	WHERE c.sourceId IN (:sourceIds)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	WHERE c.sourceId IN (:sourceIds) AND c.name LIKE '%' || :query || '%'
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	WHERE f.profileId = :profileId AND c.sourceId IN (:sourceIds)
@@ -808,7 +809,12 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	SELECT o.profileId AS profileId, o.mediaType AS mediaType, o.itemId AS itemId,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	WHERE c.sourceId = :sourceId OR m.sourceId = :sourceId OR s.sourceId = :sourceId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	o.contextKey AS contextKey, o.position AS position,
+4	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	INNER JOIN custom_category_members m ON m.itemId = c.id AND m.profileId = :profileId AND m.mediaType = 'LIVE' AND m.contextKey = :contextKey
+3	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	LEFT JOIN content_order o ON o.itemId = c.id AND o.profileId = :profileId AND o.mediaType = 'LIVE' AND o.contextKey = :contextKey
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, c.name
+4	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT c.* FROM channels c
 2	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	UNION ALL
+3	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE c.sourceId IN (:sourceIds)
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	m.contextKey AS contextKey, m.position AS position,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/DownloadDao.kt	SELECT * FROM downloads WHERE id = :id
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/DownloadDao.kt	SELECT * FROM downloads WHERE profileId = :profileId ORDER BY createdAt DESC

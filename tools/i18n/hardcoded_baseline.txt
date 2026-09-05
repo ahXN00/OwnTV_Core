@@ -125,11 +125,9 @@
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	FROM custom_category_members m INNER JOIN channels c ON m.mediaType = 'LIVE' AND m.itemId = c.id
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	FROM custom_category_members m INNER JOIN movies mv ON m.mediaType = 'MOVIE' AND m.itemId = mv.id
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	FROM custom_category_members m INNER JOIN series s ON m.mediaType = 'SERIES' AND m.itemId = s.id
-3	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	INNER JOIN custom_category_members m ON m.itemId = c.id AND m.profileId = :profileId AND m.mediaType = 'LIVE' AND m.contextKey = :contextKey
 3	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	INNER JOIN custom_category_members m ON m.itemId = mv.id AND m.profileId = :profileId AND m.mediaType = 'MOVIE' AND m.contextKey = :contextKey
 3	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	INNER JOIN custom_category_members m ON m.itemId = s.id AND m.profileId = :profileId AND m.mediaType = 'SERIES' AND m.contextKey = :contextKey
 2	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	LEFT JOIN channels c ON m.mediaType = 'LIVE' AND m.itemId = c.id
-2	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	LEFT JOIN content_order o ON o.itemId = c.id AND o.profileId = :profileId AND o.mediaType = 'LIVE' AND o.contextKey = :contextKey
 2	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	LEFT JOIN content_order o ON o.itemId = mv.id AND o.profileId = :profileId AND o.mediaType = 'MOVIE' AND o.contextKey = :contextKey
 2	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	LEFT JOIN content_order o ON o.itemId = s.id AND o.profileId = :profileId AND o.mediaType = 'SERIES' AND o.contextKey = :contextKey
 2	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	LEFT JOIN movies mv ON m.mediaType = 'MOVIE' AND m.itemId = mv.id
@@ -150,14 +148,12 @@
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT COALESCE(MAX(position), -1) FROM custom_category_members WHERE profileId = :profileId AND mediaType = :type AND contextKey = :contextKey
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT COUNT(*) FROM custom_category_members m
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT DISTINCT contextKey FROM custom_category_members WHERE profileId = :profileId AND mediaType = :type
-3	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT c.* FROM channels c
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT contextKey, COUNT(*) AS count FROM custom_category_members
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT itemId FROM custom_category_members WHERE profileId = :profileId AND mediaType = :type AND contextKey = :contextKey
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT m.profileId AS profileId, m.mediaType AS mediaType, m.itemId AS itemId,
 3	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT mv.* FROM movies mv
 3	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT s.* FROM series s
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE c.sourceId = :sourceId OR mv.sourceId = :sourceId OR s.sourceId = :sourceId
-2	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE c.sourceId IN (:sourceIds)
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE c.sourceId IN (:sourceIds) AND c.name LIKE '%' || :query || '%'
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE m.profileId = :profileId AND m.mediaType = 'LIVE' AND m.contextKey = :contextKey
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE m.profileId = :profileId AND m.mediaType = 'MOVIE' AND m.contextKey = :contextKey

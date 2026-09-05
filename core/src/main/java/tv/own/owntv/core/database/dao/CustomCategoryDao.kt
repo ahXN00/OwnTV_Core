@@ -168,6 +168,18 @@ interface CustomCategoryDao {
     )
     fun pagingChannels(profileId: Long, contextKey: String, sourceIds: List<Long>): PagingSource<Int, ChannelEntity>
 
+    /** A–Z variant of [pagingChannels]: a manually placed channel keeps its saved position, the rest
+     *  sort by name instead of falling back to membership/provider order — the same "manual order
+     *  wins, the rest goes A–Z" convention the folder list itself uses (see `alphaRest`). */
+    @Query(
+        "SELECT c.* FROM channels c " +
+            "INNER JOIN custom_category_members m ON m.itemId = c.id AND m.profileId = :profileId AND m.mediaType = 'LIVE' AND m.contextKey = :contextKey " +
+            "LEFT JOIN content_order o ON o.itemId = c.id AND o.profileId = :profileId AND o.mediaType = 'LIVE' AND o.contextKey = :contextKey " +
+            "WHERE c.sourceId IN (:sourceIds) " +
+            "ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, c.name",
+    )
+    fun pagingChannelsAlpha(profileId: Long, contextKey: String, sourceIds: List<Long>): PagingSource<Int, ChannelEntity>
+
     @Query(
         "SELECT mv.* FROM movies mv " +
             "INNER JOIN custom_category_members m ON m.itemId = mv.id AND m.profileId = :profileId AND m.mediaType = 'MOVIE' AND m.contextKey = :contextKey " +
