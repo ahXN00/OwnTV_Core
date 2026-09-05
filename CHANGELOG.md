@@ -3,6 +3,24 @@
 Core is versioned independently of the apps. A core version number never lines up with an OwnTV TV
 app `v4.x` release, and the two must not be confused. Tags here are prefixed `core-`.
 
+## core-1.0.19 — 2026-09-05
+
+Strings only, all additive. The TV app was rebuilt and verified against it (Rule 5).
+
+### 🌍 Three new strings, in all 25 packaged locales
+
+Every one of them is for the phone, and every one is added here rather than there because this repo
+owns all user-visible text.
+
+- **`player_channel_number_entry`** — the label on the phone's direct-tune field. The television
+  tunes by number from the remote's keypad, which needs no label; a phone needs a text field, and a
+  text field needs to say what goes in it.
+- **`settings_playback_tv_only_note`** — one line at the foot of the phone's Playback settings,
+  saying that live preview and remote-control shortcuts are television features. A page that simply
+  lacks a row reads as a bug; a page that says why does not.
+- **`content_episode_options`** — the title of the phone's new episode-options sheet, which gathers
+  hide-watched and both sort orders behind one button.
+
 ## core-1.0.18 — 2026-09-05
 
 Additive. The TV app was rebuilt and verified against it (Rule 5).
