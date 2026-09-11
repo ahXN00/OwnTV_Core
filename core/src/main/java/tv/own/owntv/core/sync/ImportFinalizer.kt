@@ -27,9 +27,11 @@ class ImportFinalizer(
     private val db: OwnTVDatabase,
     private val bulkInsertHelper: BulkInsertHelper,
     private val metadataDao: tv.own.owntv.core.database.dao.MetadataDao,
+    private val epgSourceStore: tv.own.owntv.core.epg.EpgSourceStore,
 ) {
     suspend fun finalize(source: SourceEntity, deferIndexes: Boolean = false): SyncCounts {
         val counts = contentCounts(source.id)
+        registerPortalGuide(source)
         // C4: bounded TTL eviction of the TMDB caches — they grow without limit as the user
         // browses. Piggy-backed here (the operation that changes data), never on cold start.
         // Indexed DELETE on updatedAt; evicted rows simply re-fetch on next focus.
@@ -50,6 +52,32 @@ class ImportFinalizer(
             ensureContentIndexes()
         }
         return counts
+    }
+
+    /**
+     * A Stalker portal that publishes no XMLTV feed still HAS a guide — its own — and until now there
+     * was no way to reach it, so those users saw an empty Guide and no catch-up list while the same
+     * portal worked in other players. Put it on the Settings → EPG list once the portal has synced, so
+     * it is there to be pressed.
+     *
+     * Deliberately register-only. Nothing is downloaded here: EPG has been user-initiated since
+     * v2.2.0, and an automatic guide crawl after every catalog sync is exactly what that decision
+     * ruled out. A portal that advertises an XMLTV feed keeps using it (it is the better guide, with
+     * real channel names) — this is only for the portals that offer nothing else.
+     */
+    private suspend fun registerPortalGuide(source: SourceEntity) {
+        if (source.type != tv.own.owntv.core.model.SourceType.STALKER) return
+        if (!source.epgUrl.isNullOrBlank()) return
+        // The user can switch a portal's own guide off per playlist; respect it, and do not put the
+        // entry back on the list every time the catalog syncs.
+        if (!source.importPortalEpg) return
+        runCatching {
+            epgSourceStore.ensure(
+                source.name,
+                tv.own.owntv.core.repository.EpgRepository.stalkerGuideUrl(source.id),
+                source.userAgent,
+            )
+        }.onFailure { Log.w(TAG, "Unable to register the portal guide for sourceId=${source.id}", it) }
     }
 
     /** Current content counts for a source (no EPG) — for the success message and the Playlists list rows. */

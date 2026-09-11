@@ -93,10 +93,17 @@ internal class AdaptivePortalLimiter(
     }
 
     companion object {
-        /** Start where the old fixed pool sat minus headroom — safe on strict portals. */
-        const val DEFAULT_START = 6
-        const val DEFAULT_MIN = 2
-        const val DEFAULT_MAX = 16
+        /**
+         * Deliberately timid. These were 6 / 2 / 16, chosen when a flush of the database stopped the
+         * network dead and so paced the crawl for us; since that pause went away the same numbers put
+         * a sustained sixteen requests on portals that cap a MAC at a handful and answer 403 above it.
+         * A real set-top box asks for one page at a time, so starting at three and stopping at eight
+         * is still generous — and [DEFAULT_MIN] of one lets a strict panel push us all the way down
+         * to serial rather than leaving a floor it will keep refusing.
+         */
+        const val DEFAULT_START = 3
+        const val DEFAULT_MIN = 1
+        const val DEFAULT_MAX = 8
         /** Consecutive successful requests before adding one permit (~20 pages ≈ 300 items). */
         const val DEFAULT_GROW_AFTER = 20
     }

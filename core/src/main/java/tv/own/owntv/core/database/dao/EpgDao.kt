@@ -36,6 +36,11 @@ interface EpgDao {
     @Query("DELETE FROM epg_programmes WHERE stopMs < :before")
     suspend fun prune(before: Long)
 
+    /** Rows of one store outside the window a full re-crawl just served — i.e. ones it did not replace.
+     *  Used by the Stalker portal guide, where the portal's answer is the whole truth for that store. */
+    @Query("DELETE FROM epg_programmes WHERE sourceId = :sourceId AND (stopMs <= :from OR startMs >= :to)")
+    suspend fun pruneOutsideWindow(sourceId: Long, from: Long, to: Long)
+
     /** Drop all programmes for one EPG channel id (used to re-fill it from cache after a smart-match). */
     @Query("DELETE FROM epg_programmes WHERE epgChannelId = :epgChannelId")
     suspend fun clearChannel(epgChannelId: String)

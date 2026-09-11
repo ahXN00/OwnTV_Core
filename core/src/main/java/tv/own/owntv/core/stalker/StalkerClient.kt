@@ -13,6 +13,7 @@ import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
+import java.io.File
 import java.io.InputStream
 import java.net.URLEncoder
 import java.util.TimeZone
@@ -220,6 +221,93 @@ open class StalkerClient(private val client: OkHttpClient) {
             val title = f["name"]?.takeIf { it.isNotBlank() } ?: return@mapNotNull null
             ShortEpgEntry(title, f["descr"]?.takeIf { it.isNotBlank() }, start, stop)
         }
+    }
+
+    /**
+     * `?type=itv&action=get_epg_info&period=<days>` → **the whole portal guide**, streamed.
+     *
+     * This is the call STBEmu and TiviMate make, and the reason their users see a full guide and a
+     * working catch-up list on portals where we showed only now/next. It was avoided here as an OOM
+     * risk, which it is *if the reply is collected into a list* — a week of a thousand channels is
+     * hundreds of thousands of programmes. It is not a risk when the reply is never held: [onEntry]
+     * is called as each programme is read, so the caller can write in batches and nothing bigger than
+     * one programme is alive at a time. Exactly how the Xtream catalog lists are already handled.
+     *
+     * Both payload shapes are accepted, because portals disagree: an object keyed by channel id
+     * (`{"data":{"1234":[…]}}` or `{"1234":[…]}`), or one flat array whose entries carry `ch_id`.
+     * Entries with no readable start/stop or no title are skipped rather than failing the crawl.
+     */
+    open suspend fun streamEpgInfo(
+        apiBase: String, mac: String, token: String, userAgent: String?, periodDays: Int,
+        onEntry: suspend (channelId: String, entry: ShortEpgEntry) -> Unit,
+    ) {
+        val url = "$apiBase?type=itv&action=get_epg_info&period=$periodDays&JsHttpRequest=1-xml"
+        request(url, mac, token, userAgent) { reader -> readEpgInfo(reader, onEntry) }
+    }
+
+    /**
+     * Download the whole portal guide to [dest] **without parsing a byte of it**, returning the size.
+     *
+     * Written this way because of what a real portal did. The guide itself is quick — a measured
+     * 9 MB in about a second for a 12 000-channel panel — but the first attempt parsed it as it
+     * arrived and wrote each batch to the database with the response still open. Holding a
+     * `Connection: keep-alive` socket idle while SQLite works invites the far end to hang up, and
+     * that is exactly what happened: `unexpected end of stream`, no guide, every time.
+     *
+     * Taking the bytes at full speed and closing the connection *before* any parsing begins removes
+     * the interaction altogether. A few megabytes on disk costs nothing, and the file is deleted as
+     * soon as it has been read — unlike the XMLTV cache, nothing here is kept.
+     *
+     * [MAX_GUIDE_BYTES] stops a portal that answers with something absurd from filling the device.
+     */
+    open suspend fun downloadEpgInfo(
+        apiBase: String, mac: String, token: String, userAgent: String?, periodDays: Int, dest: File,
+    ): Long {
+        val url = "$apiBase?type=itv&action=get_epg_info&period=$periodDays&JsHttpRequest=1-xml"
+        return requestToFile(url, mac, token, userAgent, dest)
+    }
+
+    /** Parse a guide previously fetched by [downloadEpgInfo]. No network, no time limit. */
+    open suspend fun parseEpgInfoFile(file: File, onEntry: suspend (channelId: String, entry: ShortEpgEntry) -> Unit) {
+        file.inputStream().buffered().use { input -> parseEnvelope(input) { reader -> readEpgInfo(reader, onEntry) } }
+    }
+
+    private suspend fun readEpgInfo(reader: JsonReader, onEntry: suspend (String, ShortEpgEntry) -> Unit) {
+        when (reader.peek()) {
+            // One flat array — each entry names its own channel.
+            JsonToken.BEGIN_ARRAY -> readEpgArray(reader, keyedChannelId = null, onEntry)
+            JsonToken.BEGIN_OBJECT -> {
+                reader.beginObject()
+                while (reader.hasNext()) {
+                    val name = reader.nextName()
+                    when {
+                        // `{"data": …}` — one level of wrapping, then the same two shapes again.
+                        name == "data" -> readEpgInfo(reader, onEntry)
+                        // Any other key that holds an array is a channel id → its programmes.
+                        reader.peek() == JsonToken.BEGIN_ARRAY -> readEpgArray(reader, keyedChannelId = name, onEntry)
+                        else -> reader.skipValue()
+                    }
+                }
+                reader.endObject()
+            }
+            else -> reader.skipValue()
+        }
+    }
+
+    private suspend fun readEpgArray(
+        reader: JsonReader, keyedChannelId: String?, onEntry: suspend (String, ShortEpgEntry) -> Unit,
+    ) {
+        reader.beginArray()
+        while (reader.hasNext()) {
+            if (reader.peek() != JsonToken.BEGIN_OBJECT) { reader.skipValue(); continue }
+            val f = readScalarFields(reader)
+            val channelId = keyedChannelId ?: f["ch_id"]?.takeIf { it.isNotBlank() } ?: continue
+            val start = epgTimeMs(f["start_timestamp"], f["time"]) ?: continue
+            val stop = epgTimeMs(f["stop_timestamp"], f["time_to"]) ?: continue
+            val title = f["name"]?.takeIf { it.isNotBlank() } ?: continue
+            onEntry(channelId, ShortEpgEntry(title, f["descr"]?.takeIf { it.isNotBlank() }, start, stop))
+        }
+        reader.endArray()
     }
 
     /** Epoch-second field first; else the portal's `yyyy-MM-dd HH:mm:ss` wall-clock form (best effort —
@@ -524,18 +612,74 @@ open class StalkerClient(private val client: OkHttpClient) {
             logo = f["logo"]?.takeIf { it.isNotBlank() },
             xmltvId = f["xmltv_id"]?.takeIf { it.isNotBlank() },
             genreId = f["tv_genre_id"]?.takeIf { it.isNotBlank() },
-            archive = (f["tv_archive"]?.toIntOrNull() ?: 0) > 0,
-            archiveDuration = f["tv_archive_duration"]?.toIntOrNull() ?: 0,
+            archive = hasArchive(f),
+            archiveDuration = archiveDays(f["tv_archive_duration"]),
         )
     }
+
 
     /**
      * GET a portal URL with the MAG headers, unwrap the `{"js": <payload>}` envelope, and hand the
      * reader — positioned at the `js` value — to [parseJs]. `{"js": false/null/""}` (the portal's
      * "not authorized / token dead" shape) throws [StalkerAuthException] (§5.2: "re-handshake").
      */
+    /**
+     * GET [url] straight to [dest], returning the bytes written. Same headers and cancellation as
+     * [request]; the difference is that nothing is parsed while the connection is open — see
+     * [downloadEpgInfo] for why that matters.
+     */
+    private suspend fun requestToFile(
+        url: String, mac: String, token: String?, userAgent: String?, dest: File,
+    ): Long = withContext(Dispatchers.IO) {
+        val call = client.newCall(portalRequest(url, mac, token, userAgent))
+        val coroutineContext = currentCoroutineContext()
+        val startedAt = SystemClock.elapsedRealtime()
+        val safeUrl = url.substringBefore('?')
+        val cancellationHook = coroutineContext[Job]?.invokeOnCompletion { cause ->
+            if (cause is CancellationException) call.cancel()
+        }
+        try {
+            call.execute().use { response ->
+                if (!response.isSuccessful) throw httpFailure(response.code, safeUrl)
+                dest.parentFile?.mkdirs()
+                var written = 0L
+                response.body.byteStream().use { input ->
+                    dest.outputStream().buffered().use { out ->
+                        val buffer = ByteArray(DOWNLOAD_BUFFER)
+                        while (true) {
+                            val read = input.read(buffer)
+                            if (read < 0) break
+                            written += read
+                            if (written > MAX_GUIDE_BYTES) {
+                                throw IOException("Portal guide exceeded $MAX_GUIDE_BYTES bytes")
+                            }
+                            out.write(buffer, 0, read)
+                        }
+                    }
+                }
+                Log.i(TAG, "guide download url=$safeUrl bytes=$written ms=${SystemClock.elapsedRealtime() - startedAt}")
+                written
+            }
+        } finally {
+            cancellationHook?.dispose()
+        }
+    }
+
+    /** The MAG request every portal call is made with — headers in exactly one place. */
+    private fun portalRequest(url: String, mac: String, token: String?, userAgent: String?): Request {
+        val referer = "${portalRoot(url.substringBefore('?'))}/c/"
+        val builder = Request.Builder()
+            .url(url)
+            .header("User-Agent", userAgent?.takeIf { it.isNotBlank() } ?: DEFAULT_MAG_USER_AGENT)
+            .header("Cookie", "mac=${URLEncoder.encode(mac, "UTF-8")}; stb_lang=en; timezone=${TimeZone.getDefault().id}")
+            .header("X-User-Agent", "Model: MAG250; Link: WiFi")
+            .header("Referer", referer)
+        if (token != null) builder.header("Authorization", "Bearer $token")
+        return builder.build()
+    }
+
     private suspend fun <T> request(
-        url: String, mac: String, token: String?, userAgent: String?, parseJs: (JsonReader) -> T,
+        url: String, mac: String, token: String?, userAgent: String?, parseJs: suspend (JsonReader) -> T,
     ): T = withContext(Dispatchers.IO) {
         val referer = "${portalRoot(url.substringBefore('?'))}/c/"
         val builder = Request.Builder()
@@ -558,10 +702,7 @@ open class StalkerClient(private val client: OkHttpClient) {
         Log.d(TAG, "GET start url=$safeUrl action=$action")
         try {
             call.execute().use { response ->
-                if (response.code == 401 || response.code == 403) {
-                    throw StalkerAuthException("Portal rejected the request (HTTP ${response.code})")
-                }
-                if (!response.isSuccessful) throw StalkerHttpException(response.code, "HTTP ${response.code} for $safeUrl")
+                if (!response.isSuccessful) throw httpFailure(response.code, safeUrl)
                 val body = response.body
                 body.byteStream().use { input ->
                     parseEnvelope(input, parseJs).also {
@@ -574,8 +715,14 @@ open class StalkerClient(private val client: OkHttpClient) {
         }
     }
 
-    /** Find the `js` field of the top-level object and run [parseJs] on its value. */
-    private fun <T> parseEnvelope(input: InputStream, parseJs: (JsonReader) -> T): T {
+    /**
+     * Find the `js` field of the top-level object and run [parseJs] on its value.
+     *
+     * [parseJs] is a *suspending* function so that a reader can do real work per item — the guide
+     * crawl writes each batch to the database as it parses, and therefore never holds the whole
+     * payload. Callers that just build a value pass an ordinary lambda and are unaffected.
+     */
+    private suspend fun <T> parseEnvelope(input: InputStream, parseJs: suspend (JsonReader) -> T): T {
         JsonReader(input.reader(Charsets.UTF_8)).use { reader ->
             reader.isLenient = true // some portals prefix/pad the JSON
             if (reader.peek() != JsonToken.BEGIN_OBJECT) throw IOException("Portal response is not JSON (got ${reader.peek()})")
@@ -630,6 +777,15 @@ open class StalkerClient(private val client: OkHttpClient) {
     companion object {
         private const val TAG = "StalkerClient"
 
+        /** Ministra states an archive length in hours; the app stores and shows days. */
+        private const val HOURS_PER_DAY = 24
+
+        /** Copy buffer for the guide download — big enough that a 9 MB reply is a few hundred reads. */
+        private const val DOWNLOAD_BUFFER = 64 * 1024
+
+        /** A portal guide larger than this is not a guide; refuse it rather than fill the device. */
+        private const val MAX_GUIDE_BYTES = 192L * 1024 * 1024
+
         /** Classic MAG-box UA most portals accept (§1.1); overridable per source (MAG254/270/420 presets in Phase B). */
         const val DEFAULT_MAG_USER_AGENT =
             "Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG200 stbapp ver: 4 rev: 2721 Safari/533.3"
@@ -644,6 +800,55 @@ open class StalkerClient(private val client: OkHttpClient) {
             identity.signature?.takeIf { it.isNotBlank() }?.let { append("&signature=${URLEncoder.encode(it, "UTF-8")}") }
             append("&JsHttpRequest=1-xml")
         }
+
+        /**
+         * Which exception a non-2xx portal response deserves — the one place that decides whether a
+         * status means "your token is dead" or "you are asking too fast".
+         *
+         * **Only 401 is an auth failure.** 403 used to be lumped in with it, and that was wrong for
+         * the portals people actually use: Ministra and its reseller panels answer 403 when a MAC has
+         * too many connections open or is being crawled faster than the panel likes, which is a
+         * *throttle*, not a logout. Treating it as auth made every 403 tear down a perfectly good
+         * session and handshake again — the worst possible reply to "slow down", and the cause of the
+         * 403 storms and endless loading reported after 4.2.4 removed the pause between page fetches.
+         *
+         * A token that genuinely died still reaches us either as 401 or, far more commonly, as the
+         * portal's own `{"js":false}` body, which [parseEnvelope] already turns into a
+         * [StalkerAuthException] — so nothing is lost by letting 403 back off and retry instead.
+         */
+        /**
+         * Whether this channel has a catch-up archive.
+         *
+         * `tv_archive` is **Xtream's** field name and Ministra does not send it — a portal channel carries
+         * `enable_tv_archive` and `archive` instead. Reading only the Xtream name meant every Stalker
+         * channel was recorded as having no archive, which is why catch-up never appeared on a portal even
+         * when the portal offered it: on the test portal, 427 of 11 545 channels have it.
+         *
+         * All three are accepted, because panels differ and any one of them saying yes is a yes.
+         */
+        internal fun hasArchive(f: Map<String, String>): Boolean =
+            listOf("enable_tv_archive", "archive", "tv_archive")
+                .any { (f[it]?.trim()?.toIntOrNull() ?: 0) > 0 }
+
+        /**
+         * How far back the archive goes, in **days**, from Ministra's `tv_archive_duration` — which is in
+         * **hours**. The test portal reports 24, 48, 72 and 168: every value a multiple of 24, which is
+         * one, two, three and seven days. Stored as days because that is what `ChannelEntity.catchupDays`
+         * and the catch-up picker mean by it; keeping the raw hours there would have offered a 72-day
+         * archive on a three-day one.
+         *
+         * A value below 24 is taken at face value as days: a panel reporting "7" plainly means a week, and
+         * seven hours of archive is not a thing anyone sells.
+         */
+        internal fun archiveDays(raw: String?): Int {
+            val value = raw?.trim()?.toIntOrNull() ?: return 0
+            if (value <= 0) return 0
+            return if (value < HOURS_PER_DAY) value else value / HOURS_PER_DAY
+        }
+
+        internal fun httpFailure(code: Int, safeUrl: String): IOException =
+            if (code == 401) StalkerAuthException("Portal rejected the request (HTTP $code)")
+            else StalkerHttpException(code, "HTTP $code for $safeUrl")
 
         /** Play-command prefixes minted by `create_link` (§1.4) — everything after them is the playable URL. */
         private val CMD_PREFIXES = listOf("ffmpeg ", "ffrt2 ", "ffrt3 ", "ffrt ", "auto ")

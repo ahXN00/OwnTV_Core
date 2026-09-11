@@ -31,6 +31,8 @@ data class XtSeries(
 )
 data class XtEpisode(
     val id: String, val seasonNumber: Int, val episodeNumber: Int, val title: String, val containerExt: String?,
+    /** When it first aired, epoch ms — the panel's `releasedate`/`air_date`, or its `added` stamp. */
+    val airDateMs: Long? = null,
 )
 data class XtSeriesInfo(val episodes: List<XtEpisode>)
 
@@ -260,6 +262,8 @@ class XtreamClient(private val http: HttpClient) {
         var title = ""
         var ext: String? = null
         var season = seasonFallback
+        var airDate: Long? = null
+        var added: Long? = null
         reader.beginObject()
         while (reader.hasNext()) {
             when (reader.nextName()) {
@@ -268,13 +272,49 @@ class XtreamClient(private val http: HttpClient) {
                 "title" -> title = reader.nextStringOrNull() ?: title
                 "container_extension" -> ext = reader.nextStringOrNull()
                 "season" -> reader.nextIntOrNull()?.let { if (it > 0) season = it }
+                // Panels disagree about where the air date lives and what it is called; the episode
+                // object may carry it directly, or bury it in `info`. Whichever arrives first and
+                // parses wins, and `added` (when the panel got the file) is the last resort.
+                "release_date", "releaseDate", "releasedate", "air_date", "airdate" ->
+                    airDate = airDate ?: parseEpisodeDate(reader.nextStringOrNull())
+                "added" -> added = reader.nextStringOrNull()?.toLongOrNull()?.takeIf { it > 0 }?.times(1000)
+                "info" -> airDate = airDate ?: readEpisodeInfoDate(reader)
                 else -> reader.skipValue()
             }
         }
         reader.endObject()
         // Keep a missing provider title empty. The Compose episode renderer supplies a localized
         // episode-number fallback; storing English here would freeze the device language in the DB.
-        id?.let { out.add(XtEpisode(it, season, epNum, title.trim(), ext)) }
+        id?.let { out.add(XtEpisode(it, season, epNum, title.trim(), ext, airDate ?: added)) }
+    }
+
+    /** The `info` sub-object of an episode — read for its air date, everything else skipped. */
+    private fun readEpisodeInfoDate(reader: JsonReader): Long? {
+        if (reader.peek() != JsonToken.BEGIN_OBJECT) { reader.skipValue(); return null }
+        var date: Long? = null
+        reader.beginObject()
+        while (reader.hasNext()) {
+            when (reader.nextName()) {
+                "release_date", "releaseDate", "releasedate", "air_date", "airdate" ->
+                    date = date ?: parseEpisodeDate(reader.nextStringOrNull())
+                else -> reader.skipValue()
+            }
+        }
+        reader.endObject()
+        return date
+    }
+
+    /**
+     * A panel's episode date, as epoch ms. `yyyy-MM-dd` is what they overwhelmingly send (sometimes
+     * with a time after it, which is ignored); a bare epoch-seconds number is accepted too. Anything
+     * else — and the "0000-00-00" a panel writes for "we don't know" — reads as no date at all.
+     */
+    private fun parseEpisodeDate(raw: String?): Long? {
+        val text = raw?.trim()?.takeIf { it.isNotEmpty() } ?: return null
+        // A bare number is epoch seconds. Everything else is a calendar day, parsed by the same code
+        // that reads TMDB's — and at UTC, for the reason spelled out there.
+        text.toLongOrNull()?.let { return if (it > 0) it * 1000 else null }
+        return tv.own.owntv.core.content.AirDate.parse(text)
     }
 
     /** Reads a string, coercing numbers and tolerating JSON null. */

@@ -1,5 +1,6 @@
 package tv.own.owntv.core.database.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
@@ -19,6 +20,15 @@ data class ProfileEntity(
     val avatarColor: Int,
     /** Index into the shell's `OwnTVAvatars` cartoon set. */
     val avatarId: Int = 0,
+    /**
+     * A picture of the user's own, as an absolute path in app-private storage, or null for the drawn
+     * tile named by [avatarId] (v37). Written by `ProfileAvatarStore`, which is the only thing that
+     * puts files there.
+     *
+     * A path rather than the bytes: profiles are read on every screen that shows who is watching, and
+     * carrying an image blob through those queries would cost something on every one of them.
+     */
+    val avatarPath: String? = null,
     val isKids: Boolean = false,
     val pinHash: String? = null,
     val createdAt: Long = System.currentTimeMillis(),
@@ -59,6 +69,16 @@ data class SourceEntity(
     val syncLive: Boolean = true,
     val syncMovies: Boolean = true,
     val syncSeries: Boolean = true,
+    /**
+     * Whether a Stalker portal's **own** guide may be imported (v37). On by default: a portal that
+     * publishes no XMLTV feed has no other way to fill the Guide, and without it catch-up cannot be
+     * used at all. Turning it off removes the portal's guide entry from Settings → EPG and stops it
+     * being offered again.
+     *
+     * Only meaningful for [SourceType.STALKER]; a portal that advertises an XMLTV feed uses that
+     * instead, and this is ignored.
+     */
+    @ColumnInfo(defaultValue = "1") val importPortalEpg: Boolean = true,
     /**
      * Whether the provider explicitly lists m3u8 in user_info.allowed_output_formats (v23), read at the
      * start of every Xtream sync. Detection hint only — it refines the playlist wording, it does NOT

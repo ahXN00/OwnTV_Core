@@ -61,17 +61,22 @@ internal class StalkerSyncer(
         // it from Settings → EPG. Best effort — a failure here must never fail the catalog sync.
         runCatching { adoptPortalXmltvUrl(s, creds) }
             .onFailure { Log.w(TAG, "portal XMLTV probe failed sourceId=${s.id}: ${it.message}") }
-        if (contentTypes.live) syncLive(s, progress, stats, creds)
-        // Shared adaptive budget: movies and series draw from one gate, so the portal never sees
-        // more than the learned limit regardless of how many phases are in flight.
+        // Shared adaptive budget: every phase draws from one gate, so the portal never sees more than
+        // the learned limit regardless of how many are in flight. Live shares it too — it used to page
+        // through a fixed six-wide window that learned nothing, which on a strict panel is precisely
+        // the burst that earns a 403, and live is the phase everybody syncs.
         val budget = AdaptivePortalLimiter(isThrottle = ::isPortalThrottle)
+        if (contentTypes.live) syncLive(s, progress, stats, creds, budget)
         coroutineScope {
             if (contentTypes.movies) launch { guardStep("movies", stats) { syncMovies(s, progress, stats, creds, budget) } }
             if (contentTypes.series) launch { guardStep("series", stats) { syncSeries(s, progress, stats, creds, budget) } }
         }
     }
 
-    private suspend fun syncLive(s: SourceEntity, progress: SyncCounters, stats: SyncStatsCollector, creds: StalkerCredentials) = coroutineScope {
+    private suspend fun syncLive(
+        s: SourceEntity, progress: SyncCounters, stats: SyncStatsCollector, creds: StalkerCredentials,
+        budget: AdaptivePortalLimiter,
+    ) = coroutineScope {
         val ctx = currentCoroutineContext()
         val freshSource = s.lastSyncAt == null
         val label = SyncPhase.LIVE.name
@@ -121,7 +126,11 @@ internal class StalkerSyncer(
                             name = ch.name,
                             logoUrl = ch.logo,
                             streamUrl = ch.cmd, // portal command — resolved to a real URL at play time
-                            epgChannelId = ch.xmltvId,
+                            // The portal's XMLTV id when it publishes one, else its own channel id —
+                            // which is the key the portal's guide (`get_epg_info`) is written under,
+                            // so a portal with no XMLTV still resolves now/next, the Guide and
+                            // catch-up. A user's manual EPG match still wins over both at read time.
+                            epgChannelId = ch.xmltvId ?: ch.id,
                             number = ch.number?.toIntOrNull(),
                             remoteId = ch.id,
                             sortOrder = order++,
@@ -154,7 +163,7 @@ internal class StalkerSyncer(
                 // catalog-shrink guard in SyncSupport still protects the prune.
                 val declaredTotal = if (bulk != null && bulk.isNotEmpty()) {
                     try {
-                        fetchPage(creds, "*", 1).totalItems
+                        fetchPage(creds, "*", 1, budget).totalItems
                     } catch (c: kotlinx.coroutines.CancellationException) {
                         throw c
                     } catch (e: Exception) {
@@ -178,7 +187,7 @@ internal class StalkerSyncer(
                         // A genre that can't be fetched must not silently shrink the pass: count the
                         // failure so the prune below is skipped (mirrors the VOD path's pageFailures).
                         val first = try {
-                            fetchPage(creds, genre.id, 1)
+                            fetchPage(creds, genre.id, 1, budget)
                         } catch (c: kotlinx.coroutines.CancellationException) {
                             throw c
                         } catch (e: Exception) {
@@ -194,12 +203,14 @@ internal class StalkerSyncer(
                         var page = 2
                         while (page <= pages) {
                             ctx.ensureActive()
-                            val windowEnd = minOf(page + PAGE_CONCURRENCY - 1, pages)
+                            // Spawned at the limiter's MAX; the adaptive gate inside fetchPage decides
+                            // how many of them actually reach the portal at any moment.
+                            val windowEnd = minOf(page + budget.max - 1, pages)
                             val window = coroutineScope {
                                 (page..windowEnd).map { p ->
                                     async {
                                         try {
-                                            fetchPage(creds, genre.id, p)
+                                            fetchPage(creds, genre.id, p, budget)
                                         } catch (c: kotlinx.coroutines.CancellationException) {
                                             throw c
                                         } catch (e: Exception) {
@@ -543,11 +554,7 @@ internal class StalkerSyncer(
             try {
                 return block()
             } catch (e: IOException) {
-                val transient = when (e) {
-                    is StalkerClient.StalkerHttpException -> e.code in 500..599 || e.code == 429
-                    else -> isTransientNetwork(e)
-                }
-                if (!transient || attempt >= PAGE_ATTEMPTS) throw e
+                if (!isTransientPortalError(e) || attempt >= PAGE_ATTEMPTS) throw e
                 val reason = (e as? StalkerClient.StalkerHttpException)?.let { "HTTP ${it.code}" }
                     ?: "${e.javaClass.simpleName}: ${e.message}"
                 Log.w(TAG, "$what transient $reason — retrying (attempt $attempt/${PAGE_ATTEMPTS - 1})")
@@ -558,36 +565,18 @@ internal class StalkerSyncer(
     }
 
     /**
-     * Connection-level faults worth a second attempt — "the link broke", not "the portal said no".
-     *
-     * Deliberately narrow rather than a blanket `IOException`: a [StalkerClient.StalkerAuthException]
-     * has already been re-handshaked one level down by [StalkerAuthManager], and a malformed payload
-     * is deterministic, so repeating either only costs the portal two more pointless requests.
+     * One page fetch with the shared auth (re-handshakes once on token expiry), taking a slot from the
+     * shared [budget]. `retryTransient` stays OUTSIDE `withPermit` so a backoff delay never holds a
+     * slot and every throttled attempt teaches the limiter — the same shape movies and series use.
      */
-    private fun isTransientNetwork(e: IOException): Boolean = when {
-        e is StalkerClient.StalkerAuthException -> false
-        e is java.net.SocketException -> true          // "Connection reset", "Broken pipe"
-        e is java.io.InterruptedIOException -> true    // includes SocketTimeoutException
-        e is javax.net.ssl.SSLException -> true
-        e is java.net.UnknownHostException -> true     // DNS blip part-way through a long sync
-        // A connection closed mid-response reaches us as a plain IOException ("unexpected end of
-        // stream on …"), so the type alone cannot identify it — the wrapped EOFException can.
-        else -> generateSequence(e as Throwable) { it.cause }.take(CAUSE_CHAIN_LIMIT)
-            .any { it is java.io.EOFException }
-    }
-
-    /** Throttle signals that shrink the adaptive budget: rate-limit/overload HTTP codes + timeouts. */
-    private fun isPortalThrottle(e: Throwable): Boolean = when (e) {
-        is StalkerClient.StalkerHttpException -> e.code == 429 || e.code in 500..599
-        is java.net.SocketTimeoutException -> true
-        else -> false
-    }
-
-    /** One page fetch with the shared auth (re-handshakes once on token expiry). */
-    private suspend fun fetchPage(creds: StalkerCredentials, genreId: String, page: Int): StalkerClient.Page<StalkerClient.Channel> =
+    private suspend fun fetchPage(
+        creds: StalkerCredentials, genreId: String, page: Int, budget: AdaptivePortalLimiter,
+    ): StalkerClient.Page<StalkerClient.Channel> =
         retryTransient("${SyncPhase.LIVE.name} genre=$genreId page=$page") {
-            auth.withAuthRetry(creds) { session ->
-                client.getLiveChannelsPage(session.apiBase, creds.mac, session.token, creds.userAgent, genreId, page)
+            budget.withPermit {
+                auth.withAuthRetry(creds) { session ->
+                    client.getLiveChannelsPage(session.apiBase, creds.mac, session.token, creds.userAgent, genreId, page)
+                }
             }
         }
 
@@ -616,12 +605,55 @@ internal class StalkerSyncer(
     companion object {
         private const val TAG = SyncSupport.TAG
 
+        /**
+         * Portal answers worth one more attempt after a backoff — "ask again in a moment", not
+         * "the answer is no". 429 and 5xx are the obvious ones; **403 belongs here too**, because
+         * Ministra and its reseller panels use it for "this MAC has too many connections open"
+         * rather than for a refused login (see `StalkerClient.httpFailure`). Retrying it after a
+         * short wait is what a set-top box does, and it is what makes a portal that refuses a burst
+         * of pages recover instead of dropping a whole category.
+         *
+         * Connection-level faults are handled by [isTransientNetworkError]; a
+         * [StalkerClient.StalkerAuthException] is not retried here at all, having already been
+         * re-handshaked one level down by [StalkerAuthManager].
+         */
+        internal fun isTransientPortalError(e: IOException): Boolean = when (e) {
+            is StalkerClient.StalkerHttpException -> e.code == 403 || e.code == 429 || e.code in 500..599
+            else -> isTransientNetworkError(e)
+        }
+
+        /**
+         * Connection-level faults worth a second attempt — "the link broke", not "the portal said no".
+         *
+         * Deliberately narrow rather than a blanket `IOException`: a [StalkerClient.StalkerAuthException]
+         * has already been re-handshaked one level down by [StalkerAuthManager], and a malformed payload
+         * is deterministic, so repeating either only costs the portal two more pointless requests.
+         */
+        internal fun isTransientNetworkError(e: IOException): Boolean = when {
+            e is StalkerClient.StalkerAuthException -> false
+            e is java.net.SocketException -> true          // "Connection reset", "Broken pipe"
+            e is java.io.InterruptedIOException -> true    // includes SocketTimeoutException
+            e is javax.net.ssl.SSLException -> true
+            e is java.net.UnknownHostException -> true     // DNS blip part-way through a long sync
+            // A connection closed mid-response reaches us as a plain IOException ("unexpected end of
+            // stream on …"), so the type alone cannot identify it — the wrapped EOFException can.
+            else -> generateSequence(e as Throwable) { it.cause }.take(CAUSE_CHAIN_LIMIT)
+                .any { it is java.io.EOFException }
+        }
+
+        /**
+         * Throttle signals that shrink the adaptive budget: rate-limit/overload HTTP codes + timeouts.
+         * **403 counts**, for the same reason it is retried — a panel refusing a burst is telling us
+         * our concurrency is too high, and halving it is the only reply that helps.
+         */
+        internal fun isPortalThrottle(e: Throwable): Boolean = when (e) {
+            is StalkerClient.StalkerHttpException -> e.code == 403 || e.code == 429 || e.code in 500..599
+            is java.net.SocketTimeoutException -> true
+            else -> false
+        }
+
         /** `get_profile` fields observed in the wild to carry a portal's XMLTV feed URL (§5.5). */
         private val XMLTV_PROFILE_KEYS = listOf("xmltv_url", "epg_url", "tv_guide_url", "guide_url")
-
-        /** Pages fetched in parallel per window (live per-genre fallback). Portal list APIs tolerate
-         *  this (unlike playback streams, which are single-connection). */
-        private const val PAGE_CONCURRENCY = 6
 
         /** Flush every N channels so import progress shows early (see [chunkSize] note). */
         private const val STALKER_CHUNK = 1_500

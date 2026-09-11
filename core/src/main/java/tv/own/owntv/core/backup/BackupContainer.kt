@@ -56,6 +56,18 @@ object BackupContainer {
      */
     const val SUBTITLE_DIR = "subtitles/"
 
+    /**
+     * Profile pictures (v37) — the same problem as the wallpaper and the subtitle files: the JSON can
+     * only point at `profiles.avatarPath`, which is an absolute path into *this* device's private
+     * storage and means nothing on another one. Without the bytes, restoring a profile on a new
+     * television would silently drop the picture the user chose.
+     *
+     * Entry names are `<profileId>_<fileName>`, matched back by the `avatarFile` field the manager
+     * writes alongside each exported profile — the id in the name is the *exported* one, which a
+     * restore may map onto a different local profile, so the field is what resolves it, not the name.
+     */
+    const val AVATAR_DIR = "avatars/"
+
     /** A file riding inside the container alongside the JSON (today: the background image). */
     data class Asset(val name: String, val bytes: ByteArray) {
         // ByteArray gives identity equals/hashCode, which makes this data class quietly wrong in any
@@ -72,6 +84,8 @@ object BackupContainer {
         val wallpaper: Asset?,
         /** Subtitle files, keyed by their container entry name (see [SUBTITLE_DIR]). */
         val subtitles: Map<String, ByteArray> = emptyMap(),
+        /** Profile pictures, keyed by their container entry name (see [AVATAR_DIR]). */
+        val avatars: Map<String, ByteArray> = emptyMap(),
     )
 
     /** What a file on disk turns out to be. */
@@ -126,6 +140,11 @@ object BackupContainer {
                     zos.write(bytes)
                     zos.closeEntry()
                 }
+                payload.avatars.forEach { (name, bytes) ->
+                    zos.putNextEntry(ZipEntry(AVATAR_DIR + name))
+                    zos.write(bytes)
+                    zos.closeEntry()
+                }
             }
         }.toByteArray()
 
@@ -170,6 +189,7 @@ object BackupContainer {
         var json: String? = null
         var wallpaper: Asset? = null
         val subtitles = LinkedHashMap<String, ByteArray>()
+        val avatars = LinkedHashMap<String, ByteArray>()
         ZipInputStream(bytes.inputStream()).use { zis ->
             while (true) {
                 val entry = zis.nextEntry ?: break
@@ -182,6 +202,8 @@ object BackupContainer {
                         wallpaper = Asset(File(name).name, zis.readBytes())
                     name.startsWith(SUBTITLE_DIR) && !entry.isDirectory && !name.contains("..") ->
                         subtitles[File(name).name] = zis.readBytes()
+                    name.startsWith(AVATAR_DIR) && !entry.isDirectory && !name.contains("..") ->
+                        avatars[File(name).name] = zis.readBytes()
                 }
                 zis.closeEntry()
             }
@@ -190,6 +212,7 @@ object BackupContainer {
             json = json ?: error("Not an OwnTV backup file"),
             wallpaper = wallpaper,
             subtitles = subtitles,
+            avatars = avatars,
         )
     }
 

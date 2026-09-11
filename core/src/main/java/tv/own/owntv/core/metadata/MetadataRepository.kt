@@ -306,6 +306,9 @@ class MetadataRepository(
                 // Blank is fine: every screen falls back to the provider's own episode title.
                 title = d.name?.takeIf { it.isNotBlank() } ?: "",
                 year = d.airDate?.take(4)?.toIntOrNull(),
+                // The whole day, not just its year: on a show with a thousand episodes the year is
+                // shared by hundreds of them and settles nothing.
+                airDate = d.airDate,
                 overview = d.overview,
                 posterPath = d.stillPath, // 16:9 still, rendered via MetadataImages.backdrop sizing
                 backdropPath = d.stillPath,

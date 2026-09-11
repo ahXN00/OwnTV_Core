@@ -1,6 +1,11 @@
 package tv.own.owntv.core.stalker
 
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
+import java.util.Collections
+import java.util.concurrent.atomic.AtomicInteger
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertSame
 import org.junit.Assert.assertThrows
@@ -107,5 +112,61 @@ class StalkerAuthManagerTest {
         }
         assertEquals("transient HTTP errors are the syncer's retryTransient job, not an auth retry", 1, calls)
         assertEquals(1, client.handshakes)
+    }
+
+    /**
+     * The handshake storm. A sync has several requests in flight, so one expired token produces a
+     * BURST of auth failures — and the later ones arrive after the first has already handshaken a
+     * replacement. Invalidating unconditionally threw that fresh session away once per straggler and
+     * handshaked another, hammering a portal that is usually already unhappy. One dead session must
+     * cost exactly one handshake however many callers tripped over it.
+     */
+    @Test fun withAuthRetry_aBurstOfAuthFailuresHandshakesOnlyOnce() = runBlocking {
+        val client = FakeClient()
+        val auth = StalkerAuthManager(client)
+        val callers = 4
+        val holding = AtomicInteger()
+        val allHolding = CompletableDeferred<Unit>()
+        val tokensSeenOnRetry = Collections.synchronizedList(ArrayList<String>())
+
+        (1..callers).map {
+            async {
+                var firstAttempt = true
+                auth.withAuthRetry(creds) { session ->
+                    if (firstAttempt) {
+                        firstAttempt = false
+                        // Don't die until every caller is holding the same session — which is what a
+                        // token expiring mid-sync actually looks like.
+                        if (holding.incrementAndGet() == callers) allHolding.complete(Unit)
+                        allHolding.await()
+                        throw StalkerClient.StalkerAuthException("Portal returned an empty payload")
+                    }
+                    tokensSeenOnRetry += session.token
+                }
+            }
+        }.awaitAll()
+
+        assertEquals("one dead session must cost one handshake, not one per caller", 2, client.handshakes)
+        assertEquals(List(callers) { "t2" }, tokensSeenOnRetry.toList())
+    }
+
+    // --- session lifetime: the portal's own watchdog_timeout ---
+
+    @Test fun sessionTtl_defaultsWhenThePortalStatesNothingUsable() {
+        val d = StalkerAuthManager.DEFAULT_SESSION_TTL_MS
+        assertEquals(d, StalkerAuthManager.sessionTtlMs(emptyMap()))
+        assertEquals(d, StalkerAuthManager.sessionTtlMs(mapOf("watchdog_timeout" to "")))
+        assertEquals(d, StalkerAuthManager.sessionTtlMs(mapOf("watchdog_timeout" to "not a number")))
+        assertEquals(d, StalkerAuthManager.sessionTtlMs(mapOf("watchdog_timeout" to "0")))
+        assertEquals(d, StalkerAuthManager.sessionTtlMs(mapOf("watchdog_timeout" to "-120")))
+    }
+
+    @Test fun sessionTtl_followsThePortalAndStaysWithinSaneBounds() {
+        assertEquals(120_000L, StalkerAuthManager.sessionTtlMs(mapOf("watchdog_timeout" to "120")))
+        assertEquals(120_000L, StalkerAuthManager.sessionTtlMs(mapOf("watchdog_timeout" to " 120 ")))
+        // A panel that says "ten seconds" must not have us handshaking ten times a minute…
+        assertEquals(StalkerAuthManager.MIN_SESSION_TTL_MS, StalkerAuthManager.sessionTtlMs(mapOf("watchdog_timeout" to "10")))
+        // …nor one that says "a day" have us trusting a token that long.
+        assertEquals(StalkerAuthManager.MAX_SESSION_TTL_MS, StalkerAuthManager.sessionTtlMs(mapOf("watchdog_timeout" to "86400")))
     }
 }

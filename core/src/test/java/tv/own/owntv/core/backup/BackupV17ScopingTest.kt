@@ -131,7 +131,7 @@ class BackupV17ScopingTest {
         val backedUp = setOf(
             "id", "name", "type", "url", "username", "password", "mac",
             "stalkerSerialNumber", "stalkerDeviceId", "stalkerDeviceId2", "stalkerSignature",
-            "userAgent", "epgUrl", "syncLive", "syncMovies", "syncSeries",
+            "userAgent", "epgUrl", "syncLive", "syncMovies", "syncSeries", "importPortalEpg",
             "preferHls", "livePrerollSecs", "hlsSupported", "createdAt", "lastSyncAt",
             "liveEnginePreference", "liveLatencyMode", "liveLatencyCustomSecs",
         )

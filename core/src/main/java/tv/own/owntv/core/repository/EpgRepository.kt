@@ -38,6 +38,8 @@ class EpgRepository(
     private val context: android.content.Context,
     private val db: tv.own.owntv.core.database.OwnTVDatabase,
     private val bulkInsertHelper: BulkInsertHelper,
+    private val sourceDao: tv.own.owntv.core.database.dao.SourceDao,
+    private val stalkerEpg: tv.own.owntv.core.stalker.StalkerEpgLoader,
 ) {
 
     /** Where a source's downloaded XMLTV is cached, so a later smart-match can top up programmes from it
@@ -131,8 +133,12 @@ class EpgRepository(
         SourceType.M3U -> source.epgUrl?.takeIf { it.isNotBlank() }
         SourceType.LOCAL_BACKUP -> null
         // Stalker: user-pasted XMLTV, or the portal-advertised one adopted into epgUrl at sync
-        // (StalkerSyncer.adoptPortalXmltvUrl, Phase E §5.5). Bulk get_epg_info is never used (OOM risk).
+        // (StalkerSyncer.adoptPortalXmltvUrl, Phase E §5.5) — and failing both, the portal's OWN
+        // guide, addressed by the marker URL below — unless the user has switched that off for this
+        // playlist. A portal that offers no XMLTV is the common case, and it used to mean no guide and
+        // no catch-up at all.
         SourceType.STALKER -> source.epgUrl?.takeIf { it.isNotBlank() }
+            ?: stalkerGuideUrl(source.id).takeIf { source.importPortalEpg }
     }
 
     fun hasGuide(source: SourceEntity): Boolean = guideUrl(source) != null
@@ -153,6 +159,12 @@ class EpgRepository(
         userAgent: String?,
         onProgress: (channels: Int, programmes: Int) -> Unit = { _, _ -> },
     ): Int = withContext(Dispatchers.IO) {
+        // A portal guide is not a download, so it cannot go through the XMLTV path below — but it is
+        // stored, pruned, matched and read exactly like one, which is why it is addressed as a URL
+        // and lives in the same EPG-source list with the same "sync now" button and error line.
+        stalkerSourceIdOf(url)?.let { portalSourceId ->
+            return@withContext refreshFromPortal(storeId, portalSourceId, onProgress)
+        }
         val now = System.currentTimeMillis()
         val startedAt = SystemClock.elapsedRealtime()
         val from = now - WINDOW_BACK_MS
@@ -348,6 +360,86 @@ class EpgRepository(
         writtenCount
     }
 
+    /**
+     * Crawl a Stalker portal's own guide into the tables keyed by [storeId] (Phase E, replacing
+     * "bulk get_epg_info is never used"). Written in batches as it parses, so the payload is never
+     * held; rows are keyed by the portal's channel id, which is what `StalkerSyncer` gives a portal
+     * channel that has no XMLTV id of its own.
+     *
+     * A failed crawl throws with the guide left as it was. A crawl that returns nothing throws
+     * [NoProgrammesInWindowException], the same answer the XMLTV path gives for a feed that carries
+     * no programmes we can use — the apps already explain that one.
+     */
+    private suspend fun refreshFromPortal(
+        storeId: Long,
+        portalSourceId: Long,
+        onProgress: (channels: Int, programmes: Int) -> Unit,
+    ): Int {
+        val startedAt = SystemClock.elapsedRealtime()
+        val source = sourceDao.getById(portalSourceId)
+            ?: throw java.io.IOException("Portal guide source $portalSourceId no longer exists")
+        val now = System.currentTimeMillis()
+        val from = now - WINDOW_BACK_MS
+        val to = now + WINDOW_AHEAD_MS
+        var written = 0
+        val channels = LinkedHashSet<String>()
+        // The portal keys its guide by its OWN channel id, but a channel that came with an `xmltv_id`
+        // is stored under that instead — so the two disagree on exactly the channels most likely to
+        // have a guide. Translate every row into the key its channel is actually stored under; a
+        // portal id with no channel of its own keeps the portal id, which is what the fallback in
+        // StalkerSyncer gives those channels anyway.
+        val guideKeys = channelDao.guideKeysForSource(portalSourceId)
+            .associate { it.remoteId.trim().lowercase() to it.epgChannelId.trim().lowercase() }
+        val channelIds = channelDao.remoteIdsForSource(portalSourceId)
+        val outcome = stalkerEpg.crawl(
+            source = source,
+            from = from,
+            to = to,
+            cacheDir = context.cacheDir,
+            channelIds = channelIds,
+            // Straight through to the EPG screen, so a portal guide counts up like any other feed
+            // instead of sitting on "Connecting…" until it finishes.
+            onProgress = { seenChannels, programmes -> onProgress(seenChannels, programmes) },
+        ) { batch ->
+            db.withTransaction {
+                epgDao.upsertProgrammes(
+                    batch.map {
+                        EpgProgrammeEntity(
+                            sourceId = storeId,
+                            epgChannelId = guideKeys[it.epgChannelId] ?: it.epgChannelId,
+                            startMs = it.startMs,
+                            stopMs = it.stopMs,
+                            title = it.title,
+                            description = it.description,
+                        )
+                    },
+                )
+            }
+            written += batch.size
+            batch.forEach { channels.add(guideKeys[it.epgChannelId] ?: it.epgChannelId) }
+        }
+        if (outcome.programmes == 0) throw NoProgrammesInWindowException()
+        // A guide channel row per channel we saw, so the EPG matcher and the "guide channels" counts
+        // treat a portal guide like any other. The portal's EPG payload carries no display name, so
+        // the id doubles as the label — the matcher keys on the id regardless.
+        epgDao.upsertChannels(channels.map { EpgChannelEntity(sourceId = storeId, epgChannelId = it, displayName = it, iconUrl = null) })
+        // Programmes this crawl did not replace and the window no longer covers. The portal is the
+        // whole truth for this store, so anything outside the window it just served is stale.
+        epgDao.pruneOutsideWindow(storeId, from, to)
+        epgDao.prune(now - WINDOW_BACK_MS)
+        ensureEpgIndexes()
+        runCatching { bulkInsertHelper.analyzeTables("epg_programmes", "epg_channels") }
+            .onFailure { Log.w("EpgRepository", "Unable to analyze EPG tables", it) }
+        onProgress(channels.size, written)
+        Log.i(
+            "EpgRepository",
+            "EPG portal sync storeId=$storeId portalSourceId=$portalSourceId method=${outcome.method} " +
+                "period=${outcome.periodDays} channels=${channels.size} written=$written " +
+                "ms=${SystemClock.elapsedRealtime() - startedAt}",
+        )
+        return written
+    }
+
     class NoProgrammesInWindowException : java.io.IOException()
 
     private suspend fun pruneRemovedProgrammes(sourceId: Long, tracker: ProgrammeHashTracker): Int {
@@ -522,6 +614,20 @@ class EpgRepository(
     }
 
     companion object {
+        /**
+         * How a Stalker portal's own guide is addressed where a URL is expected. Not a real scheme and
+         * never fetched: the EPG machinery — the sources list, the sync worker, the staleness check,
+         * the error line — is all keyed by a source's URL, so giving the portal guide one lets it reuse
+         * every bit of that instead of growing a parallel path with its own screen and its own bugs.
+         */
+        private const val STALKER_GUIDE_SCHEME = "stalker://"
+
+        fun stalkerGuideUrl(sourceId: Long): String = "$STALKER_GUIDE_SCHEME$sourceId"
+
+        /** The playlist id inside a [stalkerGuideUrl], or null when this is an ordinary feed URL. */
+        fun stalkerSourceIdOf(url: String): Long? =
+            url.takeIf { it.startsWith(STALKER_GUIDE_SCHEME) }?.removePrefix(STALKER_GUIDE_SCHEME)?.trim()?.toLongOrNull()
+
         // Keep up to ~7 days of just-aired programmes so the Guide can browse a long catch-up archive
         // (still bounded, and ultimately limited by how much past data the EPG feed actually provides —
         // many xmltv.php feeds only return 1–2 days of past programmes, so storage rarely reaches 7 days).

@@ -58,6 +58,15 @@ class EpgSourceStore(private val context: Context) {
         return created!!
     }
 
+    /**
+     * Make sure [url] exists as an EPG source, adding it if it does not. Returns the existing or new
+     * entry, and **never syncs anything** — used to put a Stalker portal's own guide on the Settings →
+     * EPG list after the portal's catalog syncs, so the user can press Sync on it like any other feed.
+     * Registering it is not downloading it, so EPG stays as opt-in as it has been since v2.2.0.
+     */
+    suspend fun ensure(name: String, url: String, userAgent: String? = null): EpgSource =
+        getAll().firstOrNull { it.url == url } ?: add(name, url, userAgent)
+
     suspend fun update(source: EpgSource) {
         context.epgStore.edit { prefs ->
             prefs[Keys.LIST] = write(parse(prefs[Keys.LIST]).map { if (it.id == source.id) source else it })

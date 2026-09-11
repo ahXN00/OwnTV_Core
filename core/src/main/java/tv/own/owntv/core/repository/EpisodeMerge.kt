@@ -62,7 +62,10 @@ fun planEpisodeMerge(existing: List<EpisodeEntity>, incoming: List<EpisodeEntity
             inserts.add(row.copy(id = 0))
         } else {
             kept.add(current.id)
-            val merged = row.copy(id = current.id)
+            // The air date is the one field the stored row may know better than the provider: it can
+            // have been filled in from TMDB for a panel that dates nothing. A refresh must not blank
+            // it back out, so a missing incoming date keeps whatever is already there.
+            val merged = row.copy(id = current.id, airDateMs = row.airDateMs ?: current.airDateMs)
             // Skip no-op writes: on a typical refresh nothing but the new episodes has changed, and
             // every write here also fires the episodes_fts triggers.
             if (merged != current) updates.add(merged)

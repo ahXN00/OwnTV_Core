@@ -43,6 +43,35 @@ class BackupContainerTest {
         assertArrayEquals(wallpaper.bytes, payload.wallpaper?.bytes)
     }
 
+    /**
+     * Profile pictures ride in the container for the same reason the wallpaper does — the path in
+     * the profile row is the exporting device's and means nothing anywhere else. Sealed as well as
+     * plain: a passphrase encrypts the whole zip, so the pictures must survive that too.
+     */
+    @Test
+    fun container_carries_profile_pictures_plain_and_sealed() {
+        val avatars = mapOf(
+            "1_profile_1.jpg" to byteArrayOf(9, 8, 7, 0, -3),
+            "2_profile_2.jpg" to byteArrayOf(4, 4, 4),
+        )
+        val payload = BackupContainer.Payload(json, wallpaper, emptyMap(), avatars)
+
+        val plain = BackupContainer.open(write(BackupContainer.pack(payload, passphrase = null)))
+        assertEquals(avatars.keys, plain.avatars.keys)
+        assertArrayEquals(avatars.getValue("1_profile_1.jpg"), plain.avatars["1_profile_1.jpg"])
+
+        val sealed = BackupContainer.open(write(BackupContainer.pack(payload, passphrase = "hunter2")), "hunter2")
+        assertEquals(avatars.keys, sealed.avatars.keys)
+        assertArrayEquals(avatars.getValue("2_profile_2.jpg"), sealed.avatars["2_profile_2.jpg"])
+    }
+
+    /** A backup made before the feature, or by someone with no picture set, carries none — not an error. */
+    @Test
+    fun container_without_profile_pictures_round_trips() {
+        val file = write(BackupContainer.pack(BackupContainer.Payload(json, wallpaper), passphrase = null))
+        assertTrue(BackupContainer.open(file).avatars.isEmpty())
+    }
+
     @Test
     fun container_without_a_wallpaper_round_trips() {
         val file = write(BackupContainer.pack(BackupContainer.Payload(json, null), passphrase = null))

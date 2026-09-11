@@ -34,6 +34,16 @@ data class MetadataCacheEntity(
     val trailerKey: String?,  // YouTube video key for the in-app trailer player (plan §7.3); null = no trailer
     val logoPath: String?,    // TMDB title/logo path for cinematic Home hero treatment; null = text title fallback
     val updatedAt: Long,      // for TTL / manual refresh
+    /**
+     * For an episode row, the day it first aired as TMDB states it (`yyyy-MM-dd`); null everywhere
+     * else (v37). Only the year was kept before, which is no help at all on the shows this exists
+     * for — a series with a thousand episodes puts hundreds of them in the same year.
+     *
+     * This is the *fallback*: an episode shows its provider's own date when the panel sends one, and
+     * this when it does not. Which is why it lives here, in the disposable cache, and is merged at
+     * render time — the metadata layer never writes to the content tables.
+     */
+    val airDate: String? = null,
 )
 
 /**

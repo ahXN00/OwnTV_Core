@@ -25,6 +25,7 @@ class ProfileManager(
     private val settings: SettingsRepository,
     private val launcherIntegration: LauncherIntegrationRepository,
     private val openSubtitlesAccounts: OpenSubtitlesAccountManager,
+    private val avatars: ProfileAvatarStore,
 ) {
 
     /** Make [id] the profile the app is showing. */
@@ -71,6 +72,37 @@ class ProfileManager(
     }
 
     /**
+     * Give [profile] a picture of its own, taken from [source] — a file the user picked on this
+     * device, or one a phone sent over the local network. Returns false when the file turned out not
+     * to be a readable image, in which case nothing changes and the drawn tile stays.
+     *
+     * The picture replaces the drawn tile but does not erase the choice of tile: clearing it later
+     * brings back the one the profile already had rather than resetting to the first.
+     */
+    suspend fun setCustomAvatar(profile: ProfileEntity, source: java.io.File): Boolean =
+        apply(profile, avatars.save(profile.id, source))
+
+    /**
+     * As above, for a picture that is not a file on disk — the phone's photo picker hands over a
+     * content stream, and copying it out to a temporary file first would only be so that this could
+     * copy it in again.
+     */
+    suspend fun setCustomAvatar(profile: ProfileEntity, source: java.io.InputStream): Boolean =
+        apply(profile, avatars.save(profile.id, source))
+
+    private suspend fun apply(profile: ProfileEntity, savedPath: String?): Boolean {
+        val path = savedPath ?: return false
+        profileDao.update(profile.copy(avatarPath = path))
+        return true
+    }
+
+    /** Drop [profile]'s own picture, returning it to the drawn tile named by its `avatarId`. */
+    suspend fun clearCustomAvatar(profile: ProfileEntity) {
+        avatars.clear(profile.id)
+        profileDao.update(profile.copy(avatarPath = null))
+    }
+
+    /**
      * Delete a profile and everything keyed to it, and hand the active slot to a survivor when it
      * was the one on screen. The last profile is never deleted — an app with none has nobody to
      * resolve any content for.
@@ -82,6 +114,8 @@ class ProfileManager(
         runCatching { launcherIntegration.clearProfile(profile.id) }
         // Deleting a profile permanently erases its stored OpenSubtitles login (subtitle plan §5.5).
         openSubtitlesAccounts.eraseFor(profile.id)
+        // …and its picture, which nothing else would ever clean up.
+        avatars.clear(profile.id)
         settings.setStartupChannel(profile.id, null)
         profileDao.delete(profile)
         if (activeProfileId == profile.id) settings.setActiveProfile(remainingProfileId ?: -1L)

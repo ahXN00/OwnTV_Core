@@ -17,6 +17,12 @@ data class ChannelSearchResult(
     val categoryName: String?,
 )
 
+/** One channel's provider id and the guide key it is stored under — see [ChannelDao.guideKeysForSource]. */
+data class ChannelGuideKey(
+    val remoteId: String,
+    val epgChannelId: String,
+)
+
 /** A channel plus when it was last watched — for the Home screen's recent/continue rows. */
 data class ChannelWithWatchedAt(
     @Embedded val channel: ChannelEntity,
@@ -128,6 +134,18 @@ interface ChannelDao {
 
     @Query("SELECT remoteId FROM channels WHERE sourceId = :sourceId AND remoteId IS NOT NULL")
     suspend fun remoteIdsForSource(sourceId: Long): List<String>
+
+    /**
+     * Each channel's provider id alongside the guide key it is actually stored under — what a Stalker
+     * portal's own guide needs to line up.
+     *
+     * The portal keys its guide by its own channel id (`ch_id`), but a channel whose portal row
+     * carried an `xmltv_id` is stored under *that* instead, which is the better key when an XMLTV feed
+     * is also in play. Without this translation the guide lands under `1283349` while the channel
+     * looks up `npo1.nl`, and the rows are stored but never found.
+     */
+    @Query("SELECT remoteId, epgChannelId FROM channels WHERE sourceId = :sourceId AND remoteId IS NOT NULL AND epgChannelId IS NOT NULL")
+    suspend fun guideKeysForSource(sourceId: Long): List<ChannelGuideKey>
 
     /** Any one stream id from this source — the "Test HLS support" probe needs a channel to ask about,
      *  and an already-synced playlist can supply one without a network round-trip. */

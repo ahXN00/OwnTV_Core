@@ -69,17 +69,30 @@ open class StalkerAuthManager(private val client: StalkerClient) {
     }
 
     /**
+     * Drop [dead] only if it is still the session everyone else is using. A sync has several requests
+     * in flight at once, so one expired token produces a *burst* of auth failures that all arrive
+     * after the first of them has already handshaken a replacement. An unconditional [invalidate]
+     * then throws that fresh session away once per straggler, and each straggler handshakes another
+     * one — a handshake storm against a portal that is usually already unhappy.
+     */
+    private fun invalidateIfCurrent(sourceId: Long, dead: StalkerSession) {
+        sessions.remove(sourceId, dead)
+    }
+
+    /**
      * Run [block] with a valid session; on an auth failure invalidate and retry ONCE with a fresh
      * handshake (§5.2 `withAuthRetry`). Anything failing twice is a real error for the caller.
      */
-    open suspend fun <T> withAuthRetry(creds: StalkerCredentials, block: suspend (StalkerSession) -> T): T =
-        try {
-            block(sessionFor(creds))
+    open suspend fun <T> withAuthRetry(creds: StalkerCredentials, block: suspend (StalkerSession) -> T): T {
+        val session = sessionFor(creds)
+        return try {
+            block(session)
         } catch (e: StalkerClient.StalkerAuthException) {
             Log.i(TAG, "auth expired sourceId=${creds.sourceId} (${e.message}) — re-handshaking once")
-            invalidate(creds.sourceId)
+            invalidateIfCurrent(creds.sourceId, session)
             block(sessionFor(creds))
         }
+    }
 
     /**
      * "Test connection" for the add-source form (and the Phase A spike): always performs a FRESH
@@ -105,7 +118,7 @@ open class StalkerAuthManager(private val client: StalkerClient) {
         return StalkerSession(
             apiBase = handshake.apiBase,
             token = handshake.token,
-            expiresAtMs = SystemClock.elapsedRealtime() + SESSION_TTL_MS,
+            expiresAtMs = SystemClock.elapsedRealtime() + sessionTtlMs(profile),
             profile = profile,
         )
     }
@@ -113,7 +126,25 @@ open class StalkerAuthManager(private val client: StalkerClient) {
     companion object {
         private const val TAG = "StalkerAuth"
 
-        /** Conservative — real token lifetimes vary per portal (minutes–hours); re-handshaking is cheap (§5.2). */
-        private const val SESSION_TTL_MS = 5 * 60_000L
+        /** Used when the portal states no `watchdog_timeout`, or states one we cannot believe. */
+        internal const val DEFAULT_SESSION_TTL_MS = 5 * 60_000L
+
+        /** Never re-handshake more than once a minute, nor trust a session for longer than a quarter hour. */
+        internal const val MIN_SESSION_TTL_MS = 60_000L
+        internal const val MAX_SESSION_TTL_MS = 15 * 60_000L
+
+        /**
+         * How long to trust a token, taken from the portal's own `watchdog_timeout` (seconds) where it
+         * offers one. A real set-top box keeps its session alive by pinging the watchdog inside that
+         * window; we do not ping, so we instead treat the portal's own number as the point by which
+         * the token must be considered gone and re-handshake *before* it is refused. The flat five
+         * minutes this replaces was longer than some panels allow, which turned every routine expiry
+         * into a failed request first and a re-handshake second.
+         */
+        internal fun sessionTtlMs(profile: Map<String, String>): Long {
+            val seconds = profile["watchdog_timeout"]?.trim()?.toLongOrNull() ?: return DEFAULT_SESSION_TTL_MS
+            if (seconds <= 0) return DEFAULT_SESSION_TTL_MS
+            return (seconds * 1_000L).coerceIn(MIN_SESSION_TTL_MS, MAX_SESSION_TTL_MS)
+        }
     }
 }

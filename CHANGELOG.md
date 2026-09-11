@@ -3,6 +3,108 @@
 Core is versioned independently of the apps. A core version number never lines up with an OwnTV TV
 app `v4.x` release, and the two must not be confused. Tags here are prefixed `core-`.
 
+## core-1.0.31 — 2026-09-11
+
+Five user reports, answered. Two of them turned out to be the same Stalker portal failing in two
+different ways, and both were ours rather than the portal's.
+
+### A portal that said "slow down" was heard as "you are logged out"
+
+Users reported HTTP 403s, endless loading and syncs that mostly did not finish — "the same portal
+works perfectly in another player". 403 was being treated as an authentication failure, so every one
+of them tore down a working session and handshaked again. Ministra and its reseller panels answer 403
+for *this MAC has too many connections open*, which is a throttle, not a logout: the worst possible
+reply is to reconnect immediately. It surfaced after 4.2.4, whose overlapped import removed the pause
+that used to pace the crawl.
+
+- `StalkerClient.httpFailure` — only **401** is an auth failure now. A token that genuinely died still
+  arrives as 401 or as the portal's own `{"js":false}` body, so nothing is lost.
+- 403 joins the retry-with-backoff set **and** the throttle set, so it shrinks concurrency instead of
+  growing it.
+- `StalkerAuthManager` invalidates a session only if the one that failed is still the cached one. A
+  burst of auth failures used to throw away each freshly handshaken replacement in turn — a handshake
+  storm against a portal already asking for less.
+- Session lifetime follows the portal's own `watchdog_timeout` (clamped 1–15 min) instead of a flat
+  five minutes, so the token is refreshed before it is refused.
+- Live paging joins the shared adaptive budget it used to bypass with a fixed six-wide window, and
+  that budget now starts at 3 and stops at 8 rather than 6 and 16.
+
+Verified against a 12 000-channel portal: full catalogue crawl — 12K channels, 65K movies, 22K series
+— in about two minutes, no errors.
+
+### The portal's own guide, so Stalker finally has EPG and catch-up
+
+A Stalker portal that publishes no XMLTV feed had no guide at all, and therefore no catch-up either:
+picking a programme to replay means picking it out of a guide that was never there. `get_epg_info`
+was avoided as an OOM risk. It is not one when the reply is never held.
+
+- `StalkerEpgLoader` downloads the whole guide to a temp file, **closes the connection**, and only
+  then parses and writes it in batches. The first attempt parsed while writing to the database with
+  the response still open; a keep-alive socket left idle while SQLite works gets closed by the far
+  end, which failed every time with `unexpected end of stream`. Measured: 9 MB in about a second.
+- A broken or stale connection is retried, the period steps down 7 → 3 → 1 days, and a portal with no
+  working bulk endpoint falls back to per-channel `get_short_epg` (bounded, and abandoned early if the
+  portal refuses).
+- Guide rows are written under the key the channel is actually stored under. The portal keys its guide
+  by its own channel id, but a channel that came with an `xmltv_id` is stored under that — so the two
+  disagreed on exactly the channels most likely to have a guide, and the rows were stored but never
+  found.
+- The portal guide appears in Settings → EPG as **"Guide from the portal"**, registered after a
+  catalogue sync but never downloaded on its own: EPG has been user-initiated since v2.2.0.
+- `sources.importPortalEpg` (**v38**) lets a playlist opt out; on for everything that exists.
+
+Verified: 2 148 channels and 13 729 programmes stored in about ten seconds, and the guide matches.
+
+### Catch-up never worked on a Stalker portal
+
+`tv_archive` is **Xtream's** field name and Ministra does not send it — a portal channel carries
+`enable_tv_archive` and `archive`. Reading only the Xtream name meant every Stalker channel was
+recorded as having no archive. On the test portal, 427 of 11 545 channels have one.
+
+`tv_archive_duration` is in **hours** (the portal reports 24, 48, 72, 168) and was being stored as
+days, which would have offered a 72-day archive on a three-day one.
+
+### When an episode first aired
+
+Series with thousands of near-identical episode titles gave no way to tell them apart.
+`episodes.airDateMs` holds the provider's own date (`release_date` / `air_date` / `added`, none of
+which were being read); `metadata_cache.airDate` holds TMDB's as the fallback, since the metadata
+layer never writes to the content tables. Both **v37**. Merged at render time, parsed and formatted
+in UTC — an air date is a calendar day, and formatting UTC midnight in the device's zone shows the
+day before to everyone west of Greenwich.
+
+A provider refresh that carries no date keeps the one already stored, so a TMDB-filled date is not
+blanked out.
+
+### A picture of your own for a profile
+
+`profiles.avatarPath` (**v37**) and `ProfileAvatarStore`: the image is copied into app-private
+storage, cropped square about its centre and scaled to 512 px. It rides inside the `.own` backup
+container next to the wallpaper and the subtitle files — the path alone means nothing on another
+device — so a restore brings the picture with it, and finds the right profile through the exported
+`avatarFile` field rather than the id in its name, because profiles merge by name.
+
+### Also
+
+- `EpgProgrammeEntity.description` reaches the apps' Live TV surfaces, which showed only titles.
+- `SourceTester` still answers **"not authorised"** for a 403 on a single Test-connection request,
+  which is what 403 means when nothing is being crawled.
+- `EpgDao.pruneOutsideWindow` and `ChannelDao.guideKeysForSource`.
+
+### Database
+
+**v36 → v38.** v37: `episodes.airDateMs`, `metadata_cache.airDate`, `profiles.avatarPath`.
+v38: `sources.importPortalEpg`. All additive columns on existing tables; nothing is rewritten and
+nothing existing changes meaning. `importPortalEpg` is a version of its own because v37 had already
+run on real devices — Room fingerprints the schema, so widening a migration after it has executed
+leaves those databases claiming a version whose shape no longer matches, and the app then refuses to
+open.
+
+### Strings
+
+Two new, in all 25 packaged locales: the portal guide's label, and the Guide's "a filter is hiding
+everything" message.
+
 ## core-1.0.30 — 2026-09-11
 
 Two community fixes — **[#4](https://github.com/ahXN00/OwnTV_Core/pull/4)** and

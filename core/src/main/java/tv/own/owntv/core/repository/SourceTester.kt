@@ -135,6 +135,10 @@ class SourceTester(
     private fun classify(e: Exception): SourceTestResult = when {
         // The host answered — it just said no. That is an account answer, not a network one.
         e is HttpClient.HttpStatusException && (e.code == 401 || e.code == 403) -> SourceTestResult.AuthFailed
+        // Same answer from a portal. 403 is a throttle while *crawling* a portal (see
+        // `StalkerClient.httpFailure`), but the one request this test makes cannot be throttling
+        // anybody — here it means the portal refused this MAC, which is what the user needs told.
+        e is StalkerClient.StalkerHttpException && (e.code == 401 || e.code == 403) -> SourceTestResult.AuthFailed
         else -> SourceTestResult.Unreachable(e.message)
     }
 

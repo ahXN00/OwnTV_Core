@@ -22,10 +22,14 @@ class EpisodeCacheTest {
     private val now = 1_700_000_000_000L
     private val ttl = EPISODE_CACHE_TTL_MS
 
-    private fun ep(season: Int, number: Int, name: String = "E$number", remoteId: String? = "r$season-$number", id: Long = 0) =
+    private fun ep(
+        season: Int, number: Int, name: String = "E$number", remoteId: String? = "r$season-$number",
+        id: Long = 0, airDateMs: Long? = null,
+    ) =
         EpisodeEntity(
             id = id, seriesId = 1, seasonNumber = season, episodeNumber = number,
             name = name, streamUrl = "http://x/$season/$number", remoteId = remoteId,
+            airDateMs = airDateMs,
         )
 
     // --- freshness ---
@@ -93,6 +97,31 @@ class EpisodeCacheTest {
         assertEquals(10L, plan.updates.single().id)
         assertEquals("Pilot (Remastered)", plan.updates.single().name)
         assertTrue(plan.deleteIds.isEmpty())
+    }
+
+    /**
+     * The air date is the one field a stored row may know better than the provider: it can have been
+     * filled in from TMDB for a panel that dates nothing. A refresh must not blank it back out.
+     */
+    @Test
+    fun `a refresh without dates keeps the one already stored`() {
+        val existing = listOf(ep(1, 1, id = 10, airDateMs = 1_555_200_000_000L))
+        val plan = planEpisodeMerge(existing, listOf(ep(1, 1)))
+
+        assertTrue("nothing actually changed, so nothing is rewritten", plan.updates.isEmpty())
+        assertTrue(plan.inserts.isEmpty())
+        assertTrue(plan.deleteIds.isEmpty())
+    }
+
+    /** A provider that starts sending dates does update the stored row. */
+    @Test
+    fun `a date the provider newly supplies is written`() {
+        val existing = listOf(ep(1, 1, id = 10))
+        val plan = planEpisodeMerge(existing, listOf(ep(1, 1, airDateMs = 1_555_200_000_000L)))
+
+        assertEquals(1, plan.updates.size)
+        assertEquals(10L, plan.updates.single().id)
+        assertEquals(1_555_200_000_000L, plan.updates.single().airDateMs)
     }
 
     @Test

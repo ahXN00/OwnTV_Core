@@ -96,6 +96,7 @@ class SeriesRepository(
                 streamUrl = xtream.seriesEpisodeUrl(source, e.id, e.containerExt),
                 containerExt = e.containerExt,
                 remoteId = e.id,
+                airDateMs = e.airDateMs,
             )
         }
     } catch (e: Exception) {

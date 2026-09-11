@@ -48,6 +48,8 @@ class BackupManager(
     private val backgroundsDir: File,
     /** `filesDir/subtitles` — the shared subtitle file cache (see SubtitleRepository), carried too. */
     private val subtitlesDir: File,
+    /** Writes a restored profile picture into `filesDir/avatars`; the one thing that puts files there. */
+    private val avatarStore: tv.own.owntv.core.profile.ProfileAvatarStore,
 ) {
     /** What a backup can contain; the user multi-selects these for export and restore. Profiles are
      *  NOT a section: every backup is inherently profile-based — the export flow's first step picks
@@ -237,6 +239,10 @@ class BackupManager(
                     }
                 }
             }
+            // Profile pictures, bytes and all, for the same reason as the wallpaper below: the path in
+            // the profile row is this device's and means nothing on another one.
+            val avatarFiles = exportAvatars(root, profiles)
+
             // The wallpaper's bytes, not its path. `settings.bg_image_path` still rides in the settings
             // block, but it points into THIS device's filesDir — restoring it verbatim gave the next
             // device a dangling path and a blank background. Import re-derives the path from this entry.
@@ -255,7 +261,7 @@ class BackupManager(
             val path = writeAtomically(
                 target,
                 BackupContainer.pack(
-                    BackupContainer.Payload(root.toString(2), wallpaper, subtitleFiles),
+                    BackupContainer.Payload(root.toString(2), wallpaper, subtitleFiles, avatarFiles),
                     backupPassword,
                 ),
             )
@@ -392,6 +398,56 @@ class BackupManager(
             },
         )
         return files
+    }
+
+    /**
+     * Pack each exported profile's own picture into the container, and note the entry name on that
+     * profile's JSON so restore can find it again (`avatarFile`).
+     *
+     * The same reasoning as the wallpaper: `profiles.avatarPath` points into this device's private
+     * storage, so a profile restored onto another television would come back wearing the drawn tile
+     * with no sign that a picture was ever chosen. A profile with no picture, or one whose file has
+     * gone, simply contributes nothing.
+     *
+     * Nothing here needs a size cap the way the wallpaper does — `ProfileAvatarStore` has already
+     * scaled every one of these to at most 512 px, so a whole household's pictures are a few hundred
+     * kilobytes.
+     */
+    private fun exportAvatars(root: JSONObject, profiles: List<ProfileEntity>): Map<String, ByteArray> {
+        val files = LinkedHashMap<String, ByteArray>()
+        val byId = (root.optJSONArray("profiles") ?: return files).let { array ->
+            (0 until array.length()).associate { array.getJSONObject(it).optLong("id") to array.getJSONObject(it) }
+        }
+        profiles.forEach { profile ->
+            val path = profile.avatarPath?.takeIf { it.isNotBlank() } ?: return@forEach
+            val file = File(path)
+            if (!file.isFile) return@forEach
+            val bytes = runCatching { file.readBytes() }.getOrNull() ?: return@forEach
+            val entry = "${profile.id}_${file.name}"
+            files[entry] = bytes
+            byId[profile.id]?.put("avatarFile", entry)
+        }
+        return files
+    }
+
+    /**
+     * Write a restored profile's picture into this device's own storage and point the row at it.
+     * [localProfileId] is the id the profile has *here*, which a merge by name may well have changed
+     * from the one in the file — the entry is found by the `avatarFile` field, never by the id in it.
+     *
+     * Returns the new absolute path, or null when the backup carried no picture for this profile, in
+     * which case the caller leaves whatever the device already had alone.
+     */
+    private suspend fun restoreAvatar(
+        profileJson: JSONObject,
+        localProfileId: Long,
+        avatars: Map<String, ByteArray>,
+    ): String? {
+        val entry = profileJson.optString("avatarFile").takeIf { it.isNotEmpty() } ?: return null
+        val bytes = avatars[entry] ?: return null
+        return runCatching { avatarStore.save(localProfileId, bytes.inputStream()) }
+            .onFailure { Log.w(TAG, "Profile picture restore failed: ${it.message}") }
+            .getOrNull()
     }
 
     /** The current Glass effect background as a container asset, or null when unset/missing/oversized. */
@@ -713,6 +769,9 @@ class BackupManager(
             // the SOURCES section isn't being restored, matching still runs read-only so the other
             // sections can attach to the right device rows; unmatched ids fall through unchanged.
             val profileIdMap = HashMap<Long, Long>()
+            // Each restored profile paired with its entry in the file, so the pictures the container
+            // carries can be written once the database work is done.
+            val restoredAvatars = ArrayList<Pair<Long, JSONObject>>()
             val sourceIdMap = HashMap<Long, Long>()
             var epgIdMap: Map<Long, Long> = emptyMap()
 
@@ -747,6 +806,11 @@ class BackupManager(
                 for (i in 0 until fileProfiles.length()) {
                     val incoming = profileFrom(fileProfiles.getJSONObject(i), unseal)
                     val existing = byName[profileMatchKey(incoming.name)]
+                    // Which local profile each entry ended up as, so its picture can be written to
+                    // disk AFTER this transaction — a database transaction is no place for file I/O.
+                    fun claimedAvatar(localId: Long) {
+                        restoredAvatars += localId to fileProfiles.getJSONObject(i)
+                    }
                     when {
                         existing != null -> {
                             if (applySources) {
@@ -762,6 +826,7 @@ class BackupManager(
                                 )
                             }
                             profileIdMap[incoming.id] = existing.id
+                            if (applySources) claimedAvatar(existing.id)
                         }
                         applySources -> {
                             val keepId = incoming.id > 0 && incoming.id !in takenProfileIds
@@ -769,6 +834,7 @@ class BackupManager(
                             val deviceId = if (keepId) incoming.id else rowId
                             takenProfileIds += deviceId
                             profileIdMap[incoming.id] = deviceId
+                            claimedAvatar(deviceId)
                         }
                         // else: not restoring SOURCES and no matching profile on the device — leave
                         // unmapped; the per-profile blocks below skip unmapped ids safely.
@@ -813,6 +879,7 @@ class BackupManager(
                                         userAgent = incoming.userAgent ?: existing.userAgent,
                                         epgUrl = incoming.epgUrl ?: existing.epgUrl,
                                         syncLive = if (srcJson.has("syncLive")) incoming.syncLive else existing.syncLive,
+                                        importPortalEpg = if (srcJson.has("importPortalEpg")) incoming.importPortalEpg else existing.importPortalEpg,
                                         syncMovies = if (srcJson.has("syncMovies")) incoming.syncMovies else existing.syncMovies,
                                         syncSeries = if (srcJson.has("syncSeries")) incoming.syncSeries else existing.syncSeries,
                                         preferHls = if (srcJson.has("preferHls")) incoming.preferHls else existing.preferHls,
@@ -924,6 +991,13 @@ class BackupManager(
                         }
                     }
                 }
+            }
+
+            // Profile pictures: written now that the transaction has closed. A backup that carries
+            // none leaves every profile's picture exactly as this device had it — a restore must not
+            // strip a picture off a profile just because the file predates the feature.
+            restoredAvatars.forEach { (localId, json) ->
+                restoreAvatar(json, localId, payload.avatars)?.let { path -> profileDao.setAvatarPath(localId, path) }
             }
 
             // Favorites/history/progress: stashed as pending records — they attach automatically as
@@ -1330,6 +1404,7 @@ class BackupManager(
         put("stalkerSignature", if (signature != null && seal != null) seal(signature) else JSONObject.NULL)
         put("userAgent", s.userAgent ?: JSONObject.NULL); put("epgUrl", s.epgUrl ?: JSONObject.NULL)
         put("syncLive", s.syncLive); put("syncMovies", s.syncMovies); put("syncSeries", s.syncSeries)
+        put("importPortalEpg", s.importPortalEpg)
         // v17: the two per-playlist player settings. Both are deliberate user choices made in the
         // playlist editor and neither can be re-derived from the provider, so losing them on restore
         // silently reintroduced whatever streaming problem the user had already fixed. `hlsSupported`
@@ -1372,6 +1447,8 @@ class BackupManager(
             userAgent = o.optStringOrNull("userAgent"), epgUrl = o.optStringOrNull("epgUrl"),
             // Pre-v13 backups omit the flags — default On so restore matches today's behaviour.
             syncLive = if (o.has("syncLive")) o.optBoolean("syncLive", true) else true,
+            // Absent in every backup written before v37; a portal guide is on unless it was turned off.
+            importPortalEpg = o.optBoolean("importPortalEpg", true),
             syncMovies = if (o.has("syncMovies")) o.optBoolean("syncMovies", true) else true,
             syncSeries = if (o.has("syncSeries")) o.optBoolean("syncSeries", true) else true,
             // Pre-v17 backups omit these — fall back to the entity defaults (Prefer HLS off, follow

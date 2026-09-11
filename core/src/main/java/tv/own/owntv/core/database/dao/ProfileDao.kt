@@ -29,6 +29,10 @@ interface ProfileDao {
     @Query("UPDATE profiles SET avatarId = :avatarId WHERE id = :id")
     suspend fun setAvatar(id: Long, avatarId: Int)
 
+    /** Point a profile at a picture of its own, or null for the drawn tile. Used by restore. */
+    @Query("UPDATE profiles SET avatarPath = :path WHERE id = :id")
+    suspend fun setAvatarPath(id: Long, path: String?)
+
     @Query("SELECT COUNT(*) FROM profiles")
     suspend fun count(): Int
 

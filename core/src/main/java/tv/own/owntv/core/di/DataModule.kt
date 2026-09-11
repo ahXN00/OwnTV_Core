@@ -93,6 +93,8 @@ val dataModule = module {
     single { tv.own.owntv.core.stalker.StalkerClient(get()) }
     single { tv.own.owntv.core.stalker.StalkerAuthManager(get()) }
     single { tv.own.owntv.core.stalker.StreamUrlResolver(get(), get()) }
+    // The portal's own guide — the only EPG a Stalker portal that publishes no XMLTV has.
+    single { tv.own.owntv.core.stalker.StalkerEpgLoader(get(), get()) }
     // http, xtreamClient, stalkerAuth — the Test button behind each saved playlist row.
     single { tv.own.owntv.core.repository.SourceTester(get(), get(), get()) }
     // TMDB metadata enrichment (plan §4): one provider, three tiers resolved from SettingsRepository.
@@ -150,6 +152,7 @@ val dataModule = module {
             db = get(),
             bulkInsertHelper = get(),
             metadataDao = get(),
+            epgSourceStore = get(),
         )
     }
     // context, channelDao, movieDao, seriesDao, profileDao, favoriteDao, historyDao, progressDao,
@@ -199,6 +202,8 @@ val dataModule = module {
             context = androidContext(),
             db = get(),
             bulkInsertHelper = get(),
+            sourceDao = get(),
+            stalkerEpg = get(),
         )
     }
     // seriesDao, sourceDao, xtreamClient, userDataResolver, stalkerClient, stalkerAuthManager
@@ -225,11 +230,13 @@ val dataModule = module {
             get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(),
             java.io.File(androidContext().filesDir, "backgrounds"),
             java.io.File(androidContext().filesDir, "subtitles"),
+            get(),
         )
     }
     // profileDao, sourceDao, settings, launcherIntegration, openSubtitlesAccounts — creating,
     // editing, switching and deleting a profile, shared by both apps' profile gates.
-    single { tv.own.owntv.core.profile.ProfileManager(get(), get(), get(), get(), get()) }
+    single { tv.own.owntv.core.profile.ProfileAvatarStore(androidContext()) }
+    single { tv.own.owntv.core.profile.ProfileManager(get(), get(), get(), get(), get(), get()) }
     // context, okHttpClient — in-app updates from GitHub Releases
     single { UpdateManager(androidContext(), get()) }
     single { CatalogSyncScheduler(androidContext()) }

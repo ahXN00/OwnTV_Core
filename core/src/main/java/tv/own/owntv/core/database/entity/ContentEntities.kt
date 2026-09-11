@@ -282,6 +282,15 @@ data class EpisodeEntity(
     val httpHeaders: String? = null,
     /** Widevine/ClearKey licence details — see [ChannelEntity.drmConfig] (v33). */
     val drmConfig: String? = null,
+    /**
+     * When the episode first aired, epoch ms, or null when nothing said (v37).
+     *
+     * From the provider's own `releasedate` / `air_date` where it offers one, else the date TMDB has
+     * for that season and episode. Requested by a user with series running to thousands of episodes,
+     * where a list of titles gives no way to tell which one is which — the number alone stops helping
+     * long before episode nine hundred.
+     */
+    val airDateMs: Long? = null,
 )
 
 /**

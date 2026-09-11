@@ -137,4 +137,84 @@ class StalkerClientTest {
         assertFalse(StalkerClient.isDirectPlayUrl("ffmpeg localhost/ch/1"))
         assertFalse(StalkerClient.isDirectPlayUrl(""))
     }
+
+    // ---- which status means "logged out" and which means "slow down" ----
+
+    @Test
+    fun httpFailure_401IsAnAuthFailure() {
+        val e = StalkerClient.httpFailure(401, "http://host/portal.php")
+        assertTrue(e is StalkerClient.StalkerAuthException)
+    }
+
+    /**
+     * The regression this phase exists for: portals answer 403 for "too many connections for this
+     * MAC". Turning that into an auth failure made every one of them tear down a working session and
+     * handshake again, which is the worst possible reply to being asked to slow down.
+     */
+    @Test
+    fun httpFailure_403IsThrottleNotAuth() {
+        val e = StalkerClient.httpFailure(403, "http://host/portal.php")
+        assertFalse("403 must never re-handshake", e is StalkerClient.StalkerAuthException)
+        assertEquals(403, (e as StalkerClient.StalkerHttpException).code)
+    }
+
+    @Test
+    fun httpFailure_otherStatusesKeepTheirCode() {
+        assertEquals(503, (StalkerClient.httpFailure(503, "u") as StalkerClient.StalkerHttpException).code)
+        assertEquals(429, (StalkerClient.httpFailure(429, "u") as StalkerClient.StalkerHttpException).code)
+    }
+
+    // ---- catch-up: which field says a channel has an archive, and in what unit ----
+
+    /**
+     * The bug this pins. `tv_archive` is **Xtream's** field name; Ministra sends `enable_tv_archive`
+     * and `archive`. Reading only the Xtream name marked every portal channel as having no archive, so
+     * catch-up never appeared on a Stalker portal — 427 of the test portal's 11 545 channels have one.
+     */
+    @Test
+    fun archive_isReadFromTheFieldsMinistraActuallySends() {
+        assertTrue(StalkerClient.hasArchive(mapOf("enable_tv_archive" to "1")))
+        assertTrue(StalkerClient.hasArchive(mapOf("archive" to "1")))
+        // …and a panel that does use the Xtream name is still understood.
+        assertTrue(StalkerClient.hasArchive(mapOf("tv_archive" to "1")))
+        assertTrue(StalkerClient.hasArchive(mapOf("enable_tv_archive" to "1", "archive" to "1", "tv_archive_duration" to "72")))
+    }
+
+    @Test
+    fun archive_absentOrZeroMeansNoCatchUp() {
+        assertFalse(StalkerClient.hasArchive(emptyMap()))
+        assertFalse(StalkerClient.hasArchive(mapOf("enable_tv_archive" to "0", "archive" to "0")))
+        assertFalse(StalkerClient.hasArchive(mapOf("archive" to "")))
+        // A duration alone is not a claim that the archive is switched on.
+        assertFalse(StalkerClient.hasArchive(mapOf("tv_archive_duration" to "72")))
+    }
+
+    /**
+     * Ministra states the archive length in HOURS. The test portal reports exactly 24, 48, 72 and 168
+     * — one, two, three and seven days. Stored raw it would have offered a 72-day archive on a
+     * three-day one.
+     */
+    @Test
+    fun archiveDuration_hoursBecomeDays() {
+        assertEquals(1, StalkerClient.archiveDays("24"))
+        assertEquals(2, StalkerClient.archiveDays("48"))
+        assertEquals(3, StalkerClient.archiveDays("72"))
+        assertEquals(7, StalkerClient.archiveDays("168"))
+    }
+
+    /** A panel reporting a small number plainly means days — nobody sells a seven-hour archive. */
+    @Test
+    fun archiveDuration_smallValuesAreTakenAsDays() {
+        assertEquals(7, StalkerClient.archiveDays("7"))
+        assertEquals(3, StalkerClient.archiveDays("3"))
+    }
+
+    @Test
+    fun archiveDuration_missingOrJunkIsNone() {
+        assertEquals(0, StalkerClient.archiveDays(null))
+        assertEquals(0, StalkerClient.archiveDays(""))
+        assertEquals(0, StalkerClient.archiveDays("0"))
+        assertEquals(0, StalkerClient.archiveDays("-5"))
+        assertEquals(0, StalkerClient.archiveDays("lots"))
+    }
 }

@@ -145,6 +145,20 @@ class OwnTVDatabaseMigrationTest {
             assertTableExists(sqlite, "user_data_tombstones")
             assertIndexExists(sqlite, "index_user_data_tombstones_profileId_kind_identity")
             assertCount(sqlite, "user_data_tombstones", 0)
+            // v37: when an episode first aired — the provider's date on the episode, TMDB's in the
+            // cache. Both must arrive NULL on an upgrade: an invented date would be worse than none,
+            // and the real ones fill in on the next refresh.
+            assertColumnExists(sqlite, "episodes", "airDateMs")
+            assertColumnExists(sqlite, "metadata_cache", "airDate")
+            assertColumnValue(sqlite, "episodes", "airDateMs", 70, null)
+            // …and the profile picture column, which must arrive empty: an existing profile keeps the
+            // drawn avatar it already had until somebody chooses a picture.
+            assertColumnExists(sqlite, "profiles", "avatarPath")
+            assertColumnValue(sqlite, "profiles", "avatarPath", 1, null)
+            // v38: whether a Stalker portal's own guide may be imported. Every existing playlist
+            // arrives with it ON — an upgrade must not silently switch a guide off.
+            assertColumnExists(sqlite, "sources", "importPortalEpg")
+            assertColumnValue(sqlite, "sources", "importPortalEpg", 10, 1L)
             assertIndexExists(sqlite, "index_movies_sourceId_rating_name")
             // v20: direct-tune index on (sourceId, number).
             assertIndexExists(sqlite, "index_channels_sourceId_number")
