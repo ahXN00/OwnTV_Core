@@ -88,8 +88,9 @@ have numbers that can disagree.
 - **EPG** (XMLTV) ingest, catch-up, and the guide's data model
 - Backup and restore, including encrypted password backup, and cross-device companion transfer
 - **Local sync** — two OwnTV devices on the same Wi-Fi exchanging their data directly, with no
-  account and no cloud: discovery, pairing, the merge rule, and the tombstones that make a
-  deletion survive it
+  account and no cloud: discovery, pairing, the merge rule (the newer of two facts wins), the
+  tombstones that make a deletion survive it, and a payload the two devices seal between
+  themselves without ever asking the user for a passphrase
 - Profiles, downloads, settings storage, TMDB metadata and trending, weather, update checks
 
 ### 🌍 Strings & translations (`:core`)

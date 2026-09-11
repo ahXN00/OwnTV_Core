@@ -94,7 +94,7 @@ class CompanionHttpServer(
      * makes the second sync one tap instead of a fresh six digits.
      */
     @Volatile private var syncInfo: () -> String = { "{}" }
-    @Volatile private var onPair: (name: String, address: String) -> String? = { _, _ -> null }
+    @Volatile private var onPair: (name: String, address: String, deviceId: String) -> String? = { _, _, _ -> null }
     @Volatile private var pairedSecrets: () -> Set<String> = { emptySet() }
 
     /**
@@ -116,7 +116,7 @@ class CompanionHttpServer(
         onServiceConfig: (CompanionServiceConfig) -> Unit = {},
         downloadFile: File? = null,
         syncInfo: () -> String = { "{}" },
-        onPair: (name: String, address: String) -> String? = { _, _ -> null },
+        onPair: (name: String, address: String, deviceId: String) -> String? = { _, _, _ -> null },
         pairedSecrets: () -> Set<String> = { emptySet() },
         onLocked: () -> Unit = {},
     ): List<String> {
@@ -153,7 +153,7 @@ class CompanionHttpServer(
         onLocked = {}
         downloadFile = null
         syncInfo = { "{}" }
-        onPair = { _, _ -> null }
+        onPair = { _, _, _ -> null }
         pairedSecrets = { emptySet() }
         runCatching { serverSocket?.close() }
         serverSocket = null
@@ -279,12 +279,16 @@ class CompanionHttpServer(
                 }
                 val body = CompanionHttpProtocol.readBody(input, headers, CompanionHttpProtocol.maxBodyBytes(path))
                     ?: return sendText(socket, 413, localized(R.string.companion_error_body_too_large))
-                val name = CompanionHttpProtocol.parseQuery(body)["name"].orEmpty().take(64)
+                val fields = CompanionHttpProtocol.parseQuery(body)
+                val name = fields["name"].orEmpty().take(64)
+                // Who the caller is, so re-pairing updates its row instead of adding a second one.
+                // Blank from a build older than this one — the caller then gets a random id as before.
+                val deviceId = fields["id"].orEmpty().take(64)
                 // The address is the socket's, not something the caller claims: a host has to be
                 // able to reach back later, and a device that lies about where it is would only be
                 // making itself unreachable.
                 val remoteAddress = socket.inetAddress?.hostAddress.orEmpty()
-                val secret = onPair(name, remoteAddress)
+                val secret = onPair(name, remoteAddress, deviceId)
                     ?: return sendText(socket, 500, localized(R.string.companion_error_pair_failed))
                 return sendJson(socket, 200, org.json.JSONObject().put("secret", secret).toString())
             }

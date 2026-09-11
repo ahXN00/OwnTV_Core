@@ -9,8 +9,14 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
-/** An OwnTV device answering on the network right now. */
-data class DiscoveredDevice(val name: String, val address: String, val port: Int)
+/**
+ * An OwnTV device answering on the network right now.
+ *
+ * [deviceId] is its lasting identity, announced in the service record so a device already paired can
+ * be recognised as such **before** anyone is asked for a PIN again. Blank when the far side is older
+ * than this, in which case the screens fall back to matching on the address.
+ */
+data class DiscoveredDevice(val name: String, val address: String, val port: Int, val deviceId: String = "")
 
 /**
  * Finds the other OwnTV on the same Wi-Fi, and announces this one, over Android's own NSD (mDNS /
@@ -28,13 +34,17 @@ class LocalSyncDiscovery(context: Context) {
     private var registration: NsdManager.RegistrationListener? = null
 
     /** Announces this device while it is hosting. Silently does nothing where NSD is unavailable. */
-    fun advertise(name: String, port: Int) {
+    fun advertise(name: String, port: Int, deviceId: String) {
         val manager = nsd ?: return
         stopAdvertising()
         val info = NsdServiceInfo().apply {
             serviceName = name.take(SERVICE_NAME_LIMIT)
             serviceType = SERVICE_TYPE
             setPort(port)
+            // Who this is, so the other device can say "already paired" instead of asking for a PIN
+            // it does not need. A service record is public on the LAN, so this carries the id and
+            // nothing else — never the secret, which is what actually grants access.
+            if (deviceId.isNotBlank()) setAttribute(ATTRIBUTE_ID, deviceId)
         }
         val listener = object : NsdManager.RegistrationListener {
             override fun onServiceRegistered(info: NsdServiceInfo) = Unit
@@ -82,7 +92,8 @@ class LocalSyncDiscovery(context: Context) {
                     override fun onServiceResolved(info: NsdServiceInfo) {
                         val host = info.host
                         if (host is Inet4Address) {
-                            host.hostAddress?.let { trySend(DiscoveredDevice(info.serviceName, it, info.port)) }
+                            val id = info.attributes[ATTRIBUTE_ID]?.toString(Charsets.UTF_8).orEmpty()
+                            host.hostAddress?.let { trySend(DiscoveredDevice(info.serviceName, it, info.port, id)) }
                         }
                         resolving = false
                         resolveNext()
@@ -119,6 +130,9 @@ class LocalSyncDiscovery(context: Context) {
     private companion object {
         const val TAG = "LocalSyncDiscovery"
         const val SERVICE_TYPE = "_owntv._tcp."
+
+        /** The service-record key carrying [DiscoveredDevice.deviceId]. */
+        const val ATTRIBUTE_ID = "id"
 
         /** mDNS instance names are bounded; a long "Living Room Television" would be rejected whole. */
         const val SERVICE_NAME_LIMIT = 40

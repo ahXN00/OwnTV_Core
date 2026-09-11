@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import java.security.SecureRandom
+import java.util.UUID
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -15,6 +16,7 @@ import org.json.JSONObject
 
 private val Context.pairedDeviceStore: DataStore<Preferences> by preferencesDataStore(name = "owntv_paired_devices")
 private val DEVICES_KEY = stringPreferencesKey("devices")
+private val SELF_ID_KEY = stringPreferencesKey("selfId")
 
 /**
  * Another OwnTV device this one has been paired with.
@@ -38,6 +40,24 @@ data class PairedDevice(
 )
 
 /**
+ * Short codes for the paired devices whose names alone would not tell them apart.
+ *
+ * Two of the same phone in one house are two rows reading "OnePlus 13s", and the user cannot know
+ * which is which — the name comes from the device and is not ours to invent. So the ones that clash,
+ * and only those, get four characters of their own id appended. A household with one of each thing
+ * never sees a code at all.
+ *
+ * Returns id → code, holding only the devices that need one.
+ */
+fun shortCodes(devices: List<PairedDevice>): Map<String, String> {
+    val clashing = devices.groupBy { it.name.trim().lowercase() }.filterValues { it.size > 1 }
+    return clashing.values.flatten().associate { it.id to it.id.filter(Char::isLetterOrDigit).take(CODE_LENGTH) }
+}
+
+/** Four characters is enough to separate the handful of devices one household pairs. */
+private const val CODE_LENGTH = 4
+
+/**
  * The devices the user has paired with, on disk.
  *
  * DataStore rather than Room deliberately: no query joins these against anything, there are at most
@@ -51,6 +71,27 @@ class PairedDeviceStore(context: Context) {
     val devices: Flow<List<PairedDevice>> = store.data.map { prefs -> parse(prefs[DEVICES_KEY]) }
 
     suspend fun current(): List<PairedDevice> = parse(store.data.first()[DEVICES_KEY])
+
+    /**
+     * This installation's own identity, minted once and then never again.
+     *
+     * It is what makes [put] able to do what it says: a pairing used to be filed under a fresh random
+     * id every time, so re-pairing the same television could never match the row already there and
+     * simply added another one — three pairings, three identical entries in the list. Each device now
+     * tells the other who it is, and the id it gives is the id its row is filed under.
+     *
+     * Written inside `edit` and re-read there, because two flows can ask for it at once and only one
+     * of them may win.
+     */
+    suspend fun selfId(): String {
+        store.data.first()[SELF_ID_KEY]?.takeIf { it.isNotBlank() }?.let { return it }
+        var minted = UUID.randomUUID().toString()
+        store.edit { prefs ->
+            val existing = prefs[SELF_ID_KEY]?.takeIf { it.isNotBlank() }
+            if (existing == null) prefs[SELF_ID_KEY] = minted else minted = existing
+        }
+        return minted
+    }
 
     /** The secrets any paired device may present instead of the PIN. */
     suspend fun secrets(): Set<String> = current().map { it.secret }.toSet()

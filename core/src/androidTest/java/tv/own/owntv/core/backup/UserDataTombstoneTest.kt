@@ -16,8 +16,10 @@ import org.junit.runner.RunWith
 import tv.own.owntv.core.database.OwnTVDatabase
 import tv.own.owntv.core.database.entity.FavoriteEntity
 import tv.own.owntv.core.database.entity.MovieEntity
+import tv.own.owntv.core.database.entity.PlaybackProgressEntity
 import tv.own.owntv.core.database.entity.ProfileEntity
 import tv.own.owntv.core.database.entity.SourceEntity
+import tv.own.owntv.core.database.entity.WatchHistoryEntity
 import tv.own.owntv.core.model.MediaType
 import tv.own.owntv.core.model.SourceType
 
@@ -43,8 +45,10 @@ class UserDataTombstoneTest {
     private var profileId = 0L
     private var sourceId = 0L
 
+    // The `: Unit` is load-bearing: without it Kotlin infers the last expression's type, JUnit
+    // rejects the class with "Method setUp() should be void", and the whole suite never runs.
     @Before
-    fun setUp() = runBlocking {
+    fun setUp(): Unit = runBlocking {
         db = Room.inMemoryDatabaseBuilder(context, OwnTVDatabase::class.java)
             .allowMainThreadQueries()
             .build()
@@ -182,6 +186,79 @@ class UserDataTombstoneTest {
 
         val deletion = incomingDeletion(movieId, at = 200).getJSONObject(0)
         assertTrue("a deletion of a row that is here counts", resolver.wouldRemove(profileId, deletion))
+    }
+
+    // --- newest wins, for records as well as deletions --------------------------------------------
+    //
+    // A deletion already obeyed the clock; an ordinary record did not, and went in with REPLACE. So
+    // the merge's answer depended on which device happened to apply last rather than on which fact
+    // was newer. These four cases are the owner's own: watch on one device, sync, look at the other.
+
+    /** Finish an episode on the television; the phone's older position must not overwrite it. */
+    @Test
+    fun anIncomingResumePositionOlderThanTheLocalOneIsIgnored() = runBlocking {
+        val movieId = insertMovie("m-1", "Blade Runner")
+        db.progressDao().save(progress(movieId, positionMs = 3_600_000, at = 500))
+
+        resolver.importAll(incomingProgress(movieId, positionMs = 60_000, at = 100))
+
+        val kept = db.progressDao().get(profileId, MediaType.MOVIE, movieId)!!
+        assertEquals("an older resume position overwrote a newer one", 3_600_000L, kept.positionMs)
+        assertEquals(500L, kept.updatedAt)
+    }
+
+    /** ...and the other way round: a genuinely newer position from the other device is taken. */
+    @Test
+    fun anIncomingResumePositionNewerThanTheLocalOneWins() = runBlocking {
+        val movieId = insertMovie("m-1", "Blade Runner")
+        db.progressDao().save(progress(movieId, positionMs = 60_000, at = 100))
+
+        resolver.importAll(incomingProgress(movieId, positionMs = 3_600_000, at = 500))
+
+        val kept = db.progressDao().get(profileId, MediaType.MOVIE, movieId)!!
+        assertEquals(3_600_000L, kept.positionMs)
+        assertEquals(500L, kept.updatedAt)
+    }
+
+    /** A position for something this device has never played still arrives. */
+    @Test
+    fun anIncomingResumePositionForAnUnknownItemIsInserted() = runBlocking {
+        val movieId = insertMovie("m-1", "Blade Runner")
+
+        resolver.importAll(incomingProgress(movieId, positionMs = 60_000, at = 100))
+
+        assertEquals(60_000L, db.progressDao().get(profileId, MediaType.MOVIE, movieId)!!.positionMs)
+    }
+
+    /** Watch history obeys the same clock: the time only ever moves forward. */
+    @Test
+    fun watchHistoryNeverMovesBackwards() = runBlocking {
+        val movieId = insertMovie("m-1", "Blade Runner")
+        db.historyDao().record(WatchHistoryEntity(profileId = profileId, mediaType = MediaType.MOVIE, itemId = movieId, watchedAt = 500))
+
+        resolver.importAll(incomingHistory(movieId, at = 100))
+        assertEquals("history was aged by a sync", 500L, db.historyDao().getAllOnce().single().watchedAt)
+
+        resolver.importAll(incomingHistory(movieId, at = 900))
+        assertEquals(900L, db.historyDao().getAllOnce().single().watchedAt)
+    }
+
+    private fun progress(itemId: Long, positionMs: Long, at: Long) = PlaybackProgressEntity(
+        profileId = profileId, mediaType = MediaType.MOVIE, itemId = itemId,
+        positionMs = positionMs, durationMs = 7_200_000, updatedAt = at,
+    )
+
+    private suspend fun incomingProgress(itemId: Long, positionMs: Long, at: Long): JSONArray {
+        val record = resolver.identityOf(MediaType.MOVIE, itemId)!!
+        return JSONArray().put(
+            record.put("p", profileId).put("kind", "prog").put("at", at)
+                .put("pos", positionMs).put("dur", 7_200_000),
+        )
+    }
+
+    private suspend fun incomingHistory(itemId: Long, at: Long): JSONArray {
+        val record = resolver.identityOf(MediaType.MOVIE, itemId)!!
+        return JSONArray().put(record.put("p", profileId).put("kind", "his").put("at", at))
     }
 
     private suspend fun incomingFavorites(itemId: Long, at: Long): JSONArray {

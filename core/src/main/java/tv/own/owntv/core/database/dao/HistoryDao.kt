@@ -15,6 +15,23 @@ interface HistoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun record(entry: WatchHistoryEntity)
 
+    /**
+     * The merge write, and deliberately not [record]: a row that arrives from another device must
+     * never move `watchedAt` **backwards**. REPLACE did exactly that — the other device's older copy
+     * of "you watched this" overwrote the newer local one, so a sync could make a show look less
+     * watched than it was. Paired with [bumpIfNewer]: insert when absent, then move the time forward
+     * only when the incoming one is actually later. Both run inside the resolver's own transaction.
+     */
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertIfAbsent(entry: WatchHistoryEntity)
+
+    /** Moves `watchedAt` forward, never back. The `<` is the whole rule. */
+    @Query(
+        "UPDATE watch_history SET watchedAt = :at " +
+            "WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId AND watchedAt < :at",
+    )
+    suspend fun bumpIfNewer(profileId: Long, type: MediaType, itemId: Long, at: Long)
+
     @Query("DELETE FROM watch_history WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId")
     suspend fun remove(profileId: Long, type: MediaType, itemId: Long)
 

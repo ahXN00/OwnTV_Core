@@ -2331,7 +2331,6 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <!-- Translators: Tick box that selects every part at once. -->
     <string name="local_sync_everything">Everything</string>
     <!-- Translators: Explanation of the optional password on a sync. Without one, playlist passwords are left out. -->
-    <string name="local_sync_password_hint">A password protects what is sent and carries your playlist logins with it. Leave it empty and those logins are simply left out.</string>
     <!-- Translators: Title of the sheet showing what a sync would change before it happens. -->
     <string name="local_sync_confirm_title">What will change</string>
     <!-- Translators: Explanation above the list of counted changes. -->
@@ -2388,6 +2387,10 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <string name="local_sync_connect_description">Find another device that has Sync mode on</string>
     <!-- Translators: Subtitle of a paired device row. %1$s is a relative time such as “2 hours ago”. -->
     <string name="local_sync_last_synced">Last synced: <xliff:g id="when">%1$s</xliff:g></string>
+    <!-- Translators: Shown instead of the address on a discovered device this one is already paired with. Keep very short. -->
+    <string name="local_sync_already_paired">Already paired</string>
+    <!-- Translators: A device name followed by a short code, used only when two paired devices are the same model and share a name. %1$s is the device name, %2$s a four-character code. -->
+    <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
     <!-- Translators: Subtitle under the “More” title in the hub's left-hand spine. Explains what the screen holds. -->
     <string name="more_spine_header_summary">Everything that is not a channel and not a preference</string>
     <!-- Translators: One-line summary of the Settings row in the More spine. Keep very short: the spine is 294dp wide. -->

@@ -502,13 +502,26 @@ class UserDataResolver(
         return runCatching {
             when (e.getString("kind")) {
                 "fav" -> favoriteDao.add(FavoriteEntity(profileId = pid, mediaType = type, itemId = itemId, addedAt = at))
-                "his" -> historyDao.record(WatchHistoryEntity(profileId = pid, mediaType = type, itemId = itemId, watchedAt = at))
-                "prog" -> progressDao.save(
-                    PlaybackProgressEntity(
-                        profileId = pid, mediaType = type, itemId = itemId,
-                        positionMs = e.optLong("pos", 0), durationMs = e.optLong("dur", 0), updatedAt = at,
-                    ),
-                )
+                // Newest wins, both of them. An incoming record is a fact with a time on it exactly
+                // like a deletion is, and the later fact is the true one — so these insert when the
+                // row is absent and then move it forward only if the incoming copy is actually newer.
+                // A plain REPLACE would let the other device's older state win purely by arriving
+                // second, which is the difference between a merge and a coin toss.
+                "his" -> {
+                    historyDao.insertIfAbsent(WatchHistoryEntity(profileId = pid, mediaType = type, itemId = itemId, watchedAt = at))
+                    historyDao.bumpIfNewer(pid, type, itemId, at)
+                }
+                "prog" -> {
+                    val positionMs = e.optLong("pos", 0)
+                    val durationMs = e.optLong("dur", 0)
+                    progressDao.insertIfAbsent(
+                        PlaybackProgressEntity(
+                            profileId = pid, mediaType = type, itemId = itemId,
+                            positionMs = positionMs, durationMs = durationMs, updatedAt = at,
+                        ),
+                    )
+                    progressDao.updateIfNewer(pid, type, itemId, positionMs, durationMs, at)
+                }
                 "order" -> contentOrderDao.insertAll(
                     listOf(ContentOrderEntity(profileId = pid, mediaType = type, contextKey = e.getString("ctx"), itemId = itemId, position = e.getInt("pos"))),
                 )

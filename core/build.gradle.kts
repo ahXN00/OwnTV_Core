@@ -238,4 +238,6 @@ dependencies {
     // all JSON, so the tests need the real implementation. Same reason as :app.
     testImplementation(libs.org.json)
     androidTestImplementation(libs.androidx.junit)
+    // The runner named in `testInstrumentationRunner` above. Not transitive from androidx.test.ext.
+    androidTestImplementation(libs.androidx.test.runner)
 }

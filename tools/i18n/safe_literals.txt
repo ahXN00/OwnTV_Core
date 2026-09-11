@@ -387,6 +387,7 @@
 2	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	bmp
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	content-type
 1	mime	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	font/ttf
+1	json	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	id
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	jpeg
 2	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	jpg
 1	uri	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	name
@@ -939,7 +940,9 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/HistoryDao.kt	SELECT h.profileId AS profileId, h.mediaType AS mediaType, h.itemId AS itemId,
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/HistoryDao.kt	SELECT itemId FROM watch_history WHERE profileId = :profileId AND mediaType = 'EPISODE'
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/HistoryDao.kt	SELECT watchedAt FROM watch_history WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/HistoryDao.kt	UPDATE watch_history SET watchedAt = :at
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/HistoryDao.kt	WHERE c.sourceId = :sourceId OR m.sourceId = :sourceId OR s.sourceId = :sourceId OR episodeSeries.sourceId = :sourceId
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/HistoryDao.kt	WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId AND watchedAt < :at
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/HistoryDao.kt	e.seasonNumber AS seasonNumber, e.episodeNumber AS episodeNumber,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/HistoryDao.kt	episodeSeries.remoteId AS seriesRemoteId, episodeSeries.name AS seriesName,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/HistoryDao.kt	h.watchedAt AS at, 0 AS positionMs, 0 AS durationMs
@@ -1068,8 +1071,10 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT itemId FROM playback_progress
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT itemId FROM playback_progress WHERE profileId = :profileId AND mediaType = 'EPISODE'
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT p.profileId AS profileId, p.mediaType AS mediaType, p.itemId AS itemId,
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	UPDATE playback_progress SET positionMs = :positionMs, durationMs = :durationMs, updatedAt = :at
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	WHERE c.sourceId = :sourceId OR m.sourceId = :sourceId OR s.sourceId = :sourceId OR episodeSeries.sourceId = :sourceId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	WHERE profileId = :profileId AND mediaType = 'EPISODE'
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId AND updatedAt < :at
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	e.seasonNumber AS seasonNumber, e.episodeNumber AS episodeNumber,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	episodeSeries.remoteId AS seriesRemoteId, episodeSeries.name AS seriesName,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	p.updatedAt AS at, p.positionMs AS positionMs, p.durationMs AS durationMs
@@ -2758,14 +2763,17 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	app
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	application/x-www-form-urlencoded
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	data:application/octet-stream;base64,$encoded
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	device
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	http://
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	http://$host:$port$path
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	https://
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	name
-1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	name=
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	name=${enc(myName)}&id=${enc(myId)}
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	payload
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	secret
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	session
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	text/plain
+1	empty	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	\0
 1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	Could not announce this device for local sync (error $errorCode)
 1	compiler	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	DEPRECATION
 1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	Local sync announcement failed
@@ -2773,16 +2781,19 @@
 1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	Local sync discovery failed
 1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	LocalSyncDiscovery
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	_owntv._tcp.
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	id
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	${Build.MANUFACTURER} ${Build.MODEL}
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	LocalSyncManager
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	OwnTV
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	Pairing failed on the host side
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	app
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	device
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	incoming-${System.currentTimeMillis()}.own
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	local-sync
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	name
 2	file-path	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	outgoing
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	payload
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	session
 1	empty	core/src/main/java/tv/own/owntv/core/sync/local/PairedDeviceStore.kt	\0
 1	json	core/src/main/java/tv/own/owntv/core/sync/local/PairedDeviceStore.kt	%02x
 2	json	core/src/main/java/tv/own/owntv/core/sync/local/PairedDeviceStore.kt	address
@@ -2794,6 +2805,7 @@
 2	json	core/src/main/java/tv/own/owntv/core/sync/local/PairedDeviceStore.kt	pairedAt
 2	json	core/src/main/java/tv/own/owntv/core/sync/local/PairedDeviceStore.kt	port
 2	json	core/src/main/java/tv/own/owntv/core/sync/local/PairedDeviceStore.kt	secret
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/PairedDeviceStore.kt	selfId
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncScheduler.kt	catalog-sync
 1	technical	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncScheduler.kt	catalog-sync-source-$sourceId
 1	technical	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncScheduler.kt	fresh_sync

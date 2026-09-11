@@ -97,7 +97,7 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
         port: Int,
         file: File?,
         info: () -> String,
-        onPair: (name: String, address: String) -> String?,
+        onPair: (name: String, address: String, deviceId: String) -> String?,
         secrets: () -> Set<String>,
     ) = startInternal(
         port = port,
@@ -121,7 +121,7 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
         mode: CompanionMode,
         downloadFile: File? = null,
         syncInfo: () -> String = { "{}" },
-        onPair: (name: String, address: String) -> String? = { _, _ -> null },
+        onPair: (name: String, address: String, deviceId: String) -> String? = { _, _, _ -> null },
         pairedSecrets: () -> Set<String> = { emptySet() },
     ) {
         if (port !in 1..65535) {

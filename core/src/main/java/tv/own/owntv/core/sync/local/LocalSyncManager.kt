@@ -44,6 +44,19 @@ sealed interface SyncProgress {
     data class Failed(val reason: SyncFailure) : SyncProgress
 }
 
+/**
+ * A container sitting in the cache, what applying it would change, and the key that opens it.
+ *
+ * The key travels with the file because the user no longer supplies one: it is either the far side's
+ * hosting key (a pull) or the secret the pairing established (a push). The screen carries it from the
+ * dry run to the apply without ever showing it to anyone.
+ */
+data class SyncPayload(
+    val file: File,
+    val preview: BackupManager.Preview,
+    val password: String?,
+)
+
 sealed interface SyncFailure {
     /** Nothing answered at that address — wrong network, or the other screen is closed. */
     data object Unreachable : SyncFailure
@@ -87,6 +100,23 @@ class LocalSyncManager(
      */
     @Volatile private var acceptedSecrets: Set<String> = emptySet()
 
+    /**
+     * The passphrase the container prepared by [startHosting] is sealed with, for as long as this
+     * device is hosting. Minted fresh each time and handed out over `/sync/hello`, which already
+     * demands the PIN or a pairing secret — so whoever is allowed to fetch the file is exactly
+     * whoever is allowed to open it.
+     *
+     * It exists because the alternative was asking the user to invent a backup password in the middle
+     * of a sync. That question was never really about protecting the transfer: without a passphrase
+     * [BackupManager] simply **leaves the playlist logins out**, so the honest meaning of the empty
+     * field was "send my other device everything except the part it needs". Now the two devices agree
+     * a key between themselves and nobody is asked anything.
+     */
+    @Volatile private var sessionPassword: String? = null
+
+    /** This device's lasting identity, read once and kept — [PairedDeviceStore.selfId] mints it. */
+    @Volatile private var selfId: String? = null
+
     /** Outlives a single request: the pairing write is launched here, not awaited on a server thread. */
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -122,13 +152,15 @@ class LocalSyncManager(
     suspend fun startHosting(
         port: Int = CompanionLink.DEFAULT_PORT,
         sections: Set<BackupManager.Section> = BackupManager.Section.entries.toSet(),
-        password: String? = null,
         profileIds: Set<Long>? = null,
     ): Result<Unit> = withContext(Dispatchers.IO) {
         val folder = File(cacheDir(), "outgoing").apply {
             mkdirs()
             listFiles()?.forEach { it.delete() }
         }
+        // Sealed, always. See [sessionPassword] for why this is not the user's problem to solve.
+        val password = PairedDeviceStore.newSecret().also { sessionPassword = it }
+        selfId = paired.selfId()
         val exported = backups.export(folder, sections, password, profileIds)
             .getOrElse { return@withContext Result.failure(it) }
         // Read once, here, rather than per request: the server asks for these while answering, and a
@@ -147,18 +179,22 @@ class LocalSyncManager(
                     .put("name", deviceName)
                     .put("app", CoreBuildInfo.versionName)
                     .put("payload", PAYLOAD_VERSION)
+                    // Both only ever reach a caller that already holds the PIN or a pairing secret.
+                    .put("device", selfId.orEmpty())
+                    .put("session", sessionPassword.orEmpty())
                     .toString()
             },
-            onPair = { remoteName, remoteAddress -> pairFromHost(remoteName, remoteAddress) },
+            onPair = { remoteName, remoteAddress, remoteId -> pairFromHost(remoteName, remoteAddress, remoteId) },
             secrets = { acceptedSecrets },
         )
-        discovery.advertise(deviceName, port)
+        discovery.advertise(deviceName, port, selfId.orEmpty())
     }
 
     fun stopHosting() {
         discovery.stopAdvertising()
         companion.stop()
         acceptedSecrets = emptySet()
+        sessionPassword = null
     }
 
     fun discover(): Flow<DiscoveredDevice> = discovery.discover()
@@ -179,13 +215,16 @@ class LocalSyncManager(
      * thread pool: blocking one of those threads on a DataStore write is how a busy listener stops
      * answering, and the far side would be handed a secret it cannot use until the disk catches up.
      */
-    private fun pairFromHost(remoteName: String, remoteAddress: String): String? = runCatching {
+    private fun pairFromHost(remoteName: String, remoteAddress: String, remoteId: String): String? = runCatching {
         val secret = PairedDeviceStore.newSecret()
         acceptedSecrets = acceptedSecrets + secret
         scope.launch {
             paired.put(
                 PairedDevice(
-                    id = UUID.randomUUID().toString(),
+                    // The far device's own id, so pairing it again REPLACES this row rather than
+                    // adding a twin. A random one only where the far side is too old to send one —
+                    // which brings the duplicate back, and is still better than refusing to pair.
+                    id = remoteId.takeIf { it.isNotBlank() } ?: UUID.randomUUID().toString(),
                     name = remoteName.ifBlank { UNKNOWN_DEVICE_NAME },
                     // Where it connected FROM, so this device can start a sync towards it later
                     // instead of only ever being the one connected to. Its port is the default one:
@@ -207,10 +246,12 @@ class LocalSyncManager(
      * secret and remembers the device, so nothing is typed again.
      */
     suspend fun pair(address: String, port: Int, pin: String): Result<PairedDevice> {
-        val secret = client.pair(address, port, pin, deviceName).getOrElse { return Result.failure(it) }
+        val mine = paired.selfId().also { selfId = it }
+        val secret = client.pair(address, port, pin, deviceName, mine).getOrElse { return Result.failure(it) }
         val remote = client.hello(address, port, secret).getOrNull()
         val device = PairedDevice(
-            id = UUID.randomUUID().toString(),
+            // Its id, not a new one of ours — the same rule as [pairFromHost], for the same reason.
+            id = remote?.deviceId?.takeIf { it.isNotBlank() } ?: UUID.randomUUID().toString(),
             name = remote?.name?.takeIf { it.isNotBlank() } ?: address,
             address = address,
             port = port,
@@ -232,10 +273,14 @@ class LocalSyncManager(
     suspend fun fetch(
         device: PairedDevice,
         sections: Set<BackupManager.Section> = BackupManager.Section.entries.toSet(),
-        password: String? = null,
-    ): Result<Pair<File, BackupManager.Preview>> =
+    ): Result<SyncPayload> =
         withContext(Dispatchers.IO) {
             _progress.value = SyncProgress.Connecting
+            // Ask who is there before taking anything from them: the answer carries the key to the
+            // container they have prepared. It is the same call pairing already makes, so the far
+            // side needs no new endpoint and an older one simply returns nothing here.
+            val password = client.hello(device.address, device.port, device.secret)
+                .getOrNull()?.sessionPassword?.takeIf { it.isNotBlank() }
             val target = File(cacheDir(), "incoming-${System.currentTimeMillis()}.own")
             _progress.value = SyncProgress.Transferring
             client.fetch(device.address, device.port, device.secret, target)
@@ -245,17 +290,33 @@ class LocalSyncManager(
                     val preview = backups.previewImport(file, sections, password).getOrThrow()
                     paired.touch(device.id, device.address, device.port)
                     _progress.value = SyncProgress.Idle
-                    file to preview
+                    SyncPayload(file, preview, password)
                 }
                 .onFailure { _progress.value = SyncProgress.Failed(failureFor(it)) }
         }
 
-    /** What a container that arrived here would change. For a push, which nobody asked for yet. */
-    suspend fun preview(
+    /**
+     * What a container that was pushed here would change — and the key that opens it.
+     *
+     * The sender sealed it with the secret the two devices share, so the key is already here: every
+     * secret this device knows is tried until one reads the file. There are a handful at most, and
+     * the alternative is asking the user for a password only the other device could know.
+     */
+    suspend fun previewIncoming(
         file: File,
         sections: Set<BackupManager.Section> = BackupManager.Section.entries.toSet(),
-        password: String? = null,
-    ): Result<BackupManager.Preview> = backups.previewImport(file, sections, password)
+    ): Result<SyncPayload> = withContext(Dispatchers.IO) {
+        // Secrets first and `null` only as the last resort, deliberately. A container this device can
+        // unseal must be opened sealed: [BackupManager] will read an encrypted file without its
+        // passphrase and simply leave every secret field blank, so trying `null` first would "succeed"
+        // and quietly drop the playlist logins this change exists to carry.
+        val candidates = (acceptedSecrets + paired.secrets()).toList() + listOf(null)
+        for (candidate in candidates) {
+            val preview = backups.previewImport(file, sections, candidate).getOrNull() ?: continue
+            return@withContext Result.success(SyncPayload(file, preview, candidate))
+        }
+        Result.failure(LocalSyncHttpException(HTTP_BAD_PAYLOAD))
+    }
 
     /** Applies a fetched file — the ordinary restore path, merging, with the chosen sections only. */
     suspend fun apply(
@@ -279,9 +340,11 @@ class LocalSyncManager(
     suspend fun send(
         device: PairedDevice,
         sections: Set<BackupManager.Section>,
-        password: String? = null,
         profileIds: Set<Long>? = null,
     ): Result<Unit> = withContext(Dispatchers.IO) {
+        // Sealed with the secret the pairing already established, which is the one key the far side
+        // is certain to have. Nothing is asked of the user, and the playlist logins travel.
+        val password = device.secret
         _progress.value = SyncProgress.Preparing
         // Its own folder: the fetched file the user is still looking at lives in the cache too, and
         // clearing the whole cache here would delete it out from under the confirmation sheet.
@@ -319,5 +382,8 @@ class LocalSyncManager(
         /** The backup schema this build writes; the far side reports its own in `/sync/hello`. */
         const val PAYLOAD_VERSION = 21
         const val UNKNOWN_DEVICE_NAME = "OwnTV"
+
+        /** Not a real HTTP answer — [SyncFailure.BadPayload] is what the screen has to say. */
+        const val HTTP_BAD_PAYLOAD = 422
     }
 }

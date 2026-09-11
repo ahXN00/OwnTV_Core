@@ -15,6 +15,10 @@ data class RemoteDevice(
     val appVersion: String,
     /** Backup schema version the far side writes; a much older one is worth warning about. */
     val payloadVersion: Int,
+    /** Its lasting identity — what its pairing is filed under here, so re-pairing updates one row. */
+    val deviceId: String,
+    /** The passphrase its prepared container is sealed with, for as long as it is hosting. */
+    val sessionPassword: String,
 )
 
 /**
@@ -41,6 +45,8 @@ class LocalSyncClient {
                     name = json.optString("name"),
                     appVersion = json.optString("app"),
                     payloadVersion = json.optInt("payload"),
+                    deviceId = json.optString("device"),
+                    sessionPassword = json.optString("session"),
                 )
             }
         }
@@ -49,10 +55,13 @@ class LocalSyncClient {
      * Trades the PIN the user typed for a secret that works from now on, telling the other device
      * what to call this one in its own paired list.
      */
-    suspend fun pair(address: String, port: Int, pin: String, myName: String): Result<String> =
+    suspend fun pair(address: String, port: Int, pin: String, myName: String, myId: String): Result<String> =
         withContext(Dispatchers.IO) {
             runCatching {
-                val body = "name=" + java.net.URLEncoder.encode(myName, Charsets.UTF_8.name())
+                fun enc(v: String) = java.net.URLEncoder.encode(v, Charsets.UTF_8.name())
+                // The id rides with the name so the far side files this device under it — pair twice
+                // and it updates the one row instead of listing the same phone again.
+                val body = "name=${enc(myName)}&id=${enc(myId)}"
                 val response = post(url(address, port, "/sync/pair"), pin, body, "application/x-www-form-urlencoded")
                 JSONObject(response).optString("secret").ifBlank { error("No secret in pairing response") }
             }

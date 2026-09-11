@@ -3,6 +3,74 @@
 Core is versioned independently of the apps. A core version number never lines up with an OwnTV TV
 app `v4.x` release, and the two must not be confused. Tags here are prefixed `core-`.
 
+## core-1.0.29 — 2026-09-11
+
+**Local sync stops losing the newer of two facts, stops asking for a password it should never have
+asked for, and stops listing the same device twice.** Three defects in one area, two of them found on
+the owner's own television and phone.
+
+**No database change.** No migration, no schema JSON, no new column.
+
+**Newest wins, for records as well as deletions.** Watch history and resume positions were written
+through Room's `REPLACE`, so a record arriving from another device overwrote the local one **whatever
+its timestamp said** — whichever device applied last won, not whichever fact was newer. Finish
+episode 7 on the television, sync, and the phone's stale "episode 5, twelve minutes in" wrote itself
+straight over it. `HistoryDao` gained `insertIfAbsent` + `bumpIfNewer` and `ProgressDao`
+`insertIfAbsent` + `updateIfNewer`; `UserDataResolver.resolveAndInsert` now inserts when the row is
+absent and moves it forward **only** when the incoming copy is genuinely later. Deletions already
+obeyed the clock (`removeIfOlderThan`); ordinary records now do too. Favorites are unchanged —
+`INSERT ... IGNORE` keeps the earliest `addedAt`, which is additive and already correct. Reorder,
+membership and sort positions are also unchanged: a position carries no timestamp of its own, so
+last-applied still wins there.
+
+**Each install now has a lasting identity, so re-pairing updates a device instead of duplicating it.**
+`PairedDeviceStore.put` always matched on `PairedDevice.id` — its own comment said so — but both
+callers in `LocalSyncManager` minted a fresh `UUID.randomUUID()` every pairing, so the match could
+never hit and each pairing left another identical row behind. Three pairings, three "OnePlus 13s".
+`PairedDeviceStore.selfId()` mints one id per installation and keeps it; it rides in the `/sync/pair`
+body as `id=`, is reported by `/sync/hello` as `device`, and is announced in the `_owntv._tcp` service
+record as the `id` attribute. Both sides file the pairing under the far device's own id. A device too
+old to send one still pairs and still gets a random id, which is the old behaviour rather than a
+refusal.
+
+**The sync flow no longer asks for a backup password — and the playlist logins finally travel.** The
+payload is a backup container, so the backup screen's passphrase field had come along with it. That
+question was never really about protecting the transfer: with the field left empty `BackupManager`
+**omits the source and proxy secrets entirely**, so the honest meaning of an empty box was "send my
+other device everything except the part it needs", and the container crossed the network as a plain
+ZIP. Now the two devices agree a key between themselves. `startHosting` seals its prepared container
+with a fresh random session passphrase and hands it to an authenticated caller over `/sync/hello`
+(which already demands the PIN or a pairing secret); `send` seals with the secret the pairing
+established; the receiving side tries the secrets it knows until one opens the file. New
+`LocalSyncManager.SyncPayload(file, preview, password)` carries the key from the dry run to the apply
+so no screen has to hold one. `startHosting`, `fetch` and `send` lost their `password` parameters and
+`preview` became `previewIncoming`.
+
+> **Consumer note — both ends must run this version or newer.** A sealed container reveals nothing
+> until it is decrypted, and a build older than this one does not know to ask `/sync/hello` for the
+> key. Pulling from an updated device to an older one therefore fails. Updating both apps together is
+> the normal case; a household that updates one television and not the other is not.
+
+**A device already paired says so, instead of asking for its PIN again.** `DiscoveredDevice` gained
+`deviceId`, read from the service record, so a found device can be matched against the paired list
+before anyone is asked for anything. `LocalSyncDiscovery.advertise` now takes the id to announce.
+
+**Two devices of the same model are told apart.** The device name comes from the device and is not
+ours to invent, so two OnePlus 13s in one house were two rows reading the same thing. New top-level
+`shortCodes(devices)` returns four characters of their own id for the devices whose names clash, and
+**only** for those — a household with one of each never sees a code.
+
+**Two new strings, in the base locale and all 25 packaged translations**: `local_sync_already_paired`
+and `local_sync_device_with_code`. **One string deleted** from the base locale and every translation:
+`local_sync_password_hint`, whose field no longer exists.
+
+**The instrumentation test suite had never run, and now does.** `androidx.test:runner` was missing
+from the test classpath — `androidx.test.ext:junit` does not pull it in — so every instrumentation
+test died with `ClassNotFoundException` on `AndroidJUnitRunner` before its first line, and
+`UserDataTombstoneTest.setUp()` returned `Preferences` rather than `Unit`, which JUnit rejects
+outright. Both fixed; 47 tests now run, including the Room migration suite. New cases cover the
+newest-wins rule in both directions and the pairing identity.
+
 ## core-1.0.28 — 2026-09-11
 
 The core share of **Plan M — the shape of the More screen**, which rebuilds the television's More hub

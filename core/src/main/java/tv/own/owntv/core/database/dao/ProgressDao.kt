@@ -15,6 +15,30 @@ interface ProgressDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(progress: PlaybackProgressEntity)
 
+    /**
+     * The merge write, and deliberately not [save]: a resume position from another device must never
+     * overwrite a newer one here. REPLACE did, and it is the one case in local sync that loses real
+     * watching — finish episode 7 on the television, sync, and the phone's stale "episode 5, 12
+     * minutes in" wrote itself straight over it. Paired with [updateIfNewer]: insert when absent,
+     * then overwrite only when the incoming position is genuinely later.
+     */
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertIfAbsent(progress: PlaybackProgressEntity)
+
+    /** Overwrites the position only when [at] is later than the one already stored. */
+    @Query(
+        "UPDATE playback_progress SET positionMs = :positionMs, durationMs = :durationMs, updatedAt = :at " +
+            "WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId AND updatedAt < :at",
+    )
+    suspend fun updateIfNewer(
+        profileId: Long,
+        type: MediaType,
+        itemId: Long,
+        positionMs: Long,
+        durationMs: Long,
+        at: Long,
+    )
+
     @Query("SELECT * FROM playback_progress WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId")
     fun observe(profileId: Long, type: MediaType, itemId: Long): Flow<PlaybackProgressEntity?>
 
