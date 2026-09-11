@@ -3,6 +3,33 @@
 Core is versioned independently of the apps. A core version number never lines up with an OwnTV TV
 app `v4.x` release, and the two must not be confused. Tags here are prefixed `core-`.
 
+## core-1.0.28 — 2026-09-11
+
+The core share of **Plan M — the shape of the More screen**, which rebuilds the television's More hub
+as the same two-pane surface Settings uses. Core's part is the text it needs and one new fact the app
+never recorded.
+
+**No database change.** No migration, no schema JSON, no new query. The backup record below is a
+DataStore preference, not a Room column — a migration was offered and turned out not to be needed.
+
+**The last backup is now recorded.** Nothing in either app knew when a backup had last been taken, so
+"am I backed up?" had no answer anywhere. `SettingsRepository` gained `LastBackup(at, bytes,
+encrypted, path)` and `recordBackup(...)`, exposed as `lastBackup: Flow<LastBackup?>`, and
+`BackupManager.export()` writes it **after** the atomic rename — so a failed export leaves the
+previous record standing rather than claiming a backup that does not exist. `lastBackup` is `null`
+until one has been taken, so a screen can say "Never" instead of showing the epoch. A record written
+before the path was added has a blank `path`; the date it does carry stays valid.
+
+`BackupManager`'s constructor is unchanged — it already took `SettingsRepository`.
+
+**19 new strings, in the base locale and all 24 packaged translations**, all for the More hub: seven
+short spine subtitles (the long `*_description` strings stay and are still used by the wider pane),
+the spine header line, the Quick/Groups pane labels, the Local sync "listening / not listening"
+headlines, "Last backup", "Location", "Encrypted", "Languages", and the pane's `OK — open <x>` hint.
+No string was deleted and no existing string changed meaning, so no consumer can break on this.
+
+Four new `preference-key` entries in the literal inventory for the backup record's DataStore keys.
+
 ## core-1.0.27 — 2026-09-07
 
 The core share of **Plan Z — the More hub**, which gives both apps one place for everything that is

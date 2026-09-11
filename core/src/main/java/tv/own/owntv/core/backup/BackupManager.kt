@@ -251,13 +251,25 @@ class BackupManager(
                 if (Section.SETTINGS in sections) exportSubtitles(root, pids, linkedSourceIds) else emptyMap()
 
             if (!folder.exists()) folder.mkdirs()
-            writeAtomically(
-                File(folder, BACKUP_FILENAME),
+            val target = File(folder, BACKUP_FILENAME)
+            val path = writeAtomically(
+                target,
                 BackupContainer.pack(
                     BackupContainer.Payload(root.toString(2), wallpaper, subtitleFiles),
                     backupPassword,
                 ),
             )
+            // Recorded here and nowhere else: after the atomic rename, so a throw anywhere above
+            // leaves the previous date standing rather than claiming a backup that does not exist.
+            settings.recordBackup(
+                at = System.currentTimeMillis(),
+                bytes = target.length(),
+                encrypted = pass != null,
+                // Where it went, so "is my backup on the USB stick or in app storage?" has an answer
+                // without opening a file browser.
+                path = target.absolutePath,
+            )
+            path
         }
     }
 

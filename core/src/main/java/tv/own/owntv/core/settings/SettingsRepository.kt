@@ -454,6 +454,45 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val GLASS_DEPTH_EFFECTS = booleanPreferencesKey("glass_depth_effects")
         val GLASS_GLINT = booleanPreferencesKey("glass_glint")
         val GLASS_PRESET = stringPreferencesKey("glass_preset")
+
+        // When the last successful backup was written, how big it was, and whether it was encrypted.
+        // Nothing recorded this before: the Backup screen could say what a backup *would* contain but
+        // never when one last happened, so "am I backed up?" had no answer anywhere in either app.
+        val LAST_BACKUP_AT = longPreferencesKey("last_backup_at")
+        val LAST_BACKUP_BYTES = longPreferencesKey("last_backup_bytes")
+        val LAST_BACKUP_ENCRYPTED = booleanPreferencesKey("last_backup_encrypted")
+        val LAST_BACKUP_PATH = stringPreferencesKey("last_backup_path")
+    }
+
+    /**
+     * The last successful backup — `null` until one has been written on this device.
+     *
+     * Deliberately not derived from the file on disk: the file lives wherever the user chose, often a
+     * USB drive that is not plugged in, so its absence says nothing about whether a backup was taken.
+     */
+    data class LastBackup(val at: Long, val bytes: Long, val encrypted: Boolean, val path: String)
+
+    val lastBackup: Flow<LastBackup?> = prefsFlow { prefs ->
+        prefs[Keys.LAST_BACKUP_AT]?.takeIf { it > 0 }?.let { at ->
+            LastBackup(
+                at = at,
+                bytes = prefs[Keys.LAST_BACKUP_BYTES] ?: 0L,
+                encrypted = prefs[Keys.LAST_BACKUP_ENCRYPTED] ?: false,
+                // Blank for a backup written before the path was recorded — the date is still true,
+                // so the row is simply left out rather than the whole record thrown away.
+                path = prefs[Keys.LAST_BACKUP_PATH].orEmpty(),
+            )
+        }
+    }
+
+    /** Called by [tv.own.owntv.core.backup.BackupManager] only after an export has actually landed. */
+    suspend fun recordBackup(at: Long, bytes: Long, encrypted: Boolean, path: String) {
+        context.dataStore.edit {
+            it[Keys.LAST_BACKUP_AT] = at
+            it[Keys.LAST_BACKUP_BYTES] = bytes
+            it[Keys.LAST_BACKUP_ENCRYPTED] = encrypted
+            it[Keys.LAST_BACKUP_PATH] = path
+        }
     }
 
     // --- Live TV: remember the last focused channel so reopening lands focus back on it ---
