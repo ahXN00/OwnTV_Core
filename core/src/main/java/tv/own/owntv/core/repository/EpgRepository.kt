@@ -141,11 +141,25 @@ class EpgRepository(
             ?: stalkerGuideUrl(source.id).takeIf { source.importPortalEpg }
     }
 
+    /**
+     * Every guide feed a source offers. An M3U header may advertise several XMLTV feeds in one
+     * comma-separated `url-tvg` (a provider covering two countries, say), and the whole string used to
+     * be stored — and requested — as one address, which can only 404. Splitting here rather than at
+     * import means playlists that already stored a joined value are fixed without a migration.
+     */
+    fun guideUrls(source: SourceEntity): List<String> = splitGuideUrls(guideUrl(source))
+
     fun hasGuide(source: SourceEntity): Boolean = guideUrl(source) != null
 
-    /** Refresh one playlist source's guide (used by the one-time migration). Returns programmes written. */
+    /**
+     * Refresh one playlist source's guide (used by the one-time migration). Returns programmes written.
+     * Only the first feed of a comma-separated header is synced *here*: everything stored under one id
+     * is one feed's worth of guide, and a second download would prune the first one's programmes as
+     * stale. The further feeds are registered as EPG sources of their own, each with its own id, and
+     * refreshed through [refreshUrl] like any other feed.
+     */
     suspend fun refresh(source: SourceEntity, onProgress: (channels: Int, programmes: Int) -> Unit = { _, _ -> }): Int {
-        val url = guideUrl(source) ?: return 0
+        val url = guideUrls(source).firstOrNull() ?: return 0
         return refreshUrl(source.id, url, source.userAgent, onProgress)
     }
 
@@ -723,4 +737,17 @@ private class ProgrammeHashTracker(
         }
         return stale
     }
+}
+
+/**
+ * Split a stored guide address into the feeds it actually names. Commas are legal inside a URL, so a
+ * value is only treated as a list when every part is itself an absolute http(s) address — which also
+ * keeps the Stalker portal marker URL intact. Whitespace is trimmed and duplicates dropped.
+ */
+fun splitGuideUrls(raw: String?): List<String> {
+    val url = raw?.trim()?.takeIf { it.isNotBlank() } ?: return emptyList()
+    if (',' !in url) return listOf(url)
+    val parts = url.split(',').map { it.trim() }
+    if (parts.any { !it.startsWith("http://", true) && !it.startsWith("https://", true) }) return listOf(url)
+    return parts.distinct()
 }

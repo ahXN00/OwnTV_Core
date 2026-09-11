@@ -18,16 +18,20 @@ class EpgMigration(
         runCatching {
             val existingUrls = store.getAll().map { it.url }.toMutableSet()
             for (src in sourceDao.getAllOnce()) {
-                val url = epgRepository.guideUrl(src) ?: continue
-                if (url in existingUrls) continue
-                existingUrls += url
-                // Keep the provider/source name as the persisted label; translated suffixes would
-                // freeze the migration language and become stale on a later locale switch.
-                val epg = store.add(src.name, url, src.userAgent)
-                val now = System.currentTimeMillis()
-                runCatching { epgRepository.refreshUrl(epg.id, epg.url, epg.userAgent) }
-                    .onSuccess { store.setSynced(epg.id, now, null) }
-                    .onFailure { store.setSynced(epg.id, now, it.message) }
+                // A playlist header may name several feeds in one comma-separated url-tvg; each
+                // becomes its own EPG source, because only a single address can be downloaded.
+                for (url in epgRepository.guideUrls(src)) {
+                    if (url in existingUrls) continue
+                    existingUrls += url
+                    // Keep the provider/source name as the persisted label; translated suffixes would
+                    // freeze the migration language and become stale on a later locale switch. Two feeds
+                    // of one playlist share the name and are told apart by the URL shown beneath it.
+                    val epg = store.add(src.name, url, src.userAgent)
+                    val now = System.currentTimeMillis()
+                    runCatching { epgRepository.refreshUrl(epg.id, epg.url, epg.userAgent) }
+                        .onSuccess { store.setSynced(epg.id, now, null) }
+                        .onFailure { store.setSynced(epg.id, now, it.message) }
+                }
             }
         }
         store.markMigrated() // mark regardless, so a transient failure doesn't re-run forever

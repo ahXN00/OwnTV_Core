@@ -3,6 +3,30 @@
 Core is versioned independently of the apps. A core version number never lines up with an OwnTV TV
 app `v4.x` release, and the two must not be confused. Tags here are prefixed `core-`.
 
+## core-1.0.32 — 2026-09-11
+
+### Two guides in one playlist header are two guides again (TV #171)
+
+A playlist may advertise more than one XMLTV feed in a single `url-tvg`, separated by commas — a
+provider covering two countries, say. The whole string was stored as the guide address and then
+requested as one URL, which can only 404: the EPG source appeared in Settings with both addresses
+joined together, and no programmes ever arrived.
+
+- `EpgRepository.guideUrls` / `splitGuideUrls` — a stored address is split into its feeds, but only
+  when **every** comma-separated part is an absolute `http(s)` address. A URL with commas in its
+  query string, and the Stalker portal's marker URL, are therefore never split. Parts are trimmed and
+  de-duplicated.
+- The split happens **on read, not at import**, so a playlist that already stored a joined value is
+  fixed by the next sync. No migration, and `M3uSyncer` is unchanged.
+- `EpgMigration` registers one EPG source per feed. The playlist name is reused for each; the address
+  shown beneath it is what tells them apart, so no new string was needed.
+- `EpgRepository.refresh` deliberately syncs only the **first** feed of such a header. Everything held
+  under one store id is one feed's worth of guide, and `ProgrammeHashTracker` prunes rows that a
+  download did not contain — so a second feed written under the same id would silently delete the
+  first one's programmes. The further feeds are registered as EPG sources of their own, each with its
+  own id, and refreshed through `refreshUrl` like any other feed.
+- New `SplitGuideUrlsTest` pins the splitter, including the two cases that must **not** split.
+
 ## core-1.0.31 — 2026-09-11
 
 Five user reports, answered. Two of them turned out to be the same Stalker portal failing in two
