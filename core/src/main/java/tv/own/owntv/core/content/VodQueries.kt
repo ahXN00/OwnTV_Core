@@ -48,14 +48,17 @@ fun moviePagingSource(
             }
             LiveKey.Favorites -> movieDao.pagingFavoritesManual(profileId, ContentOrderEntity.FAV_CONTEXT, ids)
             LiveKey.History -> movieDao.pagingHistory(profileId, ids)
-            is LiveKey.Custom -> customCategoryDao.pagingMovies(profileId, key.id, ids)
+            is LiveKey.Custom ->
+                if (playlist) customCategoryDao.pagingMovies(profileId, key.id, ids)
+                else customCategoryDao.pagingMoviesAlpha(profileId, key.id, ids)
             is LiveKey.Folder -> {
                 val ctxKey = contextKey(key.id).orEmpty()
                 when {
                     rating -> movieDao.pagingByCategoryRating(key.id)
                     dateAdded -> movieDao.pagingByCategoryDateAdded(key.id)
-                    !hasManualOrder(ctxKey) -> movieDao.pagingByCategory(key.id)
-                    else -> movieDao.pagingByCategoryManual(key.id, profileId, ctxKey)
+                    !hasManualOrder(ctxKey) -> if (playlist) movieDao.pagingByCategory(key.id) else movieDao.pagingByCategoryAlpha(key.id)
+                    playlist -> movieDao.pagingByCategoryManual(key.id, profileId, ctxKey)
+                    else -> movieDao.pagingByCategoryManualAlpha(key.id, profileId, ctxKey)
                 }
             }
         }
@@ -99,14 +102,17 @@ fun seriesPagingSource(
             }
             LiveKey.Favorites -> seriesDao.pagingFavoritesManual(profileId, ContentOrderEntity.FAV_CONTEXT, ids)
             LiveKey.History -> seriesDao.pagingHistory(profileId, ids)
-            is LiveKey.Custom -> customCategoryDao.pagingSeries(profileId, key.id, ids)
+            is LiveKey.Custom ->
+                if (playlist) customCategoryDao.pagingSeries(profileId, key.id, ids)
+                else customCategoryDao.pagingSeriesAlpha(profileId, key.id, ids)
             is LiveKey.Folder -> {
                 val ctxKey = contextKey(key.id).orEmpty()
                 when {
                     rating -> seriesDao.pagingByCategoryRating(key.id)
                     dateAdded -> seriesDao.pagingByCategoryDateAdded(key.id)
-                    !hasManualOrder(ctxKey) -> seriesDao.pagingByCategory(key.id)
-                    else -> seriesDao.pagingByCategoryManual(key.id, profileId, ctxKey)
+                    !hasManualOrder(ctxKey) -> if (playlist) seriesDao.pagingByCategory(key.id) else seriesDao.pagingByCategoryAlpha(key.id)
+                    playlist -> seriesDao.pagingByCategoryManual(key.id, profileId, ctxKey)
+                    else -> seriesDao.pagingByCategoryManualAlpha(key.id, profileId, ctxKey)
                 }
             }
         }

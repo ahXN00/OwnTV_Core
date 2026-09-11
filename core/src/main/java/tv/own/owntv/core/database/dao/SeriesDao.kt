@@ -134,6 +134,15 @@ interface SeriesDao {
     )
     fun pagingByCategoryManual(categoryId: Long, profileId: Long, contextKey: String): PagingSource<Int, SeriesEntity>
 
+    /** A–Z variant of [pagingByCategoryManual] — see `ChannelDao.pagingByCategoryManualAlpha`. */
+    @Query(
+        "SELECT s.* FROM series s " +
+            "LEFT JOIN content_order o ON o.itemId = s.id AND o.profileId = :profileId AND o.mediaType = 'SERIES' AND o.contextKey = :contextKey " +
+            "WHERE s.categoryId = :categoryId " +
+            "ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, s.name",
+    )
+    fun pagingByCategoryManualAlpha(categoryId: Long, profileId: Long, contextKey: String): PagingSource<Int, SeriesEntity>
+
     @Query(
         "SELECT s.* FROM series s " +
             "INNER JOIN favorites f ON f.itemId = s.id AND f.mediaType = 'SERIES' " +

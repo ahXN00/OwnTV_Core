@@ -193,6 +193,16 @@ interface CustomCategoryDao {
     )
     fun pagingMovies(profileId: Long, contextKey: String, sourceIds: List<Long>): PagingSource<Int, MovieEntity>
 
+    /** A–Z variant of [pagingMovies] — see [pagingChannelsAlpha]. */
+    @Query(
+        "SELECT mv.* FROM movies mv " +
+            "INNER JOIN custom_category_members m ON m.itemId = mv.id AND m.profileId = :profileId AND m.mediaType = 'MOVIE' AND m.contextKey = :contextKey " +
+            "LEFT JOIN content_order o ON o.itemId = mv.id AND o.profileId = :profileId AND o.mediaType = 'MOVIE' AND o.contextKey = :contextKey " +
+            "WHERE mv.sourceId IN (:sourceIds) " +
+            "ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, mv.name",
+    )
+    fun pagingMoviesAlpha(profileId: Long, contextKey: String, sourceIds: List<Long>): PagingSource<Int, MovieEntity>
+
     @Query(
         "SELECT s.* FROM series s " +
             "INNER JOIN custom_category_members m ON m.itemId = s.id AND m.profileId = :profileId AND m.mediaType = 'SERIES' AND m.contextKey = :contextKey " +
@@ -201,6 +211,16 @@ interface CustomCategoryDao {
             "ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, m.position, s.sortOrder, s.name",
     )
     fun pagingSeries(profileId: Long, contextKey: String, sourceIds: List<Long>): PagingSource<Int, SeriesEntity>
+
+    /** A–Z variant of [pagingSeries] — see [pagingChannelsAlpha]. */
+    @Query(
+        "SELECT s.* FROM series s " +
+            "INNER JOIN custom_category_members m ON m.itemId = s.id AND m.profileId = :profileId AND m.mediaType = 'SERIES' AND m.contextKey = :contextKey " +
+            "LEFT JOIN content_order o ON o.itemId = s.id AND o.profileId = :profileId AND o.mediaType = 'SERIES' AND o.contextKey = :contextKey " +
+            "WHERE s.sourceId IN (:sourceIds) " +
+            "ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, s.name",
+    )
+    fun pagingSeriesAlpha(profileId: Long, contextKey: String, sourceIds: List<Long>): PagingSource<Int, SeriesEntity>
 
     /** Live count of a custom category's in-scope items — the rail count badge. */
     @Query(

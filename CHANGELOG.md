@@ -3,6 +3,45 @@
 Core is versioned independently of the apps. A core version number never lines up with an OwnTV TV
 app `v4.x` release, and the two must not be confused. Tags here are prefixed `core-`.
 
+## core-1.0.30 — 2026-09-11
+
+Two community fixes — **[#4](https://github.com/ahXN00/OwnTV_Core/pull/4)** and
+**[#5](https://github.com/ahXN00/OwnTV_Core/pull/5)**, both from Sekator778 — each extended here so it
+covers the whole of what it fixes.
+
+**No database change.** No migration, no schema JSON, no new column. Four new queries, nothing else.
+
+### 📃 M3U titles keep their commas — and keep their favourites
+
+- **The display name is what follows the first comma outside a quoted attribute, not the last one.**
+  `M3uParser` took `substringAfterLast(',')`, so `Movie, The (1999)` was listed as `The (1999)` and
+  `Live, Love, Music` as `Music`. Quoted values are still skipped, so a `group-title="News, Politics"`
+  cannot be mistaken for the separator, and a line with an unbalanced quote keeps the last-comma
+  reading it always had rather than being dropped.
+- **A line with no separator, or with nothing after it, falls back to `tvg-name`** instead of taking
+  the raw `#EXTINF…` text as the title. With neither there is nothing to call the entry, and it is
+  skipped as before.
+- **The correction no longer costs you the title's favourites, history and resume position.** An M3U
+  row's stable key is derived from its name, so fixing the name also changes the key — the corrected
+  entry would have been inserted as a new row and the truncated one pruned, taking everything pinned
+  to it. `M3uSyncer` now tries the old rule's key once for any current key the database doesn't know,
+  and a hit updates that row in place, same local id. It is deliberately skipped where the answer
+  would be a guess — two names collapsing onto one legacy key, or a legacy key that is itself a name
+  in the playlist (a real "Music" alongside "Live, Love, Music"). Channels, movies and shows alike.
+
+### 🔤 Alphabetical sort reaches the items inside a folder
+
+- **The Folder and Custom-category branches never looked at the sort mode**, so switching to
+  alphabetical sorted the rail's folders A–Z while their contents stayed in provider order.
+  `ChannelDao.pagingByCategoryAlpha` had existed all along with no caller.
+- Fixed for **Live, Movies and Series alike** — PR #5 covered Live, and `VodQueries` had the identical
+  gap. Four new queries fill in what was missing: `pagingByCategoryManualAlpha` on `ChannelDao`,
+  `MovieDao` and `SeriesDao`, and `pagingChannelsAlpha` / `pagingMoviesAlpha` / `pagingSeriesAlpha` on
+  `CustomCategoryDao`.
+- A folder or custom category with a manual order keeps its manually placed items exactly where the
+  user put them and sorts the rest A–Z — the same "manual order wins, the rest goes A–Z" convention
+  the folder list itself already uses. Playlist, Rating and Date-added modes are unchanged.
+
 ## core-1.0.29 — 2026-09-11
 
 **Local sync stops losing the newer of two facts, stops asking for a password it should never have

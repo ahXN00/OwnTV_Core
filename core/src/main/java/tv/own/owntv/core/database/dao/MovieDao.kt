@@ -122,6 +122,15 @@ interface MovieDao {
     )
     fun pagingByCategoryManual(categoryId: Long, profileId: Long, contextKey: String): PagingSource<Int, MovieEntity>
 
+    /** A–Z variant of [pagingByCategoryManual] — see `ChannelDao.pagingByCategoryManualAlpha`. */
+    @Query(
+        "SELECT m.* FROM movies m " +
+            "LEFT JOIN content_order o ON o.itemId = m.id AND o.profileId = :profileId AND o.mediaType = 'MOVIE' AND o.contextKey = :contextKey " +
+            "WHERE m.categoryId = :categoryId " +
+            "ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, m.name",
+    )
+    fun pagingByCategoryManualAlpha(categoryId: Long, profileId: Long, contextKey: String): PagingSource<Int, MovieEntity>
+
     @Query(
         "SELECT m.* FROM movies m " +
             "INNER JOIN favorites f ON f.itemId = m.id AND f.mediaType = 'MOVIE' " +

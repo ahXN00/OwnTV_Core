@@ -3,6 +3,7 @@ package tv.own.owntv.core.sync
 import android.net.Uri
 import android.os.SystemClock
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import java.io.File
 import java.io.InputStream
 import java.util.Objects
@@ -101,6 +102,9 @@ internal class M3uSyncer(
             // deterministic; seen sets drive the end-of-parse prune.
             val channelKeyCounters = HashMap<String, Int>()
             val movieKeyCounters = HashMap<String, Int>()
+            // Parallel counters reproducing the pre-1.0.30 truncated keys, for [rescueTruncatedKeys].
+            val legacyChannelKeyCounters = HashMap<String, Int>()
+            val legacyMovieKeyCounters = HashMap<String, Int>()
             val seenChannelKeys = HashSet<String>()
             val seenMovieKeys = HashSet<String>()
             val seenSeriesKeys = HashSet<String>()
@@ -205,8 +209,10 @@ internal class M3uSyncer(
                     )
                 }
                 channels.forEach { seenChannelKeys.add(it.remoteId!!) }
+                val legacyKeys = buffer.map { legacyStableKey(legacyChannelKeyCounters, it.entry.name, it.entry.groupTitle) }
                 val start = SystemClock.elapsedRealtime()
-                val upsert = support.upsertStable(channels, CompletableDeferred(channelHashLookup()), channelAdapter)
+                val stored = rescueTruncatedKeys(channelHashLookup(), channels.map { it.remoteId!! }.zip(legacyKeys))
+                val upsert = support.upsertStable(channels, CompletableDeferred(stored), channelAdapter)
                 processed += channels.size
                 Log.d(
                     TAG,
@@ -238,8 +244,10 @@ internal class M3uSyncer(
                     )
                 }
                 movies.forEach { seenMovieKeys.add(it.remoteId!!) }
+                val legacyKeys = movieBuffer.map { legacyStableKey(legacyMovieKeyCounters, it.entry.name, it.entry.groupTitle) }
                 val start = SystemClock.elapsedRealtime()
-                val upsert = support.upsertStable(movies, CompletableDeferred(movieHashLookup()), movieAdapter)
+                val stored = rescueTruncatedKeys(movieHashLookup(), movies.map { it.remoteId!! }.zip(legacyKeys))
+                val upsert = support.upsertStable(movies, CompletableDeferred(stored), movieAdapter)
                 moviesProcessed += movies.size
                 Log.d(
                     TAG,
@@ -299,8 +307,14 @@ internal class M3uSyncer(
                 flushCategories()
                 ctx.ensureActive()
                 val start = SystemClock.elapsedRealtime()
-                val existing = seriesHashLookup()
                 val shows = seriesAccumulator.values.toList()
+                val existing = rescueTruncatedKeys(
+                    seriesHashLookup(),
+                    shows.map { show ->
+                        val group = show.group.orEmpty()
+                        "${show.name}$KEY_SEPARATOR$group" to "${show.name.substringAfterLast(',').trim()}$KEY_SEPARATOR$group"
+                    },
+                )
                 val inserts = ArrayList<Pair<SeriesEntity, M3uShowAccumulator>>()
                 val changed = ArrayList<Pair<SeriesEntity, M3uShowAccumulator>>() // entity already rekeyed to local id
                 val appended = ArrayList<Pair<SeriesEntity, M3uShowAccumulator>>() // continued from an earlier flush
@@ -602,6 +616,47 @@ internal class M3uSyncer(
          * unique `(sourceId, remoteId)` index can't silently drop them). Deterministic across
          * resyncs as long as the playlist keeps its duplicates in file order.
          */
+        /**
+         * The key the pre-1.0.30 rule would have produced for the same entry: the name cut at its
+         * last comma. Equal to the real key for any name without a comma, which is nearly all of them.
+         */
+        private fun legacyStableKey(counters: HashMap<String, Int>, name: String, group: String?): String =
+            stableKey(counters, name.substringAfterLast(',').trim(), group)
+
+        /**
+         * One-time rescue for rows stored under a pre-1.0.30 truncated name.
+         *
+         * Until 1.0.30 the display name was `substringAfterLast(',')` of the `#EXTINF` line, so
+         * `Movie, The (1999)` was stored as `The (1999)`. [stableKey] derives the row's stable id from
+         * the name, so correcting the name also changes the key: left alone, the corrected entry is
+         * inserted as a *new* row and the truncated one is pruned, taking that title's favourites,
+         * history and resume position with it.
+         *
+         * So every current key the database doesn't know is tried once under the old rule. A hit maps
+         * the new key onto the stored row, and the upsert then updates that row in place — same local
+         * id, so everything pinned to it survives. After that sync the row carries the new key and
+         * this does nothing.
+         *
+         * Deliberately skipped when the answer would be a guess: two current names collapsing onto one
+         * legacy key, or a legacy key that is itself a name in this playlist (a real channel "Music"
+         * alongside "Live, Love, Music"). Those keep the old behaviour — a new row, and the stale one
+         * pruned.
+         */
+        @VisibleForTesting
+        internal fun rescueTruncatedKeys(
+            stored: Map<String, StoredRow>,
+            keys: List<Pair<String, String>>,
+        ): Map<String, StoredRow> {
+            val candidates = keys.filter { (now, was) -> now != was && now !in stored && was in stored }
+            if (candidates.isEmpty()) return stored
+            val currentNames = keys.mapTo(HashSet()) { it.first }
+            val claims = candidates.groupingBy { it.second }.eachCount()
+            val rescued = candidates.filter { (_, was) -> claims[was] == 1 && was !in currentNames }
+            if (rescued.isEmpty()) return stored
+            Log.i(TAG, "M3U truncated-name rescue: ${rescued.size} row(s) relinked to their full name")
+            return stored + rescued.map { (now, was) -> now to stored.getValue(was) }
+        }
+
         private fun stableKey(counters: HashMap<String, Int>, name: String, group: String?): String {
             val base = "$name$KEY_SEPARATOR${group.orEmpty()}"
             val n = counters.merge(base, 1, Int::plus)!!
