@@ -292,8 +292,12 @@
     <string name="multiview_add_channel">チャンネルを追加</string>
     <string name="multiview_refused_single">このプロバイダーは同時に1つのストリームまでです。</string>
     <string name="multiview_refused_single_recording">このプロバイダーは同時に1つのストリームまでで、録画が使用中です。</string>
-    <string name="multiview_refused_all_in_use">このプロバイダーは同時に <xliff:g id="count">%1$d</xliff:g> ストリームまでで、すべて使用中です。</string>
-    <string name="multiview_refused_all_in_use_recording">このプロバイダーは同時に <xliff:g id="count">%1$d</xliff:g> ストリームまでです。そのうち <xliff:g id="recording">%2$d</xliff:g> が録画中です。</string>
+    <plurals name="multiview_refused_all_in_use">
+        <item quantity="other">このプロバイダーは同時に <xliff:g id="count">%1$d</xliff:g> ストリームまでで、すべて使用中です。</item>
+    </plurals>
+    <plurals name="multiview_refused_all_in_use_recording">
+        <item quantity="other">このプロバイダーは同時に <xliff:g id="count">%1$d</xliff:g> ストリームまでです。そのうち <xliff:g id="recording">%2$d</xliff:g> が録画中です。</item>
+    </plurals>
     <string name="multiview_refused_reserved">視聴を続けられるよう接続を1つ空けています。すべての接続で録画するには設定で変更してください。</string>
     <string name="multiview_unknown_connections">このプレイリストが許可するストリーム数を OwnTV は確認できませんでした。タイルが失敗する場合はそれが原因です。</string>
     <string name="multiview_decoder_exhausted">このテレビはこれ以上のチャンネルを同時にデコードできません。</string>

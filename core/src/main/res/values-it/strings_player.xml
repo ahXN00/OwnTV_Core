@@ -306,8 +306,16 @@
     <string name="multiview_add_channel">Aggiungi canale</string>
     <string name="multiview_refused_single">Il tuo fornitore consente un flusso alla volta.</string>
     <string name="multiview_refused_single_recording">Il tuo fornitore consente un flusso alla volta, e una registrazione lo sta usando.</string>
-    <string name="multiview_refused_all_in_use">Il tuo fornitore consente <xliff:g id="count">%1$d</xliff:g> flussi alla volta, e sono tutti in uso.</string>
-    <string name="multiview_refused_all_in_use_recording">Il tuo fornitore consente <xliff:g id="count">%1$d</xliff:g> flussi alla volta. <xliff:g id="recording">%2$d</xliff:g> stanno registrando.</string>
+    <plurals name="multiview_refused_all_in_use">
+        <item quantity="one">Il tuo fornitore consente <xliff:g id="count">%1$d</xliff:g> flusso alla volta, ed è occupato.</item>
+        <item quantity="many">Il tuo fornitore consente <xliff:g id="count">%1$d</xliff:g> flussi alla volta, e sono tutti in uso.</item>
+        <item quantity="other">Il tuo fornitore consente <xliff:g id="count">%1$d</xliff:g> flussi alla volta, e sono tutti in uso.</item>
+    </plurals>
+    <plurals name="multiview_refused_all_in_use_recording">
+        <item quantity="one">Il tuo fornitore consente <xliff:g id="count">%1$d</xliff:g> flusso alla volta. <xliff:g id="recording">%2$d</xliff:g> sta registrando.</item>
+        <item quantity="many">Il tuo fornitore consente <xliff:g id="count">%1$d</xliff:g> flussi alla volta. <xliff:g id="recording">%2$d</xliff:g> stanno registrando.</item>
+        <item quantity="other">Il tuo fornitore consente <xliff:g id="count">%1$d</xliff:g> flussi alla volta. <xliff:g id="recording">%2$d</xliff:g> stanno registrando.</item>
+    </plurals>
     <string name="multiview_refused_reserved">Una connessione resta libera per continuare a guardare. Cambia questa scelta nelle impostazioni per registrare su tutte le connessioni.</string>
     <string name="multiview_unknown_connections">OwnTV non è riuscito a sapere quanti flussi consente questa playlist. Se un riquadro non parte, è per questo.</string>
     <string name="multiview_decoder_exhausted">Questo televisore non può decodificare un altro canale nello stesso momento.</string>

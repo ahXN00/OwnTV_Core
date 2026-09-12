@@ -313,8 +313,18 @@
     <string name="multiview_add_channel">Přidat kanál</string>
     <string name="multiview_refused_single">Váš poskytovatel povoluje jeden stream najednou.</string>
     <string name="multiview_refused_single_recording">Váš poskytovatel povoluje jeden stream najednou a využívá ho nahrávání.</string>
-    <string name="multiview_refused_all_in_use">Váš poskytovatel povoluje <xliff:g id="count">%1$d</xliff:g> streamů najednou a všechny se používají.</string>
-    <string name="multiview_refused_all_in_use_recording">Váš poskytovatel povoluje <xliff:g id="count">%1$d</xliff:g> streamů najednou. <xliff:g id="recording">%2$d</xliff:g> z nich nahrává.</string>
+    <plurals name="multiview_refused_all_in_use">
+        <item quantity="one">Váš poskytovatel povoluje <xliff:g id="count">%1$d</xliff:g> stream najednou a ten se používá.</item>
+        <item quantity="few">Váš poskytovatel povoluje <xliff:g id="count">%1$d</xliff:g> streamy najednou a všechny se používají.</item>
+        <item quantity="many">Váš poskytovatel povoluje <xliff:g id="count">%1$d</xliff:g> streamů najednou a všechny se používají.</item>
+        <item quantity="other">Váš poskytovatel povoluje <xliff:g id="count">%1$d</xliff:g> streamů najednou a všechny se používají.</item>
+    </plurals>
+    <plurals name="multiview_refused_all_in_use_recording">
+        <item quantity="one">Váš poskytovatel povoluje <xliff:g id="count">%1$d</xliff:g> stream najednou. <xliff:g id="recording">%2$d</xliff:g> z nich nahrává.</item>
+        <item quantity="few">Váš poskytovatel povoluje <xliff:g id="count">%1$d</xliff:g> streamy najednou. <xliff:g id="recording">%2$d</xliff:g> z nich nahrává.</item>
+        <item quantity="many">Váš poskytovatel povoluje <xliff:g id="count">%1$d</xliff:g> streamů najednou. <xliff:g id="recording">%2$d</xliff:g> z nich nahrává.</item>
+        <item quantity="other">Váš poskytovatel povoluje <xliff:g id="count">%1$d</xliff:g> streamů najednou. <xliff:g id="recording">%2$d</xliff:g> z nich nahrává.</item>
+    </plurals>
     <string name="multiview_refused_reserved">Jedno připojení zůstává volné, abyste mohli dál sledovat. Změňte to v nastavení, chcete-li nahrávat na všech připojeních.</string>
     <string name="multiview_unknown_connections">OwnTV nezjistil, kolik streamů tento playlist povoluje. Pokud dlaždice selže, je to tím.</string>
     <string name="multiview_decoder_exhausted">Tato televize nedokáže dekódovat další kanál současně.</string>

@@ -299,8 +299,14 @@
     <string name="multiview_add_channel">Legg til kanal</string>
     <string name="multiview_refused_single">Leverandøren tillater én strøm om gangen.</string>
     <string name="multiview_refused_single_recording">Leverandøren tillater én strøm om gangen, og et opptak bruker den.</string>
-    <string name="multiview_refused_all_in_use">Leverandøren tillater <xliff:g id="count">%1$d</xliff:g> strømmer om gangen, og alle er i bruk.</string>
-    <string name="multiview_refused_all_in_use_recording">Leverandøren tillater <xliff:g id="count">%1$d</xliff:g> strømmer om gangen. <xliff:g id="recording">%2$d</xliff:g> av dem gjør opptak.</string>
+    <plurals name="multiview_refused_all_in_use">
+        <item quantity="one">Leverandøren tillater <xliff:g id="count">%1$d</xliff:g> strøm om gangen, og den er i bruk.</item>
+        <item quantity="other">Leverandøren tillater <xliff:g id="count">%1$d</xliff:g> strømmer om gangen, og alle er i bruk.</item>
+    </plurals>
+    <plurals name="multiview_refused_all_in_use_recording">
+        <item quantity="one">Leverandøren tillater <xliff:g id="count">%1$d</xliff:g> strøm om gangen. <xliff:g id="recording">%2$d</xliff:g> av dem gjør opptak.</item>
+        <item quantity="other">Leverandøren tillater <xliff:g id="count">%1$d</xliff:g> strømmer om gangen. <xliff:g id="recording">%2$d</xliff:g> av dem gjør opptak.</item>
+    </plurals>
     <string name="multiview_refused_reserved">Én tilkobling holdes ledig så du kan fortsette å se. Endre det i innstillingene for å ta opp på alle tilkoblinger.</string>
     <string name="multiview_unknown_connections">OwnTV fant ikke ut hvor mange strømmer denne spillelisten tillater. Hvis en rute mislykkes, er det derfor.</string>
     <string name="multiview_decoder_exhausted">Denne TV-en kan ikke dekode enda en kanal samtidig.</string>

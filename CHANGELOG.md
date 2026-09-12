@@ -3,6 +3,24 @@
 Core is versioned independently of the apps. A core version number never lines up with an OwnTV TV
 app `v4.x` release, and the two must not be confused. Tags here are prefixed `core-`.
 
+## core-1.0.35 — 2026-09-12
+
+### The Multiview refusals are real plurals
+
+`core-1.0.34` shipped two of them as plain strings with a `%d` in front of a noun, on the reasoning
+that the sentence only ever appears when a playlist allows two or more streams. Android lint refused
+the build, and it was right to: a string that puts a number in front of a word is a template, not a
+translation, and nothing stops the singular being reached later.
+
+- `multiview_refused_all_in_use` and `multiview_refused_all_in_use_recording` are `<plurals>` in all
+  packaged locales, each with exactly the CLDR quantities that locale requires, and every form
+  carries the number — including `one`, which in several languages also covers zero.
+- The warning dialog's second button is "Use anyway" rather than "Use 4 anyway". The count it refers
+  to is in the dialog it sits in, and no language then has to agree with it.
+
+**No API change** — `StreamGrant.Refused.displayText` resolves the plurals itself, so nothing that
+calls it moves.
+
 ## core-1.0.34 — 2026-09-12
 
 ### Multiview's rules, and one owner for the three folder names

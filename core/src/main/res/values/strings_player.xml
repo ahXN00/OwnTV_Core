@@ -529,9 +529,15 @@
     <!-- Translators: As above, when a recording is holding the one connection. -->
     <string name="multiview_refused_single_recording">Your provider allows one stream at a time, and a recording is using it.</string>
     <!-- Translators: Shown on a tile when every connection is in use. "count" is 2 or more. -->
-    <string name="multiview_refused_all_in_use">Your provider allows <xliff:g id="count">%1$d</xliff:g> streams at a time, and they are all in use.</string>
+    <plurals name="multiview_refused_all_in_use">
+        <item quantity="one">Your provider allows <xliff:g id="count">%1$d</xliff:g> stream at a time, and it is in use.</item>
+        <item quantity="other">Your provider allows <xliff:g id="count">%1$d</xliff:g> streams at a time, and they are all in use.</item>
+    </plurals>
     <!-- Translators: As above. "count" is the limit, "recording" how many are recording. -->
-    <string name="multiview_refused_all_in_use_recording">Your provider allows <xliff:g id="count">%1$d</xliff:g> streams at a time. <xliff:g id="recording">%2$d</xliff:g> of them are recording.</string>
+    <plurals name="multiview_refused_all_in_use_recording">
+        <item quantity="one">Your provider allows <xliff:g id="count">%1$d</xliff:g> stream at a time. <xliff:g id="recording">%2$d</xliff:g> of them is recording.</item>
+        <item quantity="other">Your provider allows <xliff:g id="count">%1$d</xliff:g> streams at a time. <xliff:g id="recording">%2$d</xliff:g> of them are recording.</item>
+    </plurals>
     <!-- Translators: Shown when a recording is refused because the last connection is kept for watching. -->
     <string name="multiview_refused_reserved">One connection is kept free so you can keep watching. Change that in Settings to record on every connection.</string>
     <!-- Translators: Shown when the playlist never said how many streams it allows. -->

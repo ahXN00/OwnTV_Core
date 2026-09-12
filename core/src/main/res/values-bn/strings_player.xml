@@ -299,8 +299,14 @@
     <string name="multiview_add_channel">চ্যানেল যোগ করুন</string>
     <string name="multiview_refused_single">আপনার প্রোভাইডার একসঙ্গে একটি স্ট্রিম দেয়।</string>
     <string name="multiview_refused_single_recording">আপনার প্রোভাইডার একসঙ্গে একটি স্ট্রিম দেয়, আর সেটি একটি রেকর্ডিং ব্যবহার করছে।</string>
-    <string name="multiview_refused_all_in_use">আপনার প্রোভাইডার একসঙ্গে <xliff:g id="count">%1$d</xliff:g> স্ট্রিম দেয়, এবং সবগুলোই ব্যবহারে আছে।</string>
-    <string name="multiview_refused_all_in_use_recording">আপনার প্রোভাইডার একসঙ্গে <xliff:g id="count">%1$d</xliff:g> স্ট্রিম দেয়। তার মধ্যে <xliff:g id="recording">%2$d</xliff:g> রেকর্ড হচ্ছে।</string>
+    <plurals name="multiview_refused_all_in_use">
+        <item quantity="one">আপনার প্রোভাইডার একসঙ্গে <xliff:g id="count">%1$d</xliff:g> স্ট্রিম দেয়, এবং সেটি ব্যবহারে আছে।</item>
+        <item quantity="other">আপনার প্রোভাইডার একসঙ্গে <xliff:g id="count">%1$d</xliff:g> স্ট্রিম দেয়, এবং সবগুলোই ব্যবহারে আছে।</item>
+    </plurals>
+    <plurals name="multiview_refused_all_in_use_recording">
+        <item quantity="one">আপনার প্রোভাইডার একসঙ্গে <xliff:g id="count">%1$d</xliff:g> স্ট্রিম দেয়। তার মধ্যে <xliff:g id="recording">%2$d</xliff:g> রেকর্ড হচ্ছে।</item>
+        <item quantity="other">আপনার প্রোভাইডার একসঙ্গে <xliff:g id="count">%1$d</xliff:g> স্ট্রিম দেয়। তার মধ্যে <xliff:g id="recording">%2$d</xliff:g> রেকর্ড হচ্ছে।</item>
+    </plurals>
     <string name="multiview_refused_reserved">আপনি যাতে দেখা চালিয়ে যেতে পারেন তাই একটি সংযোগ খালি রাখা হয়। সব সংযোগে রেকর্ড করতে সেটিংসে এটি বদলান।</string>
     <string name="multiview_unknown_connections">এই প্লেলিস্ট কতগুলো স্ট্রিম দেয় OwnTV তা জানতে পারেনি। কোনো টাইল ব্যর্থ হলে কারণ এটাই।</string>
     <string name="multiview_decoder_exhausted">এই টিভি একসঙ্গে আরেকটি চ্যানেল ডিকোড করতে পারে না।</string>

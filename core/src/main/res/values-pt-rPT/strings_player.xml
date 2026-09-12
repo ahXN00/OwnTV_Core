@@ -306,8 +306,16 @@
     <string name="multiview_add_channel">Adicionar canal</string>
     <string name="multiview_refused_single">O seu fornecedor permite uma emissão de cada vez.</string>
     <string name="multiview_refused_single_recording">O seu fornecedor permite uma emissão de cada vez, e uma gravação está a usá-la.</string>
-    <string name="multiview_refused_all_in_use">O seu fornecedor permite <xliff:g id="count">%1$d</xliff:g> emissões de cada vez, e estão todas em uso.</string>
-    <string name="multiview_refused_all_in_use_recording">O seu fornecedor permite <xliff:g id="count">%1$d</xliff:g> emissões de cada vez. <xliff:g id="recording">%2$d</xliff:g> estão a gravar.</string>
+    <plurals name="multiview_refused_all_in_use">
+        <item quantity="one">O seu fornecedor permite <xliff:g id="count">%1$d</xliff:g> emissão de cada vez, e está em uso.</item>
+        <item quantity="many">O seu fornecedor permite <xliff:g id="count">%1$d</xliff:g> emissões de cada vez, e estão todas em uso.</item>
+        <item quantity="other">O seu fornecedor permite <xliff:g id="count">%1$d</xliff:g> emissões de cada vez, e estão todas em uso.</item>
+    </plurals>
+    <plurals name="multiview_refused_all_in_use_recording">
+        <item quantity="one">O seu fornecedor permite <xliff:g id="count">%1$d</xliff:g> emissão de cada vez. <xliff:g id="recording">%2$d</xliff:g> está a gravar.</item>
+        <item quantity="many">O seu fornecedor permite <xliff:g id="count">%1$d</xliff:g> emissões de cada vez. <xliff:g id="recording">%2$d</xliff:g> estão a gravar.</item>
+        <item quantity="other">O seu fornecedor permite <xliff:g id="count">%1$d</xliff:g> emissões de cada vez. <xliff:g id="recording">%2$d</xliff:g> estão a gravar.</item>
+    </plurals>
     <string name="multiview_refused_reserved">Fica uma ligação livre para poder continuar a ver. Altere isso nas definições para gravar em todas as ligações.</string>
     <string name="multiview_unknown_connections">O OwnTV não conseguiu saber quantas emissões esta lista permite. Se um bloco falhar, é por isso.</string>
     <string name="multiview_decoder_exhausted">Esta TV não consegue descodificar mais um canal ao mesmo tempo.</string>

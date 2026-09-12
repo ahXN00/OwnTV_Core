@@ -292,8 +292,12 @@
     <string name="multiview_add_channel">添加频道</string>
     <string name="multiview_refused_single">你的供应商每次只允许一路流。</string>
     <string name="multiview_refused_single_recording">你的供应商每次只允许一路流，而录制正在占用它。</string>
-    <string name="multiview_refused_all_in_use">你的供应商每次允许 <xliff:g id="count">%1$d</xliff:g> 路流，且都已占用。</string>
-    <string name="multiview_refused_all_in_use_recording">你的供应商每次允许 <xliff:g id="count">%1$d</xliff:g> 路流，其中 <xliff:g id="recording">%2$d</xliff:g> 路正在录制。</string>
+    <plurals name="multiview_refused_all_in_use">
+        <item quantity="other">你的供应商每次允许 <xliff:g id="count">%1$d</xliff:g> 路流，且都已占用。</item>
+    </plurals>
+    <plurals name="multiview_refused_all_in_use_recording">
+        <item quantity="other">你的供应商每次允许 <xliff:g id="count">%1$d</xliff:g> 路流，其中 <xliff:g id="recording">%2$d</xliff:g> 路正在录制。</item>
+    </plurals>
     <string name="multiview_refused_reserved">会保留一个连接，让你可以继续观看。要在所有连接上录制，请在设置中更改。</string>
     <string name="multiview_unknown_connections">OwnTV 无法得知该播放列表允许多少路流。画面失败时，原因就在这里。</string>
     <string name="multiview_decoder_exhausted">这台电视无法同时再解码一个频道。</string>

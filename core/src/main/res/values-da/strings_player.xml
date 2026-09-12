@@ -299,8 +299,14 @@
     <string name="multiview_add_channel">Tilføj kanal</string>
     <string name="multiview_refused_single">Din udbyder tillader én stream ad gangen.</string>
     <string name="multiview_refused_single_recording">Din udbyder tillader én stream ad gangen, og en optagelse bruger den.</string>
-    <string name="multiview_refused_all_in_use">Din udbyder tillader <xliff:g id="count">%1$d</xliff:g> streams ad gangen, og de er alle i brug.</string>
-    <string name="multiview_refused_all_in_use_recording">Din udbyder tillader <xliff:g id="count">%1$d</xliff:g> streams ad gangen. <xliff:g id="recording">%2$d</xliff:g> af dem optager.</string>
+    <plurals name="multiview_refused_all_in_use">
+        <item quantity="one">Din udbyder tillader <xliff:g id="count">%1$d</xliff:g> stream ad gangen, og den er i brug.</item>
+        <item quantity="other">Din udbyder tillader <xliff:g id="count">%1$d</xliff:g> streams ad gangen, og de er alle i brug.</item>
+    </plurals>
+    <plurals name="multiview_refused_all_in_use_recording">
+        <item quantity="one">Din udbyder tillader <xliff:g id="count">%1$d</xliff:g> stream ad gangen. <xliff:g id="recording">%2$d</xliff:g> af dem optager.</item>
+        <item quantity="other">Din udbyder tillader <xliff:g id="count">%1$d</xliff:g> streams ad gangen. <xliff:g id="recording">%2$d</xliff:g> af dem optager.</item>
+    </plurals>
     <string name="multiview_refused_reserved">Én forbindelse holdes fri, så du kan blive ved med at se. Lav det om i indstillingerne for at optage på alle forbindelser.</string>
     <string name="multiview_unknown_connections">OwnTV kunne ikke finde ud af, hvor mange streams denne playliste tillader. Hvis en flade fejler, er det derfor.</string>
     <string name="multiview_decoder_exhausted">Dette tv kan ikke afkode endnu en kanal samtidig.</string>

@@ -327,8 +327,22 @@
     <string name="multiview_add_channel">إضافة قناة</string>
     <string name="multiview_refused_single">يسمح مزوّدك ببث واحد في المرة.</string>
     <string name="multiview_refused_single_recording">يسمح مزوّدك ببث واحد في المرة، وهناك تسجيل يستخدمه.</string>
-    <string name="multiview_refused_all_in_use">يسمح مزوّدك بـ <xliff:g id="count">%1$d</xliff:g> بثوث في المرة، وجميعها مستخدمة.</string>
-    <string name="multiview_refused_all_in_use_recording">يسمح مزوّدك بـ <xliff:g id="count">%1$d</xliff:g> بثوث في المرة. منها <xliff:g id="recording">%2$d</xliff:g> قيد التسجيل.</string>
+    <plurals name="multiview_refused_all_in_use">
+        <item quantity="zero">يسمح مزوّدك بـ <xliff:g id="count">%1$d</xliff:g> من البثوث في المرة، وجميعها مستخدمة.</item>
+        <item quantity="one">يسمح مزوّدك بـ <xliff:g id="count">%1$d</xliff:g> بث في المرة، وهو مستخدم.</item>
+        <item quantity="two">يسمح مزوّدك بـ <xliff:g id="count">%1$d</xliff:g> من البثوث في المرة، وكلاهما مستخدم.</item>
+        <item quantity="few">يسمح مزوّدك بـ <xliff:g id="count">%1$d</xliff:g> بثوث في المرة، وجميعها مستخدمة.</item>
+        <item quantity="many">يسمح مزوّدك بـ <xliff:g id="count">%1$d</xliff:g> بثًا في المرة، وجميعها مستخدمة.</item>
+        <item quantity="other">يسمح مزوّدك بـ <xliff:g id="count">%1$d</xliff:g> بث في المرة، وجميعها مستخدمة.</item>
+    </plurals>
+    <plurals name="multiview_refused_all_in_use_recording">
+        <item quantity="zero">يسمح مزوّدك بـ <xliff:g id="count">%1$d</xliff:g> من البثوث في المرة. منها <xliff:g id="recording">%2$d</xliff:g> قيد التسجيل.</item>
+        <item quantity="one">يسمح مزوّدك بـ <xliff:g id="count">%1$d</xliff:g> بث في المرة. منها <xliff:g id="recording">%2$d</xliff:g> قيد التسجيل.</item>
+        <item quantity="two">يسمح مزوّدك بـ <xliff:g id="count">%1$d</xliff:g> من البثوث في المرة. منها <xliff:g id="recording">%2$d</xliff:g> قيد التسجيل.</item>
+        <item quantity="few">يسمح مزوّدك بـ <xliff:g id="count">%1$d</xliff:g> بثوث في المرة. منها <xliff:g id="recording">%2$d</xliff:g> قيد التسجيل.</item>
+        <item quantity="many">يسمح مزوّدك بـ <xliff:g id="count">%1$d</xliff:g> بثًا في المرة. منها <xliff:g id="recording">%2$d</xliff:g> قيد التسجيل.</item>
+        <item quantity="other">يسمح مزوّدك بـ <xliff:g id="count">%1$d</xliff:g> بث في المرة. منها <xliff:g id="recording">%2$d</xliff:g> قيد التسجيل.</item>
+    </plurals>
     <string name="multiview_refused_reserved">يُترك اتصال واحد حرًا لتتمكن من متابعة المشاهدة. غيّر ذلك في الإعدادات للتسجيل على كل الاتصالات.</string>
     <string name="multiview_unknown_connections">لم يتمكن OwnTV من معرفة عدد البثوث التي تسمح بها هذه القائمة. إذا فشل مربع فهذا هو السبب.</string>
     <string name="multiview_decoder_exhausted">لا يستطيع هذا التلفزيون فكّ ترميز قناة أخرى في الوقت نفسه.</string>

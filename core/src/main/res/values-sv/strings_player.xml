@@ -299,8 +299,14 @@
     <string name="multiview_add_channel">Lägg till kanal</string>
     <string name="multiview_refused_single">Din leverantör tillåter en ström i taget.</string>
     <string name="multiview_refused_single_recording">Din leverantör tillåter en ström i taget, och en inspelning använder den.</string>
-    <string name="multiview_refused_all_in_use">Din leverantör tillåter <xliff:g id="count">%1$d</xliff:g> strömmar i taget, och alla används.</string>
-    <string name="multiview_refused_all_in_use_recording">Din leverantör tillåter <xliff:g id="count">%1$d</xliff:g> strömmar i taget. <xliff:g id="recording">%2$d</xliff:g> av dem spelar in.</string>
+    <plurals name="multiview_refused_all_in_use">
+        <item quantity="one">Din leverantör tillåter <xliff:g id="count">%1$d</xliff:g> ström i taget, och den används.</item>
+        <item quantity="other">Din leverantör tillåter <xliff:g id="count">%1$d</xliff:g> strömmar i taget, och alla används.</item>
+    </plurals>
+    <plurals name="multiview_refused_all_in_use_recording">
+        <item quantity="one">Din leverantör tillåter <xliff:g id="count">%1$d</xliff:g> ström i taget. <xliff:g id="recording">%2$d</xliff:g> av dem spelar in.</item>
+        <item quantity="other">Din leverantör tillåter <xliff:g id="count">%1$d</xliff:g> strömmar i taget. <xliff:g id="recording">%2$d</xliff:g> av dem spelar in.</item>
+    </plurals>
     <string name="multiview_refused_reserved">En anslutning hålls ledig så att du kan fortsätta titta. Ändra det i inställningarna för att spela in på alla anslutningar.</string>
     <string name="multiview_unknown_connections">OwnTV kunde inte ta reda på hur många strömmar den här spellistan tillåter. Om en ruta misslyckas är det därför.</string>
     <string name="multiview_decoder_exhausted">Den här tv:n kan inte avkoda ytterligare en kanal samtidigt.</string>

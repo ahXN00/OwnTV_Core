@@ -313,8 +313,18 @@
     <string name="multiview_add_channel">Dodaj kanał</string>
     <string name="multiview_refused_single">Twój dostawca zezwala na jeden strumień naraz.</string>
     <string name="multiview_refused_single_recording">Twój dostawca zezwala na jeden strumień naraz, a używa go nagrywanie.</string>
-    <string name="multiview_refused_all_in_use">Twój dostawca zezwala na <xliff:g id="count">%1$d</xliff:g> strumieni naraz i wszystkie są zajęte.</string>
-    <string name="multiview_refused_all_in_use_recording">Twój dostawca zezwala na <xliff:g id="count">%1$d</xliff:g> strumieni naraz. <xliff:g id="recording">%2$d</xliff:g> z nich nagrywa.</string>
+    <plurals name="multiview_refused_all_in_use">
+        <item quantity="one">Twój dostawca zezwala na <xliff:g id="count">%1$d</xliff:g> strumień naraz i jest zajęty.</item>
+        <item quantity="few">Twój dostawca zezwala na <xliff:g id="count">%1$d</xliff:g> strumienie naraz i wszystkie są zajęte.</item>
+        <item quantity="many">Twój dostawca zezwala na <xliff:g id="count">%1$d</xliff:g> strumieni naraz i wszystkie są zajęte.</item>
+        <item quantity="other">Twój dostawca zezwala na <xliff:g id="count">%1$d</xliff:g> strumieni naraz i wszystkie są zajęte.</item>
+    </plurals>
+    <plurals name="multiview_refused_all_in_use_recording">
+        <item quantity="one">Twój dostawca zezwala na <xliff:g id="count">%1$d</xliff:g> strumień naraz. <xliff:g id="recording">%2$d</xliff:g> z nich nagrywa.</item>
+        <item quantity="few">Twój dostawca zezwala na <xliff:g id="count">%1$d</xliff:g> strumienie naraz. <xliff:g id="recording">%2$d</xliff:g> z nich nagrywa.</item>
+        <item quantity="many">Twój dostawca zezwala na <xliff:g id="count">%1$d</xliff:g> strumieni naraz. <xliff:g id="recording">%2$d</xliff:g> z nich nagrywa.</item>
+        <item quantity="other">Twój dostawca zezwala na <xliff:g id="count">%1$d</xliff:g> strumieni naraz. <xliff:g id="recording">%2$d</xliff:g> z nich nagrywa.</item>
+    </plurals>
     <string name="multiview_refused_reserved">Jedno połączenie zostaje wolne, żebyś mógł dalej oglądać. Zmień to w ustawieniach, aby nagrywać na wszystkich połączeniach.</string>
     <string name="multiview_unknown_connections">OwnTV nie ustalił, ile strumieni dopuszcza ta playlista. Jeśli kafelek zawiedzie, to właśnie dlatego.</string>
     <string name="multiview_decoder_exhausted">Ten telewizor nie zdekoduje kolejnego kanału w tym samym czasie.</string>

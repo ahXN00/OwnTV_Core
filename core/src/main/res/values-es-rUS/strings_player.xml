@@ -306,8 +306,16 @@
     <string name="multiview_add_channel">Añadir canal</string>
     <string name="multiview_refused_single">Tu proveedor permite una emisión a la vez.</string>
     <string name="multiview_refused_single_recording">Tu proveedor permite una emisión a la vez, y una grabación la está usando.</string>
-    <string name="multiview_refused_all_in_use">Tu proveedor permite <xliff:g id="count">%1$d</xliff:g> emisiones a la vez, y todas están en uso.</string>
-    <string name="multiview_refused_all_in_use_recording">Tu proveedor permite <xliff:g id="count">%1$d</xliff:g> emisiones a la vez. <xliff:g id="recording">%2$d</xliff:g> están grabando.</string>
+    <plurals name="multiview_refused_all_in_use">
+        <item quantity="one">Tu proveedor permite <xliff:g id="count">%1$d</xliff:g> emisión a la vez, y está en uso.</item>
+        <item quantity="many">Tu proveedor permite <xliff:g id="count">%1$d</xliff:g> emisiones a la vez, y todas están en uso.</item>
+        <item quantity="other">Tu proveedor permite <xliff:g id="count">%1$d</xliff:g> emisiones a la vez, y todas están en uso.</item>
+    </plurals>
+    <plurals name="multiview_refused_all_in_use_recording">
+        <item quantity="one">Tu proveedor permite <xliff:g id="count">%1$d</xliff:g> emisión a la vez. <xliff:g id="recording">%2$d</xliff:g> está grabando.</item>
+        <item quantity="many">Tu proveedor permite <xliff:g id="count">%1$d</xliff:g> emisiones a la vez. <xliff:g id="recording">%2$d</xliff:g> están grabando.</item>
+        <item quantity="other">Tu proveedor permite <xliff:g id="count">%1$d</xliff:g> emisiones a la vez. <xliff:g id="recording">%2$d</xliff:g> están grabando.</item>
+    </plurals>
     <string name="multiview_refused_reserved">Se mantiene una conexión libre para que puedas seguir viendo. Cámbialo en Ajustes para grabar en todas las conexiones.</string>
     <string name="multiview_unknown_connections">OwnTV no ha podido saber cuántas emisiones permite esta lista. Si un mosaico falla, es por eso.</string>
     <string name="multiview_decoder_exhausted">Este televisor no puede decodificar otro canal a la vez.</string>

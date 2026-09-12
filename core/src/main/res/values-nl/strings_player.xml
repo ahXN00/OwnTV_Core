@@ -299,8 +299,14 @@
     <string name="multiview_add_channel">Kanaal toevoegen</string>
     <string name="multiview_refused_single">Je provider staat één stream tegelijk toe.</string>
     <string name="multiview_refused_single_recording">Je provider staat één stream tegelijk toe, en een opname gebruikt hem.</string>
-    <string name="multiview_refused_all_in_use">Je provider staat <xliff:g id="count">%1$d</xliff:g> streams tegelijk toe, en ze zijn allemaal in gebruik.</string>
-    <string name="multiview_refused_all_in_use_recording">Je provider staat <xliff:g id="count">%1$d</xliff:g> streams tegelijk toe. <xliff:g id="recording">%2$d</xliff:g> daarvan nemen op.</string>
+    <plurals name="multiview_refused_all_in_use">
+        <item quantity="one">Je provider staat <xliff:g id="count">%1$d</xliff:g> stream tegelijk toe, en die is bezet.</item>
+        <item quantity="other">Je provider staat <xliff:g id="count">%1$d</xliff:g> streams tegelijk toe, en ze zijn allemaal in gebruik.</item>
+    </plurals>
+    <plurals name="multiview_refused_all_in_use_recording">
+        <item quantity="one">Je provider staat <xliff:g id="count">%1$d</xliff:g> stream tegelijk toe. <xliff:g id="recording">%2$d</xliff:g> daarvan neemt op.</item>
+        <item quantity="other">Je provider staat <xliff:g id="count">%1$d</xliff:g> streams tegelijk toe. <xliff:g id="recording">%2$d</xliff:g> daarvan nemen op.</item>
+    </plurals>
     <string name="multiview_refused_reserved">Eén verbinding blijft vrij zodat je kunt blijven kijken. Pas dat aan in Instellingen om op elke verbinding op te nemen.</string>
     <string name="multiview_unknown_connections">OwnTV kon niet achterhalen hoeveel streams deze afspeellijst toestaat. Als een tegel mislukt, is dat de reden.</string>
     <string name="multiview_decoder_exhausted">Deze tv kan er niet nog een kanaal tegelijk bij decoderen.</string>

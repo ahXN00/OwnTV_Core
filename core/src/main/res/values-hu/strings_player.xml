@@ -282,8 +282,14 @@
     <string name="multiview_add_channel">Csatorna hozzáadása</string>
     <string name="multiview_refused_single">A szolgáltatód egyszerre egy adást enged.</string>
     <string name="multiview_refused_single_recording">A szolgáltatód egyszerre egy adást enged, és azt egy felvétel használja.</string>
-    <string name="multiview_refused_all_in_use">A szolgáltatód egyszerre <xliff:g id="count">%1$d</xliff:g> adást enged, és mind foglalt.</string>
-    <string name="multiview_refused_all_in_use_recording">A szolgáltatód egyszerre <xliff:g id="count">%1$d</xliff:g> adást enged. Ebből <xliff:g id="recording">%2$d</xliff:g> vesz fel.</string>
+    <plurals name="multiview_refused_all_in_use">
+        <item quantity="one">A szolgáltatód egyszerre <xliff:g id="count">%1$d</xliff:g> adást enged, és az foglalt.</item>
+        <item quantity="other">A szolgáltatód egyszerre <xliff:g id="count">%1$d</xliff:g> adást enged, és mind foglalt.</item>
+    </plurals>
+    <plurals name="multiview_refused_all_in_use_recording">
+        <item quantity="one">A szolgáltatód egyszerre <xliff:g id="count">%1$d</xliff:g> adást enged. Ebből <xliff:g id="recording">%2$d</xliff:g> vesz fel.</item>
+        <item quantity="other">A szolgáltatód egyszerre <xliff:g id="count">%1$d</xliff:g> adást enged. Ebből <xliff:g id="recording">%2$d</xliff:g> vesz fel.</item>
+    </plurals>
     <string name="multiview_refused_reserved">Egy kapcsolat szabadon marad, hogy tovább nézhess. A beállításokban módosíthatod, ha minden kapcsolaton fel akarsz venni.</string>
     <string name="multiview_unknown_connections">Az OwnTV nem tudta megállapítani, hány adást enged ez a lejátszási lista. Ha egy csempe nem indul, ez az oka.</string>
     <string name="multiview_decoder_exhausted">Ez a tévé nem tud egyszerre még egy csatornát dekódolni.</string>

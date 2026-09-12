@@ -106,12 +106,18 @@ fun StreamGrant.Refused.displayText(res: Resources): String = when (reason) {
     } else {
         res.getString(R.string.multiview_refused_single)
     }
-    // Not a plural: this reason only exists when the playlist allows two or more, so the sentence
-    // never has to agree with the number one.
+    // Plurals keyed on the limit. This reason only arises when the playlist allows two or more, so
+    // the singular forms are never seen in practice — but a sentence that agrees with its number is
+    // the difference between a translation and a template, and Android lint is right to insist.
     StreamRefusal.ALL_IN_USE -> if (open.recording > 0) {
-        res.getString(R.string.multiview_refused_all_in_use_recording, maxConnections, open.recording)
+        res.getQuantityString(
+            R.plurals.multiview_refused_all_in_use_recording,
+            maxConnections,
+            maxConnections,
+            open.recording,
+        )
     } else {
-        res.getString(R.string.multiview_refused_all_in_use, maxConnections)
+        res.getQuantityString(R.plurals.multiview_refused_all_in_use, maxConnections, maxConnections)
     }
     StreamRefusal.RESERVED_FOR_WATCHING -> res.getString(R.string.multiview_refused_reserved)
 }
