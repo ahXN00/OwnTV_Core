@@ -15,6 +15,7 @@ import tv.own.owntv.core.database.dao.MovieDao
 import tv.own.owntv.core.database.dao.ProfileDao
 import tv.own.owntv.core.database.dao.PlaybackPrefsDao
 import tv.own.owntv.core.database.dao.ProgressDao
+import tv.own.owntv.core.database.dao.RecordingDao
 import tv.own.owntv.core.database.dao.SeriesDao
 import tv.own.owntv.core.database.dao.SeriesSortOrderDao
 import tv.own.owntv.core.database.dao.TvProviderProgramDao
@@ -40,6 +41,8 @@ import tv.own.owntv.core.database.entity.PlaybackPrefsEntity
 import tv.own.owntv.core.database.entity.PlaybackProgressEntity
 import tv.own.owntv.core.database.entity.ProfileEntity
 import tv.own.owntv.core.database.entity.ProfileSourceCrossRef
+import tv.own.owntv.core.database.entity.RecordingEntity
+import tv.own.owntv.core.database.entity.RecordingRuleEntity
 import tv.own.owntv.core.database.entity.SeasonEntity
 import tv.own.owntv.core.database.entity.SeriesEntity
 import tv.own.owntv.core.database.entity.SeriesFtsEntity
@@ -80,6 +83,10 @@ import tv.own.owntv.core.database.dao.SubtitleDao
         SeriesSortOrderEntity::class,
         UserDataTombstoneEntity::class,
         DownloadEntity::class,
+        // Live recordings and the standing rules that create them (v39). Never synced, never
+        // backed up — D6.
+        RecordingEntity::class,
+        RecordingRuleEntity::class,
         // Android TV home-screen bookkeeping
         TvProviderProgramEntity::class,
         // EPG
@@ -102,7 +109,7 @@ import tv.own.owntv.core.database.dao.SubtitleDao
         SeriesFtsEntity::class,
         EpisodeFtsEntity::class,
     ],
-    version = 38, // v7: content_order (Move). v8: contentHash + browse/unique indexes. v9: EPG contentHash + natural key. v10: TMDB metadata cache. v11: movies/series rating-sort indexes. v12: metadata_cache trailerKey. v13: metadata_cache logoPath. v14: sources.mac (Stalker portal). v15: external-subtitle cache/selection/timing tables. v16: subtitle_link (downloaded-sub ↔ content). v17: sources.syncLive/Movies/Series (skip-sync enabledScope). v18: series.episodesSyncedAt (episode-cache freshness, S8). v19: epg_channels.iconUrl (XMLTV channel logos). v20: channels (sourceId, number) index for direct tune. v21: series.addedAt + date-added sort indexes. v22: series_sort_order (per-series season/episode order). v23: sources.hlsSupported and sources.preferHls. v24: custom_category_members (user custom categories, #87). v25: sources.livePrerollSecs (per-playlist "Pre-buffer"). v26: channels.catchupType + channels.httpHeaders (M3U catch-up styles + per-channel HTTP headers). v27: sources.maxConnections (Xtream session limit read at sync). v28: movies.httpHeaders + episodes.httpHeaders (per-item M3U HTTP headers). v29: optional Stalker serial/device IDs/signature. v30: source-scoped Now Trending snapshots. v31: indexed provider-title metadata and persistent Trending attempt state. v32: playback_prefs (per-item zoom + volume, keyed by the P6 stable content key). v33: channels/movies/episodes drmConfig (M3U Widevine/ClearKey licence details, #115). v34: sources.liveEnginePreference + sources.liveLatencyMode/liveLatencyCustomSecs (per-playlist Live TV engine and Live latency). v35: playback_prefs.audioDelayMs (per-item A/V-sync memory). v36: user_data_tombstones (deleted favorites/history/resume/memberships, so local sync propagates a deletion instead of undoing it). v37: episodes.airDateMs + metadata_cache.airDate (when an episode first aired — the provider's date, with TMDB's as the fallback) profiles.avatarPath (a picture of the user's own instead of a drawn tile). v38: sources.importPortalEpg (whether a Stalker portal's own guide may be imported).
+    version = 39, // v7: content_order (Move). v8: contentHash + browse/unique indexes. v9: EPG contentHash + natural key. v10: TMDB metadata cache. v11: movies/series rating-sort indexes. v12: metadata_cache trailerKey. v13: metadata_cache logoPath. v14: sources.mac (Stalker portal). v15: external-subtitle cache/selection/timing tables. v16: subtitle_link (downloaded-sub ↔ content). v17: sources.syncLive/Movies/Series (skip-sync enabledScope). v18: series.episodesSyncedAt (episode-cache freshness, S8). v19: epg_channels.iconUrl (XMLTV channel logos). v20: channels (sourceId, number) index for direct tune. v21: series.addedAt + date-added sort indexes. v22: series_sort_order (per-series season/episode order). v23: sources.hlsSupported and sources.preferHls. v24: custom_category_members (user custom categories, #87). v25: sources.livePrerollSecs (per-playlist "Pre-buffer"). v26: channels.catchupType + channels.httpHeaders (M3U catch-up styles + per-channel HTTP headers). v27: sources.maxConnections (Xtream session limit read at sync). v28: movies.httpHeaders + episodes.httpHeaders (per-item M3U HTTP headers). v29: optional Stalker serial/device IDs/signature. v30: source-scoped Now Trending snapshots. v31: indexed provider-title metadata and persistent Trending attempt state. v32: playback_prefs (per-item zoom + volume, keyed by the P6 stable content key). v33: channels/movies/episodes drmConfig (M3U Widevine/ClearKey licence details, #115). v34: sources.liveEnginePreference + sources.liveLatencyMode/liveLatencyCustomSecs (per-playlist Live TV engine and Live latency). v35: playback_prefs.audioDelayMs (per-item A/V-sync memory). v36: user_data_tombstones (deleted favorites/history/resume/memberships, so local sync propagates a deletion instead of undoing it). v37: episodes.airDateMs + metadata_cache.airDate (when an episode first aired — the provider's date, with TMDB's as the fallback) profiles.avatarPath (a picture of the user's own instead of a drawn tile). v38: sources.importPortalEpg (whether a Stalker portal's own guide may be imported). v39: recordings + recording_rules (live recording and its standing "record every showing" rules; never synced, never backed up).
 
     exportSchema = true,
 )
@@ -125,6 +132,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
     abstract fun tombstoneDao(): TombstoneDao
     abstract fun tvProviderProgramDao(): TvProviderProgramDao
     abstract fun downloadDao(): DownloadDao
+    abstract fun recordingDao(): RecordingDao
     abstract fun epgDao(): EpgDao
     abstract fun metadataDao(): tv.own.owntv.core.database.dao.MetadataDao
     abstract fun trendingDao(): TrendingDao
@@ -951,6 +959,89 @@ abstract class OwnTVDatabase : RoomDatabase() {
             }
         }
 
+        /**
+         * v38 → v39: `recordings` and `recording_rules` — live recording (Plan D, Feature A).
+         *
+         * Two new empty tables and nothing else. No existing table is altered, no existing row is
+         * rewritten, and an app whose owner never records simply never writes to either — which is
+         * what makes this the cheapest shape a migration can have.
+         *
+         * Both are created in **one** version on purpose. The rules table has no code reading it
+         * until series recording arrives, but a schema is not code: giving it a version of its own
+         * later would mean a second fingerprint change in the middle of a feature the owner is
+         * testing, for a table that was always going to exist.
+         *
+         * Neither table is reached by local sync, tombstones or backup (D6). A recording is a file on
+         * one device; a row describing a file that is not there is worse than no row at all.
+         *
+         * `sourceId` is deliberately *not* a foreign key — removing a playlist must not cascade away
+         * the record of something already on disk. `profileId` is, like every other user-data table.
+         */
+        val MIGRATION_38_39 = object : androidx.room.migration.Migration(38, 39) {
+            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `recordings` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`profileId` INTEGER NOT NULL, " +
+                        "`sourceId` INTEGER NOT NULL, " +
+                        "`channelId` INTEGER NOT NULL, " +
+                        "`channelName` TEXT NOT NULL, " +
+                        "`channelIconUrl` TEXT, " +
+                        "`epgChannelId` TEXT, " +
+                        "`streamUrl` TEXT NOT NULL, " +
+                        "`httpHeaders` TEXT, " +
+                        "`title` TEXT NOT NULL, " +
+                        "`description` TEXT, " +
+                        "`programmeStartMs` INTEGER NOT NULL, " +
+                        "`programmeStopMs` INTEGER NOT NULL, " +
+                        "`startMs` INTEGER NOT NULL, " +
+                        "`stopMs` INTEGER NOT NULL, " +
+                        "`status` TEXT NOT NULL, " +
+                        "`failure` TEXT NOT NULL, " +
+                        "`filePath` TEXT, " +
+                        "`bytes` INTEGER NOT NULL, " +
+                        "`startedAt` INTEGER, " +
+                        "`endedAt` INTEGER, " +
+                        "`ruleId` INTEGER, " +
+                        "`createdAt` INTEGER NOT NULL, " +
+                        "`updatedAt` INTEGER NOT NULL, " +
+                        "FOREIGN KEY(`profileId`) REFERENCES `profiles`(`id`) ON DELETE CASCADE" +
+                        ")",
+                )
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_recordings_profileId` ON `recordings` (`profileId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_recordings_status` ON `recordings` (`status`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_recordings_startMs_stopMs` ON `recordings` (`startMs`, `stopMs`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_recordings_sourceId` ON `recordings` (`sourceId`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_recordings_ruleId` ON `recordings` (`ruleId`)")
+                db.execSQL(
+                    "CREATE UNIQUE INDEX IF NOT EXISTS `index_recordings_profileId_channelId_programmeStartMs` " +
+                        "ON `recordings` (`profileId`, `channelId`, `programmeStartMs`)",
+                )
+
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `recording_rules` (" +
+                        "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                        "`profileId` INTEGER NOT NULL, " +
+                        "`sourceId` INTEGER NOT NULL, " +
+                        "`channelId` INTEGER NOT NULL, " +
+                        "`channelName` TEXT NOT NULL, " +
+                        "`epgChannelId` TEXT, " +
+                        "`title` TEXT NOT NULL, " +
+                        "`titleKey` TEXT NOT NULL, " +
+                        "`enabled` INTEGER NOT NULL, " +
+                        "`createdAt` INTEGER NOT NULL, " +
+                        "FOREIGN KEY(`profileId`) REFERENCES `profiles`(`id`) ON DELETE CASCADE" +
+                        ")",
+                )
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_recording_rules_profileId` ON `recording_rules` (`profileId`)")
+                db.execSQL(
+                    "CREATE UNIQUE INDEX IF NOT EXISTS `index_recording_rules_profileId_channelId_titleKey` " +
+                        "ON `recording_rules` (`profileId`, `channelId`, `titleKey`)",
+                )
+                healSchema(db)
+            }
+        }
+
         val MIGRATION_36_37 = object : androidx.room.migration.Migration(36, 37) {
             override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
                 db.execSQL("ALTER TABLE `episodes` ADD COLUMN `airDateMs` INTEGER")
@@ -1045,6 +1136,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
             MIGRATION_35_36,
             MIGRATION_36_37,
             MIGRATION_37_38,
+            MIGRATION_38_39,
         )
 
         /**

@@ -6,6 +6,7 @@ import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
 import org.koin.core.context.GlobalContext
 import tv.own.owntv.core.download.DownloadWorker
+import tv.own.owntv.core.recording.RecordingWorker
 
 class KoinWorkerFactory : WorkerFactory() {
     override fun createWorker(
@@ -48,6 +49,12 @@ class KoinWorkerFactory : WorkerFactory() {
                 koin.get(),
             )
             DownloadWorker::class.java.name -> DownloadWorker(
+                appContext,
+                workerParameters,
+                koin.get(),
+                koin.get(),
+            )
+            RecordingWorker::class.java.name -> RecordingWorker(
                 appContext,
                 workerParameters,
                 koin.get(),

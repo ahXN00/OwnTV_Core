@@ -18,12 +18,58 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <!-- Live recording. Deliberately mediaPlayback and NOT dataSync: an app targeting Android 15 gets
+         six hours of dataSync foreground service per 24 hours and then Service.onTimeout() fires,
+         which a DVR would hit. Google's own foreground-service-type table names mediaPlayback's use
+         case as "Background audio or video playback; Android TV DVR". This type must be declared in
+         Play Console under Policy -> App content. -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+
+    <!-- A recording timer has to fire at the programme's start, not at a time that suits the
+         battery, so it is an AlarmManager exact alarm. SCHEDULE_EXACT_ALARM and deliberately NOT
+         USE_EXACT_ALARM: the second is granted automatically and cannot be revoked, and Google Play
+         policy restricts it to apps whose core function is precise timing — an alarm clock or a
+         calendar. A TV player is neither. This one is user-revocable, so the code checks
+         canScheduleExactAlarms() on every arm and falls back to an inexact alarm with a bigger head
+         start. Verified against developer.android.com/develop/background-work/services/alarms/schedule
+         on 2026-09-12. -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <!-- Alarms do not survive a reboot; without this every scheduled recording would evaporate the
+         first time the television was switched off at the wall. -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application>
-        <!-- WorkManager's foreground-service host, typed for the download worker's data sync. -->
+        <!-- WorkManager's foreground-service host. Both types, because both workers run in it: the
+             download queue is a data sync, a recording is media playback. Each worker picks its own
+             via the ForegroundInfo it returns. -->
         <service
             android:name="androidx.work.impl.foreground.SystemForegroundService"
-            android:foregroundServiceType="dataSync"
+            android:foregroundServiceType="dataSync|mediaPlayback"
             tools:node="merge" />
+
+        <!-- A recording is due. Exported="false": nothing outside the app has any business firing
+             this, and an exported receiver would let anything on the device start a recording. -->
+        <receiver
+            android:name="tv.own.owntv.core.recording.RecordingAlarmReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="tv.own.owntv.core.action.RECORDING_DUE" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Re-arms alarms after a reboot, after an update, and when the exact-alarm permission
+             changes. It must never start the recording service itself — an app targeting Android 15
+             may not start a mediaPlayback foreground service from BOOT_COMPLETED. Exported because
+             these are system broadcasts. -->
+        <receiver
+            android:name="tv.own.owntv.core.recording.RecordingBootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

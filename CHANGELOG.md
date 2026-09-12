@@ -3,6 +3,61 @@
 Core is versioned independently of the apps. A core version number never lines up with an OwnTV TV
 app `v4.x` release, and the two must not be confused. Tags here are prefixed `core-`.
 
+## core-1.0.36 — 2026-09-12
+
+### A download row says where the file went
+
+Both apps showed a download's name and its size and nothing about where to find it. Core now works
+the folder trail out from the file's own path — `Series › Game of Thrones › Season 6` — and both apps
+read it from here. The television had its own copy of this with the folder names `"Movies"` and
+`"Series"` written into it by hand, which is precisely the drift `MediaFolders` was introduced to
+stop.
+
+- `MediaFolders.crumb(filePath, separator)`, anchored on the three folder names core already owns, so
+  the trail starts where the user's library starts rather than at `Android/data/…`.
+- One new string, `content_downloads_options`, in all 25 packaged languages: the title of the sheet
+  holding the phone's two download preferences.
+
+### Live TV recording, all of the engine and none of the buttons
+
+Everything needed to record a live programme, minus the screens that start one — those belong to each
+app and arrive next. Nothing in either app reaches this yet, so upgrading to this version changes
+nothing a user can see.
+
+**The database is now version 39.** Two new, empty tables: `recordings` and `recording_rules`. No
+existing table is altered and no existing row is rewritten, so an upgrade is as cheap as a migration
+gets. Neither table takes any part in local sync, tombstones or backup, and that is a decision rather
+than an omission — a recording is a file on one device, and a row describing a file that is not there
+is worse than no row at all.
+
+- **The recorder** opens its own connection to the provider and writes the stream to a `.ts` file
+  between two times. `.ts` and not `.mp4` on purpose: it plays while it is still being written, and
+  it survives being cut off, which is what an interrupted recording is.
+- **It stops on the clock, never on end-of-stream** — a live stream has no end — and a dropped
+  connection reconnects and appends rather than starting again.
+- **It stops with 500 MB still free** and says so, keeping everything it captured. It never deletes a
+  download or another recording to make room.
+- **Several recordings run at once**, up to what the playlist allows, with one stream kept back so
+  there is always something to watch. That reserve can be given up in settings. A playlist that
+  allows one stream records one thing at a time — and a recording is allowed to take that one stream,
+  because a live programme is gone forever and a picture is not.
+- **A recording that cannot happen says why** — no free connection, a clash with another recording,
+  the channel would not play, no space, a scrambled channel — in all 25 packaged languages.
+- **HLS channels are recorded segment by segment**, re-reading the playlist every cycle so providers
+  that sign each segment keep working. Segments are tracked by their sequence number, not their URL.
+- **Scrambled (encrypted HLS) channels are refused rather than attempted.** Writing those segments
+  out unchanged makes a file of exactly the right size that will not play, which is worse than saying
+  no at the start.
+- **Timers are exact alarms** where Android allows them, and where it does not they start a few
+  minutes early instead, so a late wake-up still catches the opening. They are re-armed after a
+  reboot, after an update, and when the exact-alarm permission changes — that last one matters
+  because revoking it cancels every alarm the app has set.
+- **Programmes that have already been on can be recorded from catch-up**, starting immediately, for
+  every archive convention the app already understands.
+- Core's manifest gains the `mediaPlayback` foreground-service type, the exact-alarm permission and
+  the boot receiver. `mediaPlayback` rather than `dataSync` because Android 15 caps `dataSync` at six
+  hours a day, which a DVR would hit.
+
 ## core-1.0.35 — 2026-09-12
 
 ### The Multiview refusals are real plurals

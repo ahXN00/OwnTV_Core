@@ -227,6 +227,22 @@ val dataModule = module {
     single { DownloadEngine(get(), get(), get(), get(), get(), get(), get()) }
     // context, downloadDao, settings, engine
     single { DownloadManager(androidContext(), get(), get(), get()) }
+    // The recording half of the same idea: several can run at once (D10), so the tracker keeps a
+    // line per running recording rather than a single active one.
+    single { tv.own.owntv.core.recording.RecordingActivityTracker() }
+    // recordingDao, okHttpClient, sourceDao, streamUrlResolver, openStreamRegistry, settings, tracker
+    single {
+        tv.own.owntv.core.recording.RecordingEngine(get(), get(), get(), get(), get(), get(), get())
+    }
+    // context, recordingDao — the AlarmManager half. Exact alarms where the user allows them,
+    // inexact plus a bigger head start where they do not.
+    single { tv.own.owntv.core.recording.RecordingScheduler(androidContext(), get()) }
+    // context, recordingDao, sourceDao, settings, openStreamRegistry, engine, scheduler
+    single {
+        tv.own.owntv.core.recording.RecordingManager(
+            androidContext(), get(), get(), get(), get(), get(), get(),
+        )
+    }
     // profileDao, sourceDao, settings, customizationStore, userDataResolver, epgSourceStore,
     // forceMpvStore, vodEngineStore, db, metadataOverrideStore, metadataDao, openSubtitlesAuthStore,
     // backgroundsDir (same folder ingestBackgroundImage writes to — the .own container carries the wallpaper),

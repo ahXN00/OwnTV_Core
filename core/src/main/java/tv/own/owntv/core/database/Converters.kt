@@ -6,6 +6,8 @@ import tv.own.owntv.core.database.entity.TrendingAttemptStatus
 import tv.own.owntv.core.model.DownloadStatus
 import tv.own.owntv.core.model.HlsSupport
 import tv.own.owntv.core.model.MediaType
+import tv.own.owntv.core.model.RecordingFailure
+import tv.own.owntv.core.model.RecordingStatus
 import tv.own.owntv.core.model.SourceType
 import tv.own.owntv.core.tv.TvProviderSurface
 
@@ -19,6 +21,12 @@ class Converters {
 
     @TypeConverter fun downloadStatusToString(v: DownloadStatus): String = v.name
     @TypeConverter fun stringToDownloadStatus(v: String): DownloadStatus = DownloadStatus.valueOf(v)
+
+    @TypeConverter fun recordingStatusToString(v: RecordingStatus): String = v.name
+    @TypeConverter fun stringToRecordingStatus(v: String): RecordingStatus = RecordingStatus.valueOf(v)
+
+    @TypeConverter fun recordingFailureToString(v: RecordingFailure): String = v.name
+    @TypeConverter fun stringToRecordingFailure(v: String): RecordingFailure = RecordingFailure.valueOf(v)
 
     @TypeConverter fun tvProviderSurfaceToString(v: TvProviderSurface): String = v.name
     @TypeConverter fun stringToTvProviderSurface(v: String): TvProviderSurface = TvProviderSurface.valueOf(v)

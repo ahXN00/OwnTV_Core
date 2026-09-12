@@ -322,4 +322,23 @@
     <!-- Translators: Button on the recovery screen to reset all app data as a last resort. -->
     <string name="recovery_reset">Reset app data (last resort)</string>
 
+    <!-- Translators: Title of the ongoing notification shown while a live TV programme is being recorded. -->
+    <string name="recording_notification_title">Recording</string>
+    <!-- Translators: Shown on a recording that stopped because the storage volume was nearly full. Whatever was captured is kept and is still playable. -->
+    <string name="recording_failed_no_space">Stopped: no space left</string>
+    <!-- Translators: Shown on a recording that never started because the TV provider allows no more simultaneous streams. -->
+    <string name="recording_failed_no_connection">No free connection from your provider</string>
+    <!-- Translators: Shown on a recording that never started because another recording was already using the provider's connection at the same time. -->
+    <string name="recording_failed_clash">Another recording was using the connection</string>
+    <!-- Translators: Shown on a recording that stopped because the network connection dropped and did not come back. -->
+    <string name="recording_failed_network">The connection was lost</string>
+    <!-- Translators: Shown on a recording that captured nothing because the channel never started playing. -->
+    <string name="recording_failed_unavailable">The channel would not play</string>
+    <!-- Translators: Shown on a recording whose channel has since been removed from the user's playlist. -->
+    <string name="recording_failed_channel_gone">That channel is no longer in your playlist</string>
+    <!-- Translators: Shown on a recording that failed for a reason the app could not identify. -->
+    <string name="recording_failed_unknown">It did not record</string>
+    <!-- Translators: Shown on a recording that was refused because the channel is delivered as encrypted HLS, which the recorder cannot turn into a playable file. -->
+    <string name="recording_failed_encrypted">This channel is scrambled and cannot be recorded</string>
+
 </resources>

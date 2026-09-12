@@ -28,6 +28,7 @@ import tv.own.owntv.core.i18n.LocaleStore
 import tv.own.owntv.core.live.DEFAULT_MULTIVIEW_TILES
 import tv.own.owntv.core.live.MAX_MULTIVIEW_TILES
 import tv.own.owntv.core.live.MIN_MULTIVIEW_TILES
+import tv.own.owntv.core.recording.RecordingSchedule
 import tv.own.owntv.core.model.HomeConfig
 import tv.own.owntv.core.player.SurroundMode
 import tv.own.owntv.core.util.Pin
@@ -286,6 +287,10 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val MULTIVIEW_TILES = intPreferencesKey("multiview_tiles")
         /** The "3 or 4 tiles may be more than this device or your provider can do" warning was accepted. */
         val MULTIVIEW_WARNING_ACCEPTED = booleanPreferencesKey("multiview_warning_accepted")
+        // Recording (Plan D, feature A). Recordings and multiview spend the same connections (D11).
+        val RECORDING_RESERVE_CONNECTION = booleanPreferencesKey("recording_reserve_connection")
+        val RECORDING_PRE_ROLL_MINUTES = intPreferencesKey("recording_pre_roll_minutes")
+        val RECORDING_POST_ROLL_MINUTES = intPreferencesKey("recording_post_roll_minutes")
         // Video Player Settings
         val HW_DECODING = booleanPreferencesKey("hw_decoding")
         val VOD_PREFER_EXO = booleanPreferencesKey("vod_prefer_exo") // legacy; read for migration only
@@ -1827,6 +1832,60 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             it[Keys.MULTIVIEW_TILES] = tiles.coerceIn(MIN_MULTIVIEW_TILES, MAX_MULTIVIEW_TILES)
         }
     }
+
+    // --- Recording (Plan D, Feature A) -----------------------------------------------------------
+
+    /**
+     * Keep one of the playlist's connections back so the user can always watch something, rather
+     * than letting recordings spend every one (D10). **On by default**, and the one the user turns
+     * off when they would rather record on all of them.
+     *
+     * It makes no difference on a one-connection account: there, a recording is allowed the only
+     * stream there is, because a live programme is gone forever and a picture is not (D9).
+     */
+    val recordingReserveConnection: Flow<Boolean> = prefsFlow {
+        it[Keys.RECORDING_RESERVE_CONNECTION] ?: true
+    }
+
+    suspend fun setRecordingReserveConnection(reserve: Boolean) {
+        context.dataStore.edit { it[Keys.RECORDING_RESERVE_CONNECTION] = reserve }
+    }
+
+    /** Read once, for the recorder, which has to answer before it may open a connection. */
+    suspend fun recordingReserveConnection(): Boolean = recordingReserveConnection.first()
+
+    /**
+     * Minutes recorded before a programme starts and after it ends.
+     *
+     * Both exist because EPG times drift: providers round to five minutes, programmes overrun, and a
+     * guide that is ninety seconds out is entirely ordinary. The padding is what turns "the guide
+     * said 21:00" into "the programme is actually on the recording".
+     */
+    val recordingPreRollMinutes: Flow<Int> = prefsFlow {
+        (it[Keys.RECORDING_PRE_ROLL_MINUTES] ?: RecordingSchedule.DEFAULT_PRE_ROLL_MINUTES)
+            .coerceIn(0, RecordingSchedule.MAX_ROLL_MINUTES)
+    }
+
+    suspend fun setRecordingPreRollMinutes(minutes: Int) {
+        context.dataStore.edit {
+            it[Keys.RECORDING_PRE_ROLL_MINUTES] = minutes.coerceIn(0, RecordingSchedule.MAX_ROLL_MINUTES)
+        }
+    }
+
+    val recordingPostRollMinutes: Flow<Int> = prefsFlow {
+        (it[Keys.RECORDING_POST_ROLL_MINUTES] ?: RecordingSchedule.DEFAULT_POST_ROLL_MINUTES)
+            .coerceIn(0, RecordingSchedule.MAX_ROLL_MINUTES)
+    }
+
+    suspend fun setRecordingPostRollMinutes(minutes: Int) {
+        context.dataStore.edit {
+            it[Keys.RECORDING_POST_ROLL_MINUTES] = minutes.coerceIn(0, RecordingSchedule.MAX_ROLL_MINUTES)
+        }
+    }
+
+    /** Read once, when a recording's window is being worked out. */
+    suspend fun recordingRollMinutes(): Pair<Int, Int> =
+        recordingPreRollMinutes.first() to recordingPostRollMinutes.first()
 
     /** Whether the >2-tile warning has been accepted, so it is asked once and not on every change. */
     val multiviewWarningAccepted: Flow<Boolean> = prefsFlow { it[Keys.MULTIVIEW_WARNING_ACCEPTED] ?: false }

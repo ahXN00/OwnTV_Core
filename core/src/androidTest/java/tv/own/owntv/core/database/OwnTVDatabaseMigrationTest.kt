@@ -159,6 +159,17 @@ class OwnTVDatabaseMigrationTest {
             // arrives with it ON — an upgrade must not silently switch a guide off.
             assertColumnExists(sqlite, "sources", "importPortalEpg")
             assertColumnValue(sqlite, "sources", "importPortalEpg", 10, 1L)
+            // v39: live recording. Two new tables, both empty — an upgrade must not invent a
+            // recording, and it must not have touched anything that was already there. The unique
+            // index is the one with teeth: it is what stops pressing Record twice on the same
+            // programme from scheduling it twice.
+            assertTableExists(sqlite, "recordings")
+            assertIndexExists(sqlite, "index_recordings_profileId_channelId_programmeStartMs")
+            assertIndexExists(sqlite, "index_recordings_startMs_stopMs")
+            assertCount(sqlite, "recordings", 0)
+            assertTableExists(sqlite, "recording_rules")
+            assertIndexExists(sqlite, "index_recording_rules_profileId_channelId_titleKey")
+            assertCount(sqlite, "recording_rules", 0)
             assertIndexExists(sqlite, "index_movies_sourceId_rating_name")
             // v20: direct-tune index on (sourceId, number).
             assertIndexExists(sqlite, "index_channels_sourceId_number")
