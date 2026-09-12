@@ -12,16 +12,24 @@ name: Core CI
 on:
   push:
     branches: [ main ]
-    tags: [ "core-*" ]
   pull_request:
     branches: [ main ]
   workflow_dispatch:
+  # Called by publish.yml before it publishes anything. A tag used to run this workflow in parallel
+  # with the publish, which meant lint could fail *after* the packages were already immutable in the
+  # registry — that is how core-1.0.34 shipped two strings lint refused, and the fix had to be a
+  # version of its own. It is a gate now, not a bystander, so the `tags:` trigger is gone: publish.yml
+  # calls this instead of racing it.
+  workflow_call:
 
 permissions:
   contents: read
 
+# Named after this file rather than ${{ github.workflow }}: when a workflow is *called*,
+# github.workflow is the CALLER's name, so this group would collide with publish.yml's own and the
+# two would wait for each other forever.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: core-ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:

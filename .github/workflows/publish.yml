@@ -5,10 +5,15 @@ name: Publish core
 # same version, taken from `coreVersion` in the root build file — the tag must match it, and the job
 # checks that before publishing anything.
 #
-# Order matters: tests, then packages, then the release. The release is therefore proof that the
-# other two succeeded, which is exactly why `bump-consumers.yml` triggers on the release and not on
-# the tag. Push a tag whose tests fail and you get no release, no pin-bump pull request, and a clean
-# chance to fix it and re-tag.
+# Order matters, and it is the design: the tag check, then the FULL gate — `build.yml` and
+# `i18n.yml`, called rather than copied — then the packages, then the release. The release is
+# therefore proof that everything before it succeeded, which is exactly why `bump-consumers.yml`
+# triggers on the release and not on the tag. Push a tag that fails anything and you get no packages,
+# no release, no pin-bump pull request, and a clean chance to fix it and re-tag.
+#
+# The gate used to be unit tests only, with lint racing the publish from `build.yml`'s own tag
+# trigger and the i18n checks not running on a tag at all. Both of those holes have been closed; see
+# the comment on the gate jobs.
 #
 # GITHUB_TOKEN can write packages for its own repository, which is why `permissions: packages: write`
 # is set below. The RELEASE step is the exception and uses CONSUMER_BUMP_TOKEN — see its comment. A
@@ -29,7 +34,44 @@ concurrency:
   cancel-in-progress: false   # never cancel a half-finished publish
 
 jobs:
+  # Seconds, and first: a tag that disagrees with the version in the build file publishes an artifact
+  # nobody can find from the tag it was cut at. Its own job so a mistyped tag fails immediately
+  # instead of after a full CI run.
+  verify-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tag must match coreVersion
+        if: startsWith(github.ref, 'refs/tags/core-')
+        run: |
+          set -euo pipefail
+          TAG_VERSION="${GITHUB_REF_NAME#core-}"
+          BUILD_VERSION=$(sed -n 's/^extra\["coreVersion"\] *= *"\(.*\)"$/\1/p' build.gradle.kts)
+          echo "tag=$TAG_VERSION  build.gradle.kts=$BUILD_VERSION"
+          [ "$TAG_VERSION" = "$BUILD_VERSION" ]
+
+  # The full gate, and the whole point of this restructuring. These are the repository's own CI
+  # workflows, CALLED rather than copied, so the publish can never drift out of step with what a push
+  # to main is held to.
+  #
+  # They used to run beside the publish instead of in front of it: `build.yml` triggered on the tag in
+  # parallel, and `i18n.yml` did not trigger on a tag at all. So a tag could reach GitHub Packages
+  # while lint was still analysing, and a version could ship a string that existed in English and
+  # nowhere else. core-1.0.34 is the worked example — lint's PluralsCandidate failed *after* the
+  # packages were immutable, and the fix could only be a version of its own.
+  #
+  # Gradle's `build` includes both modules' unit tests, so the separate unit-test step that used to
+  # live in the publish job is gone rather than duplicated.
+  gate-build:
+    needs: verify-tag
+    uses: ./.github/workflows/build.yml
+
+  gate-i18n:
+    needs: verify-tag
+    uses: ./.github/workflows/i18n.yml
+
   publish:
+    needs: [gate-build, gate-i18n]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -47,27 +89,13 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      # A tag that disagrees with the version in the build file publishes an artifact nobody can
-      # find from the tag it was cut at. Cheaper to fail here than to yank a package later.
-      - name: Tag must match coreVersion
-        if: startsWith(github.ref, 'refs/tags/core-')
-        run: |
-          set -euo pipefail
-          TAG_VERSION="${GITHUB_REF_NAME#core-}"
-          BUILD_VERSION=$(sed -n 's/^extra\["coreVersion"\] *= *"\(.*\)"$/\1/p' build.gradle.kts)
-          echo "tag=$TAG_VERSION  build.gradle.kts=$BUILD_VERSION"
-          [ "$TAG_VERSION" = "$BUILD_VERSION" ]
-
-      - name: Unit tests
-        run: |
-          chmod +x ./gradlew
-          ./gradlew :core:testDebugUnitTest :player-core:testDebugUnitTest --stacktrace
-
       - name: Publish to GitHub Packages
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew publishAllPublicationsToGitHubPackagesRepository --stacktrace
+        run: |
+          chmod +x ./gradlew
+          ./gradlew publishAllPublicationsToGitHubPackagesRepository --stacktrace
 
       # LAST step on purpose. The release is the visible, human-readable record that this version
       # exists — and it is also the trigger for `bump-consumers.yml`, which opens the pin-bump pull

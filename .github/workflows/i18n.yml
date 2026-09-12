@@ -17,12 +17,19 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Called by publish.yml before it publishes anything. This workflow never ran on a tag at all, so a
+  # release could go out carrying a string that existed in English and nowhere else. Called from the
+  # publish, the `pull_request` branch below is not taken and the ratchet runs its `verify --bootstrap`
+  # form, which is the right check for a tag.
+  workflow_call:
 
 permissions:
   contents: read
 
+# Named after this file rather than ${{ github.workflow }} — see the note in build.yml: a called
+# workflow reports the caller's name, which would collide with publish.yml's own group.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: i18n-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
