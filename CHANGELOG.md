@@ -3,6 +3,28 @@
 Core is versioned independently of the apps. A core version number never lines up with an OwnTV TV
 app `v4.x` release, and the two must not be confused. Tags here are prefixed `core-`.
 
+## core-1.0.33 — 2026-09-12
+
+### One answer to "is this downloading?", and a download line for the status pill
+
+The phone starts a download and then shows nothing: its detail screen never watched the download
+state, so the icon stayed a plain arrow whatever was happening. The television has watched it
+properly all along. Rather than copy the television's logic into the phone — where the two would
+drift — the state machine moves here, and a tracker is added so the pill both apps already show at
+the bottom of the screen can carry a download line too.
+
+- **`DownloadStripKind` / `DownloadStripState` / `downloadStripFor(rows)`** move into core
+  (`core/download/DownloadStripState.kt`) from the TV app's `ui/components/DownloadStatusStrip.kt`.
+  Pure data over `DownloadEntity` — only `@Immutable` travels with it — so both apps decide
+  "downloading / queued / paused / failed" with one function. The TV app's copy is deleted in its own
+  change; the drawing stays in each app.
+- **`DownloadActivityTracker`** — the running transfer as a `StateFlow`, shaped after
+  `SyncActivityTracker` and `EpgActivityTracker` and registered in the same Koin module. Fed from
+  `DownloadEngine`'s existing progress callback, and cleared whenever a transfer ends — completed,
+  failed, paused or deleted. Downloads remain strictly one at a time; nothing about the queue changes.
+- Two new strings, `sync_status_download` and `sync_status_download_with_progress`, in all packaged
+  locales.
+
 ## core-1.0.32 — 2026-09-11
 
 ### Two guides in one playlist header are two guides again (TV #171)

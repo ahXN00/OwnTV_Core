@@ -216,9 +216,12 @@ val dataModule = module {
     single { TvHomeRepository(androidContext(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     // planner, resolver, tvHomeRepository
     single { LauncherIntegrationRepository(get(), get(), get()) }
-    // downloadDao, okHttpClient, sourceDao, movieDao, seriesDao, streamUrlResolver
-    // (the last four are D-3: Stalker downloads resolve the stored cmd at download-start time)
-    single { DownloadEngine(get(), get(), get(), get(), get(), get()) }
+    // Same idea as the sync trackers: the download engine reports its running transfer here so the
+    // shell's status pill can show it in both apps.
+    single { tv.own.owntv.core.download.DownloadActivityTracker() }
+    // downloadDao, okHttpClient, sourceDao, movieDao, seriesDao, streamUrlResolver, activityTracker
+    // (the middle four are D-3: Stalker downloads resolve the stored cmd at download-start time)
+    single { DownloadEngine(get(), get(), get(), get(), get(), get(), get()) }
     // context, downloadDao, settings, engine
     single { DownloadManager(androidContext(), get(), get(), get()) }
     // profileDao, sourceDao, settings, customizationStore, userDataResolver, epgSourceStore,

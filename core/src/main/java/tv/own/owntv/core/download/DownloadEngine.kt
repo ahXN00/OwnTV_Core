@@ -41,6 +41,7 @@ class DownloadEngine(
     private val movieDao: MovieDao,
     private val seriesDao: SeriesDao,
     private val streamUrlResolver: StreamUrlResolver,
+    private val activityTracker: DownloadActivityTracker,
 ) {
     /** Jobs of transfers currently running, so pause/delete/retry can stop one precisely. */
     private val active = ConcurrentHashMap<Long, Job>()
@@ -65,6 +66,9 @@ class DownloadEngine(
      * drain itself — the next queued item still starts.
      */
     suspend fun drainQueue(onProgress: (DownloadProgress) -> Unit) = coroutineScope {
+        // Every progress report also feeds the shell's status pill, so a transfer is visible in the
+        // app and not only in the notification shade.
+        val report: (DownloadProgress) -> Unit = { activityTracker.progress(it); onProgress(it) }
         val seen = mutableSetOf<Long>()
         while (currentCoroutineContext().isActive) {
             queueDirty = false
@@ -75,12 +79,14 @@ class DownloadEngine(
                 if (queueDirty) continue else return@coroutineScope
             }
             seen += next.id
-            val job = launch { runDownload(next.id, onProgress) }
+            val job = launch { runDownload(next.id, report) }
             active[next.id] = job
             try {
                 job.join()
             } finally {
                 active.remove(next.id, job)
+                // Completed, failed, paused or deleted — either way this transfer is no longer live.
+                activityTracker.finished()
             }
         }
     }
