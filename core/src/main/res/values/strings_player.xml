@@ -520,4 +520,40 @@
     <string name="player_error_cast_unsupported">The device you\'re casting to can\'t play this stream. Many live channels use a format it doesn\'t support \u2014 play it on your phone instead.</string>
     <!-- Translators: Player status while the stream plays on a Chromecast-style receiver instead of the phone. The placeholder is the receiver's own name, for example "Living Room TV". -->
     <string name="player_cast_playing_on">Playing on <xliff:g id="device">%1$s</xliff:g></string>
+    <!-- Translators: Player button that turns the fullscreen channel into a Multiview grid. -->
+    <string name="multiview_button">Multiview</string>
+    <!-- Translators: Placeholder on an empty Multiview tile. -->
+    <string name="multiview_add_channel">Add channel</string>
+    <!-- Translators: Shown on a tile the provider has no connection left for. -->
+    <string name="multiview_refused_single">Your provider allows one stream at a time.</string>
+    <!-- Translators: As above, when a recording is holding the one connection. -->
+    <string name="multiview_refused_single_recording">Your provider allows one stream at a time, and a recording is using it.</string>
+    <!-- Translators: Shown on a tile when every connection is in use. "count" is 2 or more. -->
+    <string name="multiview_refused_all_in_use">Your provider allows <xliff:g id="count">%1$d</xliff:g> streams at a time, and they are all in use.</string>
+    <!-- Translators: As above. "count" is the limit, "recording" how many are recording. -->
+    <string name="multiview_refused_all_in_use_recording">Your provider allows <xliff:g id="count">%1$d</xliff:g> streams at a time. <xliff:g id="recording">%2$d</xliff:g> of them are recording.</string>
+    <!-- Translators: Shown when a recording is refused because the last connection is kept for watching. -->
+    <string name="multiview_refused_reserved">One connection is kept free so you can keep watching. Change that in Settings to record on every connection.</string>
+    <!-- Translators: Shown when the playlist never said how many streams it allows. -->
+    <string name="multiview_unknown_connections">OwnTV could not tell how many streams this playlist allows. If a tile fails, that is why.</string>
+    <!-- Translators: Shown on a tile the device has no video decoder left for. -->
+    <string name="multiview_decoder_exhausted">This TV can\'t decode another channel at the same time.</string>
+    <!-- Translators: Tile menu: pick a different channel for this tile. -->
+    <string name="multiview_tile_change_channel">Change channel</string>
+    <!-- Translators: Tile menu: make this tile the only thing on screen. -->
+    <string name="multiview_tile_fullscreen">Make fullscreen</string>
+    <!-- Translators: Tile menu: record the channel in this tile. -->
+    <string name="multiview_tile_record">Record this</string>
+    <!-- Translators: Tile menu: empty this tile. -->
+    <string name="multiview_tile_remove">Remove tile</string>
+    <!-- Translators: Description of the badge on the tile whose sound is playing. -->
+    <string name="multiview_audio_tile">Sound is on this tile</string>
+    <!-- Translators: Channel menu entry: keep this channel for the Multiview grid. -->
+    <string name="multiview_add_to">Add to Multiview</string>
+    <!-- Translators: Confirmation after adding. "count" is how many are kept, "total" the grid size. -->
+    <string name="multiview_added">Kept for Multiview · <xliff:g id="count">%1$d</xliff:g> of <xliff:g id="total">%2$d</xliff:g>. Play a channel to open the grid.</string>
+    <!-- Translators: Tile menu: play this tile without a picture, for its sound only. -->
+    <string name="multiview_tile_sound_only">Sound only</string>
+    <!-- Translators: Shown on a sound-only tile. It still uses one provider connection. -->
+    <string name="multiview_sound_only_note">Sound only — still one of your provider\'s streams</string>
 </resources>

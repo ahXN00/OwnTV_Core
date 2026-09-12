@@ -3,6 +3,37 @@
 Core is versioned independently of the apps. A core version number never lines up with an OwnTV TV
 app `v4.x` release, and the two must not be confused. Tags here are prefixed `core-`.
 
+## core-1.0.34 — 2026-09-12
+
+### Multiview's rules, and one owner for the three folder names
+
+The engine half of watching up to four live channels at once. Nothing here shows a grid — both apps
+do that — but everything that decides whether a tile is *allowed* to start now lives in one place, so
+a television and a phone can never answer that question differently.
+
+- **`connectionBudget`** (`core/live/ConnectionBudget.kt`) — pure arithmetic over a playlist's
+  `maxConnections`: may one more stream start, and if not, which sentence explains it. The feature is
+  never capped; an individual tile is checked before it tunes and told the reason instead of failing
+  into a spinner. A recording may take the only connection a one-stream account has, because a live
+  programme does not come back and a rewatch does; on a bigger account one connection is kept free for
+  watching unless the user gives it up.
+- **`OpenStreamRegistry`** — who currently holds a stream on which playlist. Tiles and recordings
+  spend the same provider connections, so both count against one register. Not persisted: a claim is
+  only true while the app is running it.
+- **Multiview settings storage** — on/off, tile count 1–4, and the "more than two tiles" warning flag.
+- **`LiveEnginePool`** (`:player-core`) — one live engine per tile, with two rules it owns: exactly one
+  tile has the sound, and the tiles without it are asked for a smaller picture. Also the sound-only
+  tile, for watching one channel while another's commentary plays.
+- **`LivePreviewEngine` is safe to build more than once**, and now says so. Every field of it is
+  per-instance; what is genuinely process-wide is shared on purpose. It also gained a per-tile video
+  ceiling and a distinct **`PlaybackFailure.DecoderExhausted`** — "this device has no decoder left" is
+  not "this decoder broke", and only one of them is worth retrying.
+- **`MediaFolders`** (`core/storage/`) — `TV/`, `Movies/` and `Series/<show>/Season N` are core's names
+  now, and core creates them. They were string literals at four call sites across the two apps, which
+  is exactly how a library quietly splits in two. Paths are byte-identical to what was written before;
+  nothing on disk moves.
+- 25 new strings in all packaged locales.
+
 ## core-1.0.33 — 2026-09-12
 
 ### One answer to "is this downloading?", and a download line for the status pill

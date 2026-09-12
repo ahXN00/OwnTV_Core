@@ -2290,6 +2290,9 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	mini_player_position
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	mini_player_size_pct
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	mini_player_style
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	multiview_enabled
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	multiview_tiles
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	multiview_warning_accepted
 2	json	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	name
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	nav_menu_hidden
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	nav_menu_mode
@@ -2537,6 +2540,11 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StreamUrlResolver.kt	shortEpg is Stalker-only
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StreamUrlResolver.kt	tv_archive
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StreamUrlResolver.kt	vod
+1	file-path	core/src/main/java/tv/own/owntv/core/storage/MediaFolders.kt	$SERIES/${StorageAccess.sanitize(showName)}/$SEASON_PREFIX $seasonNumber
+1	file-path	core/src/main/java/tv/own/owntv/core/storage/MediaFolders.kt	Movies
+1	file-path	core/src/main/java/tv/own/owntv/core/storage/MediaFolders.kt	Season
+1	file-path	core/src/main/java/tv/own/owntv/core/storage/MediaFolders.kt	Series
+1	file-path	core/src/main/java/tv/own/owntv/core/storage/MediaFolders.kt	TV
 3	empty	core/src/main/java/tv/own/owntv/core/storage/StorageAccess.kt	\0
 2	file-path	core/src/main/java/tv/own/owntv/core/storage/StorageAccess.kt	OwnTV
 1	regex	core/src/main/java/tv/own/owntv/core/storage/StorageAccess.kt	[\\\\/:*?"<>|]
@@ -3465,6 +3473,8 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	buffering stalled
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	connection pool evict failed: ${it.javaClass.simpleName}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	dataType=${mediaLoadData.dataType} canceled=$wasCanceled
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	decoder exhausted — no MediaCodec instance available
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	decoder exhausted: no MediaCodec instance available
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	decoder failure before first frame — rebuild + retry once
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	discontinuitySeq=${manifest.mediaPlaylist.discontinuitySequence}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	distinct segments on this load
@@ -3472,6 +3482,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	empty
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	ended mid-live
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	error ${error.errorCodeName}
+1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	error 0xfffffff4
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	exo/live: $reason
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	first frame after ${android.os.SystemClock.elapsedRealtime() - tune.playStartedMs}ms
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	frame hook NOT wired — no video renderer found; picture-freeze detection falls back to the no-progress backstop

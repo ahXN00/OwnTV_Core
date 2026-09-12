@@ -112,6 +112,14 @@ sealed interface PlaybackFailure {
     data object FileCorrupt : PlaybackFailure
     data object MultipleVideos : PlaybackFailure
     data object DecoderBusy : PlaybackFailure
+
+    /**
+     * The device has no video decoder left to give — every hardware instance is already in use. Not
+     * the same as [DecoderBusy]: waiting a moment does not help, because something else on screen is
+     * holding the decoder. This is what a fourth Multiview tile hits on cheap TV silicon (D5: the
+     * tile explains itself, the grid stays up).
+     */
+    data object DecoderExhausted : PlaybackFailure
     data object NoInternet : PlaybackFailure
     data object Surround : PlaybackFailure
     data object ImageSubtitleAudio : PlaybackFailure
@@ -162,6 +170,7 @@ fun PlaybackFailure.describe(resolve: (Int, List<Any>) -> String): String {
         PlaybackFailure.FileCorrupt -> str(R.string.player_error_file_corrupt)
         PlaybackFailure.MultipleVideos -> str(R.string.player_error_multiple_videos)
         PlaybackFailure.DecoderBusy -> str(R.string.player_error_decoder_busy)
+        PlaybackFailure.DecoderExhausted -> str(R.string.multiview_decoder_exhausted)
         PlaybackFailure.NoInternet -> str(R.string.player_error_no_internet)
         PlaybackFailure.Surround -> str(R.string.player_error_surround)
         PlaybackFailure.ImageSubtitleAudio -> str(R.string.player_error_image_subtitle_audio)

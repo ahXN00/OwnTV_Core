@@ -25,6 +25,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import tv.own.owntv.core.CoreBuildInfo
 import tv.own.owntv.core.i18n.LocaleStore
+import tv.own.owntv.core.live.DEFAULT_MULTIVIEW_TILES
+import tv.own.owntv.core.live.MAX_MULTIVIEW_TILES
+import tv.own.owntv.core.live.MIN_MULTIVIEW_TILES
 import tv.own.owntv.core.model.HomeConfig
 import tv.own.owntv.core.player.SurroundMode
 import tv.own.owntv.core.util.Pin
@@ -277,6 +280,12 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         /** The one-time "this stream judders at your TV's refresh rate" suggestion has been answered. */
         val AUTO_FRAME_RATE_PROMPTED = booleanPreferencesKey("auto_frame_rate_prompted")
         val ANDROID_TV_HOME = booleanPreferencesKey("android_tv_home")
+
+        // Multiview: watching up to four live channels at once (Plan D, feature B).
+        val MULTIVIEW_ENABLED = booleanPreferencesKey("multiview_enabled")
+        val MULTIVIEW_TILES = intPreferencesKey("multiview_tiles")
+        /** The "3 or 4 tiles may be more than this device or your provider can do" warning was accepted. */
+        val MULTIVIEW_WARNING_ACCEPTED = booleanPreferencesKey("multiview_warning_accepted")
         // Video Player Settings
         val HW_DECODING = booleanPreferencesKey("hw_decoding")
         val VOD_PREFER_EXO = booleanPreferencesKey("vod_prefer_exo") // legacy; read for migration only
@@ -1793,6 +1802,37 @@ class SettingsRepository(private val context: Context, private val localeStore: 
 
     suspend fun setHdrEnabled(enabled: Boolean) {
         context.dataStore.edit { it[Keys.HDR_ENABLED] = enabled }
+    }
+
+    /**
+     * Multiview — up to four live channels on screen at once. Off by default: it costs one provider
+     * connection per tile, so it is never something the app starts doing on its own.
+     */
+    val multiviewEnabled: Flow<Boolean> = prefsFlow { it[Keys.MULTIVIEW_ENABLED] ?: false }
+
+    suspend fun setMultiviewEnabled(enabled: Boolean) {
+        context.dataStore.edit { it[Keys.MULTIVIEW_ENABLED] = enabled }
+    }
+
+    /**
+     * How many tiles the grid has, 1..4. Never reduced behind the user's back — a device or a provider
+     * that cannot manage the number chosen says so on the tile that fails (D5).
+     */
+    val multiviewTiles: Flow<Int> = prefsFlow {
+        (it[Keys.MULTIVIEW_TILES] ?: DEFAULT_MULTIVIEW_TILES).coerceIn(MIN_MULTIVIEW_TILES, MAX_MULTIVIEW_TILES)
+    }
+
+    suspend fun setMultiviewTiles(tiles: Int) {
+        context.dataStore.edit {
+            it[Keys.MULTIVIEW_TILES] = tiles.coerceIn(MIN_MULTIVIEW_TILES, MAX_MULTIVIEW_TILES)
+        }
+    }
+
+    /** Whether the >2-tile warning has been accepted, so it is asked once and not on every change. */
+    val multiviewWarningAccepted: Flow<Boolean> = prefsFlow { it[Keys.MULTIVIEW_WARNING_ACCEPTED] ?: false }
+
+    suspend fun setMultiviewWarningAccepted(accepted: Boolean) {
+        context.dataStore.edit { it[Keys.MULTIVIEW_WARNING_ACCEPTED] = accepted }
     }
 
     /**

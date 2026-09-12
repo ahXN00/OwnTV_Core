@@ -44,8 +44,16 @@ import tv.own.owntv.core.network.StreamHeaders
  *
  * The **full** player stays on mpv (4K/HDR direct path, broad IPTV/raw-TS compatibility) — going fullscreen
  * [stop]s this engine and hands the channel to mpv. Preview and fullscreen use separate SurfaceViews on
- * separate screens, so the two decoders never share a surface. A single long-lived instance (Koin single),
- * like [OwnTVPlayer]; it's [stop]ped (not released) whenever the preview isn't on screen.
+ * separate screens, so the two decoders never share a surface. Historically one long-lived
+ * instance, like [OwnTVPlayer]; it's [stop]ped (not released) whenever the preview isn't on screen.
+ *
+ * **Multiview needs several at once, and several is safe.** Every field of this class is
+ * per-instance — the 25 `@Volatile`s included, which are marked for cross-thread visibility and not
+ * for sharing — and the companion holds only constants and pure functions. What genuinely is
+ * process-wide is shared on purpose and stays that way: [LiveDiagnosticsLog] (one log for the
+ * device, and its `init` is idempotent), [AudioOutputPolicy]'s stereo latch (a fact about the
+ * hardware, not about one stream) and the injected [PlayerDiagnostics]. [LiveEnginePool] is what
+ * owns more than one of these, and what keeps exactly one of them audible.
  *
  * All calls must be on the main thread (ExoPlayer is single-threaded): the VM invokes [play]/[stop]/
  * [setMuted] from the UI thread and the Compose surface invokes [setSurface] from the holder callback.
@@ -106,6 +114,8 @@ class LivePreviewEngine(
     /** Media3 independently sends Surface.setFrameRate hints unless explicitly disabled. Keep that path
      *  tied to OwnTV's AFR toggle too; the default preview/in-pane state must never switch the display. */
     @Volatile private var autoFrameRateEnabled = false
+    /** Per-tile video ceiling; null = no cap, which is every case but Multiview. See [setMaxVideoHeight]. */
+    @Volatile private var maxVideoHeight: Int? = null
     /** Device memory budget, resolved once and reused across player rebuilds (see [build]). */
     private var playerBudget: PlayerBudget? = null
     private var surface: Surface? = null
@@ -1077,6 +1087,15 @@ class LivePreviewEngine(
                 retryWithFallbackUserAgent()
                 return
             }
+            // Every hardware decoder on the device is taken (Multiview's real ceiling). A rebuild
+            // cannot conjure one, and mpv would fail the same way, so this one says what it is and
+            // stops. Checked before the rebuild retry, which is for a decoder that *died*.
+            if (isDecoderExhausted(error)) {
+                LiveDiagnosticsLog.event("decoder exhausted — no MediaCodec instance available")
+                _error.value = PlaybackFailure.DecoderExhausted
+                _errorInfo.value = ErrorInfo(PlayerErrors.reasonFor(DECODER_EXHAUSTED_REASON), exoSpec(), DECODER_EXHAUSTED_REASON)
+                return
+            }
             // A hardware decoder that died before the first frame is usually recoverable on a FRESH
             // MediaCodec, so rebuild and try once more before conceding the channel to mpv (see
             // [rebuildDecoderAndRetry]).
@@ -1254,6 +1273,7 @@ class LivePreviewEngine(
             // the stream is still being sniffed; rebuildTracks() relaxes this for audio-only streams.
             tune.hasVideoTrack = true
             applyMute(force = true)
+            applyMaxVideoHeight() // survives a player rebuild, exactly as the mute and language prefs do
             applyLanguagePrefs() // survives a player rebuild, and seeds a player built before the setting arrived
             setVideoTrackDisabled(_audioOnly.value) // survives a player rebuild while Audio Mode is on (F19c)
             // An open that buffers but never starts would otherwise hold the spinner forever — see
@@ -1300,6 +1320,32 @@ class LivePreviewEngine(
         player = null
         videoRenderer = null
         play(url, wasMuted, meta, ua, preroll, tunedLiveBufferOverride, headers, tunedDrmConfig)
+    }
+
+    /**
+     * Cap the video this engine will select, or null for no cap.
+     *
+     * Multiview's real ceiling is the device's hardware decoders, not the provider: four 1080p tiles
+     * ask more of cheap TV silicon than it has. Asking a tile for a lower HLS variant is one of only
+     * two mitigations D5 leaves open (the other is failing that tile honestly), so this exists to be
+     * set per tile — harder on the tiles that do not have the sound.
+     *
+     * Applied immediately and re-applied after every player rebuild.
+     */
+    fun setMaxVideoHeight(height: Int?) {
+        if (maxVideoHeight == height) return
+        maxVideoHeight = height
+        applyMaxVideoHeight()
+    }
+
+    private fun applyMaxVideoHeight() {
+        val p = player ?: return
+        val height = maxVideoHeight
+        p.trackSelectionParameters = p.trackSelectionParameters.buildUpon()
+            .apply {
+                if (height == null) clearVideoSizeConstraints() else setMaxVideoSize(Int.MAX_VALUE, height)
+            }
+            .build()
     }
 
     fun setMuted(m: Boolean) {
@@ -1505,6 +1551,30 @@ class LivePreviewEngine(
      * Capability mismatches (`…EXCEEDS_CAPABILITIES`) are deliberately NOT included — a decoder that
      * genuinely can't handle the format will fail identically on a rebuild, so retrying only delays mpv.
      */
+    /**
+     * Whether [error] is "this device has no decoder instance left" rather than "this decoder broke".
+     *
+     * Android reports it as a decoder-init failure whose diagnostic text names the resource, and the
+     * exact words differ per vendor — hence a phrase list rather than an error code. Getting it wrong
+     * in either direction is survivable: a missed one falls through to the rebuild retry as before,
+     * and a false positive shows an honest sentence about a decoder that was, in fact, unavailable.
+     */
+    private fun isDecoderExhausted(error: PlaybackException): Boolean {
+        if (error.errorCode != PlaybackException.ERROR_CODE_DECODER_INIT_FAILED &&
+            error.errorCode != PlaybackException.ERROR_CODE_DECODER_QUERY_FAILED
+        ) {
+            return false
+        }
+        val text = generateSequence(error.cause) { it.cause }
+            .take(MAX_CAUSE_DEPTH)
+            .mapNotNull { cause ->
+                (cause as? android.media.MediaCodec.CodecException)?.diagnosticInfo ?: cause.message
+            }
+            .joinToString(" ")
+            .lowercase()
+        return DECODER_EXHAUSTED_PHRASES.any { it in text }
+    }
+
     private fun isDecoderFailure(error: PlaybackException): Boolean =
         error.errorCode == PlaybackException.ERROR_CODE_DECODING_FAILED ||
             error.errorCode == PlaybackException.ERROR_CODE_DECODER_INIT_FAILED
@@ -2597,6 +2667,21 @@ class LivePreviewEngine(
         /** Below this a provider's "first sentence" is a fragment ("Sorry.", "Error."), not an explanation,
          *  so the whole message is kept instead. */
         private const val MIN_PROVIDER_SENTENCE = 12
+
+        /** How far down a cause chain to read when deciding a decoder-init failure's real reason. */
+        private const val MAX_CAUSE_DEPTH = 6
+
+        /** Vendor wordings for "there is no decoder instance left on this device". */
+        private val DECODER_EXHAUSTED_PHRASES = listOf(
+            "no more instances",
+            "insufficient resource",
+            "insufficientresources",
+            "error 0xfffffff4",
+            "reclaim",
+        )
+
+        /** The diagnostics line behind [PlaybackFailure.DecoderExhausted]; never shown to the user. */
+        internal const val DECODER_EXHAUSTED_REASON = "decoder exhausted: no MediaCodec instance available"
 
         /**
          * Seconds named by a numeric `Retry-After`, or null when the header is absent, an HTTP-date, or

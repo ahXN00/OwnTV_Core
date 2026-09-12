@@ -216,6 +216,9 @@ val dataModule = module {
     single { TvHomeRepository(androidContext(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
     // planner, resolver, tvHomeRepository
     single { LauncherIntegrationRepository(get(), get(), get()) }
+    // Who currently holds a stream on which playlist. Multiview tiles and recordings spend the same
+    // provider connections, so both count against one register (D11).
+    single { tv.own.owntv.core.live.OpenStreamRegistry() }
     // Same idea as the sync trackers: the download engine reports its running transfer here so the
     // shell's status pill can show it in both apps.
     single { tv.own.owntv.core.download.DownloadActivityTracker() }
