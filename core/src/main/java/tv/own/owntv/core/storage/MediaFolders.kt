@@ -52,4 +52,25 @@ object MediaFolders {
      * screen reads these paths back to show a file's location.
      */
     const val SEASON_PREFIX = "Season"
+
+    /**
+     * Where a saved file sits, read back from its absolute path as a trail a person can follow:
+     * `Movies › Interstellar`, or `Series › Game of Thrones › Season 6`.
+     *
+     * Anchored on one of the three folders named above, so the trail starts where the user's library
+     * starts. Everything over that anchor is `Android/data/tv.own.owntv/files/OwnTV` or whichever
+     * volume they chose, which tells them nothing about where to look. A file that is under none of
+     * the three — restored by hand, or written before these names existed — falls back to its last
+     * three segments, which is still more use than the whole path.
+     *
+     * [separator] is the app's own, because the character between the steps is a matter of
+     * presentation and the string resource for it is already translated.
+     */
+    fun crumb(filePath: String?, separator: String): String? {
+        val parts = filePath?.substringBeforeLast('/')?.split('/')?.filter { it.isNotBlank() }
+            ?: return null
+        val anchor = parts.indexOfLast { it == TV || it == MOVIES || it == SERIES }
+        val trail = if (anchor >= 0) parts.subList(anchor, parts.size) else parts.takeLast(3)
+        return trail.joinToString(separator).ifBlank { null }
+    }
 }

@@ -37,6 +37,30 @@ class MediaFoldersTest {
     }
 
     @Test
+    fun `a crumb starts at the library folder, not at the volume`() {
+        assertEquals(
+            "Series › The Wire › Season 3",
+            MediaFolders.crumb(
+                "/storage/emulated/0/Android/data/tv.own.owntv/files/OwnTV/Series/The Wire/Season 3/ep1.mkv",
+                " › ",
+            ),
+        )
+        // A film sits directly in Movies, so its trail is that one step.
+        assertEquals("Movies", MediaFolders.crumb("/sdcard/OwnTV/Movies/Interstellar.mp4", " › "))
+    }
+
+    @Test
+    fun `a file under none of the three still says something useful`() {
+        assertEquals("b › c › d", MediaFolders.crumb("/a/b/c/d/file.mp4", " › "))
+    }
+
+    @Test
+    fun `no path yet means no crumb`() {
+        assertEquals(null, MediaFolders.crumb(null, " › "))
+        assertEquals(null, MediaFolders.crumb("", " › "))
+    }
+
+    @Test
     fun `ensureIn creates all three and is safe to call twice`() {
         val root = temp.newFolder("OwnTV")
         MediaFolders.ensureIn(root)
