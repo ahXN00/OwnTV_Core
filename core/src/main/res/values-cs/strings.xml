@@ -57,7 +57,7 @@
     <string name="sync_error_interrupted">Server přerušil stahování. Zkuste to znovu.</string>
     <string name="sync_error_mac">Portál odmítl tuto MAC adresu. Zkontrolujte MAC adresu (a datum a čas televizoru) — nebo mohlo vypršet předplatné.</string>
     <string name="sync_error_invalid_mac">Neplatná MAC adresa — použijte formát AA:BB:CC:DD:EE:FF</string>
-    <string name="sync_counts_separator">  ·  </string>
+    <string name="sync_counts_separator">·</string>
     <string name="sync_counts_success">Synchronizace proběhla úspěšně</string>
     <string name="sync_counts_synced">Synchronizováno: <xliff:g id="counts">%1$s</xliff:g></string>
     <string name="sync_import_warnings">Import proběhl s upozorněními: <xliff:g id="phases">%1$s</xliff:g></string>
@@ -65,13 +65,13 @@
     <plurals name="sync_warning_catalog_shrink">
         <item quantity="one">Zachována byla <xliff:g id="stored">%1$d</xliff:g> stávající položka — tento import vrátil o <xliff:g id="percent">%2$d</xliff:g>%% položek méně. Proveďte synchronizaci znovu, nebo použijte Vynutit čistou synchronizaci, pokud ji poskytovatel skutečně odstranil.</item>
         <item quantity="few">Zachovány byly <xliff:g id="stored">%1$d</xliff:g> stávající položky — tento import vrátil o <xliff:g id="percent">%2$d</xliff:g>%% položek méně. Proveďte synchronizaci znovu, nebo použijte Vynutit čistou synchronizaci, pokud je poskytovatel skutečně odstranil.</item>
-        <item quantity="many">Zachováno bylo <xliff:g id="stored">%1$d</xliff:g> stávající položky — tento import vrátil o <xliff:g id="percent">%2$d</xliff:g>%% položek méně. Proveďte synchronizaci znovu, nebo použijte Vynutit čistou synchronizaci, pokud je poskytovatel skutečně odstranil.</item>
+        <item quantity="many">Zachováno bylo <xliff:g id="stored">%1$d</xliff:g> stávajících položek — tento import vrátil o <xliff:g id="percent">%2$d</xliff:g>%% položek méně. Proveďte synchronizaci znovu, nebo použijte Vynutit čistou synchronizaci, pokud je poskytovatel skutečně odstranil.</item>
         <item quantity="other">Zachováno bylo <xliff:g id="stored">%1$d</xliff:g> stávajících položek — tento import vrátil o <xliff:g id="percent">%2$d</xliff:g>%% položek méně. Proveďte synchronizaci znovu, nebo použijte Vynutit čistou synchronizaci, pokud je poskytovatel skutečně odstranil.</item>
     </plurals>
     <plurals name="sync_warning_page_failures">
         <item quantity="one">Nepodařilo se načíst <xliff:g id="count">%1$d</xliff:g> stránku zdroje; část obsahu může až do příští synchronizace chybět.</item>
         <item quantity="few">Nepodařilo se načíst <xliff:g id="count">%1$d</xliff:g> stránky zdroje; část obsahu může až do příští synchronizace chybět.</item>
-        <item quantity="many">Nepodařilo se načíst <xliff:g id="count">%1$d</xliff:g> stránky zdroje; část obsahu může až do příští synchronizace chybět.</item>
+        <item quantity="many">Nepodařilo se načíst <xliff:g id="count">%1$d</xliff:g> stránek zdroje; část obsahu může až do příští synchronizace chybět.</item>
         <item quantity="other">Nepodařilo se načíst <xliff:g id="count">%1$d</xliff:g> stránek zdroje; část obsahu může až do příští synchronizace chybět.</item>
     </plurals>
     <string name="sync_remainder_note">Zbytek katalogu se stále synchronizuje na pozadí — můžete se začít dívat už teď. Průběh se zobrazuje v malém oválném štítku ve spodní části obrazovky.</string>
@@ -95,43 +95,43 @@
     <plurals name="sync_count_channels">
         <item quantity="one"><xliff:g id="count">%1$s</xliff:g> kanál</item>
         <item quantity="few"><xliff:g id="count">%1$s</xliff:g> kanály</item>
-        <item quantity="many"><xliff:g id="count">%1$s</xliff:g> kanálu</item>
+        <item quantity="many"><xliff:g id="count">%1$s</xliff:g> kanálů</item>
         <item quantity="other"><xliff:g id="count">%1$s</xliff:g> kanálů</item>
     </plurals>
     <plurals name="sync_count_movies">
         <item quantity="one"><xliff:g id="count">%1$s</xliff:g> film</item>
         <item quantity="few"><xliff:g id="count">%1$s</xliff:g> filmy</item>
-        <item quantity="many"><xliff:g id="count">%1$s</xliff:g> filmu</item>
+        <item quantity="many"><xliff:g id="count">%1$s</xliff:g> filmů</item>
         <item quantity="other"><xliff:g id="count">%1$s</xliff:g> filmů</item>
     </plurals>
     <plurals name="sync_count_series">
         <item quantity="one"><xliff:g id="count">%1$s</xliff:g> seriál</item>
         <item quantity="few"><xliff:g id="count">%1$s</xliff:g> seriály</item>
-        <item quantity="many"><xliff:g id="count">%1$s</xliff:g> seriálu</item>
+        <item quantity="many"><xliff:g id="count">%1$s</xliff:g> seriálů</item>
         <item quantity="other"><xliff:g id="count">%1$s</xliff:g> seriálů</item>
     </plurals>
     <plurals name="sync_count_epg">
         <item quantity="one"><xliff:g id="count">%1$s</xliff:g> položka EPG</item>
         <item quantity="few"><xliff:g id="count">%1$s</xliff:g> položky EPG</item>
-        <item quantity="many"><xliff:g id="count">%1$s</xliff:g> položky EPG</item>
+        <item quantity="many"><xliff:g id="count">%1$s</xliff:g> položek EPG</item>
         <item quantity="other"><xliff:g id="count">%1$s</xliff:g> položek EPG</item>
     </plurals>
     <plurals name="sync_status_more">
         <item quantity="one">+<xliff:g id="count">%1$d</xliff:g> další synchronizace</item>
         <item quantity="few">+<xliff:g id="count">%1$d</xliff:g> další synchronizace</item>
-        <item quantity="many">+<xliff:g id="count">%1$d</xliff:g> další synchronizace</item>
+        <item quantity="many">+<xliff:g id="count">%1$d</xliff:g> dalších synchronizací</item>
         <item quantity="other">+<xliff:g id="count">%1$d</xliff:g> dalších synchronizací</item>
     </plurals>
     <plurals name="sync_categories_added">
         <item quantity="one">Přidána <xliff:g id="count">%1$d</xliff:g> kategorie</item>
         <item quantity="few">Přidány <xliff:g id="count">%1$d</xliff:g> kategorie</item>
-        <item quantity="many">Přidáno <xliff:g id="count">%1$d</xliff:g> kategorie</item>
+        <item quantity="many">Přidáno <xliff:g id="count">%1$d</xliff:g> kategorií</item>
         <item quantity="other">Přidáno <xliff:g id="count">%1$d</xliff:g> kategorií</item>
     </plurals>
     <plurals name="sync_categories_removed">
         <item quantity="one">Odebrána <xliff:g id="count">%1$d</xliff:g> kategorie</item>
         <item quantity="few">Odebrány <xliff:g id="count">%1$d</xliff:g> kategorie</item>
-        <item quantity="many">Odebráno <xliff:g id="count">%1$d</xliff:g> kategorie</item>
+        <item quantity="many">Odebráno <xliff:g id="count">%1$d</xliff:g> kategorií</item>
         <item quantity="other">Odebráno <xliff:g id="count">%1$d</xliff:g> kategorií</item>
     </plurals>
     <string name="sync_error_portal">Portál se nepodařilo kontaktovat. Zkontrolujte URL portálu — obvykle končí na /c/.</string>
@@ -167,7 +167,7 @@
     <plurals name="sync_status_trending_received">
         <item quantity="one">Přijata nejnovější <xliff:g id="count">%1$d</xliff:g> populární položka</item>
         <item quantity="few">Přijaty nejnovější <xliff:g id="count">%1$d</xliff:g> populární položky</item>
-        <item quantity="many">Přijato nejnovějších <xliff:g id="count">%1$d</xliff:g> populární položky</item>
+        <item quantity="many">Přijato nejnovějších <xliff:g id="count">%1$d</xliff:g> populárních položek</item>
         <item quantity="other">Přijato nejnovějších <xliff:g id="count">%1$d</xliff:g> populárních položek</item>
     </plurals>
     <plurals name="sync_status_trending_matched">
@@ -179,25 +179,25 @@
     <plurals name="sync_status_trending_building">
         <item quantity="one">Vytváření sekce Právě populární · <xliff:g id="count">%1$d</xliff:g> shoda</item>
         <item quantity="few">Vytváření sekce Právě populární · <xliff:g id="count">%1$d</xliff:g> shody</item>
-        <item quantity="many">Vytváření sekce Právě populární · <xliff:g id="count">%1$d</xliff:g> shody</item>
+        <item quantity="many">Vytváření sekce Právě populární · <xliff:g id="count">%1$d</xliff:g> shod</item>
         <item quantity="other">Vytváření sekce Právě populární · <xliff:g id="count">%1$d</xliff:g> shod</item>
     </plurals>
     <plurals name="sync_status_trending_publishing">
         <item quantity="one">Zveřejňování sekce Právě populární · <xliff:g id="count">%1$d</xliff:g> položka</item>
         <item quantity="few">Zveřejňování sekce Právě populární · <xliff:g id="count">%1$d</xliff:g> položky</item>
-        <item quantity="many">Zveřejňování sekce Právě populární · <xliff:g id="count">%1$d</xliff:g> položky</item>
+        <item quantity="many">Zveřejňování sekce Právě populární · <xliff:g id="count">%1$d</xliff:g> položek</item>
         <item quantity="other">Zveřejňování sekce Právě populární · <xliff:g id="count">%1$d</xliff:g> položek</item>
     </plurals>
     <plurals name="sync_status_trending_ready">
         <item quantity="one">Sekce Právě populární je připravena · <xliff:g id="count">%1$d</xliff:g> shoda</item>
         <item quantity="few">Sekce Právě populární je připravena · <xliff:g id="count">%1$d</xliff:g> shody</item>
-        <item quantity="many">Sekce Právě populární je připravena · <xliff:g id="count">%1$d</xliff:g> shody</item>
+        <item quantity="many">Sekce Právě populární je připravena · <xliff:g id="count">%1$d</xliff:g> shod</item>
         <item quantity="other">Sekce Právě populární je připravena · <xliff:g id="count">%1$d</xliff:g> shod</item>
     </plurals>
     <plurals name="sync_status_trending_below_minimum">
         <item quantity="one">Sekce Právě populární je skryta · pouze <xliff:g id="count">%1$d</xliff:g> shoda</item>
         <item quantity="few">Sekce Právě populární je skryta · pouze <xliff:g id="count">%1$d</xliff:g> shody</item>
-        <item quantity="many">Sekce Právě populární je skryta · pouze <xliff:g id="count">%1$d</xliff:g> shody</item>
+        <item quantity="many">Sekce Právě populární je skryta · pouze <xliff:g id="count">%1$d</xliff:g> shod</item>
         <item quantity="other">Sekce Právě populární je skryta · pouze <xliff:g id="count">%1$d</xliff:g> shod</item>
     </plurals>
 </resources>

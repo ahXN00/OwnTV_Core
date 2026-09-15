@@ -94,13 +94,7 @@
     <string name="settings_remote_shortcuts_short_press">Kurzer Tastendruck</string>
     <string name="settings_remote_shortcuts_long_press">Langer Tastendruck</string>
     <string name="settings_remote_shortcuts_unknown_button">Fernbedienungstaste %1$d</string>
-    <string name="settings_remote_shortcuts_help">• Standardmäßig blättern CH+/CH− und Zurück/Vor durch Listen; Halten springt zum ersten oder letzten Eintrag.
-• Kurzer und langer Tastendruck können getrennt belegt werden.
-• „Zum letzten Eintrag“ bleibt in sehr großen „Alle“-Listen deaktiviert.
-• Langes Drücken von Zurück fokussiert immer „Aktuelle Wiedergabe“ und ist nicht änderbar.
-• Häufig belegbare Tasten sind Rot/Grün/Gelb/Blau, Zahlen, CH+/CH− und Zurück-/Vorspulen.
-• Zurück, Steuerkreuz, OK, Lautstärke, Home und Ein/Aus bleiben geschützt.
-• Zahlenkürzel funktionieren beim Browsen; im Vollbild hat die Kanalnummerneingabe Vorrang.</string>
+    <string name="settings_remote_shortcuts_help">• Standardmäßig blättern CH+/CH− und Zurück/Vor durch Listen; Halten springt zum ersten oder letzten Eintrag. • Kurzer und langer Tastendruck können getrennt belegt werden. • „Zum letzten Eintrag“ bleibt in sehr großen „Alle“-Listen deaktiviert. • Langes Drücken von Zurück fokussiert immer „Aktuelle Wiedergabe“ und ist nicht änderbar. • Häufig belegbare Tasten sind Rot/Grün/Gelb/Blau, Zahlen, CH+/CH− und Zurück-/Vorspulen. • Zurück, Steuerkreuz, OK, Lautstärke, Home und Ein/Aus bleiben geschützt. • Zahlenkürzel funktionieren beim Browsen; im Vollbild hat die Kanalnummerneingabe Vorrang.</string>
     <string name="settings_remote_button_channel_up">Kanal +</string>
     <string name="settings_remote_button_channel_down">Kanal −</string>
     <string name="settings_remote_button_rewind">Zurückspulen</string>
@@ -187,7 +181,7 @@
     <string name="settings_metadata_no_match">Keine TMDB-Übereinstimmung für „<xliff:g id="query">%1$s</xliff:g>“.</string>
     <string name="settings_metadata_lookup_failed">Suche fehlgeschlagen.</string>
     <string name="settings_metadata_match_result"><xliff:g id="title">%1$s</xliff:g><xliff:g id="year">%2$s</xliff:g> · tmdb #<xliff:g id="id">%3$d</xliff:g></string>
-    <string name="settings_metadata_year"> (<xliff:g id="year">%1$d</xliff:g>)</string>
+    <string name="settings_metadata_year">(<xliff:g id="year">%1$d</xliff:g>)</string>
     <string name="settings_lookup_movie">Nach einem Filmtitel suchen</string>
     <string name="settings_test_lookup">Testsuche</string>
     <string name="settings_looking_up">Suche läuft…</string>
@@ -723,7 +717,6 @@
     <string name="settings_customize_rename_or_delete_category">Kategorie umbenennen oder löschen</string>
     <string name="settings_customize_new_category">＋ Neue Kategorie</string>
     <string name="settings_customize_sort_button">Sortierung: <xliff:g id="label">%1$s</xliff:g> ▾</string>
-
     <string name="settings_customize_filter_button">Filter: <xliff:g id="label">%1$s</xliff:g> ▾</string>
     <string name="settings_customize_filter_title">Liste filtern</string>
     <string name="settings_customize_filter_all">Alle</string>
@@ -745,7 +738,7 @@
     <string name="settings_customize_was">war „<xliff:g id="name">%1$s</xliff:g>“</string>
     <string name="settings_customize_hidden">Ausgeblendet</string>
     <string name="settings_customize_unhide">Einblenden</string>
-    <string name="settings_customize_metadata_separator">  ·  </string>
+    <string name="settings_customize_metadata_separator">·</string>
     <string name="settings_sources_title">Quellen</string>
     <string name="settings_sources_description">Quellen werden von allen Profilen gemeinsam verwendet.</string>
     <string name="settings_sources_empty">Noch keine Quellen. Füge eine M3U- oder Xtream-Quelle hinzu.</string>
@@ -781,7 +774,7 @@
     <string name="settings_sources_auto_refresh">⟳ <xliff:g id="mode">%1$s</xliff:g></string>
     <string name="settings_sources_default">STANDARD</string>
     <string name="settings_sources_backup">Sicherung</string>
-    <string name="settings_sources_details_separator">  •  </string>
+    <string name="settings_sources_details_separator">•</string>
     <string name="settings_sources_preparing_detail">Katalog wird vorbereitet</string>
     <string name="settings_sources_removing_detail">Wird entfernt…</string>
     <string name="settings_sources_edit">Bearbeiten</string>
@@ -797,7 +790,7 @@
     <string name="settings_sources_refresh_startup">Beim App-Start aktualisieren</string>
     <string name="settings_sources_refresh_6h">6 Stunden</string>
     <string name="settings_sources_refresh_12h">12 Stunden</string>
-    <string name="settings_sources_refresh_manual">Eigener Abstand\u2026</string>
+    <string name="settings_sources_refresh_manual">Eigener Abstand…</string>
     <plurals name="settings_sources_refresh_days">
         <item quantity="one">Alle <xliff:g id="count">%1$d</xliff:g> Tage</item>
         <item quantity="other">Alle <xliff:g id="count">%1$d</xliff:g> Tage</item>
@@ -1094,7 +1087,7 @@
     <string name="settings_playback_kind_error">Fehler</string>
     <string name="settings_playback_kind_event">Ereignis</string>
     <string name="settings_playback_kind_report">Bericht</string>
-    <string name="settings_playback_entry_with_kind"><xliff:g id="date">%1$s</xliff:g>  ·  <xliff:g id="kind">%2$s</xliff:g>  ·  <xliff:g id="engine">%3$s</xliff:g>  ·  <xliff:g id="stream_type">%4$s</xliff:g></string>
+    <string name="settings_playback_entry_with_kind"><xliff:g id="date">%1$s</xliff:g> · <xliff:g id="kind">%2$s</xliff:g> · <xliff:g id="engine">%3$s</xliff:g> · <xliff:g id="stream_type">%4$s</xliff:g></string>
     <string name="settings_export">Exportieren</string>
     <string name="settings_detailed_playback_logging_description">In Logcat und im exportierten Bericht eine vollständige Aufzeichnung der Aktivitäten der Live-Engine führen – einschließlich jedes Senderwechsels, jedes Fallbacks und jeder Wiederverbindung. Deaktiviert lassen, außer wenn du einem Problem nachgehst; die Funktion verändert nie die Wiedergabe, sondern nur, wie viel protokolliert wird.</string>
     <string name="settings_live_preroll_playlist_picker">Welche Playlist?</string>
