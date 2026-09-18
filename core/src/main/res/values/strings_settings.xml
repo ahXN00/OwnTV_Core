@@ -1599,6 +1599,16 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <!-- Translators: Instruction under that picker. Left/right are the TV remote directions. -->
     <string name="settings_sources_refresh_days_hint">Left and right choose how many days, from 1 to 99.</string>
 
+    <!-- Translators: Settings row: how many days of upcoming guide the app stores. Opens a day picker. -->
+    <string name="settings_epg_guide_days">Guide days to keep</string>
+    <!-- Translators: Hint under the "Guide days to keep" picker. "%1$d" is the lowest allowed number of days, "%2$d" the highest. -->
+    <string name="settings_epg_guide_days_hint">Left and right choose how many days, from <xliff:g id="min">%1$d</xliff:g> to <xliff:g id="max">%2$d</xliff:g>.</string>
+    <!-- Translators: The chosen number of days, shown as the row's value. "count" is the number of days. -->
+    <plurals name="settings_epg_guide_days_value">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> day</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> days</item>
+    </plurals>
+
     <!-- Translators: Screen title for the EPG Sources management screen. -->
     <string name="settings_epg_sources_title">EPG Sources</string>
     <!-- Translators: Empty-state message when no EPG sources are configured. 'XMLTV' is a format name. -->

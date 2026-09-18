@@ -120,6 +120,10 @@ data class PlaylistRefresh(
         const val MIN_MANUAL_DAYS = 1
         const val MAX_MANUAL_DAYS = 99
         const val DEFAULT_MANUAL_DAYS = 7
+
+        /** Day counts offered directly where a stepper is not the right control — a phone's list. */
+        val PRESET_MANUAL_DAYS = listOf(1, 2, 3, 7, 14, 30)
+
         private const val SEPARATOR = ':'
 
         val OFF = PlaylistRefresh(PlaylistAutoRefresh.OFF)
@@ -146,7 +150,35 @@ data class PlaylistRefresh(
     }
 }
 
-/** Per-EPG-source auto-refresh mode. Same staleness-threshold semantics as [PlaylistAutoRefresh]. */
+/**
+ * Bounds for "Guide days to keep" — how much *future* guide is stored, forward from now.
+ *
+ * The maximum is deliberately lower than the playlist picker's 99 days, and the reason is measured
+ * rather than cautious: a large lineup carries roughly 200,000 programme rows per day (7,083 channels
+ * on the maintainer's television), so seven days is about 1.4 million rows and fourteen is 2.8
+ * million, on a device whose heap ceiling is 192 MB. Beyond a fortnight no provider sends anything
+ * anyway, so a larger number would only promise storage the feed cannot fill.
+ */
+object GuideRetention {
+    const val MIN_DAYS = 1
+    const val MAX_DAYS = 14
+    const val DEFAULT_DAYS = 7
+
+    /** The day counts the picker offers directly; any other value is still valid and is shown. */
+    val PRESET_DAYS = listOf(1, 2, 3, 5, 7, 10, 14)
+}
+
+/**
+ * Per-EPG-source auto-refresh mode. Same staleness-threshold semantics as [PlaylistAutoRefresh].
+ *
+ * [MANUAL] is the same addition playlists already had: there was no reason a user could say "refresh
+ * this playlist every 10 days" but not "refresh this guide every 10 days", and 48 hours — the longest
+ * fixed option — used to be the storage horizon too, so even the best setting could run dry exactly at
+ * the boundary.
+ *
+ * **Every existing entry is kept.** A stored `HOURS_48` still parses to `HOURS_48` and behaves
+ * exactly as before; nothing rewrites a selection the user already made.
+ */
 enum class EpgAutoRefresh(val thresholdMs: Long? = null) {
     OFF,
     STARTUP,
@@ -155,9 +187,61 @@ enum class EpgAutoRefresh(val thresholdMs: Long? = null) {
     HOURS_6(6 * 3600_000L),
     HOURS_12(12 * 3600_000L),
     HOURS_24(24 * 3600_000L),
-    HOURS_48(48 * 3600_000L);
+    HOURS_48(48 * 3600_000L),
 
-    val isInterval: Boolean get() = thresholdMs != null && this != STARTUP
+    /** A whole number of days chosen by the user; the count lives in [EpgRefresh.manualDays]. */
+    MANUAL;
+
+    val isInterval: Boolean get() = this != OFF && this != STARTUP
+}
+
+/**
+ * An EPG source's auto-refresh selection: the mode, plus the day count only [EpgAutoRefresh.MANUAL]
+ * uses. The shape, the serialization and the bounds are [PlaylistRefresh]'s, deliberately — the two
+ * screens ask the same question and should not answer it differently.
+ *
+ * Stored as one string per source, so backup, restore and the pickers need learn nothing about a
+ * second value: `"OFF"`, `"HOURS_48"`, or `"MANUAL:10"`.
+ */
+data class EpgRefresh(
+    val mode: EpgAutoRefresh = EpgAutoRefresh.OFF,
+    val manualDays: Int = PlaylistRefresh.DEFAULT_MANUAL_DAYS,
+) {
+    /** How stale the guide may get before it is refreshed; null when it never refreshes on a timer. */
+    val thresholdMs: Long?
+        get() = if (mode == EpgAutoRefresh.MANUAL) {
+            manualDays.coerceIn(PlaylistRefresh.MIN_MANUAL_DAYS, PlaylistRefresh.MAX_MANUAL_DAYS) * 24 * 3600_000L
+        } else {
+            mode.thresholdMs
+        }
+
+    fun serialize(): String =
+        if (mode == EpgAutoRefresh.MANUAL) "${mode.name}$SEPARATOR$manualDays" else mode.name
+
+    companion object {
+        private const val SEPARATOR = ':'
+
+        val OFF = EpgRefresh(EpgAutoRefresh.OFF)
+
+        /**
+         * Reads a stored value.
+         *
+         * The old format was a bare enum name and the new one is a superset of it, so every existing
+         * selection parses to exactly what it meant before and **nothing is ever rewritten**. An
+         * unrecognised value falls back to OFF, which is also what a source that has never been
+         * configured gets — new sources do not auto-refresh until the user asks them to.
+         */
+        fun parse(raw: String?): EpgRefresh {
+            val value = raw?.trim().orEmpty()
+            val mode = runCatching {
+                EpgAutoRefresh.valueOf(value.substringBefore(SEPARATOR))
+            }.getOrDefault(EpgAutoRefresh.OFF)
+            val days = value.substringAfter(SEPARATOR, "").toIntOrNull()
+                ?.coerceIn(PlaylistRefresh.MIN_MANUAL_DAYS, PlaylistRefresh.MAX_MANUAL_DAYS)
+                ?: PlaylistRefresh.DEFAULT_MANUAL_DAYS
+            return EpgRefresh(mode, days)
+        }
+    }
 }
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "owntv_settings")
@@ -347,6 +431,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val CATCHUP_PLAYER = stringPreferencesKey("catchup_player")
         val CATCHUP_OFFSET_MIN = intPreferencesKey("catchup_offset_minutes")
         val EPG_OFFSET_MIN = intPreferencesKey("epg_offset_minutes")
+        val GUIDE_DAYS_TO_KEEP = intPreferencesKey("guide_days_to_keep")
         val ANIMATION_LEVEL = stringPreferencesKey("animation_level")
         val AMBIENT_GLOW_ENABLED = booleanPreferencesKey("ambient_glow_enabled")
         val AMBIENT_GLOW_PULSE = booleanPreferencesKey("ambient_glow_pulse")
@@ -863,6 +948,27 @@ class SettingsRepository(private val context: Context, private val localeStore: 
      * mixed East/West lineup on a single guide needs, since one global shift can only fix one half.
      */
     val epgOffsetMinutes: Flow<Int> = prefsFlow { it[Keys.EPG_OFFSET_MIN] ?: 0 }
+
+    /**
+     * How many days of guide to keep, forward from now.
+     *
+     * Replaces a hard-coded 48-hour horizon that threw away everything beyond two days even when the
+     * provider had sent a fortnight — so the grid could only ever scroll two days, and two days after
+     * the last sync the guide was simply empty. That is the "EPG stopped working" report, with
+     * nothing actually broken.
+     *
+     * One value, read by three things that must agree: what the sync stores, what the prune keeps,
+     * and how far the grid can scroll. Costs roughly 200,000 rows a day on a large lineup, which is
+     * why the retention split (S4) landed first.
+     */
+    val guideDaysToKeep: Flow<Int> = prefsFlow {
+        (it[Keys.GUIDE_DAYS_TO_KEEP] ?: GuideRetention.DEFAULT_DAYS)
+            .coerceIn(GuideRetention.MIN_DAYS, GuideRetention.MAX_DAYS)
+    }
+
+    suspend fun setGuideDaysToKeep(days: Int) {
+        context.dataStore.edit { it[Keys.GUIDE_DAYS_TO_KEEP] = days.coerceIn(GuideRetention.MIN_DAYS, GuideRetention.MAX_DAYS) }
+    }
 
     suspend fun setEpgOffsetMinutes(minutes: Int) {
         context.dataStore.edit { it[Keys.EPG_OFFSET_MIN] = minutes.coerceIn(epgOffsetRangeMinutes) }
@@ -1650,8 +1756,12 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         }
 
     /** Per-source EPG auto-refresh selection. Missing ids default to [EpgAutoRefresh.OFF]. */
-    val epgAutoRefresh: Flow<Map<Long, EpgAutoRefresh>> =
-        prefsFlow { prefs -> parseRefreshMap(prefs[Keys.EPG_AUTO_REFRESH]) { EpgAutoRefresh.valueOf(it) } }
+    val epgAutoRefresh: Flow<Map<Long, EpgRefresh>> =
+        prefsFlow { prefs ->
+            readRefreshMap(prefs[Keys.EPG_AUTO_REFRESH]).entries.mapNotNull { (key, value) ->
+                key.toLongOrNull()?.let { it to EpgRefresh.parse(value) }
+            }.toMap()
+        }
 
     /**
      * EPG sources whose own `<icon src>` channel logos should replace the playlist's logos. Per source,
@@ -1675,9 +1785,9 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         }
     }
 
-    suspend fun setEpgAutoRefresh(sourceId: Long, mode: EpgAutoRefresh) {
+    suspend fun setEpgAutoRefresh(sourceId: Long, refresh: EpgRefresh) {
         context.dataStore.edit { prefs ->
-            prefs[Keys.EPG_AUTO_REFRESH] = writeRefreshMap(readRefreshMap(prefs[Keys.EPG_AUTO_REFRESH]), sourceId, mode.name)
+            prefs[Keys.EPG_AUTO_REFRESH] = writeRefreshMap(readRefreshMap(prefs[Keys.EPG_AUTO_REFRESH]), sourceId, refresh.serialize())
         }
     }
 
@@ -2388,7 +2498,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         Keys.NAV_MENU_HIDDEN,
         Keys.REMOTE_SHORTCUT_BINDINGS,
     )
-    private val backupIntKeys = listOf(Keys.FOCUS_HIGHLIGHT_WIDTH, Keys.DEFAULT_VOLUME, Keys.SEEK_STEP_SEC, Keys.LIVE_REWIND_STEP_SEC, Keys.UI_ZOOM_PCT, Keys.FONT_SIZE_PCT, Keys.AUDIO_DELAY_MS, Keys.CATCHUP_OFFSET_MIN, Keys.EPG_OFFSET_MIN, Keys.PROXY_PORT, Keys.DNS_PORT, Keys.CH_NAV_UP_SKIP, Keys.CH_NAV_DOWN_SKIP, Keys.MINI_PLAYER_SIZE_PCT, Keys.LIVE_LATENCY_CUSTOM_SECS, Keys.LIVE_PREROLL_SECS, Keys.LIVE_TUNE_TIMEOUT_SECS, Keys.GLASS_SCOPE, Keys.GLASS_ALPHA, Keys.GLASS_BLUR, Keys.GLASS_HIGHLIGHT, Keys.SUB_BG_OPACITY,
+    private val backupIntKeys = listOf(Keys.GUIDE_DAYS_TO_KEEP, Keys.FOCUS_HIGHLIGHT_WIDTH, Keys.DEFAULT_VOLUME, Keys.SEEK_STEP_SEC, Keys.LIVE_REWIND_STEP_SEC, Keys.UI_ZOOM_PCT, Keys.FONT_SIZE_PCT, Keys.AUDIO_DELAY_MS, Keys.CATCHUP_OFFSET_MIN, Keys.EPG_OFFSET_MIN, Keys.PROXY_PORT, Keys.DNS_PORT, Keys.CH_NAV_UP_SKIP, Keys.CH_NAV_DOWN_SKIP, Keys.MINI_PLAYER_SIZE_PCT, Keys.LIVE_LATENCY_CUSTOM_SECS, Keys.LIVE_PREROLL_SECS, Keys.LIVE_TUNE_TIMEOUT_SECS, Keys.GLASS_SCOPE, Keys.GLASS_ALPHA, Keys.GLASS_BLUR, Keys.GLASS_HIGHLIGHT, Keys.SUB_BG_OPACITY,
         Keys.PANEL_W_LIVE_CAT, Keys.PANEL_W_LIVE_LIST, Keys.PANEL_W_LIVE_PREVIEW,
         Keys.PANEL_W_MOVIES_CAT, Keys.PANEL_W_MOVIES_LIST, Keys.PANEL_W_MOVIES_PREVIEW,
             Keys.PANEL_W_SERIES_CAT, Keys.PANEL_W_SERIES_LIST, Keys.PANEL_W_SERIES_PREVIEW,
@@ -2687,7 +2797,9 @@ class SettingsRepository(private val context: Context, private val localeStore: 
 
     /** Restores the EPG auto-refresh map; same semantics as [importPlaylistAutoRefresh]. */
     suspend fun importEpgAutoRefresh(o: org.json.JSONObject, existingEpgSourceIds: Set<Long>) {
-        val cleaned = sanitizeRefreshMap(o, existingEpgSourceIds) { runCatching { EpgAutoRefresh.valueOf(it) }.getOrDefault(EpgAutoRefresh.OFF).name }
+        // Round-trips "MANUAL:10" as well as the bare enum names older backups carry, because
+        // [EpgRefresh.parse] accepts both and re-serializes whatever it understood.
+        val cleaned = sanitizeRefreshMap(o, existingEpgSourceIds) { EpgRefresh.parse(it).serialize() }
         context.dataStore.edit { prefs ->
             val merged = parseRefreshMap(prefs[Keys.EPG_AUTO_REFRESH]) + cleaned
             prefs[Keys.EPG_AUTO_REFRESH] = org.json.JSONObject(merged as Map<*, *>).toString()

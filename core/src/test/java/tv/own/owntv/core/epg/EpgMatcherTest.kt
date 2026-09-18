@@ -2,6 +2,7 @@ package tv.own.owntv.core.epg
 
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -171,5 +172,56 @@ class EpgMatcherTest {
     fun bestMatch_returnsNullWhenNothingClearsThreshold() {
         val candidates = listOf(EpgMatcher.Candidate("cnn.us", "CNN International"))
         assertNull(EpgMatcher.bestEpgMatch("Discovery Channel", candidates))
+    }
+
+    // ---- Picker search, through the normalizer (guide plan Phase 2) ----
+
+    @Test
+    fun search_findsASpelledOutNumberFromADigit() {
+        // The report case: "bbc1" normalizes to `bbc1`, "BBC One" to `bbc 1`. A raw substring finds
+        // nothing, while the matcher scores the same pair high enough to auto-apply.
+        assertTrue(EpgMatcher.matchesSearch("bbc1", "BBC One", "bbc.one.uk"))
+        assertTrue(EpgMatcher.matchesSearch("BBC1", "BBC One", "bbc.one.uk"))
+        assertTrue(EpgMatcher.matchesSearch("bbc 1", "BBC One", "bbc.one.uk"))
+    }
+
+    @Test
+    fun search_seesThroughPunctuationAndNoise() {
+        assertTrue(EpgMatcher.matchesSearch("sky sport", "Sky-Sports HD", "sky.sports.uk"))
+        assertTrue(EpgMatcher.matchesSearch("skysports", "Sky-Sports HD", "sky.sports.uk"))
+    }
+
+    @Test
+    fun search_foldsCaseOutsideAscii() {
+        // SQLite's LOWER() is ASCII-only, so a lowercase Cyrillic query could never reach an
+        // uppercase Cyrillic name. Kotlin's lowercase() is not, which is the whole point of routing
+        // the search through the normalizer.
+        assertTrue(EpgMatcher.matchesSearch("первый", "ПЕРВЫЙ КАНАЛ", "perviy.ru"))
+        assertTrue(EpgMatcher.matchesSearch("αλφα", "ΑΛΦΑ TV", "alpha.gr"))
+    }
+
+    @Test
+    fun search_stillFindsByIdWhenTheNameDoesNotMatch() {
+        assertTrue(EpgMatcher.matchesSearch("itv.one", null, "itv.one.uk"))
+    }
+
+    @Test
+    fun search_doesNotMatchAnUnrelatedChannel() {
+        assertFalse(EpgMatcher.matchesSearch("discovery", "BBC One", "bbc.one.uk"))
+        assertFalse(EpgMatcher.matchesSearch("bbc2", "BBC One", "bbc.one.uk"))
+    }
+
+    @Test
+    fun search_anEmptyQueryMatchesEverything() {
+        assertTrue(EpgMatcher.matchesSearch("", "BBC One", "bbc.one.uk"))
+        assertTrue(EpgMatcher.matchesSearch("   ", "BBC One", "bbc.one.uk"))
+    }
+
+    @Test
+    fun search_aQueryThatNormalizesAwayStillFilters() {
+        // "HD" is noise to the normalizer, so it normalizes to nothing. It must not therefore match
+        // the entire guide — it falls back to a plain substring.
+        assertTrue(EpgMatcher.matchesSearch("HD", "Sky Sports HD", "sky.sports.uk"))
+        assertFalse(EpgMatcher.matchesSearch("HD", "BBC One", "bbc.one.uk"))
     }
 }

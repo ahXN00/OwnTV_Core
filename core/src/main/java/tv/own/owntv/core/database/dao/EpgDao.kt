@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import tv.own.owntv.core.database.entity.EpgHashProjection
 import tv.own.owntv.core.database.entity.EpgChannelEntity
 import tv.own.owntv.core.database.entity.EpgChannelIcon
+import tv.own.owntv.core.database.entity.EpgChannelName
 import tv.own.owntv.core.database.entity.EpgProgrammeEntity
 
 /** EPG storage + now/next lookups. Programmes are kept to a rolling window and pruned. */
@@ -35,6 +36,38 @@ interface EpgDao {
     /** Drop programmes that have already finished, to bound storage. */
     @Query("DELETE FROM epg_programmes WHERE stopMs < :before")
     suspend fun prune(before: Long)
+
+    /** Drop programmes beyond the stored horizon — what lowering "Guide days to keep" frees. */
+    @Query("DELETE FROM epg_programmes WHERE startMs > :after")
+    suspend fun pruneFuture(after: Long)
+
+    /**
+     * Collapse a programme that two feeds both carry, at write time instead of on every read.
+     *
+     * Guide rows are keyed by `epgChannelId` across every feed, so when two of them cover one channel
+     * the same programme is stored twice — the unique key is `(sourceId, epgChannelId, startMs)`, so
+     * it cannot prevent it. [tv.own.owntv.core.epg.EpgDedupe] has always hidden that on read; this
+     * stops it being stored in the first place.
+     *
+     * The test and the tie-break are **[tv.own.owntv.core.epg.EpgDedupe]'s, exactly**: same title and
+     * overlapping time (both halves — overlapping alone is two feeds disagreeing, and a repeated
+     * title without overlap is a real repeat), keeping the longest span so the grid draws no gap, and
+     * the lowest id where the spans are equal. If the two ever disagreed, a row would vanish from
+     * storage that the read path would have kept.
+     *
+     * The read-side collapse stays as the safety net: a feed can still be re-synced under a second
+     * store id between writes, and that is what makes the gap invisible until this runs again.
+     */
+    @Query(
+        "DELETE FROM epg_programmes WHERE id IN (" +
+            "SELECT a.id FROM epg_programmes a JOIN epg_programmes b " +
+            "ON a.epgChannelId = b.epgChannelId AND a.id <> b.id AND a.title = b.title " +
+            "AND a.startMs < b.stopMs AND b.startMs < a.stopMs " +
+            "AND ((b.stopMs - b.startMs) > (a.stopMs - a.startMs) " +
+            "OR ((b.stopMs - b.startMs) = (a.stopMs - a.startMs) AND b.id < a.id))" +
+            ")",
+    )
+    suspend fun collapseDuplicateProgrammes(): Int
 
     /** Rows of one store outside the window a full re-crawl just served — i.e. ones it did not replace.
      *  Used by the Stalker portal guide, where the portal's answer is the whole truth for that store. */
@@ -85,18 +118,18 @@ interface EpgDao {
     // answer identically. Two feeds carrying one channel now both come back, which is what
     // [tv.own.owntv.core.epg.EpgDedupe] collapses.
 
-    /**
-     * One page of the guide window, WITHOUT the heavy `description` column. Two reasons this is paged
-     * (keyset on `id`, the primary key) instead of one query:
-     *   1. dropping `description` keeps rows small (grid needs only title/time);
-     *   2. a big lineup still returns far more rows than fit in a single ~2 MB CursorWindow, and the
-     *      androidx.sqlite statement driver can't page past one window (crash: "Couldn't read row N"),
-     *      so each call must be bounded by [limit].
-     * Caller loops with `afterId = lastId` until a short page, then groups by channel. description is
-     * fetched lazily via [programmeDescription] when a programme's detail dialog opens.
-     */
-    @Query("SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, contentHash FROM epg_programmes WHERE stopMs > :from AND startMs < :to AND id > :afterId ORDER BY id ASC LIMIT :limit")
-    suspend fun programmesInWindowPage(from: Long, to: Long, afterId: Long, limit: Int): List<EpgProgrammeEntity>
+    // `programmesInWindowPage` used to live here — the keyset-paged read behind GuideReader.window().
+    // Both are gone. It could never use an index: keysetting on `id` walks the table in rowid order,
+    // so drawing eight rows examined every programme in the database. See the note in GuideReader.
+
+    // Every windowed read below carries `startMs > :from - 86400000` as well as the obvious
+    // `stopMs > :from`. Without it there is no lower bound on startMs, so SQLite cannot seek into the
+    // (epgChannelId, startMs) index — it walks every row the channel has ever had and tests each one.
+    // With it the read becomes a range seek over exactly the span asked for.
+    //
+    // 86400000 is twenty-four hours, and it is an assumption, stated here so it can be found: a
+    // programme that started MORE than a day before the window and is still running would be missed.
+    // Nothing in a television schedule runs that long; a feed that claims otherwise is malformed.
 
     /** One programme's synopsis, loaded on demand for the detail dialog (the grid load drops it). */
     @Query("SELECT description FROM epg_programmes WHERE id = :programmeId LIMIT 1")
@@ -107,14 +140,15 @@ interface EpgDao {
      * normalized (trim+lowercase) id — programmes are stored normalized, so this hits the
      * (epgChannelId, startMs) index and stays instant even with 100k+ stored programmes.
      */
-    @Query("SELECT * FROM epg_programmes WHERE epgChannelId = :epgKey AND stopMs > :from AND startMs < :to ORDER BY startMs ASC")
+    @Query("SELECT * FROM epg_programmes WHERE epgChannelId = :epgKey " +
+            "AND startMs > :from - 86400000 AND stopMs > :from AND startMs < :to ORDER BY startMs ASC")
     suspend fun programmesForChannel(epgKey: String, from: Long, to: Long): List<EpgProgrammeEntity>
 
     /** Lightweight version for Guide row rendering; avoids CursorWindow pressure from descriptions. */
     @Query(
         "SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, 0 AS contentHash " +
             "FROM epg_programmes WHERE epgChannelId = :epgKey " +
-            "AND stopMs > :from AND startMs < :to ORDER BY startMs ASC",
+            "AND startMs > :from - 86400000 AND stopMs > :from AND startMs < :to ORDER BY startMs ASC",
     )
     suspend fun programmeSummariesForChannel(epgKey: String, from: Long, to: Long): List<EpgProgrammeEntity>
 
@@ -122,7 +156,7 @@ interface EpgDao {
     @Query(
         "SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, 0 AS contentHash " +
             "FROM epg_programmes WHERE epgChannelId IN (:epgKeys) " +
-            "AND stopMs > :from AND startMs < :to ORDER BY epgChannelId ASC, startMs ASC",
+            "AND startMs > :from - 86400000 AND stopMs > :from AND startMs < :to ORDER BY epgChannelId ASC, startMs ASC",
     )
     suspend fun programmeSummariesForChannels(epgKeys: List<String>, from: Long, to: Long): List<EpgProgrammeEntity>
 
@@ -144,13 +178,28 @@ interface EpgDao {
     @Query("SELECT COUNT(DISTINCT epgChannelId) FROM epg_programmes WHERE sourceId IN (:sourceIds)")
     suspend fun countGuideChannels(sourceIds: List<Long>): Int
 
-    /** Distinct EPG channels available across feeds — drives the manual "Match EPG" picker. */
-    @Query(
-        "SELECT * FROM epg_channels WHERE sourceId IN (:sourceIds) " +
-            "AND (:query = '' OR LOWER(displayName) LIKE '%' || :query || '%' OR LOWER(epgChannelId) LIKE '%' || :query || '%') " +
-            "GROUP BY epgChannelId ORDER BY displayName ASC LIMIT :limit",
-    )
-    suspend fun listEpgChannels(sourceIds: List<Long>, query: String, limit: Int): List<EpgChannelEntity>
+    // --- Guide candidates: also keyed by epgChannelId alone -------------------------------------
+    //
+    // The two queries below are the picker's and auto-match's half of the same decision the block
+    // above records, and they are read together by [tv.own.owntv.core.epg.GuideCandidates].
+    //
+    // Neither filters by sourceId. The guide reads stopped doing so; these did not, which left the
+    // grid drawing programmes for channels the picker would not list — reported, correctly, as "EPG
+    // matching stopped working". Neither is enough on its own either: `epg_channels` is empty for a
+    // feed that carries `<programme>` without `<channel>`, and `epg_programmes` has no display name,
+    // so a candidate list needs both.
+    //
+    // No ORDER BY. The caller ranks by name similarity, which is the order that matters, and an
+    // `ORDER BY displayName` here would make [limit] truncate the end of the alphabet — silently
+    // losing every candidate from some letter onwards.
+
+    /** Every named guide channel across every feed. Duplicates are expected: two feeds, one channel. */
+    @Query("SELECT epgChannelId, displayName, normName, normId FROM epg_channels LIMIT :limit")
+    suspend fun guideChannelNames(limit: Int): List<EpgChannelName>
+
+    /** Every guide id that actually has programmes stored — including ids no `<channel>` entry names. */
+    @Query("SELECT DISTINCT epgChannelId FROM epg_programmes LIMIT :limit")
+    suspend fun guideProgrammeChannelIds(limit: Int): List<String>
 
     /**
      * Channel `<icon src>` logos from the EPG sources the user enabled "Use this guide's logos" on.

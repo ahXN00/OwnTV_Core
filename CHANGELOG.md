@@ -19,6 +19,120 @@ Core is versioned independently of the apps. A core version never lines up with 
 
 ---
 
+## core-1.0.46 — 2026-09-18
+
+The EPG subsystem, rewritten: the picker lists what the guide actually holds, matches survive a
+re-added playlist, and the guide is read one row at a time instead of all at once.
+
+### The guide no longer reads the whole database to draw one screen
+
+`GuideReader.window(from, to)` and `EpgDao.programmesInWindowPage` are **deleted**. They paged the
+entire guide window into one list and grouped it by channel. Measured on a real television: **349,077
+programme rows in a single `ArrayList`** over a 166-hour window, to draw the eight rows on screen —
+and a guide re-sync re-triggered it on every batch write, six loads deep and overlapping, until the
+app died with an `OutOfMemoryError` inside `EpgDedupe.collapse`.
+
+- Nothing replaces them. `GuideReader.row` already answers per channel through the
+  `(epgChannelId, startMs)` index, which is how the phone has always drawn its guide.
+- Every windowed read now carries `startMs > :from - 86400000` as well as `stopMs > :from`, so the
+  index can be *seeked* rather than walked. The 24-hour bound is an assumption, stated in `EpgDao`.
+- Measured after: **2–17 ms per row**, and guide load **8.5 s → 1.8 s** on the same television.
+
+### "Match EPG" lists what the guide really has — `GuideCandidates`
+
+`EpgDao.listEpgChannels` and `LiveEpgReader.availableEpgChannels` are **deleted**, replaced by
+`tv.own.owntv.core.epg.GuideCandidates`, which takes only an `EpgDao`.
+
+- **No `sourceId` filter.** Every guide *read* stopped filtering in core-1.0.37; the picker and
+  auto-match did not, so the grid drew programmes for channels the picker refused to list. Reported,
+  correctly, as "EPG matching stopped working".
+- **Reads `epg_programmes` as well as `epg_channels`**, so a feed carrying `<programme>` without
+  `<channel>` is pickable at all.
+- Deterministic display name (longest non-blank) and a `hasProgrammes` flag on every candidate.
+
+### Search goes through the matcher's own normalizer
+
+`EpgMatcher.matchesSearch` / `matchesNormalizedSearch` replace a SQL `LIKE`, which had two faults:
+SQLite's `LOWER()` folds **ASCII only**, so a lowercase Cyrillic or Greek query could never reach an
+uppercase name; and a raw substring cannot see spelled-out numbers, so `bbc1` did not find "BBC One"
+even though the matcher scores that pair high enough to auto-apply.
+
+### Manual matches survive a deleted and re-added playlist
+
+New `tv.own.owntv.core.customize.EpgMatchResolver`, reached through
+`SectionCustomizations.epgMatchResolver`. Item keys are `"<sourceId>:<remoteId>"` and `sourceId` is a
+local row id, so re-importing a playlist orphaned **every** hand-made and auto-applied match. Three
+tiers — exact key, same provider id under any source, same normalised name — with tiers 2 and 3 used
+only when unambiguous.
+
+### Auto-match stops claiming success it cannot deliver — `EpgAutoMatcher`
+
+One implementation replaces three that had already drifted apart.
+
+- `neededEpgIds` reads **every profile's** matches; reading only the active one dropped other
+  profiles' matched channels out of the download.
+- "Needs a match" now means **no programmes**, not "unknown id" — a tvg-id present as an empty
+  `<channel>` entry no longer marks a blank row as already solved.
+- A confident winner whose guide channel has **no programmes** goes to review instead of being
+  applied silently.
+
+### Database **v41** — normalized columns and a time index
+
+- `epg_channels` gains `normName` and `normId` (both **nullable**), written at sync time, with an
+  index on `normName`. The picker was recomputing an NFKC pass plus four regexes per candidate on
+  every keystroke.
+- `epg_programmes` gains an index on `(startMs, stopMs)`.
+- `MIGRATION_40_41` backfills existing channel rows in batches of 500, each its own transaction.
+  **Nullable is the point:** an un-backfilled row is normalized on the fly, so an interrupted upgrade
+  cannot make a channel unmatchable.
+
+### Retention is split by catch-up
+
+Seven days of finished programmes were kept for **every** channel, though only `catchup = 1` channels
+can replay any of it. Past programmes are now kept only for guide ids a catch-up channel reads —
+**including the id a hand-made match points at**, resolved through `EpgMatchResolver`, not the raw
+column. Everything else keeps 6 hours, which is what the player overlay's "Before" slot needs.
+
+- **If the catch-up set cannot be determined, nothing is pruned.** A failed read returns `null`, not
+  an empty set: a provider archive cannot be re-downloaded, so an unknown answer costs disk, never
+  data.
+- Measured: 397,415 → 172,083 stored programmes, *while storing seven days ahead instead of two*.
+
+### The stored horizon is the user's, not 48 hours — `guideDaysToKeep`
+
+`SettingsRepository.guideDaysToKeep` (default **7**, bounds in `GuideRetention`, 1–14) replaces a
+hard-coded 48-hour window. One value feeds the sync window, the prune and each app's scrollable
+range. Backed up and restored with the other int settings.
+
+### EPG auto-refresh gains `MANUAL:<days>` — `EpgRefresh`
+
+New `EpgRefresh(mode, manualDays)` mirroring `PlaylistRefresh` exactly — same serialization, same
+`thresholdMs` derivation, same bounds.
+
+- **Existing selections are never rewritten.** The old format was a bare enum name and the new one is
+  a superset, so a stored `HOURS_48` still parses to `HOURS_48`. Verified on a device that had one.
+- New sources still default to `OFF`.
+
+### Duplicate programmes are collapsed when stored
+
+`EpgDao.collapseDuplicateProgrammes` runs after the prune, using **`EpgDedupe`'s exact rule** (same
+title, overlapping time, keep the longest, tie-break the lowest id) so storage and reads cannot
+disagree. `EpgDedupe` stays on the read paths as the safety net. Measured: **16,080 rows removed** on
+one sync, after which the read-side collapse removes ~0.
+
+### Breaking for consuming apps
+
+- `GuideReader.window`, `EpgDao.programmesInWindowPage`, `EpgDao.listEpgChannels` and
+  `LiveEpgReader.availableEpgChannels` are gone.
+- `SettingsRepository.epgAutoRefresh` is now `Flow<Map<Long, EpgRefresh>>`, and
+  `setEpgAutoRefresh` takes an `EpgRefresh`.
+- `EpgChannelName` gains `normName` / `normId`.
+
+*Database **v41** (additive, backfilled) · backup gains `guide_days_to_keep` and understands
+`MANUAL:<days>` for EPG refresh · three new string keys in every packaged locale.*
+
+---
+
 ## core-1.0.45 — 2026-09-16
 
 ### A category the provider lists is no longer allowed to arrive empty

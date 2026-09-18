@@ -95,6 +95,11 @@ interface ChannelDao {
     )
     suspend fun epgChannelIdsWithoutProgrammes(sourceId: Long): List<String>
 
+    /** Every catch-up channel, across every source — the ones whose past programmes can still be
+     *  replayed, and therefore the only ones whose history is worth keeping (guide plan S4). */
+    @Query("SELECT * FROM channels WHERE catchup = 1")
+    suspend fun allCatchupChannels(): List<ChannelEntity>
+
     /** Largest archive window (days) across these sources' catch-up channels — 0 if none have catch-up.
      *  Drives how far back the Guide extends so archived programmes are visible. */
     @Query("SELECT COALESCE(MAX(catchupDays), 0) FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1")

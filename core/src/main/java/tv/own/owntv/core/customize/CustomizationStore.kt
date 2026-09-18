@@ -14,6 +14,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.util.UUID
 import tv.own.owntv.core.database.entity.CategoryEntity
+import tv.own.owntv.core.epg.EpgMatcher
 import tv.own.owntv.core.database.entity.ChannelEntity
 import tv.own.owntv.core.database.entity.MovieEntity
 import tv.own.owntv.core.database.entity.SeriesEntity
@@ -36,6 +37,70 @@ object CustomizeKeys {
     fun channel(ch: ChannelEntity): String = "${ch.sourceId}:${ch.remoteId ?: ch.name}"
     fun movie(m: MovieEntity): String = "${m.sourceId}:${m.remoteId ?: m.name}"
     fun series(s: SeriesEntity): String = "${s.sourceId}:${s.remoteId ?: s.name}"
+
+    /** The part of an item key after the source id: the provider's own id, or the name as a fallback. */
+    fun tailOf(key: String): String = key.substringAfter(':', "")
+}
+
+/**
+ * Finds a channel's manual EPG match even after its key has changed underneath it.
+ *
+ * Item keys are `"<sourceId>:<remoteId>"`, and `sourceId` is a local row id, not anything the
+ * provider knows. Delete a playlist and add it back — after a URL change, after a failed import was
+ * cleaned up, after any re-import — and every channel returns with a *new* source id. The matches
+ * are all still stored, pointing at keys nothing resolves any more, so every hand-made and
+ * auto-applied match silently stops working. It reads exactly like "EPG matching broke".
+ *
+ * Three tiers, tried in order, and the first is always preferred:
+ *
+ *  1. the exact key — today's behaviour, unchanged;
+ *  2. the same provider id under **any** source, which is what survives a re-added playlist;
+ *  3. the same normalised name, for channels whose provider gives them no id at all.
+ *
+ * Tiers 2 and 3 apply **only when unambiguous**. If two stored matches share a tail or a name but
+ * point at different guide channels, neither is used — a wrong guide on a channel is worse than no
+ * guide, and the user can always match it again by hand.
+ *
+ * Deliberately not a schema change. Moving `epgMatches` into a Room table was considered and
+ * rejected: the DataStore map is already exported and restored correctly by the backup, and this
+ * reaches the same result with none of the migration risk.
+ */
+class EpgMatchResolver(private val matches: Map<String, String>) {
+
+    /** Provider id → guide id, for ids that are unambiguous across every source. */
+    private val byTail: Map<String, String> by lazy { unambiguous { CustomizeKeys.tailOf(it) } }
+
+    /** Normalised tail → guide id. Answers for channels keyed by name because they have no id. */
+    private val byName: Map<String, String> by lazy {
+        unambiguous { EpgMatcher.normalizeForEpg(CustomizeKeys.tailOf(it)) }
+    }
+
+    /** The guide id this channel's stored match points at, or null if it has none. */
+    fun epgIdFor(channel: ChannelEntity): String? {
+        if (matches.isEmpty()) return null
+        val key = CustomizeKeys.channel(channel)
+        matches[key]?.let { return it }
+        byTail[CustomizeKeys.tailOf(key)]?.let { return it }
+        return byName[EpgMatcher.normalizeForEpg(channel.name)]
+    }
+
+    /** Groups the stored matches by [keyOf], keeping only groups that agree on one guide id. */
+    private inline fun unambiguous(keyOf: (String) -> String): Map<String, String> {
+        val grouped = HashMap<String, String?>(matches.size)
+        for ((key, epgId) in matches) {
+            val group = keyOf(key)
+            if (group.isEmpty()) continue
+            if (group in grouped) {
+                // Seen before: agreeing entries are harmless, disagreeing ones poison the group.
+                if (grouped[group] != epgId) grouped[group] = null
+            } else {
+                grouped[group] = epgId
+            }
+        }
+        val result = HashMap<String, String>(grouped.size)
+        for ((group, epgId) in grouped) if (epgId != null) result[group] = epgId
+        return result
+    }
 }
 
 /**
@@ -74,6 +139,15 @@ data class SectionCustomizations(
      *  that re-lists the item does not undo the move. */
     val movedFromOrigin: Map<String, String> = emptyMap(),
 ) {
+    /**
+     * The match lookup for this snapshot, built once and reused.
+     *
+     * Lazy and outside the constructor on purpose: it is derived state, so it stays out of `equals`,
+     * `hashCode` and `copy`, and the guide's per-channel reads must not each rebuild it — a lineup of
+     * five thousand channels asks this question five thousand times per load.
+     */
+    val epgMatchResolver: EpgMatchResolver by lazy { EpgMatchResolver(epgMatches) }
+
     val isEmpty: Boolean
         get() = hiddenCategories.isEmpty() && hiddenItems.isEmpty() && categoryNames.isEmpty() &&
             itemNames.isEmpty() && categoryOrder.isEmpty() && epgMatches.isEmpty() &&

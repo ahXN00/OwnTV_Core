@@ -327,6 +327,62 @@ object EpgMatcher {
     }
 
     /**
+     * Whether a picker search for [query] should list a candidate named [displayName] with id [id].
+     *
+     * This replaces a SQL `LIKE` on the raw text, which had two independent faults. SQLite's `LOWER()`
+     * folds **ASCII only**, so a query typed in lowercase Cyrillic or Greek could never match an
+     * uppercase display name — those channels were unreachable through the search box no matter what
+     * was typed. And a raw substring cannot see through punctuation or spelled-out numbers, so `bbc1`
+     * did not find "BBC One" even though the matcher scores that pair 1.0 and would auto-apply it.
+     *
+     * Both sides therefore go through [normalizeForEpg] — the same normalizer that decides matches, so
+     * what the search finds and what the matcher believes can no longer disagree. The comparison is
+     * tried twice: as normalized, which handles punctuation and word order ("sky sport" → "Sky-Sports
+     * HD"), and with spaces removed, which is what lets `bbc1` reach "BBC One" (normalizing to
+     * `bbc 1`, tightening to `bbc1`).
+     *
+     * A query that normalizes away to nothing — "HD", a lone bracket — falls back to a plain
+     * lowercase substring, so it still filters instead of matching the entire guide.
+     */
+    fun matchesSearch(query: String, displayName: String?, id: String): Boolean {
+        val raw = query.trim()
+        if (raw.isEmpty()) return true
+        if (normalizeForEpg(raw).isEmpty()) {
+            val needle = raw.lowercase()
+            return displayName?.lowercase()?.contains(needle) == true || id.lowercase().contains(needle)
+        }
+        return matchesNormalizedSearch(
+            query = raw,
+            normName = displayName?.let(::normalizeForEpg).orEmpty(),
+            normId = normalizeForEpg(id),
+        )
+    }
+
+    /**
+     * [matchesSearch] against names that are **already normalized** — what the stored `normName` /
+     * `normId` columns hold since database v41.
+     *
+     * Identical in behaviour; the only difference is that the candidate's normalization has already
+     * happened. That matters because the picker filters a few thousand candidates on every keystroke,
+     * and normalizing each one is an NFKC pass plus four regexes that always produce the same answer
+     * for a feed that only changes when it is synced.
+     *
+     * A row that predates the columns arrives here with an empty string, which simply cannot match —
+     * so callers must fall back to normalizing on the fly rather than passing a blank through.
+     */
+    fun matchesNormalizedSearch(query: String, normName: String, normId: String): Boolean {
+        val target = normalizeForEpg(query.trim())
+        if (target.isEmpty()) return true
+        val tight = target.replace(" ", "")
+        for (candidate in arrayOf(normName, normId)) {
+            if (candidate.isEmpty()) continue
+            if (candidate.contains(target)) return true
+            if (candidate.replace(" ", "").contains(tight)) return true
+        }
+        return false
+    }
+
+    /**
      * Order picker entries for the manual "Match EPG" dialog: everything scoring at least
      * [PICKER_SUGGEST_THRESHOLD] against [channelName] floats to the top (best first), the rest keep
      * their incoming (alphabetical) order. Ranking only — nothing here applies a match.

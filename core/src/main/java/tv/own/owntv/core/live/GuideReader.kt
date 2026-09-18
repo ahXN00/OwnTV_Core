@@ -1,8 +1,9 @@
 package tv.own.owntv.core.live
 
+import android.os.SystemClock
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import tv.own.owntv.core.customize.CustomizeKeys
+import tv.own.owntv.core.CorePerf
 import tv.own.owntv.core.customize.SectionCustomizations
 import tv.own.owntv.core.database.dao.EpgDao
 import tv.own.owntv.core.database.dao.SourceDao
@@ -12,9 +13,6 @@ import tv.own.owntv.core.epg.EpgDedupe
 import tv.own.owntv.core.epg.EpgShift
 import tv.own.owntv.core.epg.EpgSourceStore
 
-/** One page of the window load. Bounded so a page always fits a single ~2 MB CursorWindow. */
-private const val WINDOW_PAGE = 1_000
-
 /** Guide rows are looked up by epg id in chunks, to stay inside SQLite's variable limit. */
 private const val KEY_CHUNK = 400
 
@@ -23,8 +21,12 @@ private const val KEY_CHUNK = 400
  *
  * The Guide asks a different question from Live TV: not "what is on this channel", but "what is on
  * every one of these channels, between these two instants". That is the app's heaviest query, and
- * getting it wrong is not slow but fatal — a large lineup returns far more rows than one CursorWindow
- * holds — so it lives here, once, rather than in each app's guide screen.
+ * getting it wrong is not slow but fatal — a large lineup holds far more rows than a low-RAM
+ * television has heap for — so it lives here, once, rather than in each app's guide screen.
+ *
+ * Every read here is bounded by **what the caller asked about**: one channel ([row]) or a named list
+ * of them ([slice]). There is deliberately no "give me everything in this window" — that existed, and
+ * it is what an OutOfMemoryError looks like on a real catalogue.
  *
  * Nothing here caches: what to keep and when to drop it depends on how the screen scrolls, which is
  * the caller's business. The guide shift is passed in for the same reason [LiveEpgReader] takes it —
@@ -49,33 +51,29 @@ class GuideReader(
         (sourceDao.allSourceIds() + epgSourceStore.getAll().map { it.id }).distinct()
     }
 
-    /**
-     * The whole window, grouped by epg id, each row list in start order.
-     *
-     * Read in id-keyset pages: a keyset walk stays fast at any depth, and each page is small enough
-     * to come back in one cursor window. The descriptions are dropped by the query — a window of them
-     * is megabytes of text nothing on screen shows — so [description] fetches the one that is opened.
-     */
-    suspend fun window(from: Long, to: Long): Map<String, List<EpgProgrammeEntity>> =
-        withContext(Dispatchers.Default) {
-            val all = ArrayList<EpgProgrammeEntity>()
-            var afterId = 0L
-            while (true) {
-                val page = epgDao.programmesInWindowPage(from, to, afterId, WINDOW_PAGE)
-                if (page.isEmpty()) break
-                all += page
-                afterId = page.last().id
-                if (page.size < WINDOW_PAGE) break
-            }
-            all.groupBy { it.epgChannelId }.mapValues { (_, v) -> EpgDedupe.collapse(v) }
-        }
+    // A `window(from, to)` used to live here: it paged the WHOLE guide window into one ArrayList and
+    // grouped it by channel, so the grid could be drawn from one batch. It is deleted, not fixed,
+    // because the shape was the fault.
+    //
+    // Measured on the owner's television (2026-09-18), it read **349,077 programme rows in a single
+    // list** over a 166-hour window — seven days of catch-up lookback for all 3,585 guide channels —
+    // to draw the eight rows on screen. That is ~100 MB against a 192 MB heap before anything else,
+    // and it spent 146 seconds inside `groupBy` because the heap was thrashing rather than working.
+    // A guide re-sync then re-triggered it on every batch write, six loads deep and overlapping, and
+    // the app died with an OutOfMemoryError inside [EpgDedupe.collapse].
+    //
+    // Nothing replaces it: [row] already answers the same question per channel through the
+    // (epgChannelId, startMs) index, and the phone has always drawn its guide that way. Bounding the
+    // batch would only have chosen which channels to silently lose.
 
     /**
      * One channel's programmes in the window, on the clock the user sees.
      *
-     * A shifted channel cannot be served from a [window] batch — its rows are a different slice of
-     * stored time — so it is read on its own, which is why this exists beside the batch rather than
-     * only inside it.
+     * **This is how a guide row is drawn**, on both the television and the phone. It reads one
+     * channel through the `(epgChannelId, startMs)` index, so its cost is the size of that row rather
+     * than the size of the database, and a shifted channel is simply a different slice of stored time
+     * asked for by the same query. The caller decides what to keep; see the deleted-batch note above
+     * for why there is no longer a bulk alternative.
      */
     suspend fun row(
         channel: ChannelEntity,
@@ -84,6 +82,7 @@ class GuideReader(
         from: Long,
         to: Long,
     ): List<EpgProgrammeEntity> = withContext(Dispatchers.IO) {
+        val startedAt = SystemClock.elapsedRealtime()
         val epgKey = epgKeyOf(channel, cust)
         val shift = EpgShift.minutesFor(cust, channel, globalShiftMinutes)
         val stored = when {
@@ -93,7 +92,15 @@ class GuideReader(
                 .programmeSummariesForChannel(epgKey, EpgShift.toStored(from, shift), EpgShift.toStored(to, shift))
                 .map { EpgShift.apply(it, shift) }
         }
-        if (stored.isNotEmpty()) return@withContext EpgDedupe.collapse(stored)
+        if (stored.isNotEmpty()) {
+            return@withContext EpgDedupe.collapse(stored).also { collapsed ->
+                CorePerf.log {
+                    "guide_row source=stored channelId=${channel.id} key=$epgKey shift=$shift " +
+                        "rows=${stored.size} collapsed=${collapsed.size} " +
+                        "totalMs=${SystemClock.elapsedRealtime() - startedAt}"
+                }
+            }
+        }
         // Nothing stored for this channel in this window. That is not the same as nothing being on:
         // the bulk guide can simply stop — a feed that ends at midnight leaves today's daytime blank —
         // and the provider's own short-EPG endpoint answers for exactly that gap. It is what the
@@ -104,6 +111,12 @@ class GuideReader(
         // the time it was asked about.
         liveEpgReader.providerProgrammes(channel, cust, globalShiftMinutes)
             .filter { it.stopMs > from && it.startMs < to }
+            .also { rows ->
+                CorePerf.log {
+                    "guide_row source=provider channelId=${channel.id} key=$epgKey shift=$shift " +
+                        "rows=${rows.size} totalMs=${SystemClock.elapsedRealtime() - startedAt}"
+                }
+            }
     }
 
     /**
@@ -126,17 +139,21 @@ class GuideReader(
             epgKeyOf(ch, cust)?.let { key -> Triple(ch.id, key, EpgShift.minutesFor(cust, ch, globalShiftMinutes)) }
         }
         if (keyed.isEmpty()) return@withContext emptyMap()
+        val startedAt = SystemClock.elapsedRealtime()
+        var chunks = 0
+        var rowsRead = 0
         val collected = HashMap<Long, List<EpgProgrammeEntity>>()
         for ((shift, group) in keyed.groupBy { it.third }) {
             val rowsByKey = group
                 .map { it.second }.distinct()
                 .chunked(KEY_CHUNK)
                 .flatMap { keys ->
+                    chunks++
                     epgDao.programmeSummariesForChannels(
                         keys,
                         EpgShift.toStored(from, shift),
                         EpgShift.toStored(to, shift),
-                    )
+                    ).also { rowsRead += it.size }
                 }
                 .groupBy { it.epgChannelId }
             for ((channelId, epgKey, _) in group) {
@@ -146,6 +163,12 @@ class GuideReader(
         }
         val ordered = LinkedHashMap<Long, List<EpgProgrammeEntity>>(collected.size)
         for (channel in channels) collected[channel.id]?.let { ordered[channel.id] = it }
+        CorePerf.log {
+            "guide_slice channels=${channels.size} keys=${keyed.map { it.second }.distinct().size} " +
+                "shiftGroups=${keyed.groupBy { it.third }.size} chunks=$chunks rows=$rowsRead " +
+                "answered=${ordered.size} spanH=${(to - from) / 3_600_000} " +
+                "totalMs=${SystemClock.elapsedRealtime() - startedAt}"
+        }
         ordered
     }
 
@@ -180,7 +203,7 @@ class GuideReader(
 
     /** The guide id this channel really reads from: a manual match wins over the channel's own. */
     private fun epgKeyOf(channel: ChannelEntity, cust: SectionCustomizations): String? =
-        (cust.epgMatches[CustomizeKeys.channel(channel)] ?: channel.epgChannelId)
+        (cust.epgMatchResolver.epgIdFor(channel) ?: channel.epgChannelId)
             ?.trim()?.lowercase()?.takeIf { it.isNotEmpty() }
 }
 

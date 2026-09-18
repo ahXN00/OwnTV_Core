@@ -4,14 +4,12 @@ import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
-import tv.own.owntv.core.customize.CustomizeKeys
+import tv.own.owntv.core.CorePerf
 import tv.own.owntv.core.customize.SectionCustomizations
 import tv.own.owntv.core.database.dao.EpgDao
 import tv.own.owntv.core.database.dao.SourceDao
 import tv.own.owntv.core.database.entity.ChannelEntity
-import tv.own.owntv.core.database.entity.EpgChannelEntity
 import tv.own.owntv.core.database.entity.EpgProgrammeEntity
-import tv.own.owntv.core.epg.EpgMatcher
 import tv.own.owntv.core.epg.EpgDedupe
 import tv.own.owntv.core.epg.EpgShift
 import tv.own.owntv.core.epg.EpgSourceStore
@@ -38,10 +36,6 @@ private const val CATCHUP_LOOKBACK_CAP_MS = 7L * 24 * 60 * 60 * 1000
 // gap rather than a next programme, and auto-play stops instead of leaping hours ahead.
 private const val NEXT_PROGRAMME_GAP_CAP_MS = 3L * 60 * 60 * 1000
 
-// Match EPG picker: how many guide channels to scan for name-ranking vs. show in the dialog.
-private const val EPG_PICKER_SCAN_LIMIT = 20_000
-private const val EPG_PICKER_RESULT_LIMIT = 300
-
 private const val LOG_TAG = "OwnTVHome"
 
 /**
@@ -58,9 +52,6 @@ private const val SHORT_EPG_LIMIT = 8
  * from a second feed are collapsed afterwards and would otherwise eat the list.
  */
 private const val UPCOMING_LIMIT = 12
-
-/** Logcat tag for maintainer-only performance measurements (`BuildConfig.DEV_TOOLS` builds). */
-private const val PERF_TAG = "OwnTVPerf"
 
 /**
  * Every guide read Live TV performs: now/next for the focused channel, the batched "what's on now" for a
@@ -108,7 +99,7 @@ class LiveEpgReader(
             cache[ch.id]?.takeIf { now - it.at < CACHE_TTL_MS }?.let { return@withContext it.data }
 
             // 1) Bulk guide via the effective EPG id (manual match overrides the channel's own id).
-            val epgKey = (cust.epgMatches[CustomizeKeys.channel(ch)] ?: ch.epgChannelId)?.trim()?.lowercase()?.takeIf { it.isNotEmpty() }
+            val epgKey = (cust.epgMatchResolver.epgIdFor(ch) ?: ch.epgChannelId)?.trim()?.lowercase()?.takeIf { it.isNotEmpty() }
             // Guide shift (global or per-channel): the stored rows keep the feed's own clock, so we look
             // up the SHIFTED "now" and move what comes back — display and catch-up then agree.
             val shift = EpgShift.minutesFor(cust, ch, globalShiftMinutes)
@@ -204,7 +195,7 @@ class LiveEpgReader(
         val now = System.currentTimeMillis()
         providerRows[channel.id]?.takeIf { now - it.at < CACHE_TTL_MS }?.let { return@withContext it.rows }
         val shift = EpgShift.minutesFor(cust, channel, globalShiftMinutes)
-        val key = (cust.epgMatches[CustomizeKeys.channel(channel)] ?: channel.epgChannelId)
+        val key = (cust.epgMatchResolver.epgIdFor(channel) ?: channel.epgChannelId)
             ?.trim()?.lowercase()?.takeIf { it.isNotEmpty() } ?: channel.streamUrl
         val rows = providerEntries(channel, shift).orEmpty().map {
             EpgProgrammeEntity(
@@ -261,18 +252,23 @@ class LiveEpgReader(
         // Shifted channels look up a different instant, so the batch is grouped by shift — with no
         // offsets configured (the normal case) that's still exactly one query group.
         val channelKeys = channels.mapNotNull { ch ->
-            val key = (cust.epgMatches[CustomizeKeys.channel(ch)] ?: ch.epgChannelId)
+            val key = (cust.epgMatchResolver.epgIdFor(ch) ?: ch.epgChannelId)
                 ?.trim()?.lowercase()?.takeIf { it.isNotEmpty() }
             if (key != null) Triple(ch.id, key, EpgShift.minutesFor(cust, ch, globalShiftMinutes)) else null
         }
         if (channelKeys.isEmpty()) return@withContext emptyMap()
+        val startedAt = android.os.SystemClock.elapsedRealtime()
+        var chunks = 0
         val result = HashMap<Long, String>()
         for ((shift, group) in channelKeys.groupBy { it.third }) {
             val at = EpgShift.toStored(now, shift)
             val rowsByKey = group
                 .map { it.second }.distinct()
                 .chunked(400)
-                .flatMap { keys -> epgDao.programmeSummariesForChannels(keys, at, at + 1) }
+                .flatMap { keys ->
+                    chunks++
+                    epgDao.programmeSummariesForChannels(keys, at, at + 1)
+                }
                 .groupBy { it.epgChannelId }
             for ((channelId, epgKey, _) in group) {
                 rowsByKey[epgKey]
@@ -293,9 +289,16 @@ class LiveEpgReader(
         // The provider is still asked — just never in bulk. The channel under the cursor is fetched
         // by the preview pane itself, and a guide row fetches as it scrolls into view. Both land in
         // this cache, so the list fills in behind them for free.
+        val fromStored = result.size
         for (ch in channels) {
             if (ch.id in result) continue
             cachedNowTitle(ch.id, now)?.let { result[ch.id] = it }
+        }
+        CorePerf.log {
+            "live_nowplaying channels=${channels.size} keyed=${channelKeys.size} " +
+                "keys=${channelKeys.map { it.second }.distinct().size} chunks=$chunks " +
+                "fromStored=$fromStored fromCache=${result.size - fromStored} " +
+                "totalMs=${android.os.SystemClock.elapsedRealtime() - startedAt}"
         }
         result
     }
@@ -331,7 +334,7 @@ class LiveEpgReader(
         cust: SectionCustomizations,
         globalShiftMinutes: Int,
     ): EpgNowNext? = withContext(Dispatchers.IO) {
-        val epgKey = (cust.epgMatches[CustomizeKeys.channel(ch)] ?: ch.epgChannelId)
+        val epgKey = (cust.epgMatchResolver.epgIdFor(ch) ?: ch.epgChannelId)
             ?.trim()?.lowercase()?.takeIf { it.isNotEmpty() } ?: return@withContext null
         // Same shift dance as [nowNext]: stored rows keep the feed's own clock, so look up the shifted
         // instant and move what comes back, or the card would disagree with the archive it describes.
@@ -354,7 +357,7 @@ class LiveEpgReader(
         liveSourceIds: List<Long>,
     ): List<EpgProgrammeEntity> = withContext(Dispatchers.IO) {
         if (!ch.catchup) return@withContext emptyList()
-        val epgKey = (cust.epgMatches[CustomizeKeys.channel(ch)] ?: ch.epgChannelId)
+        val epgKey = (cust.epgMatchResolver.epgIdFor(ch) ?: ch.epgChannelId)
             ?.trim()?.lowercase()?.takeIf { it.isNotEmpty() } ?: return@withContext emptyList()
         val now = System.currentTimeMillis()
         val days = ch.catchupDays.takeIf { it > 0 } ?: DEFAULT_CATCHUP_DAYS
@@ -387,7 +390,7 @@ class LiveEpgReader(
         globalShiftMinutes: Int,
         liveSourceIds: List<Long>,
     ): EpgProgrammeEntity? = withContext(Dispatchers.IO) {
-        val epgKey = (cust.epgMatches[CustomizeKeys.channel(ch)] ?: ch.epgChannelId)
+        val epgKey = (cust.epgMatchResolver.epgIdFor(ch) ?: ch.epgChannelId)
             ?.trim()?.lowercase()?.takeIf { it.isNotEmpty() } ?: return@withContext null
         val shift = EpgShift.minutesFor(cust, ch, globalShiftMinutes)
         val from = EpgShift.toStored(afterStopMs, shift)
@@ -404,37 +407,9 @@ class LiveEpgReader(
     suspend fun programmeDescription(programmeId: Long): String? =
         withContext(Dispatchers.IO) { runCatching { epgDao.programmeDescription(programmeId) }.getOrNull() }
 
-    /** Distinct EPG channels for the "Match EPG" picker (across the profile's playlists + EPG feeds),
-     *  ranked so guide channels resembling [channelName] come first instead of a plain A-Z list. */
-    suspend fun availableEpgChannels(
-        channelName: String,
-        query: String,
-        liveSourceIds: List<Long>,
-    ): List<EpgChannelEntity> {
-        val ids = liveSourceIds + epgSourceStore.getAll().map { it.id }
-        if (ids.isEmpty()) return emptyList()
-        // Fetch the whole (filtered) candidate set, not just the first 300 alphabetically — the best
-        // name match may sit far down the alphabet. Rank off-main, then cap for the dialog list.
-        val startedAt = android.os.SystemClock.elapsedRealtime()
-        val all = epgDao.listEpgChannels(ids, query.trim().lowercase(), EPG_PICKER_SCAN_LIMIT)
-        val fetchedAt = android.os.SystemClock.elapsedRealtime()
-        return EpgMatcher
-            .rankForPickerParallel(channelName, all, { it.displayName }, { it.epgChannelId })
-            .take(EPG_PICKER_RESULT_LIMIT)
-            .also { ranked ->
-                // C-F15 measurement hook — maintainer builds only, so it costs users nothing (R8 removes it).
-                // Both halves are already off the main thread, so this can only ever be a latency question:
-                // how long a keystroke takes to produce a list, not whether it janks the UI.
-                if (tv.own.owntv.core.CoreBuildInfo.devTools) {
-                    val done = android.os.SystemClock.elapsedRealtime()
-                    Log.i(
-                        PERF_TAG,
-                        "epg_picker scanned=${all.size} ranked=${ranked.size} " +
-                            "queryMs=${fetchedAt - startedAt} rankMs=${done - fetchedAt} totalMs=${done - startedAt}",
-                    )
-                }
-            }
-    }
+    // The "Match EPG" picker used to be answered from here, filtered to the profile's own sources.
+    // It is now [tv.own.owntv.core.epg.GuideCandidates], which filters by no source at all — the same
+    // rule every guide read already followed, and the half of it that was missing.
 
     private fun EpgProgrammeEntity.toXt() =
         XtEpgEntry(title = title, description = description, startMs = startMs, stopMs = stopMs)

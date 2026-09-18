@@ -143,8 +143,6 @@
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE s.sourceId IN (:sourceIds) AND s.name LIKE '%' || :query || '%'
 1	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	FROM epg_programmes WHERE epgChannelId = :epgKey
 1	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	FROM epg_programmes WHERE epgChannelId IN (:epgKeys)
-1	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT * FROM epg_programmes WHERE epgChannelId = :epgKey AND stopMs > :from AND startMs < :to ORDER BY startMs ASC
-1	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, contentHash FROM epg_programmes WHERE stopMs > :from AND startMs < :to AND id > :afterId ORDER BY id ASC LIMIT :limit
 1	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackPrefsDao.kt	DELETE FROM playback_prefs WHERE zoomMode IS NULL AND volumeBoost IS NULL AND audioDelayMs IS NULL
 1	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackPrefsDao.kt	SELECT COUNT(*) FROM playback_prefs WHERE audioDelayMs IS NOT NULL
 1	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackPrefsDao.kt	UPDATE playback_prefs SET audioDelayMs = NULL

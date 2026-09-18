@@ -18,6 +18,7 @@ import java.util.Objects
     indices = [
         Index("sourceId"),
         Index(value = ["sourceId", "epgChannelId"], unique = true),
+        Index("normName"),
     ],
 )
 data class EpgChannelEntity(
@@ -28,6 +29,20 @@ data class EpgChannelEntity(
     /** The feed's own `<icon src>` logo, used instead of the provider logo when the user turns
      *  Settings → EPG → "Prefer EPG logos" on. Null when the feed carries no usable icon. */
     val iconUrl: String? = null,
+    /**
+     * [displayName] and [epgChannelId] through `EpgMatcher.normalizeForEpg`, stored at sync time.
+     *
+     * The matcher normalizes both of these for every candidate, on every keystroke in the "Match EPG"
+     * search and again for every run of auto-match — an NFKC pass plus four regex passes each, across
+     * thousands of rows, recomputed to the same answer every time. The feed only changes when it is
+     * synced, so this is computed there instead.
+     *
+     * **Both are nullable on purpose.** A row written before this existed, or by any path that has
+     * not been taught to fill them, must degrade to normalizing on the fly rather than dropping the
+     * channel out of the picker. Every reader treats null as "not known yet", never as "empty".
+     */
+    val normName: String? = null,
+    val normId: String? = null,
 )
 
 /**
@@ -40,6 +55,9 @@ data class EpgChannelEntity(
         Index(value = ["epgChannelId", "startMs"]),
         Index("sourceId"),
         Index("stopMs"),
+        // Time-bounded reads (a rail, an "on now" list) seek a range of start times rather than
+        // walking the table. Without it a bounded window still examined every row in the database.
+        Index(value = ["startMs", "stopMs"]),
         // Guide read-index (v4.0.0 EPG-perf): also created at runtime by EpgRepository.ensureEpgIndexes()
         // and in MIGRATION_3_4 — declared here so Room's schema validation expects it.
         Index(value = ["sourceId", "epgChannelId"]),
@@ -61,6 +79,18 @@ data class EpgProgrammeEntity(
 data class EpgChannelIcon(
     val epgChannelId: String,
     val iconUrl: String,
+)
+
+/**
+ * Projection for the "Match EPG" candidate list: one feed's name for one guide channel, with the
+ * normalized forms the matcher works in. Both may be null on a row written before v41 or by a path
+ * that does not fill them — the reader normalizes on the fly for those.
+ */
+data class EpgChannelName(
+    val epgChannelId: String,
+    val displayName: String?,
+    val normName: String?,
+    val normId: String?,
 )
 
 data class EpgHashProjection(

@@ -109,7 +109,7 @@ import tv.own.owntv.core.database.dao.SubtitleDao
         SeriesFtsEntity::class,
         EpisodeFtsEntity::class,
     ],
-    version = 40, // v7: content_order (Move). v8: contentHash + browse/unique indexes. v9: EPG contentHash + natural key. v10: TMDB metadata cache. v11: movies/series rating-sort indexes. v12: metadata_cache trailerKey. v13: metadata_cache logoPath. v14: sources.mac (Stalker portal). v15: external-subtitle cache/selection/timing tables. v16: subtitle_link (downloaded-sub ↔ content). v17: sources.syncLive/Movies/Series (skip-sync enabledScope). v18: series.episodesSyncedAt (episode-cache freshness, S8). v19: epg_channels.iconUrl (XMLTV channel logos). v20: channels (sourceId, number) index for direct tune. v21: series.addedAt + date-added sort indexes. v22: series_sort_order (per-series season/episode order). v23: sources.hlsSupported and sources.preferHls. v24: custom_category_members (user custom categories, #87). v25: sources.livePrerollSecs (per-playlist "Pre-buffer"). v26: channels.catchupType + channels.httpHeaders (M3U catch-up styles + per-channel HTTP headers). v27: sources.maxConnections (Xtream session limit read at sync). v28: movies.httpHeaders + episodes.httpHeaders (per-item M3U HTTP headers). v29: optional Stalker serial/device IDs/signature. v30: source-scoped Now Trending snapshots. v31: indexed provider-title metadata and persistent Trending attempt state. v32: playback_prefs (per-item zoom + volume, keyed by the P6 stable content key). v33: channels/movies/episodes drmConfig (M3U Widevine/ClearKey licence details, #115). v34: sources.liveEnginePreference + sources.liveLatencyMode/liveLatencyCustomSecs (per-playlist Live TV engine and Live latency). v35: playback_prefs.audioDelayMs (per-item A/V-sync memory). v36: user_data_tombstones (deleted favorites/history/resume/memberships, so local sync propagates a deletion instead of undoing it). v37: episodes.airDateMs + metadata_cache.airDate (when an episode first aired — the provider's date, with TMDB's as the fallback) profiles.avatarPath (a picture of the user's own instead of a drawn tile). v38: sources.importPortalEpg (whether a Stalker portal's own guide may be imported). v39: recordings + recording_rules (live recording and its standing "record every showing" rules; never synced, never backed up). v40: sources.maxConnectionsProbedAt (when the app measured how many streams the provider really allows, for the providers that never say).
+    version = 41, // v7: content_order (Move). v8: contentHash + browse/unique indexes. v9: EPG contentHash + natural key. v10: TMDB metadata cache. v11: movies/series rating-sort indexes. v12: metadata_cache trailerKey. v13: metadata_cache logoPath. v14: sources.mac (Stalker portal). v15: external-subtitle cache/selection/timing tables. v16: subtitle_link (downloaded-sub ↔ content). v17: sources.syncLive/Movies/Series (skip-sync enabledScope). v18: series.episodesSyncedAt (episode-cache freshness, S8). v19: epg_channels.iconUrl (XMLTV channel logos). v20: channels (sourceId, number) index for direct tune. v21: series.addedAt + date-added sort indexes. v22: series_sort_order (per-series season/episode order). v23: sources.hlsSupported and sources.preferHls. v24: custom_category_members (user custom categories, #87). v25: sources.livePrerollSecs (per-playlist "Pre-buffer"). v26: channels.catchupType + channels.httpHeaders (M3U catch-up styles + per-channel HTTP headers). v27: sources.maxConnections (Xtream session limit read at sync). v28: movies.httpHeaders + episodes.httpHeaders (per-item M3U HTTP headers). v29: optional Stalker serial/device IDs/signature. v30: source-scoped Now Trending snapshots. v31: indexed provider-title metadata and persistent Trending attempt state. v32: playback_prefs (per-item zoom + volume, keyed by the P6 stable content key). v33: channels/movies/episodes drmConfig (M3U Widevine/ClearKey licence details, #115). v34: sources.liveEnginePreference + sources.liveLatencyMode/liveLatencyCustomSecs (per-playlist Live TV engine and Live latency). v35: playback_prefs.audioDelayMs (per-item A/V-sync memory). v36: user_data_tombstones (deleted favorites/history/resume/memberships, so local sync propagates a deletion instead of undoing it). v37: episodes.airDateMs + metadata_cache.airDate (when an episode first aired — the provider's date, with TMDB's as the fallback) profiles.avatarPath (a picture of the user's own instead of a drawn tile). v38: sources.importPortalEpg (whether a Stalker portal's own guide may be imported). v39: recordings + recording_rules (live recording and its standing "record every showing" rules; never synced, never backed up). v40: sources.maxConnectionsProbedAt (when the app measured how many streams the provider really allows, for the providers that never say). v41: epg_channels.normName/normId (the matcher's normalized forms, stored at sync instead of recomputed per keystroke) and an epg_programmes (startMs, stopMs) index for time-bounded guide reads.
 
     exportSchema = true,
 )
@@ -1114,6 +1114,80 @@ abstract class OwnTVDatabase : RoomDatabase() {
         }
 
         /**
+         * The matcher's normalized names, stored instead of recomputed, plus the time index a bounded
+         * guide read needs.
+         *
+         * Both columns are nullable with no default, so this is purely additive: an existing row keeps
+         * NULL until the next sync rewrites it, and every reader falls back to normalizing on the fly
+         * for a NULL. That is what makes the backfill below an optimisation rather than a correctness
+         * requirement — if it is interrupted, nothing is broken.
+         *
+         * The backfill reads and rewrites `epg_channels` only. It is a few thousand rows (3,951 on the
+         * maintainer's television), so it runs here in batches rather than being deferred. It is
+         * deliberately NOT attempted for `epg_programmes`: nothing there needs a normalized form, and
+         * that table is hundreds of thousands of rows.
+         */
+        val MIGRATION_40_41 = object : androidx.room.migration.Migration(40, 41) {
+            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+                if (!hasColumn(db, "epg_channels", "normName")) {
+                    db.execSQL("ALTER TABLE `epg_channels` ADD COLUMN `normName` TEXT")
+                }
+                if (!hasColumn(db, "epg_channels", "normId")) {
+                    db.execSQL("ALTER TABLE `epg_channels` ADD COLUMN `normId` TEXT")
+                }
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_epg_channels_normName` ON `epg_channels` (`normName`)")
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_epg_programmes_startMs_stopMs` ON `epg_programmes` (`startMs`, `stopMs`)")
+                backfillNormalizedEpgChannels(db)
+                healSchema(db)
+            }
+        }
+
+        /**
+         * Fill `epg_channels.normName` / `.normId` for rows written before v41.
+         *
+         * Batched, and each batch is its own transaction, so an interrupted upgrade leaves a
+         * partially-filled table rather than a rolled-back one — which is harmless, because a NULL
+         * simply means "normalize this one on the fly". Rows that already have a value are skipped,
+         * so re-running costs nothing.
+         */
+        private fun backfillNormalizedEpgChannels(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            var lastId = 0L
+            while (true) {
+                val rows = ArrayList<Triple<Long, String, String?>>(BACKFILL_BATCH)
+                db.query(
+                    "SELECT `id`, `epgChannelId`, `displayName` FROM `epg_channels` " +
+                        "WHERE `id` > ? AND `normId` IS NULL ORDER BY `id` ASC LIMIT ?",
+                    arrayOf<Any>(lastId, BACKFILL_BATCH),
+                ).use { c ->
+                    while (c.moveToNext()) {
+                        rows.add(Triple(c.getLong(0), c.getString(1), if (c.isNull(2)) null else c.getString(2)))
+                    }
+                }
+                if (rows.isEmpty()) return
+                db.beginTransaction()
+                try {
+                    for ((id, epgChannelId, displayName) in rows) {
+                        db.execSQL(
+                            "UPDATE `epg_channels` SET `normName` = ?, `normId` = ? WHERE `id` = ?",
+                            arrayOf<Any?>(
+                                displayName?.let(tv.own.owntv.core.epg.EpgMatcher::normalizeForEpg),
+                                tv.own.owntv.core.epg.EpgMatcher.normalizeForEpg(epgChannelId),
+                                id,
+                            ),
+                        )
+                    }
+                    db.setTransactionSuccessful()
+                } finally {
+                    db.endTransaction()
+                }
+                lastId = rows.last().first
+            }
+        }
+
+        /** Rows re-normalized per transaction during the v41 backfill. */
+        private const val BACKFILL_BATCH = 500
+
+        /**
          * Every migration, in one place, because there are two callers and they must never disagree:
          * `databaseModule` (the real database) and `OwnTVDatabaseMigrationTest` (the upgrade-path
          * proof). The test kept its own copy of this list and it silently fell three versions behind,
@@ -1162,6 +1236,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
             MIGRATION_37_38,
             MIGRATION_38_39,
             MIGRATION_39_40,
+            MIGRATION_40_41,
         )
 
         /**
@@ -1217,6 +1292,11 @@ abstract class OwnTVDatabase : RoomDatabase() {
                 "CREATE INDEX IF NOT EXISTS `index_epg_programmes_sourceId` ON `epg_programmes` (`sourceId`)",
                 "CREATE INDEX IF NOT EXISTS `index_epg_programmes_stopMs` ON `epg_programmes` (`stopMs`)",
                 "CREATE INDEX IF NOT EXISTS `index_epg_programmes_sourceId_epgChannelId` ON `epg_programmes` (`sourceId`, `epgChannelId`)",
+                "CREATE INDEX IF NOT EXISTS `index_epg_programmes_startMs_stopMs` ON `epg_programmes` (`startMs`, `stopMs`)",
+            ),
+            "epg_channels" to listOf(
+                "CREATE INDEX IF NOT EXISTS `index_epg_channels_sourceId` ON `epg_channels` (`sourceId`)",
+                "CREATE INDEX IF NOT EXISTS `index_epg_channels_normName` ON `epg_channels` (`normName`)",
             ),
         )
 

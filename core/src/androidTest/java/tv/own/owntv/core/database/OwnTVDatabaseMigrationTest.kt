@@ -13,6 +13,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
+import tv.own.owntv.core.epg.EpgMatcher
 import tv.own.owntv.core.model.MediaType
 import tv.own.owntv.core.model.SourceType
 import tv.own.owntv.core.database.entity.TrendingAttemptStatus
@@ -486,6 +487,77 @@ class OwnTVDatabaseMigrationTest {
         val asset = "tv.own.owntv.core.database.OwnTVDatabase/$version.json"
         val json = JSONObject(testContext.assets.open(asset).bufferedReader().use { it.readText() })
         return json.getJSONObject("database").getString("identityHash")
+    }
+
+
+    /**
+     * v40 → v41: the matcher's normalized names become stored columns, and a time index appears.
+     *
+     * The upgrade path that matters is the owner's: a database already full of guide rows, upgraded
+     * in place. What is proved here is that the columns and indexes arrive, that existing rows are
+     * backfilled with the same answer [EpgMatcher.normalizeForEpg] would have given, and — the part a
+     * schema check cannot see — that no guide row is lost on the way.
+     */
+    @Test
+    fun migrateVersion40To41_addsNormalizedColumnsAndBackfillsExistingChannels() {
+        context.deleteDatabase(DB_NAME)
+        bootstrapVersion40Database()
+
+        val db = openWithAllMigrations()
+
+        try {
+            val sqlite = db.openHelper.readableDatabase
+            assertColumnExists(sqlite, "epg_channels", "normName")
+            assertColumnExists(sqlite, "epg_channels", "normId")
+            assertIndexExists(sqlite, "index_epg_channels_normName")
+            assertIndexExists(sqlite, "index_epg_programmes_startMs_stopMs")
+
+            // Nothing was dropped on the way through.
+            assertEquals(3L, countRows(sqlite, "SELECT COUNT(*) FROM epg_channels", emptyArray()))
+            assertEquals(1L, countRows(sqlite, "SELECT COUNT(*) FROM epg_programmes", emptyArray()))
+
+            // Backfilled to exactly what the matcher would compute.
+            assertEquals(EpgMatcher.normalizeForEpg("BBC One HD"), normNameOf(sqlite, "bbc1"))
+            assertEquals(EpgMatcher.normalizeForEpg("bbc1"), normIdOf(sqlite, "bbc1"))
+            assertEquals(EpgMatcher.normalizeForEpg("ПЕРВЫЙ КАНАЛ"), normNameOf(sqlite, "perviy"))
+
+            // A channel the feed never named keeps a null name but still gets its id normalized —
+            // otherwise it would drop out of the picker's search.
+            assertEquals(null, normNameOf(sqlite, "nameless"))
+            assertEquals(EpgMatcher.normalizeForEpg("nameless"), normIdOf(sqlite, "nameless"))
+        } finally {
+            db.close()
+        }
+    }
+
+    private fun normNameOf(db: SupportSQLiteDatabase, epgChannelId: String): String? =
+        db.query("SELECT normName FROM epg_channels WHERE epgChannelId = ?", arrayOf<Any?>(epgChannelId)).use {
+            if (it.moveToFirst() && !it.isNull(0)) it.getString(0) else null
+        }
+
+    private fun normIdOf(db: SupportSQLiteDatabase, epgChannelId: String): String? =
+        db.query("SELECT normId FROM epg_channels WHERE epgChannelId = ?", arrayOf<Any?>(epgChannelId)).use {
+            if (it.moveToFirst() && !it.isNull(0)) it.getString(0) else null
+        }
+
+    private fun bootstrapVersion40Database() {
+        val db = context.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null)
+        try {
+            executeSchemaQueries(db, "tv.own.owntv.core.database.OwnTVDatabase/40.json")
+            db.execSQL(
+                "INSERT INTO epg_channels (id, sourceId, epgChannelId, displayName, iconUrl) VALUES " +
+                    "(1, -3, 'bbc1', 'BBC One HD', NULL), " +
+                    "(2, -3, 'perviy', 'ПЕРВЫЙ КАНАЛ', NULL), " +
+                    "(3, -3, 'nameless', NULL, NULL)",
+            )
+            db.execSQL(
+                "INSERT INTO epg_programmes (id, sourceId, epgChannelId, startMs, stopMs, title, description, contentHash) " +
+                    "VALUES (1, -3, 'bbc1', 1000, 2000, 'Programme', NULL, 0)",
+            )
+            db.version = 40
+        } finally {
+            db.close()
+        }
     }
 
     private fun assertMissing(db: SupportSQLiteDatabase, type: String, name: String) {
