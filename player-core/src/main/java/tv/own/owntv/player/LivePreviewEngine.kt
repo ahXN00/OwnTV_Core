@@ -2772,7 +2772,12 @@ class LivePreviewEngine(
         private const val PREROLL_STUCK_POLLS = 3
         private const val PREROLL_OPEN_GRACE_MS = 5_000L
         private const val FPS_BASELINE_MS = 500L
-        private const val FPS_TICK_MS = 1_000L
+
+        /** One measurement window. Two seconds, not one: at 25fps a one-second window holds 25 frames, so
+         *  a single frame of slack reads 24.x, snaps to the 24 next door and shows a 25fps channel as
+         *  "24 FPS" (seen on BBC Two while the decoder was demonstrably rendering 25/s). Doubling the
+         *  window halves that error, and [FpsSample.confident] then requires two windows to agree. */
+        private const val FPS_TICK_MS = 2_000L
         private const val FPS_MAX_ATTEMPTS = 5
     }
 }

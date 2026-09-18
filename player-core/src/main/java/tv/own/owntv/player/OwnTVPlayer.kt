@@ -3747,6 +3747,37 @@ class OwnTVPlayer(
         return out
     }
 
+    /**
+     * The selected video track's `demux-fps`, or null when there isn't one.
+     *
+     * Diagnostic only — do NOT reach for this as "the honest frame rate". It was added to test exactly
+     * that idea, and the test failed.
+     *
+     * The chip can disagree with reality: measured on a TCL TV against beIN Sports 1, mpv reported 60
+     * while the hardware decoder was rendering a steady 50/s and ExoPlayer measured 50 with zero dropped
+     * frames. The hope was that `container-fps` (ffmpeg's declared/guessed `r_frame_rate`) was the liar
+     * and that `demux-fps`, averaged from the packets' own timestamps, would give the true 50. It does
+     * not: on that stream all three of `container-fps`, `demux-fps` and `estimated-vf-fps` read 60.0.
+     * The provider's re-mux stamps the TS at a 60 rate while carrying 50 frames, so every piece of
+     * metadata agrees and is wrong together.
+     *
+     * There is therefore no trustworthy mpv-side frame rate under `vo=mediacodec_embed`: the only thing
+     * that can count frames reaching the screen is MediaCodec, which ExoPlayer exposes (see [FpsSample])
+     * and libmpv keeps to itself. Logging all three is what makes the next case like this recognisable
+     * in one line instead of an evening.
+     *
+     * Synchronous mpv read — only call off the main thread.
+     */
+    private fun videoDemuxFps(m: MPVLib): Float? {
+        val count = m.getPropertyInt("track-list/count") ?: 0
+        for (i in 0 until count) {
+            if (m.getPropertyString("track-list/$i/type") != "video") continue
+            if (m.getPropertyBoolean("track-list/$i/selected") != true) continue
+            return m.getPropertyString("track-list/$i/demux-fps")?.toFloatOrNull()?.takeIf { it > 1f }
+        }
+        return null
+    }
+
     /** Synchronous mpv read — only call off the main thread (mpv event thread / mpv-cmd worker). */
     private fun queryTracks(type: String): List<TrackOption> {
         if (!initialized) return emptyList()
@@ -4270,6 +4301,7 @@ class OwnTVPlayer(
                         android.util.Log.i(
                             TAG,
                             "playback stats: container-fps=${getPropertyString("container-fps")} " +
+                                "demux-fps=${videoDemuxFps(this)} " +
                                 "est-vf-fps=${getPropertyString("estimated-vf-fps")} " +
                                 "frame-drops=${getPropertyString("frame-drop-count")} " +
                                 "decoder-drops=${getPropertyString("decoder-frame-drop-count")} " +

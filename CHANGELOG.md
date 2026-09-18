@@ -19,6 +19,46 @@ Core is versioned independently of the apps. A core version never lines up with 
 
 ---
 
+## core-1.0.47 — 2026-09-18
+
+A live channel's measured frame rate is no longer read a notch too low, and the mpv side of the same
+number is documented as unverifiable rather than quietly trusted.
+
+### The measured frame rate stops landing on the wrong standard rate
+
+`FpsSample` measured one second of rendered frames and accepted the answer as soon as it snapped to a
+standard rate. At 25fps a one-second window holds 25 frames, so a single frame of slack reads 24.x —
+and 24 is a standard rate too, so the wrong answer looked exactly as convincing as the right one.
+Measured on a television: BBC Two Northern Ireland showed **24 FPS** while the hardware decoder was
+rendering a steady 25/s.
+
+- `FpsSample.confident` now requires **two consecutive windows to agree** on the same rate, and
+  `LivePreviewEngine`'s measurement window is **2 s instead of 1 s**. Confirmed on the same television:
+  the channel now reads 25 FPS, and a genuine 50fps channel still reads 50.
+- `resetWindow()` clears the agreement history as well, so a rate carried over from the previous tune
+  cannot confirm the next one after a single window.
+- `snapToStandardRate` is replaced by `nearestStandardRate`, which returns the rate when the reading
+  is within tolerance and null otherwise. The old code inferred "this snapped" from *the value having
+  changed*, so a window landing exactly on 50.0 was treated as unrecognised and counted for nothing.
+- The decision is split out as `FpsSample.accept(raw)` so it can be tested without an ExoPlayer —
+  covered by the new `FpsSampleTest`.
+
+### mpv's frame rate can be wrong, and there is no better property to read
+
+Recorded because it was investigated at length and the obvious fix does not exist. On a provider
+stream measured on a television, mpv reported **60** while the hardware decoder rendered **50/s** and
+ExoPlayer measured 50 with zero dropped frames — the re-mux stamps the transport stream at a 60 rate
+while carrying 50 frames.
+
+- `container-fps`, the new `demux-fps` and `estimated-vf-fps` **all read 60.0** on that stream, so
+  swapping `container-fps` for a "more honest" property does not work: the metadata is uniformly
+  wrong. Under `vo=mediacodec_embed` mpv never sees the frames, and only MediaCodec — which ExoPlayer
+  exposes and libmpv keeps to itself — can count what reaches the screen.
+- Behaviour is **unchanged**: mpv still reports what the stream declares. The picture was never
+  affected; only the label can be.
+- The once-per-load `playback stats` log line now also prints `demux-fps`, so the next stream like
+  this is recognisable from one line. `videoDemuxFps` is diagnostic only and its KDoc says so.
+
 ## core-1.0.46 — 2026-09-18
 
 The EPG subsystem, rewritten: the picker lists what the guide actually holds, matches survive a
