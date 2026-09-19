@@ -19,6 +19,35 @@ Core is versioned independently of the apps. A core version never lines up with 
 
 ---
 
+## core-1.0.50 — 2026-09-19
+
+A diagnostic release: no behaviour changes, one new log line.
+
+### A watch session says when it opens and closes
+
+`WatchSession` is the hook a host app raises when the user starts watching, and the background
+catalogue drain waits on it. It had no logging, so an app that never raised it was indistinguishable
+from one that did — every check green, and the drain simply never yielding.
+
+That is not hypothetical: it is how the phone shipped a hook the drain was waiting on and nothing
+ever called. The television raised it from its shell and worked; the phone raised it from its player
+screen, which is not composed when a channel is started from the Live TV list, so on a
+single-connection portal the drain paged straight through the user's channel. Nothing in the build
+could have caught it.
+
+`open` and `close` now log the source and the resulting set under the `WatchSession` tag, so a drain
+that fails to yield can be told apart from a session that was never opened at all:
+
+```
+I/WatchSession: watch open sourceId=10 watching=[10]
+I/WatchSession: watch close sourceId=10 watching=[]
+```
+
+Confirmed on both apps against real hardware, on Stalker and Xtream playlists. No API change, no
+database change, no new strings.
+
+---
+
 ## core-1.0.49 — 2026-09-19
 
 **DB v42 · API · Strings**

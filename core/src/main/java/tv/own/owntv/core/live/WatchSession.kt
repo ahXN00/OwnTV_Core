@@ -1,5 +1,6 @@
 package tv.own.owntv.core.live
 
+import android.util.Log
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -40,11 +41,13 @@ class WatchSession {
     fun open(sourceId: Long) {
         if (sourceId < 0) return
         _watching.value = _watching.value + sourceId
+        Log.i(TAG, "watch open sourceId=$sourceId watching=${_watching.value}")
     }
 
     /** Playback of [sourceId] stopped. Safe to call for a session that was never opened. */
     fun close(sourceId: Long) {
         _watching.value = _watching.value - sourceId
+        Log.i(TAG, "watch close sourceId=$sourceId watching=${_watching.value}")
     }
 
     /**
@@ -56,4 +59,8 @@ class WatchSession {
     }
 
     fun isWatching(sourceId: Long): Boolean = sourceId in _watching.value
+
+    private companion object {
+        const val TAG = "WatchSession"
+    }
 }
