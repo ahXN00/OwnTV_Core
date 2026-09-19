@@ -46,37 +46,38 @@ class SyncManager(
     /**
      * Measures how many streams the provider allows, for the providers that never say.
      *
-     * Runs from here rather than from either app so both get it, and runs at the *front* of a
-     * playlist's very first sync: at that moment not one channel row exists, so there is nothing the
-     * user could be watching for the measurement to interrupt — which matters, because opening a
-     * second stream on a single-connection account is precisely what kills the first.
+     * Read from here to decide *whether* a playlist needs measuring; the measuring itself happens
+     * in `ConnectionMeasurementWorker`. It used to run at the front of the very first sync, because
+     * that was the only moment nothing could be playing for the probe to cut off — and that cost
+     * 55 seconds of every fresh Stalker add (plan N3a/N3b). `WatchSession` now answers "is anything
+     * playing?" directly, so the work can wait for a quiet moment instead of taking one.
      */
     private val connectionLimits: tv.own.owntv.core.live.ConnectionLimits,
+    private val catalogBackfillDao: tv.own.owntv.core.database.dao.CatalogBackfillDao,
+    /**
+     * Enqueues the background drain of a lazily-planned Stalker catalogue (N1d).
+     *
+     * Deliberately hooked here rather than at an import call site: a source is imported from the
+     * setup wizard, from the Settings "Add source" screen — which has its own copy of the import
+     * flow in the TV app — and from `CatalogSyncWorker`. All of them funnel through [sync], so this
+     * is the one place the drain cannot be forgotten by a caller that core does not own.
+     *
+     * (The TV app's private copy of the import flow is gone as of N1f-7, so `SourceImporter` would
+     * now be reachable from every path too. This hook stays here regardless: [sync] is the narrower
+     * and more durable guarantee, and it costs nothing.)
+     */
+    private val catalogSyncScheduler: tv.own.owntv.core.sync.work.CatalogSyncScheduler,
+    /** Which category the user is looking at, so the drain serves it first (plan N1c). */
+    private val catalogPriority: CatalogPriority,
 ) {
     private val support = SyncSupport(categoryDao, channelDao, movieDao, seriesDao, sourceDao, customize, settings)
     private val xtreamSyncer = XtreamSyncer(xtream, bulkInsertHelper, support)
     private val m3uSyncer = M3uSyncer(context, sourceDao, categoryDao, channelDao, movieDao, seriesDao, m3u, http, bulkInsertHelper, support)
-    private val stalkerSyncer = StalkerSyncer(stalkerClient, stalkerAuth, bulkInsertHelper, support, sourceDao)
+    private val stalkerSyncer = StalkerSyncer(stalkerClient, stalkerAuth, bulkInsertHelper, support, sourceDao, catalogBackfillDao, catalogPriority)
 
     private val lastSyncStats = java.util.concurrent.ConcurrentHashMap<Long, SyncRunStats>()
 
     fun getLastSyncStats(sourceId: Long): SyncRunStats? = lastSyncStats[sourceId]
-
-    /**
-     * Measure and store the provider's stream limit, reporting progress as an ordinary sync stage.
-     *
-     * Never allowed to fail a sync: a playlist that imports perfectly well must not be rejected
-     * because a measurement could not be taken. The answer is optional; the catalogue is not.
-     */
-    private suspend fun measureConnections(source: SourceEntity, onProgress: (ImportStage) -> Unit) {
-        runCatching {
-            connectionLimits.measureAndStore(source) { probe ->
-                onProgress(ImportStage(measuringStream = probe.stream, measuringOf = probe.maxStreams))
-            }
-        }.onFailure { Log.w(TAG, "connection measurement failed for sourceId=${source.id}: ${it.message}") }
-        // Clear the measuring flag so the item counters take the screen back over.
-        onProgress(ImportStage())
-    }
 
     suspend fun sync(
         source: SourceEntity,
@@ -105,16 +106,18 @@ class SyncManager(
                 activityTracker.progress(source.id, stage)
                 onProgress(stage)
             }
-            // Only on a playlist's first sync, and only when the provider did not publish the number.
-            // `lastSyncAt == null` is the guard with teeth: without it, every playlist that existed
-            // before this feature would measure on its next ordinary re-sync — minutes long, and
-            // cutting off whatever the user happened to be watching at the time.
+            // Plan N3b. The stream-limit measurement used to run *here*, blocking the first sync.
+            // N3a's instrumentation put a number on it: 55,489 ms of a fresh Stalker add, before a
+            // single channel was fetched. It is now enqueued instead, and the reason it could not be
+            // before is gone — see ConnectionMeasurementWorker.
+            //
+            // Still gated on `lastSyncAt == null`: without it every playlist that existed before this
+            // feature would measure on its next ordinary re-sync.
+            val prePhaseStartedAt = SystemClock.elapsedRealtime()
             if (source.lastSyncAt == null && connectionLimits.needsMeasuring(source)) {
-                measureConnections(source) { stage ->
-                    activityTracker.progress(source.id, stage)
-                    onProgress(stage)
-                }
+                catalogSyncScheduler.enqueueConnectionMeasurement(source.id)
             }
+            Log.i(TAG, "pre-phase done sourceId=${source.id} ms=${SystemClock.elapsedRealtime() - prePhaseStartedAt}")
             var result: SyncResult = SyncResult.Cancelled
             try {
                 if (!effective.hasAny) {
@@ -144,6 +147,15 @@ class SyncManager(
                         sourceDao.markSynced(source.id, System.currentTimeMillis())
                         Log.d(TAG, "markSynced sourceId=${source.id} ms=${SystemClock.elapsedRealtime() - markStartedAt}")
                     }
+                    // N1d: a Stalker pass that stopped after the page-1 sweep left a page plan behind.
+                    // Finish it in the background now that every list is browsable. Gated on the plan
+                    // itself, so a pass that drained the catalogue eagerly (and cleared its plan)
+                    // enqueues nothing, and no other source type ever does.
+                    if (source.type == SourceType.STALKER) {
+                        val pending = catalogBackfillDao.pendingCount(source.id, tv.own.owntv.core.model.MediaType.MOVIE) +
+                            catalogBackfillDao.pendingCount(source.id, tv.own.owntv.core.model.MediaType.SERIES)
+                        if (pending > 0) catalogSyncScheduler.enqueueCatalogBackfill(source.id)
+                    }
                     progress.completeAll()
                     result = SyncResult.Success(
                         warnings = stats.warnings(),
@@ -165,6 +177,39 @@ class SyncManager(
             logStats(runStats)
             result to runStats
         }
+
+    /**
+     * Finish a Stalker catalogue whose setup deliberately stopped after the first page of every
+     * category (N1b). Runs from `CatalogBackfillWorker`, not from a sync: it is long, resumable and
+     * interruptible, and the catalogue is already browsable while it works.
+     *
+     * Reports no progress and touches no [SyncActivityTracker] state — the user did not ask for this
+     * and must not see a sync pill for it. Returns what the pass achieved so the worker can decide
+     * between "come back later" and "done".
+     */
+    internal suspend fun backfillCatalog(
+        sourceId: Long,
+        yieldToUser: suspend () -> Boolean,
+    ): StalkerSyncer.BackfillOutcome = withContext(Dispatchers.IO) {
+        val source = sourceDao.getById(sourceId) ?: return@withContext StalkerSyncer.BackfillOutcome()
+        if (source.type != SourceType.STALKER) return@withContext StalkerSyncer.BackfillOutcome()
+        stalkerSyncer.backfill(source, yieldToUser)
+    }
+
+    /**
+     * Is this source's catalogue whole? (Plan N1f-4.)
+     *
+     * One read, so a caller that needs the answer per screen — "should Trending snapshot this?",
+     * "is this category still filling in?" — does not have to reason about plan rows itself. True
+     * for any source with no outstanding pages, which includes every Xtream and M3U playlist and
+     * every Stalker source imported before the lazy add existed.
+     *
+     * Note this is *not* the same question as `lastSyncAt != null`: the lazy add stamps a source
+     * synced while its catalogue is still ~3% filled, deliberately, so the user is not held at a
+     * progress bar. Nothing may read `lastSyncAt` as "the catalogue is here".
+     */
+    suspend fun catalogueComplete(sourceId: Long): Boolean =
+        catalogBackfillDao.pendingCountForSource(sourceId) == 0
 
     private fun logStats(stats: SyncRunStats) {
         val tag = "SyncManager"

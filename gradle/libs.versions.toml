@@ -34,6 +34,8 @@ ksp = "2.3.11"
 
 # --- Database / paging ---
 room = "2.8.5"
+# Phase B of the sync-performance plan: the SQLiteDriver API, still on the platform engine.
+sqlite = "2.6.2"
 paging = "3.5.1"
 
 # --- Media playback ---
@@ -97,6 +99,9 @@ androidx-datastore-preferences = { group = "androidx.datastore", name = "datasto
 androidx-work-runtime = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
 
 # Room (database) + Paging. No paging-compose — that is UI.
+androidx-sqlite = { group = "androidx.sqlite", name = "sqlite", version.ref = "sqlite" }
+androidx-sqlite-bundled = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "sqlite" }
+androidx-sqlite-framework = { group = "androidx.sqlite", name = "sqlite-framework", version.ref = "sqlite" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }

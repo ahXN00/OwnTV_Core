@@ -2,7 +2,10 @@ package tv.own.owntv.core.database
 
 import android.os.SystemClock
 import android.util.Log
-import androidx.annotation.WorkerThread
+import androidx.room.Transactor
+import androidx.room.execSQL
+import androidx.room.useWriterConnection
+import androidx.sqlite.SQLiteStatement
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -61,65 +64,73 @@ class BulkInsertHelper(
         }
     }
 
-    @WorkerThread
-    fun analyzeTables(vararg tables: String) {
-        val sdb = db.openHelper.writableDatabase
-        tables.forEach { table ->
-            requireKnownAnalyzeTable(table)
-            sdb.execSQL("ANALYZE `$table`")
+    suspend fun analyzeTables(vararg tables: String) {
+        tables.forEach { requireKnownAnalyzeTable(it) }
+        db.useWriterConnection { connection ->
+            tables.forEach { connection.execSQL("ANALYZE `$it`") }
         }
     }
 
-    fun tableIsEmpty(table: String): Boolean {
+    suspend fun tableIsEmpty(table: String): Boolean {
         requireKnownTable(table)
-        val cursor = db.openHelper.writableDatabase.query("SELECT COUNT(*) FROM `$table`")
-        return cursor.use { it.moveToFirst() && it.getLong(0) == 0L }
+        return db.useWriterConnection { connection ->
+            connection.usePrepared("SELECT COUNT(*) FROM `$table`") { it.step() && it.getLong(0) == 0L }
+        }
     }
 
-    private fun dropIndexesForBulkInsert(table: String, ftsTable: String?): BulkIndexState {
+    private suspend fun dropIndexesForBulkInsert(table: String, ftsTable: String?): BulkIndexState {
         requireKnownTable(table)
         if (ftsTable != null) requireKnownFtsTable(ftsTable)
 
-        val sdb = db.openHelper.writableDatabase
         val indexSqls = mutableListOf<String>()
-        sdb.query("SELECT name, sql FROM sqlite_master WHERE type='index' AND tbl_name='$table' AND sql IS NOT NULL").use { cursor ->
-            while (cursor.moveToNext()) {
-                val name = cursor.getString(0)
-                val sql = cursor.getString(1)
-                if (sql != null && !sql.contains("UNIQUE", ignoreCase = true)) {
-                    indexSqls.add(sql)
-                    sdb.execSQL("DROP INDEX IF EXISTS `$name`")
+        var triggerSql: String? = null
+        db.useWriterConnection { connection ->
+            // Collect first, drop second. The statement is reading sqlite_master while DROP INDEX
+            // mutates it, and stepping a cursor over a catalogue being rewritten underneath is the
+            // kind of thing that works until it does not.
+            val doomed = mutableListOf<Pair<String, String>>()
+            connection.usePrepared(
+                "SELECT name, sql FROM sqlite_master WHERE type='index' AND tbl_name='$table' AND sql IS NOT NULL",
+            ) { statement ->
+                while (statement.step()) {
+                    val name = statement.getText(0)
+                    val sql = if (statement.isNull(1)) null else statement.getText(1)
+                    if (sql != null && !sql.contains("UNIQUE", ignoreCase = true)) doomed.add(name to sql)
                 }
             }
-        }
-
-        var triggerSql: String? = null
-        val triggerName = ftsTable?.let { "room_fts_content_sync_${it}_AFTER_INSERT" }
-        if (triggerName != null) {
-            sdb.query("SELECT sql FROM sqlite_master WHERE type='trigger' AND name='$triggerName'").use { cursor ->
-                if (cursor.moveToFirst()) triggerSql = cursor.getString(0)
+            doomed.forEach { (name, sql) ->
+                indexSqls.add(sql)
+                connection.execSQL("DROP INDEX IF EXISTS `$name`")
             }
-            if (triggerSql != null) sdb.execSQL("DROP TRIGGER IF EXISTS `$triggerName`")
+
+            val triggerName = ftsTable?.let { "room_fts_content_sync_${it}_AFTER_INSERT" }
+            if (triggerName != null) {
+                triggerSql = connection.usePrepared(
+                    "SELECT sql FROM sqlite_master WHERE type='trigger' AND name='$triggerName'",
+                ) { statement -> if (statement.step() && !statement.isNull(0)) statement.getText(0) else null }
+                if (triggerSql != null) connection.execSQL("DROP TRIGGER IF EXISTS `$triggerName`")
+            }
         }
 
         Log.i(TAG, "Dropped ${indexSqls.size} indexes${if (triggerSql != null) " + FTS trigger" else ""} on $table for bulk insert")
         return BulkIndexState(table, ftsTable, indexSqls, triggerSql)
     }
 
-    private fun restoreIndexes(state: BulkIndexState, ftsOnly: Boolean = false) {
-        val sdb = db.openHelper.writableDatabase
+    private suspend fun restoreIndexes(state: BulkIndexState, ftsOnly: Boolean = false) {
         val start = SystemClock.elapsedRealtime()
         // Restore the canonical Room-expected set, not the pre-drop snapshot: if the DB was already
         // drifted when the snapshot was taken, the snapshot would preserve the gap and the next
         // migration's schema validation would crash the app.
         val canonical = OwnTVDatabase.EXPECTED_NON_UNIQUE_INDEXES[state.table].orEmpty()
-        if (!ftsOnly) {
-            canonical.forEach { sdb.execSQL(it) }
+        db.useWriterConnection { connection ->
+            if (!ftsOnly) {
+                canonical.forEach { connection.execSQL(it) }
+            }
+            if (state.ftsTable != null) {
+                connection.execSQL("INSERT INTO `${state.ftsTable}`(`${state.ftsTable}`) VALUES('rebuild')")
+            }
+            if (state.triggerSql != null) connection.execSQL(state.triggerSql)
         }
-        if (state.ftsTable != null) {
-            sdb.execSQL("INSERT INTO `${state.ftsTable}`(`${state.ftsTable}`) VALUES('rebuild')")
-        }
-        if (state.triggerSql != null) sdb.execSQL(state.triggerSql)
 
         val restoredIndexCount = if (ftsOnly) 0 else canonical.size
         val msg = "Restored $restoredIndexCount indexes${if (state.ftsTable != null) " + FTS" else ""} on ${state.table} ms=${SystemClock.elapsedRealtime() - start}"

@@ -66,6 +66,8 @@
         <item quantity="one"><xliff:g id="stored">%1$d</xliff:g> vorhandener Eintrag wurde beibehalten — beim Importieren wurden <xliff:g id="percent">%2$d</xliff:g>%% weniger Einträge zurückgegeben. Synchronisieren Sie erneut oder verwenden Sie „Bereinigte Synchronisierung erzwingen“, wenn der Anbieter ihn tatsächlich entfernt hat.</item>
         <item quantity="other"><xliff:g id="stored">%1$d</xliff:g> vorhandene Einträge wurden beibehalten — beim Importieren wurden <xliff:g id="percent">%2$d</xliff:g>%% weniger Einträge zurückgegeben. Synchronisieren Sie erneut oder verwenden Sie „Bereinigte Synchronisierung erzwingen“, wenn der Anbieter sie tatsächlich entfernt hat.</item>
     </plurals>
+    <string name="sync_warning_bulk_truncated">Die Liste des Anbieters brach mittendrin ab, daher wurde der Rest Kategorie für Kategorie geholt. Es ist alles da, aber diese Synchronisierung hat länger gedauert als sonst.</string>
+    <string name="sync_warning_bulk_truncated_partial">Die Liste des Anbieters brach mittendrin ab und es ließ sich nicht alles wiederherstellen. Bis zur nächsten Synchronisierung fehlen möglicherweise einige Titel.</string>
     <plurals name="sync_warning_page_failures">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> Seite der Quelle konnte nicht geladen werden; bis zur nächsten Synchronisierung fehlen möglicherweise einige Inhalte.</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> Seiten der Quelle konnten nicht geladen werden; bis zur nächsten Synchronisierung fehlen möglicherweise einige Inhalte.</item>

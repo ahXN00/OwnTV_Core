@@ -138,10 +138,14 @@ class SourceImporter(
         movies: SyncScopeChoice = SyncScopeChoice.Now,
         series: SyncScopeChoice = SyncScopeChoice.Now,
         preferHls: Boolean = false,
+        makeDefault: Boolean = false,
     ) {
         val enabled = SyncContentTypes.fromChoices(live, movies, series)
         val priority = SyncContentTypes.priorityFromChoices(live, movies, series)
-        runImport(autoRefresh, priority, enabledScope = enabled, enqueueRemainder = true, requiresNetwork = true) { profileId ->
+        runImport(
+            autoRefresh, priority, enabledScope = enabled, enqueueRemainder = true,
+            requiresNetwork = true, makeDefault = makeDefault,
+        ) { profileId ->
             sourceRepository.addXtreamSource(
                 profileId = profileId,
                 name = name.trim(),
@@ -172,6 +176,7 @@ class SourceImporter(
         live: SyncScopeChoice = SyncScopeChoice.Now,
         movies: SyncScopeChoice = SyncScopeChoice.Later,
         series: SyncScopeChoice = SyncScopeChoice.Later,
+        makeDefault: Boolean = false,
     ) {
         val canonicalMac = StalkerClient.canonicalizeMac(mac)
         if (canonicalMac == null) {
@@ -180,7 +185,10 @@ class SourceImporter(
         }
         val enabled = SyncContentTypes.fromChoices(live, movies, series)
         val priority = SyncContentTypes.priorityFromChoices(live, movies, series)
-        runImport(autoRefresh, contentTypes = priority, enabledScope = enabled, enqueueRemainder = true, requiresNetwork = true) { profileId ->
+        runImport(
+            autoRefresh, contentTypes = priority, enabledScope = enabled, enqueueRemainder = true,
+            requiresNetwork = true, makeDefault = makeDefault,
+        ) { profileId ->
             stalkerAuth.testConnection(
                 StalkerCredentials(
                     sourceId = STALKER_TEST_SOURCE_ID,
@@ -213,7 +221,8 @@ class SourceImporter(
         userAgent: String = "",
         epgUrl: String = "",
         autoRefresh: PlaylistRefresh = PlaylistRefresh.OFF,
-    ) = runImport(autoRefresh, requiresNetwork = !url.isLocalPlaylistPath()) { profileId ->
+        makeDefault: Boolean = false,
+    ) = runImport(autoRefresh, requiresNetwork = !url.isLocalPlaylistPath(), makeDefault = makeDefault) { profileId ->
         sourceRepository.addM3uSource(
             profileId = profileId,
             name = name.trim(),
@@ -229,6 +238,9 @@ class SourceImporter(
         enabledScope: SyncContentTypes = SyncContentTypes(),
         enqueueRemainder: Boolean = false,
         requiresNetwork: Boolean = true,
+        /** "Make this the default playlist" — set once the sync succeeded, never on a source that
+         *  is about to be cleaned up again. */
+        makeDefault: Boolean = false,
         addSource: suspend (Long) -> SourceEntity,
     ) {
         _state.value = ImportState.Running
@@ -252,6 +264,7 @@ class SourceImporter(
                 is SyncResult.Success -> {
                     // Just the playlist content — EPG is added separately (Settings → EPG sources).
                     val counts = importFinalizer.finalize(source, deferIndexes = freshSync)
+                    if (makeDefault) settings.setDefaultSource(source.id)
                     val syncedSource = sourceDao.getById(source.id) ?: source
                     if (enqueueRemainder) enqueueRemainderSync(source, contentTypes, enabledScope)
                     if (freshSync && !remainder.hasAny) catalogSyncScheduler.enqueueContentIndexBuild(reason = "fresh_add")

@@ -88,6 +88,15 @@ fun List<SyncWarning>.warningText(res: Resources): String? {
             } else {
                 res.getString(R.string.sync_warning_phase_error, warning.labelText(res), warning.message)
             }
+            // Plan N2d. Two sentences, not one with a number in it: what the user can act on is
+            // whether anything is actually missing, not how many items arrived before the cut.
+            is SyncWarningKind.BULK_TRUNCATED -> res.getString(
+                if (kind.recovered) {
+                    R.string.sync_warning_bulk_truncated
+                } else {
+                    R.string.sync_warning_bulk_truncated_partial
+                },
+            )
             is SyncWarningKind.CATALOG_SHRINK -> res.getQuantityString(
                 R.plurals.sync_warning_catalog_shrink,
                 kind.stored,

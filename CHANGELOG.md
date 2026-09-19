@@ -19,6 +19,93 @@ Core is versioned independently of the apps. A core version never lines up with 
 
 ---
 
+## core-1.0.48 — 2026-09-19
+
+**DB v42 · API · Strings**
+
+Refreshing a playlist was rewriting almost the whole catalogue when almost nothing had changed, a
+Stalker playlist spent its first minute measuring instead of importing, and the database engine was
+whatever the television happened to ship. All three are fixed, and the engine now travels in the APK.
+
+### A re-sync stops rewriting rows that only moved
+
+The hash diff has always had three outcomes — inserted, changed, and *moved*: a row whose content is
+byte-identical but whose position in the provider's list shifted. Moved rows were thrown in with
+genuinely changed ones and written through Room's `@Update`, so each one rewrote all ~20 columns,
+re-parsed its title to rebuild the provider-catalogue metadata, and fired the FTS trigger. Measured
+on a real playlist, 1,397 real changes produced 255,775 full-row rewrites.
+
+- A position change now writes **one column**, through `moveAll`.
+- Where a whole span shifted by the same amount — the usual shape, because removing an item renumbers
+  everything below it — the span collapses into **one statement**. Measured on a phone against a
+  provider that had genuinely reshuffled: **218,277 moved rows became 436 statements**, and the whole
+  re-sync took 17.4 s.
+- `UpsertStats` gains `moved`, `movedByRange` and `movedScattered`, and the per-phase log reports
+  them. Those counters are what found the defect; they are not decoration.
+
+### The stream-limit measurement leaves the setup path
+
+Adding a Stalker playlist sat for **55.5 seconds** on "Checking how many channels this provider
+allows" before fetching anything — all of it one step, and nothing logged to say so. It ran there
+because the probe works by opening streams, and the moment before the first sync was the only one
+guaranteed to have nothing playing to cut off.
+
+- The measurement now runs in `ConnectionMeasurementWorker`, and the new `WatchSession` tells it when
+  to step aside. Setup reaches its first phase in **165 ms** instead of 55.5 s.
+- It is Stalker-shaped: an Xtream panel publishes the number, so the same step costs ~700 ms there.
+
+### The catalogue drain yields to playback, and follows the user
+
+- `WatchSession` is a new **hook the host app must supply** — the playback screen opens and closes it.
+  Without it the background Stalker catalogue drain never yields: `OpenStreamRegistry` is the
+  connection budget for Multiview and recordings, and fullscreen playback deliberately never claims
+  against it, so the old check could not fire. Measured: the drain now steps aside **230 ms** after a
+  channel starts.
+- `CatalogPriority` lets a browse screen say which VOD category the user opened. The drain re-reads it
+  **between categories**, so opening one moves it to the head of the queue within seconds, and wakes a
+  sleeping drain instead of leaving it to its retry delay.
+- When a drain finishes it now re-runs `ensureContentIndexes()` and enqueues the Trending refresh.
+  Both used to run while a lazily-added source held about 3% of its rows — `ANALYZE` on a near-empty
+  table, and a Trending snapshot that then sat behind a multi-day timer.
+
+### SQLite now ships inside the APK
+
+`minSdk = 26` meant an Android 8 device ran SQLite 3.18 — no UPSERT, no window functions, no
+`UPDATE … FROM`. Room is now driven through `SQLiteDriver`, and the engine is bundled.
+
+- All **40 migrations** and the schema self-heal are written against `SQLiteConnection`. No migration's
+  SQL changed and no exported schema moved; only the API they are expressed in.
+- Verified on a television and a phone: `sqlite=3.50.1, journal=wal, heal=clean`, upgrading over an
+  existing install with a real catalogue, on both `arm64-v8a` and `x86_64`.
+- **Consuming apps:** `RoomDatabase.openHelper` throws once a driver is configured. Use
+  `useWriterConnection { }`. Core exposes `androidx.sqlite` as `api` for this.
+- The arm flavour grows **2.49 MiB** (two `libsqliteJni.so` copies).
+- First use of the new floor: `SeriesSortOrderDao.setOrder` was a lookup-then-REPLACE written around
+  UPSERT not existing before 3.24, and is now a single upsert.
+
+### A truncated bulk fetch stops looking like a clean success
+
+A provider's `get_vod_streams` was dropping mid-response — `SocketException: Connection reset` after
+242 s at 139,924 of 178,720 films. The per-category fallback recovered the catalogue, so the run
+reported plain `Success` and the only trace was a warning under a log tag nobody filters on.
+
+- A truncated bulk phase now raises a `BULK_TRUNCATED` warning carrying where the cut fell and whether
+  the fallback made it whole, with new strings in every packaged locale.
+- Gzip was already in play and the read timeout was not the cause; both were checked before anything
+  was changed, and `HttpClient` now logs the wire encoding at info level so the question stays
+  answerable.
+
+### Other
+
+- **DB v42** — `catalog_backfill`, the Stalker VOD pages setup deliberately does not fetch.
+- **API** — `SourceRepository.catalogueComplete(sourceId)` answers "is this catalogue whole?" in one
+  read. It is *not* the same as `lastSyncAt != null`: a lazily-added source is stamped synced while
+  still filling in.
+- **API** — `SourceImporter` gains `makeDefault`, so an app no longer needs its own copy of the import
+  sequence to offer it.
+
+---
+
 ## core-1.0.47 — 2026-09-18
 
 A live channel's measured frame rate is no longer read a notch too low, and the mpv side of the same

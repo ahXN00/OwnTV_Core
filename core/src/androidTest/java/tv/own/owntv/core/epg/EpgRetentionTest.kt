@@ -1,5 +1,7 @@
 package tv.own.owntv.core.epg
 
+import androidx.room.execSQL
+import androidx.room.useWriterConnection
 import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -73,15 +75,18 @@ class EpgRetentionTest {
 
         // What EpgRepository does for the non-catch-up set: drop finished rows older than the recent
         // cutoff, except for the guide ids that can replay them.
-        val w = db.openHelper.writableDatabase
-        w.execSQL("CREATE TEMP TABLE IF NOT EXISTS `epg_keep_history` (`epgChannelId` TEXT PRIMARY KEY NOT NULL)")
-        w.execSQL("INSERT OR IGNORE INTO `epg_keep_history` VALUES ('bbc1')")
-        w.execSQL(
-            "DELETE FROM `epg_programmes` WHERE `stopMs` < ? " +
-                "AND `epgChannelId` NOT IN (SELECT `epgChannelId` FROM `epg_keep_history`)",
-            arrayOf<Any?>(now - 6 * hour),
-        )
-        w.execSQL("DROP TABLE IF EXISTS `epg_keep_history`")
+        db.useWriterConnection { connection ->
+            connection.execSQL("CREATE TEMP TABLE IF NOT EXISTS `epg_keep_history` (`epgChannelId` TEXT PRIMARY KEY NOT NULL)")
+            connection.execSQL("INSERT OR IGNORE INTO `epg_keep_history` VALUES ('bbc1')")
+            connection.usePrepared(
+                "DELETE FROM `epg_programmes` WHERE `stopMs` < ? " +
+                    "AND `epgChannelId` NOT IN (SELECT `epgChannelId` FROM `epg_keep_history`)",
+            ) { statement ->
+                statement.bindLong(1, now - 6 * hour)
+                statement.step()
+            }
+            connection.execSQL("DROP TABLE IF EXISTS `epg_keep_history`")
+        }
 
         // The replayable channel keeps both; the other keeps only the recent one.
         assertEquals(2, countFor("bbc1"))
@@ -103,11 +108,13 @@ class EpgRetentionTest {
         assertEquals("bbc1", protectedId)
     }
 
-    private fun countFor(epgChannelId: String): Int =
-        db.openHelper.readableDatabase.query(
-            "SELECT COUNT(*) FROM epg_programmes WHERE epgChannelId = ?",
-            arrayOf<Any?>(epgChannelId),
-        ).use { if (it.moveToFirst()) it.getInt(0) else 0 }
+    private suspend fun countFor(epgChannelId: String): Int =
+        db.useWriterConnection { connection ->
+            connection.usePrepared("SELECT COUNT(*) FROM epg_programmes WHERE epgChannelId = ?") { statement ->
+                statement.bindText(1, epgChannelId)
+                if (statement.step()) statement.getInt(0) else 0
+            }
+        }
 
     private fun channel(remoteId: String, tvgId: String?, catchup: Boolean) = ChannelEntity(
         sourceId = 1,

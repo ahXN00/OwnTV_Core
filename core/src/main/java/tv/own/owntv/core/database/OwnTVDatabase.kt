@@ -1,6 +1,8 @@
 package tv.own.owntv.core.database
 
 import androidx.room.Database
+import androidx.sqlite.SQLiteConnection
+import androidx.sqlite.execSQL
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import tv.own.owntv.core.database.dao.CategoryDao
@@ -15,6 +17,7 @@ import tv.own.owntv.core.database.dao.MovieDao
 import tv.own.owntv.core.database.dao.ProfileDao
 import tv.own.owntv.core.database.dao.PlaybackPrefsDao
 import tv.own.owntv.core.database.dao.ProgressDao
+import tv.own.owntv.core.database.dao.CatalogBackfillDao
 import tv.own.owntv.core.database.dao.RecordingDao
 import tv.own.owntv.core.database.dao.SeriesDao
 import tv.own.owntv.core.database.dao.SeriesSortOrderDao
@@ -41,6 +44,7 @@ import tv.own.owntv.core.database.entity.PlaybackPrefsEntity
 import tv.own.owntv.core.database.entity.PlaybackProgressEntity
 import tv.own.owntv.core.database.entity.ProfileEntity
 import tv.own.owntv.core.database.entity.ProfileSourceCrossRef
+import tv.own.owntv.core.database.entity.CatalogBackfillEntity
 import tv.own.owntv.core.database.entity.RecordingEntity
 import tv.own.owntv.core.database.entity.RecordingRuleEntity
 import tv.own.owntv.core.database.entity.SeasonEntity
@@ -86,6 +90,8 @@ import tv.own.owntv.core.database.dao.SubtitleDao
         // Live recordings and the standing rules that create them (v39). Never synced, never
         // backed up — D6.
         RecordingEntity::class,
+        // Stalker outstanding-page plan (N1b)
+        CatalogBackfillEntity::class,
         RecordingRuleEntity::class,
         // Android TV home-screen bookkeeping
         TvProviderProgramEntity::class,
@@ -109,7 +115,7 @@ import tv.own.owntv.core.database.dao.SubtitleDao
         SeriesFtsEntity::class,
         EpisodeFtsEntity::class,
     ],
-    version = 41, // v7: content_order (Move). v8: contentHash + browse/unique indexes. v9: EPG contentHash + natural key. v10: TMDB metadata cache. v11: movies/series rating-sort indexes. v12: metadata_cache trailerKey. v13: metadata_cache logoPath. v14: sources.mac (Stalker portal). v15: external-subtitle cache/selection/timing tables. v16: subtitle_link (downloaded-sub ↔ content). v17: sources.syncLive/Movies/Series (skip-sync enabledScope). v18: series.episodesSyncedAt (episode-cache freshness, S8). v19: epg_channels.iconUrl (XMLTV channel logos). v20: channels (sourceId, number) index for direct tune. v21: series.addedAt + date-added sort indexes. v22: series_sort_order (per-series season/episode order). v23: sources.hlsSupported and sources.preferHls. v24: custom_category_members (user custom categories, #87). v25: sources.livePrerollSecs (per-playlist "Pre-buffer"). v26: channels.catchupType + channels.httpHeaders (M3U catch-up styles + per-channel HTTP headers). v27: sources.maxConnections (Xtream session limit read at sync). v28: movies.httpHeaders + episodes.httpHeaders (per-item M3U HTTP headers). v29: optional Stalker serial/device IDs/signature. v30: source-scoped Now Trending snapshots. v31: indexed provider-title metadata and persistent Trending attempt state. v32: playback_prefs (per-item zoom + volume, keyed by the P6 stable content key). v33: channels/movies/episodes drmConfig (M3U Widevine/ClearKey licence details, #115). v34: sources.liveEnginePreference + sources.liveLatencyMode/liveLatencyCustomSecs (per-playlist Live TV engine and Live latency). v35: playback_prefs.audioDelayMs (per-item A/V-sync memory). v36: user_data_tombstones (deleted favorites/history/resume/memberships, so local sync propagates a deletion instead of undoing it). v37: episodes.airDateMs + metadata_cache.airDate (when an episode first aired — the provider's date, with TMDB's as the fallback) profiles.avatarPath (a picture of the user's own instead of a drawn tile). v38: sources.importPortalEpg (whether a Stalker portal's own guide may be imported). v39: recordings + recording_rules (live recording and its standing "record every showing" rules; never synced, never backed up). v40: sources.maxConnectionsProbedAt (when the app measured how many streams the provider really allows, for the providers that never say). v41: epg_channels.normName/normId (the matcher's normalized forms, stored at sync instead of recomputed per keystroke) and an epg_programmes (startMs, stopMs) index for time-bounded guide reads.
+    version = 42, // v7: content_order (Move). v8: contentHash + browse/unique indexes. v9: EPG contentHash + natural key. v10: TMDB metadata cache. v11: movies/series rating-sort indexes. v12: metadata_cache trailerKey. v13: metadata_cache logoPath. v14: sources.mac (Stalker portal). v15: external-subtitle cache/selection/timing tables. v16: subtitle_link (downloaded-sub ↔ content). v17: sources.syncLive/Movies/Series (skip-sync enabledScope). v18: series.episodesSyncedAt (episode-cache freshness, S8). v19: epg_channels.iconUrl (XMLTV channel logos). v20: channels (sourceId, number) index for direct tune. v21: series.addedAt + date-added sort indexes. v22: series_sort_order (per-series season/episode order). v23: sources.hlsSupported and sources.preferHls. v24: custom_category_members (user custom categories, #87). v25: sources.livePrerollSecs (per-playlist "Pre-buffer"). v26: channels.catchupType + channels.httpHeaders (M3U catch-up styles + per-channel HTTP headers). v27: sources.maxConnections (Xtream session limit read at sync). v28: movies.httpHeaders + episodes.httpHeaders (per-item M3U HTTP headers). v29: optional Stalker serial/device IDs/signature. v30: source-scoped Now Trending snapshots. v31: indexed provider-title metadata and persistent Trending attempt state. v32: playback_prefs (per-item zoom + volume, keyed by the P6 stable content key). v33: channels/movies/episodes drmConfig (M3U Widevine/ClearKey licence details, #115). v34: sources.liveEnginePreference + sources.liveLatencyMode/liveLatencyCustomSecs (per-playlist Live TV engine and Live latency). v35: playback_prefs.audioDelayMs (per-item A/V-sync memory). v36: user_data_tombstones (deleted favorites/history/resume/memberships, so local sync propagates a deletion instead of undoing it). v37: episodes.airDateMs + metadata_cache.airDate (when an episode first aired — the provider's date, with TMDB's as the fallback) profiles.avatarPath (a picture of the user's own instead of a drawn tile). v38: sources.importPortalEpg (whether a Stalker portal's own guide may be imported). v39: recordings + recording_rules (live recording and its standing "record every showing" rules; never synced, never backed up). v40: sources.maxConnectionsProbedAt (when the app measured how many streams the provider really allows, for the providers that never say). v41: epg_channels.normName/normId (the matcher's normalized forms, stored at sync instead of recomputed per keystroke) and an epg_programmes (startMs, stopMs) index for time-bounded guide reads. v42: catalog_backfill (the Stalker VOD pages setup deliberately did not fetch, drained in the background — plan N1b).
 
     exportSchema = true,
 )
@@ -133,6 +139,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
     abstract fun tvProviderProgramDao(): TvProviderProgramDao
     abstract fun downloadDao(): DownloadDao
     abstract fun recordingDao(): RecordingDao
+    abstract fun catalogBackfillDao(): CatalogBackfillDao
     abstract fun epgDao(): EpgDao
     abstract fun metadataDao(): tv.own.owntv.core.database.dao.MetadataDao
     abstract fun trendingDao(): TrendingDao
@@ -147,7 +154,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * empty — everything else (profiles, sources, content, favorites, history) is preserved.
          */
         val MIGRATION_1_2 = object : androidx.room.migration.Migration(1, 2) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 db.execSQL("DROP TABLE IF EXISTS `epg_programmes`")
                 db.execSQL("DROP TABLE IF EXISTS `epg_channels`")
                 db.execSQL("CREATE TABLE IF NOT EXISTS `epg_channels` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `sourceId` INTEGER NOT NULL, `epgChannelId` TEXT NOT NULL, `displayName` TEXT)")
@@ -166,7 +173,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * - add Android TV provider bookkeeping for Watch Next / Continue Watching rows
          */
         val MIGRATION_2_3 = object : androidx.room.migration.Migration(2, 3) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 db.execSQL("ALTER TABLE `channels` ADD COLUMN `catchup` INTEGER NOT NULL DEFAULT 0")
                 db.execSQL("ALTER TABLE `channels` ADD COLUMN `catchupDays` INTEGER NOT NULL DEFAULT 0")
                 db.execSQL("ALTER TABLE `channels` ADD COLUMN `catchupSource` TEXT")
@@ -197,7 +204,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * exist, regardless of which v3 a user has.
          */
         val MIGRATION_3_4 = object : androidx.room.migration.Migration(3, 4) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 // Channels catch-up columns (skip if already present).
                 if (!hasColumn(db, "channels", "catchup")) {
                     db.execSQL("ALTER TABLE `channels` ADD COLUMN `catchup` INTEGER NOT NULL DEFAULT 0")
@@ -242,7 +249,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * same as on main; v5 never shipped publicly.)
          */
         val MIGRATION_4_6 = object : androidx.room.migration.Migration(4, 6) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 // v4 and v6 schemas are identical.
             }
         }
@@ -252,7 +259,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * must keep that meaning: dev devices on unreleased main builds already sit on it.
          */
         val MIGRATION_6_7 = object : androidx.room.migration.Migration(6, 7) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 createContentOrderTable(db)
             }
         }
@@ -264,7 +271,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * indexes) migrate cleanly.
          */
         val MIGRATION_7_8 = object : androidx.room.migration.Migration(7, 8) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 if (!hasColumn(db, "channels", "contentHash")) {
                     db.execSQL("ALTER TABLE `channels` ADD COLUMN `contentHash` INTEGER NOT NULL DEFAULT 0")
                 }
@@ -310,7 +317,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * caches — never row-wise de-dup a cache table.
          */
         val MIGRATION_8_9 = object : androidx.room.migration.Migration(8, 9) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 if (!hasColumn(db, "epg_programmes", "contentHash")) {
                     db.execSQL("ALTER TABLE `epg_programmes` ADD COLUMN `contentHash` INTEGER NOT NULL DEFAULT 0")
                 }
@@ -327,7 +334,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * existing table is touched, so this is a safe additive migration.
          */
         val MIGRATION_9_10 = object : androidx.room.migration.Migration(9, 10) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 db.execSQL(
                     "CREATE TABLE IF NOT EXISTS `metadata_cache` (" +
                         "`key` TEXT NOT NULL, " +
@@ -368,7 +375,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * ("ORDER BY rating DESC, name"). Additive index-only migration; no data or column changes.
          */
         val MIGRATION_10_11 = object : androidx.room.migration.Migration(10, 11) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_movies_sourceId_rating_name` ON `movies` (`sourceId`, `rating`, `name`)")
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_movies_categoryId_rating_name` ON `movies` (`categoryId`, `rating`, `name`)")
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_series_sourceId_rating_name` ON `series` (`sourceId`, `rating`, `name`)")
@@ -381,7 +388,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * Additive column on a pure cache table; existing rows get NULL and simply re-fetch on next refresh.
          */
         val MIGRATION_11_12 = object : androidx.room.migration.Migration(11, 12) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 db.execSQL("ALTER TABLE `metadata_cache` ADD COLUMN `trailerKey` TEXT")
             }
         }
@@ -391,7 +398,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * Additive column on a pure cache table; existing rows simply use text-title fallback until refreshed.
          */
         val MIGRATION_12_13 = object : androidx.room.migration.Migration(12, 13) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 db.execSQL("ALTER TABLE `metadata_cache` ADD COLUMN `logoPath` TEXT")
             }
         }
@@ -406,7 +413,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * bricked 4.0.x → 4.1.0 upgrades for affected users. See [healSchema] for the standing rule.
          */
         val MIGRATION_13_14 = object : androidx.room.migration.Migration(13, 14) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 if (!hasColumn(db, "sources", "mac")) {
                     db.execSQL("ALTER TABLE `sources` ADD COLUMN `mac` TEXT")
                 }
@@ -423,7 +430,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * hop in the chain, so it carries the schema-drift heal that a public-release upgrade relies on.
          */
         val MIGRATION_14_15 = object : androidx.room.migration.Migration(14, 15) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 db.execSQL(
                     "CREATE TABLE IF NOT EXISTS `subtitle_cache` (" +
                         "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
@@ -480,7 +487,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * "Delete subtitles" surfaces can browse by Movies/Series. Additive.
          */
         val MIGRATION_15_16 = object : androidx.room.migration.Migration(15, 16) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 db.execSQL(
                     "CREATE TABLE IF NOT EXISTS `subtitle_link` (" +
                         "`profileId` INTEGER NOT NULL, " +
@@ -508,7 +515,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * [healSchema] as the new last hop (standing rule).
          */
         val MIGRATION_16_17 = object : androidx.room.migration.Migration(16, 17) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 if (!hasColumn(db, "sources", "syncLive")) {
                     db.execSQL("ALTER TABLE `sources` ADD COLUMN `syncLive` INTEGER NOT NULL DEFAULT 1")
                 }
@@ -529,7 +536,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * pick up their missing episodes without deleting and re-adding the playlist.
          */
         val MIGRATION_17_18 = object : androidx.room.migration.Migration(17, 18) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 if (!hasColumn(db, "series", "episodesSyncedAt")) {
                     db.execSQL("ALTER TABLE `series` ADD COLUMN `episodesSyncedAt` INTEGER NOT NULL DEFAULT 0")
                 }
@@ -539,7 +546,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
 
         /** v18 → v19: nullable `iconUrl` on epg_channels (XMLTV `<icon src>`, "Prefer EPG logos"). */
         val MIGRATION_18_19 = object : androidx.room.migration.Migration(18, 19) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 if (!hasColumn(db, "epg_channels", "iconUrl")) {
                     db.execSQL("ALTER TABLE `epg_channels` ADD COLUMN `iconUrl` TEXT")
                 }
@@ -554,7 +561,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * Last hop, so it carries [healSchema] (standing rule).
          */
         val MIGRATION_19_20 = object : androidx.room.migration.Migration(19, 20) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 db.execSQL("CREATE INDEX IF NOT EXISTS `index_channels_sourceId_number` ON `channels` (`sourceId`, `number`)")
                 healSchema(db)
             }
@@ -579,7 +586,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * Still calls [healSchema] (harmless, idempotent) even though 21→22 is now the last hop.
          */
         val MIGRATION_20_21 = object : androidx.room.migration.Migration(20, 21) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 // New column: series.addedAt (movies already has it since the original schema).
                 if (!hasColumn(db, "series", "addedAt")) {
                     db.execSQL("ALTER TABLE `series` ADD COLUMN `addedAt` INTEGER")
@@ -613,7 +620,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * Last hop, so it carries [healSchema] (standing rule).
          */
         val MIGRATION_21_22 = object : androidx.room.migration.Migration(21, 22) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 db.execSQL(
                     "CREATE TABLE IF NOT EXISTS `series_sort_order` (" +
                         "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
@@ -638,7 +645,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * Last hop, so it carries [healSchema] (standing rule).
          */
         val MIGRATION_22_23 = object : androidx.room.migration.Migration(22, 23) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 if (!hasColumn(db, "sources", "hlsSupported")) {
                     db.execSQL("ALTER TABLE `sources` ADD COLUMN `hlsSupported` INTEGER NOT NULL DEFAULT 0")
                 }
@@ -660,7 +667,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * Last hop, so it carries [healSchema] (standing rule).
          */
         val MIGRATION_23_24 = object : androidx.room.migration.Migration(23, 24) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 createCustomCategoryMembersTable(db)
                 healSchema(db)
             }
@@ -672,7 +679,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * exactly today's behaviour. Additive, one column, no data rewrite.
          */
         val MIGRATION_24_25 = object : androidx.room.migration.Migration(24, 25) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 if (!hasColumn(db, "sources", "livePrerollSecs")) {
                     db.execSQL("ALTER TABLE `sources` ADD COLUMN `livePrerollSecs` INTEGER NOT NULL DEFAULT -1")
                 }
@@ -690,7 +697,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * Additive only — no rewrite of the (potentially 100k-row) channels table.
          */
         val MIGRATION_25_26 = object : androidx.room.migration.Migration(25, 26) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 if (!hasColumn(db, "channels", "catchupType")) {
                     db.execSQL("ALTER TABLE `channels` ADD COLUMN `catchupType` TEXT")
                 }
@@ -709,7 +716,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * Additive, and the `sources` table has a handful of rows.
          */
         val MIGRATION_26_27 = object : androidx.room.migration.Migration(26, 27) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 if (!hasColumn(db, "sources", "maxConnections")) {
                     db.execSQL("ALTER TABLE `sources` ADD COLUMN `maxConnections` INTEGER NOT NULL DEFAULT 0")
                 }
@@ -727,7 +734,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * Last hop, so it carries [healSchema] (standing rule).
          */
         val MIGRATION_27_28 = object : androidx.room.migration.Migration(27, 28) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 if (!hasColumn(db, "movies", "httpHeaders")) {
                     db.execSQL("ALTER TABLE `movies` ADD COLUMN `httpHeaders` TEXT")
                 }
@@ -743,7 +750,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * sources remain null in every new column and therefore keep the exact old auth request.
          */
         val MIGRATION_28_29 = object : androidx.room.migration.Migration(28, 29) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 if (!hasColumn(db, "sources", "stalkerSerialNumber")) {
                     db.execSQL("ALTER TABLE `sources` ADD COLUMN `stalkerSerialNumber` TEXT")
                 }
@@ -766,7 +773,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * Deleting a source cascades through its snapshot state and items.
          */
         val MIGRATION_29_30 = object : androidx.room.migration.Migration(29, 30) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 db.execSQL(
                     "CREATE TABLE IF NOT EXISTS `trending_snapshots` (" +
                         "`sourceId` INTEGER NOT NULL, " +
@@ -823,7 +830,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
 
         /** v30 → v31: additive provider-title search metadata and refresh-result diagnostics. */
         val MIGRATION_30_31 = object : androidx.room.migration.Migration(30, 31) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 for (table in listOf("movies", "series")) {
                     db.execSQL("ALTER TABLE `$table` ADD COLUMN `canonicalTitle` TEXT NOT NULL DEFAULT ''")
                     db.execSQL("ALTER TABLE `$table` ADD COLUMN `titleSignature` TEXT NOT NULL DEFAULT ''")
@@ -851,7 +858,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * something in the player.
          */
         val MIGRATION_31_32 = object : androidx.room.migration.Migration(31, 32) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 db.execSQL(
                     "CREATE TABLE IF NOT EXISTS `playback_prefs` (" +
                         "`profileId` INTEGER NOT NULL, " +
@@ -881,7 +888,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * Last hop, so it carries [healSchema] (standing rule).
          */
         val MIGRATION_32_33 = object : androidx.room.migration.Migration(32, 33) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 listOf("channels", "movies", "episodes").forEach { table ->
                     if (!hasColumn(db, table, "drmConfig")) {
                         db.execSQL("ALTER TABLE `$table` ADD COLUMN `drmConfig` TEXT")
@@ -911,7 +918,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * device.
          */
         val MIGRATION_35_36 = object : androidx.room.migration.Migration(35, 36) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 db.execSQL(
                     "CREATE TABLE IF NOT EXISTS `user_data_tombstones` (" +
                         "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
@@ -953,7 +960,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * gets the next number.
          */
         val MIGRATION_37_38 = object : androidx.room.migration.Migration(37, 38) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 db.execSQL("ALTER TABLE `sources` ADD COLUMN `importPortalEpg` INTEGER NOT NULL DEFAULT 1")
                 healSchema(db)
             }
@@ -978,7 +985,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * the record of something already on disk. `profileId` is, like every other user-data table.
          */
         val MIGRATION_38_39 = object : androidx.room.migration.Migration(38, 39) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 db.execSQL(
                     "CREATE TABLE IF NOT EXISTS `recordings` (" +
                         "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
@@ -1043,7 +1050,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
         }
 
         val MIGRATION_36_37 = object : androidx.room.migration.Migration(36, 37) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 db.execSQL("ALTER TABLE `episodes` ADD COLUMN `airDateMs` INTEGER")
                 db.execSQL("ALTER TABLE `metadata_cache` ADD COLUMN `airDate` TEXT")
                 db.execSQL("ALTER TABLE `profiles` ADD COLUMN `avatarPath` TEXT")
@@ -1052,7 +1059,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
         }
 
         val MIGRATION_34_35 = object : androidx.room.migration.Migration(34, 35) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 if (!hasColumn(db, "playback_prefs", "audioDelayMs")) {
                     db.execSQL("ALTER TABLE `playback_prefs` ADD COLUMN `audioDelayMs` INTEGER")
                 }
@@ -1075,7 +1082,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * Last hop, so it carries [healSchema] (standing rule).
          */
         val MIGRATION_33_34 = object : androidx.room.migration.Migration(33, 34) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 if (!hasColumn(db, "sources", "liveEnginePreference")) {
                     db.execSQL("ALTER TABLE `sources` ADD COLUMN `liveEnginePreference` TEXT")
                 }
@@ -1105,7 +1112,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * nothing could be concluded, which is deliberately not the same thing.
          */
         val MIGRATION_39_40 = object : androidx.room.migration.Migration(39, 40) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 if (!hasColumn(db, "sources", "maxConnectionsProbedAt")) {
                     db.execSQL("ALTER TABLE `sources` ADD COLUMN `maxConnectionsProbedAt` INTEGER NOT NULL DEFAULT 0")
                 }
@@ -1128,7 +1135,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * that table is hundreds of thousands of rows.
          */
         val MIGRATION_40_41 = object : androidx.room.migration.Migration(40, 41) {
-            override fun migrate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+            override fun migrate(db: SQLiteConnection) {
                 if (!hasColumn(db, "epg_channels", "normName")) {
                     db.execSQL("ALTER TABLE `epg_channels` ADD COLUMN `normName` TEXT")
                 }
@@ -1143,6 +1150,41 @@ abstract class OwnTVDatabase : RoomDatabase() {
         }
 
         /**
+         * v42 — `catalog_backfill`: the Stalker VOD pages setup deliberately did not fetch (plan N1b).
+         *
+         * Pure `CREATE TABLE IF NOT EXISTS`; nothing existing is touched and there is nothing to
+         * backfill. An upgrading device simply has an empty plan, which reads as "no catalogue is
+         * waiting on pages" — correct, because every pre-v42 source was imported by the old eager
+         * walk and is already whole.
+         */
+        val MIGRATION_41_42 = object : androidx.room.migration.Migration(41, 42) {
+            override fun migrate(db: SQLiteConnection) {
+                db.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `catalog_backfill` (" +
+                        "`sourceId` INTEGER NOT NULL, " +
+                        "`mediaType` TEXT NOT NULL, " +
+                        "`categoryRemoteId` TEXT NOT NULL, " +
+                        "`categoryDbId` INTEGER, " +
+                        "`totalItems` INTEGER NOT NULL, " +
+                        "`maxPageItems` INTEGER NOT NULL, " +
+                        "`nextPage` INTEGER NOT NULL, " +
+                        "`lastPage` INTEGER NOT NULL, " +
+                        "`sortBase` INTEGER NOT NULL, " +
+                        "`done` INTEGER NOT NULL, " +
+                        "PRIMARY KEY(`sourceId`, `mediaType`, `categoryRemoteId`), " +
+                        "FOREIGN KEY(`sourceId`) REFERENCES `sources`(`id`) " +
+                        "ON UPDATE NO ACTION ON DELETE CASCADE )",
+                )
+                db.execSQL("CREATE INDEX IF NOT EXISTS `index_catalog_backfill_sourceId` ON `catalog_backfill` (`sourceId`)")
+                db.execSQL(
+                    "CREATE INDEX IF NOT EXISTS `index_catalog_backfill_sourceId_mediaType_done` " +
+                        "ON `catalog_backfill` (`sourceId`, `mediaType`, `done`)",
+                )
+                healSchema(db)
+            }
+        }
+
+        /**
          * Fill `epg_channels.normName` / `.normId` for rows written before v41.
          *
          * Batched, and each batch is its own transaction, so an interrupted upgrade leaves a
@@ -1150,35 +1192,52 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * simply means "normalize this one on the fly". Rows that already have a value are skipped,
          * so re-running costs nothing.
          */
-        private fun backfillNormalizedEpgChannels(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+        private fun backfillNormalizedEpgChannels(db: SQLiteConnection) {
             var lastId = 0L
             while (true) {
                 val rows = ArrayList<Triple<Long, String, String?>>(BACKFILL_BATCH)
-                db.query(
+                db.prepare(
                     "SELECT `id`, `epgChannelId`, `displayName` FROM `epg_channels` " +
                         "WHERE `id` > ? AND `normId` IS NULL ORDER BY `id` ASC LIMIT ?",
-                    arrayOf<Any>(lastId, BACKFILL_BATCH),
-                ).use { c ->
-                    while (c.moveToNext()) {
-                        rows.add(Triple(c.getLong(0), c.getString(1), if (c.isNull(2)) null else c.getString(2)))
-                    }
-                }
-                if (rows.isEmpty()) return
-                db.beginTransaction()
-                try {
-                    for ((id, epgChannelId, displayName) in rows) {
-                        db.execSQL(
-                            "UPDATE `epg_channels` SET `normName` = ?, `normId` = ? WHERE `id` = ?",
-                            arrayOf<Any?>(
-                                displayName?.let(tv.own.owntv.core.epg.EpgMatcher::normalizeForEpg),
-                                tv.own.owntv.core.epg.EpgMatcher.normalizeForEpg(epgChannelId),
-                                id,
+                ).use { statement ->
+                    statement.bindLong(1, lastId)
+                    statement.bindInt(2, BACKFILL_BATCH)
+                    while (statement.step()) {
+                        rows.add(
+                            Triple(
+                                statement.getLong(0),
+                                statement.getText(1),
+                                if (statement.isNull(2)) null else statement.getText(2),
                             ),
                         )
                     }
-                    db.setTransactionSuccessful()
-                } finally {
-                    db.endTransaction()
+                }
+                if (rows.isEmpty()) return
+                // The driver API has no beginTransaction/setTransactionSuccessful pair, so the
+                // transaction is spelled out in SQL. Same shape as before: commit on success,
+                // roll back on any throw, so an interrupted upgrade leaves whole batches behind
+                // rather than a half-written one.
+                db.execSQL("BEGIN IMMEDIATE TRANSACTION")
+                try {
+                    db.prepare(
+                        "UPDATE `epg_channels` SET `normName` = ?, `normId` = ? WHERE `id` = ?",
+                    ).use { statement ->
+                        for ((id, epgChannelId, displayName) in rows) {
+                            // One prepared statement re-bound per row, where the Support API
+                            // re-compiled the SQL on every execSQL. Same result, less work.
+                            statement.clearBindings()
+                            val normName = displayName?.let(tv.own.owntv.core.epg.EpgMatcher::normalizeForEpg)
+                            if (normName == null) statement.bindNull(1) else statement.bindText(1, normName)
+                            statement.bindText(2, tv.own.owntv.core.epg.EpgMatcher.normalizeForEpg(epgChannelId))
+                            statement.bindLong(3, id)
+                            statement.step()
+                            statement.reset()
+                        }
+                    }
+                    db.execSQL("COMMIT TRANSACTION")
+                } catch (t: Throwable) {
+                    runCatching { db.execSQL("ROLLBACK TRANSACTION") }
+                    throw t
                 }
                 lastId = rows.last().first
             }
@@ -1237,6 +1296,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
             MIGRATION_38_39,
             MIGRATION_39_40,
             MIGRATION_40_41,
+            MIGRATION_41_42,
         )
 
         /**
@@ -1322,11 +1382,12 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * the whole schema once, after the last migration in the chain — so the heal only protects
          * an upgrade if it runs in the step users actually pass through.
          */
-        fun healSchema(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+        fun healSchema(db: SQLiteConnection) {
             EXPECTED_FTS_TABLES.forEach { (name, createSql) ->
-                val exists = db.query(
+                // step() returning true IS the row — the driver API has no moveToFirst().
+                val exists = db.prepare(
                     "SELECT 1 FROM sqlite_master WHERE type='table' AND name='$name'",
-                ).use { it.moveToFirst() }
+                ).use { it.step() }
                 if (!exists) {
                     db.execSQL(createSql)
                     db.execSQL("INSERT INTO `$name`(`$name`) VALUES('rebuild')")
@@ -1348,7 +1409,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * point the column exists — restores it if it is ever missing.
          */
         private fun indexColumnsExist(
-            db: androidx.sqlite.db.SupportSQLiteDatabase,
+            db: SQLiteConnection,
             createIndexSql: String,
         ): Boolean {
             val match = INDEX_TARGET.find(createIndexSql) ?: return true
@@ -1381,19 +1442,22 @@ abstract class OwnTVDatabase : RoomDatabase() {
          * Deliberately still inside `onOpen`: a query that ran before the heal finished would hit a
          * missing index, which is the slow path the heal exists to prevent. Returns true if it healed.
          */
-        fun healSchemaIfDrifted(db: androidx.sqlite.db.SupportSQLiteDatabase): Boolean {
+        fun healSchemaIfDrifted(db: SQLiteConnection): Boolean {
             val expected = EXPECTED_SCHEMA_OBJECTS
             val placeholders = expected.joinToString(",") { "?" }
-            val present = db.query(
+            val present = db.prepare(
                 "SELECT COUNT(*) FROM sqlite_master WHERE name IN ($placeholders)",
-                expected.toTypedArray(),
-            ).use { if (it.moveToFirst()) it.getInt(0) else 0 }
+            ).use { statement ->
+                // Binds are 1-based, column getters are 0-based. Both appear in this one block.
+                expected.forEachIndexed { i, name -> statement.bindText(i + 1, name) }
+                if (statement.step()) statement.getInt(0) else 0
+            }
             if (present >= expected.size) return false
             healSchema(db)
             return true
         }
 
-        private fun createCustomCategoryMembersTable(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+        private fun createCustomCategoryMembersTable(db: SQLiteConnection) {
             db.execSQL(
                 "CREATE TABLE IF NOT EXISTS `custom_category_members` (" +
                     "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
@@ -1410,7 +1474,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
             db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_custom_category_members_profileId_mediaType_contextKey_itemId` ON `custom_category_members` (`profileId`, `mediaType`, `contextKey`, `itemId`)")
         }
 
-        private fun createContentOrderTable(db: androidx.sqlite.db.SupportSQLiteDatabase) {
+        private fun createContentOrderTable(db: SQLiteConnection) {
             db.execSQL(
                 "CREATE TABLE IF NOT EXISTS `content_order` (" +
                     "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
@@ -1427,12 +1491,15 @@ abstract class OwnTVDatabase : RoomDatabase() {
             db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_content_order_profileId_mediaType_contextKey_itemId` ON `content_order` (`profileId`, `mediaType`, `contextKey`, `itemId`)")
         }
 
-        private fun hasColumn(db: androidx.sqlite.db.SupportSQLiteDatabase, table: String, column: String): Boolean {
-            db.query("PRAGMA table_info(`$table`)").use { cursor ->
-                val nameIndex = cursor.getColumnIndex("name")
+        private fun hasColumn(db: SQLiteConnection, table: String, column: String): Boolean {
+            db.prepare("PRAGMA table_info(`$table`)").use { statement ->
+                // No getColumnIndex(name) on the driver API — resolve it from getColumnNames(),
+                // which is the same lookup Cursor did internally. PRAGMA table_info has always put
+                // `name` at index 1, but resolving it keeps this honest if that ever changes.
+                val nameIndex = statement.getColumnNames().indexOf("name")
                 if (nameIndex < 0) return false
-                while (cursor.moveToNext()) {
-                    if (cursor.getString(nameIndex) == column) return true
+                while (statement.step()) {
+                    if (statement.getText(nameIndex) == column) return true
                 }
                 return false
             }

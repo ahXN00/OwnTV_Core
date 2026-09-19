@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import tv.own.owntv.core.catalog.withProviderCatalogMetadata
@@ -55,6 +56,39 @@ interface MovieDao {
 
     @Query("SELECT remoteId, id, contentHash, sortOrder FROM movies WHERE sourceId = :sourceId AND remoteId IS NOT NULL")
     suspend fun contentHashesForSource(sourceId: Long): List<ContentHashProjection>
+
+    /**
+     * Write only the position of a row whose content did not change (plan A2).
+     *
+     * The whole point is what it does *not* touch. Room's `@Update` writes every column and, on
+     * this table's insert path, re-derives the provider-catalogue metadata from the title — all for
+     * a row that is byte-identical and has merely slid down the list because the provider removed
+     * something above it. Issue #192 measured 1,397 real changes producing 255,775 of those.
+     */
+    @Query("UPDATE movies SET sortOrder = :sortOrder WHERE id = :id")
+    suspend fun setSortOrder(id: Long, sortOrder: Int)
+
+    /** One transaction for the whole batch; without it each statement pays its own commit. */
+    @Transaction
+    suspend fun applyPositionMoves(ids: List<Long>, sortOrders: List<Int>) {
+        for (i in ids.indices) setSortOrder(ids[i], sortOrders[i])
+    }
+
+    /**
+     * Shift every row of this source whose position lies in a span (plan A3).
+     *
+     * Removing two channels near the top of a 30,000-channel list moves all 30,000 below them by
+     * exactly -2. That is one statement, not 30,000 writes. The caller has already proved that the
+     * span contains nothing but the rows it means to move — see `collapsePositionRuns`.
+     */
+    @Query("UPDATE movies SET sortOrder = sortOrder + :delta WHERE sourceId = :sourceId AND sortOrder BETWEEN :fromSortOrder AND :toSortOrder")
+    suspend fun shiftSortOrders(sourceId: Long, fromSortOrder: Int, toSortOrder: Int, delta: Int)
+
+    @Transaction
+    suspend fun applyPositionRanges(sourceId: Long, froms: List<Int>, tos: List<Int>, deltas: List<Int>) {
+        for (i in froms.indices) shiftSortOrders(sourceId, froms[i], tos[i], deltas[i])
+    }
+
 
     @Query("DELETE FROM movies WHERE sourceId = :sourceId AND remoteId IN (:remoteIds)")
     suspend fun deleteByRemoteIds(sourceId: Long, remoteIds: List<String>)

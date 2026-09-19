@@ -204,6 +204,17 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
 
     // Database (Room, via KSP) + Paging. No paging-compose — that is UI.
+    // Plan Phase B: the SQLiteDriver API. `api`, not `implementation` — migrations and the open
+    // callback are written against SQLiteConnection, and those types appear in core's own public
+    // surface, so a consumer compiling against the published AAR needs them on its compile path.
+    api(libs.androidx.sqlite)
+    // Plan Phase C: SQLite 3.x shipped inside the APK instead of whatever the TV happens to run.
+    // minSdk 26 otherwise means an Android 8 box is stuck on SQLite 3.18 — no UPSERT, no window
+    // functions, no UPDATE…FROM — which is the wall Phase D exists to get past.
+    implementation(libs.androidx.sqlite.bundled)
+    // Kept: AndroidSQLiteDriver is the Phase B intermediate, and the fallback if 3.x ever
+    // misbehaves on a specific device. One line in databaseModule chooses between them.
+    implementation(libs.androidx.sqlite.framework)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)

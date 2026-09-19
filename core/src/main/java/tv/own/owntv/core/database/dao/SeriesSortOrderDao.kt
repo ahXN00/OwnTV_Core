@@ -19,9 +19,6 @@ interface SeriesSortOrderDao {
     fun observe(profileId: Long, seriesId: Long): Flow<SeriesSortOrderEntity?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsert(row: SeriesSortOrderEntity)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(rows: List<SeriesSortOrderEntity>)
 
     /** The row id for a series, or null when the user has never changed it. */
@@ -29,25 +26,24 @@ interface SeriesSortOrderDao {
     suspend fun findRowId(profileId: Long, seriesId: Long): Long?
 
     /**
-     * Sets both orders in one write. REPLACE on the unique (profileId, seriesId) index would mint a
-     * new autoGenerate id each time, so the existing row's id is carried over when there is one.
+     * Sets both orders in one write, keeping the existing row's id.
      *
-     * Done as a lookup + REPLACE rather than an `ON CONFLICT … DO UPDATE` upsert on purpose: SQLite
-     * only learned that syntax in 3.24 (API 30), and minSdk here is 26 — the statement failed to
-     * compile with `near "ON": syntax error` on every older device.
+     * This used to be a lookup followed by a REPLACE, because REPLACE on the unique
+     * (profileId, seriesId) index mints a fresh autoGenerate id every time — and a real
+     * `ON CONFLICT … DO UPDATE` was not available: SQLite learned that syntax in 3.24 (API 30) and
+     * minSdk here is 26, so on an older device the statement failed to compile with
+     * `near "ON": syntax error`.
+     *
+     * The engine now ships inside the APK (plan Phase C), so every device has UPSERT and the two
+     * statements collapse into one. Plan D4: this is a workaround that had become pure cost.
      */
-    @Transaction
-    suspend fun setOrder(profileId: Long, seriesId: Long, seasonsDescending: Boolean, episodesDescending: Boolean) {
-        upsert(
-            SeriesSortOrderEntity(
-                id = findRowId(profileId, seriesId) ?: 0L,
-                profileId = profileId,
-                seriesId = seriesId,
-                seasonsDescending = seasonsDescending,
-                episodesDescending = episodesDescending,
-            ),
-        )
-    }
+    @Query(
+        "INSERT INTO series_sort_order (profileId, seriesId, seasonsDescending, episodesDescending) " +
+            "VALUES (:profileId, :seriesId, :seasonsDescending, :episodesDescending) " +
+            "ON CONFLICT(profileId, seriesId) DO UPDATE SET " +
+            "seasonsDescending = :seasonsDescending, episodesDescending = :episodesDescending",
+    )
+    suspend fun setOrder(profileId: Long, seriesId: Long, seasonsDescending: Boolean, episodesDescending: Boolean)
 
     /** Everything, for Backup & Restore / re-sync snapshotting. */
     @Query("SELECT * FROM series_sort_order")

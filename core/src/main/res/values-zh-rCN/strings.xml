@@ -65,6 +65,8 @@
     <plurals name="sync_warning_catalog_shrink">
         <item quantity="other">已保留 <xliff:g id="stored">%1$d</xliff:g> 个现有项目——本次导入返回的项目少了 <xliff:g id="percent">%2$d</xliff:g>%%。请再次同步；如果服务提供商确实已将这些项目移除，请使用“强制清理同步”。</item>
     </plurals>
+    <string name="sync_warning_bulk_truncated">提供商的列表在中途中断，因此其余部分按分类逐一获取。内容已全部就位，但本次同步耗时比平常更长。</string>
+    <string name="sync_warning_bulk_truncated_partial">提供商的列表在中途中断，且未能恢复全部内容。在下次同步之前，部分片目可能缺失。</string>
     <plurals name="sync_warning_page_failures">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 个源页面同步失败；在下次同步前，部分内容可能缺失。</item>
     </plurals>

@@ -67,6 +67,8 @@
         <item quantity="many">Sono stati mantenuti <xliff:g id="stored">%1$d</xliff:g> elementi esistenti: questa importazione ha restituito il <xliff:g id="percent">%2$d</xliff:g>%% di elementi in meno. Esegui di nuovo la sincronizzazione oppure usa Forza sincronizzazione pulita se il fornitore li ha davvero rimossi.</item>
         <item quantity="other">Sono stati mantenuti <xliff:g id="stored">%1$d</xliff:g> elementi esistenti: questa importazione ha restituito il <xliff:g id="percent">%2$d</xliff:g>%% di elementi in meno. Esegui di nuovo la sincronizzazione oppure usa Forza sincronizzazione pulita se il fornitore li ha davvero rimossi.</item>
     </plurals>
+    <string name="sync_warning_bulk_truncated">L\'elenco del provider si è interrotto a metà, quindi il resto è stato recuperato categoria per categoria. C\'è tutto, ma questa sincronizzazione ha richiesto più tempo del solito.</string>
+    <string name="sync_warning_bulk_truncated_partial">L\'elenco del provider si è interrotto a metà e non è stato possibile recuperare tutto. Alcuni titoli potrebbero mancare fino alla prossima sincronizzazione.</string>
     <plurals name="sync_warning_page_failures">
         <item quantity="one">Non è stato possibile caricare <xliff:g id="count">%1$d</xliff:g> pagina della fonte; alcuni contenuti potrebbero mancare fino alla prossima sincronizzazione.</item>
         <item quantity="many">Non è stato possibile caricare <xliff:g id="count">%1$d</xliff:g> pagine della fonte; alcuni contenuti potrebbero mancare fino alla prossima sincronizzazione.</item>

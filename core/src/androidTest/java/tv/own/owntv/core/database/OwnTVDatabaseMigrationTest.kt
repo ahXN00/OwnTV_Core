@@ -2,7 +2,11 @@ package tv.own.owntv.core.database
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import androidx.sqlite.SQLiteConnection
+import androidx.sqlite.execSQL
+import androidx.sqlite.driver.AndroidSQLiteDriver
 import androidx.room.Room
+import androidx.room.useWriterConnection
 import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -39,7 +43,7 @@ class OwnTVDatabaseMigrationTest {
         val db = openWithAllMigrations()
 
         try {
-            val sqlite = db.openHelper.readableDatabase
+            val sqlite = openForAssertions(db)
             assertTableExists(sqlite, "tv_provider_programs")
             assertIndexExists(sqlite, "index_tv_provider_programs_profileId_surface_mediaType_groupId")
             assertColumnExists(sqlite, "channels", "catchup")
@@ -72,7 +76,7 @@ class OwnTVDatabaseMigrationTest {
         val db = openWithAllMigrations()
 
         try {
-            val sqlite = db.openHelper.readableDatabase
+            val sqlite = openForAssertions(db)
             assertColumnExists(sqlite, "channels", "contentHash")
             assertColumnExists(sqlite, "movies", "contentHash")
             assertColumnExists(sqlite, "series", "contentHash")
@@ -99,7 +103,7 @@ class OwnTVDatabaseMigrationTest {
         val db = openWithAllMigrations()
 
         try {
-            val sqlite = db.openHelper.readableDatabase
+            val sqlite = openForAssertions(db)
             // Structure added along the way.
             assertTableExists(sqlite, "content_order")
             assertIndexExists(sqlite, "index_content_order_profileId_mediaType_contextKey_itemId")
@@ -204,7 +208,7 @@ class OwnTVDatabaseMigrationTest {
 
         val db = openWithAllMigrations()
         try {
-            val sqlite = db.openHelper.writableDatabase
+            val sqlite = openForAssertions(db)
             assertTableExists(sqlite, "trending_snapshots")
             assertTableExists(sqlite, "trending_items")
             assertIndexExists(sqlite, "index_trending_items_sourceId_mediaType_providerItemId")
@@ -276,7 +280,7 @@ class OwnTVDatabaseMigrationTest {
 
         val db = openWithAllMigrations()
         try {
-            val sqlite = db.openHelper.readableDatabase
+            val sqlite = openForAssertions(db)
             assertTableExists(sqlite, "custom_category_members")
             assertIndexExists(sqlite, "index_custom_category_members_profileId")
             assertIndexExists(sqlite, "index_custom_category_members_profileId_mediaType_contextKey")
@@ -310,7 +314,7 @@ class OwnTVDatabaseMigrationTest {
 
         val db = openWithAllMigrations()
         try {
-            val sqlite = db.openHelper.readableDatabase
+            val sqlite = openForAssertions(db)
             assertTableExists(sqlite, "playback_prefs")
             assertIndexExists(sqlite, "index_playback_prefs_profileId")
             assertCount(sqlite, "profiles", 1)
@@ -358,7 +362,7 @@ class OwnTVDatabaseMigrationTest {
         val db = openWithAllMigrations()
         try {
             // Would throw IllegalStateException here without the heal (validation failure).
-            val sqlite = db.openHelper.readableDatabase
+            val sqlite = openForAssertions(db)
             assertIndexExists(sqlite, "index_movies_sourceId_rating_name")
             assertIndexExists(sqlite, "index_series_categoryId_rating_name")
             assertIndexExists(sqlite, "index_channels_sourceId")
@@ -400,8 +404,8 @@ class OwnTVDatabaseMigrationTest {
             val db = openWithAllMigrations()
             try {
                 // Room validates the whole schema while opening; a broken hop throws here.
-                val sqlite = db.openHelper.readableDatabase
-                assertEquals("v$version did not reach the current version", CURRENT_VERSION, sqlite.version)
+                val sqlite = openForAssertions(db)
+                assertEquals("v$version did not reach the current version", CURRENT_VERSION, userVersionOf(sqlite))
                 OwnTVDatabase.EXPECTED_NON_UNIQUE_INDEXES.values.flatten().forEach {
                     assertIndexExists(sqlite, indexNameOf(it))
                 }
@@ -456,12 +460,12 @@ class OwnTVDatabaseMigrationTest {
 
         val db = openWithAllMigrations()
         try {
-            val sqlite = db.openHelper.writableDatabase
+            val sqlite = openForAssertions(db)
             // Opening at the current version runs no migration, so nothing has healed yet.
             expectedIndexes.forEach { assertMissing(sqlite, "index", it) }
             expectedFts.forEach { assertMissing(sqlite, "table", it) }
 
-            OwnTVDatabase.healSchema(sqlite)
+            withConnection(db) { OwnTVDatabase.healSchema(it) }
 
             expectedIndexes.forEach { assertIndexExists(sqlite, it) }
             expectedFts.forEach { fts ->
@@ -471,7 +475,7 @@ class OwnTVDatabaseMigrationTest {
                 countRows(sqlite, "SELECT COUNT(*) FROM `$fts`")
             }
             // Idempotent: the app runs this on every drifted open.
-            OwnTVDatabase.healSchema(sqlite)
+            withConnection(db) { OwnTVDatabase.healSchema(it) }
             expectedIndexes.forEach { assertIndexExists(sqlite, it) }
             assertCount(sqlite, "profiles", 1)
         } finally {
@@ -506,7 +510,7 @@ class OwnTVDatabaseMigrationTest {
         val db = openWithAllMigrations()
 
         try {
-            val sqlite = db.openHelper.readableDatabase
+            val sqlite = openForAssertions(db)
             assertColumnExists(sqlite, "epg_channels", "normName")
             assertColumnExists(sqlite, "epg_channels", "normId")
             assertIndexExists(sqlite, "index_epg_channels_normName")
@@ -530,14 +534,16 @@ class OwnTVDatabaseMigrationTest {
         }
     }
 
-    private fun normNameOf(db: SupportSQLiteDatabase, epgChannelId: String): String? =
-        db.query("SELECT normName FROM epg_channels WHERE epgChannelId = ?", arrayOf<Any?>(epgChannelId)).use {
-            if (it.moveToFirst() && !it.isNull(0)) it.getString(0) else null
+    private fun normNameOf(db: SQLiteConnection, epgChannelId: String): String? =
+        db.prepare("SELECT normName FROM epg_channels WHERE epgChannelId = ?").use {
+            it.bindText(1, epgChannelId)
+            if (it.step() && !it.isNull(0)) it.getText(0) else null
         }
 
-    private fun normIdOf(db: SupportSQLiteDatabase, epgChannelId: String): String? =
-        db.query("SELECT normId FROM epg_channels WHERE epgChannelId = ?", arrayOf<Any?>(epgChannelId)).use {
-            if (it.moveToFirst() && !it.isNull(0)) it.getString(0) else null
+    private fun normIdOf(db: SQLiteConnection, epgChannelId: String): String? =
+        db.prepare("SELECT normId FROM epg_channels WHERE epgChannelId = ?").use {
+            it.bindText(1, epgChannelId)
+            if (it.step() && !it.isNull(0)) it.getText(0) else null
         }
 
     private fun bootstrapVersion40Database() {
@@ -560,7 +566,7 @@ class OwnTVDatabaseMigrationTest {
         }
     }
 
-    private fun assertMissing(db: SupportSQLiteDatabase, type: String, name: String) {
+    private fun assertMissing(db: SQLiteConnection, type: String, name: String) {
         assertEquals(
             "$type $name should not exist yet",
             0L,
@@ -570,6 +576,9 @@ class OwnTVDatabaseMigrationTest {
 
     private fun openWithAllMigrations() = Room.databaseBuilder(context, OwnTVDatabase::class.java, DB_NAME)
         .addMigrations(*OwnTVDatabase.ALL_MIGRATIONS)
+        // Mirrors databaseModule. Without it this test would exercise the Support path that
+        // production no longer uses, and would pass while the driver path was broken.
+        .setDriver(AndroidSQLiteDriver())
         .allowMainThreadQueries()
         .build()
 
@@ -757,15 +766,15 @@ class OwnTVDatabaseMigrationTest {
         db.execSQL("INSERT INTO epg_programmes (id, sourceId, epgChannelId, startMs, stopMs, title, description) VALUES (12, -1, 'sports', 3000, 4000, 'Sports One', 'C')")
     }
 
-    private fun assertTableExists(db: SupportSQLiteDatabase, table: String) {
+    private fun assertTableExists(db: SQLiteConnection, table: String) {
         assertEquals(1L, countRows(db, "SELECT COUNT(*) FROM sqlite_master WHERE type = 'table' AND name = ?", arrayOf<Any?>(table)))
     }
 
-    private fun assertIndexExists(db: SupportSQLiteDatabase, index: String) {
+    private fun assertIndexExists(db: SQLiteConnection, index: String) {
         assertEquals(1L, countRows(db, "SELECT COUNT(*) FROM sqlite_master WHERE type = 'index' AND name = ?", arrayOf<Any?>(index)))
     }
 
-    private fun assertColumnExists(db: SupportSQLiteDatabase, table: String, column: String) {
+    private fun assertColumnExists(db: SQLiteConnection, table: String, column: String) {
         assertEquals(
             1L,
             countRows(
@@ -776,24 +785,70 @@ class OwnTVDatabaseMigrationTest {
         )
     }
 
-    private fun assertColumnValue(db: SupportSQLiteDatabase, table: String, column: String, rowId: Long, expected: Long?) {
-        db.query(SimpleSQLiteQuery("SELECT `$column` FROM `$table` WHERE id = ?", arrayOf(rowId))).use { cursor ->
-            if (!cursor.moveToFirst()) throw AssertionError("Row $rowId not found in $table")
-            val actual = if (cursor.isNull(0)) null else cursor.getLong(0)
+    private fun assertColumnValue(db: SQLiteConnection, table: String, column: String, rowId: Long, expected: Long?) {
+        db.prepare("SELECT `$column` FROM `$table` WHERE id = ?").use { statement ->
+            statement.bindLong(1, rowId)
+            if (!statement.step()) throw AssertionError("Row $rowId not found in $table")
+            val actual = if (statement.isNull(0)) null else statement.getLong(0)
             assertEquals(expected, actual)
         }
     }
 
-    private fun assertCount(db: SupportSQLiteDatabase, table: String, expected: Long) {
+    private fun assertCount(db: SQLiteConnection, table: String, expected: Long) {
         assertEquals(expected, countRows(db, "SELECT COUNT(*) FROM `$table`"))
     }
 
-    private fun countRows(db: SupportSQLiteDatabase, sql: String, args: Array<Any?> = emptyArray()): Long {
-        db.query(SimpleSQLiteQuery(sql, args)).use { cursor ->
-            if (!cursor.moveToFirst()) return 0L
-            return cursor.getLong(0)
+    private fun countRows(db: SQLiteConnection, sql: String, args: Array<Any?> = emptyArray()): Long {
+        db.prepare(sql).use { statement ->
+            // Binds are 1-based on the driver API; only text and long appear in this file.
+            args.forEachIndexed { i, arg ->
+                when (arg) {
+                    null -> statement.bindNull(i + 1)
+                    is Long -> statement.bindLong(i + 1, arg)
+                    is Int -> statement.bindInt(i + 1, arg)
+                    else -> statement.bindText(i + 1, arg.toString())
+                }
+            }
+            if (!statement.step()) return 0L
+            return statement.getLong(0)
         }
     }
+
+    /**
+     * A driver connection to the test database file.
+     *
+     * Phase B configures a SQLiteDriver, and `RoomDatabase.openHelper` throws once one is set — so
+     * this test can no longer reach the file that way, and it should not want to: the whole point
+     * of the phase is that the driver path is the one users run. Room's public `useWriterConnection`
+     * hands back a `Transactor`, which is not a `SQLiteConnection`, so the schema assertions open
+     * their own connection to the same file instead.
+     */
+    /**
+     * A driver connection to the migrated database.
+     *
+     * **Room opens lazily, and touching a connection is what runs the migration chain.** The old
+     * code got that for free from `db.openHelper.readableDatabase`; a raw `driver.open(path)` does
+     * not — it opens the file exactly as it was on disk. Porting this test to the driver API
+     * without the line below made nine of eleven tests read a pre-migration database and report
+     * `v2 did not reach the current version expected:<42> but was:<2>`.
+     */
+    private fun openForAssertions(db: OwnTVDatabase): SQLiteConnection {
+        runBlocking { db.useWriterConnection { } }
+        val connection = AndroidSQLiteDriver().open(context.getDatabasePath(DB_NAME).absolutePath)
+        // Foreign keys are OFF by default on a bare SQLite connection; Room turns them on for its
+        // own. Without this the cascade assertions silently pass their DELETE and then find the
+        // child rows still present — which is how the port first failed, reporting a trending
+        // snapshot count of 2 where 1 was expected.
+        connection.execSQL("PRAGMA foreign_keys=ON")
+        return connection
+    }
+
+    /** `SQLiteConnection` has no `.version`; the schema version is PRAGMA user_version. */
+    private fun userVersionOf(db: SQLiteConnection): Int =
+        db.prepare("PRAGMA user_version").use { if (it.step()) it.getInt(0) else -1 }
+
+    private fun <R> withConnection(db: OwnTVDatabase, block: (SQLiteConnection) -> R): R =
+        openForAssertions(db).use(block)
 
     companion object {
         private const val DB_NAME = "owntv-migration-test.db"
@@ -817,6 +872,21 @@ class OwnTVDatabaseMigrationTest {
          *  - 5 exists on disk but was never public and has no migration out of it (MIGRATION_4_6
          *    jumps over it); see [migration4to6IsANoOpBecauseVersion5WasNeverPublic].
          */
-        private val MIGRATABLE_START_VERSIONS = listOf(2, 3, 4, 6, 7, 9) + (10 until CURRENT_VERSION)
+        /** Exported by no release; see [MIGRATABLE_START_VERSIONS]. */
+        private val WITHDRAWN_VERSIONS = setOf(37)
+
+        /**
+         * Versions a user could actually be upgrading from.
+         *
+         * 5 and 8 never shipped, and neither did **37**: that version was withdrawn mid-development
+         * after it had already run on a test device, and the change was reissued as v38 — so no
+         * `37.json` was ever exported. Leaving it in this range made the whole sweep die with
+         * `FileNotFoundException: …/37.json`, which meant the one test guarding against wiping a
+         * user's profiles and history could not finish. Derived from the schemas that exist rather
+         * than from a hand-written range, so the next withdrawn version cannot repeat this.
+         */
+        private val MIGRATABLE_START_VERSIONS =
+            (listOf(2, 3, 4, 6, 7, 9) + (10 until CURRENT_VERSION)) - WITHDRAWN_VERSIONS
+
     }
 }

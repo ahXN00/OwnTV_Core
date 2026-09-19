@@ -5,6 +5,8 @@ import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import tv.own.owntv.core.database.BulkInsertHelper
+import androidx.room.execSQL
+import androidx.room.useWriterConnection
 import tv.own.owntv.core.database.OwnTVDatabase
 import tv.own.owntv.core.database.dao.ChannelDao
 import tv.own.owntv.core.database.dao.MovieDao
@@ -98,14 +100,15 @@ class ImportFinalizer(
         val startedAt = SystemClock.elapsedRealtime()
         Log.i(TAG, "ensureContentIndexes start")
         runCatching {
-            val w = db.openHelper.writableDatabase
             val indexesStartedAt = SystemClock.elapsedRealtime()
             // Idempotent (IF NOT EXISTS): no-op once the indices exist. Covers DBs that somehow lack
             // them. Canonical list shared with BulkInsertHelper's restore and the migration heal, so
             // this pass can never miss an index those paths expect (the old hand-copied list omitted
             // the rating-sort indexes — drift that crashed the next migration's schema validation).
-            listOf("channels", "movies", "series").forEach { table ->
-                OwnTVDatabase.EXPECTED_NON_UNIQUE_INDEXES.getValue(table).forEach { w.execSQL(it) }
+            db.useWriterConnection { connection ->
+                listOf("channels", "movies", "series").forEach { table ->
+                    OwnTVDatabase.EXPECTED_NON_UNIQUE_INDEXES.getValue(table).forEach { connection.execSQL(it) }
+                }
             }
             Log.d(TAG, "ensureContentIndexes create indexes ms=${SystemClock.elapsedRealtime() - indexesStartedAt}")
 

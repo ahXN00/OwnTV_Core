@@ -53,6 +53,27 @@ class TrendingRefreshSchedulingTest {
         )
     }
 
+    @Test
+    fun `no snapshot while a lazily-added catalogue is still draining`() {
+        // N1f-2: every other condition says yes, but the source holds a fraction of its titles.
+        assertFalse(
+            schedule(
+                effective = allVod,
+                catalogueIncomplete = true,
+            ),
+        )
+    }
+
+    @Test
+    fun `a whole catalogue still schedules normally`() {
+        assertTrue(
+            schedule(
+                effective = allVod,
+                catalogueIncomplete = false,
+            ),
+        )
+    }
+
     private fun schedule(
         sourceWasNeverSynced: Boolean = false,
         completesInitialSync: Boolean = false,
@@ -60,6 +81,7 @@ class TrendingRefreshSchedulingTest {
         enabledScope: SyncContentTypes = allVod,
         metadataEnabled: Boolean = true,
         trendingVisible: Boolean = true,
+        catalogueIncomplete: Boolean = false,
     ) = shouldScheduleTrendingRefresh(
         sourceWasNeverSynced,
         completesInitialSync,
@@ -67,5 +89,6 @@ class TrendingRefreshSchedulingTest {
         enabledScope,
         metadataEnabled,
         trendingVisible,
+        catalogueIncomplete,
     )
 }

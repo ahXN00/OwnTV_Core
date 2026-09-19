@@ -131,6 +131,10 @@
         <item quantity="one">Kept <xliff:g id="stored">%1$d</xliff:g> existing item \u2014 this import returned <xliff:g id="percent">%2$d</xliff:g>%% fewer. Sync again, or use Force clean sync if the provider really removed it.</item>
         <item quantity="other">Kept <xliff:g id="stored">%1$d</xliff:g> existing items \u2014 this import returned <xliff:g id="percent">%2$d</xliff:g>%% fewer. Sync again, or use Force clean sync if the provider really removed them.</item>
     </plurals>
+    <!-- Translators: Warning when the provider's single big catalog response was cut off mid-transfer and the app recovered the rest by asking for one category at a time. The catalog is complete; it just took longer. -->
+    <string name="sync_warning_bulk_truncated">The provider\'s list was cut off part-way, so the rest was fetched category by category. Everything is here, but this sync took longer than usual.</string>
+    <!-- Translators: Warning when the provider's catalog response was cut off and the recovery could not retrieve everything. Some titles are missing until the next sync. -->
+    <string name="sync_warning_bulk_truncated_partial">The provider\'s list was cut off part-way and not everything could be recovered. Some titles may be missing until the next sync.</string>
     <!-- Translators: Plural warning when source pages fail during sync. "count" is the number of failed pages. -->
     <plurals name="sync_warning_page_failures">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> source page failed; some content may be missing until the next sync.</item>

@@ -2,6 +2,9 @@ package tv.own.owntv.core.repository
 
 import android.os.SystemClock
 import android.util.Log
+import androidx.room.execSQL
+import androidx.room.immediateTransaction
+import androidx.room.useWriterConnection
 import androidx.room.withTransaction
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -82,10 +85,11 @@ class EpgRepository(
     suspend fun ensureEpgIndexes() = withContext(Dispatchers.IO) {
         try {
             val startedAt = SystemClock.elapsedRealtime()
-            val w = db.openHelper.writableDatabase
-            tv.own.owntv.core.database.OwnTVDatabase.EXPECTED_NON_UNIQUE_INDEXES
-                .getValue("epg_programmes")
-                .forEach { w.execSQL(it) }
+            db.useWriterConnection { connection ->
+                tv.own.owntv.core.database.OwnTVDatabase.EXPECTED_NON_UNIQUE_INDEXES
+                    .getValue("epg_programmes")
+                    .forEach { connection.execSQL(it) }
+            }
             Log.d("EpgRepository", "ensureEpgIndexes ms=${SystemClock.elapsedRealtime() - startedAt}")
         } catch (c: CancellationException) {
             throw c
@@ -223,22 +227,31 @@ class EpgRepository(
             CorePerf.log { "epg_retention catchupIds=0 recentPastH=${RECENT_PAST_MS / 3_600_000}" }
             return@withContext
         }
-        val w = db.openHelper.writableDatabase
-        w.execSQL("CREATE TEMP TABLE IF NOT EXISTS `epg_keep_history` (`epgChannelId` TEXT PRIMARY KEY NOT NULL)")
-        w.execSQL("DELETE FROM `epg_keep_history`")
-        w.beginTransaction()
-        try {
-            keep.forEach { w.execSQL("INSERT OR IGNORE INTO `epg_keep_history` VALUES (?)", arrayOf<Any?>(it)) }
-            w.setTransactionSuccessful()
-        } finally {
-            w.endTransaction()
+        db.useWriterConnection { connection ->
+            connection.execSQL("CREATE TEMP TABLE IF NOT EXISTS `epg_keep_history` (`epgChannelId` TEXT PRIMARY KEY NOT NULL)")
+            connection.execSQL("DELETE FROM `epg_keep_history`")
+            // Room's own transaction helper rather than hand-written BEGIN/COMMIT: this runs on a
+            // pooled connection that Room may already have in a transaction, and immediateTransaction
+            // handles the nesting.
+            connection.immediateTransaction {
+                usePrepared("INSERT OR IGNORE INTO `epg_keep_history` VALUES (?)") { statement ->
+                    keep.forEach {
+                        statement.clearBindings()
+                        statement.bindText(1, it)
+                        statement.step()
+                        statement.reset()
+                    }
+                }
+            }
+            connection.usePrepared(
+                "DELETE FROM `epg_programmes` WHERE `stopMs` < ? " +
+                    "AND `epgChannelId` NOT IN (SELECT `epgChannelId` FROM `epg_keep_history`)",
+            ) { statement ->
+                statement.bindLong(1, recentCutoff)
+                statement.step()
+            }
+            connection.execSQL("DROP TABLE IF EXISTS `epg_keep_history`")
         }
-        w.execSQL(
-            "DELETE FROM `epg_programmes` WHERE `stopMs` < ? " +
-                "AND `epgChannelId` NOT IN (SELECT `epgChannelId` FROM `epg_keep_history`)",
-            arrayOf<Any?>(recentCutoff),
-        )
-        w.execSQL("DROP TABLE IF EXISTS `epg_keep_history`")
         CorePerf.log { "epg_retention catchupIds=${keep.size} recentPastH=${RECENT_PAST_MS / 3_600_000} archiveH=${WINDOW_BACK_MS / 3_600_000}" }
     }
 

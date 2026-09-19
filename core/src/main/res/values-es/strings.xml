@@ -67,6 +67,8 @@
         <item quantity="many">Se han conservado <xliff:g id="stored">%1$d</xliff:g> elementos existentes — esta importación ha devuelto un <xliff:g id="percent">%2$d</xliff:g>%% menos. Vuelve a sincronizar o usa Forzar sincronización limpia si el proveedor realmente los eliminó.</item>
         <item quantity="other">Se han conservado <xliff:g id="stored">%1$d</xliff:g> elementos existentes — esta importación ha devuelto un <xliff:g id="percent">%2$d</xliff:g>%% menos. Vuelve a sincronizar o usa Forzar sincronización limpia si el proveedor realmente los eliminó.</item>
     </plurals>
+    <string name="sync_warning_bulk_truncated">La lista del proveedor se cortó a la mitad, así que el resto se obtuvo categoría por categoría. Está todo, pero esta sincronización tardó más de lo habitual.</string>
+    <string name="sync_warning_bulk_truncated_partial">La lista del proveedor se cortó a la mitad y no se pudo recuperar todo. Puede que falten algunos títulos hasta la próxima sincronización.</string>
     <plurals name="sync_warning_page_failures">
         <item quantity="one">Ha fallado <xliff:g id="count">%1$d</xliff:g> página de la fuente; puede que falte parte del contenido hasta la próxima sincronización.</item>
         <item quantity="many">Han fallado <xliff:g id="count">%1$d</xliff:g> páginas de la fuente; puede que falte parte del contenido hasta la próxima sincronización.</item>

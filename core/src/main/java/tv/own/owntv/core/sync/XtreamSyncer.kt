@@ -284,11 +284,26 @@ internal class XtreamSyncer(
         if (!done) {
             stats.usedFallback = true
             val fallbackStart = SystemClock.elapsedRealtime()
-            Log.i(TAG, "$label fallback start sourceId=${s.id} categories=${cats.size} bulkPartial=${total[0]}")
+            val truncatedAt = total[0]
+            Log.w(TAG, "$label bulk truncated sourceId=${s.id} itemsBeforeCutoff=$truncatedAt — recovering per-category")
+            Log.i(TAG, "$label fallback start sourceId=${s.id} categories=${cats.size} bulkPartial=$truncatedAt")
             val outcome: FallbackOutcome = sliceByCategory(ctx, p.phase, label, progress, cats, insertFn, total, total[0], remoteIds, p.adapter.remoteIdOf) { cat, add ->
                 streams.byCategory(cat, add)
             }
             Log.i(TAG, "$label fallback end sourceId=${s.id} unique=${total[0]} ms=${SystemClock.elapsedRealtime() - fallbackStart}")
+            // Plan N2d. Until now this path produced "Success" and nothing else: a ten-minute sync
+            // recovering from a dropped connection looked exactly like a clean thirty-second one.
+            // The warning carries where the cut fell and whether the fallback made it whole.
+            stats.addWarning(
+                SyncWarning(
+                    p.phase.name,
+                    kind = SyncWarningKind.BULK_TRUNCATED(
+                        itemsBeforeCutoff = truncatedAt,
+                        recovered = outcome.complete,
+                    ),
+                    count = total[0],
+                ),
+            )
             if (!freshSource) pruneAfterFallback(s, p, label, categories, outcome, remoteIds!!, stats)
         }
         progress.update(p.phase, total[0])

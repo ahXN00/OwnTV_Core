@@ -88,6 +88,68 @@ class CatalogSyncScheduler(private val context: Context) {
         )
     }
 
+    /**
+     * Finish a Stalker catalogue in the background (N1d).
+     *
+     * KEEP, not REPLACE: a drain already running has a live position in a category, and replacing it
+     * would throw that away to start the identical work over. Enqueued after a sync that left pages
+     * outstanding, and re-enqueued by the worker itself when it yields to playback.
+     *
+     * Deliberately no battery/idle constraint beyond a network: a TV is mains-powered, and the point
+     * is for the catalogue to be whole by the time the user scrolls that far, not overnight.
+     */
+    /**
+     * Measure this provider's stream limit in the background (plan N3b).
+     *
+     * KEEP, not REPLACE: the measurement runs at most once per playlist, and a second enqueue from a
+     * re-sync must not restart one that is already waiting for the user to stop watching.
+     */
+    fun enqueueConnectionMeasurement(sourceId: Long) {
+        val request = OneTimeWorkRequestBuilder<ConnectionMeasurementWorker>()
+            .setInputData(workDataOf(ConnectionMeasurementWorker.KEY_SOURCE_ID to sourceId))
+            .setConstraints(
+                Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build(),
+            )
+            .addTag(ConnectionMeasurementWorker.WORK_TAG)
+            .addTag("measure-source-$sourceId")
+            .build()
+        WorkManager.getInstance(context).enqueueUniqueWork(
+            ConnectionMeasurementWorker.workName(sourceId),
+            ExistingWorkPolicy.KEEP,
+            request,
+        )
+        android.util.Log.i("ConnectionMeasurement", "measurement enqueued sourceId=$sourceId")
+    }
+
+    fun enqueueCatalogBackfill(sourceId: Long, initialDelayMinutes: Long = 0) {
+        val request = OneTimeWorkRequestBuilder<CatalogBackfillWorker>()
+            .setInputData(workDataOf(CatalogBackfillWorker.KEY_SOURCE_ID to sourceId))
+            .setConstraints(
+                Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build(),
+            )
+            .apply {
+                if (initialDelayMinutes > 0) {
+                    setInitialDelay(initialDelayMinutes, java.util.concurrent.TimeUnit.MINUTES)
+                }
+            }
+            .addTag(CatalogBackfillWorker.WORK_TAG)
+            .addTag("backfill-source-$sourceId")
+            .build()
+        WorkManager.getInstance(context).enqueueUniqueWork(
+            CatalogBackfillWorker.workName(sourceId),
+            ExistingWorkPolicy.KEEP,
+            request,
+        )
+        android.util.Log.i(
+            "CatalogBackfillWorker",
+            "backfill enqueued sourceId=$sourceId delayMinutes=$initialDelayMinutes",
+        )
+    }
+
     fun observeSync(sourceId: Long): Flow<CatalogSyncState> =
         WorkManager.getInstance(context)
             .getWorkInfosForUniqueWorkFlow(workName(sourceId))

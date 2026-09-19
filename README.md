@@ -99,8 +99,9 @@ have numbers that can disagree.
 
 ## 🧱 Tech stack
 
-Kotlin 2.4.20 · AGP 9.4.0 · Room 2.8.5 · Media3 1.11.1 · libmpv · Koin 4.2.2 · OkHttp 5 ·
-Coroutines 1.11.0 · WorkManager · DataStore · Paging 3 · KSP 2.3.11 · minSdk 26
+Kotlin 2.4.20 · AGP 9.4.0 · Room 2.8.5 · SQLite 3.50 (bundled) · Media3 1.11.1 · libmpv ·
+Koin 4.2.2 · OkHttp 5 · Coroutines 1.11.0 · WorkManager · DataStore · Paging 3 · KSP 2.3.11 ·
+minSdk 26
 
 ## 🔗 Who depends on this
 
@@ -185,6 +186,19 @@ container exists:
 | `CrashRecorder.diagnostics` | the live diagnostics log |
 | `LiveSessionLimit.report` | per-provider stream quirks |
 | `SubtitleFontAssets.resourceOf` | the app's bundled subtitle fonts |
+
+One more is supplied from the playback screen rather than `onCreate`, because it is a live signal
+rather than a value:
+
+| Hook | Supplies |
+|---|---|
+| `WatchSession` | which playlist is on screen — `open(sourceId)` / `close(sourceId)` |
+
+`WatchSession` is what lets core's background work step out of the user's way. The playback engines
+in `:player-core` are handed a URL and have no notion of a `sourceId`, and fullscreen playback never
+claims against `OpenStreamRegistry` — that register is the connection budget for Multiview and
+recordings. So the host screen, which holds the row, is the only place the answer exists. An app that
+does not supply it still works; its background catalogue drain simply never yields to playback.
 
 An app also needs `android.nonTransitiveRClass=false` in its `gradle.properties` if it references
 core's strings as a bare `R.string.*`.

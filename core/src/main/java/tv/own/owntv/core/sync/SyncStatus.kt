@@ -72,6 +72,21 @@ sealed interface SyncWarningKind {
     data object GENERIC : SyncWarningKind
     data object PAGE_FAILURE : SyncWarningKind
     data class CATALOG_SHRINK(val stored: Int, val percentFewer: Int) : SyncWarningKind
+
+    /**
+     * The provider's bulk list stopped part-way and the per-category fallback finished the job
+     * (plan N2d).
+     *
+     * Measured on a real playlist: `get_vod_streams` ran for 242 seconds and the peer sent a
+     * connection reset at 139,924 of 178,720 films. The catalogue still ended up complete, because
+     * the fallback recovered it — but it took ten minutes instead of thirty-six seconds, and
+     * *nothing said so*. The run reported `Success`, and the only trace was a warning under a log
+     * tag nobody was filtering on. That silence is the defect this kind exists to end.
+     *
+     * [recovered] says whether the fallback got everything back, which is what decides whether the
+     * user is looking at a slow sync or a short catalogue.
+     */
+    data class BULK_TRUNCATED(val itemsBeforeCutoff: Int, val recovered: Boolean) : SyncWarningKind
 }
 
 data class SyncWarning(

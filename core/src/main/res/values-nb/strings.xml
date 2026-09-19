@@ -66,6 +66,8 @@
         <item quantity="one">Beholdt <xliff:g id="stored">%1$d</xliff:g> eksisterende element – denne importen ga <xliff:g id="percent">%2$d</xliff:g>%% færre elementer. Synkroniser på nytt, eller bruk Tving ren synkronisering hvis leverandøren faktisk fjernet det.</item>
         <item quantity="other">Beholdt <xliff:g id="stored">%1$d</xliff:g> eksisterende elementer – denne importen ga <xliff:g id="percent">%2$d</xliff:g>%% færre elementer. Synkroniser på nytt, eller bruk Tving ren synkronisering hvis leverandøren faktisk fjernet dem.</item>
     </plurals>
+    <string name="sync_warning_bulk_truncated">Leverandørens liste ble avbrutt underveis, så resten ble hentet kategori for kategori. Alt er her, men denne synkroniseringen tok lengre tid enn vanlig.</string>
+    <string name="sync_warning_bulk_truncated_partial">Leverandørens liste ble avbrutt underveis, og ikke alt kunne gjenopprettes. Noen titler kan mangle fram til neste synkronisering.</string>
     <plurals name="sync_warning_page_failures">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> kildeside mislyktes; noe innhold kan mangle frem til neste synkronisering.</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> kildesider mislyktes; noe innhold kan mangle frem til neste synkronisering.</item>

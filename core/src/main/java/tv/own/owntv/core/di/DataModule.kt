@@ -187,9 +187,14 @@ val dataModule = module {
             customize = get(),
             settings = get(),
             connectionLimits = get(),
+            catalogBackfillDao = get(),
+            catalogSyncScheduler = get(),
+            catalogPriority = get(),
         )
     }
     // App-wide "sync running" signal for the shell status pill (every sync funnels through SyncManager).
+    // Which VOD category the user is looking at, so the lazy-catalogue drain serves it first (N1c).
+    single { tv.own.owntv.core.sync.CatalogPriority(get(), get()) }
     single { tv.own.owntv.core.sync.SyncActivityTracker() }
     // Same idea for EPG: EpgSyncWorker reports started/progress/finished here so the pill also reflects
     // guide/EPG downloads (manual resync from Settings, auto startup refresh, …).
@@ -224,6 +229,9 @@ val dataModule = module {
     // Who currently holds a stream on which playlist. Multiview tiles and recordings spend the same
     // provider connections, so both count against one register (D11).
     single { tv.own.owntv.core.live.OpenStreamRegistry() }
+    // What the user is actually watching. Separate from the register above on purpose — see the
+    // class doc: that one is the connection budget, this one is a playback signal.
+    single { tv.own.owntv.core.live.WatchSession() }
     // Same idea as the sync trackers: the download engine reports its running transfer here so the
     // shell's status pill can show it in both apps.
     single { tv.own.owntv.core.download.DownloadActivityTracker() }

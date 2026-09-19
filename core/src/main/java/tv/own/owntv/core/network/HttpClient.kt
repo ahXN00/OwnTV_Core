@@ -62,10 +62,22 @@ class HttpClient(private val client: OkHttpClient) {
                     if (!response.isSuccessful) throw HttpStatusException(response.code, "HTTP ${response.code} for ${redact(url)}")
                     val body = response.body
                     val totalBytes = body.contentLength().takeIf { it >= 0 }
-                    Log.d(
+                    // Info, not debug, and deliberately so: release builds strip Log.d, and this one
+                    // line is what answers "are we actually getting gzip?" — the question behind a
+                    // 73 MB catalogue body that the provider drops four minutes in (plan N2a). It
+                    // was debug-level for exactly as long as that question went unanswered.
+                    Log.i(
                         TAG,
                         "GET headers url=$safeUrl code=${response.code} contentLength=${totalBytes ?: -1} " +
-                            "contentEncoding=${response.header("Content-Encoding").orEmpty()} headersMs=${headersAt - startedAt}",
+                            "contentEncoding=${response.header("Content-Encoding").orEmpty()} " +
+                            // The one that actually answers the question. OkHttp adds
+                            // `Accept-Encoding: gzip` on its own when the caller sets none, and then
+                            // *strips* Content-Encoding from the user-facing response after
+                            // decompressing — so the field above reads empty whether gzip happened
+                            // or not. The network response still carries the wire value.
+                            "wireEncoding=${response.networkResponse?.header("Content-Encoding").orEmpty()} " +
+                            "transferEncoding=${response.header("Transfer-Encoding").orEmpty()} " +
+                            "headersMs=${headersAt - startedAt}",
                     )
                     onProgress?.invoke(0, totalBytes)
                     body.byteStream().withProgress(totalBytes, onProgress, safeUrl).use { input ->

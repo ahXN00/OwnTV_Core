@@ -67,6 +67,8 @@
         <item quantity="many"><xliff:g id="stored">%1$d</xliff:g> éléments existants conservés — cette importation en a renvoyé <xliff:g id="percent">%2$d</xliff:g> %% de moins. Relancez la synchronisation ou utilisez « Forcer une synchronisation propre » si le fournisseur les a réellement supprimés.</item>
         <item quantity="other"><xliff:g id="stored">%1$d</xliff:g> éléments existants conservés — cette importation en a renvoyé <xliff:g id="percent">%2$d</xliff:g> %% de moins. Relancez la synchronisation ou utilisez « Forcer une synchronisation propre » si le fournisseur les a réellement supprimés.</item>
     </plurals>
+    <string name="sync_warning_bulk_truncated">La liste du fournisseur a été interrompue en cours de route, le reste a donc été récupéré catégorie par catégorie. Tout est là, mais cette synchronisation a pris plus de temps que d\'habitude.</string>
+    <string name="sync_warning_bulk_truncated_partial">La liste du fournisseur a été interrompue en cours de route et tout n\'a pas pu être récupéré. Certains titres peuvent manquer jusqu\'à la prochaine synchronisation.</string>
     <plurals name="sync_warning_page_failures">
         <item quantity="one">Échec du chargement de <xliff:g id="count">%1$d</xliff:g> page de la source ; du contenu peut manquer jusqu’à la prochaine synchronisation.</item>
         <item quantity="many">Échec du chargement de <xliff:g id="count">%1$d</xliff:g> pages de la source ; du contenu peut manquer jusqu’à la prochaine synchronisation.</item>

@@ -12,6 +12,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import tv.own.owntv.core.database.BulkInsertHelper
+import tv.own.owntv.core.database.entity.CatalogBackfillEntity
 import tv.own.owntv.core.database.entity.ChannelEntity
 import tv.own.owntv.core.database.entity.computeContentHash
 import tv.own.owntv.core.database.entity.MovieEntity
@@ -47,6 +48,8 @@ internal class StalkerSyncer(
     private val bulkInsertHelper: BulkInsertHelper,
     private val support: SyncSupport,
     private val sourceDao: tv.own.owntv.core.database.dao.SourceDao,
+    private val catalogBackfillDao: tv.own.owntv.core.database.dao.CatalogBackfillDao,
+    private val catalogPriority: CatalogPriority,
 ) {
     /**
      * Live runs first and alone (it has a one-shot bulk `get_all_channels` dump — seconds, not minutes).
@@ -384,6 +387,9 @@ internal class StalkerSyncer(
         // (or wholly) missing from this pass, so the prune below must be skipped — otherwise the
         // missing items would be deleted as "stale" (the plan's re-sync data-loss scenario).
         val pageFailures = java.util.concurrent.atomic.AtomicInteger(0)
+        // Set when this pass deliberately left pages unfetched (N1b), so the code after the drain can
+        // tell "finished the whole catalogue" from "stored page 1 of everything and wrote a plan".
+        val lazyEngaged = java.util.concurrent.atomic.AtomicBoolean(false)
         // Re-sync delta check: a category whose portal total_items equals its local row count very
         // likely didn't change — skip its pages entirely (the bulk of a re-sync's requests). The
         // count moves on any add/remove regardless of the portal's sort order (unlike "compare the
@@ -425,6 +431,21 @@ internal class StalkerSyncer(
                                 Log.w(TAG, "$label bulk probe failed (${e.message}) — using per-category paging")
                                 null
                             }
+                            // The portal's own catalogue shape, read from the first VOD page of the
+                            // phase. `max_page_items` is what decides whether an eager walk is viable
+                            // at all: a portal that caps a page at ~14 turns a full walk into thousands
+                            // of round trips, while a portal with a sane page size stays cheap. Logged
+                            // before the single-dump test so it appears on both paths.
+                            if (bulk != null) {
+                                val per = bulk.maxPageItems.takeIf { it > 0 } ?: bulk.items.size
+                                val estPages = if (per > 0) (bulk.totalItems + per - 1) / per else 0
+                                Log.i(
+                                    TAG,
+                                    "$label catalogue-shape sourceId=${s.id} totalItems=${bulk.totalItems} " +
+                                        "maxPageItems=${bulk.maxPageItems} itemsOnPage1=${bulk.items.size} " +
+                                        "itemsPerPage=$per estPages=$estPages",
+                                )
+                            }
                             if (bulk != null && bulk.items.isNotEmpty() && bulk.totalItems in 1..bulk.items.size) {
                                 pagesFetched.incrementAndGet()
                                 Log.i(TAG, "$label bulk fast path sourceId=${s.id} count=${bulk.items.size} single-dump=true")
@@ -454,7 +475,11 @@ internal class StalkerSyncer(
                             pagesFetched.addAndGet(cats.size)
 
                             val pageTasks = ArrayList<PageTask>()
+                            val planRows = ArrayList<CatalogBackfillEntity>()
                             var maxPerSeen = 0
+                            // Catalogue shape on the degraded path: when the bulk probe failed there is
+                            // no "*" total to read, so sum the per-category ones instead.
+                            var advertisedTotal = 0
                             // Categories are laid out one after another on the sort axis: each gets a
                             // contiguous [catBase, catBase + pages*maxPer) key range, in provider category
                             // order; within it, key = catBase + (page-1)*maxPer + indexInPage.
@@ -463,6 +488,7 @@ internal class StalkerSyncer(
                                 if (page1 == null) continue
                                 val maxPer = page1.maxPageItems.takeIf { it > 0 } ?: page1.items.size
                                 if (maxPer > maxPerSeen) maxPerSeen = maxPer
+                                advertisedTotal += page1.totalItems
                                 val pages = (if (maxPer > 0) (page1.totalItems + maxPer - 1) / maxPer else 1)
                                     .coerceAtMost(MAX_PAGES_PER_GENRE)
                                 // Unchanged count ⇒ keep the category's rows as-is, skip its pages.
@@ -472,11 +498,41 @@ internal class StalkerSyncer(
                                     catBase += (pages * maxPer).coerceAtLeast(page1.items.size)
                                     continue
                                 }
-                                page1.items.forEachIndexed { i, item -> items.send(Triple(item, catDbId, catBase + i)) }
-                                for (p in 2..pages) pageTasks.add(PageTask(cat.id, p, catDbId, catBase + (p - 1) * maxPer))
+                                page1.items.forEachIndexed { i, item -> items.send(Triple(item, catDbId, sortKey(catBase, 1, maxPer, i))) }
+                                for (p in 2..pages) pageTasks.add(PageTask(cat.id, p, catDbId, sortKey(catBase, p, maxPer, 0)))
+                                // The same plan, in the durable form the background drain reads (N1b).
+                                // Single-page categories are recorded too, already done: `advertisedTotal`
+                                // is summed from these rows, and it is the reconciliation target.
+                                planRows.add(
+                                    CatalogBackfillEntity(
+                                        sourceId = s.id, mediaType = mediaType, categoryRemoteId = cat.id,
+                                        categoryDbId = catDbId, totalItems = page1.totalItems,
+                                        maxPageItems = maxPer, nextPage = 2, lastPage = pages,
+                                        sortBase = catBase, done = pages <= 1,
+                                    ),
+                                )
                                 catBase += (pages * maxPer).coerceAtLeast(page1.items.size)
                             }
-                            Log.i(TAG, "$label page-plan sourceId=${s.id} cats=${cats.size} itemsPerPage~=$maxPerSeen extraPages=${pageTasks.size} concurrency=adaptive(${budget.currentLimit}..${budget.max})")
+                            Log.i(TAG, "$label page-plan sourceId=${s.id} cats=${cats.size} itemsPerPage~=$maxPerSeen extraPages=${pageTasks.size} advertisedTotal=$advertisedTotal concurrency=adaptive(${budget.currentLimit}..${budget.max})")
+
+                            // N1b — the portals that hurt cap a page at ~14 items, which turns a full
+                            // catalogue into thousands of round trips (4,681 pages for 65,523 movies on
+                            // the reference portal: 4½ minutes of progress bar). Setup stops here: the
+                            // page-1 sweep above already stored the top of every category, so every list
+                            // is browsable, and the pages it skipped are written down for the background
+                            // drain to finish. A portal with a sane page size, or a catalogue small
+                            // enough that the walk is quick anyway, keeps the proven eager drain.
+                            if (lazyBackfill(freshSource, maxPerSeen, pageTasks.size)) {
+                                lazyEngaged.set(true)
+                                catalogBackfillDao.clear(s.id, mediaType)
+                                catalogBackfillDao.upsertAll(planRows)
+                                Log.i(
+                                    TAG,
+                                    "$label lazy-setup sourceId=${s.id} deferredPages=${pageTasks.size} " +
+                                        "plannedCategories=${planRows.size} advertisedTotal=$advertisedTotal",
+                                )
+                                return@launch
+                            }
 
                             // Remaining pages drained by a worker pool over a task channel. Workers are
                             // spawned at the limiter's MAX; the adaptive gate inside decides how many
@@ -517,6 +573,11 @@ internal class StalkerSyncer(
             if (pageFailures.get() > 0) {
                 stats.addWarning(SyncWarning(phase.name, kind = SyncWarningKind.PAGE_FAILURE, count = pageFailures.get()))
             }
+            // A drain that ran to the end leaves nothing outstanding, so any plan written by an
+            // earlier lazy setup is now stale — drop it, or the worker and N1c would keep treating a
+            // complete phase as unfinished. Page failures mean the pass was NOT complete, so the plan
+            // (if any) must survive to cover what this pass missed.
+            if (!lazyEngaged.get() && pageFailures.get() == 0) catalogBackfillDao.clear(s.id, mediaType)
             if (!freshSource && remoteIds != null) {
                 // Delta-skipped categories were never re-fetched, so their items aren't in this
                 // pass's remoteIds — add their EXISTING rows or the prune would delete them all.
@@ -545,6 +606,225 @@ internal class StalkerSyncer(
 
     /** One remaining page fetch for the worker pool: which category/page, and the page's first sort key. */
     private data class PageTask(val catId: String, val page: Int, val catDbId: Long?, val sortBase: Int)
+
+    // ── N1d: the background drain of the plan N1b wrote ──────────────────────────────────────────
+
+    /**
+     * Finish a lazily-set-up catalogue (N1d): walk the pages [syncPagedCatalog] deliberately skipped
+     * until the stored counts reach the portal's own advertised totals.
+     *
+     * Called from a WorkManager job, never from setup, and shaped by that: it persists its position
+     * after **every** page window, so process death, a reboot or a cancelled worker resumes at the
+     * next unfetched page instead of restarting a category; and it asks [yieldToUser] between windows
+     * so a drain in progress steps aside the moment something starts playing on this source.
+     */
+    suspend fun backfill(s: SourceEntity, yieldToUser: suspend () -> Boolean): BackfillOutcome {
+        val creds = credentialsFor(s)
+        // Its own budget, not the sync's: a drain runs long after that one is gone, and it must learn
+        // the portal's tolerance for *background* paging on its own terms.
+        val budget = AdaptivePortalLimiter(isThrottle = ::isPortalThrottle)
+        val movies = backfillPaged(
+            s, MediaType.MOVIE, SyncPhase.MOVIES.name, "movies", "movies_fts", support.movieAdapter, budget, yieldToUser,
+            fetchPage = { catId, page -> auth.withAuthRetry(creds) { client.getVodPage(it.apiBase, creds.mac, it.token, creds.userAgent, catId, page) } },
+            map = { item, catDbId, order ->
+                MovieEntity(
+                    sourceId = s.id, categoryId = catDbId, name = item.name,
+                    posterUrl = item.poster, rating = item.rating, plot = item.plot,
+                    streamUrl = item.cmd ?: "", containerExt = null, remoteId = item.id,
+                    addedAt = item.addedAt, sortOrder = order,
+                )
+            },
+        )
+        val series = backfillPaged(
+            s, MediaType.SERIES, SyncPhase.SERIES.name, "series", "series_fts", support.seriesAdapter, budget, yieldToUser,
+            fetchPage = { catId, page -> auth.withAuthRetry(creds) { client.getSeriesPage(it.apiBase, creds.mac, it.token, creds.userAgent, catId, page) } },
+            map = { item, catDbId, order ->
+                SeriesEntity(
+                    sourceId = s.id, categoryId = catDbId, name = item.name,
+                    posterUrl = item.poster, plot = item.plot, rating = item.rating,
+                    year = item.year, remoteId = item.id, sortOrder = order,
+                    addedAt = item.addedAt,
+                )
+            },
+        )
+        return movies + series
+    }
+
+    /**
+     * Drain one phase's outstanding pages.
+     *
+     * Deliberately **not** routed through [SyncSupport.chunked]: chunked buffers items across page
+     * boundaries, so the page the cursor claims to have stored and the rows actually committed would
+     * not agree — and that agreement is the whole of resumability. Each window writes its own rows and
+     * then advances its own cursor, in that order, so the worst an interruption can cost is one
+     * window re-fetched (and re-inserting it is free: `sourceId+remoteId` is unique and the insert
+     * ignores conflicts).
+     *
+     * Equally deliberately **not** wrapped in `withOptimizedBulkInsert` despite the plan's
+     * "bulk-insert eligible": that drops the FTS indexes for the duration, and this runs against a
+     * catalogue the user is already browsing and searching. A search that returns nothing for four
+     * minutes is a worse bug than the one the optimisation fixes.
+     */
+    private suspend fun <T> backfillPaged(
+        s: SourceEntity,
+        mediaType: MediaType,
+        label: String,
+        table: String,
+        ftsTable: String,
+        adapter: ContentAdapter<T>,
+        budget: AdaptivePortalLimiter,
+        yieldToUser: suspend () -> Boolean,
+        fetchPage: suspend (catId: String, page: Int) -> StalkerClient.Page<StalkerClient.VodItem>,
+        map: (item: StalkerClient.VodItem, categoryDbId: Long?, order: Int) -> T,
+    ): BackfillOutcome = coroutineScope {
+        val planned = catalogBackfillDao.pending(s.id, mediaType)
+        if (planned.isEmpty()) return@coroutineScope BackfillOutcome()
+        // Plan N1c's re-ordering lives inside `drain` below, where it is re-read between
+        // categories rather than fixed for the whole pass.
+        val pending = planned
+        val startedAt = SystemClock.elapsedRealtime()
+        Log.i(TAG, "$label backfill start sourceId=${s.id} categories=${pending.size} concurrency=adaptive(${budget.currentLimit}..${budget.max})")
+
+        var pagesFetched = 0
+        var inserted = 0
+        var failures = 0
+        var paused = false
+
+        /** Walk one batch of categories from each one's stored cursor. Returns false if it yielded. */
+        suspend fun drain(rows: List<CatalogBackfillEntity>): Boolean {
+            // A queue rather than a plain loop, because the priority is re-read *between*
+            // categories (plan N1c). Reading it once per pass was not enough: a pass over 127
+            // categories runs for minutes, and "the category the user is looking at" is a thing
+            // they do in the middle of one. Checked here, opening a category jumps the queue within
+            // seconds instead of waiting for the next pass.
+            val queue = ArrayDeque(rows)
+            categories@ while (queue.isNotEmpty()) {
+                val wanted = catalogPriority.current()
+                    ?.takeIf { it.sourceId == s.id && it.mediaType == mediaType }
+                    ?.categoryRemoteId
+                val jumped = BackfillQueue.promote(queue, wanted) { it.categoryRemoteId }
+                if (jumped > 0) {
+                    Log.i(TAG, "$label backfill prioritising cat=$wanted sourceId=${s.id} skippedAhead=$jumped")
+                }
+                val row = queue.removeFirst()
+                var next = row.nextPage
+                while (next <= row.lastPage) {
+                    if (yieldToUser()) {
+                        Log.i(TAG, "$label backfill yielding sourceId=${s.id} cat=${row.categoryRemoteId} atPage=$next")
+                        return false
+                    }
+                    currentCoroutineContext().ensureActive()
+                    val window = next until (next + budget.max).coerceAtMost(row.lastPage + 1)
+                    val fetched = window.map { p ->
+                        async {
+                            try {
+                                retryTransient("$label backfill cat=${row.categoryRemoteId} page=$p") { budget.withPermit { fetchPage(row.categoryRemoteId, p) } }
+                            } catch (c: CancellationException) {
+                                throw c
+                            } catch (e: Exception) {
+                                Log.w(TAG, "$label backfill cat=${row.categoryRemoteId} page=$p failed (${e.message})")
+                                null
+                            }
+                        }
+                    }.awaitAll()
+
+                    // Stop at the first hole rather than stepping over it: the cursor may only
+                    // advance past pages that actually landed, or the items behind the hole are lost
+                    // until the next full re-sync. The next run resumes exactly here.
+                    val good = fetched.takeWhile { it != null }.filterNotNull()
+                    pagesFetched += good.size
+                    val newRows = good.flatMapIndexed { pageOffset, page ->
+                        val pageNo = next + pageOffset
+                        page.items.mapIndexed { i, item ->
+                            map(item, row.categoryDbId, sortKey(row.sortBase, pageNo, row.maxPageItems, i))
+                        }
+                    }
+                    if (newRows.isNotEmpty()) {
+                        // N1f-6. `eligible = false`, so this never drops an index or a trigger — it
+                        // only registers as a writer. That is the point: while another source's
+                        // fresh import holds this table in bulk mode, the last-writer restore
+                        // rebuilds the FTS index and *then* re-creates the AFTER_INSERT trigger, and
+                        // a row written between those two statements would be in neither. Counting
+                        // as a writer makes the restore wait for this window instead. Held for one
+                        // window's insert only, never for the whole drain, so an import that is
+                        // waiting to restore waits milliseconds.
+                        inserted += bulkInsertHelper.withOptimizedBulkInsert(
+                            table, ftsTable, eligible = false, ftsOnly = true,
+                        ) {
+                            support.insertFresh(newRows, adapter).inserted
+                        }
+                    }
+                    next += good.size
+                    catalogBackfillDao.advance(s.id, mediaType, row.categoryRemoteId, next)
+                    if (good.size < fetched.size) {
+                        failures++
+                        continue@categories // leave the rest of this category for the next run
+                    }
+                }
+                catalogBackfillDao.markDone(s.id, mediaType, row.categoryRemoteId)
+            }
+            return true
+        }
+
+        paused = !drain(pending)
+
+        // Reconcile, and re-walk the gap — "I fetched every page" is not the same as "the rows are
+        // here". §4A measured the eager walk itself losing 4,987 of 65,523 movies to pages the portal
+        // answered without filling, so a drain that trusted its own page counter would inherit exactly
+        // that bug. Compare each category's stored rows against the portal's own total_items, and put
+        // the short ones back in the queue.
+        //
+        // The comparison is per category and the target is the sum of the PER-CATEGORY totals (§4C),
+        // never the synthetic "*" total — that one counts items belonging to no category at all
+        // (65,523 against 65,318), and a drain chasing it could never finish.
+        //
+        // Exactly one re-walk per pass. A category still short after a second honest walk is a portal
+        // that does not serve those items, not a bug to loop on; it is left finished and logged.
+        var rewalked = 0
+        if (!paused) {
+            val counts = adapter.countsByCategory?.invoke(s.id).orEmpty()
+            val short = catalogBackfillDao.all(s.id, mediaType).filter { row ->
+                row.categoryDbId != null && row.lastPage > 1 && (counts[row.categoryDbId] ?: 0) < row.totalItems
+            }
+            if (short.isNotEmpty()) {
+                rewalked = short.size
+                Log.i(TAG, "$label backfill reconcile sourceId=${s.id} shortCategories=${short.size}")
+                short.forEach { catalogBackfillDao.reopen(s.id, mediaType, it.categoryRemoteId) }
+                paused = !drain(short.map { it.copy(nextPage = 2, done = false) })
+            }
+        }
+
+        val advertised = catalogBackfillDao.advertisedTotal(s.id, mediaType)
+        val stored = adapter.countsByCategory?.invoke(s.id)?.values?.sum() ?: 0
+        val stillPending = catalogBackfillDao.pendingCount(s.id, mediaType)
+        Log.i(
+            TAG,
+            "$label backfill end sourceId=${s.id} pages=$pagesFetched inserted=$inserted " +
+                "failedCategories=$failures rewalked=$rewalked paused=$paused stored=$stored " +
+                "advertised=$advertised pendingCategories=$stillPending " +
+                "ms=${SystemClock.elapsedRealtime() - startedAt}",
+        )
+        BackfillOutcome(pagesFetched, inserted, failures, paused, stillPending)
+    }
+
+    /** What one drain pass achieved, and whether the worker should come back for more. */
+    data class BackfillOutcome(
+        val pagesFetched: Int = 0,
+        val inserted: Int = 0,
+        val failedCategories: Int = 0,
+        val paused: Boolean = false,
+        val pendingCategories: Int = 0,
+    ) {
+        val complete: Boolean get() = pendingCategories == 0 && !paused
+
+        operator fun plus(other: BackfillOutcome) = BackfillOutcome(
+            pagesFetched + other.pagesFetched,
+            inserted + other.inserted,
+            failedCategories + other.failedCategories,
+            paused || other.paused,
+            pendingCategories + other.pendingCategories,
+        )
+    }
 
     private suspend inline fun guardStep(phase: String, stats: SyncStatsCollector, block: suspend () -> Unit) {
         val start = System.currentTimeMillis()
@@ -680,6 +960,41 @@ internal class StalkerSyncer(
         /** Flush every N channels so import progress shows early (see [chunkSize] note). */
         private const val STALKER_CHUNK = 1_500
 
+        /**
+         * A page size at or below this is the pathology N1 exists for — the reference portal serves
+         * 14 and ignores any `max_page_items` we ask for, so a catalogue costs thousands of requests.
+         * A portal that pages sanely (hundreds per page) finishes its walk quickly and is left alone.
+         */
+        private const val LAZY_MAX_PAGE_ITEMS = 50
+
+        /**
+         * Below this many deferred pages the eager walk is not worth deferring: the background drain
+         * has its own cost (a worker, a wake-up, a partially-filled catalogue to reason about), and a
+         * walk this short finishes inside the setup the user is already watching.
+         */
+        private const val LAZY_MIN_DEFERRED_PAGES = 200
+
+        /**
+         * Whether setup should stop after the page-1 sweep and leave the rest to the background drain.
+         *
+         * Deliberately **first import only**. A re-sync already skips unchanged categories on a count
+         * match, so it is nowhere near the cost of a first walk, and leaving its behaviour alone keeps
+         * pruning — which decides what gets *deleted* — on the one path that has always been whole.
+         */
+        internal fun lazyBackfill(freshSource: Boolean, itemsPerPage: Int, deferredPages: Int): Boolean =
+            freshSource && itemsPerPage in 1..LAZY_MAX_PAGE_ITEMS && deferredPages >= LAZY_MIN_DEFERRED_PAGES
+
+        /**
+         * One item's slot on the provider-order sort axis: its category's base, plus the pages before
+         * it, plus its position in its own page. Pages are 1-based (page 1 contributes no offset).
+         *
+         * Shared by the setup sweep and the background drain **on purpose** — a row fetched at setup
+         * and the same row fetched minutes later by the drain must land in the same place, and
+         * `sortOrder` is not part of the content hash, so a mismatch would never heal.
+         */
+        internal fun sortKey(sortBase: Int, page: Int, maxPageItems: Int, indexInPage: Int): Int =
+            sortBase + (page - 1) * maxPageItems + indexInPage
+
         /** How many channels the S7 field-diff diagnostic fingerprints per sync (see [logFieldFingerprints]). */
         private const val FIELD_DIFF_SAMPLE = 3
 
@@ -710,5 +1025,25 @@ internal class StalkerSyncer(
             bulk.forEach { ch -> ch.genreId?.takeIf { it.isNotBlank() }?.let { seen.add(it) } }
             return genres.filter { it.id !in seen }
         }
+    }
+}
+
+internal object BackfillQueue {
+    /**
+     * Move the category the user is looking at to the head of the queue (plan N1c).
+     *
+     * Returns how many categories it jumped, or 0 when there was nothing to do — no request, the
+     * request is for another phase, it is already first, or it is not in this queue at all (already
+     * complete). Pulled out of the drain loop so the one piece of N1c with an ordering bug in it can
+     * be tested without a portal: the drain runs for minutes and re-reads this between every
+     * category, so getting it wrong would quietly starve a category rather than fail.
+     */
+    fun <T> promote(queue: MutableList<T>, wanted: String?, keyOf: (T) -> String): Int {
+        if (wanted == null || queue.isEmpty()) return 0
+        if (keyOf(queue[0]) == wanted) return 0
+        val at = queue.indexOfFirst { keyOf(it) == wanted }
+        if (at <= 0) return 0
+        queue.add(0, queue.removeAt(at))
+        return at
     }
 }

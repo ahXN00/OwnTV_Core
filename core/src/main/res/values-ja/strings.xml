@@ -65,6 +65,8 @@
     <plurals name="sync_warning_catalog_shrink">
         <item quantity="other">既存の<xliff:g id="stored">%1$d</xliff:g>件を保持しました — 今回のインポートで返された項目は<xliff:g id="percent">%2$d</xliff:g>%%少なくなっています。プロバイダーが実際に削除した場合は、再度同期するか、強制クリーン同期を使用してください。</item>
     </plurals>
+    <string name="sync_warning_bulk_truncated">プロバイダーの一覧が途中で切断されたため、残りはカテゴリごとに取得しました。内容はすべてそろっていますが、今回の同期はいつもより時間がかかりました。</string>
+    <string name="sync_warning_bulk_truncated_partial">プロバイダーの一覧が途中で切断され、すべてを復元できませんでした。次回の同期まで一部のタイトルが表示されない場合があります。</string>
     <plurals name="sync_warning_page_failures">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g>件のソースページでエラーが発生し、次回の同期まで一部のコンテンツが表示されない可能性があります。</item>
     </plurals>

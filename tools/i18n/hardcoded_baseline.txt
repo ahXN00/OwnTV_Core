@@ -77,7 +77,6 @@
 1	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE UNIQUE INDEX IF NOT EXISTS `index_custom_category_members_profileId_mediaType_contextKey_itemId` ON `custom_category_members` (`profileId`, `mediaType`, `contextKey`, `itemId`)
 1	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`contextKey` TEXT NOT NULL,
 1	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`itemId` INTEGER NOT NULL,
-1	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`mediaType` TEXT NOT NULL,
 1	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`position` INTEGER NOT NULL,
 1	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	audioDelayMs
 1	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	hlsSupported
