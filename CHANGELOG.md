@@ -19,7 +19,7 @@ Core is versioned independently of the apps. A core version never lines up with 
 
 ---
 
-## core-1.0.48 — 2026-09-19
+## core-1.0.49 — 2026-09-19
 
 **DB v42 · API · Strings**
 
