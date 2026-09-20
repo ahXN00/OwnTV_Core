@@ -111,6 +111,13 @@ class LocalSyncManager(
      * [BackupManager] simply **leaves the playlist logins out**, so the honest meaning of the empty
      * field was "send my other device everything except the part it needs". Now the two devices agree
      * a key between themselves and nobody is asked anything.
+     *
+     * **Assigned only once the container it opens exists**, in [startServing], never when the key is
+     * minted. Publishing it up front left a window as long as an export — many seconds on a large
+     * library — in which a listener already running from an earlier session answered `/sync/hello`
+     * with the *new* key while `/backup.own` still served the *previous* file. The far side then
+     * downloaded a container its key could not open, and the sync died in `previewImport` with
+     * nothing on screen but "something went wrong". The key and the file now change together.
      */
     @Volatile private var sessionPassword: String? = null
 
@@ -158,19 +165,24 @@ class LocalSyncManager(
             mkdirs()
             listFiles()?.forEach { it.delete() }
         }
-        // Sealed, always. See [sessionPassword] for why this is not the user's problem to solve.
-        val password = PairedDeviceStore.newSecret().also { sessionPassword = it }
+        // Sealed, always. See [sessionPassword] for why this is not the user's problem to solve — and
+        // for why it stays a local until the container it opens has actually been written.
+        val password = PairedDeviceStore.newSecret()
         selfId = paired.selfId()
         val exported = backups.export(folder, sections, password, profileIds)
             .getOrElse { return@withContext Result.failure(it) }
         // Read once, here, rather than per request: the server asks for these while answering, and a
         // device unpaired mid-session simply stops working on the next session, which is soon enough.
         acceptedSecrets = paired.secrets()
-        startServing(port, File(exported))
+        startServing(port, File(exported), password)
         Result.success(Unit)
     }
 
-    private fun startServing(port: Int, file: File) {
+    private fun startServing(port: Int, file: File, password: String) {
+        // The key becomes answerable in the same breath as the file it opens. An export that failed
+        // above never reaches here, so a listener left over from an earlier session keeps advertising
+        // the key to the container it is still serving rather than one that does not exist yet.
+        sessionPassword = password
         companion.startForLocalSync(
             port = port,
             file = file,
@@ -379,6 +391,10 @@ class LocalSyncManager(
     private fun failureFor(t: Throwable): SyncFailure = when {
         t is LocalSyncHttpException && t.code == 401 -> SyncFailure.NotAuthorized
         t is LocalSyncHttpException -> SyncFailure.BadPayload
+        // A container that arrived whole and would not open. Its own answer, not the shrug: this is
+        // precisely what [SyncFailure.BadPayload] says — "what arrived could not be read" — and
+        // leaving it to fall through told the user "something went wrong" and nothing else.
+        t is BackupManager.WrongPasswordException -> SyncFailure.BadPayload
         t is java.io.IOException -> SyncFailure.Unreachable
         else -> SyncFailure.Unknown
     }

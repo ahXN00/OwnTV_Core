@@ -19,6 +19,64 @@ Core is versioned independently of the apps. A core version never lines up with 
 
 ---
 
+## core-1.0.52 — 2026-09-20
+
+Three fixes, all reproduced on a real phone against a real television before being written.
+
+### A guide sync could never finish with the screen off, and restarted from zero every time
+
+`EpgSyncWorker` was a plain background worker. On a ColorOS phone the OEM battery manager freezes
+the process 29 seconds after the display dims — and blacklists its network at the same time:
+
+```
+OplusHansManager: freeze uid:10056 tv.own.owntv.mobile pids:[…] scene: LcdOff
+OAppNetControlService: Hans update:[10056=true] blackList:[… 10056]
+```
+
+The download dies mid-parse. On the next unfreeze WorkManager starts the work again *from the first
+byte*, and because `store.setSynced` only runs on a clean finish, the source never stops being
+stale. A large feed on a phone with a 30-second screen timeout therefore loops forever.
+
+The worker now promotes itself to a foreground service with an ongoing notification, which is what
+its siblings `DownloadWorker` and `RecordingWorker` have always done — same
+`FOREGROUND_SERVICE_DATA_SYNC` permission, same `SystemForegroundService`, no manifest change. The
+promotion is best-effort: where Android 12+ refuses a foreground service started from the
+background, the sync still runs exactly as it did before. One notification per source, because EPG
+work is unique per source and two feeds can sync at once. No new strings — the notification reuses
+`settings_syncing_guide`, `common_nav_guide` and the existing programme-count plural.
+
+**Consuming apps need do nothing**, but a user who has denied notifications will not see the
+notification; the service still runs.
+
+### Local sync handed out a key that did not open the container it was serving
+
+`LocalSyncManager.startHosting` assigned `sessionPassword` the moment the key was minted, then spent
+seconds exporting the container it belonged to. With a listener already running from an earlier
+hosting session, `/sync/hello` answered with the **new** key while `/backup.own` still served the
+**previous** file. The receiving device downloaded a container it could not open, `previewImport`
+threw, and the screen said "Something went wrong" and nothing else.
+
+Verified from outside the app: the advertised session key failed the AES-GCM tag on the served
+container, and succeeded against a freshly started hosting session.
+
+The key is now published in `startServing`, alongside the file it opens, so the two can no longer
+disagree. `WrongPasswordException` is also classified as `SyncFailure.BadPayload` rather than
+falling through to `Unknown`, so the user is told "What arrived could not be read" instead of
+"Something went wrong".
+
+### The first-run restore took the whole backup file, with nothing to say about it
+
+`SourceImporter.importBackup` had no `sections` parameter, so both wizards restored everything —
+while Settings → Backup & Restore and the local-sync setup step have always offered the tick-list.
+"My playlists but not that device's settings" could not be expressed on the one screen where a
+restore is most likely.
+
+`importBackup` and `restoreWithPassword` now take `sections`, defaulting to all of it, so an app
+that passes nothing behaves exactly as before.
+
+**For consuming apps:** additive only, no signature breaks. Both apps pass a choice as of this
+version.
+
 ## core-1.0.51 — 2026-09-20
 
 Two fixes, both confirmed on real hardware. The first is urgent: since **core-1.0.48** every

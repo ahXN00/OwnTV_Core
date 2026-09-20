@@ -356,10 +356,20 @@ class SourceImporter(
     }
 
     /**
-     * Restore everything from a backup file. Encrypted backups first ask for the backup password via
+     * Restore from a backup file. Encrypted backups first ask for the backup password via
      * [ImportState.NeedPassword]; returns true only when data was actually restored.
+     *
+     * [sections] is what the user chose to bring back, and defaults to all of it. Setup used to have
+     * no say at all — Backup & Restore in Settings has offered the tick-list for as long as it has
+     * existed, but the first-run wizard called this with no sections and therefore took everything,
+     * so "my playlists but not that device's settings" was not expressible on the one screen where
+     * it is asked for most. The caller carries the choice across [ImportState.NeedPassword] and hands
+     * it back to [restoreWithPassword], because a sealed file is chosen from before it is opened.
      */
-    suspend fun importBackup(file: File): Boolean {
+    suspend fun importBackup(
+        file: File,
+        sections: Set<BackupManager.Section> = BackupManager.Section.entries.toSet(),
+    ): Boolean {
         _state.value = ImportState.Running
         // A sealed .own reveals nothing before it is decrypted — ask for the password first.
         if (backup.isSealed(file)) {
@@ -374,17 +384,25 @@ class SourceImporter(
             _state.value = ImportState.NeedPassword(file)
             return false
         }
-        return doRestore(file, null)
+        return doRestore(file, null, sections)
     }
 
     /** Continue an encrypted restore once the user provides (or skips, password = null) the passphrase. */
-    suspend fun restoreWithPassword(file: File, password: String?): Boolean {
+    suspend fun restoreWithPassword(
+        file: File,
+        password: String?,
+        sections: Set<BackupManager.Section> = BackupManager.Section.entries.toSet(),
+    ): Boolean {
         _state.value = ImportState.Running
-        return doRestore(file, password)
+        return doRestore(file, password, sections)
     }
 
-    private suspend fun doRestore(file: File, password: String?): Boolean =
-        backup.import(file, backupPassword = password).fold(
+    private suspend fun doRestore(
+        file: File,
+        password: String?,
+        sections: Set<BackupManager.Section>,
+    ): Boolean =
+        backup.import(file, sections, backupPassword = password).fold(
             onSuccess = { summary ->
                 _state.value = ImportState.Success(
                     restoredItems = summary.items,

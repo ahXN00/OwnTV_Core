@@ -6,8 +6,10 @@ import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
+import androidx.work.ForegroundInfo
 import kotlinx.coroutines.CancellationException
 import tv.own.owntv.core.epg.EpgSourceStore
+import tv.own.owntv.core.i18n.LocaleStore
 import tv.own.owntv.core.network.ConnectivityObserver
 import tv.own.owntv.core.repository.EpgRepository
 import tv.own.owntv.core.sync.EpgActivityTracker
@@ -21,7 +23,22 @@ class EpgSyncWorker(
     private val connectivity: ConnectivityObserver,
     private val activityTracker: EpgActivityTracker,
     private val recordings: tv.own.owntv.core.recording.RecordingManager,
+    private val localeStore: LocaleStore,
 ) : CoroutineWorker(context, params) {
+
+    /**
+     * WorkManager asks for this when it promotes the work; [doWork] also sets it directly, because
+     * only there is the source's name known. A guide fetch is minutes of network and parsing, and a
+     * plain background worker does not survive that with the screen off — see [EpgSyncNotifications].
+     */
+    override suspend fun getForegroundInfo(): ForegroundInfo =
+        EpgSyncNotifications.foregroundInfo(
+            applicationContext,
+            inputData.getLong(KEY_SOURCE_ID, 0L),
+            sourceName = null,
+            programmes = inputData.getInt(KEY_BASE_PROGRAMMES, 0),
+            localeStore = localeStore,
+        )
 
     override suspend fun doWork(): Result {
         val sourceId = inputData.getLong(KEY_SOURCE_ID, Long.MIN_VALUE)
@@ -34,12 +51,17 @@ class EpgSyncWorker(
         }
 
         val baseProgrammes = inputData.getInt(KEY_BASE_PROGRAMMES, 0)
-        val progress = ProgressPublisher(baseProgrammes) { channels, programmes ->
+        val progress = ProgressPublisher(baseProgrammes, source.id, source.name) { channels, programmes ->
             activityTracker.progress(source.id, channels, programmes)
         }
         val startedAt = SystemClock.elapsedRealtime()
         Log.i(TAG, "Starting EPG sync sourceId=${source.id} reason=$reason")
         activityTracker.started(source.id, source.name)
+        // Best effort, always: Android 12 and later refuse a foreground service started from the
+        // background in some states, and a guide that syncs the old way is what shipped until now.
+        // Losing the promotion must never lose the sync with it.
+        runCatching { setForeground(progress.foregroundInfo()) }
+            .onFailure { Log.i(TAG, "EPG sync stays in the background: ${it.message}") }
 
         try {
             val programmes = epgRepository.refreshUrl(source.id, source.url, source.userAgent) { channels, count ->
@@ -88,6 +110,8 @@ class EpgSyncWorker(
 
     private inner class ProgressPublisher(
         private val baseProgrammes: Int,
+        private val sourceId: Long,
+        private val sourceName: String?,
         private val onEmit: (channels: Int, programmes: Int) -> Unit,
     ) {
         private var lastEmitAtMs = 0L
@@ -96,6 +120,18 @@ class EpgSyncWorker(
         private var pendingChannels = 0
         private var pendingProgrammes = 0
         private var hasPending = false
+
+        /** Its own clock: the notification is for a human reading it, not for the progress bar. */
+        private var lastNotifiedAtMs = 0L
+
+        fun foregroundInfo(programmes: Int = baseProgrammes) =
+            EpgSyncNotifications.foregroundInfo(
+                applicationContext,
+                sourceId,
+                sourceName,
+                programmes,
+                localeStore,
+            )
 
         fun publish(channels: Int, programmes: Int) {
             pendingChannels = channels
@@ -131,6 +167,13 @@ class EpgSyncWorker(
             )
             // Also push the counts to the shell status pill (independent of WorkManager progress).
             onEmit(channels, programmes)
+            // And to the ongoing notification, far more slowly — it is read by a person, and
+            // rebuilding it at the parser's rate is work for nothing. Async and swallowed: the
+            // service is already running by now, and a refused update must not end the sync.
+            if (now - lastNotifiedAtMs >= NOTIFICATION_INTERVAL_MS) {
+                lastNotifiedAtMs = now
+                runCatching { setForegroundAsync(foregroundInfo(programmes)) }
+            }
             lastEmitAtMs = now
             lastChannels = channels
             lastProgrammes = programmes
@@ -142,6 +185,9 @@ class EpgSyncWorker(
         const val TAG = "EpgSyncWorker"
         private const val MAX_RETRY_ATTEMPTS = 3
         private const val PROGRESS_MIN_INTERVAL_MS = 750L
+
+        /** The same cadence [tv.own.owntv.core.download.DownloadWorker] refreshes its own at. */
+        private const val NOTIFICATION_INTERVAL_MS = 2_000L
         const val KEY_SOURCE_ID = "sourceId"
         const val KEY_REASON = "reason"
         const val KEY_PROGRESS_CHANNELS = "channels"

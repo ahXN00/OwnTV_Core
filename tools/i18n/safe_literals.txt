@@ -3280,6 +3280,8 @@
 1	technical	core/src/main/java/tv/own/owntv/core/sync/work/ContentIndexWorker.kt	content-index-build
 1	preference-key	core/src/main/java/tv/own/owntv/core/sync/work/ContentIndexWorker.kt	reason
 1	technical	core/src/main/java/tv/own/owntv/core/sync/work/ContentIndexWorker.kt	unknown
+1	technical	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncNotifications.kt	$effectiveLocale:${localized.getString(R.string.common_nav_guide)}
+1	technical	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncNotifications.kt	owntv_epg_sync
 1	technical	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncScheduler.kt	epg-source-$sourceId
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncScheduler.kt	epg-sync
 1	technical	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncScheduler.kt	epg-sync-source-$sourceId
@@ -3287,6 +3289,7 @@
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	EPG sync failed sourceId=${source.id} reason=$reason
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	EPG sync failed transiently sourceId=${source.id} reason=$reason attempt=$runAttemptCount — will retry
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	EPG sync finished sourceId=${source.id} reason=$reason programmes=$programmes ms=${SystemClock.elapsedRealtime() - startedAt}
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	EPG sync stays in the background: ${it.message}
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	EpgSyncWorker
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	Skipping stale EPG sync sourceId=$sourceId reason=$reason
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	Starting EPG sync sourceId=${source.id} reason=$reason
