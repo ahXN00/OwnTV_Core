@@ -19,6 +19,9 @@ data class XtLiveStream(
     val categoryId: String?, val num: Int?,
     /** `tv_archive` = 1 → catch-up available; `tv_archive_duration` = days of archive kept. */
     val archive: Boolean = false, val archiveDays: Int = 0,
+    /** The panel's own `direct_source`, when it publishes a non-blank one. A last-resort retry URL
+     *  only — see [tv.own.owntv.core.database.entity.ChannelEntity.directSource]. */
+    val directSource: String? = null,
 )
 data class XtVod(
     val streamId: String, val name: String, val icon: String?, val rating: Double?, val plot: String?,
@@ -101,8 +104,10 @@ class XtreamClient(private val http: HttpClient) {
         streamLive(
             s = s,
             categoryId = categoryId,
-            transform = { streamId, name, icon, epgChannelId, itemCategoryId, num, archive, archiveDays ->
-                XtLiveStream(streamId, name, icon, epgChannelId, itemCategoryId, num, archive, archiveDays)
+            transform = { streamId, name, icon, epgChannelId, itemCategoryId, num, archive, archiveDays, directSource ->
+                XtLiveStream(
+                    streamId, name, icon, epgChannelId, itemCategoryId, num, archive, archiveDays, directSource,
+                )
             },
             onItem = onItem,
             onProgress = onProgress,
@@ -120,6 +125,7 @@ class XtreamClient(private val http: HttpClient) {
             num: Int?,
             archive: Boolean,
             archiveDays: Int,
+            directSource: String?,
         ) -> T?,
         onItem: suspend (T) -> Unit,
         onProgress: ((Long, Long?) -> Unit)? = null,
@@ -821,6 +827,7 @@ class XtreamClient(private val http: HttpClient) {
             num: Int?,
             archive: Boolean,
             archiveDays: Int,
+            directSource: String?,
         ) -> T?,
     ): T? {
         if (reader.peek() != JsonToken.BEGIN_OBJECT) {
@@ -835,6 +842,7 @@ class XtreamClient(private val http: HttpClient) {
         var num: Int? = null
         var archive = false
         var archiveDays = 0
+        var directSource: String? = null
 
         reader.beginObject()
         while (reader.hasNext()) {
@@ -847,11 +855,19 @@ class XtreamClient(private val http: HttpClient) {
                 "num" -> num = reader.nextIntOrNull()
                 "tv_archive" -> archive = (reader.nextIntOrNull() ?: 0) > 0
                 "tv_archive_duration" -> archiveDays = reader.nextIntOrNull() ?: 0
+                // The panel's own URL for this channel, when it publishes one. NEVER the URL we tune:
+                // it is built from the streaming server's configured domain and falls back to its raw
+                // IP, so a misconfigured panel or load balancer publishes an address that is only
+                // reachable inside their network. Kept strictly as a last-resort retry (see
+                // `ChannelEntity.directSource`), and blank — which is what most panels send — is null.
+                "direct_source" -> directSource = reader.nextScalarStringOrNull()?.takeIf { it.isNotBlank() }
                 else -> reader.skipValue()
             }
         }
         reader.endObject()
-        return streamId?.let { transform(it, name, icon, epgChannelId, categoryId, num, archive, archiveDays) }
+        return streamId?.let {
+            transform(it, name, icon, epgChannelId, categoryId, num, archive, archiveDays, directSource)
+        }
     }
 
     private fun <T : Any> readVodAs(

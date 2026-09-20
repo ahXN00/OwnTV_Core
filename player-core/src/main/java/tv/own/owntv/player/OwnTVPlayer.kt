@@ -105,6 +105,9 @@ data class PlaylistItem(
     val httpHeaders: String? = null,
     /** Widevine/ClearKey licence details (#115); non-null pins this item to ExoPlayer. */
     val drmConfig: String? = null,
+    /** The container this item declares for itself (v43), as
+     *  [tv.own.owntv.core.player.ManifestType.key]; null = infer from the URL. */
+    val manifestType: String? = null,
 )
 
 /** Whether prev/next are available in the current queue. */
@@ -538,6 +541,8 @@ class OwnTVPlayer(
      *  only engine that can play it: libmpv has no CDM, so it cannot fetch a key from a licence
      *  server, and the ladder must never offer mpv. */
     private var currentDrm: tv.own.owntv.core.drm.DrmConfig? = null
+    /** The container this item DECLARED (v43), decoded once per load; null = infer from the URL. */
+    private var currentManifestType: tv.own.owntv.core.player.ManifestType? = null
     // The source-level UA for the queue currently loaded (playEpisodes). Each item re-derives
     // currentUserAgent from its own headers and falls back to this.
     private var queueUserAgent: String? = null
@@ -1740,6 +1745,7 @@ class OwnTVPlayer(
         engine.userAgent = currentUserAgent
         engine.httpHeaders = currentHeaders
         engine.drmConfig = currentDrm
+        engine.manifestType = currentManifestType
         val restartGen = loadGeneration
         engine.onAudioFallback = {
             toast(toastRenderer.render(PlaybackFailure.Surround))
@@ -2372,6 +2378,8 @@ class OwnTVPlayer(
         httpHeaders: String? = null,
         /** Widevine/ClearKey licence details (#115); non-null pins the item to ExoPlayer. */
         drmConfig: String? = null,
+        /** The container this item declares for itself (v43); null = infer from the URL. */
+        manifestType: String? = null,
         /** P6 — stable engine-pin identity; null keeps the legacy stream-URL key. */
         contentKey: String? = null,
         seasonNumber: Int? = null,
@@ -2390,6 +2398,7 @@ class OwnTVPlayer(
         if (reconnectProvider != null || !isLive) reconnectUrlProvider = reconnectProvider
         currentHeaders = StreamHeaders.decode(httpHeaders)
         currentDrm = tv.own.owntv.core.drm.DrmConfig.decode(drmConfig)
+        currentManifestType = tv.own.owntv.core.player.ManifestType.decode(manifestType)
         // The channel's own UA wins over the playlist-wide one (F16): a playlist sets one UA for the
         // whole provider, an EXTVLCOPT line sets it for the one restream that needs it.
         currentUserAgent = StreamHeaders.userAgentOf(currentHeaders) ?: userAgent?.takeIf { it.isNotBlank() }
@@ -2458,6 +2467,7 @@ class OwnTVPlayer(
         // header-carrying and plain episodes can't leak one item's Referer onto the next.
         currentHeaders = StreamHeaders.decode(item.httpHeaders)
         currentDrm = tv.own.owntv.core.drm.DrmConfig.decode(item.drmConfig)
+        currentManifestType = tv.own.owntv.core.player.ManifestType.decode(item.manifestType)
         currentUserAgent = StreamHeaders.userAgentOf(currentHeaders) ?: queueUserAgent
         tunedUserAgent = queueUserAgent
         tunedHttpHeaders = item.httpHeaders

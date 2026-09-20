@@ -350,6 +350,16 @@ class ExoSubtitleEngine(
         // #115 — a protected item. Single-session: a film's content key does not rotate, unlike a live
         // channel's, so there is nothing to renew mid-playback.
         drmConfig?.let { builder.setDrmConfiguration(it.toMediaDrmConfiguration(multiSession = false)) }
+        // v43 — naming the mime type is what makes this player's DefaultMediaSourceFactory build a
+        // DashMediaSource instead of sniffing an XML manifest with the progressive extractor. Only for
+        // a container we can actually route: `ism` has no Media3 module here, so it is left to infer.
+        when (manifestType) {
+            tv.own.owntv.core.player.ManifestType.MPD ->
+                builder.setMimeType(androidx.media3.common.MimeTypes.APPLICATION_MPD)
+            tv.own.owntv.core.player.ManifestType.HLS ->
+                builder.setMimeType(androidx.media3.common.MimeTypes.APPLICATION_M3U8)
+            tv.own.owntv.core.player.ManifestType.ISM, null -> Unit
+        }
         if (externalSubs.isNotEmpty()) {
             builder.setSubtitleConfigurations(externalSubs.map { s ->
                 // Timing offset for the active external sub: side-load a timestamp-shifted copy (§8).
@@ -475,6 +485,10 @@ class ExoSubtitleEngine(
     /** This item's Widevine/ClearKey licence details (#115), pushed in by [OwnTVPlayer]; null for the
      *  unprotected majority. Only this engine can honour it — mpv has no CDM to license the stream. */
     @Volatile var drmConfig: tv.own.owntv.core.drm.DrmConfig? = null
+    /** The container this item DECLARED (v43), pushed in by [OwnTVPlayer]; null = infer from the URL,
+     *  which is what every item did before. A protected film published at an extensionless DASH URL
+     *  needs this for exactly the reason a live channel does. */
+    @Volatile var manifestType: tv.own.owntv.core.player.ManifestType? = null
     private var httpFactory: OkHttpDataSource.Factory? = null
 
     private fun applyRequestHeaders() {

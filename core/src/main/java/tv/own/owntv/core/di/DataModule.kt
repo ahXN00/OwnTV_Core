@@ -247,7 +247,7 @@ val dataModule = module {
     // connectivity (the metered check that turns "not over mobile data" into a MISSED row rather
     // than a silent wait), tracker
     single {
-        tv.own.owntv.core.recording.RecordingEngine(androidContext(), get(), get(), get(), get(), get(), get(), get(), get())
+        tv.own.owntv.core.recording.RecordingEngine(androidContext(), get(), get(), get(), get(), get(), get(), get(), get(), get())
     }
     // context, recordingDao — the AlarmManager half. Exact alarms where the user allows them,
     // inexact plus a bigger head start where they do not.

@@ -19,6 +19,88 @@ Core is versioned independently of the apps. A core version never lines up with 
 
 ---
 
+## core-1.0.54 — 2026-09-21
+
+Plays DRM-protected and plain MPEG-DASH live channels, which previously failed before the first
+frame on both apps. **DB v43**, **API**, **Strings** — no backup change, and no channel that plays
+today changes route.
+
+### DASH channels play
+
+A playlist can publish a channel at an address that says nothing about its container —
+`https://host/live/mpd/173`, no extension — and only redirect to the real `…/render.mpd` once asked.
+Media3 picks its media source *before* that redirect, and the choice was binary: HLS or progressive.
+DASH had no way in at all, even though `media3-exoplayer-dash` was already on the classpath. Every
+such channel was handed to the progressive extractor, which sniffed an XML manifest and stopped with
+`ERROR_CODE_PARSING_CONTAINER_UNSUPPORTED` before the first frame. With DRM in play the item is
+pinned to ExoPlayer — mpv has no CDM — so there was no fallback rung left and the channel simply
+died.
+
+`StreamRoute { HLS, DASH, PROGRESSIVE }` replaces that boolean, and `LivePreviewEngine.routeFor()`
+makes the choice from every piece of evidence at once, most specific first. A DASH route names
+`MimeTypes.APPLICATION_MPD` on the `MediaItem`, which is all `DefaultMediaSourceFactory` needs to
+build a `DashMediaSource` — carrying the DRM session manager the item already had.
+
+Three independent ways in, because no single one covers every source type:
+
+- **The playlist's own declaration.** `#KODIPROP:inputstream.adaptive.manifest_type` was parsed and
+  thrown away; it is now read into `ManifestType { MPD, HLS, ISM }` and stored. This makes the
+  *first* attempt correct, with no failed try. `ism` is stored but deliberately not routed —
+  `media3-exoplayer-smoothstreaming` is not a dependency, so it keeps exactly today's behaviour.
+- **The response itself.** `isDashResponse()` recognises `application/dash+xml`,
+  `video/vnd.mpeg.dash.mpd`, or a final URL whose path ends `.mpd`, and re-opens the same URL as
+  DASH. This is the **only** route for Stalker (the portal hands back its own `cmd`) and Xtream (the
+  live URL is one core builds as `.ts`) — neither can ever carry a declaration. The lesson is
+  remembered per panel, so one channel's discovery spares the rest.
+- **VOD too.** A protected film or episode published the same way now routes identically.
+
+### Stream info reported DASH channels as MPEG-TS
+
+The overlay's Format row was `if (isHls) "HLS" else "MPEG-TS"` — two values, so a third route fell
+into the else and read as raw TS. It stayed wrong even on a tune that never opened, which is what
+users were screenshotting. It now reports `HLS` / `DASH` / `MPEG-TS` from the route actually taken.
+
+### A last-resort address for an Xtream channel that will not open
+
+`ChannelEntity.directSource` stores the panel's own `direct_source`, when it publishes one. It is
+**never** tuned first and never replaces `streamUrl`: panels build that field from the streaming
+server's configured domain and fall back to its raw IP, so a misconfigured panel or load balancer
+publishes an address only reachable inside their own network — which is why every major client
+ignores it. It is tried once, last, after every other rung is spent, where the alternative is an
+error screen. Used that way it can only add channels that would otherwise fail, never take one away.
+Refused for a *request* refusal (429/458), which a different address cannot answer.
+
+### Recording a DRM channel is refused instead of attempted
+
+`RecordingFailure.DRM_PROTECTED`, checked before the request is made. A protected channel used to
+fall through to the raw byte pump, which wrote the provider's response into the file, hit
+end-of-body, reported `NETWORK` — a reason that is *not* terminal — and so reconnected and appended
+again for the whole length of the programme. The user got an unplayable file, the provider got hours
+of reconnects, and one of the account's connection slots was held throughout by a recording that
+could never succeed. The CDM decrypts only into a secure decoder for immediate display, so there is
+no point at which the frames exist in the clear to write down; the reason is terminal for the same
+reason `ENCRYPTED` is.
+
+Kept distinct from `ENCRYPTED`, which is HLS transport encryption (`#EXT-X-KEY`, usually plain
+AES-128) found inside a playlist that had to be fetched first. Telling a user with an AES-128 channel
+that it is DRM-protected would be false.
+
+### Database
+
+**v43** — `manifestType` on `channels`, `movies` and `episodes`; `directSource` on `channels`.
+Additive `ALTER TABLE` only, NULL on every existing row, and a NULL row behaves exactly as before, so
+an upgraded install is unchanged until its playlist is re-synced. No table rewrite even on a
+170k-item catalog. Both new fields fold into `computeContentHash` **only when non-null**, so no
+existing hash moves and no catalog is rewritten on the next sync.
+
+### For a consuming app
+
+`OwnTVPlayer.play()`, `PlaylistItem` and `LivePreviewEngine.play()` take `manifestType`, and
+`LivePreviewEngine.play()` also takes `directSource`. Both default to null, so an app that passes
+neither compiles and behaves exactly as before — but a DASH channel only routes correctly on the
+first attempt if the app passes `channel.manifestType`, and the last-resort rung only exists if it
+passes `channel.directSource`.
+
 ## core-1.0.53 — 2026-09-20
 
 Adds the settings and strings behind the TV app's second Movies & Series layout. **Strings**, **API**

@@ -77,7 +77,8 @@ internal class XtreamSyncer(
                         categoryId: String?,
                         num: Int?,
                         archive: Boolean,
-                        archiveDays: Int ->
+                        archiveDays: Int,
+                        directSource: String? ->
                         seenCategory(categoryId)
                         ChannelEntity(
                             sourceId = s.id, categoryId = catMap[categoryId], name = name,
@@ -85,6 +86,9 @@ internal class XtreamSyncer(
                             epgChannelId = epgChannelId, number = num, remoteId = streamId,
                             sortOrder = order++,
                             catchup = archive, catchupDays = archiveDays,
+                            // Stored, never tuned — the last-resort retry only. See the field's KDoc for
+                            // why preferring it over `liveUrl` would break working channels.
+                            directSource = directSource?.takeIf { it != xtream.liveUrl(s, streamId) },
                         )
                     }
                     XtreamStreams(

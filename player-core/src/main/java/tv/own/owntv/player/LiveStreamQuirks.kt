@@ -124,6 +124,7 @@ object LiveStreamQuirks {
     )
 
     private val hlsRedirectHosts = ConcurrentHashMap.newKeySet<String>()
+    private val dashRedirectHosts = ConcurrentHashMap.newKeySet<String>()
     private val segmentRefusingHosts = ConcurrentHashMap.newKeySet<String>()
     private val singleSessionHosts = ConcurrentHashMap.newKeySet<String>()
     private val brokenTimestampStreams = urlLessonSet()
@@ -139,6 +140,18 @@ object LiveStreamQuirks {
     fun rememberHlsRedirect(url: String) { hlsRedirectHosts += hostKey(url) }
 
     fun isKnownHlsHost(url: String): Boolean = hostKey(url) in hlsRedirectHosts
+
+    /**
+     * Record that [url]'s host serves DASH manifests from URLs that do not say `.mpd` (v43).
+     *
+     * The DASH twin of [rememberHlsRedirect], and it matters for the same reason: the traced proxy
+     * publishes every channel as `…/live/mpd/{id}` and only redirects to `…/render.mpd` once asked, so
+     * without a panel-wide lesson EVERY channel on it pays its own failed progressive attempt and
+     * retry before playing.
+     */
+    fun rememberDashRedirect(url: String) { dashRedirectHosts += hostKey(url) }
+
+    fun isKnownDashHost(url: String): Boolean = hostKey(url) in dashRedirectHosts
 
     /**
      * True when [url] itself asks for HLS — it ends in `.m3u8` — ignoring anything learned about its

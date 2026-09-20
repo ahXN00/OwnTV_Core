@@ -396,6 +396,8 @@
     </plurals>
     <!-- Translators: Shown on a recording that was refused because the channel is delivered as encrypted HLS, which the recorder cannot turn into a playable file. -->
     <string name="recording_failed_encrypted">This channel is scrambled and cannot be recorded</string>
+    <!-- Translators: Shown on a recording that was refused because the channel declares DRM (Widevine/ClearKey). The second sentence exists so the user understands this is the provider's protection rather than a fault in the app, and does not report it as a bug. Keep both sentences. -->
+    <string name="recording_failed_drm">This channel is DRM-protected, so it can be watched but not recorded. The protection comes from your provider, not from OwnTV.</string>
     <!-- Translators: Shown on a recording that was skipped because the device was on a metered (mobile data) connection and the user has turned off recording over mobile data. -->
     <string name="recording_failed_metered">Not recorded on mobile data</string>
     <!-- Translators: Settings toggle on a phone: may a recording run when the device is on mobile data rather than Wi-Fi. -->

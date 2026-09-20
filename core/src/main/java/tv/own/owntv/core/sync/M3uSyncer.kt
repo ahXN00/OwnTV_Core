@@ -27,6 +27,7 @@ import tv.own.owntv.core.database.entity.computeContentHash
 import tv.own.owntv.core.model.MediaType
 import tv.own.owntv.core.network.HttpClient
 import tv.own.owntv.core.drm.DrmConfig
+import tv.own.owntv.core.player.ManifestType
 import tv.own.owntv.core.network.StreamHeaders
 import tv.own.owntv.core.parser.M3uParser
 
@@ -206,6 +207,7 @@ internal class M3uSyncer(
                         catchupType = entry.catchup,
                         httpHeaders = StreamHeaders.encode(entry.headers),
                         drmConfig = DrmConfig.encode(entry.drm),
+                        manifestType = ManifestType.encode(entry.manifestType),
                     )
                 }
                 channels.forEach { seenChannelKeys.add(it.remoteId!!) }
@@ -241,6 +243,7 @@ internal class M3uSyncer(
                         sortOrder = item.order,
                         httpHeaders = StreamHeaders.encode(entry.headers),
                         drmConfig = DrmConfig.encode(entry.drm),
+                        manifestType = ManifestType.encode(entry.manifestType),
                     )
                 }
                 movies.forEach { seenMovieKeys.add(it.remoteId!!) }
@@ -293,6 +296,7 @@ internal class M3uSyncer(
                             streamUrl = ep.streamUrl,
                             httpHeaders = ep.httpHeaders,
                             drmConfig = ep.drmConfig,
+                            manifestType = ep.manifestType,
                         )
                     },
                 )
@@ -419,6 +423,7 @@ internal class M3uSyncer(
                                 streamUrl = e.streamUrl,
                                 httpHeaders = StreamHeaders.encode(e.headers),
                                 drmConfig = DrmConfig.encode(e.drm),
+                                manifestType = ManifestType.encode(e.manifestType),
                             ),
                         )
                         pendingEpisodeRows++
@@ -536,6 +541,7 @@ internal class M3uSyncer(
         val streamUrl: String,
         val httpHeaders: String? = null,
         val drmConfig: String? = null,
+        val manifestType: String? = null,
     )
 
     private data class ParsedM3uEpisode(val show: String, val season: Int, val episode: Int, val title: String?)
@@ -666,11 +672,13 @@ internal class M3uSyncer(
         /** Order-sensitive hash of a show's episode list, folded into the series content hash. */
         private fun episodesHash(show: M3uShowAccumulator): Int =
             show.episodes.fold(0) { acc, ep ->
-                // httpHeaders and drmConfig folded only when present, so playlists without per-item
-                // headers or DRM keep the hashes they already have and don't rewrite on first sync.
+                // httpHeaders, drmConfig and manifestType folded only when present, so playlists without
+                // per-item headers, DRM or a declared container keep the hashes they already have and
+                // don't rewrite on first sync.
                 val base = Objects.hash(ep.season, ep.episode, ep.title, ep.streamUrl)
                 val withHeaders = if (ep.httpHeaders == null) base else Objects.hash(base, ep.httpHeaders)
-                31 * acc + if (ep.drmConfig == null) withHeaders else Objects.hash(withHeaders, ep.drmConfig)
+                val withDrm = if (ep.drmConfig == null) withHeaders else Objects.hash(withHeaders, ep.drmConfig)
+                31 * acc + if (ep.manifestType == null) withDrm else Objects.hash(withDrm, ep.manifestType)
             }
     }
 }

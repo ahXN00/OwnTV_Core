@@ -92,6 +92,23 @@ data class ChannelEntity(
      *  (`--demuxer-lavf-o=decryption_key=…`) but has no CDM, so it cannot FETCH one from a licence
      *  server — which is the only thing a `license_key` URL offers. The ladder must not offer mpv. */
     val drmConfig: String? = null,
+    /** The container this channel declares for itself (M3U `#KODIPROP:…manifest_type`), stored as
+     *  [tv.own.owntv.core.player.ManifestType.key] (v43). Independent of [drmConfig] — an unprotected
+     *  channel may declare one too. Null means "infer from the URL", which is every channel today. */
+    val manifestType: String? = null,
+    /** The panel's own `direct_source` for this channel (Xtream only, v43), when it publishes a
+     *  non-blank one.
+     *
+     *  **Never the URL we tune.** Panels build this from the streaming server's configured domain and
+     *  fall back to its raw IP, so a misconfigured panel or load balancer publishes an address only
+     *  reachable inside their own network — which is why every major client ignores the field. It is
+     *  also often shaped so that the `.ts` ⇄ `.m3u8` rewrites (`resolveStreamUrl`, `toHlsUrl`,
+     *  `alternateFormatUrl`) silently no-op on it, costing the channel three recovery rungs.
+     *
+     *  So it is stored beside [streamUrl] rather than replacing it, and reached for ONLY after the
+     *  normal URL has definitively failed and the format-swap rung is spent. Used that way it can only
+     *  add channels that would otherwise show an error, never take one away. */
+    val directSource: String? = null,
     @ColumnInfo(defaultValue = "0") val contentHash: Int = 0,
 )
 
@@ -172,6 +189,8 @@ data class MovieEntity(
     val httpHeaders: String? = null,
     /** Widevine/ClearKey licence details — see [ChannelEntity.drmConfig] (v33). */
     val drmConfig: String? = null,
+    /** Declared container — see [ChannelEntity.manifestType] (v43). */
+    val manifestType: String? = null,
     @ColumnInfo(defaultValue = "0") val contentHash: Int = 0,
     @ColumnInfo(defaultValue = "''") val canonicalTitle: String = "",
     @ColumnInfo(defaultValue = "''") val titleSignature: String = "",
@@ -282,6 +301,8 @@ data class EpisodeEntity(
     val httpHeaders: String? = null,
     /** Widevine/ClearKey licence details — see [ChannelEntity.drmConfig] (v33). */
     val drmConfig: String? = null,
+    /** Declared container — see [ChannelEntity.manifestType] (v43). */
+    val manifestType: String? = null,
     /**
      * When the episode first aired, epoch ms, or null when nothing said (v37).
      *
@@ -306,32 +327,41 @@ data class ContentHashProjection(
 )
 
 /**
- * The v26 fields ([ChannelEntity.catchupType] / [ChannelEntity.httpHeaders]) and the v33
- * [ChannelEntity.drmConfig] are folded in ONLY when the channel actually carries one. Adding them
- * unconditionally would change every stored hash at once and turn the next resync of a 100k-channel
- * playlist into a full rewrite for everybody; this way only the (rare) channels that use them pay a
- * single re-upsert, while a later change to a header, a catch-up type or a licence URL still propagates.
+ * The v26 fields ([ChannelEntity.catchupType] / [ChannelEntity.httpHeaders]), the v33
+ * [ChannelEntity.drmConfig] and the v43 [ChannelEntity.manifestType] / [ChannelEntity.directSource] are
+ * folded in ONLY when the channel actually carries one. Adding them unconditionally would change every
+ * stored hash at once and turn the next resync of a 100k-channel playlist into a full rewrite for
+ * everybody; this way only the (rare) channels that use them pay a single re-upsert, while a later
+ * change to a header, a catch-up type, a licence URL or a declared container still propagates.
  */
 fun ChannelEntity.computeContentHash(): Int {
     val base = Objects.hash(
         sourceId, categoryId, name, logoUrl, streamUrl,
         epgChannelId, number, remoteId, catchup, catchupDays, catchupSource,
     )
-    if (catchupType == null && httpHeaders == null && drmConfig == null) return base
+    if (catchupType == null && httpHeaders == null && drmConfig == null &&
+        manifestType == null && directSource == null
+    ) {
+        return base
+    }
     val withV26 = Objects.hash(base, catchupType, httpHeaders)
-    return if (drmConfig == null) withV26 else Objects.hash(withV26, drmConfig)
+    val withDrm = if (drmConfig == null) withV26 else Objects.hash(withV26, drmConfig)
+    return if (manifestType == null && directSource == null) withDrm
+    else Objects.hash(withDrm, manifestType, directSource)
 }
 
-/** [httpHeaders] and [MovieEntity.drmConfig] are folded in only when the movie actually carries them —
- *  same reasoning as [ChannelEntity.computeContentHash]: no full-catalog rewrite for the 99% that don't. */
+/** [httpHeaders], [MovieEntity.drmConfig] and [MovieEntity.manifestType] are folded in only when the
+ *  movie actually carries them — same reasoning as [ChannelEntity.computeContentHash]: no full-catalog
+ *  rewrite for the 99% that don't. */
 fun MovieEntity.computeContentHash(): Int {
     val base = Objects.hash(
         sourceId, categoryId, name, posterUrl, backdropUrl,
         year, rating, durationSecs, plot, streamUrl, containerExt, remoteId, addedAt,
     )
-    if (httpHeaders == null && drmConfig == null) return base
+    if (httpHeaders == null && drmConfig == null && manifestType == null) return base
     val withHeaders = Objects.hash(base, httpHeaders)
-    return if (drmConfig == null) withHeaders else Objects.hash(withHeaders, drmConfig)
+    val withDrm = if (drmConfig == null) withHeaders else Objects.hash(withHeaders, drmConfig)
+    return if (manifestType == null) withDrm else Objects.hash(withDrm, manifestType)
 }
 
 fun SeriesEntity.computeContentHash(): Int = Objects.hash(

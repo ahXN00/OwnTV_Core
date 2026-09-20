@@ -93,5 +93,19 @@ enum class RecordingFailure {
      */
     ENCRYPTED,
 
+    /**
+     * The channel declares DRM — a Widevine or ClearKey licence in its playlist entry (#115).
+     *
+     * Distinct from [ENCRYPTED], which is HLS transport encryption (`#EXT-X-KEY`, usually plain
+     * AES-128) discovered *in* the playlist. This one is declared by the playlist itself and is known
+     * before a single byte is fetched, so the refusal costs no request at all.
+     *
+     * Refused for the same reason as [ENCRYPTED] and one more: the CDM decrypts only *into a secure
+     * decoder for immediate display*, so there is no point at which this app could obtain the frames
+     * to write down. Attempting it would spend the account's connection for the whole programme and
+     * produce a file that cannot play — the outcome §1.5 exists to prevent.
+     */
+    DRM_PROTECTED,
+
     UNKNOWN,
 }

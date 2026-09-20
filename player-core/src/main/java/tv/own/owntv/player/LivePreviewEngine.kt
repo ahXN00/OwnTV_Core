@@ -398,7 +398,8 @@ class LivePreviewEngine(
         return "$kind codec: ${e.message ?: e.javaClass.simpleName}"
     }
 
-    private var activeIsHls = false
+    private var activeRoute = StreamRoute.PROGRESSIVE
+    private val activeIsHls: Boolean get() = activeRoute == StreamRoute.HLS
     /** Actual media-source route for the current load, including runtime `.ts` -> HLS detection. */
     val isHlsStream: Boolean get() = activeIsHls
     /** Distinct live segments this load has been refused — the evidence behind [segmentsRefused]. */
@@ -436,13 +437,18 @@ class LivePreviewEngine(
     /** This channel's DRM licence details, decoded once per tune (#115); null for a plain stream. */
     @Volatile private var currentDrm: tv.own.owntv.core.drm.DrmConfig? = null
     @Volatile private var tunedDrmConfig: String? = null
+    /** The container this channel DECLARED, decoded once per tune (v43); null = infer from the URL. */
+    @Volatile private var currentManifestType: tv.own.owntv.core.player.ManifestType? = null
+    @Volatile private var tunedManifestType: String? = null
+    /** The panel's own URL for this channel, kept for the last-resort rung only (v43). */
+    @Volatile private var tunedDirectSource: String? = null
 
     /** Technical readout for the stream-info overlay, from the active ExoPlayer formats. */
     override suspend fun streamInfo(): List<StreamInfoRow> {
         val p = player ?: return emptyList()
         val out = ArrayList<StreamInfoRow>()
         out += StreamInfoRow(StreamInfoLabel.ENGINE, StreamInfoValue.Engine(StreamEngine.EXOPLAYER))
-        out += StreamInfoRow(StreamInfoLabel.FORMAT, StreamInfoValue.Format(if (activeIsHls) "HLS" else "MPEG-TS"))
+        out += StreamInfoRow(StreamInfoLabel.FORMAT, StreamInfoValue.Format(activeRoute.formatLabel))
         p.videoFormat?.let { f ->
             out += StreamInfoRow(
                 StreamInfoLabel.VIDEO,
@@ -1071,6 +1077,16 @@ class LivePreviewEngine(
                 retryRedirectedStreamAsHls()
                 return
             }
+            // The same story one container along, and the ONLY route for a stream that declares nothing:
+            // a Stalker portal hands back its own `cmd` and an Xtream panel's URL we build ourselves, so
+            // neither can ever carry a `manifest_type`. If the response was a DASH manifest and the
+            // progressive extractor choked on its XML, re-open the same URL as DASH.
+            if (!tune.redirectedDashRetryDone && activeRoute != StreamRoute.DASH && tune.responseWasDash &&
+                error.errorCode == PlaybackException.ERROR_CODE_PARSING_CONTAINER_UNSUPPORTED
+            ) {
+                retryRedirectedStreamAsDash()
+                return
+            }
             // Refused only because the previous engine's session hasn't been released yet — wait it out
             // once instead of failing the channel or handing it back to mpv (see [noteSessionLimit]).
             if (tune.sessionLimitSeen && !tune.sessionLimitRetryDone) { retryAfterSessionRelease(); return }
@@ -1103,6 +1119,18 @@ class LivePreviewEngine(
             // The endpoint we were given is the wrong shape for this channel — try its sibling before
             // conceding (see [retryAlternateFormat]).
             if (!tune.altFormatRetryDone && isFormatFailure(error)) { retryAlternateFormat(); return }
+            // THE last rung: the panel's own address for this channel. Everything above has been spent,
+            // so the only alternative left is the error screen (see [retryDirectSource]).
+            if (shouldTryDirectSource(
+                    directSource = tunedDirectSource,
+                    currentUrl = currentUrl,
+                    alreadyTried = tune.directSourceRetryDone,
+                    httpStatus = httpStatusOf(error),
+                )
+            ) {
+                retryDirectSource()
+                return
+            }
             // Never opened → a stream ExoPlayer can't handle; the VM falls back to mpv on this ERROR.
             _state.value = State.ERROR
             _isPlaying.value = false
@@ -1195,6 +1223,13 @@ class LivePreviewEngine(
         httpHeaders: String? = null,
         /** Widevine/ClearKey licence details for this channel (#115); null for an unprotected stream. */
         drmConfig: String? = null,
+        /** The container this channel declares for itself (M3U `#KODIPROP:…manifest_type`), as
+         *  [tv.own.owntv.core.player.ManifestType.key]; null means "infer from the URL", which is what
+         *  every channel did before v43. */
+        manifestType: String? = null,
+        /** The panel's own URL for this channel (Xtream `direct_source`); a LAST-RESORT retry only,
+         *  never the URL tuned first — see [tv.own.owntv.core.database.entity.ChannelEntity.directSource]. */
+        directSource: String? = null,
     ) {
         LiveDiagnosticsLog.event("play() engine=$engineId url=${HttpClient.redactUrl(url)} muted=$muted")
         // THE reset. Everything a new channel must not inherit from the previous one lives in
@@ -1207,7 +1242,10 @@ class LivePreviewEngine(
         tunedUserAgent = userAgent; tunedPrerollSecs = prerollSecsOverride; tunedHttpHeaders = httpHeaders
         tunedLiveBufferOverride = liveBufferOverride
         tunedDrmConfig = drmConfig
+        tunedManifestType = manifestType
+        tunedDirectSource = directSource
         currentDrm = tv.own.owntv.core.drm.DrmConfig.decode(drmConfig)
+        currentManifestType = tv.own.owntv.core.player.ManifestType.decode(manifestType)
         currentHeaders = StreamHeaders.decode(httpHeaders)
         // A channel's own User-Agent is more specific than the playlist-wide one, so it wins (F16).
         val configuredUa = StreamHeaders.userAgentOf(currentHeaders) ?: userAgent?.takeIf { it.isNotBlank() }
@@ -1319,7 +1357,10 @@ class LivePreviewEngine(
         player?.run { removeListener(listener); release() }
         player = null
         videoRenderer = null
-        play(url, wasMuted, meta, ua, preroll, tunedLiveBufferOverride, headers, tunedDrmConfig)
+        play(
+            url, wasMuted, meta, ua, preroll, tunedLiveBufferOverride, headers, tunedDrmConfig,
+            tunedManifestType, tunedDirectSource,
+        )
     }
 
     /**
@@ -1393,6 +1434,8 @@ class LivePreviewEngine(
         val liveBufferOverride: LiveBuffer.Override?,
         val httpHeaders: String?,
         val drmConfig: String?,
+        val manifestType: String?,
+        val directSource: String?,
     )
     @Volatile private var backgroundRestore: LiveRestore? = null
 
@@ -1402,7 +1445,7 @@ class LivePreviewEngine(
         currentUrl?.let {
             backgroundRestore = LiveRestore(
                 it, muted, _currentMeta.value, tunedUserAgent, tunedPrerollSecs, tunedLiveBufferOverride,
-                tunedHttpHeaders, tunedDrmConfig,
+                tunedHttpHeaders, tunedDrmConfig, tunedManifestType, tunedDirectSource,
             )
         }
         stop()
@@ -1417,6 +1460,7 @@ class LivePreviewEngine(
         play(
             r.url, muted = r.muted, meta = r.meta, userAgent = r.userAgent, prerollSecsOverride = r.prerollSecs,
             liveBufferOverride = r.liveBufferOverride, httpHeaders = r.httpHeaders, drmConfig = r.drmConfig,
+            manifestType = r.manifestType, directSource = r.directSource,
         )
     }
 
@@ -1857,6 +1901,8 @@ class LivePreviewEngine(
         currentUrl = alt
         tune.forceHlsForCurrentLoad = false
         tune.responseWasHls = false
+        tune.forceDashForCurrentLoad = false
+        tune.responseWasDash = false
         _state.value = State.LOADING; _buffering.value = true
         _error.value = null; _errorInfo.value = null
         LiveDiagnosticsLog.event("stream didn't open — trying the ${alt.substringBefore('?').substringAfterLast('.')} form of this channel")
@@ -1918,6 +1964,75 @@ class LivePreviewEngine(
         _state.value = State.LOADING; _buffering.value = true
         _error.value = null; _errorInfo.value = null
         LiveDiagnosticsLog.event("redirected .ts response is HLS — retrying with HlsMediaSource")
+        mainHandler.post {
+            if (currentUrl != url) return@post
+            runCatching {
+                reprepare(p, url)
+            }.onFailure {
+                _state.value = State.ERROR
+                _buffering.value = false
+                val raw = it.message.orEmpty()
+                _error.value = PlayerErrors.visibleFailure(raw, url, PlaybackFailure.Channel)
+                _errorInfo.value = ErrorInfo(PlayerErrors.reasonFor(raw), exoSpec(), it.message)
+            }
+        }
+    }
+
+    /**
+     * The last rung: re-open this channel at the panel's own `direct_source` address.
+     *
+     * Unlike every other rung this changes the URL, so the container lessons learned about the old one
+     * are cleared — the new address may well be a different shape, and carrying `forceHls` across would
+     * route it on evidence that no longer applies. Exactly what [retryAlternateFormat] does, and for
+     * the same reason.
+     */
+    private fun retryDirectSource() {
+        val p = player ?: return
+        val previous = currentUrl ?: return
+        val target = tunedDirectSource?.trim()?.takeIf { it.isNotEmpty() } ?: return
+        tune.directSourceRetryDone = true
+        currentUrl = target
+        tune.forceHlsForCurrentLoad = false
+        tune.responseWasHls = false
+        tune.forceDashForCurrentLoad = false
+        tune.responseWasDash = false
+        _state.value = State.LOADING; _buffering.value = true
+        _error.value = null; _errorInfo.value = null
+        LiveDiagnosticsLog.event("every rung spent — retrying at the panel's direct_source address")
+        android.util.Log.w(LiveDiagnosticsLog.TAG, "trying direct_source: ${HttpClient.redactUrl(target)}")
+        mainHandler.post {
+            if (currentUrl != target) return@post
+            runCatching {
+                reprepare(p, target)
+            }.onFailure {
+                _state.value = State.ERROR
+                _buffering.value = false
+                val raw = it.message.orEmpty()
+                _error.value = PlayerErrors.visibleFailure(raw, previous, PlaybackFailure.Channel)
+                _errorInfo.value = ErrorInfo(PlayerErrors.reasonFor(raw), exoSpec(), it.message)
+            }
+        }
+    }
+
+    /**
+     * The DASH twin of [retryRedirectedStreamAsHls]: the response was an MPD but the load was opened
+     * with the progressive extractor, which cannot parse XML. Re-open the SAME URL as DASH.
+     *
+     * This rung is what closes the gap the declaration cannot reach. An M3U entry can say
+     * `manifest_type=mpd` and be routed correctly on the first attempt; a Stalker `cmd` and an Xtream
+     * live URL carry no declaration at all and never can, so for those this is the only route to DASH
+     * that exists.
+     */
+    private fun retryRedirectedStreamAsDash() {
+        val p = player ?: return
+        val url = currentUrl ?: return
+        tune.redirectedDashRetryDone = true
+        tune.forceDashForCurrentLoad = true
+        // Panel-wide lesson, not a per-channel one — same reasoning as the HLS rung above.
+        LiveStreamQuirks.rememberDashRedirect(url)
+        _state.value = State.LOADING; _buffering.value = true
+        _error.value = null; _errorInfo.value = null
+        LiveDiagnosticsLog.event("response is a DASH manifest — retrying with DashMediaSource")
         mainHandler.post {
             if (currentUrl != url) return@post
             runCatching {
@@ -2263,6 +2378,13 @@ class LivePreviewEngine(
                         if (!request.url.toString().substringBefore('?').endsWith(".m3u8", ignoreCase = true)) {
                             LiveStreamQuirks.rememberHlsRedirect(request.url.toString())
                         }
+                    } else if (isDashResponse(finalUrl, response.header("Content-Type"))) {
+                        tune.responseWasDash = true
+                        // Panel-wide, exactly as for HLS: every other channel here starts as DASH
+                        // instead of repeating this failure and its retry.
+                        if (!request.url.toString().substringBefore('?').endsWith(".mpd", ignoreCase = true)) {
+                            LiveStreamQuirks.rememberDashRedirect(request.url.toString())
+                        }
                     }
                     // A failed body is peeked even with diagnostics off — it carries the one sentence the
                     // error screen can actually show the user ("Channel limit has been reached…"), and a
@@ -2503,21 +2625,37 @@ class LivePreviewEngine(
             currentDrm?.let { setDrmConfiguration(it.toMediaDrmConfiguration(multiSession = true)) }
         }.build()
         val uri = item.localConfiguration?.uri ?: run {
-            activeIsHls = false
+            activeRoute = StreamRoute.PROGRESSIVE
             return cachedDefaultFactory!!.createMediaSource(item)
         }
         // A panel already caught redirecting `.ts` → manifest goes straight to the HLS factory: without
         // this every channel on it repeats the container-unsupported failure + retry before recovering.
         val knownHlsHost = LiveStreamQuirks.isKnownHlsHost(url)
-        val isHls = tune.forceHlsForCurrentLoad || knownHlsHost || Util.inferContentType(uri) == C.CONTENT_TYPE_HLS
-        activeIsHls = isHls
+        val knownDashHost = LiveStreamQuirks.isKnownDashHost(url)
+        val route = routeFor(
+            declared = currentManifestType,
+            forceHls = tune.forceHlsForCurrentLoad,
+            forceDash = tune.forceDashForCurrentLoad,
+            knownHlsHost = knownHlsHost,
+            knownDashHost = knownDashHost,
+            inferredHls = Util.inferContentType(uri) == C.CONTENT_TYPE_HLS,
+        )
+        activeRoute = route
         LiveDiagnosticsLog.event(
-            "media_source inferred=${if (isHls) "hls" else "progressive"} knownHlsHost=$knownHlsHost " +
+            "media_source inferred=${route.logName} declared=${currentManifestType?.key ?: "-"} " +
+                "knownHlsHost=$knownHlsHost knownDashHost=$knownDashHost " +
                 "targetOffsetSec=${targetOffsetSecs ?: -1} " +
                 "url=${HttpClient.redactUrl(url)}",
         )
-        return if (isHls) cachedHlsCcFactory!!.createMediaSource(item)
-        else cachedDefaultFactory!!.createMediaSource(item)
+        return when (route) {
+            StreamRoute.HLS -> cachedHlsCcFactory!!.createMediaSource(item)
+            // DASH has no bespoke factory: DefaultMediaSourceFactory builds a DashMediaSource itself
+            // once the item names the MPD mime type, and takes the DRM configuration set above with it.
+            StreamRoute.DASH -> cachedDefaultFactory!!.createMediaSource(
+                item.buildUpon().setMimeType(androidx.media3.common.MimeTypes.APPLICATION_MPD).build(),
+            )
+            StreamRoute.PROGRESSIVE -> cachedDefaultFactory!!.createMediaSource(item)
+        }
     }
 
     private fun build(): ExoPlayer {
@@ -2642,10 +2780,98 @@ class LivePreviewEngine(
         internal fun hlsHttpReconnectDelayMs(attempt: Int): Long =
             reconnectDelayMs(attempt).coerceAtMost(HLS_HTTP_RECONNECT_MAX_MS)
 
+        /**
+         * Which media source opens this load — the one decision, made in one place, from everything
+         * known about the stream.
+         *
+         * Precedence, most specific evidence first:
+         *
+         *  1. **[forceHls] / [forceDash]** — a discovery made by *this very load* failing. These
+         *     outrank everything, including a declaration, because they are the only inputs backed by
+         *     an observed failure of the alternative. They are mutually exclusive in practice: each is
+         *     set by its own one-shot rung, and the rung that sets one clears the other's evidence.
+         *  2. **[declared]** — what the playlist said about this channel. More specific than anything
+         *     inferred, and more specific than a lesson learned from a *different* channel on the same
+         *     panel. `ism` deliberately falls through: `media3-exoplayer-smoothstreaming` is not a
+         *     dependency, so routing it anywhere would only swap one failure for another.
+         *  3. **[knownDashHost] / [knownHlsHost]** — a panel-wide lesson from some other channel here.
+         *     DASH is tested first: a panel caught serving MPDs is the more specific finding, since the
+         *     HLS lesson is also set by any plain `.m3u8` URL on the same host.
+         *  4. **[inferredHls]** — Media3's own guess from the URL's extension.
+         *
+         * Everything else is progressive, which is the raw-MPEG-TS path the majority of Xtream live
+         * runs on and the behaviour every channel had before v43.
+         */
+        internal fun routeFor(
+            declared: tv.own.owntv.core.player.ManifestType?,
+            forceHls: Boolean,
+            forceDash: Boolean,
+            knownHlsHost: Boolean,
+            knownDashHost: Boolean,
+            inferredHls: Boolean,
+        ): StreamRoute = when {
+            forceHls -> StreamRoute.HLS
+            forceDash -> StreamRoute.DASH
+            declared == tv.own.owntv.core.player.ManifestType.MPD -> StreamRoute.DASH
+            declared == tv.own.owntv.core.player.ManifestType.HLS -> StreamRoute.HLS
+            knownDashHost -> StreamRoute.DASH
+            knownHlsHost || inferredHls -> StreamRoute.HLS
+            else -> StreamRoute.PROGRESSIVE
+        }
+
         internal fun isHlsResponse(url: String, contentType: String?): Boolean {
             val type = contentType.orEmpty().substringBefore(';').trim().lowercase()
             return type == "application/x-mpegurl" || type == "application/vnd.apple.mpegurl" ||
                 url.substringBefore('?').endsWith(".m3u8", ignoreCase = true)
+        }
+
+        /**
+         * Whether the very last rung — the panel's own `direct_source` address — is worth one attempt.
+         *
+         * Deliberately conservative, because this field is the reason every other client ignores it:
+         * panels build it from the streaming server's configured domain and fall back to its raw IP, so
+         * a misconfigured panel or load balancer publishes an address reachable only inside their own
+         * network. It is therefore never tuned first and never replaces [ChannelEntity.streamUrl] —
+         * reached only here, once, after every other rung is spent, where the alternative is an error
+         * screen. Used that way it can only add channels, never take one away.
+         *
+         * [httpStatus] guards the same trap [isFormatFailure] documents: a panel answering 429
+         * "Channel limit has been reached" is refusing the *request*, not the address, and a different
+         * URL cannot answer it — chasing one would only burn seconds before the same error.
+         */
+        internal fun shouldTryDirectSource(
+            directSource: String?,
+            currentUrl: String?,
+            alreadyTried: Boolean,
+            httpStatus: Int?,
+        ): Boolean {
+            if (alreadyTried) return false
+            val candidate = directSource?.trim()?.takeIf { it.isNotEmpty() } ?: return false
+            if (candidate == currentUrl) return false
+            if (!candidate.startsWith("http://", ignoreCase = true) &&
+                !candidate.startsWith("https://", ignoreCase = true)
+            ) {
+                return false
+            }
+            if (httpStatus != null && LiveStreamQuirks.isRequestRefusal(httpStatus)) return false
+            return true
+        }
+
+        /**
+         * The DASH twin of [isHlsResponse], read off the response the request actually ended at.
+         *
+         * This is the only container signal available for a stream nothing declares — a Stalker portal
+         * hands back its own `cmd` and an Xtream live URL is one we build ourselves, so neither can
+         * carry a `manifest_type`. It is also what rescued the reported channel: the submitted URL was
+         * `…/live/mpd/173` with no extension, and the redirect landed on `…/render.mpd`.
+         *
+         * The path is tested before the query deliberately, the same way [isHlsResponse] does it: a
+         * signed manifest URL carries its token as a parameter after the extension.
+         */
+        internal fun isDashResponse(url: String, contentType: String?): Boolean {
+            val type = contentType.orEmpty().substringBefore(';').trim().lowercase()
+            return type == "application/dash+xml" || type == "video/vnd.mpeg.dash.mpd" ||
+                url.substringBefore('?').endsWith(".mpd", ignoreCase = true)
         }
 
         /** A segment URL a live playlist has already refused does not become valid by asking again at
@@ -2844,6 +3070,13 @@ internal data class TuneState(
     @field:Volatile var responseWasHls: Boolean = false,
     var forceHlsForCurrentLoad: Boolean = false,
     var redirectedHlsRetryDone: Boolean = false,
+    /** The top-level request ended at a DASH manifest even though nothing about the submitted URL said
+     *  so — the only signal available for a stream that declares no `manifest_type` (v43). */
+    @field:Volatile var responseWasDash: Boolean = false,
+    var forceDashForCurrentLoad: Boolean = false,
+    var redirectedDashRetryDone: Boolean = false,
+    /** The last rung — the panel's own address — has been spent for this tune (v43). */
+    var directSourceRetryDone: Boolean = false,
     /** The playlist shape is logged once per prepare (and again whenever we back off). */
     var playlistLogged: Boolean = false,
     /** This load was refused because the account's one session is still held (HTTP 458), and whether the
@@ -2880,3 +3113,23 @@ internal data class TuneState(
     @field:Volatile var playStartedMs: Long = 0L,
     @field:Volatile var firstFrameLogged: Boolean = false,
 )
+
+/**
+ * Which Media3 media source opens a live load, decided by [LivePreviewEngine.routeFor].
+ *
+ * Only three exist because only three are reachable: `media3-exoplayer-hls` and
+ * `media3-exoplayer-dash` are dependencies, and everything else falls to the progressive/extractor
+ * path that raw MPEG-TS live has always used. Adding a fourth means adding its Media3 module first.
+ */
+enum class StreamRoute(
+    /** How this route appears in the live diagnostics log. */
+    internal val logName: String,
+    /** How it appears in the stream-info overlay's Format row. A protocol name, not prose. */
+    internal val formatLabel: String,
+) {
+    HLS("hls", "HLS"),
+    DASH("dash", "DASH"),
+
+    /** The extractor path: raw MPEG-TS and everything else without a manifest. */
+    PROGRESSIVE("progressive", "MPEG-TS"),
+}

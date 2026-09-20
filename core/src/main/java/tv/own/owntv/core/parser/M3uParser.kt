@@ -33,6 +33,10 @@ data class M3uEntry(
     /** Widevine/ClearKey licence details from the entry's `#KODIPROP:inputstream.adaptive.license_*`
      *  lines (#115); null for the overwhelming majority of entries, which carry no DRM. */
     val drm: tv.own.owntv.core.drm.DrmConfig? = null,
+    /** The container the entry declares for itself via `#KODIPROP:…manifest_type` — see
+     *  [tv.own.owntv.core.player.ManifestType]. Independent of [drm]: an unprotected entry may declare
+     *  one too. Null when the entry says nothing, which is the overwhelming majority. */
+    val manifestType: tv.own.owntv.core.player.ManifestType? = null,
 ) {
     /** Tagged as series content — per-episode entries like "Show S01E05" grouped into shows. */
     val isSeries: Boolean get() = type == "series" || tvgType == "series"
@@ -70,9 +74,9 @@ class M3uParser {
         // Per-channel HTTP options arrive on their own lines BETWEEN the #EXTINF and the URL, so they
         // are collected separately and consumed by the URL line (F16).
         var pendingHeaders: MutableMap<String, String>? = null
-        // Same story for the DRM properties (#115): several `#KODIPROP` lines describe one entry's
-        // licence, and only the URL line knows the entry is complete.
-        var pendingDrm: MutableMap<String, String>? = null
+        // Same story for the `#KODIPROP` stream properties: several lines describe one entry's licence
+        // (#115) and its manifest type, and only the URL line knows the entry is complete.
+        var pendingKodiProps: MutableMap<String, String>? = null
         if (debug) Log.d(TAG, "parse start")
 
         input.bufferedReader().forEachLineSafe { raw ->
@@ -90,7 +94,7 @@ class M3uParser {
                 line.startsWith("#EXTINF") -> {
                     val attrs = parseAttrs(line)
                     pendingHeaders = null // a new entry starts; drop anything the previous one left
-                    pendingDrm = null
+                    pendingKodiProps = null
                     pending = PendingExtInf(
                         name = displayName(line, attrs),
                         logo = attrs.attr("tvg-logo"),
@@ -113,8 +117,8 @@ class M3uParser {
                         val map = pendingHeaders ?: LinkedHashMap<String, String>(4).also { pendingHeaders = it }
                         map.putAll(parsed)
                     }
-                    parseDrmDirective(line)?.let { (key, value) ->
-                        val map = pendingDrm ?: LinkedHashMap<String, String>(2).also { pendingDrm = it }
+                    parseKodiStreamProp(line)?.let { (key, value) ->
+                        val map = pendingKodiProps ?: LinkedHashMap<String, String>(3).also { pendingKodiProps = it }
                         map[key] = value
                     }
                 }
@@ -151,7 +155,10 @@ class M3uParser {
                                     catchupSource = p.catchupSource,
                                     catchupDays = p.catchupDays,
                                     headers = pendingHeaders ?: emptyMap(),
-                                    drm = pendingDrm?.let { tv.own.owntv.core.drm.DrmConfig.fromKodiProps(it) },
+                                    drm = pendingKodiProps?.let { tv.own.owntv.core.drm.DrmConfig.fromKodiProps(it) },
+                                    manifestType = pendingKodiProps?.let {
+                                        tv.own.owntv.core.player.ManifestType.fromKodiProps(it)
+                                    },
                                 ),
                             )
                         } finally {
@@ -162,7 +169,7 @@ class M3uParser {
                     }
                     pending = null
                     pendingHeaders = null
-                    pendingDrm = null
+                    pendingKodiProps = null
                 }
             }
 
@@ -320,21 +327,26 @@ class M3uParser {
     }
 
     /**
-     * The `license_type` / `license_key` half of a `#KODIPROP` line (#115), as a short key and its raw
-     * value; null for every other line, which is nearly all of them. Kept separate from
-     * [parseHttpDirective] because these describe the licence request, not the stream request, and
-     * because only [tv.own.owntv.core.drm.DrmConfig] decides whether the pair is usable.
+     * The `license_type` / `license_key` (#115) and `manifest_type` half of a `#KODIPROP` line, as a
+     * short key and its raw value; null for every other line, which is nearly all of them. Kept
+     * separate from [parseHttpDirective] because these describe the stream and its licence rather than
+     * the HTTP request, and because only [tv.own.owntv.core.drm.DrmConfig] /
+     * [tv.own.owntv.core.player.ManifestType] decide whether what they find is usable.
      *
      * The key is matched by suffix so both the `inputstream.adaptive.` and the older bare
      * `inputstream.` spellings work — playlists in the wild mix them.
      */
-    private fun parseDrmDirective(line: String): Pair<String, String>? {
+    private fun parseKodiStreamProp(line: String): Pair<String, String>? {
         if (!line.startsWith(KODIPROP)) return null
         val prop = line.substring(KODIPROP.length).trim()
         val eq = prop.indexOf('=')
         if (eq <= 0) return null
         val key = prop.substring(0, eq).trim().lowercase().substringAfterLast('.')
-        if (!tv.own.owntv.core.drm.DrmConfig.isDrmProp(key)) return null
+        if (!tv.own.owntv.core.drm.DrmConfig.isDrmProp(key) &&
+            !tv.own.owntv.core.player.ManifestType.isManifestProp(key)
+        ) {
+            return null
+        }
         val value = prop.substring(eq + 1).trim()
         return if (value.isEmpty()) null else key to value
     }

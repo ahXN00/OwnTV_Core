@@ -75,6 +75,9 @@ have numbers that can disagree.
 ### 🎬 Playback (`:player-core`)
 - **Dual engine** — libmpv (FFmpeg) for maximum codec compatibility, ExoPlayer (Media3) for
   near-instant Live TV, with an automatic fallback ladder between them
+- **HLS, MPEG-DASH and raw MPEG-TS**, chosen from what the playlist declares, what the response
+  actually is, and what the panel has already been caught doing — plus **Widevine / ClearKey** for
+  channels that publish a licence server (ExoPlayer only; mpv has no CDM)
 - **Watchdogs that assume the stream is hostile** — no-frame detection, stall recovery, surface
   resets, reconnect logic, and a live diagnostics log
 - Zero-copy **4K HDR** direct rendering, frame-rate matching, throughput tracking, resolution and

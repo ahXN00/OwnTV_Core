@@ -52,6 +52,8 @@ class RecordingEngine(
     /** Only to resolve a stored `filePath` into something writable — a document needs a resolver. */
     private val context: Context,
     private val recordingDao: RecordingDao,
+    /** Only to read the channel's declared DRM — see the refusal at the top of [attemptRecord]. */
+    private val channelDao: tv.own.owntv.core.database.dao.ChannelDao,
     private val client: OkHttpClient,
     private val sourceDao: SourceDao,
     private val streamUrlResolver: StreamUrlResolver,
@@ -204,10 +206,12 @@ class RecordingEngine(
                     android.util.Log.w(TAG, "recording attempt $attempt failed id=$id: ${e.message}")
                     RecordingFailure.NETWORK
                 }
-                // Two reasons are terminal, because reconnecting cannot change either answer: out of
-                // room would only fill the 500 MB it is protecting, and a scrambled channel will
-                // still be scrambled in three seconds.
-                if (reason == RecordingFailure.NO_SPACE || reason == RecordingFailure.ENCRYPTED) {
+                // Three reasons are terminal, because reconnecting cannot change any of the answers:
+                // out of room would only fill the 500 MB it is protecting, and a scrambled or
+                // DRM-protected channel will still be exactly that in three seconds.
+                if (reason == RecordingFailure.NO_SPACE || reason == RecordingFailure.ENCRYPTED ||
+                    reason == RecordingFailure.DRM_PROTECTED
+                ) {
                     failure = reason
                     break
                 }
@@ -235,6 +239,16 @@ class RecordingEngine(
         target: MediaTarget,
         onProgress: (RecordingProgress) -> Unit,
     ): RecordingFailure {
+        // #115 — a channel whose playlist declares a licence can never be written down: the CDM
+        // decrypts only into a secure decoder for immediate display, so there is no point at which
+        // these bytes exist in the clear for us to keep. Refused BEFORE the request, so it costs no
+        // connection at all — unlike the HLS `#EXT-X-KEY` refusal, which can only be found by asking.
+        // Read from the channel rather than the recording row so it follows a re-sync; a channel that
+        // has since vanished simply has nothing to declare and falls through to the usual failure.
+        if (channelDao.getById(row.channelId)?.drmConfig != null) {
+            android.util.Log.w(TAG, "recording refused, DRM-protected channel id=${row.id}")
+            return RecordingFailure.DRM_PROTECTED
+        }
         val (url, userAgent) = resolveTarget(row)
         val headers = StreamHeaders.decode(row.httpHeaders)
         val agent = StreamHeaders.userAgentOf(headers) ?: userAgent
