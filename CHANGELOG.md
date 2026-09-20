@@ -19,6 +19,47 @@ Core is versioned independently of the apps. A core version never lines up with 
 
 ---
 
+## core-1.0.53 — 2026-09-20
+
+Adds the settings and strings behind the TV app's second Movies & Series layout. **Strings**, **API**
+— no database or backup change, and no existing behaviour moves.
+
+### A layout choice for Movies & Series
+
+`SettingsRepository.VodLayout { SEPARATE, CINEMATIC }`, with `vodLayout: Flow<VodLayout>` and
+`setVodLayout()`, keyed `vod_layout`. It defaults to `SEPARATE` — the three-panel layout both apps
+draw today — so nothing changes for an existing install until the user picks otherwise. Modelled on
+the existing `vodViewMode`, and it rides with the settings backup alongside it.
+
+The TV app uses it to draw the focused title's TMDB backdrop behind the whole browse screen with a
+read-only detail block above a poster grid. Core carries only the preference and the text; the
+layout itself is the consuming app's.
+
+### The Cinematic detail block's height is its own setting, not a panel share
+
+`cinematicDetailsHeight(section)` / `setCinematicDetailsHeight(section, percent)`, per section, keyed
+`cinematic_details_movies` and `cinematic_details_series`, defaulting to
+`CINEMATIC_DETAILS_DEFAULT` (35) and capped at `CINEMATIC_DETAILS_MAX` (60).
+
+Deliberately **not** folded into `PanelShares`. Those three are one row's widths and must total 100;
+a height sharing that budget means a taller detail block can only be bought by narrowing the
+posters, and a stored 0 can never mean 0 because something has to be left for the other two. Both
+constants live in `PanelWidths.kt` next to `PanelWidthLimits`, so a consumer resolving the layout
+reads the same ceiling the repository clamps to. Backed up with the other panel numbers.
+
+### Strings
+
+Eleven new keys in `strings_settings.xml`, base plus every packaged locale that needs them: the
+layout row, its description and the chooser's subtitle; both options with a description each; the
+settings-search keywords; and `settings_panel_width_content_area`,
+`settings_panel_width_details_height` and `settings_panel_width_details_hint` for the panel-width
+screen, whose second and third sliders mean something different once Cinematic is on.
+
+`values-en-rGB` is deliberately untouched — it is a sparse override carrying only British spellings,
+and none of the eleven has one.
+
+---
+
 ## core-1.0.52 — 2026-09-20
 
 Three fixes, all reproduced on a real phone against a real television before being written.

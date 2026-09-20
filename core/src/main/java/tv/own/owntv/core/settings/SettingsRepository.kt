@@ -441,6 +441,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val LAST_LIVE_CHANNEL = androidx.datastore.preferences.core.longPreferencesKey("last_live_channel")
         val VOD_GRID_COLUMNS = intPreferencesKey("vod_grid_columns")
         val VOD_VIEW_MODE = stringPreferencesKey("vod_view_mode")
+        val VOD_LAYOUT = stringPreferencesKey("vod_layout")
         val GUIDE_VIEW = stringPreferencesKey("guide_view")
         val GUIDE_DENSITY_PCT = intPreferencesKey("guide_density_pct")
         val EPISODE_VIEW_MODE = stringPreferencesKey("episode_view_mode")
@@ -520,6 +521,11 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val PANEL_W_SERIES_CAT = intPreferencesKey("panel_w_series_cat")
         val PANEL_W_SERIES_LIST = intPreferencesKey("panel_w_series_list")
         val PANEL_W_SERIES_PREVIEW = intPreferencesKey("panel_w_series_preview")
+        // Cinematic only: how tall the detail block is, as a percentage of the screen. Deliberately
+        // NOT part of the three panel-width shares — those add up to 100 across one row, and a
+        // height has no business competing with two widths for the same budget.
+        val CINEMATIC_DETAILS_MOVIES = intPreferencesKey("cinematic_details_movies")
+        val CINEMATIC_DETAILS_SERIES = intPreferencesKey("cinematic_details_series")
         // Guide's two-column split (pinned channels · scrollable EPG timeline).
         val GUIDE_WIDTH_ON = booleanPreferencesKey("guide_width_on")
         val GUIDE_WIDTH_CHANNELS = intPreferencesKey("guide_width_channels")
@@ -1084,6 +1090,21 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     }
     suspend fun setVodViewMode(mode: VodViewMode) {
         context.dataStore.edit { it[Keys.VOD_VIEW_MODE] = mode.name }
+    }
+
+    /**
+     * How the Movies & Series screens are framed. SEPARATE is the long-standing three-panel layout
+     * (categories, list/grid, preview) and stays the default so nobody's layout changes on update.
+     * CINEMATIC draws the focused title's backdrop behind everything and is grid-only — [vodViewMode]
+     * is left untouched while it is on, so switching back restores the user's List choice.
+     * One setting for both sections: a layout preference is about how the user likes to browse.
+     */
+    enum class VodLayout { SEPARATE, CINEMATIC }
+    val vodLayout: Flow<VodLayout> = prefsFlow { prefs ->
+        prefs[Keys.VOD_LAYOUT]?.let { runCatching { VodLayout.valueOf(it) }.getOrNull() } ?: VodLayout.SEPARATE
+    }
+    suspend fun setVodLayout(layout: VodLayout) {
+        context.dataStore.edit { it[Keys.VOD_LAYOUT] = layout.name }
     }
 
     /**
@@ -1657,6 +1678,25 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             }
         }
     }
+
+    /**
+     * How tall the Cinematic detail block is, as a percentage of the screen height, per section.
+     *
+     * Its own value, independent of [panelShares]: those three are one row's widths and must total
+     * 100, while this is a height. Sharing that budget meant a taller detail block could only be
+     * bought by narrowing the posters, and a stored 0 could never mean 0.
+     *
+     * Live TV is never Cinematic and never reads this.
+     */
+    fun cinematicDetailsHeight(s: PanelSection): Flow<Int> =
+        prefsFlow { it[cinematicDetailsKey(s)]?.coerceIn(0, CINEMATIC_DETAILS_MAX) ?: CINEMATIC_DETAILS_DEFAULT }
+
+    suspend fun setCinematicDetailsHeight(s: PanelSection, percent: Int) {
+        context.dataStore.edit { it[cinematicDetailsKey(s)] = percent.coerceIn(0, CINEMATIC_DETAILS_MAX) }
+    }
+
+    private fun cinematicDetailsKey(s: PanelSection) =
+        if (s == PanelSection.MOVIES) Keys.CINEMATIC_DETAILS_MOVIES else Keys.CINEMATIC_DETAILS_SERIES
 
     // --- Guide column widths: toggle + two percentages that must total exactly 100 ---
     val guideWidthEnabled: Flow<Boolean> = prefsFlow { it[Keys.GUIDE_WIDTH_ON] ?: false }
@@ -2452,7 +2492,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         Keys.MAIN_FONT_FAMILY, Keys.POPUP_FONT_FAMILY,
         Keys.PREF_AUDIO_LANG, Keys.PREF_SUB_LANG, Keys.SUB_SEARCH_LANGS, Keys.SORT_LIVE, Keys.SORT_GUIDE, Keys.SORT_MOVIES,
         Keys.SORT_SERIES, Keys.RESUME_MODE, Keys.CATCHUP_TZ, Keys.CATCHUP_PLAYER, Keys.ANIMATION_LEVEL, Keys.VOD_VIEW_MODE, Keys.GUIDE_VIEW,
-        Keys.EPISODE_VIEW_MODE,
+        Keys.EPISODE_VIEW_MODE, Keys.VOD_LAYOUT,
         Keys.WEATHER_LOCATION, Keys.RECENT_SEARCHES,
         // Global proxy — non-secret fields only. The proxy password (Keys.PROXY_PASS) is NEVER part of
         // this whitelist; it is handled separately by BackupManager (encrypted or omitted).
@@ -2502,6 +2542,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         Keys.PANEL_W_LIVE_CAT, Keys.PANEL_W_LIVE_LIST, Keys.PANEL_W_LIVE_PREVIEW,
         Keys.PANEL_W_MOVIES_CAT, Keys.PANEL_W_MOVIES_LIST, Keys.PANEL_W_MOVIES_PREVIEW,
             Keys.PANEL_W_SERIES_CAT, Keys.PANEL_W_SERIES_LIST, Keys.PANEL_W_SERIES_PREVIEW,
+        Keys.CINEMATIC_DETAILS_MOVIES, Keys.CINEMATIC_DETAILS_SERIES,
         Keys.GUIDE_WIDTH_CHANNELS, Keys.GUIDE_WIDTH_EPG,
         Keys.POPUP_FONT_SIZE_PCT, Keys.POPUP_SIZE_PCT, Keys.VOD_GRID_COLUMNS, Keys.GUIDE_DENSITY_PCT,
         Keys.GESTURE_SENSITIVITY_PCT)
