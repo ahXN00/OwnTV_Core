@@ -1,7 +1,7 @@
 package tv.own.owntv.core.backup
 
+import tv.own.owntv.core.database.ownTVTestDatabase
 import androidx.datastore.preferences.core.edit
-import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.runBlocking
@@ -46,9 +46,7 @@ class UserDataResolverRelinkTest {
 
     @Before
     fun setUp() = runBlocking {
-        db = Room.inMemoryDatabaseBuilder(context, OwnTVDatabase::class.java)
-            .allowMainThreadQueries()
-            .build()
+        db = ownTVTestDatabase()
         resolver = UserDataResolver(
             context = context,
             channelDao = db.channelDao(),

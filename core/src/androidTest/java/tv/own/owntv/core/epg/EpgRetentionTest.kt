@@ -1,10 +1,9 @@
 package tv.own.owntv.core.epg
 
+import tv.own.owntv.core.database.ownTVTestDatabase
 import androidx.room.execSQL
 import androidx.room.useWriterConnection
-import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -37,10 +36,7 @@ class EpgRetentionTest {
 
     @Before
     fun setUp() {
-        db = Room.inMemoryDatabaseBuilder(
-            InstrumentationRegistry.getInstrumentation().targetContext,
-            OwnTVDatabase::class.java,
-        ).allowMainThreadQueries().build()
+        db = ownTVTestDatabase()
     }
 
     @After

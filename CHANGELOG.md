@@ -19,6 +19,63 @@ Core is versioned independently of the apps. A core version never lines up with 
 
 ---
 
+## core-1.0.51 — 2026-09-20
+
+Two fixes, both confirmed on real hardware. The first is urgent: since **core-1.0.48** every
+transaction in core failed the moment it was entered.
+
+### Every write transaction was dead under the bundled SQLite engine
+
+`core-1.0.48` configured a `SQLiteDriver` (`BundledSQLiteDriver`). Room's
+`androidx.room.withTransaction` extension is the *Support*-path one — its body is
+`beginTransaction()` / `setTransactionSuccessful()` / `endTransaction()`, and `beginTransaction()`
+goes through `RoomDatabase.openHelper`, which throws outright once a driver is set:
+
+```
+java.lang.IllegalStateException: Cannot return a SupportSQLiteOpenHelper since no
+SupportSQLiteOpenHelper.Factory was configured with Room.
+```
+
+All 13 call sites were affected across `EpgRepository`, `UserDataWriter`, `UserDataResolver` and
+`BackupManager` — so EPG sync (both XMLTV and the Stalker portal crawl) reported an error, and
+unfavouriting, "Remove from history", "Clear watch history", local sync relinking and backup restore
+all threw. In the apps most of those run in an unguarded `viewModelScope.launch`, so they crashed.
+
+Replaced with a core-owned `RoomDatabase.transaction` built on `useWriterConnection` +
+`immediateTransaction`. Every call site's body is unchanged, and `immediateTransaction` is the exact
+equivalent — with WAL on, the old path issued `BEGIN IMMEDIATE` too.
+
+**Nothing in the build could catch this.** Generated DAO code is driver-native and compiled fine
+either way; no unit test opens a database at all, and every instrumentation test built its database
+with `Room.inMemoryDatabaseBuilder` and *no* driver, leaving Room in compatibility mode where the
+Support path still works. Test databases now go through a shared `ownTVTestDatabase()` that
+configures `BundledSQLiteDriver`, so a test and production can no longer disagree about the engine.
+
+### Restoring a backup is no longer treated as a sync merge — **API**
+
+Restoring a backup onto a device the user had just cleared reinstated nothing and reported success.
+`BackupManager.import` was the only entry point for both jobs, so an explicit restore inherited the
+merge rule: a local deletion marker beats an older incoming record, which is correct for local sync
+and wrong for "my data is what this file says". It only showed on the *same* device — onto a fresh
+one there are no markers, so it looked perfect.
+
+`import` now takes an `ImportMode`:
+
+- **`RESTORE`** (the default, and what both apps' Backup screens and first-run setup already do)
+  drops this device's deletion markers for the profiles in the file before applying it. The file's
+  own deletions still apply — they are part of the snapshot — and no stale marker is left for the
+  next local sync to act on.
+- **`MERGE`** is exactly the previous behaviour, and local sync now asks for it explicitly. All three
+  directions (send, receive, merge) are unchanged.
+
+The reported item count was also wrong: a record refused by a newer deletion was dropped for good yet
+counted as restored. `UserDataResolver` now distinguishes applied, refused and still-pending records,
+and the count excludes refusals. Records that merely have no content row yet still count — they
+resolve after the next sync, which is what a first-run restore depends on.
+
+No database change, no backup-format change, no new strings. `ImportMode` defaults to `RESTORE`, so
+no consuming app needs to change.
+
 ## core-1.0.50 — 2026-09-19
 
 A diagnostic release: no behaviour changes, one new log line.

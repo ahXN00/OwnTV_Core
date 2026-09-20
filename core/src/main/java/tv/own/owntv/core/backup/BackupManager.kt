@@ -1,7 +1,6 @@
 package tv.own.owntv.core.backup
 
 import android.util.Log
-import androidx.room.withTransaction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
@@ -17,6 +16,7 @@ import tv.own.owntv.core.model.HlsSupport
 import tv.own.owntv.core.database.entity.ProfileEntity
 import tv.own.owntv.core.database.entity.ProfileSourceCrossRef
 import tv.own.owntv.core.database.entity.SourceEntity
+import tv.own.owntv.core.database.transaction
 import tv.own.owntv.core.model.SourceType
 import tv.own.owntv.core.stalker.StalkerClient
 import tv.own.owntv.core.settings.SettingsRepository
@@ -526,6 +526,21 @@ class BackupManager(
      * Outcome of a restore: how many rows/entries were applied, and how many `sources[]` entries were
      * left out because this build doesn't know their [SourceType] (B4 — see [sourceFrom]).
      */
+    /**
+     * Why a file is being applied. The two are not the same instruction and must not share one.
+     *
+     * [MERGE] reconciles two timelines: a deletion here beats an older record from there, which is
+     * what stops an unfavorited channel coming back on every sync. [RESTORE] is the user pointing at
+     * a file and saying "my data is what this says" — so a deletion made *after* that file was
+     * written is no longer true, and this device's markers for the profiles in the file are dropped
+     * before it is applied. The file's own deletions still apply: they are part of the snapshot.
+     *
+     * Getting this wrong is not loud. Restoring onto a *fresh* device works either way (no markers
+     * exist yet), so a merge-shaped restore looks perfect right up until someone restores onto the
+     * device they just cleared, and is told "N items restored" while nothing comes back.
+     */
+    enum class ImportMode { RESTORE, MERGE }
+
     data class ImportSummary(
         val items: Int,
         val skippedSources: Int = 0,
@@ -727,6 +742,7 @@ class BackupManager(
         file: File,
         sections: Set<Section> = Section.entries.toSet(),
         backupPassword: String? = null,
+        mode: ImportMode = ImportMode.RESTORE,
     ): Result<ImportSummary> = withContext(Dispatchers.IO) {
         runCatching {
             val (root, payload) = readBackup(file, backupPassword)
@@ -796,7 +812,7 @@ class BackupManager(
             // DataStore-backed sections below (settings, customizations, engine pins, logins) can't
             // join it, and neither can the user-data resolve, which is deliberately chunked (B3) so
             // a large restore doesn't hold one write transaction for its whole duration.
-            db.withTransaction {
+            db.transaction {
                 // --- profiles: match by NAME (case-insensitive) — ids are per-device counters and
                 // collide across devices, so they can't identify a person. Match → update in place;
                 // new name → insert (keeping the file id only when it's free).
@@ -987,7 +1003,7 @@ class BackupManager(
                         // One transaction for the cache invalidation: these two deletes per key are
                         // a pair — a half-done pass would leave a stale details row keyed to a match
                         // that's already gone, which reads back as the old title's artwork.
-                        db.withTransaction {
+                        db.transaction {
                             touched.forEach { k ->
                                 metadataDao.deleteMatch(k)
                                 metadataDao.deleteCache(k)
@@ -1032,13 +1048,21 @@ class BackupManager(
                     }
                     return filtered
                 }
+                // A restore drops this device's own deletion markers for the profiles in the file
+                // BEFORE anything is applied — otherwise they refuse the very rows being restored
+                // (UserDataResolver.Resolution.REFUSED) and the next local sync would delete them
+                // again. Only the profiles this file actually maps onto; nobody else's markers move.
+                // A merge must never do this — see [ImportMode].
+                if (mode == ImportMode.RESTORE) userData.clearDeletionsFor(profileIdMap.values)
                 // Deletions FIRST (v21): they remove any local row older than the deletion, and they
                 // are recorded here, so the very next step cannot re-insert what this one removed.
                 root.optJSONArray("tombstones")?.let { userData.applyTombstones(remapUserData(it)) }
                 root.optJSONArray("userData")?.let { arr ->
                     val filtered = remapUserData(arr)
-                    userData.importAll(filtered)
-                    count += filtered.length()
+                    // Refused records were dropped for good, not queued — counting them is what let a
+                    // restore report "N items restored" having reinstated none of them.
+                    val refused = userData.importAll(filtered)
+                    count += (filtered.length() - refused).coerceAtLeast(0)
                 }
             }
 

@@ -1,11 +1,11 @@
 package tv.own.owntv.core.backup
 
-import androidx.room.withTransaction
 import tv.own.owntv.core.database.OwnTVDatabase
 import tv.own.owntv.core.database.dao.CustomCategoryDao
 import tv.own.owntv.core.database.dao.FavoriteDao
 import tv.own.owntv.core.database.dao.HistoryDao
 import tv.own.owntv.core.database.dao.ProgressDao
+import tv.own.owntv.core.database.transaction
 import tv.own.owntv.core.model.MediaType
 
 /**
@@ -32,19 +32,19 @@ class UserDataWriter(
 ) {
 
     /** Unfavorite one item. */
-    suspend fun removeFavorite(profileId: Long, type: MediaType, itemId: Long) = db.withTransaction {
+    suspend fun removeFavorite(profileId: Long, type: MediaType, itemId: Long) = db.transaction {
         userData.recordDeletion(profileId, "fav", type, itemId)
         favoriteDao.remove(profileId, type, itemId)
     }
 
     /** "Remove from history" for one item. */
-    suspend fun removeHistory(profileId: Long, type: MediaType, itemId: Long) = db.withTransaction {
+    suspend fun removeHistory(profileId: Long, type: MediaType, itemId: Long) = db.transaction {
         userData.recordDeletion(profileId, "his", type, itemId)
         historyDao.remove(profileId, type, itemId)
     }
 
     /** Forget one item's resume position. */
-    suspend fun clearProgress(profileId: Long, type: MediaType, itemId: Long) = db.withTransaction {
+    suspend fun clearProgress(profileId: Long, type: MediaType, itemId: Long) = db.transaction {
         userData.recordDeletion(profileId, "prog", type, itemId)
         progressDao.clear(profileId, type, itemId)
     }
@@ -53,7 +53,7 @@ class UserDataWriter(
      * "Remove from history" on a show: its own row, its episodes' rows, and their resume positions —
      * which is what the caller already did by hand, now with each deletion recorded.
      */
-    suspend fun removeSeriesHistory(profileId: Long, seriesId: Long) = db.withTransaction {
+    suspend fun removeSeriesHistory(profileId: Long, seriesId: Long) = db.transaction {
         userData.recordDeletion(profileId, "his", MediaType.SERIES, seriesId)
         historyDao.episodeIdsInHistory(profileId, seriesId).forEach {
             userData.recordDeletion(profileId, "his", MediaType.EPISODE, it)
@@ -73,7 +73,7 @@ class UserDataWriter(
         type: MediaType,
         contextKey: String,
         itemId: Long,
-    ) = db.withTransaction {
+    ) = db.transaction {
         userData.recordDeletion(profileId, "member", type, itemId, contextKey = contextKey)
         customCategoryDao.deleteItem(profileId, type, contextKey, itemId)
     }
@@ -86,7 +86,7 @@ class UserDataWriter(
      * That is the price of the deletion actually sticking on the user's other device, and it is a
      * once-in-a-while action taken from a settings screen, not something on a hot path.
      */
-    suspend fun clearHistory(profileId: Long, type: MediaType? = null) = db.withTransaction {
+    suspend fun clearHistory(profileId: Long, type: MediaType? = null) = db.transaction {
         val history = if (type == null) historyDao.getForProfile(profileId) else historyDao.getForProfileType(profileId, type)
         history.forEach { userData.recordDeletion(profileId, "his", it.mediaType, it.itemId) }
         // Which resume positions go with it: everything, or the type's own — where a series means its

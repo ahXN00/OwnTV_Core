@@ -1,7 +1,7 @@
 package tv.own.owntv.core.backup
 
+import tv.own.owntv.core.database.ownTVTestDatabase
 import androidx.datastore.preferences.core.edit
-import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.runBlocking
@@ -49,9 +49,7 @@ class UserDataTombstoneTest {
     // rejects the class with "Method setUp() should be void", and the whole suite never runs.
     @Before
     fun setUp(): Unit = runBlocking {
-        db = Room.inMemoryDatabaseBuilder(context, OwnTVDatabase::class.java)
-            .allowMainThreadQueries()
-            .build()
+        db = ownTVTestDatabase()
         resolver = UserDataResolver(
             context = context,
             channelDao = db.channelDao(),
@@ -116,6 +114,72 @@ class UserDataTombstoneTest {
         resolver.importAll(incomingFavorites(movieId, at = 100))
 
         assertEquals("a deleted favorite came back", 0, db.favoriteDao().getAllOnce().size)
+    }
+
+    /**
+     * A *restore* is not a merge, and this is the case that proves it.
+     *
+     * Same setup as the merge test above — the row was deleted here, and the incoming copy predates
+     * the deletion — but the user has explicitly asked for their own snapshot back. Clearing this
+     * device's markers first is what `BackupManager.ImportMode.RESTORE` does, and without it a
+     * restore onto a device the user has just cleared reinstates nothing while reporting success.
+     * That is exactly what happened on the owner's television on 2026-09-20.
+     */
+    @Test
+    fun aRestoreReinstatesWhatADeletionWouldHaveRefused() = runBlocking {
+        val movieId = insertMovie("m-1", "Blade Runner")
+        db.favoriteDao().add(FavoriteEntity(profileId = profileId, mediaType = MediaType.MOVIE, itemId = movieId, addedAt = 100))
+        writer.removeFavorite(profileId, MediaType.MOVIE, movieId)
+
+        resolver.clearDeletionsFor(listOf(profileId))
+        val refused = resolver.importAll(incomingFavorites(movieId, at = 100))
+
+        assertEquals("a restore refused a record", 0, refused)
+        assertEquals("the restore did not bring the favorite back", 1, db.favoriteDao().getAllOnce().size)
+    }
+
+    /**
+     * ...and the marker is gone for good, not merely ignored once. Left behind, the next local sync
+     * would delete the restored row a second time — so the restore has to outlive the sync after it.
+     */
+    @Test
+    fun aRestoreLeavesNoMarkerForTheNextSyncToActOn() = runBlocking {
+        val movieId = insertMovie("m-1", "Blade Runner")
+        db.favoriteDao().add(FavoriteEntity(profileId = profileId, mediaType = MediaType.MOVIE, itemId = movieId, addedAt = 100))
+        writer.removeFavorite(profileId, MediaType.MOVIE, movieId)
+        resolver.clearDeletionsFor(listOf(profileId))
+        resolver.importAll(incomingFavorites(movieId, at = 100))
+
+        assertEquals(0, resolver.exportTombstones(setOf("fav")).length())
+        // The same record arriving again from the other device must now be a no-op, not a deletion.
+        resolver.importAll(incomingFavorites(movieId, at = 100))
+        assertEquals(1, db.favoriteDao().getAllOnce().size)
+    }
+
+    /** A merge is untouched by the above: it still refuses, and now says so instead of staying mute. */
+    @Test
+    fun aMergeStillRefusesAndReportsTheCount() = runBlocking {
+        val movieId = insertMovie("m-1", "Blade Runner")
+        db.favoriteDao().add(FavoriteEntity(profileId = profileId, mediaType = MediaType.MOVIE, itemId = movieId, addedAt = 100))
+        writer.removeFavorite(profileId, MediaType.MOVIE, movieId)
+
+        val refused = resolver.importAll(incomingFavorites(movieId, at = 100))
+
+        assertEquals("the refusal was not reported", 1, refused)
+        assertEquals(0, db.favoriteDao().getAllOnce().size)
+    }
+
+    /** Only the profiles in the file: another person's deletions are not collateral. */
+    @Test
+    fun aRestoreLeavesOtherProfilesDeletionsAlone() = runBlocking {
+        val otherId = db.profileDao().insert(ProfileEntity(name = "Guest", avatarColor = 0x778899))
+        val movieId = insertMovie("m-1", "Blade Runner")
+        db.favoriteDao().add(FavoriteEntity(profileId = otherId, mediaType = MediaType.MOVIE, itemId = movieId, addedAt = 100))
+        writer.removeFavorite(otherId, MediaType.MOVIE, movieId)
+
+        resolver.clearDeletionsFor(listOf(profileId)) // restoring the OTHER profile's file
+
+        assertEquals(1, resolver.exportTombstones(setOf("fav")).length())
     }
 
     /** The opposite direction: favoriting it again afterwards is newer, and must survive a sync. */

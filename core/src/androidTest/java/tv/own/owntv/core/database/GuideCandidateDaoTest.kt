@@ -1,8 +1,6 @@
 package tv.own.owntv.core.database
 
-import androidx.room.Room
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -31,10 +29,7 @@ class GuideCandidateDaoTest {
 
     @Before
     fun setUp() {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-        db = Room.inMemoryDatabaseBuilder(context, OwnTVDatabase::class.java)
-            .allowMainThreadQueries()
-            .build()
+        db = ownTVTestDatabase()
         candidates = GuideCandidates(db.epgDao())
     }
 

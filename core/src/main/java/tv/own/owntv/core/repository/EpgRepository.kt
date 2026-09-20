@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.room.execSQL
 import androidx.room.immediateTransaction
 import androidx.room.useWriterConnection
-import androidx.room.withTransaction
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -22,6 +21,7 @@ import tv.own.owntv.core.epg.EpgMatcher
 import tv.own.owntv.core.database.entity.EpgProgrammeEntity
 import tv.own.owntv.core.database.entity.SourceEntity
 import tv.own.owntv.core.database.entity.computeContentHash
+import tv.own.owntv.core.database.transaction
 import tv.own.owntv.core.model.SourceType
 import tv.own.owntv.core.network.HttpClient
 import tv.own.owntv.core.parser.XmltvParser
@@ -357,7 +357,7 @@ class EpgRepository(
         suspend fun storeProgrammes(batch: List<EpgProgrammeEntity>) {
             if (batch.isEmpty()) return
             val startedAt = SystemClock.elapsedRealtime()
-            db.withTransaction {
+            db.transaction {
                 epgDao.upsertProgrammes(batch)
             }
             val batchMs = SystemClock.elapsedRealtime() - startedAt
@@ -584,7 +584,7 @@ class EpgRepository(
             // instead of sitting on "Connecting…" until it finishes.
             onProgress = { seenChannels, programmes -> onProgress(seenChannels, programmes) },
         ) { batch ->
-            db.withTransaction {
+            db.transaction {
                 epgDao.upsertProgrammes(
                     batch.map {
                         EpgProgrammeEntity(

@@ -6,7 +6,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import androidx.room.withTransaction
 import kotlinx.coroutines.flow.first
 import org.json.JSONArray
 import org.json.JSONObject
@@ -30,6 +29,7 @@ import tv.own.owntv.core.database.entity.CustomCategoryMemberEntity
 import tv.own.owntv.core.database.entity.FavoriteEntity
 import tv.own.owntv.core.database.entity.PlaybackProgressEntity
 import tv.own.owntv.core.database.entity.WatchHistoryEntity
+import tv.own.owntv.core.database.transaction
 import tv.own.owntv.core.model.MediaType
 
 /**
@@ -128,6 +128,14 @@ class UserDataResolver(
         if (tombstoneDao.count() > MAX_TOMBSTONES) tombstoneDao.prune(MAX_TOMBSTONES)
     }
 
+    /**
+     * Drops this device's deletion markers for [profileIds] — see [TombstoneDao.deleteForProfiles].
+     * A restore calls this before applying the file; a merge never does.
+     */
+    suspend fun clearDeletionsFor(profileIds: Collection<Long>) {
+        if (profileIds.isNotEmpty()) tombstoneDao.deleteForProfiles(profileIds.toList())
+    }
+
     /** The deletions to put in a sync payload, as records of the same shape [exportAll] produces. */
     suspend fun exportTombstones(kinds: Set<String>, profileIds: Set<Long>? = null): JSONArray {
         val out = JSONArray()
@@ -153,7 +161,7 @@ class UserDataResolver(
         var i = 0
         while (i < entries.length()) {
             val end = minOf(i + RESOLVE_CHUNK, entries.length())
-            db.withTransaction {
+            db.transaction {
                 for (j in i until end) {
                     val e = entries.getJSONObject(j)
                     if (runCatching { applyTombstone(e) }.getOrDefault(false)) applied++
@@ -298,7 +306,7 @@ class UserDataResolver(
      * next successful sync.
      */
     suspend fun relinkAfterSync(snapshot: JSONArray, purge: Boolean = true) {
-        val unresolved = resolveAllChunked(snapshot)
+        val (unresolved, _) = resolveAllChunked(snapshot)
         // Purge is strictly snapshot-scoped: only rows this snapshot captured (by their old ids) may
         // be dropped, and only when their content row is genuinely gone. An EMPTY snapshot must never
         // purge — the old fallback ran a GLOBAL orphan purge across ALL sources, which could delete
@@ -314,7 +322,7 @@ class UserDataResolver(
     private fun JSONArray.hasSourceSnapshotIds(): Boolean =
         length() > 0 && (0 until length()).all { getJSONObject(it).has("oid") }
 
-    private suspend fun purgeSnapshotOrphans(snapshot: JSONArray) = db.withTransaction {
+    private suspend fun purgeSnapshotOrphans(snapshot: JSONArray) = db.transaction {
         for (i in 0 until snapshot.length()) {
             val e = snapshot.getJSONObject(i)
             val type = runCatching { MediaType.valueOf(e.getString("t")) }.getOrNull() ?: continue
@@ -346,10 +354,13 @@ class UserDataResolver(
     }
 
     /** Merge-restore (backup): appends the backup's records to the pending set (deduplicated) and
-     *  tries resolving — never drops records already pending for profiles not in the backup. */
-    suspend fun importAll(entries: JSONArray?) {
+     *  tries resolving — never drops records already pending for profiles not in the backup.
+     *
+     *  Returns how many records a newer local deletion refused. Those are dropped for good rather
+     *  than left pending, so the caller must not count them as restored — see [BackupManager]. */
+    suspend fun importAll(entries: JSONArray?): Int {
         if (entries != null && entries.length() > 0) addPending(entries)
-        resolvePending()
+        return resolvePending()
     }
 
     /**
@@ -357,15 +368,16 @@ class UserDataResolver(
      * sync and after a show's episodes load; resolved records are inserted (idempotently — the user
      * data tables have unique (profile, type, item) indices) and removed from the pending set.
      */
-    suspend fun resolvePending() {
-        val raw = context.pendingStore.data.first()[PENDING_KEY] ?: return
-        val entries = runCatching { JSONArray(raw) }.getOrNull() ?: return
-        if (entries.length() == 0) return
+    suspend fun resolvePending(): Int {
+        val raw = context.pendingStore.data.first()[PENDING_KEY] ?: return 0
+        val entries = runCatching { JSONArray(raw) }.getOrNull() ?: return 0
+        if (entries.length() == 0) return 0
 
-        val remaining = resolveAllChunked(entries)
+        val (remaining, refused) = resolveAllChunked(entries)
         context.pendingStore.edit { prefs ->
             if (remaining.length() == 0) prefs.remove(PENDING_KEY) else prefs[PENDING_KEY] = remaining.toString()
         }
+        return refused
     }
 
     /**
@@ -373,10 +385,14 @@ class UserDataResolver(
      * plus a single-row insert in its OWN write transaction (one fsync each) — a restore of
      * thousands of favorites/history rows became thousands of fsyncs. Per-record failures are
      * still caught individually (a bad record never aborts its chunk); chunking keeps any single
-     * transaction short so sync/UI writers aren't starved. Returns the records that didn't resolve.
+     * transaction short so sync/UI writers aren't starved. Returns the records that didn't resolve,
+     * and how many a newer local deletion refused.
      */
-    private suspend fun resolveAllChunked(entries: JSONArray): JSONArray {
+    private data class ResolveResult(val unresolved: JSONArray, val refused: Int)
+
+    private suspend fun resolveAllChunked(entries: JSONArray): ResolveResult {
         val unresolved = JSONArray()
+        var refused = 0
         // Asked once, not once per record: on a device that has never synced — and after every
         // ordinary playlist refresh, which relinks thousands of rows through here — the table is
         // empty, and an extra indexed lookup per record is a cost paid for nothing.
@@ -384,16 +400,19 @@ class UserDataResolver(
         var i = 0
         while (i < entries.length()) {
             val end = minOf(i + RESOLVE_CHUNK, entries.length())
-            db.withTransaction {
+            db.transaction {
                 for (j in i until end) {
                     val e = entries.getJSONObject(j)
-                    val ok = runCatching { resolveAndInsert(e, tombstonesPresent) }.getOrDefault(false)
-                    if (!ok) unresolved.put(e)
+                    when (runCatching { resolveAndInsert(e, tombstonesPresent) }.getOrDefault(Resolution.PENDING)) {
+                        Resolution.PENDING -> unresolved.put(e)
+                        Resolution.REFUSED -> refused++
+                        Resolution.HANDLED -> Unit
+                    }
                 }
             }
             i = end
         }
-        return unresolved
+        return ResolveResult(unresolved, refused)
     }
 
     // --- export side: content row → stable identity ---
@@ -478,9 +497,24 @@ class UserDataResolver(
         }
     }
 
-    private suspend fun resolveAndInsert(e: JSONObject, tombstonesPresent: Boolean): Boolean {
-        val type = runCatching { MediaType.valueOf(e.getString("t")) }.getOrNull() ?: return true // drop garbage
-        val itemId: Long = locate(type, e) ?: return false
+    /** What [resolveAndInsert] did with one record. */
+    private enum class Resolution {
+        /** Applied, or deliberately dropped. Either way it leaves the pending set. */
+        HANDLED,
+
+        /** A newer local deletion refused it. It leaves the pending set too, but it was NOT restored,
+         *  so it must not be counted as one — that miscount is what let a restore report success
+         *  while reinstating nothing. */
+        REFUSED,
+
+        /** Its content row isn't on this device yet; stays pending for the next sync to resolve. */
+        PENDING,
+    }
+
+    private suspend fun resolveAndInsert(e: JSONObject, tombstonesPresent: Boolean): Resolution {
+        val type = runCatching { MediaType.valueOf(e.getString("t")) }.getOrNull()
+            ?: return Resolution.HANDLED // drop garbage
+        val itemId: Long = locate(type, e) ?: return Resolution.PENDING
 
         // The record's own profile or nothing. This used to fall back to whichever profile happened to
         // be first, which is right for "the active profile was deleted, show me something" but wrong
@@ -490,14 +524,16 @@ class UserDataResolver(
         // down. Returns true ("handled") so such a record is dropped rather than retried for ever
         // against a profile that is never coming back.
         val pid = e.getLong("p")
-        if (pid < 0 || profileDao.getById(pid) == null) return true
+        if (pid < 0 || profileDao.getById(pid) == null) return Resolution.HANDLED
         val at = e.optLong("at", System.currentTimeMillis())
         // The other half of the merge rule: a record older than a deletion of the same row loses to
         // it. Without this, a merge sync hands back every favorite the user has ever removed, because
         // the far device's copy of the row is perfectly valid — it just predates the removal.
-        // Returns true ("handled") so the record is dropped rather than retried for ever.
+        // Dropped rather than retried for ever — but reported as REFUSED, because the caller must be
+        // able to tell "put back" from "deliberately not put back". A restore clears this device's
+        // markers first (see BackupManager.ImportMode.RESTORE), so there it refuses nothing.
         if (tombstonesPresent && tombstoneDao.deletedAt(pid, e.optString("kind"), canonicalIdentity(e))?.let { it >= at } == true) {
-            return true
+            return Resolution.REFUSED
         }
         return runCatching {
             when (e.getString("kind")) {
@@ -533,8 +569,8 @@ class UserDataResolver(
                     seasonsDescending = e.optBoolean("sdesc", false), episodesDescending = e.optBoolean("edesc", false),
                 )
             }
-            true
-        }.getOrDefault(false)
+            Resolution.HANDLED
+        }.getOrDefault(Resolution.PENDING)
     }
 
     private fun JSONObject.optStringOrNull(key: String): String? =

@@ -35,6 +35,19 @@ interface TombstoneDao {
     suspend fun count(): Int
 
     /**
+     * Forgets this device's deletions for [profileIds] — what a *restore* does before applying a
+     * file, and only a restore.
+     *
+     * A restore says "my data is what this file says", so a deletion made after the file was written
+     * is no longer true. Left in place these markers silently refuse the very rows the user asked to
+     * bring back ([deletedAt] gates the insert), the restore reports success anyway, and the next
+     * local sync would delete them a second time. A merge must NOT call this: there the deletion is a
+     * fact the other device still has to hear about.
+     */
+    @Query("DELETE FROM user_data_tombstones WHERE profileId IN (:profileIds)")
+    suspend fun deleteForProfiles(profileIds: List<Long>)
+
+    /**
      * Drops all but the [keep] newest. A tombstone is only useful until every device has seen it, and
      * "Clear watch history" on a big library writes one per row — without a cap the table would grow
      * for ever to remember deletions nothing will ever ask about again.

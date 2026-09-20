@@ -1356,6 +1356,7 @@
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SubtitleDao.kt	l.mediaType AS mediaType, c.language AS language, c.languageName AS languageName,
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/TombstoneDao.kt	(SELECT id FROM user_data_tombstones ORDER BY deletedAt DESC LIMIT :keep)
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/TombstoneDao.kt	DELETE FROM user_data_tombstones WHERE id NOT IN
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/TombstoneDao.kt	DELETE FROM user_data_tombstones WHERE profileId IN (:profileIds)
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/TombstoneDao.kt	INSERT INTO user_data_tombstones (profileId, kind, identity, deletedAt) VALUES (:profileId, :kind, :identity, :deletedAt)
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/TombstoneDao.kt	ON CONFLICT(profileId, kind, identity) DO UPDATE SET deletedAt = MAX(deletedAt, :deletedAt)
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/TombstoneDao.kt	SELECT * FROM user_data_tombstones

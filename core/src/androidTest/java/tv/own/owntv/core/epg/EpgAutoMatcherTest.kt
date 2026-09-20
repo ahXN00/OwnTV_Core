@@ -1,8 +1,7 @@
 package tv.own.owntv.core.epg
 
-import androidx.room.Room
+import tv.own.owntv.core.database.ownTVTestDatabase
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -32,10 +31,7 @@ class EpgAutoMatcherTest {
 
     @Before
     fun setUp() {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-        db = Room.inMemoryDatabaseBuilder(context, OwnTVDatabase::class.java)
-            .allowMainThreadQueries()
-            .build()
+        db = ownTVTestDatabase()
         matcher = EpgAutoMatcher(db.channelDao(), GuideCandidates(db.epgDao()))
     }
 

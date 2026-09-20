@@ -318,14 +318,21 @@ class LocalSyncManager(
         Result.failure(LocalSyncHttpException(HTTP_BAD_PAYLOAD))
     }
 
-    /** Applies a fetched file — the ordinary restore path, merging, with the chosen sections only. */
+    /**
+     * Applies a fetched file, with the chosen sections only.
+     *
+     * Explicitly a [BackupManager.ImportMode.MERGE] — this is the *other device's* data arriving, not
+     * the user restoring their own snapshot, so a deletion made here still beats an older record from
+     * there. Every direction lands on this one call: RECEIVE and MERGE run it locally, and SEND runs
+     * it on the far device, which reaches it the same way.
+     */
     suspend fun apply(
         file: File,
         sections: Set<BackupManager.Section>,
         password: String? = null,
     ): Result<BackupManager.ImportSummary> {
         _progress.value = SyncProgress.Applying
-        return backups.import(file, sections, password)
+        return backups.import(file, sections, password, BackupManager.ImportMode.MERGE)
             .onSuccess { _progress.value = SyncProgress.Done(received = it, sent = false) }
             .onFailure { _progress.value = SyncProgress.Failed(failureFor(it)) }
     }
