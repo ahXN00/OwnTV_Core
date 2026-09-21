@@ -19,6 +19,44 @@ Core is versioned independently of the apps. A core version never lines up with 
 
 ---
 
+## core-1.0.56 — 2026-09-21
+
+Fixes a crash that stops the app starting at all after upgrading a database that is still at
+**v40** — the version both apps shipped on `core-1.0.42`. No database, backup, API or string change:
+the schema and every migration's result are exactly as in `core-1.0.55`.
+
+### A migration opened its own transaction, and the app could never start again
+
+`MIGRATION_40_41` — the one that fills `epg_channels.normName` / `.normId` — wrapped each batch of
+its backfill in `BEGIN IMMEDIATE TRANSACTION` … `COMMIT TRANSACTION`. Room already runs the whole
+migration chain inside one transaction, so that is a nested `BEGIN`, and SQLite refuses it:
+
+```
+android.database.SQLException: Error code: 1, message: cannot start a transaction within a transaction
+```
+
+Room then aborts the upgrade and retries it on the next open, so the failure is permanent — the
+launcher icon opens a splash screen and the process dies, every time, with no way back short of
+clearing the app's data.
+
+**Why it shipped green.** Until `core-1.0.49` Room was driven through Android's own SQLite engine,
+and that engine's session layer *intercepts* a bare `BEGIN` / `COMMIT` / `ROLLBACK` and maps it onto
+its own transaction API — so the statement was a no-op and the backfill simply ran inside Room's
+transaction. `core-1.0.49` moved to `BundledSQLiteDriver`, which hands the statement to SQLite
+itself, which refuses it. `OwnTVDatabaseMigrationTest` kept building with `AndroidSQLiteDriver`,
+so the one test written to prove this exact upgrade was still being run on the engine that hides the
+bug.
+
+The manual transaction is gone; the batching that keeps the row buffer bounded stays. Nothing is
+lost by dropping it — an interrupted upgrade now rolls back rather than keeping whole batches, and
+either way a `NULL` there simply means "normalize this one on the fly". `OwnTVDatabaseMigrationTest`
+now opens with `BundledSQLiteDriver`, the engine production actually uses, so the same class of
+mistake fails the test instead of the phone.
+
+**Who this affects.** Anyone upgrading from a build pinned to `core-1.0.42` or earlier — OwnTV TV
+`v5.0.0` and OwnTV Mobile `v1.0.0` — straight to a build on `core-1.0.49`…`1.0.55`. A device whose
+database is already past v41 never runs this migration and was never affected.
+
 ## core-1.0.55 — 2026-09-21
 
 Records MPEG-DASH live channels instead of quietly writing rubbish, and gives films and episodes the

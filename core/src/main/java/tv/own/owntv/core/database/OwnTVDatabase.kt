@@ -1220,10 +1220,19 @@ abstract class OwnTVDatabase : RoomDatabase() {
         /**
          * Fill `epg_channels.normName` / `.normId` for rows written before v41.
          *
-         * Batched, and each batch is its own transaction, so an interrupted upgrade leaves a
-         * partially-filled table rather than a rolled-back one — which is harmless, because a NULL
-         * simply means "normalize this one on the fly". Rows that already have a value are skipped,
-         * so re-running costs nothing.
+         * Read in batches to keep the row buffer bounded, but **no transaction is opened here**:
+         * Room already runs the whole migration chain inside one. Opening another is what shipped
+         * a phone that could not start — `BEGIN IMMEDIATE TRANSACTION` inside an open transaction
+         * is `SQLITE_ERROR: cannot start a transaction within a transaction`, thrown on every
+         * launch because the failed migration is retried on every open. The framework engine hid
+         * it: Android's own `SQLiteSession` intercepts `BEGIN` / `COMMIT` / `ROLLBACK` and maps
+         * them onto its transaction API, so the same statement was a no-op there and an error
+         * under the bundled engine.
+         *
+         * Nothing is lost by dropping it. An interrupted upgrade now rolls the whole migration
+         * back rather than keeping whole batches, and that is harmless either way: a NULL simply
+         * means "normalize this one on the fly". Rows that already have a value are skipped, so
+         * re-running costs nothing.
          */
         private fun backfillNormalizedEpgChannels(db: SQLiteConnection) {
             var lastId = 0L
@@ -1246,37 +1255,26 @@ abstract class OwnTVDatabase : RoomDatabase() {
                     }
                 }
                 if (rows.isEmpty()) return
-                // The driver API has no beginTransaction/setTransactionSuccessful pair, so the
-                // transaction is spelled out in SQL. Same shape as before: commit on success,
-                // roll back on any throw, so an interrupted upgrade leaves whole batches behind
-                // rather than a half-written one.
-                db.execSQL("BEGIN IMMEDIATE TRANSACTION")
-                try {
-                    db.prepare(
-                        "UPDATE `epg_channels` SET `normName` = ?, `normId` = ? WHERE `id` = ?",
-                    ).use { statement ->
-                        for ((id, epgChannelId, displayName) in rows) {
-                            // One prepared statement re-bound per row, where the Support API
-                            // re-compiled the SQL on every execSQL. Same result, less work.
-                            statement.clearBindings()
-                            val normName = displayName?.let(tv.own.owntv.core.epg.EpgMatcher::normalizeForEpg)
-                            if (normName == null) statement.bindNull(1) else statement.bindText(1, normName)
-                            statement.bindText(2, tv.own.owntv.core.epg.EpgMatcher.normalizeForEpg(epgChannelId))
-                            statement.bindLong(3, id)
-                            statement.step()
-                            statement.reset()
-                        }
+                db.prepare(
+                    "UPDATE `epg_channels` SET `normName` = ?, `normId` = ? WHERE `id` = ?",
+                ).use { statement ->
+                    for ((id, epgChannelId, displayName) in rows) {
+                        // One prepared statement re-bound per row, where the Support API
+                        // re-compiled the SQL on every execSQL. Same result, less work.
+                        statement.clearBindings()
+                        val normName = displayName?.let(tv.own.owntv.core.epg.EpgMatcher::normalizeForEpg)
+                        if (normName == null) statement.bindNull(1) else statement.bindText(1, normName)
+                        statement.bindText(2, tv.own.owntv.core.epg.EpgMatcher.normalizeForEpg(epgChannelId))
+                        statement.bindLong(3, id)
+                        statement.step()
+                        statement.reset()
                     }
-                    db.execSQL("COMMIT TRANSACTION")
-                } catch (t: Throwable) {
-                    runCatching { db.execSQL("ROLLBACK TRANSACTION") }
-                    throw t
                 }
                 lastId = rows.last().first
             }
         }
 
-        /** Rows re-normalized per transaction during the v41 backfill. */
+        /** Rows read and re-normalized per batch during the v41 backfill. */
         private const val BACKFILL_BATCH = 500
 
         /**

@@ -522,8 +522,6 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `trending_snapshots` ADD COLUMN `lastAttemptAt` INTEGER NOT NULL DEFAULT 0
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `trending_snapshots` ADD COLUMN `lastAttemptStatus` TEXT NOT NULL DEFAULT 'NEVER'
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `trending_snapshots` ADD COLUMN `matchedItemCount` INTEGER NOT NULL DEFAULT 0
-1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	BEGIN IMMEDIATE TRANSACTION
-1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	COMMIT TRANSACTION
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_${table}_sourceId_titleSignature_parsedYear`
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_catalog_backfill_sourceId_mediaType_done`
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_catalog_backfill_sourceId` ON `catalog_backfill` (`sourceId`)
@@ -657,7 +655,6 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	PRIMARY KEY(`sourceId`),
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	PRIMARY KEY(`sourceId`, `mediaType`, `categoryRemoteId`),
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	PRIMARY KEY(`sourceId`, `position`),
-1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ROLLBACK TRANSACTION
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	SELECT 1 FROM sqlite_master WHERE type='table' AND name='$name'
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	SELECT COUNT(*) FROM sqlite_master WHERE name IN ($placeholders)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	SELECT `id`, `epgChannelId`, `displayName` FROM `epg_channels`

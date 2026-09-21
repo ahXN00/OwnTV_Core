@@ -3,8 +3,8 @@ package tv.own.owntv.core.database
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import androidx.sqlite.SQLiteConnection
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import androidx.sqlite.execSQL
-import androidx.sqlite.driver.AndroidSQLiteDriver
 import androidx.room.Room
 import androidx.room.useWriterConnection
 import androidx.sqlite.db.SimpleSQLiteQuery
@@ -576,9 +576,12 @@ class OwnTVDatabaseMigrationTest {
 
     private fun openWithAllMigrations() = Room.databaseBuilder(context, OwnTVDatabase::class.java, DB_NAME)
         .addMigrations(*OwnTVDatabase.ALL_MIGRATIONS)
-        // Mirrors databaseModule. Without it this test would exercise the Support path that
-        // production no longer uses, and would pass while the driver path was broken.
-        .setDriver(AndroidSQLiteDriver())
+        // Mirrors databaseModule — and it must be the SAME engine, not merely the driver API.
+        // Android's own engine intercepts a bare `BEGIN` / `COMMIT` and maps it onto its
+        // transaction API; the bundled one hands it to SQLite, which refuses a transaction inside
+        // a transaction. A migration issuing its own BEGIN therefore passed here and crashed every
+        // launch on a real phone, which is exactly the upgrade this file exists to prove.
+        .setDriver(BundledSQLiteDriver())
         .allowMainThreadQueries()
         .build()
 
@@ -834,7 +837,7 @@ class OwnTVDatabaseMigrationTest {
      */
     private fun openForAssertions(db: OwnTVDatabase): SQLiteConnection {
         runBlocking { db.useWriterConnection { } }
-        val connection = AndroidSQLiteDriver().open(context.getDatabasePath(DB_NAME).absolutePath)
+        val connection = BundledSQLiteDriver().open(context.getDatabasePath(DB_NAME).absolutePath)
         // Foreign keys are OFF by default on a bare SQLite connection; Room turns them on for its
         // own. Without this the cascade assertions silently pass their DELETE and then find the
         // child rows still present — which is how the port first failed, reporting a trending
