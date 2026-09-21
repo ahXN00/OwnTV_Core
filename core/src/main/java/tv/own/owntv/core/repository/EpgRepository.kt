@@ -560,7 +560,7 @@ class EpgRepository(
     ): Int {
         val startedAt = SystemClock.elapsedRealtime()
         val source = sourceDao.getById(portalSourceId)
-            ?: throw java.io.IOException("Portal guide source $portalSourceId no longer exists")
+            ?: throw PortalGuideSourceGoneException(portalSourceId)
         val now = System.currentTimeMillis()
         val from = now - WINDOW_BACK_MS
         val to = now + guideAheadMs()
@@ -634,7 +634,25 @@ class EpgRepository(
         return written
     }
 
-    class NoProgrammesInWindowException : java.io.IOException()
+    /**
+     * The feed downloaded and parsed in full, and carried no programme for the days we keep.
+     *
+     * A definitive answer, not a failure: the server did everything right, so repeating the request
+     * produces the same nothing. See [tv.own.owntv.core.sync.work.shouldRetryEpgSync].
+     *
+     * The message is a stable English comparison key, not user-facing wording — it is stored per
+     * source and classified for display by [tv.own.owntv.core.util.classifySyncFailure]. It used to
+     * have none at all, which left the EPG screen with nothing to show and the row reading "Not
+     * synced yet" as though the sync had never run.
+     */
+    class NoProgrammesInWindowException : java.io.IOException("Guide has no programmes in the guide window")
+
+    /**
+     * A portal guide whose playlist has since been deleted. Definitive for the same reason — the
+     * row it points at is gone, and waiting does not bring it back.
+     */
+    class PortalGuideSourceGoneException(portalSourceId: Long) :
+        java.io.IOException("Portal guide source $portalSourceId no longer exists")
 
     private suspend fun pruneRemovedProgrammes(sourceId: Long, tracker: ProgrammeHashTracker): Int {
         val startedAt = SystemClock.elapsedRealtime()

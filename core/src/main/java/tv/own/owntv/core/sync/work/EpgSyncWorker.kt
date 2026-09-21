@@ -95,7 +95,7 @@ class EpgSyncWorker(
             store.markError(source.id, rawMessage)
             // Transient network trouble → WorkManager retry with backoff instead of staying stale
             // until the next scheduled window. Permanent errors (bad URL, malformed XML) stay terminal.
-            return if ((e is java.io.IOException || isTransientSyncError(e.message, online)) && runAttemptCount < MAX_RETRY_ATTEMPTS) {
+            return if (shouldRetryEpgSync(e, online, runAttemptCount)) {
                 Log.w(TAG, "EPG sync failed transiently sourceId=${source.id} reason=$reason attempt=$runAttemptCount — will retry", e)
                 Result.retry()
             } else {
@@ -183,7 +183,6 @@ class EpgSyncWorker(
 
     companion object {
         const val TAG = "EpgSyncWorker"
-        private const val MAX_RETRY_ATTEMPTS = 3
         private const val PROGRESS_MIN_INTERVAL_MS = 750L
 
         /** The same cadence [tv.own.owntv.core.download.DownloadWorker] refreshes its own at. */
@@ -194,4 +193,31 @@ class EpgSyncWorker(
         const val KEY_PROGRESS_PROGRAMMES = "programmes"
         const val KEY_BASE_PROGRAMMES = "baseProgrammes"
     }
+}
+
+internal const val MAX_EPG_RETRY_ATTEMPTS = 3
+
+/**
+ * Whether a failed EPG sync is worth another attempt.
+ *
+ * Extracted so the classification can be tested without WorkManager — the same reason
+ * [shouldScheduleTrendingRefresh] is a function of its own.
+ *
+ * The retry test is "is this an IOException", which reads any of these as network trouble because
+ * that is what they are built on. They are not: in each one the server did everything asked of it
+ * and the answer was simply *nothing*. Repeating the request produces the same nothing, so what the
+ * user got was "Connecting…" through three backoffs before a failure that was certain from the
+ * first request. A definitive answer is reported once, and the source stays on the list to be tried
+ * again whenever the user — or the next scheduled refresh — wants to.
+ *
+ * Anything genuinely broken mid-flight (a dropped connection, a truncated download) still arrives
+ * as itself and is still retried.
+ */
+internal fun shouldRetryEpgSync(error: Throwable, online: Boolean, runAttemptCount: Int): Boolean {
+    val definitive = error is tv.own.owntv.core.stalker.StalkerEpgLoader.PortalHasNoGuideException ||
+        error is tv.own.owntv.core.repository.EpgRepository.NoProgrammesInWindowException ||
+        error is tv.own.owntv.core.repository.EpgRepository.PortalGuideSourceGoneException
+    if (definitive) return false
+    val transient = error is java.io.IOException || isTransientSyncError(error.message, online)
+    return transient && runAttemptCount < MAX_EPG_RETRY_ATTEMPTS
 }

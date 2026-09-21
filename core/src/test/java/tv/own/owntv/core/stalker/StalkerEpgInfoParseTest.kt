@@ -2,6 +2,7 @@ package tv.own.owntv.core.stalker
 
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -60,6 +61,12 @@ class StalkerEpgInfoParseTest {
     private class FakeClient(
         private val bulk: Map<Int, List<Pair<String, ShortEpgEntry>>?> = emptyMap(),
         private val perChannel: Map<String, List<ShortEpgEntry>> = emptyMap(),
+        /**
+         * What a channel missing from [perChannel] answers. Null throws, which is a portal refusing
+         * the channel; an empty list is a portal *accepting* it and having nothing to say — the
+         * `mag.marsweb.co` case, where all 11 539 channels answer `{"js":[]}`.
+         */
+        private val perChannelDefault: List<ShortEpgEntry>? = null,
         private val failure: () -> IOException = { IOException("unexpected end of stream on http://portal/") },
     ) : StalkerClient(okhttp3.OkHttpClient()) {
         var downloads = 0; private set
@@ -94,7 +101,9 @@ class StalkerEpgInfoParseTest {
             apiBase: String, mac: String, token: String, userAgent: String?, channelId: String, size: Int,
         ): List<ShortEpgEntry> {
             channelsAsked += channelId
-            return perChannel[channelId] ?: throw IOException("no guide for $channelId")
+            return perChannel[channelId]
+                ?: perChannelDefault
+                ?: throw IOException("no guide for $channelId")
         }
     }
 
@@ -195,6 +204,70 @@ class StalkerEpgInfoParseTest {
         )
         val outcome = crawl(client, channelIds = listOf("aa"))
         assertEquals(StalkerEpgLoader.Method.PER_CHANNEL, outcome.method)
+    }
+
+    // ---- a portal that simply has no guide ----
+
+    /**
+     * `mag.marsweb.co`, 2026-09-21: every period answers 200 with `{"js":{"data":[]}}` and every
+     * channel answers `{"js":[]}`. Nothing failed, so there is nothing to retry — the portal has
+     * given its final answer, and [StalkerEpgLoader.PortalHasNoGuideException] says so rather than
+     * leaving the caller to guess from a bare IOException.
+     */
+    @Test
+    fun crawl_reportsAPortalWithNothingToGiveAsAFinalAnswer() {
+        val client = FakeClient(bulk = mapOf(7 to emptyList(), 3 to emptyList(), 1 to emptyList()))
+        assertThrows(StalkerEpgLoader.PortalHasNoGuideException::class.java) { crawl(client) }
+    }
+
+    /**
+     * The opposite case, and the reason the two are distinguished: a broken connection IS worth
+     * retrying, so it must keep arriving as itself.
+     */
+    @Test
+    fun crawl_keepsARealNetworkFailureRetryable() {
+        val client = FakeClient(bulk = emptyMap())
+        val thrown = assertThrows(IOException::class.java) { crawl(client, channelIds = listOf("aa")) }
+        assertFalse(
+            "a connection failure must not be reported as 'this portal has no guide'",
+            thrown is StalkerEpgLoader.PortalHasNoGuideException,
+        )
+    }
+
+    /**
+     * A portal with no guide answers every channel with an empty list rather than an error, so the
+     * failure counter never trips and all [StalkerEpgLoader.MAX_PER_CHANNEL] requests used to be
+     * spent proving it — 13 207 requests at one provider in a single afternoon on the report this
+     * fixes. Once enough channels have produced nothing at all, stop asking.
+     */
+    @Test
+    fun crawl_stopsAskingOnceEnoughChannelsHaveAnsweredEmpty() {
+        val client = FakeClient(
+            bulk = mapOf(7 to emptyList(), 3 to emptyList(), 1 to emptyList()),
+            perChannelDefault = emptyList(),
+        )
+        val ids = (1..1_000).map { "ch$it" }
+        assertThrows(StalkerEpgLoader.PortalHasNoGuideException::class.java) { crawl(client, channelIds = ids) }
+
+        assertEquals(StalkerEpgLoader.PER_CHANNEL_GIVE_UP, client.channelsAsked.size)
+    }
+
+    /**
+     * …but only while nothing at all has come back. A real lineup is grouped by country, so a run of
+     * channels with no guide is ordinary and must not cut off the ones after it.
+     */
+    @Test
+    fun crawl_keepsAskingOnceAChannelHasProduced() {
+        val client = FakeClient(
+            bulk = mapOf(7 to emptyList(), 3 to emptyList(), 1 to emptyList()),
+            perChannel = mapOf("ch1" to listOf(entry("One", from + 10, from + 20))),
+            perChannelDefault = emptyList(),
+        )
+        val ids = (1..100).map { "ch$it" }
+        val outcome = crawl(client, channelIds = ids)
+
+        assertEquals(1, outcome.programmes)
+        assertEquals(ids.size, client.channelsAsked.size)
     }
 
     @Test

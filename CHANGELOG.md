@@ -19,6 +19,46 @@ Core is versioned independently of the apps. A core version never lines up with 
 
 ---
 
+## core-1.0.57 — 2026-09-21
+
+**Strings.** A guide source that answers and turns out to be empty now says so, once, in every
+packaged locale — instead of spinning for six minutes and then showing raw English or nothing at
+all. No database, backup or API change.
+
+### A guide that has nothing to give is a final answer, not a network failure
+
+Reported against a Stalker portal whose provider had stopped publishing EPG: Settings → EPG sat on
+**"Connecting…"** for about six minutes per press of Re-sync, then failed. Measured against the live
+portal, every guide route answers successfully and carries nothing — `get_epg_info` returns
+`{"js":{"data":[]}}` (18 bytes) for every period from 1 to 14, `get_short_epg` returns `{"js":[]}`
+for every channel sampled, and the panel's own `xmltv.php` answers HTTP 200 with a zero-byte body.
+The portal is otherwise healthy — 11 539 live channels, 65 536 films, 21 945 series, and the 426
+catch-up flags the Guide already shows.
+
+Three things were wrong, all of them ours:
+
+- **The failure was classified as transient.** "Portal returned no guide" is an `IOException`, and
+  `EpgSyncWorker` retried anything that was one — three more attempts with backoff, during which
+  WorkManager reports the job unfinished and the row reads "Connecting…". Nothing had failed, so
+  there was nothing to retry. The same held for a feed that downloaded and parsed in full but
+  carried no programme for the days kept, and for a portal guide whose playlist had since been
+  deleted. All three now have exception types of their own and are reported once.
+- **The per-channel fallback never gave up.** A portal with no guide *accepts* every channel and
+  answers with an empty list, so the failure counter never tripped and the full
+  `MAX_PER_CHANNEL` budget was spent proving it — **13 207 requests** at one provider in a single
+  afternoon, enough to get a MAC blocked. It now stops after 25 channels have produced nothing at
+  all, and only while nothing at all has come back, so a lineup with genuine gaps is never cut short.
+- **Neither case could be read.** "Portal returned no guide" fell through to the raw-message branch
+  and was shown as English in all 25 packaged locales; the empty-feed case had no message whatsoever,
+  so the row showed no error and still read "Not synced yet". Both now classify to a new
+  `FriendlySyncFailure.GuideEmpty` and share one translated sentence, `sync_error_guide_empty`,
+  which says the provider may not have published the guide yet and to try again later — the common
+  cause, and one that usually fixes itself.
+
+The entry stays on the EPG list either way. A guide that is merely late is the ordinary case, so
+removing the source on an empty answer would take away the user's only way to fetch it once the
+provider catches up.
+
 ## core-1.0.56 — 2026-09-21
 
 Fixes a crash that stops the app starting at all after upgrading a database that is still at

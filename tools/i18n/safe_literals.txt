@@ -2469,6 +2469,7 @@
 1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	EPG prune sourceId=$storeId ms=${SystemClock.elapsedRealtime() - pruneStartedAt}
 1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	EPG sync incomplete — keeping partial (written=$writtenCount accepted=$processedCount inserted=$inserted updated=$updated skipped=$skipped)
 29	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	EpgRepository
+1	protocol	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	Guide has no programmes in the guide window
 1	room-schema	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	INSERT OR IGNORE INTO `epg_keep_history` VALUES (?)
 1	protocol	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	Portal guide source $portalSourceId no longer exists
 2	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	Unable to analyze EPG tables
@@ -2880,11 +2881,12 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	xmltv_id
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	year
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	yyyy-MM-dd HH:mm:ss
-2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerEpgLoader.kt	Portal returned no guide
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerEpgLoader.kt	Portal returned no guide
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerEpgLoader.kt	Stalker source ${source.id} has no valid MAC
 1	log	core/src/main/java/tv/own/owntv/core/stalker/StalkerEpgLoader.kt	StalkerEpg
 1	log	core/src/main/java/tv/own/owntv/core/stalker/StalkerEpgLoader.kt	guide download attempt $attempt failed (${e.message}) — retrying
 1	log	core/src/main/java/tv/own/owntv/core/stalker/StalkerEpgLoader.kt	per-channel guide abandoned after $failures failures: ${e.message}
+1	log	core/src/main/java/tv/own/owntv/core/stalker/StalkerEpgLoader.kt	per-channel guide abandoned: $asked channels answered with nothing
 1	log	core/src/main/java/tv/own/owntv/core/stalker/StalkerEpgLoader.kt	portal guide sourceId=${source.id} bulk period=$period channels=${sink.channels} programmes=${sink.kept}
 1	log	core/src/main/java/tv/own/owntv/core/stalker/StalkerEpgLoader.kt	portal guide sourceId=${source.id} per-channel channels=${sink.channels} programmes=${sink.kept}
 1	log	core/src/main/java/tv/own/owntv/core/stalker/StalkerEpgLoader.kt	portal guide sourceId=${source.id} period=$period failed: ${e.message}
@@ -3606,6 +3608,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	ParserException
 1	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	Portal handshake
 1	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	Portal rejected
+1	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	Portal returned no guide
 1	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	PullParser
 1	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	SSLHandshake
 1	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	START_TAG
@@ -3614,6 +3617,7 @@
 2	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	Unable to resolve host
 2	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	UnknownHost
 1	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	XmlPull
+1	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	no programmes in the guide window
 1	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	no valid MAC
 1	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	playlist_file_unavailable
 1	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	playlist_path_unsupported

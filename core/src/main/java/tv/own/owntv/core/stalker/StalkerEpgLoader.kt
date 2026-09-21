@@ -43,6 +43,18 @@ class StalkerEpgLoader(
     /** How the guide was obtained, for the log and for deciding whether to try the bulk call again. */
     enum class Method { BULK, PER_CHANNEL }
 
+    /**
+     * Every route answered, and every one of them was empty. The portal is reachable and the account
+     * is fine — it simply has no guide to give, which is a *final* answer rather than a failure worth
+     * retrying. A portal whose guide is merely late says exactly this too, so the source stays on the
+     * list to be tried again another day; only the pointless retry ladder goes away.
+     *
+     * Distinct from a network failure on purpose: that one still arrives as itself and is still
+     * retried. The message is unchanged from the plain IOException this replaced, because it is
+     * already stored per source and classified for display.
+     */
+    class PortalHasNoGuideException : IOException(NO_GUIDE)
+
     data class Outcome(val method: Method, val periodDays: Int, val channels: Int, val programmes: Int)
 
     /**
@@ -90,10 +102,10 @@ class StalkerEpgLoader(
             }
         }
 
-        if (channelIds.isEmpty()) throw lastError ?: IOException("Portal returned no guide")
+        if (channelIds.isEmpty()) throw lastError ?: PortalHasNoGuideException()
         val programmes = perChannel(creds, mac, channelIds, sink)
         sink.flush()
-        if (programmes == 0) throw lastError ?: IOException("Portal returned no guide")
+        if (programmes == 0) throw lastError ?: PortalHasNoGuideException()
         Log.i(TAG, "portal guide sourceId=${source.id} per-channel channels=${sink.channels} programmes=${sink.kept}")
         return Outcome(Method.PER_CHANNEL, 0, sink.channels, sink.kept)
     }
@@ -142,6 +154,7 @@ class StalkerEpgLoader(
     ): Int {
         val before = sink.kept
         var failures = 0
+        var asked = 0
         channelIds.asSequence().distinct().take(MAX_PER_CHANNEL).forEach { channelId ->
             try {
                 val entries = auth.withAuthRetry(creds) { session ->
@@ -157,6 +170,16 @@ class StalkerEpgLoader(
                     Log.w(TAG, "per-channel guide abandoned after $failures failures: ${e.message}")
                     return sink.kept - before
                 }
+            }
+            // The quieter version of the same thing: a portal whose guide is empty ACCEPTS every
+            // channel and answers `{"js":[]}`, so nothing above ever throws and the full
+            // MAX_PER_CHANNEL budget used to be spent proving it — 13 207 requests at one provider
+            // on the report this fixes, enough to get a MAC blocked. Only while nothing at all has
+            // come back: a real lineup is grouped by country, so a long run of channels with no
+            // guide is ordinary and must not cut off the ones behind it.
+            if (++asked >= PER_CHANNEL_GIVE_UP && sink.kept == before) {
+                Log.w(TAG, "per-channel guide abandoned: $asked channels answered with nothing")
+                return sink.kept - before
             }
         }
         return sink.kept - before
@@ -227,8 +250,11 @@ class StalkerEpgLoader(
         /** Programmes asked of each channel in the fallback — a day or so on most portals. */
         const val PER_CHANNEL_SIZE = 20
 
-        /** Consecutive-ish failures after which the per-channel route is abandoned. */
-        private const val PER_CHANNEL_GIVE_UP = 25
+        /** Failures — or, since this fix, fruitless channels — after which the per-channel route is abandoned. */
+        const val PER_CHANNEL_GIVE_UP = 25
+
+        /** The stored, classified-for-display text of [PortalHasNoGuideException]. Unchanged wording. */
+        private const val NO_GUIDE = "Portal returned no guide"
 
         private const val CAUSE_CHAIN_LIMIT = 5
     }
