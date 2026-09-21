@@ -3124,12 +3124,13 @@ internal data class TuneState(
 enum class StreamRoute(
     /** How this route appears in the live diagnostics log. */
     internal val logName: String,
-    /** How it appears in the stream-info overlay's Format row. A protocol name, not prose. */
+    /** How it appears in the stream-info overlay's Format row. Taken from [StreamFormatLabels] so
+     *  live, VOD and mpv cannot drift into three wordings for one container. */
     internal val formatLabel: String,
 ) {
-    HLS("hls", "HLS"),
-    DASH("dash", "DASH"),
+    HLS("hls", StreamFormatLabels.HLS),
+    DASH("dash", StreamFormatLabels.DASH),
 
     /** The extractor path: raw MPEG-TS and everything else without a manifest. */
-    PROGRESSIVE("progressive", "MPEG-TS"),
+    PROGRESSIVE("progressive", StreamFormatLabels.MPEG_TS),
 }

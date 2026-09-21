@@ -1212,7 +1212,7 @@
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/RecordingDao.kt	SELECT * FROM recordings WHERE profileId = :profileId AND channelId = :channelId
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/RecordingDao.kt	SELECT * FROM recordings WHERE profileId = :profileId ORDER BY startMs DESC
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/RecordingDao.kt	SELECT * FROM recordings WHERE sourceId = :sourceId AND id != :excludeId
-1	sql	core/src/main/java/tv/own/owntv/core/database/dao/RecordingDao.kt	SELECT * FROM recordings WHERE status = 'RECORDING' ORDER BY startMs ASC
+2	sql	core/src/main/java/tv/own/owntv/core/database/dao/RecordingDao.kt	SELECT * FROM recordings WHERE status = 'RECORDING' ORDER BY startMs ASC
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/RecordingDao.kt	SELECT * FROM recordings WHERE status = 'SCHEDULED' ORDER BY startMs ASC
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/RecordingDao.kt	SELECT * FROM recordings WHERE status IN ('SCHEDULED', 'RECORDING')
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/RecordingDao.kt	SELECT COUNT(*) FROM recordings WHERE sourceId = :sourceId AND status = 'RECORDING'
@@ -2311,6 +2311,79 @@
 1	log	core/src/main/java/tv/own/owntv/core/profile/ProfileAvatarStore.kt	profile $profileId: unable to scale the chosen image
 1	log	core/src/main/java/tv/own/owntv/core/profile/ProfileAvatarStore.kt	profile $profileId: unable to write the picture
 1	technical	core/src/main/java/tv/own/owntv/core/profile/ProfileAvatarStore.kt	profile_$profileId.jpg
+2	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	\0
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	$it/$ref
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	%$format
+1	regex	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	-?P(?:(\\d+)Y)?(?:(\\d+)M)?(?:(\\d+)D)?(?:T(?:(\\d+)H)?(?:(\\d+)M)?(?:([\\d.]+)S)?)?
+2	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	/
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	://
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	<?xml
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	<MPD
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	<mpd
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	?>
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	AdaptationSet
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	Bandwidth
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	BaseURL
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	ContentProtection
+2	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	Initialization
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	MPD
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	Number
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	Period
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	Representation
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	RepresentationID
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	S
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	SegmentBase
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	SegmentList
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	SegmentTemplate
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	SegmentTimeline
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	SegmentURL
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	Time
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	ac-3
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	ac-4
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	alac
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	audio
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	av01
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	availabilityStartTime
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	avc
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	bandwidth
+2	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	codecs
+2	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	contentType
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	d
+1	mime	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	dash+xml
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	dts
+2	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	duration
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	dvh
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	dynamic
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	ec-3
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	flac
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	hev
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	hvc
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	id
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	initialization
+2	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	media
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	mediaPresentationDuration
+2	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	mimeType
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	minimumUpdatePeriod
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	mp4a
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	mp4v
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	opus
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	r
+2	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	sourceURL
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	startNumber
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	t
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	timeShiftBufferDepth
+2	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	timescale
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	type
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	video
+1	mime	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	vnd.mpeg.dash.mpd
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	vorbis
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	vp0
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	vp8
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashManifest.kt	vp9
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashRemux.kt	DashRemux
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashRemux.kt	audio/
+1	log	core/src/main/java/tv/own/owntv/core/recording/DashRemux.kt	mux failed into ${output.name}: ${e.message}
+1	technical	core/src/main/java/tv/own/owntv/core/recording/DashRemux.kt	video/
 1	empty	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	\0
 1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#
 1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#EXT-X-ENDLIST
@@ -2323,15 +2396,34 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	NONE
 1	mime	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	m3u
 1	mime	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	mpegurl
+1	technical	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	$TEMP_PREFIX$id$MUXED_SUFFIX
+1	technical	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	$TEMP_PREFIX$id-
+1	technical	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	$TEMP_PREFIX${row.id}-$index$TEMP_SUFFIX
+1	technical	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	${it.kind}:${it.id}
+1	technical	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	,
+1	technical	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	.mp4
+1	technical	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	.part
 1	protocol	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	Content-Type
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	RecordingEngine
 2	protocol	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	User-Agent
+1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	dash mux could not be stored id=$id: ${e.message}
+2	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	dash mux produced nothing id=$id
+1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	dash recording id=${row.id} tracks=${tracks.joinToString(",") { "${it.kind}:${it.id}" }} mux=$needsMux
+1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	dash recording muxed id=$id bytes=${muxed.length()}
+1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	dash recording muxed id=$id bytes=${scratch.length()}
+1	technical	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	owntv-dash-
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording attempt $attempt failed id=$id: ${e.message}
+1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording cannot schedule manifest id=${row.id} rep=${track.id}
+1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording lost its representation id=${row.id} rep=${track.id}
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording missed id=${row.id} reason=$failure
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording refused, DRM-protected channel id=${row.id}
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording refused, encrypted playlist id=${row.id}
-2	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording stopped, disk reserve reached id=${row.id}
+1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording refused, protected manifest id=${row.id}
+3	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording stopped, disk reserve reached id=${row.id}
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording target unavailable id=$id path=${row.filePath}
+1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recovering interrupted dash recording id=${row.id} parts=${temps.size}
+1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	segment failed id=${row.id} rep=${track.id}: ${error.message}
+1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	segment refused id=${row.id} rep=${track.id} n=${segment.number}
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	segment refused id=${row.id} seq=${segment.sequence}
 1	technical	core/src/main/java/tv/own/owntv/core/recording/RecordingNotifications.kt	$effectiveLocale:$name
 1	technical	core/src/main/java/tv/own/owntv/core/recording/RecordingNotifications.kt	owntv_recordings
@@ -2344,7 +2436,9 @@
 1	regex	core/src/main/java/tv/own/owntv/core/recording/RecordingRuleMatcher.kt	\\s*[-–—:]\\s*(?:episode|ep\\.?|part|pt\\.?)\\s*\\d+\\s*$
 1	regex	core/src/main/java/tv/own/owntv/core/recording/RecordingRuleMatcher.kt	\\s+
 1	file-path	core/src/main/java/tv/own/owntv/core/recording/RecordingRules.kt	$stem - $stamp.ts
+1	file-path	core/src/main/java/tv/own/owntv/core/recording/RecordingRules.kt	${name.substringBeforeLast('.', name)}$MUXED_EXTENSION
 1	file-path	core/src/main/java/tv/own/owntv/core/recording/RecordingRules.kt	-
+1	technical	core/src/main/java/tv/own/owntv/core/recording/RecordingRules.kt	.mp4
 1	file-path	core/src/main/java/tv/own/owntv/core/recording/RecordingRules.kt	recording
 1	technical	core/src/main/java/tv/own/owntv/core/recording/RecordingRules.kt	yyyy-MM-dd HH-mm
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingScheduler.kt	RecordingScheduler
@@ -3796,7 +3890,6 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	BUFFERING
 4	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	Content-Type
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	Cookie
-1	protocol	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	DASH
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	ENDED
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	EXO
 5	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	ExoPlayer
@@ -4505,6 +4598,31 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/ResolutionLabel.kt	480p
 1	technical	player-core/src/main/java/tv/own/owntv/player/ResolutionLabel.kt	4K
 1	technical	player-core/src/main/java/tv/own/owntv/player/ResolutionLabel.kt	720p
+1	empty	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	\0
+1	protocol	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	DASH
+1	protocol	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	HLS
+1	protocol	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	MKV
+1	protocol	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	MP4
+1	protocol	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	MPEG-TS
+1	technical	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	dash
+1	technical	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	hls
+1	technical	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	m2ts
+2	technical	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	m3u
+1	technical	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	m3u8
+1	technical	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	m4a
+2	technical	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	m4v
+1	mime	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	matroska
+2	technical	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	mkv
+2	technical	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	mov
+1	mime	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	mp2t
+2	technical	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	mp4
+2	technical	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	mpd
+1	technical	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	mpegts
+1	mime	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	mpegurl
+1	technical	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	mts
+1	mime	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	quicktime
+1	technical	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	ts
+2	technical	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	webm
 1	technical	player-core/src/main/java/tv/own/owntv/player/StreamInfo.kt	$width×$height
 1	technical	player-core/src/main/java/tv/own/owntv/player/StreamInfo.kt	5.1
 1	technical	player-core/src/main/java/tv/own/owntv/player/StreamInfo.kt	7.1

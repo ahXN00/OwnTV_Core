@@ -907,6 +907,7 @@ class ExoSubtitleEngine(
     fun streamInfo(): List<StreamInfoRow> {
         val p = player ?: return emptyList()
         val out = ArrayList<StreamInfoRow>()
+        formatRow(p)?.let { out += it }
         p.videoFormat?.let { f ->
             out += StreamInfoRow(
                 StreamInfoLabel.VIDEO,
@@ -945,6 +946,19 @@ class ExoSubtitleEngine(
             ),
         )
         return out
+    }
+
+    /** The Format row. Live ExoPlayer can state its route because it *chose* it; VOD hands the URL to
+     *  Media3 and has to read back what the extractor or manifest actually resolved. Null when nothing
+     *  identifies the container — an absent row beats a wrong one. */
+    private fun formatRow(p: ExoPlayer): StreamInfoRow? {
+        val cfg = p.currentMediaItem?.localConfiguration
+        val label = StreamFormatLabels.resolve(
+            containerMimeType = p.videoFormat?.containerMimeType ?: p.audioFormat?.containerMimeType,
+            requestedMimeType = cfg?.mimeType,
+            path = cfg?.uri?.path,
+        ) ?: return null
+        return StreamInfoRow(StreamInfoLabel.FORMAT, StreamInfoValue.Format(label))
     }
 
     private fun mimeName(m: String) = when (m.lowercase()) {

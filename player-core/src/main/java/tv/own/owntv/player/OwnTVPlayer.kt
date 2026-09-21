@@ -3662,11 +3662,10 @@ class OwnTVPlayer(
         val out = ArrayList<StreamInfoRow>()
         out += StreamInfoRow(StreamInfoLabel.ENGINE, StreamInfoValue.Engine(StreamEngine.MPV))
         (str("file-format") ?: str("demuxer"))?.lowercase()?.let { d ->
-            val fmt = when {
-                d.contains("hls") -> "HLS"
-                d.contains("mpegts") -> "MPEG-TS"
-                else -> d.uppercase()
-            }
+            // FFmpeg's own name for a film is `mov,mp4,m4a,3gp,3g2,mj2`, which is true but unreadable
+            // and disagrees with what ExoPlayer shows for the same file. Recognised containers go
+            // through the shared vocabulary; anything else keeps the raw name, which beats a gap.
+            val fmt = StreamFormatLabels.ofContainerName(d) ?: d.uppercase()
             out += StreamInfoRow(StreamInfoLabel.FORMAT, StreamInfoValue.Format(fmt))
         }
         // Video

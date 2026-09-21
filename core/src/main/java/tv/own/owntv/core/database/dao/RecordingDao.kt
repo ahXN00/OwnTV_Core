@@ -41,6 +41,16 @@ interface RecordingDao {
     fun observeRunning(): Flow<List<RecordingEntity>>
 
     /**
+     * The same rows, read once.
+     *
+     * After a crash or a battery death this is a **lie** — nothing is being written, the process that
+     * was doing it is gone — and it is how [tv.own.owntv.core.recording.RecordingEngine] finds a DASH
+     * recording whose two halves were captured but never put together.
+     */
+    @Query("SELECT * FROM recordings WHERE status = 'RECORDING' ORDER BY startMs ASC")
+    suspend fun running(): List<RecordingEntity>
+
+    /**
      * Everything still to come, soonest first — what the scheduler re-arms from, including after a
      * reboot. Deliberately across every profile: an alarm is a device-wide thing, and a recording
      * scheduled by one profile still has to fire when another is signed in.

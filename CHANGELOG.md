@@ -19,6 +19,109 @@ Core is versioned independently of the apps. A core version never lines up with 
 
 ---
 
+## core-1.0.55 — 2026-09-21
+
+Records MPEG-DASH live channels instead of quietly writing rubbish, and gives films and episodes the
+Format row they never had. **API** — no database, backup or string change, and nothing that records
+today changes behaviour.
+
+### An unprotected DASH channel is recorded, not looped into a reconnect storm
+
+`core-1.0.54` made these channels *play*. Recording one still fell through to the raw byte pump: the
+manifest fetched fine, `HlsMediaPlaylist.looksLikePlaylist` did not match XML, and a few kilobytes of
+MPD went into the recording file. `read()` then returned −1 — a manifest is a finite document — which
+the pump reads as a dropped live stream and reports as `NETWORK`. `NETWORK` is not terminal, so the
+engine waited, reconnected and **appended the same manifest again**, for the whole window. The
+result was a file of hundreds of concatenated XML manifests, a reconnect storm against the provider,
+one of the account's connections held the entire time, and a row that blamed the network. The same
+shape as the DRM bug fixed in `core-1.0.54`, from the same cause: a document reaching a pump that
+expects video.
+
+`RecordingEngine.attemptRecord` now asks `DashManifest.looksLikeDashManifest` as well, on the body
+and the content type both, and hands a manifest to the new `recordDash`.
+
+### The DASH recorder
+
+`DashManifest` reads what a recorder needs and ignores what it does not — `SegmentTemplate` with
+`$Number$` or a `SegmentTimeline`, `SegmentList`, `SegmentBase`, `BaseURL` stacking, `dynamic` versus
+`static`, `minimumUpdatePeriod`, `availabilityStartTime`, `timeShiftBufferDepth`, and
+`<ContentProtection>`. Parsed with `javax.xml.parsers` rather than `android.util.Xml`, so every rule
+in it is unit-tested without a device. Unknown elements are ignored, the stance `HlsMediaPlaylist`
+already takes.
+
+`DashRecordingPlan` holds the arithmetic: which Representations to record, which segments are due,
+and how long to wait. Three decisions in it are deliberate.
+
+- **The Representations are fixed at the start and never followed.** Highest bitrate wins, and a
+  quality that disappears mid-programme ends the recording with a reason rather than being replaced.
+  A resolution or codec change partway through is exactly what the mux cannot absorb.
+- **Segments are identified by number, never by URL** — the rule `recordHls` already follows, because
+  several providers sign each segment individually and a URL cached for one cycle is a 403 in the
+  next.
+- **A cycle is capped at 24 segments, and which end it takes from depends on the manifest.** A live
+  stream keeps the newest, so a recorder coming back from a stall rejoins the edge instead of falling
+  further behind; a static window — catch-up — keeps the oldest, because those are the opening
+  minutes of the programme.
+
+A live `$Number$` template with no `availabilityStartTime` has no zero point to count from and is
+refused rather than guessed at, which would request thousands of segments that were never published.
+
+### Two tracks, one file
+
+DASH normally keeps video and audio in separate Representations, so concatenation — all HLS ever
+needed — yields two half-files. `DashRemux` puts them back together with `MediaExtractor` and
+`MediaMuxer`: plain `android.media`, no FFmpeg, no new dependency, and nothing that reaches across
+into `:player-core`. Samples are copied untouched, interleaved by presentation time so the two stay
+in step.
+
+**A Representation that already carries both is written straight into the recording**, with no temp
+file and no mux at all — the same path HLS takes.
+
+**A muxed recording is named `.mp4`, and the row's `filePath` moves with it.** `RecordingRules`
+chooses `.ts` because a transport stream plays while it is being written and survives being cut off;
+the muxed file is neither, and a file manager, a media scanner and every external player go by the
+extension. `RecordingRules.muxedNameOf` is the single rule. Consuming apps need no change — they
+already read `filePath` from the row.
+
+### An interrupted recording is finished on the next run
+
+The mux runs once, at the end. `MediaMuxer` cannot append to an existing MP4, so remuxing
+periodically would mean redoing the whole recording each time — sixty passes over a two-hour
+programme. The temp files are the crash-proof part instead: each is a valid fragmented-MP4 stream,
+flushed a segment at a time. `recoverInterruptedDashRecordings` runs once per drain, before anything
+starts, and turns the ones left behind by a crash or a battery death into a playable recording. If
+the mux itself fails, the captured bytes are **kept** rather than deleted, and tried once more there.
+
+A recording whose window is still open when the app restarts is not resumed — it restarts, losing
+what it captured before the crash. Resuming would need certainty that this run picks the same
+Representations as the last one, and nothing on disk records what those were.
+
+New: `RecordingDao.running()`, a `@Query` only — **no schema change, no migration, v43 stands**.
+
+### Films and episodes finally show a Format row
+
+`ExoSubtitleEngine.streamInfo()` emitted Video, HDR, bitrate, Audio and buffer rows and **no Format
+row at all**, so the Stream info overlay had no Format line on VOD. Live knew its answer because it
+*chose* the container; VOD handed the URL to Media3 and never asked what it concluded.
+
+`StreamFormatLabels` is now the one vocabulary for all three engines — `HLS`, `DASH`, `MPEG-TS`,
+`MP4`, `MKV`. `StreamRoute.formatLabel` reads its three values from there, VOD derives its label from
+the container Media3 actually resolved, and **mpv was tidied to match**: it reported FFmpeg's raw
+demuxer name, so a film read `MOV,MP4,M4A,3GP,3G2,MJ2` and an MKV read `MATROSKA,WEBM`. The same film
+now reads `MP4` whichever engine is playing it. Anything still unrecognised keeps mpv's existing
+raw-name fallback rather than showing a blank row.
+
+`MP4` and `MKV` are deliberately **not** `StreamRoute` entries: they are containers, not routes, and
+there is no MKV route to tune.
+
+### Tests
+
+81 new tests in `:core` covering the manifest reader, the scheduling arithmetic, the routing decision
+and the failure modes, and 13 in `:player-core` for the label vocabulary — two of which pin that mpv
+and ExoPlayer produce the *same* string for an MP4 and for an MKV.
+
+---
+
 ## core-1.0.54 — 2026-09-21
 
 Plays DRM-protected and plain MPEG-DASH live channels, which previously failed before the first

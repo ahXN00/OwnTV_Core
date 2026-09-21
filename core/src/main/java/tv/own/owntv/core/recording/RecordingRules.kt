@@ -105,6 +105,16 @@ object RecordingRules {
     }
 
     /**
+     * What a **muxed** recording is called, given the name [fileName] chose.
+     *
+     * A DASH recording whose audio and video arrived separately comes out of the muxer as an MP4, so
+     * it must not keep the `.ts` name: `.ts` is chosen above because a transport stream is playable
+     * while it is still being written and survives being cut off, and neither is true of this file.
+     * A file manager, a media scanner and an external player all go by the extension.
+     */
+    fun muxedNameOf(name: String): String = "${name.substringBeforeLast('.', name)}$MUXED_EXTENSION"
+
+    /**
      * The sentence shown on a recording that failed or was missed, or null when there is nothing to
      * explain. Lives in core because both apps show the same list and a reason worded two ways is a
      * reason the user cannot compare.
@@ -122,6 +132,9 @@ object RecordingRules {
         RecordingFailure.METERED_CONNECTION -> res.getString(R.string.recording_failed_metered)
         RecordingFailure.UNKNOWN -> res.getString(R.string.recording_failed_unknown)
     }
+
+    /** What a muxed recording is, as opposed to the `.ts` a live recording normally gets. */
+    private const val MUXED_EXTENSION = ".mp4"
 
     private const val RETRY_BASE_MS = 3_000L
     private const val RETRY_MAX_MS = 30_000L
