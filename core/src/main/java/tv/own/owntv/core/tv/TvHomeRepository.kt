@@ -61,6 +61,7 @@ class TvHomeRepository(
     private val settings: SettingsRepository,
     private val launcherPlanner: LauncherRecommendationPlanner,
     private val localeStore: LocaleStore,
+    private val liveLogoPosterArt: LiveLogoPosterArt,
 ) {
     private val resolver: ContentResolver get() = context.contentResolver
     private val channelHelper = PreviewChannelHelper(context)
@@ -537,6 +538,7 @@ class TvHomeRepository(
     ) {
         val label = customizations.itemNames[CustomizeKeys.channel(channel)] ?: channel.name
         val art = safeLiveArtUri(channel.displayLogoUrl)
+        val fittedArt = art?.let { liveLogoPosterArt.fitInside(it, TvContractCompat.PreviewProgramColumns.ASPECT_RATIO_16_9) } ?: art
         val stableKey = launcherPlanner.liveStableKey(channel)
         val stableKeyString = launcherPlanner.liveStableKeyString(channel)
         val program = PreviewProgram.Builder()
@@ -547,7 +549,7 @@ class TvHomeRepository(
             .setInternalProviderId(platformInternalId(TvProviderSurface.RECENT_LIVE, profileId, MediaType.LIVE, stableKeyString))
             .setIntent(Intent(Intent.ACTION_VIEW, LauncherDeepLink.Live(channel.sourceId, channel.remoteId, channel.name).toUri()))
             .setWeight(RECENT_LIVE_MAX_ITEMS - index)
-            .apply { if (art != null) setPosterArtUri(art) }
+            .apply { if (fittedArt != null) setPosterArtUri(fittedArt) }
             .apply { if (art != null) setPosterArtAspectRatio(TvContractCompat.PreviewProgramColumns.ASPECT_RATIO_16_9) }
             .build()
         logD("persistRecentLive profile=$profileId channelId=$channelId index=$index label=$label row=${row.describe()}")
