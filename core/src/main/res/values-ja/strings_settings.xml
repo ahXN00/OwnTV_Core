@@ -94,13 +94,7 @@
     <string name="settings_remote_shortcuts_short_press">短押し</string>
     <string name="settings_remote_shortcuts_long_press">長押し</string>
     <string name="settings_remote_shortcuts_unknown_button">リモコンボタン %1$d</string>
-    <string name="settings_remote_shortcuts_help">• 標準ではCH+/CH−と巻き戻し/早送りで一覧を移動し、長押しで先頭または末尾へ移動します。
-• 短押しと長押しは別々に割り当てできます。
-• 非常に大きい「すべて」一覧では末尾への移動は無効です。
-• 戻るの長押しは常に再生中へフォーカスし、変更できません。
-• 通常は赤/緑/黄/青、数字、CH+/CH−、巻き戻し/早送りを割り当てできます。
-• 戻る、方向、OK、音量、ホーム、電源ボタンは保護されます。
-• 数字ショートカットは閲覧中に動作し、全画面ではチャンネル番号入力が優先されます。</string>
+    <string name="settings_remote_shortcuts_help">• 標準ではCH+/CH−と巻き戻し/早送りで一覧を移動し、長押しで先頭または末尾へ移動します。 • 短押しと長押しは別々に割り当てできます。 • 非常に大きい「すべて」一覧では末尾への移動は無効です。 • 戻るの長押しは常に再生中へフォーカスし、変更できません。 • 通常は赤/緑/黄/青、数字、CH+/CH−、巻き戻し/早送りを割り当てできます。 • 戻る、方向、OK、音量、ホーム、電源ボタンは保護されます。 • 数字ショートカットは閲覧中に動作し、全画面ではチャンネル番号入力が優先されます。</string>
     <string name="settings_remote_button_channel_up">チャンネル +</string>
     <string name="settings_remote_button_channel_down">チャンネル −</string>
     <string name="settings_remote_button_rewind">巻き戻し</string>
@@ -186,7 +180,7 @@
     <string name="settings_metadata_no_match">「<xliff:g id="query">%1$s</xliff:g>」に一致するTMDBの結果はありません。</string>
     <string name="settings_metadata_lookup_failed">照会に失敗しました。</string>
     <string name="settings_metadata_match_result"><xliff:g id="title">%1$s</xliff:g><xliff:g id="year">%2$s</xliff:g> · TMDB #<xliff:g id="id">%3$d</xliff:g></string>
-    <string name="settings_metadata_year"> （<xliff:g id="year">%1$d</xliff:g>）</string>
+    <string name="settings_metadata_year">（<xliff:g id="year">%1$d</xliff:g>）</string>
     <string name="settings_lookup_movie">映画タイトルを検索</string>
     <string name="settings_test_lookup">照会をテスト</string>
     <string name="settings_looking_up">検索中…</string>
@@ -718,7 +712,6 @@
     <string name="settings_customize_rename_or_delete_category">カテゴリ名の変更または削除</string>
     <string name="settings_customize_new_category">＋ 新しいカテゴリ</string>
     <string name="settings_customize_sort_button">並べ替え：<xliff:g id="label">%1$s</xliff:g> ▾</string>
-
     <string name="settings_customize_filter_button">フィルター：<xliff:g id="label">%1$s</xliff:g> ▾</string>
     <string name="settings_customize_filter_title">一覧を絞り込む</string>
     <string name="settings_customize_filter_all">すべて</string>
@@ -739,7 +732,7 @@
     <string name="settings_customize_was">変更前：「<xliff:g id="name">%1$s</xliff:g>」</string>
     <string name="settings_customize_hidden">非表示</string>
     <string name="settings_customize_unhide">再表示</string>
-    <string name="settings_customize_metadata_separator">  ·  </string>
+    <string name="settings_customize_metadata_separator">·</string>
     <string name="settings_sources_title">ソース</string>
     <string name="settings_sources_description">ソースはすべてのプロフィールで共有されます。</string>
     <string name="settings_sources_empty">ソースはまだありません。M3UまたはXtreamソースを追加してください。</string>
@@ -775,7 +768,7 @@
     <string name="settings_sources_auto_refresh">⟳ <xliff:g id="mode">%1$s</xliff:g></string>
     <string name="settings_sources_default">デフォルト</string>
     <string name="settings_sources_backup">バックアップ</string>
-    <string name="settings_sources_details_separator">  •  </string>
+    <string name="settings_sources_details_separator">•</string>
     <string name="settings_sources_preparing_detail">カタログを準備中</string>
     <string name="settings_sources_removing_detail">削除中…</string>
     <string name="settings_sources_edit">編集</string>
@@ -791,7 +784,7 @@
     <string name="settings_sources_refresh_startup">起動時に更新</string>
     <string name="settings_sources_refresh_6h">6時間ごと</string>
     <string name="settings_sources_refresh_12h">12時間ごと</string>
-    <string name="settings_sources_refresh_manual">カスタム間隔\u2026</string>
+    <string name="settings_sources_refresh_manual">カスタム間隔…</string>
     <plurals name="settings_sources_refresh_days">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 日ごと</item>
     </plurals>
@@ -1092,7 +1085,7 @@
     <string name="settings_playback_kind_error">エラー</string>
     <string name="settings_playback_kind_event">イベント</string>
     <string name="settings_playback_kind_report">レポート</string>
-    <string name="settings_playback_entry_with_kind"><xliff:g id="date">%1$s</xliff:g>  ·  <xliff:g id="kind">%2$s</xliff:g>  ·  <xliff:g id="engine">%3$s</xliff:g>  ·  <xliff:g id="stream_type">%4$s</xliff:g></string>
+    <string name="settings_playback_entry_with_kind"><xliff:g id="date">%1$s</xliff:g> · <xliff:g id="kind">%2$s</xliff:g> · <xliff:g id="engine">%3$s</xliff:g> · <xliff:g id="stream_type">%4$s</xliff:g></string>
     <string name="settings_export">エクスポート</string>
     <string name="settings_detailed_playback_logging_description">ライブエンジンの動作の完全なトレース（選局、フォールバック、再接続のすべて）を、Logcatとエクスポートしたレポートに記録します。問題を調査している場合以外はオフのままにしてください。再生には一切影響せず、書き込まれる量が変わるだけです。</string>
     <string name="settings_live_preroll_playlist_picker">どのプレイリスト？</string>

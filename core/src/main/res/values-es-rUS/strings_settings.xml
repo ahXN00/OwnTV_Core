@@ -94,13 +94,7 @@
     <string name="settings_remote_shortcuts_short_press">Pulsación corta</string>
     <string name="settings_remote_shortcuts_long_press">Pulsación larga</string>
     <string name="settings_remote_shortcuts_unknown_button">Botón del control %1$d</string>
-    <string name="settings_remote_shortcuts_help">• De forma predeterminada, CH+/CH− y retroceder/avanzar recorren listas; al mantenerlos se salta al primer o último elemento.
-• Las pulsaciones corta y larga se asignan por separado.
-• Saltar al final sigue desactivado en listas «Todo» muy grandes.
-• Mantener Atrás siempre enfoca Reproduciendo y no se puede reasignar.
-• Se suelen poder asignar rojo/verde/amarillo/azul, números, CH+/CH− y retroceder/avanzar.
-• Atrás, control direccional, OK, volumen, Inicio y encendido siguen protegidos.
-• Los atajos numéricos funcionan al explorar; en pantalla completa tiene prioridad la entrada de canal.</string>
+    <string name="settings_remote_shortcuts_help">• De forma predeterminada, CH+/CH− y retroceder/avanzar recorren listas; al mantenerlos se salta al primer o último elemento. • Las pulsaciones corta y larga se asignan por separado. • Saltar al final sigue desactivado en listas «Todo» muy grandes. • Mantener Atrás siempre enfoca Reproduciendo y no se puede reasignar. • Se suelen poder asignar rojo/verde/amarillo/azul, números, CH+/CH− y retroceder/avanzar. • Atrás, control direccional, OK, volumen, Inicio y encendido siguen protegidos. • Los atajos numéricos funcionan al explorar; en pantalla completa tiene prioridad la entrada de canal.</string>
     <string name="settings_remote_button_channel_up">Canal +</string>
     <string name="settings_remote_button_channel_down">Canal −</string>
     <string name="settings_remote_button_rewind">Retroceder</string>
@@ -188,7 +182,7 @@
     <string name="settings_metadata_no_match">No hay coincidencias en TMDB para \"<xliff:g id="query">%1$s</xliff:g>\".</string>
     <string name="settings_metadata_lookup_failed">Falló la búsqueda.</string>
     <string name="settings_metadata_match_result"><xliff:g id="title">%1$s</xliff:g><xliff:g id="year">%2$s</xliff:g> · tmdb #<xliff:g id="id">%3$d</xliff:g></string>
-    <string name="settings_metadata_year"> (<xliff:g id="year">%1$d</xliff:g>)</string>
+    <string name="settings_metadata_year">(<xliff:g id="year">%1$d</xliff:g>)</string>
     <string name="settings_lookup_movie">Buscar el título de una película</string>
     <string name="settings_test_lookup">Probar búsqueda</string>
     <string name="settings_looking_up">Buscando…</string>
@@ -310,7 +304,7 @@
     <string name="settings_startup_channel_unavailable">El canal de inicio no está disponible. Se abrió Inicio.</string>
     <string name="settings_all_history">Todo el historial</string>
     <string name="settings_choose_history">Elige qué eliminar de este perfil. Las listas de reproducción, los favoritos y las descargas no se verán afectados.</string>
-    <string name="settings_clear_history_confirm">¿Borrar el historial de <xliff:g id="scope">%1$s</xliff:g>?</string>
+    <string name="settings_clear_history_confirm">¿Borrar el historial de <xliff:g id="scope">%1$s</xliff:g>\?</string>
     <string name="settings_cannot_undo">Esta acción no se puede deshacer.</string>
     <string name="settings_no">No</string>
     <string name="settings_yes_clear">Sí, borrar</string>
@@ -728,7 +722,6 @@
     <string name="settings_customize_rename_or_delete_category">Cambiar nombre o eliminar categoría</string>
     <string name="settings_customize_new_category">＋ Nueva categoría</string>
     <string name="settings_customize_sort_button">Ordenar: <xliff:g id="label">%1$s</xliff:g> ▾</string>
-
     <string name="settings_customize_filter_button">Filtro: <xliff:g id="label">%1$s</xliff:g> ▾</string>
     <string name="settings_customize_filter_title">Filtrar lista</string>
     <string name="settings_customize_filter_all">Todos</string>
@@ -751,7 +744,7 @@
     <string name="settings_customize_was">antes “<xliff:g id="name">%1$s</xliff:g>”</string>
     <string name="settings_customize_hidden">Oculta</string>
     <string name="settings_customize_unhide">Volver a mostrar</string>
-    <string name="settings_customize_metadata_separator">  ·  </string>
+    <string name="settings_customize_metadata_separator">·</string>
     <string name="settings_sources_title">Fuentes</string>
     <string name="settings_sources_description">Las fuentes se comparten entre todos los perfiles.</string>
     <string name="settings_sources_empty">Aún no hay fuentes. Agrega una fuente M3U o Xtream.</string>
@@ -787,7 +780,7 @@
     <string name="settings_sources_auto_refresh">⟳ <xliff:g id="mode">%1$s</xliff:g></string>
     <string name="settings_sources_default">PREDETERMINADA</string>
     <string name="settings_sources_backup">Copia de seguridad</string>
-    <string name="settings_sources_details_separator">  •  </string>
+    <string name="settings_sources_details_separator">•</string>
     <string name="settings_sources_preparing_detail">Preparando catálogo</string>
     <string name="settings_sources_removing_detail">Quitando…</string>
     <string name="settings_sources_edit">Editar</string>
@@ -803,7 +796,7 @@
     <string name="settings_sources_refresh_startup">Actualizar al iniciar</string>
     <string name="settings_sources_refresh_6h">6 horas</string>
     <string name="settings_sources_refresh_12h">12 horas</string>
-    <string name="settings_sources_refresh_manual">Intervalo personalizado\u2026</string>
+    <string name="settings_sources_refresh_manual">Intervalo personalizado…</string>
     <plurals name="settings_sources_refresh_days">
         <item quantity="one">Cada <xliff:g id="count">%1$d</xliff:g> día</item>
         <item quantity="many">Cada <xliff:g id="count">%1$d</xliff:g> días</item>
@@ -1132,7 +1125,7 @@
     <string name="settings_playback_kind_error">Error</string>
     <string name="settings_playback_kind_event">Evento</string>
     <string name="settings_playback_kind_report">Informe</string>
-    <string name="settings_playback_entry_with_kind"><xliff:g id="date">%1$s</xliff:g>  ·  <xliff:g id="kind">%2$s</xliff:g>  ·  <xliff:g id="engine">%3$s</xliff:g>  ·  <xliff:g id="stream_type">%4$s</xliff:g></string>
+    <string name="settings_playback_entry_with_kind"><xliff:g id="date">%1$s</xliff:g> · <xliff:g id="kind">%2$s</xliff:g> · <xliff:g id="engine">%3$s</xliff:g> · <xliff:g id="stream_type">%4$s</xliff:g></string>
     <string name="settings_export">Exportar</string>
     <string name="settings_detailed_playback_logging_description">Mantén una traza completa de lo que hace el motor en vivo — cada sintonización, respaldo y reconexión — en Logcat y en el informe exportado. Déjalo desactivado a menos que estés investigando un problema; nunca cambia la reproducción, solo cuánto se registra.</string>
     <string name="settings_live_preroll_playlist_picker">¿Qué lista de reproducción?</string>

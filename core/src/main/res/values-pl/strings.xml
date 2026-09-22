@@ -57,7 +57,7 @@
     <string name="sync_error_interrupted">Serwer przerwał pobieranie. Spróbuj ponownie.</string>
     <string name="sync_error_mac">Portal odrzucił ten adres MAC. Sprawdź adres MAC oraz datę i godzinę telewizora — subskrypcja mogła też wygasnąć.</string>
     <string name="sync_error_invalid_mac">Nieprawidłowy adres MAC — użyj formatu AA:BB:CC:DD:EE:FF</string>
-    <string name="sync_counts_separator">  ·  </string>
+    <string name="sync_counts_separator">·</string>
     <string name="sync_counts_success">Zsynchronizowano pomyślnie</string>
     <string name="sync_counts_synced">Zsynchronizowano <xliff:g id="counts">%1$s</xliff:g></string>
     <string name="sync_import_warnings">Zaimportowano z ostrzeżeniami: <xliff:g id="phases">%1$s</xliff:g></string>
@@ -66,7 +66,7 @@
         <item quantity="one">Zachowano <xliff:g id="stored">%1$d</xliff:g> istniejący element — ten import zwrócił o <xliff:g id="percent">%2$d</xliff:g>%% mniej elementów. Zsynchronizuj ponownie lub użyj opcji „Wymuś czystą synchronizację”, jeśli dostawca rzeczywiście go usunął.</item>
         <item quantity="few">Zachowano <xliff:g id="stored">%1$d</xliff:g> istniejące elementy — ten import zwrócił o <xliff:g id="percent">%2$d</xliff:g>%% mniej elementów. Zsynchronizuj ponownie lub użyj opcji „Wymuś czystą synchronizację”, jeśli dostawca rzeczywiście je usunął.</item>
         <item quantity="many">Zachowano <xliff:g id="stored">%1$d</xliff:g> istniejących elementów — ten import zwrócił o <xliff:g id="percent">%2$d</xliff:g>%% mniej elementów. Zsynchronizuj ponownie lub użyj opcji „Wymuś czystą synchronizację”, jeśli dostawca rzeczywiście je usunął.</item>
-        <item quantity="other">Zachowano <xliff:g id="stored">%1$d</xliff:g> istniejącego elementu — ten import zwrócił o <xliff:g id="percent">%2$d</xliff:g>%% mniej elementów. Zsynchronizuj ponownie lub użyj opcji „Wymuś czystą synchronizację”, jeśli dostawca rzeczywiście go usunął.</item>
+        <item quantity="other">Zachowano <xliff:g id="stored">%1$d</xliff:g> istniejących elementów — ten import zwrócił o <xliff:g id="percent">%2$d</xliff:g>%% mniej elementów. Zsynchronizuj ponownie lub użyj opcji „Wymuś czystą synchronizację”, jeśli dostawca rzeczywiście je usunął.</item>
     </plurals>
     <string name="sync_warning_bulk_truncated">Lista dostawcy została przerwana w połowie, więc resztę pobrano kategoria po kategorii. Wszystko jest na miejscu, ale ta synchronizacja trwała dłużej niż zwykle.</string>
     <string name="sync_warning_bulk_truncated_partial">Lista dostawcy została przerwana w połowie i nie udało się odzyskać wszystkiego. Do następnej synchronizacji części tytułów może brakować.</string>
@@ -74,7 +74,7 @@
         <item quantity="one">Nie udało się wczytać <xliff:g id="count">%1$d</xliff:g> strony źródła; część treści może być niedostępna do czasu następnej synchronizacji.</item>
         <item quantity="few">Nie udało się wczytać <xliff:g id="count">%1$d</xliff:g> stron źródła; część treści może być niedostępna do czasu następnej synchronizacji.</item>
         <item quantity="many">Nie udało się wczytać <xliff:g id="count">%1$d</xliff:g> stron źródła; część treści może być niedostępna do czasu następnej synchronizacji.</item>
-        <item quantity="other">Nie udało się wczytać <xliff:g id="count">%1$d</xliff:g> strony źródła; część treści może być niedostępna do czasu następnej synchronizacji.</item>
+        <item quantity="other">Nie udało się wczytać <xliff:g id="count">%1$d</xliff:g> stron źródła; część treści może być niedostępna do czasu następnej synchronizacji.</item>
     </plurals>
     <string name="sync_remainder_note">Pozostała część katalogu nadal synchronizuje się w tle — możesz już rozpocząć oglądanie. Postęp jest widoczny na małym znaczniku u dołu ekranu.</string>
     <string name="sync_progress_preparing">Przygotowywanie katalogu</string>
@@ -98,31 +98,31 @@
         <item quantity="one"><xliff:g id="count">%1$s</xliff:g> kanał</item>
         <item quantity="few"><xliff:g id="count">%1$s</xliff:g> kanały</item>
         <item quantity="many"><xliff:g id="count">%1$s</xliff:g> kanałów</item>
-        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> kanału</item>
+        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> kanałów</item>
     </plurals>
     <plurals name="sync_count_movies">
         <item quantity="one"><xliff:g id="count">%1$s</xliff:g> film</item>
         <item quantity="few"><xliff:g id="count">%1$s</xliff:g> filmy</item>
         <item quantity="many"><xliff:g id="count">%1$s</xliff:g> filmów</item>
-        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> filmu</item>
+        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> filmów</item>
     </plurals>
     <plurals name="sync_count_series">
         <item quantity="one"><xliff:g id="count">%1$s</xliff:g> serial</item>
         <item quantity="few"><xliff:g id="count">%1$s</xliff:g> seriale</item>
         <item quantity="many"><xliff:g id="count">%1$s</xliff:g> seriali</item>
-        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> serialu</item>
+        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> seriali</item>
     </plurals>
     <plurals name="sync_count_epg">
         <item quantity="one"><xliff:g id="count">%1$s</xliff:g> wpis EPG</item>
         <item quantity="few"><xliff:g id="count">%1$s</xliff:g> wpisy EPG</item>
         <item quantity="many"><xliff:g id="count">%1$s</xliff:g> wpisów EPG</item>
-        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> wpisu EPG</item>
+        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> wpisów EPG</item>
     </plurals>
     <plurals name="sync_status_more">
         <item quantity="one">+<xliff:g id="count">%1$d</xliff:g> kolejna synchronizacja</item>
         <item quantity="few">+<xliff:g id="count">%1$d</xliff:g> kolejne synchronizacje</item>
         <item quantity="many">+<xliff:g id="count">%1$d</xliff:g> kolejnych synchronizacji</item>
-        <item quantity="other">+<xliff:g id="count">%1$d</xliff:g> kolejnej synchronizacji</item>
+        <item quantity="other">+<xliff:g id="count">%1$d</xliff:g> kolejnych synchronizacji</item>
     </plurals>
     <plurals name="sync_categories_added">
         <item quantity="one">Dodano <xliff:g id="count">%1$d</xliff:g> kategorię</item>
@@ -171,7 +171,7 @@
         <item quantity="one">Odebrano <xliff:g id="count">%1$d</xliff:g> najnowszą popularną pozycję</item>
         <item quantity="few">Odebrano <xliff:g id="count">%1$d</xliff:g> najnowsze popularne pozycje</item>
         <item quantity="many">Odebrano <xliff:g id="count">%1$d</xliff:g> najnowszych popularnych pozycji</item>
-        <item quantity="other">Odebrano <xliff:g id="count">%1$d</xliff:g> najnowszej popularnej pozycji</item>
+        <item quantity="other">Odebrano <xliff:g id="count">%1$d</xliff:g> najnowszych popularnych pozycji</item>
     </plurals>
     <plurals name="sync_status_trending_matched">
         <item quantity="one">Dopasowano <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
@@ -183,7 +183,7 @@
         <item quantity="one">Tworzenie sekcji Teraz popularne · <xliff:g id="count">%1$d</xliff:g> dopasowanie</item>
         <item quantity="few">Tworzenie sekcji Teraz popularne · <xliff:g id="count">%1$d</xliff:g> dopasowania</item>
         <item quantity="many">Tworzenie sekcji Teraz popularne · <xliff:g id="count">%1$d</xliff:g> dopasowań</item>
-        <item quantity="other">Tworzenie sekcji Teraz popularne · <xliff:g id="count">%1$d</xliff:g> dopasowania</item>
+        <item quantity="other">Tworzenie sekcji Teraz popularne · <xliff:g id="count">%1$d</xliff:g> dopasowań</item>
     </plurals>
     <plurals name="sync_status_trending_publishing">
         <item quantity="one">Publikowanie sekcji Teraz popularne · <xliff:g id="count">%1$d</xliff:g> pozycja</item>
@@ -195,12 +195,12 @@
         <item quantity="one">Sekcja Teraz popularne jest gotowa · <xliff:g id="count">%1$d</xliff:g> dopasowanie</item>
         <item quantity="few">Sekcja Teraz popularne jest gotowa · <xliff:g id="count">%1$d</xliff:g> dopasowania</item>
         <item quantity="many">Sekcja Teraz popularne jest gotowa · <xliff:g id="count">%1$d</xliff:g> dopasowań</item>
-        <item quantity="other">Sekcja Teraz popularne jest gotowa · <xliff:g id="count">%1$d</xliff:g> dopasowania</item>
+        <item quantity="other">Sekcja Teraz popularne jest gotowa · <xliff:g id="count">%1$d</xliff:g> dopasowań</item>
     </plurals>
     <plurals name="sync_status_trending_below_minimum">
         <item quantity="one">Sekcja Teraz popularne jest ukryta · tylko <xliff:g id="count">%1$d</xliff:g> dopasowanie</item>
         <item quantity="few">Sekcja Teraz popularne jest ukryta · tylko <xliff:g id="count">%1$d</xliff:g> dopasowania</item>
         <item quantity="many">Sekcja Teraz popularne jest ukryta · tylko <xliff:g id="count">%1$d</xliff:g> dopasowań</item>
-        <item quantity="other">Sekcja Teraz popularne jest ukryta · tylko <xliff:g id="count">%1$d</xliff:g> dopasowania</item>
+        <item quantity="other">Sekcja Teraz popularne jest ukryta · tylko <xliff:g id="count">%1$d</xliff:g> dopasowań</item>
     </plurals>
 </resources>

@@ -94,13 +94,7 @@
     <string name="settings_remote_shortcuts_short_press">短按</string>
     <string name="settings_remote_shortcuts_long_press">长按</string>
     <string name="settings_remote_shortcuts_unknown_button">遥控器按键 %1$d</string>
-    <string name="settings_remote_shortcuts_help">• 默认情况下，CH+/CH− 和快退/快进用于列表翻页；长按会跳到第一项或最后一项。
-• 短按和长按可以分别分配。
-• 在非常大的“全部”列表中，跳到最后一项仍会禁用。
-• 长按返回始终聚焦“正在播放”，且不能重新分配。
-• 通常可分配红/绿/黄/蓝、数字、CH+/CH− 和快退/快进键。
-• 返回、方向、确定、音量、主页和电源键会保持受保护。
-• 数字快捷键在浏览时生效；全屏时频道号码输入优先。</string>
+    <string name="settings_remote_shortcuts_help">• 默认情况下，CH+/CH− 和快退/快进用于列表翻页；长按会跳到第一项或最后一项。 • 短按和长按可以分别分配。 • 在非常大的“全部”列表中，跳到最后一项仍会禁用。 • 长按返回始终聚焦“正在播放”，且不能重新分配。 • 通常可分配红/绿/黄/蓝、数字、CH+/CH− 和快退/快进键。 • 返回、方向、确定、音量、主页和电源键会保持受保护。 • 数字快捷键在浏览时生效；全屏时频道号码输入优先。</string>
     <string name="settings_remote_button_channel_up">频道 +</string>
     <string name="settings_remote_button_channel_down">频道 −</string>
     <string name="settings_remote_button_rewind">快退</string>
@@ -186,7 +180,7 @@
     <string name="settings_metadata_no_match">TMDB 中没有与“<xliff:g id="query">%1$s</xliff:g>”匹配的结果。</string>
     <string name="settings_metadata_lookup_failed">查询失败。</string>
     <string name="settings_metadata_match_result"><xliff:g id="title">%1$s</xliff:g><xliff:g id="year">%2$s</xliff:g> · tmdb #<xliff:g id="id">%3$d</xliff:g></string>
-    <string name="settings_metadata_year"> （<xliff:g id="year">%1$d</xliff:g>）</string>
+    <string name="settings_metadata_year">（<xliff:g id="year">%1$d</xliff:g>）</string>
     <string name="settings_lookup_movie">查询电影标题</string>
     <string name="settings_test_lookup">测试查询</string>
     <string name="settings_looking_up">正在查询…</string>
@@ -718,7 +712,6 @@
     <string name="settings_customize_rename_or_delete_category">重命名或删除分类</string>
     <string name="settings_customize_new_category">＋ 新建分类</string>
     <string name="settings_customize_sort_button">排序：<xliff:g id="label">%1$s</xliff:g> ▾</string>
-
     <string name="settings_customize_filter_button">筛选：<xliff:g id="label">%1$s</xliff:g> ▾</string>
     <string name="settings_customize_filter_title">筛选列表</string>
     <string name="settings_customize_filter_all">全部</string>
@@ -739,7 +732,7 @@
     <string name="settings_customize_was">原为“<xliff:g id="name">%1$s</xliff:g>”</string>
     <string name="settings_customize_hidden">已隐藏</string>
     <string name="settings_customize_unhide">取消隐藏</string>
-    <string name="settings_customize_metadata_separator">  ·  </string>
+    <string name="settings_customize_metadata_separator">·</string>
     <string name="settings_sources_title">源</string>
     <string name="settings_sources_description">所有用户档案共享这些源。</string>
     <string name="settings_sources_empty">尚无源。请添加 M3U 或 Xtream 源。</string>
@@ -775,7 +768,7 @@
     <string name="settings_sources_auto_refresh">⟳ <xliff:g id="mode">%1$s</xliff:g></string>
     <string name="settings_sources_default">默认</string>
     <string name="settings_sources_backup">备份</string>
-    <string name="settings_sources_details_separator">  •  </string>
+    <string name="settings_sources_details_separator">•</string>
     <string name="settings_sources_preparing_detail">正在准备目录</string>
     <string name="settings_sources_removing_detail">正在移除…</string>
     <string name="settings_sources_edit">编辑</string>
@@ -791,7 +784,7 @@
     <string name="settings_sources_refresh_startup">启动时刷新</string>
     <string name="settings_sources_refresh_6h">6 小时</string>
     <string name="settings_sources_refresh_12h">12 小时</string>
-    <string name="settings_sources_refresh_manual">自定义间隔\u2026</string>
+    <string name="settings_sources_refresh_manual">自定义间隔…</string>
     <plurals name="settings_sources_refresh_days">
         <item quantity="other">每 <xliff:g id="count">%1$d</xliff:g> 天</item>
     </plurals>
@@ -1092,7 +1085,7 @@
     <string name="settings_playback_kind_error">错误</string>
     <string name="settings_playback_kind_event">事件</string>
     <string name="settings_playback_kind_report">报告</string>
-    <string name="settings_playback_entry_with_kind"><xliff:g id="date">%1$s</xliff:g>  ·  <xliff:g id="kind">%2$s</xliff:g>  ·  <xliff:g id="engine">%3$s</xliff:g>  ·  <xliff:g id="stream_type">%4$s</xliff:g></string>
+    <string name="settings_playback_entry_with_kind"><xliff:g id="date">%1$s</xliff:g> · <xliff:g id="kind">%2$s</xliff:g> · <xliff:g id="engine">%3$s</xliff:g> · <xliff:g id="stream_type">%4$s</xliff:g></string>
     <string name="settings_export">导出</string>
     <string name="settings_detailed_playback_logging_description">完整记录直播引擎的所有操作——每一次调谐、回退和重新连接——并保存到 Logcat 和导出的报告中。除非你在排查问题，否则请保持关闭；它绝不会改变播放行为，只会影响记录量。</string>
     <string name="settings_live_preroll_playlist_picker">哪个播放列表？</string>

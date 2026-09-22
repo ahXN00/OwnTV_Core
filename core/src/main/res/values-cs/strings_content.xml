@@ -3,19 +3,19 @@
     <plurals name="content_downloading_items">
         <item quantity="one">Stahování: <xliff:g id="count">%1$d</xliff:g> položka</item>
         <item quantity="few">Stahování: <xliff:g id="count">%1$d</xliff:g> položky</item>
-        <item quantity="many">Stahování: <xliff:g id="count">%1$d</xliff:g> položky</item>
+        <item quantity="many">Stahování: <xliff:g id="count">%1$d</xliff:g> položek</item>
         <item quantity="other">Stahování: <xliff:g id="count">%1$d</xliff:g> položek</item>
     </plurals>
     <plurals name="content_queued_items">
         <item quantity="one">Ve frontě: <xliff:g id="count">%1$d</xliff:g> položka</item>
         <item quantity="few">Ve frontě: <xliff:g id="count">%1$d</xliff:g> položky</item>
-        <item quantity="many">Ve frontě: <xliff:g id="count">%1$d</xliff:g> položky</item>
+        <item quantity="many">Ve frontě: <xliff:g id="count">%1$d</xliff:g> položek</item>
         <item quantity="other">Ve frontě: <xliff:g id="count">%1$d</xliff:g> položek</item>
     </plurals>
     <plurals name="content_paused_items">
         <item quantity="one">Pozastaveno: <xliff:g id="count">%1$d</xliff:g> položka</item>
         <item quantity="few">Pozastaveno: <xliff:g id="count">%1$d</xliff:g> položky</item>
-        <item quantity="many">Pozastaveno: <xliff:g id="count">%1$d</xliff:g> položky</item>
+        <item quantity="many">Pozastaveno: <xliff:g id="count">%1$d</xliff:g> položek</item>
         <item quantity="other">Pozastaveno: <xliff:g id="count">%1$d</xliff:g> položek</item>
     </plurals>
     <plurals name="content_downloads_failed">
@@ -106,13 +106,13 @@
     <plurals name="content_count_movies">
         <item quantity="one"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> film)</item>
         <item quantity="few"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> filmy)</item>
-        <item quantity="many"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> filmu)</item>
+        <item quantity="many"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> filmů)</item>
         <item quantity="other"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> filmů)</item>
     </plurals>
     <plurals name="content_count_series">
         <item quantity="one"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> seriál)</item>
         <item quantity="few"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> seriály)</item>
-        <item quantity="many"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> seriálu)</item>
+        <item quantity="many"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> seriálů)</item>
         <item quantity="other"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> seriálů)</item>
     </plurals>
     <string name="content_provider">Poskytovatel</string>
@@ -130,8 +130,8 @@
     <string name="content_duration_hours"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$d</xliff:g> min</string>
     <string name="content_duration_minutes"><xliff:g id="minutes">%1$d</xliff:g> min</string>
     <string name="content_rating">★ <xliff:g id="rating">%1$.1f</xliff:g></string>
-    <string name="content_metadata_separator">  •  </string>
-    <string name="content_genres_separator"> · </string>
+    <string name="content_metadata_separator">•</string>
+    <string name="content_genres_separator">·</string>
     <string name="content_season_episode">S<xliff:g id="season">%1$d</xliff:g> · E<xliff:g id="episode">%2$d</xliff:g></string>
     <string name="content_season_episode_title">S<xliff:g id="season">%1$d</xliff:g> · E<xliff:g id="episode">%2$d</xliff:g> <xliff:g id="title">%3$s</xliff:g></string>
     <string name="content_season">Řada <xliff:g id="season">%1$d</xliff:g></string>
@@ -153,7 +153,7 @@
     <plurals name="content_count_channels">
         <item quantity="one"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> kanál)</item>
         <item quantity="few"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> kanály)</item>
-        <item quantity="many"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> kanálu)</item>
+        <item quantity="many"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> kanálů)</item>
         <item quantity="other"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> kanálů)</item>
     </plurals>
     <string name="content_search_channels"><xliff:g id="category">%1$s</xliff:g>…</string>
@@ -246,7 +246,7 @@
     <string name="content_downloads_failed_group">Nezdařené</string>
     <string name="content_downloads_progress"><xliff:g id="percent">%1$d</xliff:g>%% · <xliff:g id="downloaded">%2$s</xliff:g> / <xliff:g id="total">%3$s</xliff:g></string>
     <string name="content_downloads_progress_unknown">Stahování… <xliff:g id="downloaded">%1$s</xliff:g></string>
-    <string name="content_downloads_folder_separator"> › </string>
+    <string name="content_downloads_folder_separator">›</string>
     <string name="content_downloads_play">Přehrát</string>
     <string name="content_downloads_external">Externí přehrávač</string>
     <string name="content_downloads_pause">Pozastavit</string>
@@ -265,13 +265,13 @@
     <plurals name="content_epg_stats_channels">
         <item quantity="one">TV program načten: <xliff:g id="channels">%1$d</xliff:g> kanál.</item>
         <item quantity="few">TV program načten: <xliff:g id="channels">%1$d</xliff:g> kanály.</item>
-        <item quantity="many">TV program načten: <xliff:g id="channels">%1$d</xliff:g> kanálu.</item>
+        <item quantity="many">TV program načten: <xliff:g id="channels">%1$d</xliff:g> kanálů.</item>
         <item quantity="other">TV program načten: <xliff:g id="channels">%1$d</xliff:g> kanálů.</item>
     </plurals>
     <plurals name="content_epg_stats_programmes">
         <item quantity="one">TV program obsahuje <xliff:g id="programmes">%1$d</xliff:g> pořad.</item>
         <item quantity="few">TV program obsahuje <xliff:g id="programmes">%1$d</xliff:g> pořady.</item>
-        <item quantity="many">TV program obsahuje <xliff:g id="programmes">%1$d</xliff:g> pořadu.</item>
+        <item quantity="many">TV program obsahuje <xliff:g id="programmes">%1$d</xliff:g> pořadů.</item>
         <item quantity="other">TV program obsahuje <xliff:g id="programmes">%1$d</xliff:g> pořadů.</item>
     </plurals>
     <string name="content_epg_stats_loaded"><xliff:g id="channels">%1$s</xliff:g> <xliff:g id="programmes">%2$s</xliff:g> <xliff:g id="catchup">%3$s</xliff:g></string>
@@ -280,32 +280,32 @@
     <plurals name="content_epg_catchup_count">
         <item quantity="one">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálu.</item>
         <item quantity="few">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálech.</item>
-        <item quantity="many">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálu.</item>
+        <item quantity="many">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálech.</item>
         <item quantity="other">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálech.</item>
     </plurals>
     <plurals name="content_epg_stats_catchup_available">
         <item quantity="one">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálu.</item>
         <item quantity="few">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálech.</item>
-        <item quantity="many">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálu.</item>
+        <item quantity="many">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálech.</item>
         <item quantity="other">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálech.</item>
     </plurals>
     <plurals name="content_epg_auto_matched_applied">
         <item quantity="one">Automaticky spárován <xliff:g id="applied">%1$d</xliff:g> kanál.</item>
         <item quantity="few">Automaticky spárovány <xliff:g id="applied">%1$d</xliff:g> kanály.</item>
-        <item quantity="many">Automaticky spárováno <xliff:g id="applied">%1$d</xliff:g> kanálu.</item>
+        <item quantity="many">Automaticky spárováno <xliff:g id="applied">%1$d</xliff:g> kanálů.</item>
         <item quantity="other">Automaticky spárováno <xliff:g id="applied">%1$d</xliff:g> kanálů.</item>
     </plurals>
     <plurals name="content_epg_auto_matched_review">
         <item quantity="one"><xliff:g id="review">%1$d</xliff:g> kanál je nutné zkontrolovat.</item>
         <item quantity="few"><xliff:g id="review">%1$d</xliff:g> kanály je nutné zkontrolovat.</item>
-        <item quantity="many"><xliff:g id="review">%1$d</xliff:g> kanálu je nutné zkontrolovat.</item>
+        <item quantity="many"><xliff:g id="review">%1$d</xliff:g> kanálů je nutné zkontrolovat.</item>
         <item quantity="other"><xliff:g id="review">%1$d</xliff:g> kanálů je nutné zkontrolovat.</item>
     </plurals>
     <string name="content_epg_auto_matched"><xliff:g id="applied">%1$s</xliff:g> <xliff:g id="review">%2$s</xliff:g></string>
     <plurals name="content_epg_auto_matched_no_review">
         <item quantity="one">Automaticky spárován <xliff:g id="applied">%1$d</xliff:g> kanál.</item>
         <item quantity="few">Automaticky spárovány <xliff:g id="applied">%1$d</xliff:g> kanály.</item>
-        <item quantity="many">Automaticky spárováno <xliff:g id="applied">%1$d</xliff:g> kanálu.</item>
+        <item quantity="many">Automaticky spárováno <xliff:g id="applied">%1$d</xliff:g> kanálů.</item>
         <item quantity="other">Automaticky spárováno <xliff:g id="applied">%1$d</xliff:g> kanálů.</item>
     </plurals>
     <string name="content_epg_title">TV program</string>
@@ -343,7 +343,7 @@
     <string name="content_epg_sort_button">Řazení: <xliff:g id="label">%1$s</xliff:g></string>
     <string name="content_epg_match_button">Automaticky spárovat EPG</string>
     <string name="content_epg_channel_score">→ <xliff:g id="name">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
-    <string name="content_epg_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
+    <string name="content_epg_channel_number"><xliff:g id="number">%1$s</xliff:g> <xliff:g id="name">%2$s</xliff:g></string>
     <string name="content_epg_bits_separator">" · "</string>
     <string name="content_epg_now">NYNÍ · <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_watch_start">Sledovat od začátku</string>

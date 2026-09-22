@@ -94,13 +94,7 @@
     <string name="settings_remote_shortcuts_short_press">짧게 누르기</string>
     <string name="settings_remote_shortcuts_long_press">길게 누르기</string>
     <string name="settings_remote_shortcuts_unknown_button">리모컨 버튼 %1$d</string>
-    <string name="settings_remote_shortcuts_help">• 기본적으로 CH+/CH−와 되감기/빨리 감기는 목록을 페이지 이동하며, 길게 누르면 처음이나 끝으로 이동합니다.
-• 짧게 누르기와 길게 누르기는 따로 지정할 수 있습니다.
-• 매우 큰 ‘전체’ 목록에서는 끝으로 이동이 비활성화됩니다.
-• 뒤로 길게 누르기는 항상 지금 재생 중에 포커스를 두며 변경할 수 없습니다.
-• 일반적으로 빨강/초록/노랑/파랑, 숫자, CH+/CH−, 되감기/빨리 감기를 지정할 수 있습니다.
-• 뒤로, 방향, OK, 음량, 홈, 전원 버튼은 보호됩니다.
-• 숫자 단축키는 탐색 중 작동하며, 전체 화면에서는 채널 번호 입력이 우선합니다.</string>
+    <string name="settings_remote_shortcuts_help">• 기본적으로 CH+/CH−와 되감기/빨리 감기는 목록을 페이지 이동하며, 길게 누르면 처음이나 끝으로 이동합니다. • 짧게 누르기와 길게 누르기는 따로 지정할 수 있습니다. • 매우 큰 ‘전체’ 목록에서는 끝으로 이동이 비활성화됩니다. • 뒤로 길게 누르기는 항상 지금 재생 중에 포커스를 두며 변경할 수 없습니다. • 일반적으로 빨강/초록/노랑/파랑, 숫자, CH+/CH−, 되감기/빨리 감기를 지정할 수 있습니다. • 뒤로, 방향, OK, 음량, 홈, 전원 버튼은 보호됩니다. • 숫자 단축키는 탐색 중 작동하며, 전체 화면에서는 채널 번호 입력이 우선합니다.</string>
     <string name="settings_remote_button_channel_up">채널 +</string>
     <string name="settings_remote_button_channel_down">채널 −</string>
     <string name="settings_remote_button_rewind">되감기</string>
@@ -186,7 +180,7 @@
     <string name="settings_metadata_no_match">\"<xliff:g id="query">%1$s</xliff:g>\"에 일치하는 TMDB 결과가 없습니다.</string>
     <string name="settings_metadata_lookup_failed">조회에 실패했습니다.</string>
     <string name="settings_metadata_match_result"><xliff:g id="title">%1$s</xliff:g><xliff:g id="year">%2$s</xliff:g> · tmdb #<xliff:g id="id">%3$d</xliff:g></string>
-    <string name="settings_metadata_year"> (<xliff:g id="year">%1$d</xliff:g>)</string>
+    <string name="settings_metadata_year">(<xliff:g id="year">%1$d</xliff:g>)</string>
     <string name="settings_lookup_movie">영화 제목 조회</string>
     <string name="settings_test_lookup">조회 테스트</string>
     <string name="settings_looking_up">조회 중…</string>
@@ -718,7 +712,6 @@
     <string name="settings_customize_rename_or_delete_category">카테고리 이름 변경 또는 삭제</string>
     <string name="settings_customize_new_category">＋ 새 카테고리</string>
     <string name="settings_customize_sort_button">정렬: <xliff:g id="label">%1$s</xliff:g> ▾</string>
-
     <string name="settings_customize_filter_button">필터: <xliff:g id="label">%1$s</xliff:g> ▾</string>
     <string name="settings_customize_filter_title">목록 필터</string>
     <string name="settings_customize_filter_all">전체</string>
@@ -739,7 +732,7 @@
     <string name="settings_customize_was">이전 이름: “<xliff:g id="name">%1$s</xliff:g>”</string>
     <string name="settings_customize_hidden">숨겨짐</string>
     <string name="settings_customize_unhide">숨기기 해제</string>
-    <string name="settings_customize_metadata_separator">  ·  </string>
+    <string name="settings_customize_metadata_separator">·</string>
     <string name="settings_sources_title">소스</string>
     <string name="settings_sources_description">소스는 모든 프로필에서 공유됩니다.</string>
     <string name="settings_sources_empty">아직 소스가 없습니다. M3U 또는 Xtream 소스를 추가하세요.</string>
@@ -775,7 +768,7 @@
     <string name="settings_sources_auto_refresh">⟳ <xliff:g id="mode">%1$s</xliff:g></string>
     <string name="settings_sources_default">기본값</string>
     <string name="settings_sources_backup">백업</string>
-    <string name="settings_sources_details_separator">  •  </string>
+    <string name="settings_sources_details_separator">•</string>
     <string name="settings_sources_preparing_detail">카탈로그 준비 중</string>
     <string name="settings_sources_removing_detail">제거 중…</string>
     <string name="settings_sources_edit">수정</string>
@@ -791,7 +784,7 @@
     <string name="settings_sources_refresh_startup">앱 시작 시 새로 고침</string>
     <string name="settings_sources_refresh_6h">6시간</string>
     <string name="settings_sources_refresh_12h">12시간</string>
-    <string name="settings_sources_refresh_manual">사용자 지정 주기\u2026</string>
+    <string name="settings_sources_refresh_manual">사용자 지정 주기…</string>
     <plurals name="settings_sources_refresh_days">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g>일마다</item>
     </plurals>
@@ -1092,7 +1085,7 @@
     <string name="settings_playback_kind_error">오류</string>
     <string name="settings_playback_kind_event">이벤트</string>
     <string name="settings_playback_kind_report">보고서</string>
-    <string name="settings_playback_entry_with_kind"><xliff:g id="date">%1$s</xliff:g>  ·  <xliff:g id="kind">%2$s</xliff:g>  ·  <xliff:g id="engine">%3$s</xliff:g>  ·  <xliff:g id="stream_type">%4$s</xliff:g></string>
+    <string name="settings_playback_entry_with_kind"><xliff:g id="date">%1$s</xliff:g> · <xliff:g id="kind">%2$s</xliff:g> · <xliff:g id="engine">%3$s</xliff:g> · <xliff:g id="stream_type">%4$s</xliff:g></string>
     <string name="settings_export">내보내기</string>
     <string name="settings_detailed_playback_logging_description">실시간 엔진이 수행하는 모든 채널 튜닝, 대체, 재연결에 대한 전체 추적을 Logcat과 내보낸 보고서에 남깁니다. 문제를 추적할 때가 아니면 꺼 두세요. 이 기능은 재생을 변경하지 않으며 기록되는 양만 달라집니다.</string>
     <string name="settings_live_preroll_playlist_picker">어느 재생목록?</string>

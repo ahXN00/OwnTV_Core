@@ -57,7 +57,7 @@
     <string name="sync_error_interrupted">Сервер прервал загрузку. Повторите попытку.</string>
     <string name="sync_error_mac">Портал отклонил этот MAC-адрес: проверьте MAC-адрес (а также дату и время на телевизоре) — возможно, срок подписки истёк.</string>
     <string name="sync_error_invalid_mac">Недопустимый MAC-адрес — используйте формат AA:BB:CC:DD:EE:FF</string>
-    <string name="sync_counts_separator">  ·  </string>
+    <string name="sync_counts_separator">·</string>
     <string name="sync_counts_success">Синхронизация успешно завершена</string>
     <string name="sync_counts_synced"><xliff:g id="counts">%1$s</xliff:g> синхронизировано</string>
     <string name="sync_import_warnings">Импорт выполнен с предупреждениями: <xliff:g id="phases">%1$s</xliff:g></string>
@@ -66,7 +66,7 @@
         <item quantity="one"><xliff:g id="stored">%1$d</xliff:g> существующий элемент сохранён — при этом импорте получено на <xliff:g id="percent">%2$d</xliff:g>%% меньше элементов. Выполните синхронизацию ещё раз или используйте принудительную чистую синхронизацию, если поставщик действительно удалил его.</item>
         <item quantity="few"><xliff:g id="stored">%1$d</xliff:g> существующих элемента сохранены — при этом импорте получено на <xliff:g id="percent">%2$d</xliff:g>%% меньше элементов. Выполните синхронизацию ещё раз или используйте принудительную чистую синхронизацию, если поставщик действительно удалил их.</item>
         <item quantity="many"><xliff:g id="stored">%1$d</xliff:g> существующих элементов сохранено — при этом импорте получено на <xliff:g id="percent">%2$d</xliff:g>%% меньше элементов. Выполните синхронизацию ещё раз или используйте принудительную чистую синхронизацию, если поставщик действительно удалил их.</item>
-        <item quantity="other"><xliff:g id="stored">%1$d</xliff:g> существующего элемента сохранено — при этом импорте получено на <xliff:g id="percent">%2$d</xliff:g>%% меньше элементов. Выполните синхронизацию ещё раз или используйте принудительную чистую синхронизацию, если поставщик действительно удалил их.</item>
+        <item quantity="other"><xliff:g id="stored">%1$d</xliff:g> существующих элементов сохранено — при этом импорте получено на <xliff:g id="percent">%2$d</xliff:g>%% меньше элементов. Выполните синхронизацию ещё раз или используйте принудительную чистую синхронизацию, если поставщик действительно удалил их.</item>
     </plurals>
     <string name="sync_warning_bulk_truncated">Список поставщика оборвался на середине, поэтому остальное было получено по категориям. Всё на месте, но эта синхронизация заняла больше времени, чем обычно.</string>
     <string name="sync_warning_bulk_truncated_partial">Список поставщика оборвался на середине, и восстановить удалось не всё. До следующей синхронизации некоторых наименований может не хватать.</string>
@@ -74,7 +74,7 @@
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> страница источника не загрузилась; до следующей синхронизации часть контента может отсутствовать.</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> страницы источника не загрузились; до следующей синхронизации часть контента может отсутствовать.</item>
         <item quantity="many"><xliff:g id="count">%1$d</xliff:g> страниц источника не загрузилось; до следующей синхронизации часть контента может отсутствовать.</item>
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> страницы источника не загрузилось; до следующей синхронизации часть контента может отсутствовать.</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> страниц источника не загрузилось; до следующей синхронизации часть контента может отсутствовать.</item>
     </plurals>
     <string name="sync_remainder_note">Остальная часть каталога всё ещё синхронизируется в фоновом режиме — можно уже начать просмотр. Ход синхронизации отображается в небольшом чипе в нижней части экрана.</string>
     <string name="sync_progress_preparing">Подготовка каталога</string>
@@ -98,43 +98,43 @@
         <item quantity="one"><xliff:g id="count">%1$s</xliff:g> канал</item>
         <item quantity="few"><xliff:g id="count">%1$s</xliff:g> канала</item>
         <item quantity="many"><xliff:g id="count">%1$s</xliff:g> каналов</item>
-        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> канала</item>
+        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> каналов</item>
     </plurals>
     <plurals name="sync_count_movies">
         <item quantity="one"><xliff:g id="count">%1$s</xliff:g> фильм</item>
         <item quantity="few"><xliff:g id="count">%1$s</xliff:g> фильма</item>
         <item quantity="many"><xliff:g id="count">%1$s</xliff:g> фильмов</item>
-        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> фильма</item>
+        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> фильмов</item>
     </plurals>
     <plurals name="sync_count_series">
         <item quantity="one"><xliff:g id="count">%1$s</xliff:g> сериал</item>
         <item quantity="few"><xliff:g id="count">%1$s</xliff:g> сериала</item>
         <item quantity="many"><xliff:g id="count">%1$s</xliff:g> сериалов</item>
-        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> сериала</item>
+        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> сериалов</item>
     </plurals>
     <plurals name="sync_count_epg">
         <item quantity="one"><xliff:g id="count">%1$s</xliff:g> запись EPG</item>
         <item quantity="few"><xliff:g id="count">%1$s</xliff:g> записи EPG</item>
         <item quantity="many"><xliff:g id="count">%1$s</xliff:g> записей EPG</item>
-        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> записи EPG</item>
+        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> записей EPG</item>
     </plurals>
     <plurals name="sync_status_more">
         <item quantity="one">+<xliff:g id="count">%1$d</xliff:g> синхронизация</item>
         <item quantity="few">+<xliff:g id="count">%1$d</xliff:g> синхронизации</item>
         <item quantity="many">+<xliff:g id="count">%1$d</xliff:g> синхронизаций</item>
-        <item quantity="other">+<xliff:g id="count">%1$d</xliff:g> синхронизации</item>
+        <item quantity="other">+<xliff:g id="count">%1$d</xliff:g> синхронизаций</item>
     </plurals>
     <plurals name="sync_categories_added">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> категория добавлена</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> категории добавлены</item>
         <item quantity="many"><xliff:g id="count">%1$d</xliff:g> категорий добавлено</item>
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> категории добавлено</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> категорий добавлено</item>
     </plurals>
     <plurals name="sync_categories_removed">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> категория удалена</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> категории удалены</item>
         <item quantity="many"><xliff:g id="count">%1$d</xliff:g> категорий удалено</item>
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> категории удалено</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> категорий удалено</item>
     </plurals>
     <string name="sync_error_portal">Не удалось связаться с порталом. Проверьте URL портала — обычно он заканчивается на /c/.</string>
     <string name="sync_error_session">Сеанс портала истёк. Повторите попытку.</string>
@@ -171,7 +171,7 @@
         <item quantity="one">Получена <xliff:g id="count">%1$d</xliff:g> актуальная позиция из раздела «В тренде»</item>
         <item quantity="few">Получены <xliff:g id="count">%1$d</xliff:g> актуальные позиции из раздела «В тренде»</item>
         <item quantity="many">Получено <xliff:g id="count">%1$d</xliff:g> актуальных позиций из раздела «В тренде»</item>
-        <item quantity="other">Получено <xliff:g id="count">%1$d</xliff:g> актуальной позиции из раздела «В тренде»</item>
+        <item quantity="other">Получено <xliff:g id="count">%1$d</xliff:g> актуальных позиций из раздела «В тренде»</item>
     </plurals>
     <plurals name="sync_status_trending_matched">
         <item quantity="one">Сопоставлено <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
@@ -183,24 +183,24 @@
         <item quantity="one">Создание раздела «Сейчас в тренде» · <xliff:g id="count">%1$d</xliff:g> совпадение</item>
         <item quantity="few">Создание раздела «Сейчас в тренде» · <xliff:g id="count">%1$d</xliff:g> совпадения</item>
         <item quantity="many">Создание раздела «Сейчас в тренде» · <xliff:g id="count">%1$d</xliff:g> совпадений</item>
-        <item quantity="other">Создание раздела «Сейчас в тренде» · <xliff:g id="count">%1$d</xliff:g> совпадения</item>
+        <item quantity="other">Создание раздела «Сейчас в тренде» · <xliff:g id="count">%1$d</xliff:g> совпадений</item>
     </plurals>
     <plurals name="sync_status_trending_publishing">
         <item quantity="one">Публикация раздела «Сейчас в тренде» · <xliff:g id="count">%1$d</xliff:g> позиция</item>
         <item quantity="few">Публикация раздела «Сейчас в тренде» · <xliff:g id="count">%1$d</xliff:g> позиции</item>
         <item quantity="many">Публикация раздела «Сейчас в тренде» · <xliff:g id="count">%1$d</xliff:g> позиций</item>
-        <item quantity="other">Публикация раздела «Сейчас в тренде» · <xliff:g id="count">%1$d</xliff:g> позиции</item>
+        <item quantity="other">Публикация раздела «Сейчас в тренде» · <xliff:g id="count">%1$d</xliff:g> позиций</item>
     </plurals>
     <plurals name="sync_status_trending_ready">
         <item quantity="one">Раздел «Сейчас в тренде» готов · <xliff:g id="count">%1$d</xliff:g> совпадение</item>
         <item quantity="few">Раздел «Сейчас в тренде» готов · <xliff:g id="count">%1$d</xliff:g> совпадения</item>
         <item quantity="many">Раздел «Сейчас в тренде» готов · <xliff:g id="count">%1$d</xliff:g> совпадений</item>
-        <item quantity="other">Раздел «Сейчас в тренде» готов · <xliff:g id="count">%1$d</xliff:g> совпадения</item>
+        <item quantity="other">Раздел «Сейчас в тренде» готов · <xliff:g id="count">%1$d</xliff:g> совпадений</item>
     </plurals>
     <plurals name="sync_status_trending_below_minimum">
         <item quantity="one">Раздел «Сейчас в тренде» скрыт · только <xliff:g id="count">%1$d</xliff:g> совпадение</item>
         <item quantity="few">Раздел «Сейчас в тренде» скрыт · только <xliff:g id="count">%1$d</xliff:g> совпадения</item>
         <item quantity="many">Раздел «Сейчас в тренде» скрыт · только <xliff:g id="count">%1$d</xliff:g> совпадений</item>
-        <item quantity="other">Раздел «Сейчас в тренде» скрыт · только <xliff:g id="count">%1$d</xliff:g> совпадения</item>
+        <item quantity="other">Раздел «Сейчас в тренде» скрыт · только <xliff:g id="count">%1$d</xliff:g> совпадений</item>
     </plurals>
 </resources>

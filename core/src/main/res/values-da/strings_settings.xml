@@ -94,13 +94,7 @@
     <string name="settings_remote_shortcuts_short_press">Kort tryk</string>
     <string name="settings_remote_shortcuts_long_press">Langt tryk</string>
     <string name="settings_remote_shortcuts_unknown_button">Fjernbetjeningsknap %1$d</string>
-    <string name="settings_remote_shortcuts_help">• Som standard bladrer CH+/CH− og tilbage/frem i lister; hold for første eller sidste element.
-• Korte og lange tryk kan tildeles separat.
-• Hop til sidste er slået fra på meget store »Alle«-lister.
-• Langt tryk på Tilbage fokuserer altid på Afspiller nu og kan ikke ændres.
-• Knapper der normalt kan tildeles: rød/grøn/gul/blå, tal, CH+/CH− og tilbage-/fremspoling.
-• Tilbage, D-pad, OK, lydstyrke, Hjem og strøm er beskyttede.
-• Talgenveje virker under browsing; i fuld skærm har kanalindtastning prioritet.</string>
+    <string name="settings_remote_shortcuts_help">• Som standard bladrer CH+/CH− og tilbage/frem i lister; hold for første eller sidste element. • Korte og lange tryk kan tildeles separat. • Hop til sidste er slået fra på meget store »Alle«-lister. • Langt tryk på Tilbage fokuserer altid på Afspiller nu og kan ikke ændres. • Knapper der normalt kan tildeles: rød/grøn/gul/blå, tal, CH+/CH− og tilbage-/fremspoling. • Tilbage, D-pad, OK, lydstyrke, Hjem og strøm er beskyttede. • Talgenveje virker under browsing; i fuld skærm har kanalindtastning prioritet.</string>
     <string name="settings_remote_button_channel_up">Kanal +</string>
     <string name="settings_remote_button_channel_down">Kanal −</string>
     <string name="settings_remote_button_rewind">Spol tilbage</string>
@@ -187,7 +181,7 @@
     <string name="settings_metadata_no_match">Intet TMDB-match for \"<xliff:g id="query">%1$s</xliff:g>\".</string>
     <string name="settings_metadata_lookup_failed">Opslaget mislykkedes.</string>
     <string name="settings_metadata_match_result"><xliff:g id="title">%1$s</xliff:g><xliff:g id="year">%2$s</xliff:g> · tmdb #<xliff:g id="id">%3$d</xliff:g></string>
-    <string name="settings_metadata_year"> (<xliff:g id="year">%1$d</xliff:g>)</string>
+    <string name="settings_metadata_year">(<xliff:g id="year">%1$d</xliff:g>)</string>
     <string name="settings_lookup_movie">Slå en filmtitel op</string>
     <string name="settings_test_lookup">Test opslag</string>
     <string name="settings_looking_up">Slår op…</string>
@@ -308,7 +302,7 @@
     <string name="settings_startup_channel_unavailable">Startkanalen er ikke tilgængelig. Hjem blev åbnet.</string>
     <string name="settings_all_history">Al historik</string>
     <string name="settings_choose_history">Vælg, hvad der skal fjernes for denne profil. Afspilningslister, favoritter og downloads påvirkes ikke.</string>
-    <string name="settings_clear_history_confirm">Ryd historik for <xliff:g id="scope">%1$s</xliff:g>?</string>
+    <string name="settings_clear_history_confirm">Ryd historik for <xliff:g id="scope">%1$s</xliff:g>\?</string>
     <string name="settings_cannot_undo">Dette kan ikke fortrydes.</string>
     <string name="settings_no">Nej</string>
     <string name="settings_yes_clear">Ja, ryd</string>
@@ -723,7 +717,6 @@
     <string name="settings_customize_rename_or_delete_category">Omdøb eller slet kategori</string>
     <string name="settings_customize_new_category">＋ Ny kategori</string>
     <string name="settings_customize_sort_button">Sortér: <xliff:g id="label">%1$s</xliff:g> ▾</string>
-
     <string name="settings_customize_filter_button">Filter: <xliff:g id="label">%1$s</xliff:g> ▾</string>
     <string name="settings_customize_filter_title">Filtrer liste</string>
     <string name="settings_customize_filter_all">Alle</string>
@@ -745,7 +738,7 @@
     <string name="settings_customize_was">var “<xliff:g id="name">%1$s</xliff:g>”</string>
     <string name="settings_customize_hidden">Skjult</string>
     <string name="settings_customize_unhide">Vis igen</string>
-    <string name="settings_customize_metadata_separator">  ·  </string>
+    <string name="settings_customize_metadata_separator">·</string>
     <string name="settings_sources_title">Kilder</string>
     <string name="settings_sources_description">Kilder deles på tværs af alle profiler.</string>
     <string name="settings_sources_empty">Der er endnu ingen kilder. Tilføj en M3U- eller Xtream-kilde.</string>
@@ -781,7 +774,7 @@
     <string name="settings_sources_auto_refresh">⟳ <xliff:g id="mode">%1$s</xliff:g></string>
     <string name="settings_sources_default">STANDARD</string>
     <string name="settings_sources_backup">Sikkerhedskopi</string>
-    <string name="settings_sources_details_separator">  •  </string>
+    <string name="settings_sources_details_separator">•</string>
     <string name="settings_sources_preparing_detail">Forbereder katalog</string>
     <string name="settings_sources_removing_detail">Fjerner…</string>
     <string name="settings_sources_edit">Rediger</string>
@@ -797,7 +790,7 @@
     <string name="settings_sources_refresh_startup">Opdater ved opstart</string>
     <string name="settings_sources_refresh_6h">6 timer</string>
     <string name="settings_sources_refresh_12h">12 timer</string>
-    <string name="settings_sources_refresh_manual">Brugerdefineret interval\u2026</string>
+    <string name="settings_sources_refresh_manual">Brugerdefineret interval…</string>
     <plurals name="settings_sources_refresh_days">
         <item quantity="one">Hver <xliff:g id="count">%1$d</xliff:g>. dag</item>
         <item quantity="other">Hver <xliff:g id="count">%1$d</xliff:g>. dag</item>
@@ -1112,7 +1105,7 @@
     <string name="settings_playback_kind_error">Fejl</string>
     <string name="settings_playback_kind_event">Hændelse</string>
     <string name="settings_playback_kind_report">Rapport</string>
-    <string name="settings_playback_entry_with_kind"><xliff:g id="date">%1$s</xliff:g>  ·  <xliff:g id="kind">%2$s</xliff:g>  ·  <xliff:g id="engine">%3$s</xliff:g>  ·  <xliff:g id="stream_type">%4$s</xliff:g></string>
+    <string name="settings_playback_entry_with_kind"><xliff:g id="date">%1$s</xliff:g> · <xliff:g id="kind">%2$s</xliff:g> · <xliff:g id="engine">%3$s</xliff:g> · <xliff:g id="stream_type">%4$s</xliff:g></string>
     <string name="settings_export">Eksporter</string>
     <string name="settings_detailed_playback_logging_description">Gem en fuld sporing af, hvad live-motoren laver – hver tuning, fallback og genforbindelse – i Logcat og i den eksporterede rapport. Lad den være slået fra, medmindre du er på jagt efter et problem; den ændrer aldrig afspilningen, kun hvor meget der bliver skrevet ned.</string>
     <string name="settings_live_preroll_playlist_picker">Hvilken playliste?</string>
