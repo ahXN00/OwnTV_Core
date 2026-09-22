@@ -21,6 +21,7 @@ import tv.own.owntv.core.repository.EpgRepository
 import tv.own.owntv.core.repository.SeriesRepository
 import tv.own.owntv.core.repository.SourceRepository
 import tv.own.owntv.core.tv.TvHomeRepository
+import tv.own.owntv.core.tv.LiveLogoPosterArt
 import tv.own.owntv.core.update.UpdateManager
 import tv.own.owntv.core.sync.SyncManager
 import tv.own.owntv.core.sync.work.CatalogSyncScheduler
@@ -231,7 +232,7 @@ val dataModule = module {
     // sourceDao, channelDao, movieDao, seriesDao, progressDao
     single { LauncherLaunchResolver(get(), get(), get(), get(), get(), get(), get()) }
     // context, sourceDao, channelDao, movieDao, seriesDao, progressDao, tvProviderProgramDao, customize, settings, localeStore
-    single { TvHomeRepository(androidContext(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    single { TvHomeRepository(androidContext(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), LiveLogoPosterArt(androidContext(), get())) }
     // planner, resolver, tvHomeRepository
     single { LauncherIntegrationRepository(get(), get(), get()) }
     // Who currently holds a stream on which playlist. Multiview tiles and recordings spend the same

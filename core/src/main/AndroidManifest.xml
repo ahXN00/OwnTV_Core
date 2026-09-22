@@ -51,6 +51,15 @@
             android:excludeFromRecents="true"
             android:noHistory="true"
             android:theme="@android:style/Theme.NoDisplay" />
+
+        <!-- Google TV Home runs outside OwnTV, so it needs a public read-only URI for the
+             generated logo files. LiveLogoArtProvider accepts only hash-named PNGs below its
+             dedicated cache directory; it cannot expose any other app-private file. -->
+        <provider
+            android:name="tv.own.owntv.core.tv.LiveLogoArtProvider"
+            android:authorities="${applicationId}.owntv-live-logo-art"
+            android:exported="true" />
+
         <!-- WorkManager's foreground-service host. Both types, because both workers run in it: the
              download queue is a data sync, a recording is media playback. Each worker picks its own
              via the ForegroundInfo it returns. -->
