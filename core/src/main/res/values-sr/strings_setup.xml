@@ -1,3 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    </resources>
+    <string name="setup_hide_new_categories_description">Na nivou profila: kategorije koje se pojavljuju pri budućim sinhronizacijama u početku su skrivene. Možete ih videti u svakom trenutku u odeljku Prilagođavanje.</string>
+    <string name="setup_hide_new_categories">Podrazumevano sakrij nove kategorije</string>
+    <string name="setup_hls_provider_does_not_advertise">Vaš provajder ne nudi HLS.</string>
+    <string name="setup_hls_provider_advertises">Vaš provajder nudi HLS.</string>
+    <string name="setup_hls_test_reason_dead_channel">Testni kanal nije radio ni preko MPEG-TS-a, tako da je možda jednostavno neaktivan.</string>
+    <string name="setup_hls_test_reason_no_live_channels">Ova plejlista nema kanale uživo za testiranje.</string>
+    <string name="setup_hls_test_reason_no_answer">nema odgovora</string>
+    <string name="setup_hls_test_reason_http">HTTP <xliff:g id="status">%1$d</xliff:g></string>
+    <string name="setup_hls_test_inconclusive">Nije bilo moguće potvrditi (<xliff:g id="razlog">%1$s</xliff:g>). <xliff:g id="provajder_zahtev">%2$s</xliff:g></string>
+    <string name="setup_hls_test_reason_no_endpoint">nema HLS krajnje tačke za ovaj kanal (HTTP <xliff:g id="status">%1$d</xliff:g>)</string>
+    <string name="setup_hls_test_reason_not_playlist">Server je odgovorio, ali ne plejlistom</string>
+    <string name="setup_hls_test_not_served">HLS nije radio - <xliff:g id="razlog">%1$s</xliff:g>. Isključite ovu opciju i Live TV će koristiti MPEG-TS.</string>
+    <string name="setup_hls_test_busy">Nije bilo moguće završiti - nalogu trenutno nedostaju veze. (HTTP <xliff:g id="status">%1$d</xliff:g>). Zaustavi sve ostalo što se trenutno strimuje i ponovo testiraj.</string>
+    <string name="setup_hls_test_works_unadvertised">✓ HLS funkcioniše - vaš provajder je vratio plejlistu iako ne nudi HLS.</string>
+    <string name="setup_hls_test_works">✓ HLS funkcioniše - vaš provajder je vratio plejlistu.</string>
+    <string name="setup_hls_test_provider_unreachable">Nije bilo moguće povezati se sa provajderom - proverite URL servera, korisničko ime i lozinku.</string>
+    <string name="setup_hls_test_failed">Test nije uspeo: <xliff:g id="razlog">%1$s</xliff:g></string>
+    <string name="setup_hls_testing">Testiranje HLS-a…</string>
+</resources>
