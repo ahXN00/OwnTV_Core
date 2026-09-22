@@ -77,9 +77,13 @@ class M3uParser {
         // Same story for the `#KODIPROP` stream properties: several lines describe one entry's licence
         // (#115) and its manifest type, and only the URL line knows the entry is complete.
         var pendingKodiProps: MutableMap<String, String>? = null
+        var firstLine = true
         if (debug) Log.d(TAG, "parse start")
 
-        input.bufferedReader().forEachLineSafe { raw ->
+        input.bufferedReader().forEachLineSafe { read ->
+            // A UTF-8 byte-order mark decodes to U+FEFF at the start of the first line. trim() keeps it
+            // (it is not whitespace), so the #EXTM3U header, and with it url-tvg, was not recognised.
+            val raw = if (firstLine) { firstLine = false; if (read.startsWith('\uFEFF')) read.substring(1) else read } else read
             val parseStart = if (debug) SystemClock.elapsedRealtime() else 0L
             val line = raw.trim()
             var callbackHandled = false

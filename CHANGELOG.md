@@ -19,6 +19,17 @@ Core is versioned independently of the apps. A core version never lines up with 
 
 ---
 
+## core-1.0.58 — unreleased
+
+### 📺 A playlist saved with a byte-order mark keeps its EPG address
+
+- **`M3uParser` now drops a UTF-8 byte-order mark (U+FEFF) at the start of the first line.** `trim()`
+  keeps that character, so `#EXTM3U` was never recognised: the playlist's `url-tvg`/`x-tvg-url` never
+  reached `M3uHeader.urlTvg` and the guide was not set up, with no error. A playlist that opens
+  directly with `#EXTINF` lost its first channel the same way. URL, file and content-URI imports all
+  hand the parser raw bytes, so all three were affected.
+- First line only; every other line is read as before. No database, backup or API change.
+
 ## core-1.0.57 — 2026-09-21
 
 **Strings.** A guide source that answers and turns out to be empty now says so, once, in every
