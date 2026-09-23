@@ -107,6 +107,7 @@
     <string name="settings_remote_button_fast_forward">Avance rapide</string>
     <string name="settings_remote_button_previous">Précédent</string>
     <string name="settings_remote_button_next">Suivant</string>
+    <string name="settings_remote_button_last_channel">Dernière chaîne</string>
     <string name="settings_remote_button_menu">Menu</string>
     <string name="settings_remote_button_red">Touche rouge</string>
     <string name="settings_remote_button_green">Touche verte</string>
@@ -203,7 +204,7 @@
     <string name="settings_quick_live_preview">Aperçu en direct</string>
     <string name="settings_quick_preview_sound">Son de l’aperçu</string>
     <string name="settings_quick_channel_numbers">Numéros des chaînes</string>
-    <string name="settings_quick_hdr">HDR</string>
+    <string name="settings_quick_hdr">HDR (mpv uniquement)</string>
     <string name="settings_quick_autoplay">Lecture automatique</string>
     <string name="settings_quick_check_update">Rechercher une mise à jour</string>
     <string name="settings_search_label">Rechercher dans les paramètres</string>
@@ -270,8 +271,8 @@
     <string name="settings_preview_audio_description">Lire le son dans l’aperçu en direct</string>
     <string name="settings_mini_player_root">Mini-lecteur</string>
     <string name="settings_mini_player_root_description">Taille et position du mini-lecteur ancré</string>
-    <string name="settings_hdr_description">Utiliser la sortie HDR lorsque la vidéo et le téléviseur la prennent en charge</string>
-    <string name="settings_hdr_description_mobile">Utiliser la sortie HDR lorsque la vidéo et l’écran la prennent en charge</string>
+    <string name="settings_hdr_description">Utiliser la sortie HDR lorsque la vidéo et le téléviseur la prennent en charge. mpv uniquement : le moteur ExoPlayer ne prend pas en charge ce réglage et transmet toujours le HDR du flux tel quel.</string>
+    <string name="settings_hdr_description_mobile">Utiliser la sortie HDR lorsque la vidéo et l’écran la prennent en charge. mpv uniquement : le moteur ExoPlayer ne prend pas en charge ce réglage et transmet toujours le HDR du flux tel quel.</string>
     <string name="settings_auto_frame_rate">Fréquence d’images automatique</string>
     <string name="settings_auto_frame_rate_description">Adapter la fréquence de rafraîchissement du téléviseur à la vidéo (24/25/50/60 ips) en plein écran, pour la TV en direct et la VOD, puis la rétablir en quittant la lecture. Désactivez cette option si votre téléviseur ou récepteur relance bruyamment la négociation HDMI à chaque changement de chaîne.</string>
     <string name="settings_auto_frame_rate_description_mobile">Adapter la fréquence de rafraîchissement de l’écran à la vidéo (24/25/50/60 ips) en plein écran, pour la TV en direct et la VOD, puis la rétablir en quittant la lecture. Désactivez cette option si l’écran scintille ou devient noir au démarrage d’une vidéo.</string>
@@ -482,10 +483,6 @@
     <string name="settings_hardware_decoding">Décodage matériel</string>
     <string name="settings_hardware_decoding_description">Utiliser le décodeur matériel du téléviseur. Désactivez cette option si certains flux saccadent ou présentent des artefacts.</string>
     <string name="settings_hardware_decoding_description_mobile">Utiliser le décodeur matériel de l’appareil. Désactivez cette option si certains flux saccadent ou présentent des artefacts.</string>
-    <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
-    <string name="settings_deinterlace">Désentrelacement</string>
-    <!-- Translators: Description of the deinterlacing setting. -->
-    <string name="settings_deinterlace_description">Lisse les lignes en peigne que certaines vieilles chaînes SD affichent lors des mouvements. S’applique au moteur mpv lorsqu’il dessine lui-même l’image ; si rien ne change, désactivez le décodage matériel.</string>
     <string name="settings_movies_series_player">Lecteur pour les films et les séries</string>
     <string name="settings_live_tv_player">Lecteur pour la TV en direct</string>
     <string name="settings_engine_order"><xliff:g id="first">%1$s</xliff:g>, puis <xliff:g id="second">%2$s</xliff:g></string>
@@ -560,7 +557,7 @@
     <string name="settings_audio">Audio</string>
     <string name="settings_preferred_audio_language">Langue audio préférée</string>
     <string name="settings_audio_sync">Synchronisation audio</string>
-    <string name="settings_audio_sync_description">Avancer ou retarder l’audio pour le synchroniser avec la vidéo. S’applique uniquement au moteur mpv.</string>
+    <string name="settings_audio_sync_description">Avancer ou retarder l’audio pour le synchroniser avec la vidéo. Fonctionne avec les deux lecteurs (mpv et ExoPlayer).</string>
     <string name="settings_live_tv">TV en direct</string>
     <string name="settings_live_latency_description">Détermine la proximité de la lecture avec la diffusion en direct. Une valeur plus faible rapproche du direct, mais réduit la mémoire tampon : les flux instables peuvent donc s’interrompre ou se reconnecter plus souvent. S’applique à la prochaine chaîne que vous ouvrez.</string>
     <string name="settings_live_latency_bitrate_note">Sur une chaîne à très haut débit — en 4K en particulier — la mémoire tampon peut contenir moins de temps que demandé, car la quantité de vidéo conservée en mémoire est limitée.</string>
@@ -591,8 +588,8 @@
     <string name="settings_audio_delay"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_external_player_description">Choisissez les sections à ouvrir dans une application externe.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
-    <string name="settings_movies_player_description">mpv (recommandé) offre la plus large prise en charge des formats — audio DTS/TrueHD, fichiers inhabituels — ainsi que la correction de synchronisation audio/vidéo. Sur certains téléviseurs, ExoPlayer lit des flux que mpv ne parvient pas à lire, mais il ne décode pas l’audio DTS/TrueHD et n’a pas de correction de synchronisation. Les options combinées essaient automatiquement l’autre lecteur lorsque le premier échoue ; les options à un seul lecteur ne le font jamais, ce qui évite quelques secondes d’écran noir si le second lecteur ne fonctionne de toute façon pas sur votre téléviseur.</string>
-    <string name="settings_movies_player_description_mobile">mpv (recommandé) offre la plus large prise en charge des formats — audio DTS/TrueHD, fichiers inhabituels — ainsi que la correction de synchronisation audio/vidéo. Sur certains appareils, ExoPlayer lit des flux que mpv ne parvient pas à lire, mais il ne décode pas l’audio DTS/TrueHD et n’a pas de correction de synchronisation. Les options combinées essaient automatiquement l’autre lecteur lorsque le premier échoue ; les options à un seul lecteur ne le font jamais, ce qui évite quelques secondes d’écran noir si le second lecteur ne fonctionne de toute façon pas sur votre appareil.</string>
+    <string name="settings_movies_player_description">mpv (recommandé) offre la plus large prise en charge des formats — audio DTS/TrueHD, fichiers inhabituels. Sur certains téléviseurs, ExoPlayer lit des flux que mpv ne parvient pas à lire, mais il ne décode pas l’audio DTS/TrueHD. Les options combinées essaient automatiquement l’autre lecteur lorsque le premier échoue ; les options à un seul lecteur ne le font jamais, ce qui évite quelques secondes d’écran noir si le second lecteur ne fonctionne de toute façon pas sur votre téléviseur.</string>
+    <string name="settings_movies_player_description_mobile">mpv (recommandé) offre la plus large prise en charge des formats — audio DTS/TrueHD, fichiers inhabituels. Sur certains appareils, ExoPlayer lit des flux que mpv ne parvient pas à lire, mais il ne décode pas l’audio DTS/TrueHD. Les options combinées essaient automatiquement l’autre lecteur lorsque le premier échoue ; les options à un seul lecteur ne le font jamais, ce qui évite quelques secondes d’écran noir si le second lecteur ne fonctionne de toute façon pas sur votre appareil.</string>
     <string name="settings_live_player_description">ExoPlayer (recommandé) ouvre les chaînes beaucoup plus vite et il est le seul à gérer les sous-titres en direct. mpv lit des chaînes qu’ExoPlayer ne parvient pas à lire, dont certaines à l’audio inhabituel. Les options combinées essaient automatiquement l’autre lecteur lorsque le premier échoue ; les options à un seul lecteur ne le font jamais, ce qui évite quelques secondes d’écran noir si le second lecteur ne fonctionne de toute façon pas sur votre téléviseur. Une chaîne que vous basculez à la main dans le lecteur conserve votre choix dans les deux cas.</string>
     <string name="settings_live_player_description_mobile">ExoPlayer (recommandé) ouvre les chaînes beaucoup plus vite et il est le seul à gérer les sous-titres en direct. mpv lit des chaînes qu’ExoPlayer ne parvient pas à lire, dont certaines à l’audio inhabituel. Les options combinées essaient automatiquement l’autre lecteur lorsque le premier échoue ; les options à un seul lecteur ne le font jamais, ce qui évite quelques secondes d’écran noir si le second lecteur ne fonctionne de toute façon pas sur votre appareil. Une chaîne que vous basculez à la main dans le lecteur conserve votre choix dans les deux cas.</string>
     <string name="settings_reset_player_choices_description">Lorsque vous basculez un film ou un épisode précis entre mpv et ExoPlayer depuis le lecteur, ce choix est enregistré pour la prochaine fois. La réinitialisation fait de nouveau suivre le réglage ci-dessus à tout le contenu. Les choix enregistrés pour les chaînes en direct sont conservés.</string>
@@ -604,6 +601,14 @@
     </plurals>
     <string name="settings_reset_player_choices_confirm">Réinitialiser les choix de lecteur enregistrés ?</string>
     <string name="settings_reset_player_choices_confirm_description">Chaque film et chaque épisode suit de nouveau le réglage « Lecteur pour les films et les séries ». Vous pouvez à tout moment rebasculer un élément précis depuis le lecteur.</string>
+    <string name="settings_reset_live_player_choices">Réinitialiser les choix de lecteur enregistrés pour la TV en direct</string>
+    <string name="settings_reset_live_player_choices_description">Lorsque vous basculez une chaîne entre ExoPlayer et mpv depuis le lecteur, ce choix est enregistré pour la chaîne. La réinitialisation fait de nouveau suivre le réglage « Lecteur pour la TV en direct » à toutes les chaînes. Les choix enregistrés pour les films et les épisodes sont conservés.</string>
+    <string name="settings_reset_live_player_choices_confirm">Réinitialiser les choix de lecteur enregistrés pour la TV en direct ?</string>
+    <string name="settings_reset_live_player_choices_confirm_description">Chaque chaîne suit de nouveau le réglage « Lecteur pour la TV en direct ». Vous pouvez à tout moment rebasculer une chaîne précise depuis le lecteur.</string>
+    <string name="settings_forget_stream_fixes">Oublier les correctifs de flux appris</string>
+    <string name="settings_forget_stream_fixes_description">Le lecteur apprend ce dont les flux de chaque fournisseur ont besoin : mpv au lieu d’ExoPlayer, un autre format, un décodage logiciel pour le replay. Oubliez-les si un fournisseur a corrigé ses flux. Ce qui a été appris sur le replay est de toute façon oublié au bout de 14 jours.</string>
+    <string name="settings_forget_stream_fixes_confirm">Oublier les correctifs de flux appris ?</string>
+    <string name="settings_forget_stream_fixes_confirm_description">Les chaînes s’ouvrent de nouveau de la façon habituelle, et le lecteur réapprend ce dont un fournisseur a encore besoin. La première lecture d’une chaîne concernée peut prendre quelques secondes de plus.</string>
     <string name="settings_external_player_row_description">Ouvrez les flux dans une application externe (VLC, MX Player) plutôt que dans le lecteur intégré, avec un choix propre à chaque section. Utile pour les flux que cette application ne peut pas décoder, ou si vous préférez un autre lecteur. La position de reprise et les commandes précédent/suivant ne sont pas disponibles lors d’une lecture externe ; les flux nécessitant un User-Agent ou un en-tête Referer personnalisé risquent de ne pas être lus.</string>
     <string name="settings_resume_always">Toujours reprendre</string>
     <string name="settings_resume_ask">Demander avant de reprendre</string>
@@ -939,7 +944,7 @@
     <string name="settings_backup_section_settings">Paramètres de l’application</string>
     <string name="settings_backup_section_settings_desc">Préférences de thème, de couleur d’accentuation, de lecteur et de disposition</string>
     <string name="settings_backup_device_settings">Réglages matériels de l’autre appareil</string>
-    <string name="settings_backup_device_settings_desc">Moteur de lecture, décodage matériel, fréquence d’images, HDR, son surround et désentrelacement. À reprendre seulement si les deux appareils ont le même matériel.</string>
+    <string name="settings_backup_device_settings_desc">Moteur de lecture, décodage matériel, fréquence d’images, HDR et son surround. À reprendre seulement si les deux appareils ont le même matériel.</string>
     <string name="settings_backup_saved_to">Enregistrée dans <xliff:g id="path">%1$s</xliff:g>.</string>
     <string name="settings_backup_saved_to_without_passwords">Enregistrée dans <xliff:g id="path">%1$s</xliff:g>. Les mots de passe et les codes PIN n’ont pas été inclus.</string>
     <plurals name="settings_backup_restored">

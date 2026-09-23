@@ -107,6 +107,7 @@
     <string name="settings_remote_button_fast_forward">早送り</string>
     <string name="settings_remote_button_previous">前へ</string>
     <string name="settings_remote_button_next">次へ</string>
+    <string name="settings_remote_button_last_channel">前回のチャンネル</string>
     <string name="settings_remote_button_menu">メニュー</string>
     <string name="settings_remote_button_red">赤ボタン</string>
     <string name="settings_remote_button_green">緑ボタン</string>
@@ -201,7 +202,7 @@
     <string name="settings_quick_live_preview">ライブプレビュー</string>
     <string name="settings_quick_preview_sound">プレビュー音声</string>
     <string name="settings_quick_channel_numbers">チャンネル番号</string>
-    <string name="settings_quick_hdr">HDR</string>
+    <string name="settings_quick_hdr">HDR（mpvのみ）</string>
     <string name="settings_quick_autoplay">自動再生</string>
     <string name="settings_quick_check_update">更新を確認</string>
     <string name="settings_search_label">設定を検索</string>
@@ -268,8 +269,8 @@
     <string name="settings_preview_audio_description">ライブプレビューで音声を再生</string>
     <string name="settings_mini_player_root">ミニプレーヤー</string>
     <string name="settings_mini_player_root_description">ドッキングしたミニプレーヤーのサイズと位置</string>
-    <string name="settings_hdr_description">動画とTVが対応している場合にHDR出力を使用</string>
-    <string name="settings_hdr_description_mobile">動画と画面が対応している場合にHDR出力を使用</string>
+    <string name="settings_hdr_description">動画とTVが対応している場合にHDR出力を使用。mpvのみ：ExoPlayerエンジンはこの設定に対応しておらず、ストリームのHDRを常にそのまま出力します。</string>
+    <string name="settings_hdr_description_mobile">動画と画面が対応している場合にHDR出力を使用。mpvのみ：ExoPlayerエンジンはこの設定に対応しておらず、ストリームのHDRを常にそのまま出力します。</string>
     <string name="settings_auto_frame_rate">自動フレームレート</string>
     <string name="settings_auto_frame_rate_description">全画面表示でライブTVとVODの再生時にTVのリフレッシュレートを動画（24/25/50/60 fps）に合わせ、終了時に元に戻します。チャンネルを切り替えるたびにTVやレシーバーが大きな音を伴ってHDMIを再ハンドシェイクする場合はオフにしてください。</string>
     <string name="settings_auto_frame_rate_description_mobile">全画面表示でライブTVとVODの再生時に画面のリフレッシュレートを動画（24/25/50/60 fps）に合わせ、終了時に元に戻します。動画の開始時に画面がちらついたり暗くなったりする場合はオフにしてください。</string>
@@ -478,10 +479,6 @@
     <string name="settings_hardware_decoding">ハードウェアデコード</string>
     <string name="settings_hardware_decoding_description">TVのハードウェアデコーダーを使用します。一部のストリームで映像が途切れたり、表示が乱れたりする場合はオフにしてください。</string>
     <string name="settings_hardware_decoding_description_mobile">デバイスのハードウェアデコーダーを使用します。一部のストリームで映像が途切れたり、表示が乱れたりする場合はオフにしてください。</string>
-    <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
-    <string name="settings_deinterlace">インターレース解除</string>
-    <!-- Translators: Description of the deinterlacing setting. -->
-    <string name="settings_deinterlace_description">一部の古いSDチャンネルで動きのある場面に出る櫛状の線をなめらかにします。mpvが自分で映像を描画しているときに適用されるため、変化がない場合はハードウェアデコードをオフにしてください。</string>
     <string name="settings_movies_series_player">映画とシリーズのプレーヤー</string>
     <string name="settings_live_tv_player">ライブTVのプレーヤー</string>
     <string name="settings_engine_order"><xliff:g id="first">%1$s</xliff:g>、次に <xliff:g id="second">%2$s</xliff:g></string>
@@ -556,7 +553,7 @@
     <string name="settings_audio">音声</string>
     <string name="settings_preferred_audio_language">優先する音声言語</string>
     <string name="settings_audio_sync">音声同期</string>
-    <string name="settings_audio_sync_description">映像に合うように音声を早めたり遅らせたりします。mpv エンジンにのみ適用されます。</string>
+    <string name="settings_audio_sync_description">映像に合うように音声を早めたり遅らせたりします。両方のプレーヤー（mpv と ExoPlayer）で使えます。</string>
     <string name="settings_live_tv">ライブTV</string>
     <string name="settings_live_latency_description">ライブ放送にどの程度近い位置を再生するかを設定します。低くするとライブに近づきますが、バッファが小さくなるため、不安定なストリームでは途切れや再接続が増えることがあります。次に開くチャンネルから適用されます。</string>
     <string name="settings_live_latency_bitrate_note">ビットレートが非常に高いチャンネル（特に4K）では、メモリに保持できる映像の量に上限があるため、指定した長さよりも短いぶんしかバッファできないことがあります。</string>
@@ -587,8 +584,8 @@
     <string name="settings_audio_delay"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_external_player_description">外部アプリで開くセクションを選択します。</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
-    <string name="settings_movies_player_description">mpv（推奨）は対応形式が最も広く、DTS/TrueHD 音声や珍しいファイルに加えて音ズレの補正も備えています。ExoPlayer は一部のテレビで mpv が再生できないストリームを再生できますが、DTS/TrueHD 音声はデコードできず、音ズレの補正もありません。組み合わせの選択肢では、最初のプレーヤーが失敗すると自動的にもう一方を試します。単独のプレーヤーの選択肢では決して試さないため、もう一方がお使いのテレビでどのみち動作しない場合に数秒の黒画面を省けます。</string>
-    <string name="settings_movies_player_description_mobile">mpv（推奨）は対応形式が最も広く、DTS/TrueHD 音声や珍しいファイルに加えて音ズレの補正も備えています。ExoPlayer は一部のデバイスで mpv が再生できないストリームを再生できますが、DTS/TrueHD 音声はデコードできず、音ズレの補正もありません。組み合わせの選択肢では、最初のプレーヤーが失敗すると自動的にもう一方を試します。単独のプレーヤーの選択肢では決して試さないため、もう一方がお使いのデバイスでどのみち動作しない場合に数秒の黒画面を省けます。</string>
+    <string name="settings_movies_player_description">mpv（推奨）は対応形式が最も広く、DTS/TrueHD 音声や珍しいファイルに対応しています。ExoPlayer は一部のテレビで mpv が再生できないストリームを再生できますが、DTS/TrueHD 音声はデコードできません。組み合わせの選択肢では、最初のプレーヤーが失敗すると自動的にもう一方を試します。単独のプレーヤーの選択肢では決して試さないため、もう一方がお使いのテレビでどのみち動作しない場合に数秒の黒画面を省けます。</string>
+    <string name="settings_movies_player_description_mobile">mpv（推奨）は対応形式が最も広く、DTS/TrueHD 音声や珍しいファイルに対応しています。ExoPlayer は一部のデバイスで mpv が再生できないストリームを再生できますが、DTS/TrueHD 音声はデコードできません。組み合わせの選択肢では、最初のプレーヤーが失敗すると自動的にもう一方を試します。単独のプレーヤーの選択肢では決して試さないため、もう一方がお使いのデバイスでどのみち動作しない場合に数秒の黒画面を省けます。</string>
     <string name="settings_live_player_description">ExoPlayer（推奨）はチャンネルを開くのがはるかに速く、ライブ字幕に対応する唯一のプレーヤーです。mpv は ExoPlayer で再生できないチャンネル、たとえば珍しい音声を含むチャンネルも再生できます。組み合わせの選択肢では、最初のプレーヤーが失敗すると自動的にもう一方を試します。単独のプレーヤーの選択肢では決して試さないため、もう一方がお使いのテレビでどのみち動作しない場合に数秒の黒画面を省けます。プレーヤーで手動で切り替えたチャンネルでは、いずれの場合も選択が保持されます。</string>
     <string name="settings_live_player_description_mobile">ExoPlayer（推奨）はチャンネルを開くのがはるかに速く、ライブ字幕に対応する唯一のプレーヤーです。mpv は ExoPlayer で再生できないチャンネル、たとえば珍しい音声を含むチャンネルも再生できます。組み合わせの選択肢では、最初のプレーヤーが失敗すると自動的にもう一方を試します。単独のプレーヤーの選択肢では決して試さないため、もう一方がお使いのデバイスでどのみち動作しない場合に数秒の黒画面を省けます。プレーヤーで手動で切り替えたチャンネルでは、いずれの場合も選択が保持されます。</string>
     <string name="settings_reset_player_choices_description">プレーヤーで個々の映画やエピソードをmpvとExoPlayerで切り替えると、その選択が次回のために保存されます。リセットすると、すべてが再び上記の設定に従います。ライブチャンネルの保存済みの選択はそのまま残ります。</string>
@@ -598,6 +595,14 @@
     </plurals>
     <string name="settings_reset_player_choices_confirm">保存したプレーヤーの選択をリセットしますか？</string>
     <string name="settings_reset_player_choices_confirm_description">すべての映画とエピソードが「映画とシリーズのプレーヤー」設定に戻ります。個別の切り替えは、いつでもプレーヤーから行えます。</string>
+    <string name="settings_reset_live_player_choices">ライブTVのプレーヤーの保存した選択をリセット</string>
+    <string name="settings_reset_live_player_choices_description">プレーヤーでチャンネルをExoPlayerとmpvで切り替えると、その選択がチャンネルごとに保存されます。リセットすると、すべてのチャンネルが再び「ライブTVのプレーヤー」設定に従います。映画とエピソードの保存済みの選択はそのまま残ります。</string>
+    <string name="settings_reset_live_player_choices_confirm">ライブTVのプレーヤーの保存した選択をリセットしますか？</string>
+    <string name="settings_reset_live_player_choices_confirm_description">すべてのチャンネルが「ライブTVのプレーヤー」設定に戻ります。個別の切り替えは、いつでもプレーヤーから行えます。</string>
+    <string name="settings_forget_stream_fixes">学習したストリームの対処を忘れる</string>
+    <string name="settings_forget_stream_fixes_description">プレーヤーは、各プロバイダーのストリームに必要なもの（ExoPlayerの代わりにmpv、別の形式、見逃し再生のソフトウェアデコードなど）を学習します。プロバイダーがストリームを修正した場合は忘れてください。見逃し再生についての学習は、14日後にも自動で忘れられます。</string>
+    <string name="settings_forget_stream_fixes_confirm">学習したストリームの対処を忘れますか？</string>
+    <string name="settings_forget_stream_fixes_confirm_description">チャンネルは再び標準の方法で開き、プロバイダーにまだ必要なことはプレーヤーが学習し直します。影響を受けたチャンネルの最初の再生は、数秒長くかかることがあります。</string>
     <string name="settings_external_player_row_description">セクションごとに選択し、内蔵プレーヤーではなく外部アプリ（VLC、MX Player）でストリームを開きます。このアプリでデコードできないストリームを再生する場合や、別のプレーヤーを使用したい場合に便利です。外部での再生中は再開位置と前へ／次へは利用できません。また、カスタムUser-Agentまたはリファラーが必要なストリームは再生できない場合があります。</string>
     <string name="settings_resume_always">常に再開</string>
     <string name="settings_resume_ask">再開するか確認</string>
@@ -917,7 +922,7 @@
     <string name="settings_backup_section_settings">アプリ設定</string>
     <string name="settings_backup_section_settings_desc">テーマ、アクセントカラー、プレーヤー、レイアウトの設定</string>
     <string name="settings_backup_device_settings">もう一方のデバイスのハードウェア設定</string>
-    <string name="settings_backup_device_settings_desc">プレーヤーエンジン、ハードウェアデコード、フレームレート、HDR、サラウンド、インターレース解除。両方のデバイスが同じハードウェアの場合にのみ復元してください。</string>
+    <string name="settings_backup_device_settings_desc">プレーヤーエンジン、ハードウェアデコード、フレームレート、HDR、サラウンド。両方のデバイスが同じハードウェアの場合にのみ復元してください。</string>
     <string name="settings_backup_saved_to"><xliff:g id="path">%1$s</xliff:g>に保存しました。</string>
     <string name="settings_backup_saved_to_without_passwords"><xliff:g id="path">%1$s</xliff:g>に保存しました。パスワードとPINは含まれていません。</string>
     <plurals name="settings_backup_restored">

@@ -107,6 +107,7 @@
     <string name="settings_remote_button_fast_forward">İleri sar</string>
     <string name="settings_remote_button_previous">Önceki</string>
     <string name="settings_remote_button_next">Sonraki</string>
+    <string name="settings_remote_button_last_channel">Son kanal</string>
     <string name="settings_remote_button_menu">Menü</string>
     <string name="settings_remote_button_red">Kırmızı tuş</string>
     <string name="settings_remote_button_green">Yeşil tuş</string>
@@ -202,7 +203,7 @@
     <string name="settings_quick_live_preview">Canlı önizleme</string>
     <string name="settings_quick_preview_sound">Önizleme sesi</string>
     <string name="settings_quick_channel_numbers">Kanal numaraları</string>
-    <string name="settings_quick_hdr">HDR</string>
+    <string name="settings_quick_hdr">HDR (yalnızca mpv)</string>
     <string name="settings_quick_autoplay">Otomatik oynatma</string>
     <string name="settings_quick_check_update">Güncellemeleri denetle</string>
     <string name="settings_search_label">Ayarlarda ara</string>
@@ -269,8 +270,8 @@
     <string name="settings_preview_audio_description">Canlı önizlemede ses çalın</string>
     <string name="settings_mini_player_root">Mini oynatıcı</string>
     <string name="settings_mini_player_root_description">Sabitlenmiş mini oynatıcının boyutu ve konumu</string>
-    <string name="settings_hdr_description">Video ve TV desteklediğinde HDR çıkışı kullanın</string>
-    <string name="settings_hdr_description_mobile">Video ve ekran desteklediğinde HDR çıkışı kullanın</string>
+    <string name="settings_hdr_description">Video ve TV desteklediğinde HDR çıkışı kullanın. Yalnızca mpv: ExoPlayer motoru bu ayarı desteklemez ve yayının HDR’ını her zaman olduğu gibi iletir.</string>
+    <string name="settings_hdr_description_mobile">Video ve ekran desteklediğinde HDR çıkışı kullanın. Yalnızca mpv: ExoPlayer motoru bu ayarı desteklemez ve yayının HDR’ını her zaman olduğu gibi iletir.</string>
     <string name="settings_auto_frame_rate">Otomatik kare hızı</string>
     <string name="settings_auto_frame_rate_description">Canlı TV ve VOD içeriklerinde tam ekrandayken TV\'nin yenileme hızını videoyla (24/25/50/60 fps) eşleştirin ve çıkışta eski hâline getirin. TV\'niz veya alıcınız her kanal değişikliğinde HDMI el sıkışmasını gürültülü biçimde tekrarlıyorsa bu seçeneği kapatın.</string>
     <string name="settings_auto_frame_rate_description_mobile">Canlı TV ve VOD içeriklerinde tam ekrandayken ekranın yenileme hızını videoyla (24/25/50/60 fps) eşleştirin ve çıkışta eski hâline getirin. Bir video başladığında ekran titriyor veya kararıyorsa bu seçeneği kapatın.</string>
@@ -480,10 +481,6 @@
     <string name="settings_hardware_decoding">Donanımla kod çözme</string>
     <string name="settings_hardware_decoding_description">TV\'nin donanım kod çözücüsünü kullanın. Bazı akışlar takılıyor veya görüntü bozuklukları gösteriyorsa kapatın.</string>
     <string name="settings_hardware_decoding_description_mobile">Cihazın donanım kod çözücüsünü kullanın. Bazı akışlar takılıyor veya görüntü bozuklukları gösteriyorsa kapatın.</string>
-    <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
-    <string name="settings_deinterlace">Taramasızlaştırma</string>
-    <!-- Translators: Description of the deinterlacing setting. -->
-    <string name="settings_deinterlace_description">Bazı eski SD kanalların harekette gösterdiği tarak benzeri çizgileri yumuşatır. mpv motoru görüntüyü kendisi çizerken geçerlidir; fark etmiyorsa donanım kod çözmeyi kapatın.</string>
     <string name="settings_movies_series_player">Film ve Dizi oynatıcısı</string>
     <string name="settings_live_tv_player">Canlı TV oynatıcısı</string>
     <string name="settings_engine_order"><xliff:g id="first">%1$s</xliff:g>, sonra <xliff:g id="second">%2$s</xliff:g></string>
@@ -558,7 +555,7 @@
     <string name="settings_audio">Ses</string>
     <string name="settings_preferred_audio_language">Tercih edilen ses dili</string>
     <string name="settings_audio_sync">Ses eşitleme</string>
-    <string name="settings_audio_sync_description">Görüntüyle eşleşmesi için sesi öne veya geriye kaydırın. Yalnızca mpv motoru için geçerlidir.</string>
+    <string name="settings_audio_sync_description">Görüntüyle eşleşmesi için sesi öne veya geriye kaydırın. Her iki oynatıcıda da çalışır (mpv ve ExoPlayer).</string>
     <string name="settings_live_tv">Canlı TV</string>
     <string name="settings_live_latency_description">Yayının canlı yayın noktasına ne kadar yakın oynatılacağı. Daha düşük değer canlı yayına daha yakın ancak daha küçük bir arabellek anlamına gelir; bu nedenle zayıf akışlar daha sık takılabilir veya yeniden bağlanabilir. Açacağınız bir sonraki kanalda uygulanır.</string>
     <string name="settings_live_latency_bitrate_note">Çok yüksek bit hızına sahip bir kanalda (özellikle 4K) arabellek, istediğinden daha kısa bir süreyi tutabilir; çünkü aynı anda bellekte tutulabilecek video miktarı sınırlıdır.</string>
@@ -589,8 +586,8 @@
     <string name="settings_audio_delay"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_external_player_description">Hangi bölümlerin harici bir uygulamada açılacağını seçin.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
-    <string name="settings_movies_player_description">mpv (önerilir) en geniş biçim desteğine sahiptir — DTS/TrueHD ses, alışılmadık dosyalar — ayrıca A/V eşitleme düzeltmesi de vardır. Bazı televizyonlarda ExoPlayer, mpv’nin açamadığı yayınları oynatır; ancak DTS/TrueHD sesi çözemez ve A/V eşitleme düzeltmesi yoktur. Birleşik seçenekler ilki başarısız olduğunda diğer oynatıcıyı otomatik dener; tek oynatıcılı seçenekler bunu hiç yapmaz; ikinci oynatıcı televizyonunuzda zaten çalışmıyorsa bu, birkaç saniyelik siyah ekrandan kurtarır.</string>
-    <string name="settings_movies_player_description_mobile">mpv (önerilir) en geniş biçim desteğine sahiptir — DTS/TrueHD ses, alışılmadık dosyalar — ayrıca A/V eşitleme düzeltmesi de vardır. Bazı cihazlarda ExoPlayer, mpv’nin açamadığı yayınları oynatır; ancak DTS/TrueHD sesi çözemez ve A/V eşitleme düzeltmesi yoktur. Birleşik seçenekler ilki başarısız olduğunda diğer oynatıcıyı otomatik dener; tek oynatıcılı seçenekler bunu hiç yapmaz; ikinci oynatıcı cihazınızda zaten çalışmıyorsa bu, birkaç saniyelik siyah ekrandan kurtarır.</string>
+    <string name="settings_movies_player_description">mpv (önerilir) en geniş biçim desteğine sahiptir — DTS/TrueHD ses, alışılmadık dosyalar. Bazı televizyonlarda ExoPlayer, mpv’nin açamadığı yayınları oynatır; ancak DTS/TrueHD sesi çözemez. Birleşik seçenekler ilki başarısız olduğunda diğer oynatıcıyı otomatik dener; tek oynatıcılı seçenekler bunu hiç yapmaz; ikinci oynatıcı televizyonunuzda zaten çalışmıyorsa bu, birkaç saniyelik siyah ekrandan kurtarır.</string>
+    <string name="settings_movies_player_description_mobile">mpv (önerilir) en geniş biçim desteğine sahiptir — DTS/TrueHD ses, alışılmadık dosyalar. Bazı cihazlarda ExoPlayer, mpv’nin açamadığı yayınları oynatır; ancak DTS/TrueHD sesi çözemez. Birleşik seçenekler ilki başarısız olduğunda diğer oynatıcıyı otomatik dener; tek oynatıcılı seçenekler bunu hiç yapmaz; ikinci oynatıcı cihazınızda zaten çalışmıyorsa bu, birkaç saniyelik siyah ekrandan kurtarır.</string>
     <string name="settings_live_player_description">ExoPlayer (önerilir) kanalları çok daha hızlı açar ve canlı altyazıyı destekleyen tek oynatıcıdır. mpv, ExoPlayer’ın açamadığı kanalları, alışılmadık sese sahip bazıları dahil, oynatır. Birleşik seçenekler ilki başarısız olduğunda diğer oynatıcıyı otomatik dener; tek oynatıcılı seçenekler bunu hiç yapmaz; ikinci oynatıcı televizyonunuzda zaten çalışmıyorsa bu, birkaç saniyelik siyah ekrandan kurtarır. Oynatıcıda elle değiştirdiğiniz bir kanalda seçiminiz her iki durumda da korunur.</string>
     <string name="settings_live_player_description_mobile">ExoPlayer (önerilir) kanalları çok daha hızlı açar ve canlı altyazıyı destekleyen tek oynatıcıdır. mpv, ExoPlayer’ın açamadığı kanalları, alışılmadık sese sahip bazıları dahil, oynatır. Birleşik seçenekler ilki başarısız olduğunda diğer oynatıcıyı otomatik dener; tek oynatıcılı seçenekler bunu hiç yapmaz; ikinci oynatıcı cihazınızda zaten çalışmıyorsa bu, birkaç saniyelik siyah ekrandan kurtarır. Oynatıcıda elle değiştirdiğiniz bir kanalda seçiminiz her iki durumda da korunur.</string>
     <string name="settings_reset_player_choices_description">Oynatıcıda tek bir filmi veya bölümü mpv ile ExoPlayer arasında değiştirmek, bu seçimi bir sonraki sefer için kaydeder. Sıfırlama her şeyin yeniden yukarıdaki ayarı izlemesini sağlar. Canlı kanallar için kaydedilen seçimler korunur.</string>
@@ -601,6 +598,14 @@
     </plurals>
     <string name="settings_reset_player_choices_confirm">Kaydedilen oynatıcı seçimleri sıfırlansın mı?</string>
     <string name="settings_reset_player_choices_confirm_description">Her film ve bölüm yeniden “Film ve Dizi oynatıcısı” ayarını izler. Tek bir öğeyi istediğiniz zaman oynatıcıdan yeniden değiştirebilirsiniz.</string>
+    <string name="settings_reset_live_player_choices">Canlı TV oynatıcısı için kaydedilen seçimleri sıfırla</string>
+    <string name="settings_reset_live_player_choices_description">Oynatıcıda bir kanalı ExoPlayer ile mpv arasında değiştirmek, bu seçimi o kanal için kaydeder. Sıfırlama tüm kanalların yeniden “Canlı TV oynatıcısı” ayarını izlemesini sağlar. Filmler ve bölümler için kaydedilen seçimler korunur.</string>
+    <string name="settings_reset_live_player_choices_confirm">Canlı TV oynatıcısı için kaydedilen seçimler sıfırlansın mı?</string>
+    <string name="settings_reset_live_player_choices_confirm_description">Her kanal yeniden “Canlı TV oynatıcısı” ayarını izler. Tek bir kanalı istediğiniz zaman oynatıcıdan yeniden değiştirebilirsiniz.</string>
+    <string name="settings_forget_stream_fixes">Öğrenilen yayın düzeltmelerini unut</string>
+    <string name="settings_forget_stream_fixes_description">Oynatıcı, her sağlayıcının yayınlarının neye ihtiyaç duyduğunu öğrenir: ExoPlayer yerine mpv, başka bir biçim, geçmiş yayınlar için yazılımla kod çözme. Bir sağlayıcı yayınlarını düzelttiyse bunu unutturun. Geçmiş yayınlarla ilgili öğrenilenler de 14 gün sonra kendiliğinden unutulur.</string>
+    <string name="settings_forget_stream_fixes_confirm">Öğrenilen yayın düzeltmeleri unutulsun mu?</string>
+    <string name="settings_forget_stream_fixes_confirm_description">Kanallar yeniden standart şekilde açılır ve oynatıcı, bir sağlayıcının hâlâ ihtiyaç duyduğu şeyi yeniden öğrenir. Etkilenen bir kanalın ilk oynatılması birkaç saniye daha uzun sürebilir.</string>
     <string name="settings_external_player_row_description">Akışları yerleşik oynatıcı yerine her kısım için ayrı seçilen harici bir uygulamada (VLC, MX Player) açın. Bu uygulamanın kodunu çözemediği akışlar için veya başka bir oynatıcıyı tercih ediyorsanız kullanışlıdır. Harici oynatma sırasında devam konumu ve önceki/sonraki özellikleri kullanılamaz; özel bir User-Agent veya yönlendiren bilgisi gerektiren akışlar oynatılamayabilir.</string>
     <string name="settings_resume_always">Her zaman devam et</string>
     <string name="settings_resume_ask">Devam etmeden önce sor</string>
@@ -928,7 +933,7 @@
     <string name="settings_backup_section_settings">Uygulama ayarları</string>
     <string name="settings_backup_section_settings_desc">Tema, vurgu rengi, oynatıcı ve düzen tercihleri</string>
     <string name="settings_backup_device_settings">Diğer cihazın donanım ayarları</string>
-    <string name="settings_backup_device_settings_desc">Oynatıcı motoru, donanımla kod çözme, kare hızı, HDR, surround ses ve geçmeli tarama giderme. Yalnızca iki cihazın donanımı aynıysa geri yükleyin.</string>
+    <string name="settings_backup_device_settings_desc">Oynatıcı motoru, donanımla kod çözme, kare hızı, HDR ve surround ses. Yalnızca iki cihazın donanımı aynıysa geri yükleyin.</string>
     <string name="settings_backup_saved_to"><xliff:g id="path">%1$s</xliff:g> konumuna kaydedildi.</string>
     <string name="settings_backup_saved_to_without_passwords"><xliff:g id="path">%1$s</xliff:g> konumuna kaydedildi. Parolalar ve PIN kodları dâhil edilmedi.</string>
     <plurals name="settings_backup_restored">

@@ -81,6 +81,16 @@ class LiveTuneController(
     /** True while the preview pane is held back because its panel allows one stream and mpv has it. */
     val previewBlockedSingleSession: StateFlow<Boolean> = _previewBlocked.asStateFlow()
 
+    private val recall = ChannelRecall()
+
+    /** The channel watched before the one on screen — the "previous channel" key's target (N2). The app
+     *  still vets it (profile, playlists, adult filter) before tuning it. */
+    val previousChannel: StateFlow<ChannelEntity?> = recall.previous
+
+    /** A channel the user is watching that did not go through [start] — the phone's cast hand-off, where
+     *  the receiver plays it. Without this, casting would leave "previous channel" pointing at the past. */
+    fun noteWatched(channel: ChannelEntity) = recall.onWatched(channel)
+
     /** The channel this controller is tuning or playing full-screen; null when it is not driving one. */
     private var current: ChannelEntity? = null
 
@@ -135,6 +145,7 @@ class LiveTuneController(
         previewJob?.cancel()
         cancelLadderJobs()
         current = channel
+        recall.onWatched(channel)
         _previewBlocked.value = false
         val setting = source?.liveEnginePreference
             ?.let { name -> EnginePreference.entries.firstOrNull { it.name == name } }

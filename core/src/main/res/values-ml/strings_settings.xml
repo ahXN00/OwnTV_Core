@@ -107,6 +107,7 @@
     <string name="settings_remote_button_fast_forward">ഫാസ്റ്റ് ഫോർവേഡ്</string>
     <string name="settings_remote_button_previous">മുമ്പത്തെ</string>
     <string name="settings_remote_button_next">അടുത്തത്</string>
+    <string name="settings_remote_button_last_channel">അവസാന ചാനൽ</string>
     <string name="settings_remote_button_menu">മെനു</string>
     <string name="settings_remote_button_red">ചുവപ്പ് ബട്ടൺ</string>
     <string name="settings_remote_button_green">പച്ച ബട്ടൺ</string>
@@ -202,7 +203,7 @@
     <string name="settings_quick_live_preview">തത്സമയ പ്രിവ്യൂ</string>
     <string name="settings_quick_preview_sound">പ്രിവ്യൂ ശബ്ദം</string>
     <string name="settings_quick_channel_numbers">ചാനൽ നമ്പറുകൾ</string>
-    <string name="settings_quick_hdr">HDR</string>
+    <string name="settings_quick_hdr">HDR (mpv മാത്രം)</string>
     <string name="settings_quick_autoplay">സ്വയം പ്ലേ ചെയ്യുക</string>
     <string name="settings_quick_check_update">അപ്‌ഡേറ്റിനായി പരിശോധിക്കുക</string>
     <string name="settings_search_label">ക്രമീകരണങ്ങൾ തിരയുക</string>
@@ -269,8 +270,8 @@
     <string name="settings_preview_audio_description">തത്സമയ പ്രിവ്യൂവിൽ ശബ്ദം പ്ലേ ചെയ്യുക</string>
     <string name="settings_mini_player_root">മിനി പ്ലെയർ</string>
     <string name="settings_mini_player_root_description">ഡോക്ക് ചെയ്ത മിനി പ്ലെയറിന്റെ വലുപ്പവും സ്ഥാനവും</string>
-    <string name="settings_hdr_description">വീഡിയോയും ടിവിയും പിന്തുണയ്ക്കുമ്പോൾ HDR ഔട്ട്‌പുട്ട് ഉപയോഗിക്കുക</string>
-    <string name="settings_hdr_description_mobile">വീഡിയോയും സ്ക്രീനും പിന്തുണയ്ക്കുമ്പോൾ HDR ഔട്ട്‌പുട്ട് ഉപയോഗിക്കുക</string>
+    <string name="settings_hdr_description">വീഡിയോയും ടിവിയും പിന്തുണയ്ക്കുമ്പോൾ HDR ഔട്ട്‌പുട്ട് ഉപയോഗിക്കുക. mpv മാത്രം: ExoPlayer എഞ്ചിൻ ഈ ക്രമീകരണം പിന്തുണയ്ക്കുന്നില്ല, സ്ട്രീമിന്റെ HDR എപ്പോഴും അതേപടി കൈമാറും.</string>
+    <string name="settings_hdr_description_mobile">വീഡിയോയും സ്ക്രീനും പിന്തുണയ്ക്കുമ്പോൾ HDR ഔട്ട്‌പുട്ട് ഉപയോഗിക്കുക. mpv മാത്രം: ExoPlayer എഞ്ചിൻ ഈ ക്രമീകരണം പിന്തുണയ്ക്കുന്നില്ല, സ്ട്രീമിന്റെ HDR എപ്പോഴും അതേപടി കൈമാറും.</string>
     <string name="settings_auto_frame_rate">സ്വയമേവയുള്ള ഫ്രെയിം നിരക്ക്</string>
     <string name="settings_auto_frame_rate_description">തത്സമയ ടിവിക്കും VOD-ക്കും പൂർണ്ണ സ്ക്രീനിൽ ടിവിയുടെ പുതുക്കൽ നിരക്ക് വീഡിയോയുമായി (24/25/50/60 fps) പൊരുത്തപ്പെടുത്തി, പുറത്തുകടക്കുമ്പോൾ പഴയ നിലയിലാക്കുക. ഓരോ ചാനൽ മാറ്റത്തിലും നിങ്ങളുടെ ടിവിയോ റിസീവറോ HDMI ഹാൻഡ്‌ഷേക്ക് ശബ്ദത്തോടെ വീണ്ടും നടത്തുകയാണെങ്കിൽ ഇത് പ്രവർത്തനരഹിതമാക്കുക.</string>
     <string name="settings_auto_frame_rate_description_mobile">തത്സമയ ടിവിക്കും VOD-ക്കും പൂർണ്ണ സ്ക്രീനിൽ സ്ക്രീനിന്റെ പുതുക്കൽ നിരക്ക് വീഡിയോയുമായി (24/25/50/60 fps) പൊരുത്തപ്പെടുത്തി, പുറത്തുകടക്കുമ്പോൾ പഴയ നിലയിലാക്കുക. ഒരു വീഡിയോ തുടങ്ങുമ്പോൾ സ്ക്രീൻ മിന്നുകയോ ഇരുണ്ടുപോകുകയോ ചെയ്യുന്നെങ്കിൽ ഇത് പ്രവർത്തനരഹിതമാക്കുക.</string>
@@ -480,10 +481,6 @@
     <string name="settings_hardware_decoding">ഹാർഡ്‌വെയർ ഡീകോഡിംഗ്</string>
     <string name="settings_hardware_decoding_description">ടിവിയുടെ ഹാർഡ്‌വെയർ ഡീകോഡർ ഉപയോഗിക്കുക. ചില സ്ട്രീമുകൾ തടസ്സപ്പെടുകയോ ദൃശ്യവൈകല്യങ്ങൾ കാണിക്കുകയോ ചെയ്താൽ ഇത് പ്രവർത്തനരഹിതമാക്കുക.</string>
     <string name="settings_hardware_decoding_description_mobile">ഉപകരണത്തിന്റെ ഹാർഡ്‌വെയർ ഡീകോഡർ ഉപയോഗിക്കുക. ചില സ്ട്രീമുകൾ തടസ്സപ്പെടുകയോ ദൃശ്യവൈകല്യങ്ങൾ കാണിക്കുകയോ ചെയ്താൽ ഇത് പ്രവർത്തനരഹിതമാക്കുക.</string>
-    <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
-    <string name="settings_deinterlace">ഡീഇന്റർലേസിംഗ്</string>
-    <!-- Translators: Description of the deinterlacing setting. -->
-    <string name="settings_deinterlace_description">ചില പഴയ SD ചാനലുകൾ ചലനത്തിൽ കാണിക്കുന്ന ചീർപ്പുപോലുള്ള വരകൾ മയപ്പെടുത്തുന്നു. mpv സ്വയം ചിത്രം വരയ്ക്കുമ്പോൾ മാത്രമേ ഇത് ബാധകമാകൂ, അതിനാൽ വ്യത്യാസമില്ലെങ്കിൽ ഹാർഡ്‌വെയർ ഡീകോഡിംഗ് ഓഫാക്കുക.</string>
     <string name="settings_movies_series_player">സിനിമകളുടെയും സീരീസിന്റെയും പ്ലെയർ</string>
     <string name="settings_live_tv_player">തത്സമയ ടിവിയുടെ പ്ലെയർ</string>
     <string name="settings_engine_order"><xliff:g id="first">%1$s</xliff:g>, പിന്നെ <xliff:g id="second">%2$s</xliff:g></string>
@@ -558,7 +555,7 @@
     <string name="settings_audio">ഓഡിയോ</string>
     <string name="settings_preferred_audio_language">മുൻഗണനയുള്ള ഓഡിയോ ഭാഷ</string>
     <string name="settings_audio_sync">ഓഡിയോ സമന്വയിപ്പിക്കൽ</string>
-    <string name="settings_audio_sync_description">വീഡിയോയുമായി പൊരുത്തപ്പെടുത്താൻ ഓഡിയോ നേരത്തെയോ വൈകിയോ ആക്കുക. mpv എൻജിനിൽ മാത്രം ബാധകം.</string>
+    <string name="settings_audio_sync_description">വീഡിയോയുമായി പൊരുത്തപ്പെടുത്താൻ ഓഡിയോ നേരത്തെയോ വൈകിയോ ആക്കുക. രണ്ട് പ്ലെയറുകളിലും (mpv, ExoPlayer) പ്രവർത്തിക്കും.</string>
     <string name="settings_live_tv">തത്സമയ ടിവി</string>
     <string name="settings_live_latency_description">തത്സമയ പ്രക്ഷേപണത്തോട് എത്ര അടുത്തായി പ്ലേ ചെയ്യണം. കുറഞ്ഞ മൂല്യം തത്സമയത്തോട് കൂടുതൽ അടുത്തായിരിക്കും, എന്നാൽ ബഫർ ചെറുതായതിനാൽ ദുർബലമായ സ്ട്രീമുകൾ തടസ്സപ്പെടുകയോ കൂടുതൽ തവണ വീണ്ടും കണക്റ്റ് ചെയ്യുകയോ ചെയ്‌തേക്കാം. അടുത്തതായി തുറക്കുന്ന ചാനലിന് ഇത് ബാധകമാകും.</string>
     <string name="settings_live_latency_bitrate_note">വളരെ ഉയർന്ന ബിറ്റ്റേറ്റുള്ള ചാനലിൽ — പ്രത്യേകിച്ച് 4K-യിൽ — നിങ്ങൾ ആവശ്യപ്പെട്ടതിലും കുറഞ്ഞ സമയമേ ബഫറിന് സൂക്ഷിക്കാനാകൂ, കാരണം ഒരേസമയം മെമ്മറിയിൽ സൂക്ഷിക്കാവുന്ന വീഡിയോയ്ക്ക് പരിധിയുണ്ട്.</string>
@@ -589,8 +586,8 @@
     <string name="settings_audio_delay"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_external_player_description">ഏതൊക്കെ വിഭാഗങ്ങൾ ബാഹ്യ ആപ്പിൽ തുറക്കണമെന്ന് തിരഞ്ഞെടുക്കുക.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
-    <string name="settings_movies_player_description">mpv (ശുപാർശ ചെയ്യുന്നു) ഏറ്റവും വിശാലമായ ഫോർമാറ്റ് പിന്തുണ നൽകുന്നു — DTS/TrueHD ഓഡിയോ, അസാധാരണ ഫയലുകൾ — കൂടാതെ A/V സിങ്ക് തിരുത്തലും. ചില ടിവികളിൽ mpv-ക്ക് തുറക്കാനാകാത്ത സ്ട്രീമുകൾ ExoPlayer പ്ലേ ചെയ്യും, എന്നാൽ അതിന് DTS/TrueHD ഓഡിയോ ഡീകോഡ് ചെയ്യാനാകില്ല, A/V സിങ്ക് തിരുത്തലുമില്ല. സംയുക്ത ഓപ്ഷനുകളിൽ ആദ്യത്തേത് പരാജയപ്പെട്ടാൽ മറ്റേ പ്ലെയർ സ്വയമേവ പരീക്ഷിക്കും; ഒറ്റ പ്ലെയർ ഓപ്ഷനുകളിൽ അത് ഒരിക്കലും സംഭവിക്കില്ല, രണ്ടാമത്തെ പ്ലെയർ നിങ്ങളുടെ ടിവിയിൽ എന്തായാലും പ്രവർത്തിക്കുന്നില്ലെങ്കിൽ ഏതാനും സെക്കൻഡ് കറുത്ത സ്ക്രീൻ ഒഴിവാകും.</string>
-    <string name="settings_movies_player_description_mobile">mpv (ശുപാർശ ചെയ്യുന്നു) ഏറ്റവും വിശാലമായ ഫോർമാറ്റ് പിന്തുണ നൽകുന്നു — DTS/TrueHD ഓഡിയോ, അസാധാരണ ഫയലുകൾ — കൂടാതെ A/V സിങ്ക് തിരുത്തലും. ചില ഉപകരണങ്ങളിൽ mpv-ക്ക് തുറക്കാനാകാത്ത സ്ട്രീമുകൾ ExoPlayer പ്ലേ ചെയ്യും, എന്നാൽ അതിന് DTS/TrueHD ഓഡിയോ ഡീകോഡ് ചെയ്യാനാകില്ല, A/V സിങ്ക് തിരുത്തലുമില്ല. സംയുക്ത ഓപ്ഷനുകളിൽ ആദ്യത്തേത് പരാജയപ്പെട്ടാൽ മറ്റേ പ്ലെയർ സ്വയമേവ പരീക്ഷിക്കും; ഒറ്റ പ്ലെയർ ഓപ്ഷനുകളിൽ അത് ഒരിക്കലും സംഭവിക്കില്ല, രണ്ടാമത്തെ പ്ലെയർ നിങ്ങളുടെ ഉപകരണത്തിൽ എന്തായാലും പ്രവർത്തിക്കുന്നില്ലെങ്കിൽ ഏതാനും സെക്കൻഡ് കറുത്ത സ്ക്രീൻ ഒഴിവാകും.</string>
+    <string name="settings_movies_player_description">mpv (ശുപാർശ ചെയ്യുന്നു) ഏറ്റവും വിശാലമായ ഫോർമാറ്റ് പിന്തുണ നൽകുന്നു — DTS/TrueHD ഓഡിയോ, അസാധാരണ ഫയലുകൾ. ചില ടിവികളിൽ mpv-ക്ക് തുറക്കാനാകാത്ത സ്ട്രീമുകൾ ExoPlayer പ്ലേ ചെയ്യും, എന്നാൽ അതിന് DTS/TrueHD ഓഡിയോ ഡീകോഡ് ചെയ്യാനാകില്ല. സംയുക്ത ഓപ്ഷനുകളിൽ ആദ്യത്തേത് പരാജയപ്പെട്ടാൽ മറ്റേ പ്ലെയർ സ്വയമേവ പരീക്ഷിക്കും; ഒറ്റ പ്ലെയർ ഓപ്ഷനുകളിൽ അത് ഒരിക്കലും സംഭവിക്കില്ല, രണ്ടാമത്തെ പ്ലെയർ നിങ്ങളുടെ ടിവിയിൽ എന്തായാലും പ്രവർത്തിക്കുന്നില്ലെങ്കിൽ ഏതാനും സെക്കൻഡ് കറുത്ത സ്ക്രീൻ ഒഴിവാകും.</string>
+    <string name="settings_movies_player_description_mobile">mpv (ശുപാർശ ചെയ്യുന്നു) ഏറ്റവും വിശാലമായ ഫോർമാറ്റ് പിന്തുണ നൽകുന്നു — DTS/TrueHD ഓഡിയോ, അസാധാരണ ഫയലുകൾ. ചില ഉപകരണങ്ങളിൽ mpv-ക്ക് തുറക്കാനാകാത്ത സ്ട്രീമുകൾ ExoPlayer പ്ലേ ചെയ്യും, എന്നാൽ അതിന് DTS/TrueHD ഓഡിയോ ഡീകോഡ് ചെയ്യാനാകില്ല. സംയുക്ത ഓപ്ഷനുകളിൽ ആദ്യത്തേത് പരാജയപ്പെട്ടാൽ മറ്റേ പ്ലെയർ സ്വയമേവ പരീക്ഷിക്കും; ഒറ്റ പ്ലെയർ ഓപ്ഷനുകളിൽ അത് ഒരിക്കലും സംഭവിക്കില്ല, രണ്ടാമത്തെ പ്ലെയർ നിങ്ങളുടെ ഉപകരണത്തിൽ എന്തായാലും പ്രവർത്തിക്കുന്നില്ലെങ്കിൽ ഏതാനും സെക്കൻഡ് കറുത്ത സ്ക്രീൻ ഒഴിവാകും.</string>
     <string name="settings_live_player_description">ExoPlayer (ശുപാർശ ചെയ്യുന്നു) ചാനലുകൾ വളരെ വേഗത്തിൽ തുറക്കുന്നു, തത്സമയ സബ്ടൈറ്റിലുകൾ ഇതിൽ മാത്രമേയുള്ളൂ. ExoPlayer-ന് പ്ലേ ചെയ്യാനാകാത്ത ചാനലുകൾ, അസാധാരണ ഓഡിയോയുള്ള ചിലത് ഉൾപ്പെടെ, mpv പ്ലേ ചെയ്യും. സംയുക്ത ഓപ്ഷനുകളിൽ ആദ്യത്തേത് പരാജയപ്പെട്ടാൽ മറ്റേ പ്ലെയർ സ്വയമേവ പരീക്ഷിക്കും; ഒറ്റ പ്ലെയർ ഓപ്ഷനുകളിൽ അത് ഒരിക്കലും സംഭവിക്കില്ല, രണ്ടാമത്തെ പ്ലെയർ നിങ്ങളുടെ ടിവിയിൽ എന്തായാലും പ്രവർത്തിക്കുന്നില്ലെങ്കിൽ ഏതാനും സെക്കൻഡ് കറുത്ത സ്ക്രീൻ ഒഴിവാകും. പ്ലെയറിൽ സ്വയം മാറ്റിയ ചാനലിൽ നിങ്ങളുടെ തിരഞ്ഞെടുപ്പ് രണ്ട് സാഹചര്യത്തിലും നിലനിൽക്കും.</string>
     <string name="settings_live_player_description_mobile">ExoPlayer (ശുപാർശ ചെയ്യുന്നു) ചാനലുകൾ വളരെ വേഗത്തിൽ തുറക്കുന്നു, തത്സമയ സബ്ടൈറ്റിലുകൾ ഇതിൽ മാത്രമേയുള്ളൂ. ExoPlayer-ന് പ്ലേ ചെയ്യാനാകാത്ത ചാനലുകൾ, അസാധാരണ ഓഡിയോയുള്ള ചിലത് ഉൾപ്പെടെ, mpv പ്ലേ ചെയ്യും. സംയുക്ത ഓപ്ഷനുകളിൽ ആദ്യത്തേത് പരാജയപ്പെട്ടാൽ മറ്റേ പ്ലെയർ സ്വയമേവ പരീക്ഷിക്കും; ഒറ്റ പ്ലെയർ ഓപ്ഷനുകളിൽ അത് ഒരിക്കലും സംഭവിക്കില്ല, രണ്ടാമത്തെ പ്ലെയർ നിങ്ങളുടെ ഉപകരണത്തിൽ എന്തായാലും പ്രവർത്തിക്കുന്നില്ലെങ്കിൽ ഏതാനും സെക്കൻഡ് കറുത്ത സ്ക്രീൻ ഒഴിവാകും. പ്ലെയറിൽ സ്വയം മാറ്റിയ ചാനലിൽ നിങ്ങളുടെ തിരഞ്ഞെടുപ്പ് രണ്ട് സാഹചര്യത്തിലും നിലനിൽക്കും.</string>
     <string name="settings_reset_player_choices_description">പ്ലെയറിൽ ഒരു സിനിമയോ എപ്പിസോഡോ mpv-യ്ക്കും ExoPlayer-നും ഇടയിൽ മാറ്റിയാൽ ആ തിരഞ്ഞെടുപ്പ് അടുത്ത തവണത്തേക്ക് സേവ് ചെയ്യപ്പെടും. പുനഃസജ്ജമാക്കിയാൽ എല്ലാം വീണ്ടും മുകളിലുള്ള ക്രമീകരണം പിന്തുടരും. ലൈവ് ചാനലുകളുടെ സേവ് ചെയ്ത തിരഞ്ഞെടുപ്പുകൾ നിലനിർത്തും.</string>
@@ -601,6 +598,14 @@
     </plurals>
     <string name="settings_reset_player_choices_confirm">സേവ് ചെയ്ത പ്ലെയർ തിരഞ്ഞെടുപ്പുകൾ പുനഃസജ്ജമാക്കണോ?</string>
     <string name="settings_reset_player_choices_confirm_description">എല്ലാ സിനിമകളും എപ്പിസോഡുകളും വീണ്ടും “സിനിമകളുടെയും സീരീസിന്റെയും പ്ലെയർ” ക്രമീകരണം പിന്തുടരും. ഒറ്റ ഇനം എപ്പോൾ വേണമെങ്കിലും പ്ലെയറിൽ നിന്ന് വീണ്ടും മാറ്റാം.</string>
+    <string name="settings_reset_live_player_choices">തത്സമയ ടിവി പ്ലെയറിന്റെ സേവ് ചെയ്ത തിരഞ്ഞെടുപ്പുകൾ പുനഃസജ്ജമാക്കുക</string>
+    <string name="settings_reset_live_player_choices_description">പ്ലെയറിൽ ഒരു ചാനൽ ExoPlayer-നും mpv-യ്ക്കും ഇടയിൽ മാറ്റിയാൽ ആ തിരഞ്ഞെടുപ്പ് ആ ചാനലിനായി സേവ് ചെയ്യപ്പെടും. പുനഃസജ്ജമാക്കിയാൽ എല്ലാ ചാനലുകളും വീണ്ടും “തത്സമയ ടിവിയുടെ പ്ലെയർ” ക്രമീകരണം പിന്തുടരും. സിനിമകളുടെയും എപ്പിസോഡുകളുടെയും സേവ് ചെയ്ത തിരഞ്ഞെടുപ്പുകൾ നിലനിർത്തും.</string>
+    <string name="settings_reset_live_player_choices_confirm">തത്സമയ ടിവി പ്ലെയറിന്റെ സേവ് ചെയ്ത തിരഞ്ഞെടുപ്പുകൾ പുനഃസജ്ജമാക്കണോ?</string>
+    <string name="settings_reset_live_player_choices_confirm_description">എല്ലാ ചാനലുകളും വീണ്ടും “തത്സമയ ടിവിയുടെ പ്ലെയർ” ക്രമീകരണം പിന്തുടരും. ഒറ്റ ചാനൽ എപ്പോൾ വേണമെങ്കിലും പ്ലെയറിൽ നിന്ന് വീണ്ടും മാറ്റാം.</string>
+    <string name="settings_forget_stream_fixes">പഠിച്ച സ്ട്രീം പരിഹാരങ്ങൾ മറക്കുക</string>
+    <string name="settings_forget_stream_fixes_description">ഓരോ ദാതാവിന്റെയും സ്ട്രീമുകൾക്ക് എന്താണ് വേണ്ടതെന്ന് പ്ലെയർ പഠിക്കുന്നു — ExoPlayer-ന് പകരം mpv, മറ്റൊരു ഫോർമാറ്റ്, ക്യാച്ച്-അപ്പിനായി സോഫ്റ്റ്‌വെയർ ഡീകോഡിംഗ്. ഒരു ദാതാവ് അവരുടെ സ്ട്രീമുകൾ ശരിയാക്കിയെങ്കിൽ ഇത് മറക്കുക. ക്യാച്ച്-അപ്പിനെക്കുറിച്ച് പഠിച്ചവ 14 ദിവസത്തിനുശേഷം സ്വയം മറക്കപ്പെടും.</string>
+    <string name="settings_forget_stream_fixes_confirm">പഠിച്ച സ്ട്രീം പരിഹാരങ്ങൾ മറക്കണോ?</string>
+    <string name="settings_forget_stream_fixes_confirm_description">ചാനലുകൾ വീണ്ടും സാധാരണ രീതിയിൽ തുറക്കും, ദാതാവിന് ഇപ്പോഴും വേണ്ടത് പ്ലെയർ വീണ്ടും പഠിക്കും. ബാധിച്ച ഒരു ചാനലിന്റെ ആദ്യ പ്ലേ കുറച്ച് സെക്കൻഡ് കൂടുതൽ എടുത്തേക്കാം.</string>
     <string name="settings_external_player_row_description">ഓരോ വിഭാഗത്തിനും പ്രത്യേകം തിരഞ്ഞെടുത്തതനുസരിച്ച്, സ്ട്രീമുകൾ അന്തർനിർമ്മിത പ്ലെയറിന് പകരം ഒരു ബാഹ്യ ആപ്പിൽ (VLC, MX പ്ലെയർ) തുറക്കുക. ഈ ആപ്പിന് ഡീകോഡ് ചെയ്യാനാകാത്ത സ്ട്രീമുകൾക്കോ നിങ്ങൾ മറ്റൊരു പ്ലെയർ ഇഷ്ടപ്പെടുന്നെങ്കിലോ ഇത് ഉപകാരപ്പെടും. ബാഹ്യമായി പ്ലേ ചെയ്യുമ്പോൾ തുടരേണ്ട സ്ഥാനവും മുമ്പത്തേത്/അടുത്തത് എന്നീ നിയന്ത്രണങ്ങളും ലഭ്യമല്ല; ഇഷ്ടാനുസൃത യൂസർ-ഏജന്റോ റെഫററോ ആവശ്യമായ സ്ട്രീമുകൾ പ്ലേ ആയേക്കില്ല.</string>
     <string name="settings_resume_always">എപ്പോഴും തുടരുക</string>
     <string name="settings_resume_ask">തുടരണോ എന്ന് ചോദിക്കുക</string>
@@ -928,7 +933,7 @@
     <string name="settings_backup_section_settings">ആപ്പ് ക്രമീകരണങ്ങൾ</string>
     <string name="settings_backup_section_settings_desc">തീം, ആക്സന്റ്, പ്ലെയർ, ലേഔട്ട് മുൻഗണനകൾ</string>
     <string name="settings_backup_device_settings">മറ്റേ ഉപകരണത്തിലെ ഹാർഡ്‌വെയർ ക്രമീകരണങ്ങൾ</string>
-    <string name="settings_backup_device_settings_desc">പ്ലെയർ എഞ്ചിൻ, ഹാർഡ്‌വെയർ ഡീകോഡിംഗ്, ഫ്രെയിം റേറ്റ്, HDR, സറൗണ്ട്, ഡീഇന്റർലേസിംഗ്. രണ്ട് ഉപകരണങ്ങൾക്കും ഒരേ ഹാർഡ്‌വെയർ ആണെങ്കിൽ മാത്രം പുനഃസ്ഥാപിക്കുക.</string>
+    <string name="settings_backup_device_settings_desc">പ്ലെയർ എഞ്ചിൻ, ഹാർഡ്‌വെയർ ഡീകോഡിംഗ്, ഫ്രെയിം റേറ്റ്, HDR, സറൗണ്ട്. രണ്ട് ഉപകരണങ്ങൾക്കും ഒരേ ഹാർഡ്‌വെയർ ആണെങ്കിൽ മാത്രം പുനഃസ്ഥാപിക്കുക.</string>
     <string name="settings_backup_saved_to"><xliff:g id="path">%1$s</xliff:g>-ൽ സംരക്ഷിച്ചു.</string>
     <string name="settings_backup_saved_to_without_passwords"><xliff:g id="path">%1$s</xliff:g>-ൽ സംരക്ഷിച്ചു. പാസ്‌വേഡുകളും പിന്നുകളും ഉൾപ്പെടുത്തിയിട്ടില്ല.</string>
     <plurals name="settings_backup_restored">

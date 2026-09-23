@@ -690,11 +690,26 @@ class OwnTVPlayer(
         setPropertyString("vd-lavc-fast", if (lightDecode) "yes" else "no")
     }
 
-    /** Settings → Deinterlacing. Written on every render-config change because the render path decides
-     *  whether it can do anything: no video filter runs on the direct decoder-to-surface output, so this
-     *  only takes effect once mpv is rendering itself (hardware decoding off, or a software rescue). */
+    /**
+     * Deinterlacing follows the render path, not a setting (E13, owner decision 3). No video filter runs on
+     * the direct decoder-to-surface output — the TV's own processing deinterlaces there — so it is only
+     * ever asked for while mpv renders the picture itself: hardware decoding off, the copy rung, or a
+     * software rescue.
+     *
+     * `auto` filters only frames flagged as interlaced, so progressive video on a slow CPU's software
+     * rung pays nothing. It is read back because an older libmpv does not know the value; then it stays
+     * off (the previous default) rather than filtering every progressive frame.
+     */
     private fun MPVLib.applyDeinterlace() {
-        setPropertyString("deinterlace", if (deinterlace) "yes" else "no")
+        if (useDirect()) {
+            setPropertyString("deinterlace", "no")
+            return
+        }
+        runCatching { setPropertyString("deinterlace", "auto") }
+        if (runCatching { getPropertyString("deinterlace") }.getOrNull() != "auto") {
+            setPropertyString("deinterlace", "no")
+            android.util.Log.i(TAG, "deinterlace=auto unsupported by this libmpv; left off")
+        }
     }
 
     /** mpv `audio-channels`: multichannel allowed → multichannel LPCM where the sink **unambiguously**
@@ -831,8 +846,6 @@ class OwnTVPlayer(
     // below apply changes live to a running player.
     private var hwDecoding = true
 
-    /** Settings → Deinterlacing (Off / Auto). See [applyDeinterlace] for where it can take effect. */
-    private var deinterlace = false
     // Escape-hatch toggle: when off, no live fps/bitrate measuring runs at all (declared values only).
     private var measuredStreamStats = settings.measuredStreamStatsDefault
     // Live latency (#72): demuxer readahead seconds for live streams; null = keep the device budget
@@ -873,6 +886,8 @@ class OwnTVPlayer(
     private var subPosition = SubtitleStyle.Position.DEFAULT
     private var subBgOpacity = SubtitleStyle.OPACITY_DEFAULT
     private var audioDelaySec = 0.0
+    /** The same offset for the ExoPlayer film engine, which has no `audio-delay` of its own (N1). */
+    private val exoAudioDelay = AudioDelayClock()
     private var baseAudioDelayMs = 0 // the Settings audio-delay; each new file resets the in-player nudge to it
     private val _audioDelayMs = MutableStateFlow(0)
     /** Effective audio delay in ms (Settings default + the in-player A/V-sync nudge). */
@@ -987,10 +1002,6 @@ class OwnTVPlayer(
         playbackSettings.field { it.hwDecoding }.onEach { on ->
             hwDecoding = on
             if (initialized) mpvAsync { applyRenderConfig() }
-        }.launchIn(scope)
-        playbackSettings.field { it.deinterlace }.onEach { on ->
-            deinterlace = on
-            if (initialized) mpvAsync { applyDeinterlace() }
         }.launchIn(scope)
         playbackSettings.field { it.surroundMode }.onEach { mode ->
             val changed = surroundMode != mode
@@ -1785,7 +1796,7 @@ class OwnTVPlayer(
         _directRender.value = true // ExoPlayer also renders direct-to-surface → the view sizes for zoom
         _subText.value = null // mpv's text overlay is off during the handoff
         val budget = playerBudget ?: PlayerBudget.of(context).also { playerBudget = it }
-        val engine = exoEngine ?: ExoSubtitleEngine(context, streamingHttp, budget, exoCallbacks).also { exoEngine = it }
+        val engine = exoEngine ?: ExoSubtitleEngine(context, streamingHttp, budget, exoCallbacks, exoAudioDelay).also { exoEngine = it }
         // Keep the handoff engine on the same audio policy as mpv, and let its watchdog restart the item
         // on a stereo sink — the session latch is already set by the time this fires, so `start` rebuilds.
         engine.surroundMode = surroundMode
@@ -3212,6 +3223,7 @@ class OwnTVPlayer(
     private fun applyAudioDelay(ms: Int) {
         _audioDelayMs.value = ms
         audioDelaySec = ms / 1000.0
+        exoAudioDelay.delayMs = ms
         if (initialized) mpvAsync { setPropertyDouble("audio-delay", audioDelaySec) }
     }
 

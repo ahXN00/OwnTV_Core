@@ -1209,6 +1209,7 @@
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	UPDATE playback_quirks SET audioOnly = :audioOnly, updatedAt = :now WHERE contentKey = :contentKey
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	UPDATE playback_quirks SET enginePin = :pin, updatedAt = :now WHERE contentKey = :contentKey
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	UPDATE playback_quirks SET enginePin = NULL WHERE mediaType != 'LIVE'
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	UPDATE playback_quirks SET enginePin = NULL WHERE mediaType = 'LIVE'
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProfileDao.kt	DELETE FROM profiles
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProfileDao.kt	SELECT * FROM profiles ORDER BY createdAt ASC
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProfileDao.kt	SELECT * FROM profiles WHERE id = :id
@@ -2327,6 +2328,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	year
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	yyyy-MM-dd:HH-mm
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	—
+1	technical	core/src/main/java/tv/own/owntv/core/player/ArchiveDecodeStore.kt	$host$SEPARATOR$at
 1	preference-key	core/src/main/java/tv/own/owntv/core/player/ArchiveDecodeStore.kt	owntv_archive_decode
 1	preference-key	core/src/main/java/tv/own/owntv/core/player/ArchiveDecodeStore.kt	software_archive_hosts
 1	technical	core/src/main/java/tv/own/owntv/core/player/AudioOnlyStore.kt	LIVE
@@ -2682,7 +2684,6 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	default_source_id
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	default_volume
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	default_zoom
-1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	deinterlace
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	detailed_diagnostics
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	direct_tune
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	download_root
@@ -4322,7 +4323,7 @@
 1	mime	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio/true-hd
 1	mime	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio/vnd.dts
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audiotrack
-2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	auto
+4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	auto
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	auto-safe
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	av1
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	avc
@@ -4345,7 +4346,8 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	decoder-drops=${getPropertyString("decoder-frame-drop-count")}
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	decoder-frame-drop-count
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	default
-1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	deinterlace
+4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	deinterlace
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	deinterlace=auto unsupported by this libmpv; left off
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	demux-fps=${videoDemuxFps(this)}
 4	protocol	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	demuxer-cache-duration
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	demuxer-lavf-analyzeduration
@@ -4467,7 +4469,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	msg-level
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mute
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	network-timeout
-26	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	no
+27	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	no
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	no-video (mpv, Live) — audio progressing but no video frame after ~${elapsedMs}ms
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	no-video (mpv, Live) — reconnect attempt ${item.liveStallReconnects}/$MAX_LIVE_RECONNECTS
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	no-video (mpv, Live) — reconnect budget exhausted, surfacing error
@@ -4598,7 +4600,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog: archive loaded but produced no video
 4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	width
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	xsub
-25	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	yes
+24	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	yes
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	ytdl
 1	technical	player-core/src/main/java/tv/own/owntv/player/PlaybackEngines.kt	DEPRECATION
 6	empty	player-core/src/main/java/tv/own/owntv/player/PlaybackErrorLog.kt	\0
@@ -4823,5 +4825,6 @@
 1	file-path	player-core/src/main/java/tv/own/owntv/player/SubtitleShift.kt	subshift_${(source.path).hashCode()}_${offsetMs}_${source.name}
 1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleShift.kt	vtt
 1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleShift.kt	webvtt
+2	technical	player-core/src/main/java/tv/own/owntv/player/SurfaceFrameRate.kt	DEPRECATION
 1	log	player-core/src/main/java/tv/own/owntv/player/VolumeBoost.kt	volume boost failed: ${it.javaClass.simpleName}
 1	log	player-core/src/main/java/tv/own/owntv/player/VolumeBoost.kt	volume boost unavailable: ${it.javaClass.simpleName}

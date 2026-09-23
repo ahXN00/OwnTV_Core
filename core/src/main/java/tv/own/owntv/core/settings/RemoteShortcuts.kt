@@ -24,6 +24,7 @@ enum class RemoteShortcutAction {
     JUMP_TO_FIRST,
     JUMP_TO_LAST,
     RETURN_TO_LIVE,
+    PREVIOUS_CHANNEL,
     OPEN_SUBTITLE_CONTROLS,
     OPEN_AUDIO_CONTROLS,
     OPEN_ASPECT_CONTROLS,
@@ -52,6 +53,9 @@ object RemoteShortcutBindings {
         RemoteShortcutBinding(KeyEvent.KEYCODE_CHANNEL_DOWN, RemoteShortcutPress.LONG, RemoteShortcutAction.JUMP_TO_LAST),
         RemoteShortcutBinding(KeyEvent.KEYCODE_MEDIA_REWIND, RemoteShortcutPress.LONG, RemoteShortcutAction.JUMP_TO_FIRST),
         RemoteShortcutBinding(KeyEvent.KEYCODE_MEDIA_FAST_FORWARD, RemoteShortcutPress.LONG, RemoteShortcutAction.JUMP_TO_LAST),
+        // The remote's own "last channel" key, where it has one. Factory default only: a list the user
+        // has edited is theirs, so it is not merged in — they can assign it in Remote shortcuts.
+        RemoteShortcutBinding(KeyEvent.KEYCODE_LAST_CHANNEL, RemoteShortcutPress.SHORT, RemoteShortcutAction.PREVIOUS_CHANNEL),
     )
 
     fun encode(bindings: Collection<RemoteShortcutBinding>): Set<String> =

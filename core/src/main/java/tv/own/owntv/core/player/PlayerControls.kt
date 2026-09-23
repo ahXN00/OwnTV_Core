@@ -74,6 +74,12 @@ enum class PlayerControl(
     /** Jump back into this channel's archive. Live catch-up channels only. */
     CATCH_UP(ControlCluster.MEDIA, ControlHost.BOTH, R.string.player_tool_catchup),
 
+    /**
+     * Back to the channel watched before this one (N2). Live only, and only once there is one. The
+     * button is what makes it reachable on a remote without a "last channel" key, and on a phone.
+     */
+    PREVIOUS_CHANNEL(ControlCluster.MEDIA, ControlHost.BOTH, R.string.player_previous_channel),
+
     // --- The tools cluster: things about how it is being played and shown ---
 
     /** Which engine owns playback. A text pill naming it on the television; H3 matches that. */

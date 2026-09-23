@@ -107,6 +107,7 @@
     <string name="settings_remote_button_fast_forward">Spola framåt</string>
     <string name="settings_remote_button_previous">Föregående</string>
     <string name="settings_remote_button_next">Nästa</string>
+    <string name="settings_remote_button_last_channel">Senaste kanal</string>
     <string name="settings_remote_button_menu">Meny</string>
     <string name="settings_remote_button_red">Röd knapp</string>
     <string name="settings_remote_button_green">Grön knapp</string>
@@ -202,7 +203,7 @@
     <string name="settings_quick_live_preview">Liveförhandsvisning</string>
     <string name="settings_quick_preview_sound">Ljud vid förhandsvisning</string>
     <string name="settings_quick_channel_numbers">Kanalnummer</string>
-    <string name="settings_quick_hdr">HDR</string>
+    <string name="settings_quick_hdr">HDR (endast mpv)</string>
     <string name="settings_quick_autoplay">Automatisk uppspelning</string>
     <string name="settings_quick_check_update">Sök efter uppdatering</string>
     <string name="settings_search_label">Sök i inställningarna</string>
@@ -269,8 +270,8 @@
     <string name="settings_preview_audio_description">Spela upp ljud i liveförhandsvisningen</string>
     <string name="settings_mini_player_root">Minispelare</string>
     <string name="settings_mini_player_root_description">Den dockade minispelarens storlek och position</string>
-    <string name="settings_hdr_description">Använd HDR-utdata när videon och tv:n stöder det</string>
-    <string name="settings_hdr_description_mobile">Använd HDR-utdata när videon och skärmen stöder det</string>
+    <string name="settings_hdr_description">Använd HDR-utdata när videon och tv:n stöder det. Endast mpv: ExoPlayer-motorn stöder inte den här inställningen och skickar alltid strömmens HDR vidare oförändrat.</string>
+    <string name="settings_hdr_description_mobile">Använd HDR-utdata när videon och skärmen stöder det. Endast mpv: ExoPlayer-motorn stöder inte den här inställningen och skickar alltid strömmens HDR vidare oförändrat.</string>
     <string name="settings_auto_frame_rate">Automatisk bildfrekvens</string>
     <string name="settings_auto_frame_rate_description">Matcha tv:ns uppdateringsfrekvens med videon (24/25/50/60 bildrutor/s) i helskärm för live-tv och VOD och återställ den vid avslut. Stäng av om tv:n eller mottagaren genomför en ny HDMI-handskakning med störande ljud vid varje kanalbyte.</string>
     <string name="settings_auto_frame_rate_description_mobile">Matcha skärmens uppdateringsfrekvens med videon (24/25/50/60 bildrutor/s) i helskärm för live-tv och VOD och återställ den vid avslut. Stäng av om skärmen flimrar eller blir mörk när en video startar.</string>
@@ -480,10 +481,6 @@
     <string name="settings_hardware_decoding">Maskinvaruavkodning</string>
     <string name="settings_hardware_decoding_description">Använd tv:ns maskinvaruavkodare. Stäng av om vissa strömmar hackar eller visar bildfel.</string>
     <string name="settings_hardware_decoding_description_mobile">Använd enhetens maskinvaruavkodare. Stäng av om vissa strömmar hackar eller visar bildfel.</string>
-    <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
-    <string name="settings_deinterlace">Avflätning</string>
-    <!-- Translators: Description of the deinterlacing setting. -->
-    <string name="settings_deinterlace_description">Jämnar ut de kamliknande linjer som vissa gamla SD-kanaler visar vid rörelse. Gäller mpv-spelaren medan den ritar bilden själv, så stäng av maskinvaruavkodning om det inte gör någon skillnad.</string>
     <string name="settings_movies_series_player">Spelare för filmer och serier</string>
     <string name="settings_live_tv_player">Spelare för live-tv</string>
     <string name="settings_engine_order"><xliff:g id="first">%1$s</xliff:g>, sedan <xliff:g id="second">%2$s</xliff:g></string>
@@ -558,7 +555,7 @@
     <string name="settings_audio">Ljud</string>
     <string name="settings_preferred_audio_language">Föredraget ljudspråk</string>
     <string name="settings_audio_sync">Ljudsynkronisering</string>
-    <string name="settings_audio_sync_description">Flytta ljudet framåt eller bakåt för att matcha videon. Gäller endast mpv-motorn.</string>
+    <string name="settings_audio_sync_description">Flytta ljudet framåt eller bakåt för att matcha videon. Fungerar i båda spelarna (mpv och ExoPlayer).</string>
     <string name="settings_live_tv">Live-tv</string>
     <string name="settings_live_latency_description">Hur nära livesändningen uppspelningen ska ligga. Lägre innebär närmare livepunkten men en mindre buffert, så svaga strömmar kan hacka eller återansluta oftare. Gäller nästa kanal du öppnar.</string>
     <string name="settings_live_latency_bitrate_note">På en kanal med mycket hög bithastighet – särskilt 4K – kan bufferten rymma kortare tid än du har angett, eftersom det finns en gräns för hur mycket video som kan hållas i minnet samtidigt.</string>
@@ -589,8 +586,8 @@
     <string name="settings_audio_delay"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_external_player_description">Välj vilka avsnitt som ska öppnas i en extern app.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
-    <string name="settings_movies_player_description">mpv (rekommenderas) har bredast formatstöd — DTS/TrueHD-ljud, ovanliga filer — plus korrigeringen av A/V-synkroniseringen. På vissa tv-apparater spelar ExoPlayer upp strömmar som mpv inte klarar, men den avkodar inte DTS/TrueHD-ljud och saknar A/V-korrigering. De kombinerade alternativen provar automatiskt den andra spelaren när den första misslyckas; alternativen med bara en spelare gör det aldrig, vilket sparar några sekunders svart skärm om den andra spelaren ändå inte fungerar på din tv.</string>
-    <string name="settings_movies_player_description_mobile">mpv (rekommenderas) har bredast formatstöd — DTS/TrueHD-ljud, ovanliga filer — plus korrigeringen av A/V-synkroniseringen. På vissa enheter spelar ExoPlayer upp strömmar som mpv inte klarar, men den avkodar inte DTS/TrueHD-ljud och saknar A/V-korrigering. De kombinerade alternativen provar automatiskt den andra spelaren när den första misslyckas; alternativen med bara en spelare gör det aldrig, vilket sparar några sekunders svart skärm om den andra spelaren ändå inte fungerar på din enhet.</string>
+    <string name="settings_movies_player_description">mpv (rekommenderas) har bredast formatstöd — DTS/TrueHD-ljud, ovanliga filer. På vissa tv-apparater spelar ExoPlayer upp strömmar som mpv inte klarar, men den avkodar inte DTS/TrueHD-ljud. De kombinerade alternativen provar automatiskt den andra spelaren när den första misslyckas; alternativen med bara en spelare gör det aldrig, vilket sparar några sekunders svart skärm om den andra spelaren ändå inte fungerar på din tv.</string>
+    <string name="settings_movies_player_description_mobile">mpv (rekommenderas) har bredast formatstöd — DTS/TrueHD-ljud, ovanliga filer. På vissa enheter spelar ExoPlayer upp strömmar som mpv inte klarar, men den avkodar inte DTS/TrueHD-ljud. De kombinerade alternativen provar automatiskt den andra spelaren när den första misslyckas; alternativen med bara en spelare gör det aldrig, vilket sparar några sekunders svart skärm om den andra spelaren ändå inte fungerar på din enhet.</string>
     <string name="settings_live_player_description">ExoPlayer (rekommenderas) öppnar kanaler betydligt snabbare och är den enda med undertexter i direktsändning. mpv spelar upp kanaler som ExoPlayer inte klarar, bland annat några med ovanligt ljud. De kombinerade alternativen provar automatiskt den andra spelaren när den första misslyckas; alternativen med bara en spelare gör det aldrig, vilket sparar några sekunders svart skärm om den andra spelaren ändå inte fungerar på din tv. En kanal som du växlar för hand i spelaren behåller ditt val i båda fallen.</string>
     <string name="settings_live_player_description_mobile">ExoPlayer (rekommenderas) öppnar kanaler betydligt snabbare och är den enda med undertexter i direktsändning. mpv spelar upp kanaler som ExoPlayer inte klarar, bland annat några med ovanligt ljud. De kombinerade alternativen provar automatiskt den andra spelaren när den första misslyckas; alternativen med bara en spelare gör det aldrig, vilket sparar några sekunders svart skärm om den andra spelaren ändå inte fungerar på din enhet. En kanal som du växlar för hand i spelaren behåller ditt val i båda fallen.</string>
     <string name="settings_reset_player_choices_description">När du växlar en enskild film eller ett avsnitt mellan mpv och ExoPlayer i spelaren sparas det valet till nästa gång. Återställning gör att allt följer inställningen ovan igen. Sparade val för livekanaler behålls.</string>
@@ -601,6 +598,14 @@
     </plurals>
     <string name="settings_reset_player_choices_confirm">Återställa sparade spelarval?</string>
     <string name="settings_reset_player_choices_confirm_description">Alla filmer och avsnitt följer inställningen ”Spelare för filmer och serier” igen. Du kan alltid växla en enskild titel igen från spelaren.</string>
+    <string name="settings_reset_live_player_choices">Återställ sparade val av spelare för live-tv</string>
+    <string name="settings_reset_live_player_choices_description">När du växlar en kanal mellan ExoPlayer och mpv i spelaren sparas det valet för kanalen. Återställning gör att alla kanaler följer inställningen ”Spelare för live-tv” igen. Sparade val för filmer och avsnitt behålls.</string>
+    <string name="settings_reset_live_player_choices_confirm">Återställa sparade val av spelare för live-tv?</string>
+    <string name="settings_reset_live_player_choices_confirm_description">Alla kanaler följer inställningen ”Spelare för live-tv” igen. Du kan alltid växla en enskild kanal igen från spelaren.</string>
+    <string name="settings_forget_stream_fixes">Glöm inlärda strömkorrigeringar</string>
+    <string name="settings_forget_stream_fixes_description">Spelaren lär sig vad varje leverantörs strömmar behöver – mpv i stället för ExoPlayer, ett annat format, programvaruavkodning för catch-up. Glöm det om en leverantör har rättat sina strömmar. Det som lärts om catch-up glöms också av sig självt efter 14 dagar.</string>
+    <string name="settings_forget_stream_fixes_confirm">Glömma inlärda strömkorrigeringar?</string>
+    <string name="settings_forget_stream_fixes_confirm_description">Kanaler öppnas på vanligt sätt igen, och spelaren lär sig på nytt det som en leverantör fortfarande behöver. Första uppspelningen av en berörd kanal kan ta några sekunder längre.</string>
     <string name="settings_external_player_row_description">Öppna strömmar i en extern app (VLC, MX Player) i stället för den inbyggda spelaren; valet görs per sektion. Det är användbart för strömmar som den här appen inte kan avkoda eller om du föredrar en annan spelare. Det går inte att återuppta från den senaste positionen eller använda föregående/nästa vid extern uppspelning; strömmar som kräver en anpassad User-Agent eller referer kanske inte kan spelas upp.</string>
     <string name="settings_resume_always">Återuppta alltid</string>
     <string name="settings_resume_ask">Fråga om uppspelningen ska återupptas</string>
@@ -928,7 +933,7 @@
     <string name="settings_backup_section_settings">Appinställningar</string>
     <string name="settings_backup_section_settings_desc">Inställningar för tema, accentfärg, spelare och layout</string>
     <string name="settings_backup_device_settings">Maskinvaruinställningar från den andra enheten</string>
-    <string name="settings_backup_device_settings_desc">Spelarmotor, maskinvaruavkodning, bildfrekvens, HDR, surround och avflätning. Återställ bara om båda enheterna har samma maskinvara.</string>
+    <string name="settings_backup_device_settings_desc">Spelarmotor, maskinvaruavkodning, bildfrekvens, HDR och surround. Återställ bara om båda enheterna har samma maskinvara.</string>
     <string name="settings_backup_saved_to">Sparad i <xliff:g id="path">%1$s</xliff:g>.</string>
     <string name="settings_backup_saved_to_without_passwords">Sparad i <xliff:g id="path">%1$s</xliff:g>. Lösenord och PIN-koder inkluderades inte.</string>
     <plurals name="settings_backup_restored">

@@ -73,6 +73,13 @@ class PlaybackSession(
     private val audioManager by lazy { context.getSystemService(Context.AUDIO_SERVICE) as AudioManager }
 
     private var engine: PlaybackEngine? = null
+
+    /**
+     * What "previous" from a headset or the media notification does on a live channel — go back to the
+     * channel watched before (N2). A live engine has no previous item of its own, so without it the
+     * button did nothing. Assigned once by the app's live screen; null keeps the old no-op.
+     */
+    var livePrevious: (() -> Unit)? = null
     private var collectJob: Job? = null
     private var session: MediaSession? = null
 
@@ -214,7 +221,7 @@ class PlaybackSession(
                 if (!it.isLiveContent) it.seekBy(-it.seekStepMs.value)
             }
             override fun onSkipToNext() = withEngine { it.next() }
-            override fun onSkipToPrevious() = withEngine { it.previous() }
+            override fun onSkipToPrevious() = withEngine { if (it.isLiveContent) livePrevious?.invoke() else it.previous() }
         })
     }
 

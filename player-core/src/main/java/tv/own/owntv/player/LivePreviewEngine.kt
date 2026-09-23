@@ -179,6 +179,14 @@ class LivePreviewEngine(
     override val videoRes: StateFlow<String?> = _videoRes.asStateFlow()
     private val _volume = MutableStateFlow(100)
     override val volume: StateFlow<Int> = _volume.asStateFlow()
+    // A/V sync (N1): same rules as mpv's — each channel starts at the Settings value unless it has its
+    // own remembered one; the clock outlives player rebuilds, so a retry keeps the offset.
+    private val audioDelayClock = AudioDelayClock()
+    private var baseAudioDelayMs = 0
+    private val _audioDelayMs = MutableStateFlow(0)
+    override val audioDelayMs: StateFlow<Int> = _audioDelayMs.asStateFlow()
+    private val _audioDelayRemembered = MutableStateFlow(false)
+    override val audioDelayRemembered: StateFlow<Boolean> = _audioDelayRemembered.asStateFlow()
     private val _zoomMode = MutableStateFlow(ZoomMode.FIT)
     override val zoomMode: StateFlow<ZoomMode> = _zoomMode.asStateFlow()
     private val _audioCount = MutableStateFlow(0)
@@ -269,6 +277,10 @@ class LivePreviewEngine(
             defaultZoom = runCatching { ZoomMode.valueOf(name) }.getOrDefault(ZoomMode.FIT)
         }.launchIn(settingsScope)
         playbackSettings.field { it.defaultVolume }.onEach { defaultVolume = it }.launchIn(settingsScope)
+        playbackSettings.field { it.audioDelayMs }.onEach { ms ->
+            baseAudioDelayMs = ms
+            if (!_audioDelayRemembered.value) applyAudioDelay(ms)
+        }.launchIn(settingsScope)
     }
 
     /** Mirrors Settings → Video player → Hardware decoding. Read at [build] time. */
@@ -1309,6 +1321,10 @@ class LivePreviewEngine(
             sameChannelReopen -> _volume.value.coerceAtLeast(defaultVolume)
             else -> defaultVolume
         }
+        if (!sameChannelReopen) {
+            applyAudioDelay(baseAudioDelayMs)
+            _audioDelayRemembered.value = false
+        }
         applyRememberedPrefs(meta.contentKey ?: url)
         recallTracks(meta.contentKey ?: url)
         _state.value = State.LOADING
@@ -2196,7 +2212,37 @@ class LivePreviewEngine(
             }
             // Never un-mute the browse preview pane by restoring a level the user set in fullscreen.
             if (!muted) row.volumeBoost?.let { adjustVolume(it - _volume.value) }
+            row.audioDelayMs?.let {
+                applyAudioDelay(it)
+                _audioDelayRemembered.value = true
+            }
         }
+    }
+
+    private fun applyAudioDelay(ms: Int) {
+        _audioDelayMs.value = ms
+        audioDelayClock.delayMs = ms
+    }
+
+    override fun audioDelayAvailable() = true
+
+    override fun adjustAudioDelay(deltaMs: Int) {
+        applyAudioDelay((_audioDelayMs.value + deltaMs).coerceIn(-5_000, 5_000))
+        // Remembering this channel already? The stored value follows the one on screen (as on mpv).
+        if (_audioDelayRemembered.value) {
+            val key = _currentMeta.value.contentKey ?: lastTunedUrl ?: return
+            val ms = _audioDelayMs.value
+            scope.launch { playbackPrefs.rememberAudioDelay(key, ms) }
+        }
+    }
+
+    override fun toggleRememberAudioDelay() {
+        val key = _currentMeta.value.contentKey ?: lastTunedUrl ?: return
+        val remember = !_audioDelayRemembered.value
+        _audioDelayRemembered.value = remember
+        val ms = if (remember) _audioDelayMs.value else null
+        if (!remember) applyAudioDelay(baseAudioDelayMs)
+        scope.launch { playbackPrefs.rememberAudioDelay(key, ms) }
     }
 
     override fun setZoomModeByUser(mode: ZoomMode) {
@@ -2815,6 +2861,7 @@ class LivePreviewEngine(
             context,
             forceStereo = !AudioOutputPolicy.allowsMultichannel(surroundMode),
             softwareFirst = !hwDecodingEnabled,
+            audioDelay = audioDelayClock,
         )
         return ExoPlayer.Builder(context)
             .setRenderersFactory(renderers)

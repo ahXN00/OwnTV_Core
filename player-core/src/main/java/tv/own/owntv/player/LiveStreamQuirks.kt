@@ -396,7 +396,20 @@ object LiveStreamQuirks {
     fun providerMessage(url: String, responseCode: Int): String? =
         providerMessages[hostKey(url)]?.takeIf { it.first == responseCode }?.second
 
-    /** Test hook — the session cache is never cleared in production. */
+    /**
+     * N15 — Settings → "Forget learned stream fixes": drop every lesson of this session and the stored
+     * catch-up decode list, so channels open the standard way again and relearn only what a provider
+     * still needs. The persistence hook stays installed, so a lesson learned afterwards is saved again.
+     */
+    suspend fun forgetLearned(archiveStore: tv.own.owntv.core.player.ArchiveDecodeStore) {
+        hlsRedirectHosts.clear(); dashRedirectHosts.clear(); segmentRefusingHosts.clear(); singleSessionHosts.clear()
+        brokenTimestampStreams.clear(); noHlsVariantStreams.clear(); noHlsVariantMpvStreams.clear()
+        tolerantDemuxStreams.clear(); prerollDefeatedStreams.clear(); softwareArchiveHosts.clear()
+        uaBlockingHosts.clear(); providerMessages.clear()
+        archiveStore.clear()
+    }
+
+    /** Test hook — clears everything including the persistence hook. */
     internal fun clearForTest() {
         hlsRedirectHosts.clear(); segmentRefusingHosts.clear(); singleSessionHosts.clear()
         brokenTimestampStreams.clear(); softwareArchiveHosts.clear(); archivePersistence = null

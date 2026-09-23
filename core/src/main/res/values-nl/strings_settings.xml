@@ -107,6 +107,7 @@
     <string name="settings_remote_button_fast_forward">Vooruitspoelen</string>
     <string name="settings_remote_button_previous">Vorige</string>
     <string name="settings_remote_button_next">Volgende</string>
+    <string name="settings_remote_button_last_channel">Laatste zender</string>
     <string name="settings_remote_button_menu">Menu</string>
     <string name="settings_remote_button_red">Rode knop</string>
     <string name="settings_remote_button_green">Groene knop</string>
@@ -202,7 +203,7 @@
     <string name="settings_quick_live_preview">Livevoorvertoning</string>
     <string name="settings_quick_preview_sound">Geluid bij voorvertoning</string>
     <string name="settings_quick_channel_numbers">Zendernummers</string>
-    <string name="settings_quick_hdr">HDR</string>
+    <string name="settings_quick_hdr">HDR (alleen mpv)</string>
     <string name="settings_quick_autoplay">Automatisch afspelen</string>
     <string name="settings_quick_check_update">Controleren op update</string>
     <string name="settings_search_label">Instellingen doorzoeken</string>
@@ -269,8 +270,8 @@
     <string name="settings_preview_audio_description">Speel geluid af tijdens de livevoorvertoning</string>
     <string name="settings_mini_player_root">Minispeler</string>
     <string name="settings_mini_player_root_description">Grootte en positie van de vastgezette minispeler</string>
-    <string name="settings_hdr_description">Gebruik HDR-uitvoer wanneer de video en tv dit ondersteunen</string>
-    <string name="settings_hdr_description_mobile">Gebruik HDR-uitvoer wanneer de video en het scherm dit ondersteunen</string>
+    <string name="settings_hdr_description">Gebruik HDR-uitvoer wanneer de video en tv dit ondersteunen. Alleen mpv: de ExoPlayer-engine ondersteunt deze instelling niet en geeft de HDR van de stream altijd ongewijzigd door.</string>
+    <string name="settings_hdr_description_mobile">Gebruik HDR-uitvoer wanneer de video en het scherm dit ondersteunen. Alleen mpv: de ExoPlayer-engine ondersteunt deze instelling niet en geeft de HDR van de stream altijd ongewijzigd door.</string>
     <string name="settings_auto_frame_rate">Automatische beeldfrequentie</string>
     <string name="settings_auto_frame_rate_description">Stem in volledig scherm de vernieuwingsfrequentie van de tv af op de video (24/25/50/60 fps), voor live-tv en VOD, en herstel deze bij afsluiten. Schakel dit uit als je tv of ontvanger bij elke zenderwissel de HDMI-verbinding hoorbaar opnieuw opbouwt.</string>
     <string name="settings_auto_frame_rate_description_mobile">Stem in volledig scherm de vernieuwingsfrequentie van het scherm af op de video (24/25/50/60 fps), voor live-tv en VOD, en herstel deze bij afsluiten. Schakel dit uit als het scherm flikkert of zwart wordt wanneer een video start.</string>
@@ -480,10 +481,6 @@
     <string name="settings_hardware_decoding">Hardwaredecodering</string>
     <string name="settings_hardware_decoding_description">Gebruik de hardwaredecoder van de tv. Schakel dit uit als sommige streams haperen of beeldfouten vertonen.</string>
     <string name="settings_hardware_decoding_description_mobile">Gebruik de hardwaredecoder van het apparaat. Schakel dit uit als sommige streams haperen of beeldfouten vertonen.</string>
-    <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
-    <string name="settings_deinterlace">Deïnterlacen</string>
-    <!-- Translators: Description of the deinterlacing setting. -->
-    <string name="settings_deinterlace_description">Maakt de kamvormige lijnen gladder die sommige oude SD-kanalen bij beweging tonen. Geldt voor de mpv-speler zolang die het beeld zelf tekent, dus schakel hardwaredecodering uit als het geen verschil maakt.</string>
     <string name="settings_movies_series_player">Speler voor films en series</string>
     <string name="settings_live_tv_player">Speler voor live-tv</string>
     <string name="settings_engine_order"><xliff:g id="first">%1$s</xliff:g>, daarna <xliff:g id="second">%2$s</xliff:g></string>
@@ -558,7 +555,7 @@
     <string name="settings_audio">Audio</string>
     <string name="settings_preferred_audio_language">Voorkeurstaal voor audio</string>
     <string name="settings_audio_sync">Audiosynchronisatie</string>
-    <string name="settings_audio_sync_description">Verschuif de audio naar voren of achteren zodat deze gelijkloopt met de video. Geldt alleen voor de mpv-engine.</string>
+    <string name="settings_audio_sync_description">Verschuif de audio naar voren of achteren zodat deze gelijkloopt met de video. Werkt met beide spelers (mpv en ExoPlayer).</string>
     <string name="settings_live_tv">Live-tv</string>
     <string name="settings_live_latency_description">Hoe dicht bij de live-uitzending wordt afgespeeld. Lager betekent dichter bij live, maar ook een kleinere buffer, waardoor zwakke streams vaker kunnen haperen of opnieuw verbinding kunnen maken. Geldt voor de volgende zender die u opent.</string>
     <string name="settings_live_latency_bitrate_note">Bij een kanaal met een zeer hoge bitrate — vooral in 4K — kan de buffer minder tijd bevatten dan je hebt ingesteld, omdat er een limiet zit op hoeveel video tegelijk in het geheugen past.</string>
@@ -589,8 +586,8 @@
     <string name="settings_audio_delay"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_external_player_description">Kies welke onderdelen in een externe app worden geopend.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
-    <string name="settings_movies_player_description">mpv (aanbevolen) ondersteunt de meeste formaten — DTS/TrueHD-audio, ongebruikelijke bestanden — plus de correctie van de A/V-synchronisatie. Op sommige tv’s speelt ExoPlayer streams af die mpv niet aankan, maar het decodeert geen DTS/TrueHD-audio en heeft geen A/V-correctie. De gecombineerde opties proberen automatisch de andere speler zodra de eerste faalt; de opties met één speler doen dat nooit, wat een paar seconden zwart beeld scheelt als de tweede speler op jouw tv toch niet werkt.</string>
-    <string name="settings_movies_player_description_mobile">mpv (aanbevolen) ondersteunt de meeste formaten — DTS/TrueHD-audio, ongebruikelijke bestanden — plus de correctie van de A/V-synchronisatie. Op sommige apparaten speelt ExoPlayer streams af die mpv niet aankan, maar het decodeert geen DTS/TrueHD-audio en heeft geen A/V-correctie. De gecombineerde opties proberen automatisch de andere speler zodra de eerste faalt; de opties met één speler doen dat nooit, wat een paar seconden zwart beeld scheelt als de tweede speler op jouw apparaat toch niet werkt.</string>
+    <string name="settings_movies_player_description">mpv (aanbevolen) ondersteunt de meeste formaten — DTS/TrueHD-audio, ongebruikelijke bestanden. Op sommige tv’s speelt ExoPlayer streams af die mpv niet aankan, maar het decodeert geen DTS/TrueHD-audio. De gecombineerde opties proberen automatisch de andere speler zodra de eerste faalt; de opties met één speler doen dat nooit, wat een paar seconden zwart beeld scheelt als de tweede speler op jouw tv toch niet werkt.</string>
+    <string name="settings_movies_player_description_mobile">mpv (aanbevolen) ondersteunt de meeste formaten — DTS/TrueHD-audio, ongebruikelijke bestanden. Op sommige apparaten speelt ExoPlayer streams af die mpv niet aankan, maar het decodeert geen DTS/TrueHD-audio. De gecombineerde opties proberen automatisch de andere speler zodra de eerste faalt; de opties met één speler doen dat nooit, wat een paar seconden zwart beeld scheelt als de tweede speler op jouw apparaat toch niet werkt.</string>
     <string name="settings_live_player_description">ExoPlayer (aanbevolen) opent zenders veel sneller en is de enige met ondertiteling bij live-tv. mpv speelt zenders af die ExoPlayer niet aankan, waaronder een aantal met ongebruikelijke audio. De gecombineerde opties proberen automatisch de andere speler zodra de eerste faalt; de opties met één speler doen dat nooit, wat een paar seconden zwart beeld scheelt als de tweede speler op jouw tv toch niet werkt. Bij een zender die je in de speler handmatig omschakelt, blijft je keuze in beide gevallen bewaard.</string>
     <string name="settings_live_player_description_mobile">ExoPlayer (aanbevolen) opent zenders veel sneller en is de enige met ondertiteling bij live-tv. mpv speelt zenders af die ExoPlayer niet aankan, waaronder een aantal met ongebruikelijke audio. De gecombineerde opties proberen automatisch de andere speler zodra de eerste faalt; de opties met één speler doen dat nooit, wat een paar seconden zwart beeld scheelt als de tweede speler op jouw apparaat toch niet werkt. Bij een zender die je in de speler handmatig omschakelt, blijft je keuze in beide gevallen bewaard.</string>
     <string name="settings_reset_player_choices_description">Als je een afzonderlijke film of aflevering in de speler tussen mpv en ExoPlayer wisselt, wordt die keuze bewaard voor de volgende keer. Na opnieuw instellen volgt alles weer de instelling hierboven. Opgeslagen keuzes voor livekanalen blijven behouden.</string>
@@ -601,6 +598,14 @@
     </plurals>
     <string name="settings_reset_player_choices_confirm">Opgeslagen spelerkeuzes opnieuw instellen?</string>
     <string name="settings_reset_player_choices_confirm_description">Elke film en aflevering volgt weer de instelling “Speler voor films en series”. Je kunt een afzonderlijke titel altijd opnieuw wisselen vanuit de speler.</string>
+    <string name="settings_reset_live_player_choices">Opgeslagen spelerkeuzes voor live-tv opnieuw instellen</string>
+    <string name="settings_reset_live_player_choices_description">Als je een zender in de speler tussen ExoPlayer en mpv wisselt, wordt die keuze voor de zender bewaard. Na opnieuw instellen volgen alle zenders weer de instelling “Speler voor live-tv”. Opgeslagen keuzes voor films en afleveringen blijven behouden.</string>
+    <string name="settings_reset_live_player_choices_confirm">Opgeslagen spelerkeuzes voor live-tv opnieuw instellen?</string>
+    <string name="settings_reset_live_player_choices_confirm_description">Elke zender volgt weer de instelling “Speler voor live-tv”. Je kunt een afzonderlijke zender altijd opnieuw wisselen vanuit de speler.</string>
+    <string name="settings_forget_stream_fixes">Geleerde streamoplossingen vergeten</string>
+    <string name="settings_forget_stream_fixes_description">De speler leert wat de streams van elke aanbieder nodig hebben: mpv in plaats van ExoPlayer, een ander formaat, softwaredecodering voor terugkijken. Vergeet dit als een aanbieder zijn streams heeft gerepareerd. Wat over terugkijken is geleerd, wordt na 14 dagen ook vanzelf vergeten.</string>
+    <string name="settings_forget_stream_fixes_confirm">Geleerde streamoplossingen vergeten?</string>
+    <string name="settings_forget_stream_fixes_confirm_description">Zenders openen weer op de standaardmanier en de speler leert opnieuw wat een aanbieder nog nodig heeft. Het eerste afspelen van een betrokken zender kan een paar seconden langer duren.</string>
     <string name="settings_external_player_row_description">Open streams in een externe app (VLC, MX Player) in plaats van met de ingebouwde speler; dit wordt per sectie ingesteld. Handig voor streams die deze app niet kan decoderen, of als je liever een andere speler gebruikt. De hervatpositie en vorige/volgende zijn niet beschikbaar bij extern afspelen; streams waarvoor een aangepaste User-Agent of Referer-header nodig is, worden mogelijk niet afgespeeld.</string>
     <string name="settings_resume_always">Altijd hervatten</string>
     <string name="settings_resume_ask">Vragen om te hervatten</string>
@@ -928,7 +933,7 @@
     <string name="settings_backup_section_settings">App-instellingen</string>
     <string name="settings_backup_section_settings_desc">Voorkeuren voor thema, accentkleur, speler en indeling</string>
     <string name="settings_backup_device_settings">Hardware-instellingen van het andere apparaat</string>
-    <string name="settings_backup_device_settings_desc">Spelerengine, hardwaredecodering, framerate, HDR, surround en deinterlacing. Alleen overnemen als beide apparaten dezelfde hardware hebben.</string>
+    <string name="settings_backup_device_settings_desc">Spelerengine, hardwaredecodering, framerate, HDR en surround. Alleen overnemen als beide apparaten dezelfde hardware hebben.</string>
     <string name="settings_backup_saved_to">Opgeslagen in <xliff:g id="path">%1$s</xliff:g>.</string>
     <string name="settings_backup_saved_to_without_passwords">Opgeslagen in <xliff:g id="path">%1$s</xliff:g>. Wachtwoorden en pincodes zijn niet opgenomen.</string>
     <plurals name="settings_backup_restored">

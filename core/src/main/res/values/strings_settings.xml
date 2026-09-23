@@ -209,6 +209,8 @@
     <string name="settings_remote_button_previous">Previous</string>
     <!-- Translators: Remote-control button name. -->
     <string name="settings_remote_button_next">Next</string>
+    <!-- Translators: Remote-control button name — the dedicated "last channel" / "back to previous channel" key some TV remotes have. -->
+    <string name="settings_remote_button_last_channel">Last channel</string>
     <!-- Translators: Remote-control button name. -->
     <string name="settings_remote_button_menu">Menu</string>
     <!-- Translators: Remote-control button name. -->
@@ -403,7 +405,7 @@
     <!-- Translators: Quick toggle label for the channel numbers setting. -->
     <string name="settings_quick_channel_numbers">Channel numbers</string>
     <!-- Translators: Quick toggle label for the HDR output setting. 'HDR' is High Dynamic Range. -->
-    <string name="settings_quick_hdr">HDR</string>
+    <string name="settings_quick_hdr">HDR (mpv only)</string>
     <!-- Translators: Quick toggle label for the auto-play next episode setting. -->
     <string name="settings_quick_autoplay">Auto-play</string>
     <!-- Translators: Quick action label to check for app updates. -->
@@ -602,9 +604,9 @@
     <!-- Translators: Description of the Mini-player settings group. -->
     <string name="settings_mini_player_root_description">Size and position of the docked mini-player</string>
     <!-- Translators: Description of the HDR output setting. 'HDR' is High Dynamic Range. -->
-    <string name="settings_hdr_description">Use HDR output when the video &amp; TV support it</string>
+    <string name="settings_hdr_description">Use HDR output when the video &amp; TV support it. mpv only: the ExoPlayer engine does not support this setting and always passes the stream’s HDR through.</string>
     <!-- Translators: Phone/tablet wording of settings_hdr_description. 'HDR' is High Dynamic Range. -->
-    <string name="settings_hdr_description_mobile">Use HDR output when the video &amp; screen support it</string>
+    <string name="settings_hdr_description_mobile">Use HDR output when the video &amp; screen support it. mpv only: the ExoPlayer engine does not support this setting and always passes the stream’s HDR through.</string>
     <!-- Translators: Setting label for auto frame rate matching. -->
     <string name="settings_auto_frame_rate">Auto frame rate</string>
     <!-- Translators: Description of the auto frame rate setting. Explains when to turn it off. -->
@@ -1021,10 +1023,6 @@
     <string name="settings_hardware_decoding_description">Use the TV\'s hardware decoder. Turn off if some streams stutter or show artifacts.</string>
     <!-- Translators: Phone/tablet wording of settings_hardware_decoding_description. -->
     <string name="settings_hardware_decoding_description_mobile">Use the device\'s hardware decoder. Turn off if some streams stutter or show artifacts.</string>
-    <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
-    <string name="settings_deinterlace">Deinterlacing</string>
-    <!-- Translators: Description of the deinterlacing setting. -->
-    <string name="settings_deinterlace_description">Smooth out the comb-like lines some old SD channels show on movement. Applies to the mpv engine while it renders the picture itself, so turn hardware decoding off if it makes no difference.</string>
     <!-- Translators: Video Player settings-row title for Movies & Series. -->
     <string name="settings_movies_series_player">Movies &amp; Series player</string>
     <!-- Translators: Video Player settings-row title for Live TV. -->
@@ -1110,7 +1108,7 @@
     <!-- Translators: Setting label for audio/video synchronization. -->
     <string name="settings_audio_sync">Audio sync</string>
     <!-- Translators: Description of the audio sync setting. -->
-    <string name="settings_audio_sync_description">Shift audio earlier or later to match the video. Applies to the mpv engine only.</string>
+    <string name="settings_audio_sync_description">Shift audio earlier or later to match the video. Works with both players (mpv and ExoPlayer).</string>
     <!-- Translators: Used as both a Video Player settings group heading and a Customize-screen section chip. -->
     <string name="settings_live_tv">Live TV</string>
     <!-- Translators: Description of the live latency setting. -->
@@ -1174,9 +1172,9 @@ Choose Balanced if a channel becomes unreliable.</string>
     <!-- Translators: Formatted audio delay value in the settings. 'delay' is the delay in milliseconds. -->
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <!-- Translators: Description of the Movies & Series player engine choice. 'mpv' and 'ExoPlayer' are engine brand names. -->
-    <string name="settings_movies_player_description">mpv (recommended) has the widest format support — DTS/TrueHD audio, unusual files — plus the A/V sync fix. ExoPlayer plays some streams mpv can\'t on certain TVs, but can\'t decode DTS/TrueHD audio and has no A/V sync fix. The combined options try the other player automatically when the first one fails; the single-player options never do, which saves a few seconds of black screen if the second player never works on your TV.</string>
+    <string name="settings_movies_player_description">mpv (recommended) has the widest format support — DTS/TrueHD audio, unusual files. ExoPlayer plays some streams mpv can\'t on certain TVs, but can\'t decode DTS/TrueHD audio. The combined options try the other player automatically when the first one fails; the single-player options never do, which saves a few seconds of black screen if the second player never works on your TV.</string>
     <!-- Translators: Phone/tablet wording of settings_movies_player_description. 'mpv' and 'ExoPlayer' are engine brand names. -->
-    <string name="settings_movies_player_description_mobile">mpv (recommended) has the widest format support — DTS/TrueHD audio, unusual files — plus the A/V sync fix. ExoPlayer plays some streams mpv can\'t on certain devices, but can\'t decode DTS/TrueHD audio and has no A/V sync fix. The combined options try the other player automatically when the first one fails; the single-player options never do, which saves a few seconds of black screen if the second player never works on your device.</string>
+    <string name="settings_movies_player_description_mobile">mpv (recommended) has the widest format support — DTS/TrueHD audio, unusual files. ExoPlayer plays some streams mpv can\'t on certain devices, but can\'t decode DTS/TrueHD audio. The combined options try the other player automatically when the first one fails; the single-player options never do, which saves a few seconds of black screen if the second player never works on your device.</string>
     <!-- Translators: Description of the Live TV player engine choice. 'mpv' and 'ExoPlayer' are engine brand names. -->
     <string name="settings_live_player_description">ExoPlayer (recommended) opens channels much faster and is the only one with live subtitles. mpv plays channels ExoPlayer can\'t, including some with unusual audio. The combined options try the other player automatically when the first one fails; the single-player options never do, which saves a few seconds of black screen if the second player never works on your TV. A channel you switch by hand in the player keeps your choice either way.</string>
     <!-- Translators: Phone/tablet wording of settings_live_player_description. 'mpv' and 'ExoPlayer' are engine brand names. -->
@@ -1194,6 +1192,22 @@ Choose Balanced if a channel becomes unreliable.</string>
     <string name="settings_reset_player_choices_confirm">Reset saved player choices?</string>
     <!-- Translators: Confirmation dialog body before forgetting the saved per-item player choices. -->
     <string name="settings_reset_player_choices_confirm_description">Every movie and episode goes back to the “Movies &amp; Series player” setting. You can always switch an individual one again from the player.</string>
+    <!-- Translators: Settings row (player engines section) that clears every live channel's saved engine choice (ExoPlayer or mpv). -->
+    <string name="settings_reset_live_player_choices">Reset saved live TV player choices</string>
+    <!-- Translators: Description of the row above. "Live TV player" is the name of the setting just above it. -->
+    <string name="settings_reset_live_player_choices_description">Switching a channel between ExoPlayer and mpv in the player saves that choice for the channel. Reset makes every channel follow the “Live TV player” setting again. Saved choices for movies and episodes are kept.</string>
+    <!-- Translators: Title of the confirmation dialog for the row above. -->
+    <string name="settings_reset_live_player_choices_confirm">Reset saved live TV player choices?</string>
+    <!-- Translators: Body of the confirmation dialog for the row above. -->
+    <string name="settings_reset_live_player_choices_confirm_description">Every channel goes back to the “Live TV player” setting. You can always switch an individual one again from the player.</string>
+    <!-- Translators: Settings row that makes the player forget what it has learned about providers' streams (which need mpv, another format, software decoding for catch-up). -->
+    <string name="settings_forget_stream_fixes">Forget learned stream fixes</string>
+    <!-- Translators: Description of the row above. Keep the number 14 (days). -->
+    <string name="settings_forget_stream_fixes_description">The player learns what each provider’s streams need — mpv instead of ExoPlayer, another format, software decoding for catch-up. Forget this if a provider has fixed its streams. Catch-up lessons are also forgotten on their own after 14 days.</string>
+    <!-- Translators: Title of the confirmation dialog for the row above. -->
+    <string name="settings_forget_stream_fixes_confirm">Forget learned stream fixes?</string>
+    <!-- Translators: Body of the confirmation dialog for the row above. -->
+    <string name="settings_forget_stream_fixes_confirm_description">Channels open the standard way again, and the player relearns whatever a provider still needs. The first play of an affected channel may take a few seconds longer.</string>
     <!-- Translators: Description of the external player row setting. -->
     <string name="settings_external_player_row_description">Open streams in an external app (VLC, MX Player) instead of the built-in player, chosen per section. Useful for streams this app can\'t decode, or if you prefer another player. Resume position and prev/next are unavailable while playing externally; streams needing a custom User-Agent or referer may not play.</string>
     <!-- Translators: Resume playback option: always resume from saved position. -->
@@ -1840,7 +1854,7 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <!-- Translators: Restore option, shown only for a backup made on another device (or first-run setup). The settings describing that device's hardware; left unticked by default. -->
     <string name="settings_backup_device_settings">Hardware settings from the other device</string>
     <!-- Translators: Description of the option above: which settings it covers, and when to take them. -->
-    <string name="settings_backup_device_settings_desc">Player engine, hardware decoding, frame rate, HDR, surround and deinterlacing. Only take them if both devices have the same hardware.</string>
+    <string name="settings_backup_device_settings_desc">Player engine, hardware decoding, frame rate, HDR and surround. Only take them if both devices have the same hardware.</string>
     <!-- Translators: Status text when backup is saved. 'path' is the file path. -->
     <string name="settings_backup_saved_to">Saved to <xliff:g id="path">%1$s</xliff:g>.</string>
     <!-- Translators: Status text when backup is saved without passwords. 'path' is the file path. -->

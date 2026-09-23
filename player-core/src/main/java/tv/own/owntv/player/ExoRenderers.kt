@@ -23,8 +23,10 @@ fun ownTVRenderers(
     forceStereo: Boolean,
     /** Software decoders first — "Hardware decoding = Off", or a rescue retry after a blank picture. */
     softwareFirst: Boolean = false,
+    /** The engine's A/V-sync offset ([AudioDelayClock]); null for an engine that offers none. */
+    audioDelay: AudioDelayClock? = null,
 ): DefaultRenderersFactory =
-    OwnTVRenderersFactory(context, forceStereo = forceStereo)
+    OwnTVRenderersFactory(context, forceStereo = forceStereo, audioDelay = audioDelay)
         // Media3 runs MediaCodec asynchronously by default on API 31+, and on every Fire TV device
         // (`com.amazon.hardware.tv_screen`) from API 28 up. That async path corrupts (macroblocks)
         // some UHD-HEVC content on Realtek/Amlogic VPUs — the synchronous path is what players like

@@ -107,6 +107,7 @@
     <string name="settings_remote_button_fast_forward">Vorspulen</string>
     <string name="settings_remote_button_previous">Vorherige</string>
     <string name="settings_remote_button_next">Nächste</string>
+    <string name="settings_remote_button_last_channel">Letzter Sender</string>
     <string name="settings_remote_button_menu">Menü</string>
     <string name="settings_remote_button_red">Rote Taste</string>
     <string name="settings_remote_button_green">Grüne Taste</string>
@@ -202,7 +203,7 @@
     <string name="settings_quick_live_preview">Live-Vorschau</string>
     <string name="settings_quick_preview_sound">Vorschauton</string>
     <string name="settings_quick_channel_numbers">Sendernummern</string>
-    <string name="settings_quick_hdr">HDR</string>
+    <string name="settings_quick_hdr">HDR (nur mpv)</string>
     <string name="settings_quick_autoplay">Automatische Wiedergabe</string>
     <string name="settings_quick_check_update">Auf Update prüfen</string>
     <string name="settings_search_label">Einstellungen durchsuchen</string>
@@ -269,8 +270,8 @@
     <string name="settings_preview_audio_description">Ton in der Live-Vorschau wiedergeben</string>
     <string name="settings_mini_player_root">Mini-Player</string>
     <string name="settings_mini_player_root_description">Größe und Position des angedockten Mini-Players</string>
-    <string name="settings_hdr_description">HDR-Ausgabe verwenden, wenn Video und Fernseher sie unterstützen</string>
-    <string name="settings_hdr_description_mobile">HDR-Ausgabe verwenden, wenn Video und Bildschirm sie unterstützen</string>
+    <string name="settings_hdr_description">HDR-Ausgabe verwenden, wenn Video und Fernseher sie unterstützen. Nur mpv: Die ExoPlayer-Engine unterstützt diese Einstellung nicht und gibt das HDR des Streams immer unverändert weiter.</string>
+    <string name="settings_hdr_description_mobile">HDR-Ausgabe verwenden, wenn Video und Bildschirm sie unterstützen. Nur mpv: Die ExoPlayer-Engine unterstützt diese Einstellung nicht und gibt das HDR des Streams immer unverändert weiter.</string>
     <string name="settings_auto_frame_rate">Automatische Bildrate</string>
     <string name="settings_auto_frame_rate_description">Die Bildwiederholfrequenz des Fernsehers im Vollbild für Live-TV und VOD an das Video anpassen (24/25/50/60 Bilder/s) und beim Beenden wiederherstellen. Deaktivieren Sie dies, wenn Ihr Fernseher oder Receiver bei jedem Senderwechsel geräuschvoll einen neuen HDMI-Handshake durchführt.</string>
     <string name="settings_auto_frame_rate_description_mobile">Die Bildwiederholfrequenz des Bildschirms im Vollbild für Live-TV und VOD an das Video anpassen (24/25/50/60 Bilder/s) und beim Beenden wiederherstellen. Deaktivieren Sie dies, wenn der Bildschirm beim Start eines Videos flackert oder dunkel wird.</string>
@@ -480,10 +481,6 @@
     <string name="settings_hardware_decoding">Hardwaredecodierung</string>
     <string name="settings_hardware_decoding_description">Den Hardwaredecoder des Fernsehers verwenden. Deaktivieren Sie diese Option, wenn einige Streams ruckeln oder Bildfehler zeigen.</string>
     <string name="settings_hardware_decoding_description_mobile">Den Hardwaredecoder des Geräts verwenden. Deaktivieren Sie diese Option, wenn einige Streams ruckeln oder Bildfehler zeigen.</string>
-    <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
-    <string name="settings_deinterlace">Deinterlacing</string>
-    <!-- Translators: Description of the deinterlacing setting. -->
-    <string name="settings_deinterlace_description">Glättet die kammartigen Linien, die manche alten SD-Sender bei Bewegung zeigen. Gilt für die mpv-Engine, solange sie das Bild selbst zeichnet — ändert sich nichts, schalte die Hardware-Dekodierung aus.</string>
     <string name="settings_movies_series_player">Player für Filme und Serien</string>
     <string name="settings_live_tv_player">Player für Live-TV</string>
     <string name="settings_engine_order"><xliff:g id="first">%1$s</xliff:g>, dann <xliff:g id="second">%2$s</xliff:g></string>
@@ -558,7 +555,7 @@
     <string name="settings_audio">Audio</string>
     <string name="settings_preferred_audio_language">Bevorzugte Audiosprache</string>
     <string name="settings_audio_sync">Audio-Synchronisierung</string>
-    <string name="settings_audio_sync_description">Audio zeitlich vor- oder zurückversetzen, um es an das Video anzupassen. Gilt nur für die mpv-Engine.</string>
+    <string name="settings_audio_sync_description">Audio zeitlich vor- oder zurückversetzen, um es an das Video anzupassen. Funktioniert mit beiden Playern (mpv und ExoPlayer).</string>
     <string name="settings_live_tv">Live-TV</string>
     <string name="settings_live_latency_description">Legt fest, wie nah an der Live-Übertragung die Wiedergabe erfolgt. Ein niedrigerer Wert bedeutet eine geringere Verzögerung zur Live-Übertragung, aber auch einen kleineren Puffer, sodass schwache Streams häufiger stocken oder die Verbindung erneut herstellen können. Gilt für den nächsten Sender, den du öffnest.</string>
     <string name="settings_live_latency_bitrate_note">Bei einem Sender mit sehr hoher Bitrate – besonders in 4K – kann der Puffer weniger Zeit fassen, als du eingestellt hast, denn es gibt eine Grenze dafür, wie viel Video gleichzeitig im Speicher gehalten werden kann.</string>
@@ -589,8 +586,8 @@
     <string name="settings_audio_delay"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_external_player_description">Auswählen, welche Bereiche in einer externen App geöffnet werden.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
-    <string name="settings_movies_player_description">mpv (empfohlen) bietet die umfassendste Formatunterstützung — DTS/TrueHD-Audio, ungewöhnliche Dateien — sowie die Korrektur der A/V-Synchronisierung. ExoPlayer gibt auf bestimmten Fernsehern einige Streams wieder, die mpv nicht schafft, kann jedoch kein DTS/TrueHD-Audio decodieren und bietet keine A/V-Korrektur. Die kombinierten Optionen probieren automatisch den anderen Player, wenn der erste scheitert; die Optionen mit nur einem Player tun das nie, was ein paar Sekunden Schwarzbild spart, falls der zweite Player auf deinem Fernseher ohnehin nicht funktioniert.</string>
-    <string name="settings_movies_player_description_mobile">mpv (empfohlen) bietet die umfassendste Formatunterstützung — DTS/TrueHD-Audio, ungewöhnliche Dateien — sowie die Korrektur der A/V-Synchronisierung. ExoPlayer gibt auf bestimmten Geräten einige Streams wieder, die mpv nicht schafft, kann jedoch kein DTS/TrueHD-Audio decodieren und bietet keine A/V-Korrektur. Die kombinierten Optionen probieren automatisch den anderen Player, wenn der erste scheitert; die Optionen mit nur einem Player tun das nie, was ein paar Sekunden Schwarzbild spart, falls der zweite Player auf deinem Gerät ohnehin nicht funktioniert.</string>
+    <string name="settings_movies_player_description">mpv (empfohlen) bietet die umfassendste Formatunterstützung — DTS/TrueHD-Audio, ungewöhnliche Dateien. ExoPlayer gibt auf bestimmten Fernsehern einige Streams wieder, die mpv nicht schafft, kann jedoch kein DTS/TrueHD-Audio decodieren. Die kombinierten Optionen probieren automatisch den anderen Player, wenn der erste scheitert; die Optionen mit nur einem Player tun das nie, was ein paar Sekunden Schwarzbild spart, falls der zweite Player auf deinem Fernseher ohnehin nicht funktioniert.</string>
+    <string name="settings_movies_player_description_mobile">mpv (empfohlen) bietet die umfassendste Formatunterstützung — DTS/TrueHD-Audio, ungewöhnliche Dateien. ExoPlayer gibt auf bestimmten Geräten einige Streams wieder, die mpv nicht schafft, kann jedoch kein DTS/TrueHD-Audio decodieren. Die kombinierten Optionen probieren automatisch den anderen Player, wenn der erste scheitert; die Optionen mit nur einem Player tun das nie, was ein paar Sekunden Schwarzbild spart, falls der zweite Player auf deinem Gerät ohnehin nicht funktioniert.</string>
     <string name="settings_live_player_description">ExoPlayer (empfohlen) öffnet Sender deutlich schneller und ist der einzige mit Untertiteln im Live-TV. mpv gibt Sender wieder, die ExoPlayer nicht schafft, darunter manche mit ungewöhnlichem Ton. Die kombinierten Optionen probieren automatisch den anderen Player, wenn der erste scheitert; die Optionen mit nur einem Player tun das nie, was ein paar Sekunden Schwarzbild spart, falls der zweite Player auf deinem Fernseher ohnehin nicht funktioniert. Bei einem Sender, den du im Player von Hand umschaltest, bleibt deine Auswahl in beiden Fällen erhalten.</string>
     <string name="settings_live_player_description_mobile">ExoPlayer (empfohlen) öffnet Sender deutlich schneller und ist der einzige mit Untertiteln im Live-TV. mpv gibt Sender wieder, die ExoPlayer nicht schafft, darunter manche mit ungewöhnlichem Ton. Die kombinierten Optionen probieren automatisch den anderen Player, wenn der erste scheitert; die Optionen mit nur einem Player tun das nie, was ein paar Sekunden Schwarzbild spart, falls der zweite Player auf deinem Gerät ohnehin nicht funktioniert. Bei einem Sender, den du im Player von Hand umschaltest, bleibt deine Auswahl in beiden Fällen erhalten.</string>
     <string name="settings_reset_player_choices_description">Wenn du einen einzelnen Film oder eine Folge im Player zwischen mpv und ExoPlayer umschaltest, wird diese Auswahl für das nächste Mal gespeichert. Beim Zurücksetzen folgt wieder alles der Einstellung oben. Gespeicherte Auswahlen für Live-Kanäle bleiben erhalten.</string>
@@ -601,6 +598,14 @@
     </plurals>
     <string name="settings_reset_player_choices_confirm">Gespeicherte Player-Auswahl zurücksetzen?</string>
     <string name="settings_reset_player_choices_confirm_description">Jeder Film und jede Folge folgt wieder der Einstellung „Player für Filme und Serien“. Du kannst einzelne Titel jederzeit erneut im Player umschalten.</string>
+    <string name="settings_reset_live_player_choices">Gespeicherte Player-Auswahl für Live-TV zurücksetzen</string>
+    <string name="settings_reset_live_player_choices_description">Wenn du einen Sender im Player zwischen ExoPlayer und mpv umschaltest, wird diese Auswahl für den Sender gespeichert. Beim Zurücksetzen folgen alle Sender wieder der Einstellung „Player für Live-TV“. Gespeicherte Auswahlen für Filme und Folgen bleiben erhalten.</string>
+    <string name="settings_reset_live_player_choices_confirm">Gespeicherte Player-Auswahl für Live-TV zurücksetzen?</string>
+    <string name="settings_reset_live_player_choices_confirm_description">Jeder Sender folgt wieder der Einstellung „Player für Live-TV“. Du kannst einzelne Sender jederzeit erneut im Player umschalten.</string>
+    <string name="settings_forget_stream_fixes">Gelernte Stream-Korrekturen vergessen</string>
+    <string name="settings_forget_stream_fixes_description">Der Player lernt, was die Streams eines Anbieters brauchen – mpv statt ExoPlayer, ein anderes Format, Software-Decodierung für Catch-up. Vergiss das, wenn ein Anbieter seine Streams repariert hat. Catch-up-Erkenntnisse werden außerdem nach 14 Tagen von selbst vergessen.</string>
+    <string name="settings_forget_stream_fixes_confirm">Gelernte Stream-Korrekturen vergessen?</string>
+    <string name="settings_forget_stream_fixes_confirm_description">Sender öffnen wieder auf dem normalen Weg, und der Player lernt neu, was ein Anbieter noch braucht. Der erste Start eines betroffenen Senders kann ein paar Sekunden länger dauern.</string>
     <string name="settings_external_player_row_description">Streams in einer externen App (VLC, MX Player) statt im integrierten Player öffnen, separat für jeden Bereich auswählbar. Nützlich für Streams, die diese App nicht decodieren kann, oder wenn du einen anderen Player bevorzugst. Die Fortsetzungsposition und „Zurück/Weiter“ sind bei externer Wiedergabe nicht verfügbar; Streams, die einen benutzerdefinierten User-Agent oder Referer benötigen, werden möglicherweise nicht wiedergegeben.</string>
     <string name="settings_resume_always">Immer fortsetzen</string>
     <string name="settings_resume_ask">Vor dem Fortsetzen fragen</string>
@@ -928,7 +933,7 @@
     <string name="settings_backup_section_settings">App-Einstellungen</string>
     <string name="settings_backup_section_settings_desc">Einstellungen für Design, Akzentfarbe, Player und Layout</string>
     <string name="settings_backup_device_settings">Hardware-Einstellungen des anderen Geräts</string>
-    <string name="settings_backup_device_settings_desc">Player-Engine, Hardware-Decodierung, Bildrate, HDR, Surround und Deinterlacing. Nur übernehmen, wenn beide Geräte dieselbe Hardware haben.</string>
+    <string name="settings_backup_device_settings_desc">Player-Engine, Hardware-Decodierung, Bildrate, HDR und Surround. Nur übernehmen, wenn beide Geräte dieselbe Hardware haben.</string>
     <string name="settings_backup_saved_to">Unter <xliff:g id="path">%1$s</xliff:g> gespeichert.</string>
     <string name="settings_backup_saved_to_without_passwords">Unter <xliff:g id="path">%1$s</xliff:g> gespeichert. Kennwörter und PINs wurden nicht aufgenommen.</string>
     <plurals name="settings_backup_restored">

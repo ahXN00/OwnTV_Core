@@ -791,7 +791,7 @@ class BackupManager(
         mode: ImportMode = ImportMode.RESTORE,
         /**
          * The user asked for the hardware settings of *another* device (decoder, engines, frame rate,
-         * HDR, surround, deinterlace) and its per-channel engine pins. A restore of this device's own
+         * HDR, surround) and its per-channel engine pins. A restore of this device's own
          * backup applies them anyway; a file from elsewhere — a restore or a local sync alike — keeps
          * this device's unless this is true (owner decision 9, extended to sync on 2026-09-23).
          */

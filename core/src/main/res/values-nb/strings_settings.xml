@@ -107,6 +107,7 @@
     <string name="settings_remote_button_fast_forward">Spol frem</string>
     <string name="settings_remote_button_previous">Forrige</string>
     <string name="settings_remote_button_next">Neste</string>
+    <string name="settings_remote_button_last_channel">Siste kanal</string>
     <string name="settings_remote_button_menu">Meny</string>
     <string name="settings_remote_button_red">Rød knapp</string>
     <string name="settings_remote_button_green">Grønn knapp</string>
@@ -202,7 +203,7 @@
     <string name="settings_quick_live_preview">Direkteforhåndsvisning</string>
     <string name="settings_quick_preview_sound">Lyd i forhåndsvisning</string>
     <string name="settings_quick_channel_numbers">Kanalnumre</string>
-    <string name="settings_quick_hdr">HDR</string>
+    <string name="settings_quick_hdr">HDR (bare mpv)</string>
     <string name="settings_quick_autoplay">Automatisk avspilling</string>
     <string name="settings_quick_check_update">Se etter oppdatering</string>
     <string name="settings_search_label">Søk i innstillinger</string>
@@ -269,8 +270,8 @@
     <string name="settings_preview_audio_description">Spill av lyd i direkteforhåndsvisningen</string>
     <string name="settings_mini_player_root">Miniavspiller</string>
     <string name="settings_mini_player_root_description">Størrelse og plassering for den forankrede miniavspilleren</string>
-    <string name="settings_hdr_description">Bruk HDR-utdata når videoen og TV-en støtter det</string>
-    <string name="settings_hdr_description_mobile">Bruk HDR-utdata når videoen og skjermen støtter det</string>
+    <string name="settings_hdr_description">Bruk HDR-utdata når videoen og TV-en støtter det. Bare mpv: ExoPlayer-motoren støtter ikke denne innstillingen og sender alltid strømmens HDR uendret videre.</string>
+    <string name="settings_hdr_description_mobile">Bruk HDR-utdata når videoen og skjermen støtter det. Bare mpv: ExoPlayer-motoren støtter ikke denne innstillingen og sender alltid strømmens HDR uendret videre.</string>
     <string name="settings_auto_frame_rate">Automatisk bildefrekvens</string>
     <string name="settings_auto_frame_rate_description">Tilpass TV-ens oppdateringsfrekvens til videoen (24/25/50/60 bilder/s) i fullskjerm for Direkte-TV og VOD, og gjenopprett den når du avslutter. Slå av hvis TV-en eller mottakeren utfører et støyende HDMI-håndtrykk ved hvert kanalbytte.</string>
     <string name="settings_auto_frame_rate_description_mobile">Tilpass skjermens oppdateringsfrekvens til videoen (24/25/50/60 bilder/s) i fullskjerm for Direkte-TV og VOD, og gjenopprett den når du avslutter. Slå av hvis skjermen flimrer eller blir mørk når en video starter.</string>
@@ -480,10 +481,6 @@
     <string name="settings_hardware_decoding">Maskinvaredekoding</string>
     <string name="settings_hardware_decoding_description">Bruk TV-ens maskinvaredekoder. Slå av hvis enkelte strømmer hakker eller viser bildefeil.</string>
     <string name="settings_hardware_decoding_description_mobile">Bruk enhetens maskinvaredekoder. Slå av hvis enkelte strømmer hakker eller viser bildefeil.</string>
-    <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
-    <string name="settings_deinterlace">Deinterlacing</string>
-    <!-- Translators: Description of the deinterlacing setting. -->
-    <string name="settings_deinterlace_description">Jevner ut de kamlignende linjene enkelte gamle SD-kanaler viser ved bevegelse. Gjelder mpv-motoren mens den tegner bildet selv, så slå av maskinvaredekoding hvis det ikke gjør noen forskjell.</string>
     <string name="settings_movies_series_player">Avspiller for filmer og serier</string>
     <string name="settings_live_tv_player">Avspiller for direkte-TV</string>
     <string name="settings_engine_order"><xliff:g id="first">%1$s</xliff:g>, deretter <xliff:g id="second">%2$s</xliff:g></string>
@@ -558,7 +555,7 @@
     <string name="settings_audio">Lyd</string>
     <string name="settings_preferred_audio_language">Foretrukket lydspråk</string>
     <string name="settings_audio_sync">Lydsynkronisering</string>
-    <string name="settings_audio_sync_description">Forskyv lyden fremover eller bakover for å få den til å samsvare med videoen. Gjelder bare mpv-motoren.</string>
+    <string name="settings_audio_sync_description">Forskyv lyden fremover eller bakover for å få den til å samsvare med videoen. Virker i begge avspillerne (mpv og ExoPlayer).</string>
     <string name="settings_live_tv">Direkte-TV</string>
     <string name="settings_live_latency_description">Hvor nær direktesendingen avspillingen skal være. Lavere betyr nærmere direkte, men en mindre buffer, slik at svake strømmer kan hakke eller koble til på nytt oftere. Gjelder den neste kanalen du åpner.</string>
     <string name="settings_live_latency_bitrate_note">På en kanal med svært høy bitrate – særlig 4K – kan bufferen romme kortere tid enn du har bedt om, fordi det finnes en grense for hvor mye video som kan holdes i minnet samtidig.</string>
@@ -589,8 +586,8 @@
     <string name="settings_audio_delay"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_external_player_description">Velg hvilke deler som skal åpnes i en ekstern app.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
-    <string name="settings_movies_player_description">mpv (anbefales) har den bredeste formatstøtten — DTS/TrueHD-lyd, uvanlige filer — pluss rettingen av A/V-synkronisering. På enkelte TV-er spiller ExoPlayer av strømmer mpv ikke klarer, men den kan ikke dekode DTS/TrueHD-lyd og har ingen A/V-synkronisering. De kombinerte valgene prøver automatisk den andre avspilleren når den første mislykkes; valgene med bare én avspiller gjør det aldri, noe som sparer noen sekunder med svart skjerm hvis den andre avspilleren uansett ikke virker på TV-en din.</string>
-    <string name="settings_movies_player_description_mobile">mpv (anbefales) har den bredeste formatstøtten — DTS/TrueHD-lyd, uvanlige filer — pluss rettingen av A/V-synkronisering. På enkelte enheter spiller ExoPlayer av strømmer mpv ikke klarer, men den kan ikke dekode DTS/TrueHD-lyd og har ingen A/V-synkronisering. De kombinerte valgene prøver automatisk den andre avspilleren når den første mislykkes; valgene med bare én avspiller gjør det aldri, noe som sparer noen sekunder med svart skjerm hvis den andre avspilleren uansett ikke virker på enheten din.</string>
+    <string name="settings_movies_player_description">mpv (anbefales) har den bredeste formatstøtten — DTS/TrueHD-lyd, uvanlige filer. På enkelte TV-er spiller ExoPlayer av strømmer mpv ikke klarer, men den kan ikke dekode DTS/TrueHD-lyd. De kombinerte valgene prøver automatisk den andre avspilleren når den første mislykkes; valgene med bare én avspiller gjør det aldri, noe som sparer noen sekunder med svart skjerm hvis den andre avspilleren uansett ikke virker på TV-en din.</string>
+    <string name="settings_movies_player_description_mobile">mpv (anbefales) har den bredeste formatstøtten — DTS/TrueHD-lyd, uvanlige filer. På enkelte enheter spiller ExoPlayer av strømmer mpv ikke klarer, men den kan ikke dekode DTS/TrueHD-lyd. De kombinerte valgene prøver automatisk den andre avspilleren når den første mislykkes; valgene med bare én avspiller gjør det aldri, noe som sparer noen sekunder med svart skjerm hvis den andre avspilleren uansett ikke virker på enheten din.</string>
     <string name="settings_live_player_description">ExoPlayer (anbefales) åpner kanaler mye raskere og er den eneste med teksting i direktesendinger. mpv spiller av kanaler ExoPlayer ikke klarer, blant annet noen med uvanlig lyd. De kombinerte valgene prøver automatisk den andre avspilleren når den første mislykkes; valgene med bare én avspiller gjør det aldri, noe som sparer noen sekunder med svart skjerm hvis den andre avspilleren uansett ikke virker på TV-en din. En kanal du bytter manuelt i avspilleren, beholder valget ditt uansett.</string>
     <string name="settings_live_player_description_mobile">ExoPlayer (anbefales) åpner kanaler mye raskere og er den eneste med teksting i direktesendinger. mpv spiller av kanaler ExoPlayer ikke klarer, blant annet noen med uvanlig lyd. De kombinerte valgene prøver automatisk den andre avspilleren når den første mislykkes; valgene med bare én avspiller gjør det aldri, noe som sparer noen sekunder med svart skjerm hvis den andre avspilleren uansett ikke virker på enheten din. En kanal du bytter manuelt i avspilleren, beholder valget ditt uansett.</string>
     <string name="settings_reset_player_choices_description">Når du bytter en enkelt film eller episode mellom mpv og ExoPlayer i avspilleren, lagres det valget til neste gang. Tilbakestilling gjør at alt følger innstillingen ovenfor igjen. Lagrede valg for direktekanaler beholdes.</string>
@@ -601,6 +598,14 @@
     </plurals>
     <string name="settings_reset_player_choices_confirm">Tilbakestille lagrede avspillervalg?</string>
     <string name="settings_reset_player_choices_confirm_description">Alle filmer og episoder følger igjen innstillingen «Avspiller for filmer og serier». Du kan når som helst bytte en enkelt av dem igjen fra avspilleren.</string>
+    <string name="settings_reset_live_player_choices">Tilbakestill lagrede valg av avspiller for direkte-TV</string>
+    <string name="settings_reset_live_player_choices_description">Når du bytter en kanal mellom ExoPlayer og mpv i avspilleren, lagres det valget for kanalen. Tilbakestilling gjør at alle kanaler følger innstillingen «Avspiller for direkte-TV» igjen. Lagrede valg for filmer og episoder beholdes.</string>
+    <string name="settings_reset_live_player_choices_confirm">Tilbakestille lagrede valg av avspiller for direkte-TV?</string>
+    <string name="settings_reset_live_player_choices_confirm_description">Alle kanaler følger igjen innstillingen «Avspiller for direkte-TV». Du kan når som helst bytte en enkelt kanal igjen fra avspilleren.</string>
+    <string name="settings_forget_stream_fixes">Glem lærte strømmerettinger</string>
+    <string name="settings_forget_stream_fixes_description">Avspilleren lærer hva hver leverandørs strømmer trenger – mpv i stedet for ExoPlayer, et annet format, programvaredekoding for catch-up. Glem dette hvis en leverandør har rettet strømmene sine. Det som er lært om catch-up, glemmes også av seg selv etter 14 dager.</string>
+    <string name="settings_forget_stream_fixes_confirm">Glemme lærte strømmerettinger?</string>
+    <string name="settings_forget_stream_fixes_confirm_description">Kanaler åpnes på vanlig måte igjen, og avspilleren lærer på nytt det en leverandør fortsatt trenger. Første avspilling av en berørt kanal kan ta noen sekunder lenger.</string>
     <string name="settings_external_player_row_description">Åpne strømmer i en ekstern app (VLC, MX Player) i stedet for i den innebygde avspilleren, med eget valg for hver seksjon. Nyttig for strømmer som denne appen ikke kan dekode, eller hvis du foretrekker en annen avspiller. Fortsettelsesposisjon og forrige/neste er utilgjengelige under ekstern avspilling; strømmer som krever en egendefinert User-Agent eller referer, kan kanskje ikke spilles av.</string>
     <string name="settings_resume_always">Fortsett alltid</string>
     <string name="settings_resume_ask">Spør om avspillingen skal fortsette</string>
@@ -928,7 +933,7 @@
     <string name="settings_backup_section_settings">Appinnstillinger</string>
     <string name="settings_backup_section_settings_desc">Innstillinger for tema, aksentfarge, avspiller og oppsett</string>
     <string name="settings_backup_device_settings">Maskinvareinnstillinger fra den andre enheten</string>
-    <string name="settings_backup_device_settings_desc">Spillermotor, maskinvaredekoding, bildefrekvens, HDR, surround og deinterlacing. Gjenopprett bare hvis begge enhetene har samme maskinvare.</string>
+    <string name="settings_backup_device_settings_desc">Spillermotor, maskinvaredekoding, bildefrekvens, HDR og surround. Gjenopprett bare hvis begge enhetene har samme maskinvare.</string>
     <string name="settings_backup_saved_to">Lagret i <xliff:g id="path">%1$s</xliff:g>.</string>
     <string name="settings_backup_saved_to_without_passwords">Lagret i <xliff:g id="path">%1$s</xliff:g>. Passord og PIN-koder ble ikke tatt med.</string>
     <plurals name="settings_backup_restored">

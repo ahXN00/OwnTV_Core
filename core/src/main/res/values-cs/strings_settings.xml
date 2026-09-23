@@ -107,6 +107,7 @@
     <string name="settings_remote_button_fast_forward">Vpřed</string>
     <string name="settings_remote_button_previous">Předchozí</string>
     <string name="settings_remote_button_next">Další</string>
+    <string name="settings_remote_button_last_channel">Poslední kanál</string>
     <string name="settings_remote_button_menu">Nabídka</string>
     <string name="settings_remote_button_red">Červené tlačítko</string>
     <string name="settings_remote_button_green">Zelené tlačítko</string>
@@ -204,7 +205,7 @@
     <string name="settings_quick_live_preview">Živý náhled</string>
     <string name="settings_quick_preview_sound">Zvuk náhledu</string>
     <string name="settings_quick_channel_numbers">Čísla kanálů</string>
-    <string name="settings_quick_hdr">HDR</string>
+    <string name="settings_quick_hdr">HDR (jen mpv)</string>
     <string name="settings_quick_autoplay">Automatické přehrávání</string>
     <string name="settings_quick_check_update">Zkontrolovat aktualizaci</string>
     <string name="settings_search_label">Vyhledávání v nastavení</string>
@@ -271,8 +272,8 @@
     <string name="settings_preview_audio_description">Přehrávat zvuk v živém náhledu</string>
     <string name="settings_mini_player_root">Minipřehrávač</string>
     <string name="settings_mini_player_root_description">Velikost a umístění ukotveného minipřehrávače</string>
-    <string name="settings_hdr_description">Používat výstup HDR, pokud jej video a televizor podporují</string>
-    <string name="settings_hdr_description_mobile">Používat výstup HDR, pokud jej video a obrazovka podporují</string>
+    <string name="settings_hdr_description">Používat výstup HDR, pokud jej video a televizor podporují. Jen pro mpv: jádro ExoPlayer toto nastavení nepodporuje a HDR streamu vždy předává beze změny.</string>
+    <string name="settings_hdr_description_mobile">Používat výstup HDR, pokud jej video a obrazovka podporují. Jen pro mpv: jádro ExoPlayer toto nastavení nepodporuje a HDR streamu vždy předává beze změny.</string>
     <string name="settings_auto_frame_rate">Automatická snímková frekvence</string>
     <string name="settings_auto_frame_rate_description">Při zobrazení na celé obrazovce přizpůsobit obnovovací frekvenci televizoru videu (24/25/50/60 sn./s) pro živé vysílání i VOD a při ukončení ji obnovit. Vypněte, pokud televizor nebo přijímač při každé změně kanálu rušivě znovu navazuje spojení HDMI.</string>
     <string name="settings_auto_frame_rate_description_mobile">Při zobrazení na celé obrazovce přizpůsobit obnovovací frekvenci obrazovky videu (24/25/50/60 sn./s) pro živé vysílání i VOD a při ukončení ji obnovit. Vypněte, pokud obrazovka při spuštění videa bliká nebo ztmavne.</string>
@@ -484,10 +485,6 @@
     <string name="settings_hardware_decoding">Hardwarové dekódování</string>
     <string name="settings_hardware_decoding_description">Používat hardwarový dekodér televizoru. Vypněte, pokud se některé streamy sekají nebo zobrazují obrazové vady.</string>
     <string name="settings_hardware_decoding_description_mobile">Používat hardwarový dekodér zařízení. Vypněte, pokud se některé streamy sekají nebo zobrazují obrazové vady.</string>
-    <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
-    <string name="settings_deinterlace">Odstranění prokládání</string>
-    <!-- Translators: Description of the deinterlacing setting. -->
-    <string name="settings_deinterlace_description">Vyhladí hřebenovité čáry, které některé staré SD kanály ukazují při pohybu. Platí pro přehrávač mpv, když sám vykresluje obraz — pokud to nic nezmění, vypněte hardwarové dekódování.</string>
     <string name="settings_movies_series_player">Přehrávač filmů a seriálů</string>
     <string name="settings_live_tv_player">Přehrávač živého vysílání</string>
     <string name="settings_engine_order"><xliff:g id="first">%1$s</xliff:g>, poté <xliff:g id="second">%2$s</xliff:g></string>
@@ -562,7 +559,7 @@
     <string name="settings_audio">Zvuk</string>
     <string name="settings_preferred_audio_language">Preferovaný jazyk zvuku</string>
     <string name="settings_audio_sync">Synchronizace zvuku</string>
-    <string name="settings_audio_sync_description">Posuňte zvuk dopředu nebo dozadu, aby odpovídal obrazu. Platí pouze pro přehrávač mpv.</string>
+    <string name="settings_audio_sync_description">Posuňte zvuk dopředu nebo dozadu, aby odpovídal obrazu. Funguje v obou přehrávačích (mpv i ExoPlayer).</string>
     <string name="settings_live_tv">Živé vysílání</string>
     <string name="settings_live_latency_description">Určuje, jak blízko aktuálnímu vysílání se má přehrávat. Nižší hodnota znamená menší zpoždění oproti živému vysílání, ale také menší vyrovnávací paměť, takže slabé streamy se mohou častěji zadrhávat nebo znovu připojovat. Použije se u dalšího kanálu, který otevřete.</string>
     <string name="settings_live_latency_bitrate_note">U kanálu s velmi vysokým datovým tokem — zvláště ve 4K — může vyrovnávací paměť pojmout kratší dobu, než jste zadali, protože množství videa uchovávaného v paměti je omezené.</string>
@@ -593,8 +590,8 @@
     <string name="settings_audio_delay"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_external_player_description">Vyberte, které sekce se mají otevírat v externí aplikaci.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
-    <string name="settings_movies_player_description">mpv (doporučeno) má nejširší podporu formátů — zvuk DTS/TrueHD, neobvyklé soubory — a navíc opravu synchronizace zvuku a obrazu. ExoPlayer na některých televizích přehraje streamy, na které mpv nestačí, neumí však dekódovat zvuk DTS/TrueHD a opravu synchronizace nemá. Kombinované možnosti při selhání prvního přehrávače automaticky zkusí druhý; možnosti s jediným přehrávačem to nedělají nikdy, což ušetří několik vteřin černé obrazovky, pokud druhý přehrávač na vaší televizi stejně nefunguje.</string>
-    <string name="settings_movies_player_description_mobile">mpv (doporučeno) má nejširší podporu formátů — zvuk DTS/TrueHD, neobvyklé soubory — a navíc opravu synchronizace zvuku a obrazu. ExoPlayer na některých zařízeních přehraje streamy, na které mpv nestačí, neumí však dekódovat zvuk DTS/TrueHD a opravu synchronizace nemá. Kombinované možnosti při selhání prvního přehrávače automaticky zkusí druhý; možnosti s jediným přehrávačem to nedělají nikdy, což ušetří několik vteřin černé obrazovky, pokud druhý přehrávač na vašem zařízení stejně nefunguje.</string>
+    <string name="settings_movies_player_description">mpv (doporučeno) má nejširší podporu formátů — zvuk DTS/TrueHD, neobvyklé soubory. ExoPlayer na některých televizích přehraje streamy, na které mpv nestačí, neumí však dekódovat zvuk DTS/TrueHD. Kombinované možnosti při selhání prvního přehrávače automaticky zkusí druhý; možnosti s jediným přehrávačem to nedělají nikdy, což ušetří několik vteřin černé obrazovky, pokud druhý přehrávač na vaší televizi stejně nefunguje.</string>
+    <string name="settings_movies_player_description_mobile">mpv (doporučeno) má nejširší podporu formátů — zvuk DTS/TrueHD, neobvyklé soubory. ExoPlayer na některých zařízeních přehraje streamy, na které mpv nestačí, neumí však dekódovat zvuk DTS/TrueHD. Kombinované možnosti při selhání prvního přehrávače automaticky zkusí druhý; možnosti s jediným přehrávačem to nedělají nikdy, což ušetří několik vteřin černé obrazovky, pokud druhý přehrávač na vašem zařízení stejně nefunguje.</string>
     <string name="settings_live_player_description">ExoPlayer (doporučeno) otevírá kanály mnohem rychleji a jako jediný zvládá titulky v živém vysílání. mpv přehraje kanály, na které ExoPlayer nestačí, včetně některých s neobvyklým zvukem. Kombinované možnosti při selhání prvního přehrávače automaticky zkusí druhý; možnosti s jediným přehrávačem to nedělají nikdy, což ušetří několik vteřin černé obrazovky, pokud druhý přehrávač na vaší televizi stejně nefunguje. U kanálu přepnutého ručně v přehrávači zůstane vaše volba tak jako tak.</string>
     <string name="settings_live_player_description_mobile">ExoPlayer (doporučeno) otevírá kanály mnohem rychleji a jako jediný zvládá titulky v živém vysílání. mpv přehraje kanály, na které ExoPlayer nestačí, včetně některých s neobvyklým zvukem. Kombinované možnosti při selhání prvního přehrávače automaticky zkusí druhý; možnosti s jediným přehrávačem to nedělají nikdy, což ušetří několik vteřin černé obrazovky, pokud druhý přehrávač na vašem zařízení stejně nefunguje. U kanálu přepnutého ručně v přehrávači zůstane vaše volba tak jako tak.</string>
     <string name="settings_reset_player_choices_description">Když v přehrávači přepnete jednotlivý film nebo epizodu mezi mpv a ExoPlayerem, tato volba se uloží pro příště. Reset vrátí vše zpět k nastavení výše. Uložené volby pro živé kanály zůstávají zachovány.</string>
@@ -607,6 +604,14 @@
     </plurals>
     <string name="settings_reset_player_choices_confirm">Resetovat uložené volby přehrávače?</string>
     <string name="settings_reset_player_choices_confirm_description">Každý film i epizoda se vrátí k nastavení „Přehrávač filmů a seriálů“. Jednotlivou položku můžete kdykoli znovu přepnout přímo v přehrávači.</string>
+    <string name="settings_reset_live_player_choices">Resetovat uložené volby přehrávače živého vysílání</string>
+    <string name="settings_reset_live_player_choices_description">Když v přehrávači přepnete kanál mezi ExoPlayerem a mpv, tato volba se pro kanál uloží. Reset vrátí všechny kanály k nastavení „Přehrávač živého vysílání“. Uložené volby pro filmy a epizody zůstávají zachovány.</string>
+    <string name="settings_reset_live_player_choices_confirm">Resetovat uložené volby přehrávače živého vysílání?</string>
+    <string name="settings_reset_live_player_choices_confirm_description">Každý kanál se vrátí k nastavení „Přehrávač živého vysílání“. Jednotlivý kanál můžete kdykoli znovu přepnout přímo v přehrávači.</string>
+    <string name="settings_forget_stream_fixes">Zapomenout naučené opravy streamů</string>
+    <string name="settings_forget_stream_fixes_description">Přehrávač se učí, co streamy jednotlivých poskytovatelů potřebují — mpv místo ExoPlayeru, jiný formát, softwarové dekódování pro zpětné přehrávání. Zapomeňte to, pokud poskytovatel své streamy opravil. Poznatky o zpětném přehrávání se navíc samy zapomenou po 14 dnech.</string>
+    <string name="settings_forget_stream_fixes_confirm">Zapomenout naučené opravy streamů?</string>
+    <string name="settings_forget_stream_fixes_confirm_description">Kanály se znovu otevírají standardním způsobem a přehrávač se znovu naučí, co poskytovatel stále potřebuje. První spuštění dotčeného kanálu může trvat o několik sekund déle.</string>
     <string name="settings_external_player_row_description">Otevírat streamy v externí aplikaci (VLC, MX Player) namísto vestavěného přehrávače, s volbou pro každou sekci. Užitečné pro streamy, které tato aplikace nedokáže dekódovat, nebo pokud dáváte přednost jinému přehrávači. Při externím přehrávání není k dispozici pokračování v přehrávání od poslední pozice ani předchozí/další; streamy vyžadující vlastní User-Agent nebo referer se nemusí přehrát.</string>
     <string name="settings_resume_always">Vždy pokračovat</string>
     <string name="settings_resume_ask">Zeptat se na pokračování</string>
@@ -950,7 +955,7 @@
     <string name="settings_backup_section_settings">Nastavení aplikace</string>
     <string name="settings_backup_section_settings_desc">Předvolby motivu, barvy zvýraznění, přehrávače a rozvržení</string>
     <string name="settings_backup_device_settings">Nastavení hardwaru z druhého zařízení</string>
-    <string name="settings_backup_device_settings_desc">Jádro přehrávače, hardwarové dekódování, snímková frekvence, HDR, prostorový zvuk a odstranění prokládání. Obnovujte jen tehdy, když mají obě zařízení stejný hardware.</string>
+    <string name="settings_backup_device_settings_desc">Jádro přehrávače, hardwarové dekódování, snímková frekvence, HDR a prostorový zvuk. Obnovujte jen tehdy, když mají obě zařízení stejný hardware.</string>
     <string name="settings_backup_saved_to">Uloženo do <xliff:g id="path">%1$s</xliff:g>.</string>
     <string name="settings_backup_saved_to_without_passwords">Uloženo do <xliff:g id="path">%1$s</xliff:g>. Hesla ani PINy nebyly zahrnuty.</string>
     <plurals name="settings_backup_restored">

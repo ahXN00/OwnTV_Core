@@ -51,6 +51,8 @@ class ExoSubtitleEngine(
     private val streamingHttp: tv.own.owntv.core.network.StreamingHttpClient,
     private val budget: PlayerBudget,
     private val callbacks: Callbacks,
+    /** [OwnTVPlayer]'s A/V-sync offset, so a film on this engine honours it like mpv does. */
+    private val audioDelay: AudioDelayClock,
 ) {
     /** Hooks back into [OwnTVPlayer]'s StateFlows (all fire on the main thread). */
     interface Callbacks {
@@ -550,6 +552,7 @@ class ExoSubtitleEngine(
             context,
             forceStereo = !AudioOutputPolicy.allowsMultichannel(surroundMode),
             softwareFirst = softwarePreferred,
+            audioDelay = audioDelay,
         )
         return ExoPlayer.Builder(context)
             .setRenderersFactory(renderers)

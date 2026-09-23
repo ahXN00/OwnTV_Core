@@ -109,14 +109,14 @@ interface PlaybackEngine {
     /** Title of the next queued item (in-season next episode), for the HUD next-episode countdown card.
      *  Null when there is no next item — a live engine leaves it null. */
     val nextUpTitle: StateFlow<String?> get() = NULL_STRING
-    /** In-player A/V-sync nudge (ms) — mpv only; an ExoPlayer engine leaves it at 0. */
+    /** In-player A/V-sync nudge (ms); positive = sound later. 0 on an engine that cannot shift it. */
     val audioDelayMs: StateFlow<Int> get() = ZERO_INT
-    /** True when this engine can shift audio against video (mpv's `audio-delay`). ExoPlayer cannot, so
-     *  the HUD hides the nudge there. mpv supports it on live too — provider A/V drift is real (F19e). */
+    /** True when this engine can shift audio against video — mpv (`audio-delay`) and the ExoPlayer
+     *  engines ([AudioDelayClock]), live and VOD; the HUD hides the nudge elsewhere (e.g. cast). */
     fun audioDelayAvailable(): Boolean = false
-    /** Whether the current item has its own remembered A/V-sync offset (mpv only). */
+    /** Whether the current item has its own remembered A/V-sync offset. */
     val audioDelayRemembered: StateFlow<Boolean> get() = FALSE_FLOW
-    /** Remember the current A/V-sync offset for this item, or forget it again (mpv only). */
+    /** Remember the current A/V-sync offset for this item, or forget it again. */
     fun toggleRememberAudioDelay() {}
     /** Subtitle-timing offset (ms) for the ACTIVE subtitle — VOD only (subtitle plan §8). */
     val subDelayMs: StateFlow<Int> get() = ZERO_INT

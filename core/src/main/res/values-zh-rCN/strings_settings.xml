@@ -107,6 +107,7 @@
     <string name="settings_remote_button_fast_forward">快进</string>
     <string name="settings_remote_button_previous">上一个</string>
     <string name="settings_remote_button_next">下一个</string>
+    <string name="settings_remote_button_last_channel">上次频道</string>
     <string name="settings_remote_button_menu">菜单</string>
     <string name="settings_remote_button_red">红色按键</string>
     <string name="settings_remote_button_green">绿色按键</string>
@@ -201,7 +202,7 @@
     <string name="settings_quick_live_preview">直播预览</string>
     <string name="settings_quick_preview_sound">预览声音</string>
     <string name="settings_quick_channel_numbers">频道编号</string>
-    <string name="settings_quick_hdr">HDR</string>
+    <string name="settings_quick_hdr">HDR（仅 mpv）</string>
     <string name="settings_quick_autoplay">自动播放</string>
     <string name="settings_quick_check_update">检查更新</string>
     <string name="settings_search_label">搜索设置</string>
@@ -268,8 +269,8 @@
     <string name="settings_preview_audio_description">在直播预览中播放声音</string>
     <string name="settings_mini_player_root">迷你播放器</string>
     <string name="settings_mini_player_root_description">已停靠迷你播放器的大小和位置</string>
-    <string name="settings_hdr_description">视频和电视支持时使用 HDR 输出</string>
-    <string name="settings_hdr_description_mobile">视频和屏幕支持时使用 HDR 输出</string>
+    <string name="settings_hdr_description">视频和电视支持时使用 HDR 输出。仅适用于 mpv：ExoPlayer 引擎不支持此设置，始终按原样输出流的 HDR。</string>
+    <string name="settings_hdr_description_mobile">视频和屏幕支持时使用 HDR 输出。仅适用于 mpv：ExoPlayer 引擎不支持此设置，始终按原样输出流的 HDR。</string>
     <string name="settings_auto_frame_rate">自动匹配帧率</string>
     <string name="settings_auto_frame_rate_description">在全屏播放直播电视和点播内容时，使电视刷新率与视频匹配（24/25/50/60 fps），并在退出时恢复。如果电视或接收器在每次切换频道时都会重新进行 HDMI 握手并产生明显干扰，请关闭此功能。</string>
     <string name="settings_auto_frame_rate_description_mobile">在全屏播放直播电视和点播内容时，使屏幕刷新率与视频匹配（24/25/50/60 fps），并在退出时恢复。如果视频开始播放时屏幕闪烁或变黑，请关闭此功能。</string>
@@ -478,10 +479,6 @@
     <string name="settings_hardware_decoding">硬件解码</string>
     <string name="settings_hardware_decoding_description">使用电视的硬件解码器。如果部分流媒体出现卡顿或画面伪影，请关闭此功能。</string>
     <string name="settings_hardware_decoding_description_mobile">使用设备的硬件解码器。如果部分流媒体出现卡顿或画面伪影，请关闭此功能。</string>
-    <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
-    <string name="settings_deinterlace">去隔行</string>
-    <!-- Translators: Description of the deinterlacing setting. -->
-    <string name="settings_deinterlace_description">平滑某些老旧标清频道在画面移动时出现的梳状条纹。仅在 mpv 自行绘制画面时生效，因此如果没有变化，请关闭硬件解码。</string>
     <string name="settings_movies_series_player">电影和剧集播放器</string>
     <string name="settings_live_tv_player">直播电视播放器</string>
     <string name="settings_engine_order">先 <xliff:g id="first">%1$s</xliff:g>，后 <xliff:g id="second">%2$s</xliff:g></string>
@@ -556,7 +553,7 @@
     <string name="settings_audio">音频</string>
     <string name="settings_preferred_audio_language">首选音频语言</string>
     <string name="settings_audio_sync">音视频同步</string>
-    <string name="settings_audio_sync_description">将音频提前或延后，使其与视频匹配。仅适用于 mpv 引擎。</string>
+    <string name="settings_audio_sync_description">将音频提前或延后，使其与视频匹配。两个播放器（mpv 和 ExoPlayer）均可使用。</string>
     <string name="settings_live_tv">直播电视</string>
     <string name="settings_live_latency_description">设置播放位置与直播的接近程度。数值越低，越接近直播，但缓冲区也越小，因此信号较弱的流可能更容易卡顿或重新连接。此设置将在您下次打开频道时生效。</string>
     <string name="settings_live_latency_bitrate_note">在码率非常高的频道上（尤其是 4K），由于内存中一次能保存的视频量有限，缓冲的时长可能比你设置的更短。</string>
@@ -587,8 +584,8 @@
     <string name="settings_audio_delay"><xliff:g id="delay">%1$d</xliff:g> 毫秒</string>
     <string name="settings_external_player_description">选择要在外部应用中打开的内容板块。</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> 毫秒</string>
-    <string name="settings_movies_player_description">mpv（推荐）支持的格式最广——DTS/TrueHD 音频、少见的文件——还带有音画同步修正。在某些电视上，ExoPlayer 能播放 mpv 打不开的流，但它无法解码 DTS/TrueHD 音频，也没有音画同步修正。组合选项会在第一个播放器失败时自动尝试另一个；单一播放器选项则从不尝试，如果另一个播放器在你的电视上本来就用不了，这样可以省下几秒钟黑屏。</string>
-    <string name="settings_movies_player_description_mobile">mpv（推荐）支持的格式最广——DTS/TrueHD 音频、少见的文件——还带有音画同步修正。在某些设备上，ExoPlayer 能播放 mpv 打不开的流，但它无法解码 DTS/TrueHD 音频，也没有音画同步修正。组合选项会在第一个播放器失败时自动尝试另一个；单一播放器选项则从不尝试，如果另一个播放器在你的设备上本来就用不了，这样可以省下几秒钟黑屏。</string>
+    <string name="settings_movies_player_description">mpv（推荐）支持的格式最广——DTS/TrueHD 音频、少见的文件。在某些电视上，ExoPlayer 能播放 mpv 打不开的流，但它无法解码 DTS/TrueHD 音频。组合选项会在第一个播放器失败时自动尝试另一个；单一播放器选项则从不尝试，如果另一个播放器在你的电视上本来就用不了，这样可以省下几秒钟黑屏。</string>
+    <string name="settings_movies_player_description_mobile">mpv（推荐）支持的格式最广——DTS/TrueHD 音频、少见的文件。在某些设备上，ExoPlayer 能播放 mpv 打不开的流，但它无法解码 DTS/TrueHD 音频。组合选项会在第一个播放器失败时自动尝试另一个；单一播放器选项则从不尝试，如果另一个播放器在你的设备上本来就用不了，这样可以省下几秒钟黑屏。</string>
     <string name="settings_live_player_description">ExoPlayer（推荐）打开频道快得多，也是唯一支持直播字幕的播放器。mpv 能播放 ExoPlayer 打不开的频道，包括一些音频格式少见的频道。组合选项会在第一个播放器失败时自动尝试另一个；单一播放器选项则从不尝试，如果另一个播放器在你的电视上本来就用不了，这样可以省下几秒钟黑屏。在播放器里手动切换过的频道，两种情况下都会保留你的选择。</string>
     <string name="settings_live_player_description_mobile">ExoPlayer（推荐）打开频道快得多，也是唯一支持直播字幕的播放器。mpv 能播放 ExoPlayer 打不开的频道，包括一些音频格式少见的频道。组合选项会在第一个播放器失败时自动尝试另一个；单一播放器选项则从不尝试，如果另一个播放器在你的设备上本来就用不了，这样可以省下几秒钟黑屏。在播放器里手动切换过的频道，两种情况下都会保留你的选择。</string>
     <string name="settings_reset_player_choices_description">在播放器中将单个电影或剧集在 mpv 与 ExoPlayer 之间切换后，该选择会保存下来供下次使用。重置后，所有内容将重新遵循上面的设置。直播频道已保存的选择会保留。</string>
@@ -598,6 +595,14 @@
     </plurals>
     <string name="settings_reset_player_choices_confirm">要重置已保存的播放器选择吗？</string>
     <string name="settings_reset_player_choices_confirm_description">所有电影和剧集将重新遵循“电影和剧集播放器”设置。你随时可以在播放器中再次单独切换某一项。</string>
+    <string name="settings_reset_live_player_choices">重置直播电视播放器的已保存选择</string>
+    <string name="settings_reset_live_player_choices_description">在播放器中将某个频道在 ExoPlayer 与 mpv 之间切换后，该选择会为这个频道保存下来。重置后，所有频道将重新遵循“直播电视播放器”设置。电影和剧集已保存的选择会保留。</string>
+    <string name="settings_reset_live_player_choices_confirm">要重置直播电视播放器的已保存选择吗？</string>
+    <string name="settings_reset_live_player_choices_confirm_description">所有频道将重新遵循“直播电视播放器”设置。你随时可以在播放器中再次单独切换某个频道。</string>
+    <string name="settings_forget_stream_fixes">忘记已学到的播放修正</string>
+    <string name="settings_forget_stream_fixes_description">播放器会学习每个提供商的流需要什么——用 mpv 代替 ExoPlayer、换一种格式、回看时使用软件解码。如果提供商已修复了其流，请让播放器忘记这些内容。关于回看学到的内容也会在 14 天后自动忘记。</string>
+    <string name="settings_forget_stream_fixes_confirm">要忘记已学到的播放修正吗？</string>
+    <string name="settings_forget_stream_fixes_confirm_description">频道将重新以标准方式打开，播放器会重新学习提供商仍然需要的内容。受影响频道的首次播放可能会多花几秒钟。</string>
     <string name="settings_external_player_row_description">按版块选择使用外部应用（VLC、MX Player）而非内置播放器打开流媒体。对于本应用无法解码的流媒体，或者您更喜欢其他播放器时，此功能很有用。使用外部应用播放时，无法使用继续播放位置及上一个/下一个功能；需要自定义 User-Agent 或 Referer 的流媒体可能无法播放。</string>
     <string name="settings_resume_always">总是继续播放</string>
     <string name="settings_resume_ask">询问是否继续播放</string>
@@ -917,7 +922,7 @@
     <string name="settings_backup_section_settings">应用设置</string>
     <string name="settings_backup_section_settings_desc">主题、强调色、播放器和布局偏好设置</string>
     <string name="settings_backup_device_settings">另一台设备的硬件设置</string>
-    <string name="settings_backup_device_settings_desc">播放器引擎、硬件解码、帧率、HDR、环绕声和去隔行。仅当两台设备硬件相同时才恢复。</string>
+    <string name="settings_backup_device_settings_desc">播放器引擎、硬件解码、帧率、HDR 和环绕声。仅当两台设备硬件相同时才恢复。</string>
     <string name="settings_backup_saved_to">已保存到 <xliff:g id="path">%1$s</xliff:g>。</string>
     <string name="settings_backup_saved_to_without_passwords">已保存到 <xliff:g id="path">%1$s</xliff:g>。未包含密码和 PIN 码。</string>
     <plurals name="settings_backup_restored">

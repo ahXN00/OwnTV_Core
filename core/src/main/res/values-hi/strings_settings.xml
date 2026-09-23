@@ -107,6 +107,7 @@
     <string name="settings_remote_button_fast_forward">फ़ास्ट-फ़ॉरवर्ड</string>
     <string name="settings_remote_button_previous">पिछला</string>
     <string name="settings_remote_button_next">अगला</string>
+    <string name="settings_remote_button_last_channel">अंतिम चैनल</string>
     <string name="settings_remote_button_menu">मेन्यू</string>
     <string name="settings_remote_button_red">लाल बटन</string>
     <string name="settings_remote_button_green">हरा बटन</string>
@@ -202,7 +203,7 @@
     <string name="settings_quick_live_preview">लाइव पूर्वावलोकन</string>
     <string name="settings_quick_preview_sound">पूर्वावलोकन की ध्वनि</string>
     <string name="settings_quick_channel_numbers">चैनल नंबर</string>
-    <string name="settings_quick_hdr">HDR</string>
+    <string name="settings_quick_hdr">HDR (केवल mpv)</string>
     <string name="settings_quick_autoplay">अपने-आप चलाएँ</string>
     <string name="settings_quick_check_update">अपडेट जाँचें</string>
     <string name="settings_search_label">सेटिंग खोजें</string>
@@ -269,8 +270,8 @@
     <string name="settings_preview_audio_description">लाइव पूर्वावलोकन में ध्वनि चलाएँ</string>
     <string name="settings_mini_player_root">मिनी-प्लेयर</string>
     <string name="settings_mini_player_root_description">डॉक किए गए मिनी-प्लेयर का आकार और स्थिति</string>
-    <string name="settings_hdr_description">वीडियो और TV द्वारा समर्थित होने पर HDR आउटपुट का उपयोग करें</string>
-    <string name="settings_hdr_description_mobile">वीडियो और स्क्रीन द्वारा समर्थित होने पर HDR आउटपुट का उपयोग करें</string>
+    <string name="settings_hdr_description">वीडियो और TV द्वारा समर्थित होने पर HDR आउटपुट का उपयोग करें। केवल mpv: ExoPlayer इंजन इस सेटिंग का समर्थन नहीं करता और स्ट्रीम का HDR हमेशा जैसा है वैसा ही भेजता है।</string>
+    <string name="settings_hdr_description_mobile">वीडियो और स्क्रीन द्वारा समर्थित होने पर HDR आउटपुट का उपयोग करें। केवल mpv: ExoPlayer इंजन इस सेटिंग का समर्थन नहीं करता और स्ट्रीम का HDR हमेशा जैसा है वैसा ही भेजता है।</string>
     <string name="settings_auto_frame_rate">अपने-आप फ़्रेम दर मिलाना</string>
     <string name="settings_auto_frame_rate_description">फ़ुल स्क्रीन में लाइव टीवी और VOD के लिए TV की रीफ़्रेश दर को वीडियो (24/25/50/60 fps) से मिलाएँ और बाहर निकलने पर उसे पहले जैसा करें। यदि हर चैनल बदलने पर आपका TV या रिसीवर शोर के साथ फिर से HDMI हैंडशेक करता है, तो इसे बंद कर दें।</string>
     <string name="settings_auto_frame_rate_description_mobile">फ़ुल स्क्रीन में लाइव टीवी और VOD के लिए स्क्रीन की रीफ़्रेश दर को वीडियो (24/25/50/60 fps) से मिलाएँ और बाहर निकलने पर उसे पहले जैसा करें। यदि वीडियो शुरू होने पर स्क्रीन झिलमिलाती है या काली हो जाती है, तो इसे बंद कर दें।</string>
@@ -480,10 +481,6 @@
     <string name="settings_hardware_decoding">हार्डवेयर डिकोडिंग</string>
     <string name="settings_hardware_decoding_description">TV के हार्डवेयर डिकोडर का उपयोग करें। यदि कुछ स्ट्रीम अटकती हैं या उनमें दृश्य विकृतियाँ दिखाई देती हैं, तो इसे बंद कर दें।</string>
     <string name="settings_hardware_decoding_description_mobile">डिवाइस के हार्डवेयर डिकोडर का उपयोग करें। यदि कुछ स्ट्रीम अटकती हैं या उनमें दृश्य विकृतियाँ दिखाई देती हैं, तो इसे बंद कर दें।</string>
-    <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
-    <string name="settings_deinterlace">डीइंटरलेसिंग</string>
-    <!-- Translators: Description of the deinterlacing setting. -->
-    <string name="settings_deinterlace_description">कुछ पुराने SD चैनल हलचल पर जो कंघी जैसी लकीरें दिखाते हैं, उन्हें चिकना करता है। यह mpv इंजन पर तब लागू होता है जब वह खुद तस्वीर बनाता है, इसलिए फ़र्क न दिखे तो हार्डवेयर डिकोडिंग बंद करें।</string>
     <string name="settings_movies_series_player">फ़िल्मों और सीरीज़ का प्लेयर</string>
     <string name="settings_live_tv_player">लाइव टीवी का प्लेयर</string>
     <string name="settings_engine_order"><xliff:g id="first">%1$s</xliff:g>, फिर <xliff:g id="second">%2$s</xliff:g></string>
@@ -558,7 +555,7 @@
     <string name="settings_audio">ऑडियो</string>
     <string name="settings_preferred_audio_language">पसंदीदा ऑडियो भाषा</string>
     <string name="settings_audio_sync">ऑडियो सिंक</string>
-    <string name="settings_audio_sync_description">वीडियो से मिलाने के लिए ऑडियो को पहले या बाद में करें। यह केवल mpv इंजन पर लागू होता है।</string>
+    <string name="settings_audio_sync_description">वीडियो से मिलाने के लिए ऑडियो को पहले या बाद में करें। यह दोनों प्लेयर (mpv और ExoPlayer) पर काम करता है।</string>
     <string name="settings_live_tv">लाइव टीवी</string>
     <string name="settings_live_latency_description">लाइव प्रसारण के कितने करीब चलाना है। कम मान का अर्थ लाइव के अधिक करीब, लेकिन छोटा बफ़र है; इसलिए कमज़ोर स्ट्रीम अधिक अटक सकती हैं या बार-बार कनेक्ट हो सकती हैं। यह अगली बार खोले जाने वाले चैनल पर लागू होगा।</string>
     <string name="settings_live_latency_bitrate_note">बहुत ज़्यादा बिटरेट वाले चैनल पर — खास तौर पर 4K में — बफ़र आपकी माँगी गई अवधि से कम रख पाता है, क्योंकि एक बार में मेमोरी में रखे जा सकने वाले वीडियो की एक सीमा है।</string>
@@ -589,8 +586,8 @@
     <string name="settings_audio_delay"><xliff:g id="delay">%1$d</xliff:g> मि.से.</string>
     <string name="settings_external_player_description">चुनें कि कौन-से अनुभाग बाहरी ऐप में खुलेंगे।</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> मि.से.</string>
-    <string name="settings_movies_player_description">mpv (सुझाया गया) सबसे अधिक फ़ॉर्मैट सपोर्ट करता है — DTS/TrueHD ऑडियो, असामान्य फ़ाइलें — साथ ही A/V सिंक सुधार भी। कुछ टीवी पर ExoPlayer ऐसी स्ट्रीम चला देता है जो mpv नहीं चला पाता, लेकिन यह DTS/TrueHD ऑडियो डिकोड नहीं कर सकता और इसमें A/V सिंक सुधार नहीं है। संयुक्त विकल्पों में पहला विफल होने पर दूसरा प्लेयर अपने आप आज़माया जाता है; एकल-प्लेयर विकल्पों में ऐसा कभी नहीं होता, जिससे दूसरा प्लेयर आपके टीवी पर काम न करने की स्थिति में कुछ सेकंड की काली स्क्रीन बच जाती है।</string>
-    <string name="settings_movies_player_description_mobile">mpv (सुझाया गया) सबसे अधिक फ़ॉर्मैट सपोर्ट करता है — DTS/TrueHD ऑडियो, असामान्य फ़ाइलें — साथ ही A/V सिंक सुधार भी। कुछ डिवाइस पर ExoPlayer ऐसी स्ट्रीम चला देता है जो mpv नहीं चला पाता, लेकिन यह DTS/TrueHD ऑडियो डिकोड नहीं कर सकता और इसमें A/V सिंक सुधार नहीं है। संयुक्त विकल्पों में पहला विफल होने पर दूसरा प्लेयर अपने आप आज़माया जाता है; एकल-प्लेयर विकल्पों में ऐसा कभी नहीं होता, जिससे दूसरा प्लेयर आपके डिवाइस पर काम न करने की स्थिति में कुछ सेकंड की काली स्क्रीन बच जाती है।</string>
+    <string name="settings_movies_player_description">mpv (सुझाया गया) सबसे अधिक फ़ॉर्मैट सपोर्ट करता है — DTS/TrueHD ऑडियो, असामान्य फ़ाइलें। कुछ टीवी पर ExoPlayer ऐसी स्ट्रीम चला देता है जो mpv नहीं चला पाता, लेकिन यह DTS/TrueHD ऑडियो डिकोड नहीं कर सकता। संयुक्त विकल्पों में पहला विफल होने पर दूसरा प्लेयर अपने आप आज़माया जाता है; एकल-प्लेयर विकल्पों में ऐसा कभी नहीं होता, जिससे दूसरा प्लेयर आपके टीवी पर काम न करने की स्थिति में कुछ सेकंड की काली स्क्रीन बच जाती है।</string>
+    <string name="settings_movies_player_description_mobile">mpv (सुझाया गया) सबसे अधिक फ़ॉर्मैट सपोर्ट करता है — DTS/TrueHD ऑडियो, असामान्य फ़ाइलें। कुछ डिवाइस पर ExoPlayer ऐसी स्ट्रीम चला देता है जो mpv नहीं चला पाता, लेकिन यह DTS/TrueHD ऑडियो डिकोड नहीं कर सकता। संयुक्त विकल्पों में पहला विफल होने पर दूसरा प्लेयर अपने आप आज़माया जाता है; एकल-प्लेयर विकल्पों में ऐसा कभी नहीं होता, जिससे दूसरा प्लेयर आपके डिवाइस पर काम न करने की स्थिति में कुछ सेकंड की काली स्क्रीन बच जाती है।</string>
     <string name="settings_live_player_description">ExoPlayer (सुझाया गया) चैनल बहुत तेज़ी से खोलता है और लाइव सबटाइटल केवल इसी में हैं। mpv ऐसे चैनल भी चलाता है जो ExoPlayer नहीं चला पाता, जिनमें असामान्य ऑडियो वाले कुछ चैनल भी शामिल हैं। संयुक्त विकल्पों में पहला विफल होने पर दूसरा प्लेयर अपने आप आज़माया जाता है; एकल-प्लेयर विकल्पों में ऐसा कभी नहीं होता, जिससे दूसरा प्लेयर आपके टीवी पर काम न करने की स्थिति में कुछ सेकंड की काली स्क्रीन बच जाती है। प्लेयर में हाथ से बदले गए चैनल पर आपकी पसंद दोनों ही स्थितियों में बनी रहती है।</string>
     <string name="settings_live_player_description_mobile">ExoPlayer (सुझाया गया) चैनल बहुत तेज़ी से खोलता है और लाइव सबटाइटल केवल इसी में हैं। mpv ऐसे चैनल भी चलाता है जो ExoPlayer नहीं चला पाता, जिनमें असामान्य ऑडियो वाले कुछ चैनल भी शामिल हैं। संयुक्त विकल्पों में पहला विफल होने पर दूसरा प्लेयर अपने आप आज़माया जाता है; एकल-प्लेयर विकल्पों में ऐसा कभी नहीं होता, जिससे दूसरा प्लेयर आपके डिवाइस पर काम न करने की स्थिति में कुछ सेकंड की काली स्क्रीन बच जाती है। प्लेयर में हाथ से बदले गए चैनल पर आपकी पसंद दोनों ही स्थितियों में बनी रहती है।</string>
     <string name="settings_reset_player_choices_description">प्लेयर में किसी एक फ़िल्म या एपिसोड को mpv और ExoPlayer के बीच बदलने पर वह विकल्प अगली बार के लिए सहेज लिया जाता है। रीसेट करने पर सब कुछ फिर से ऊपर दी गई सेटिंग का पालन करेगा। लाइव चैनलों के सहेजे गए विकल्प बने रहते हैं।</string>
@@ -601,6 +598,14 @@
     </plurals>
     <string name="settings_reset_player_choices_confirm">सहेजे गए प्लेयर विकल्प रीसेट करें?</string>
     <string name="settings_reset_player_choices_confirm_description">हर फ़िल्म और एपिसोड फिर से “फ़िल्मों और सीरीज़ का प्लेयर” सेटिंग का पालन करेगा। आप किसी एक को प्लेयर से कभी भी दोबारा बदल सकते हैं।</string>
+    <string name="settings_reset_live_player_choices">लाइव टीवी प्लेयर के सहेजे गए विकल्प रीसेट करें</string>
+    <string name="settings_reset_live_player_choices_description">प्लेयर में किसी चैनल को ExoPlayer और mpv के बीच बदलने पर वह विकल्प उस चैनल के लिए सहेज लिया जाता है। रीसेट करने पर हर चैनल फिर से “लाइव टीवी का प्लेयर” सेटिंग का पालन करेगा। फ़िल्मों और एपिसोड के सहेजे गए विकल्प बने रहते हैं।</string>
+    <string name="settings_reset_live_player_choices_confirm">लाइव टीवी प्लेयर के सहेजे गए विकल्प रीसेट करें?</string>
+    <string name="settings_reset_live_player_choices_confirm_description">हर चैनल फिर से “लाइव टीवी का प्लेयर” सेटिंग का पालन करेगा। आप किसी एक चैनल को प्लेयर से कभी भी दोबारा बदल सकते हैं।</string>
+    <string name="settings_forget_stream_fixes">सीखे गए स्ट्रीम सुधार भूल जाएँ</string>
+    <string name="settings_forget_stream_fixes_description">प्लेयर सीखता है कि हर प्रोवाइडर की स्ट्रीम को क्या चाहिए — ExoPlayer की जगह mpv, कोई दूसरा फ़ॉर्मैट, कैच-अप के लिए सॉफ़्टवेयर डिकोडिंग। अगर किसी प्रोवाइडर ने अपनी स्ट्रीम ठीक कर ली है तो इसे भूल जाएँ। कैच-अप से जुड़ी सीख 14 दिन बाद अपने आप भी भुला दी जाती है।</string>
+    <string name="settings_forget_stream_fixes_confirm">सीखे गए स्ट्रीम सुधार भूल जाएँ?</string>
+    <string name="settings_forget_stream_fixes_confirm_description">चैनल फिर से सामान्य तरीके से खुलेंगे, और प्रोवाइडर को अभी भी जो चाहिए वह प्लेयर फिर से सीख लेगा। किसी प्रभावित चैनल को पहली बार चलने में कुछ सेकंड ज़्यादा लग सकते हैं।</string>
     <string name="settings_external_player_row_description">स्ट्रीम को अंतर्निहित प्लेयर के बजाय हर अनुभाग के लिए चुने गए बाहरी ऐप (VLC, MX प्लेयर) में खोलें। यह उन स्ट्रीम के लिए उपयोगी है जिन्हें यह ऐप डिकोड नहीं कर सकता, या यदि आप किसी दूसरे प्लेयर को पसंद करते हैं। बाहरी रूप से चलाते समय प्लेबैक जारी रखने की स्थिति और पिछला/अगला उपलब्ध नहीं होते; जिन स्ट्रीम के लिए कस्टम User-Agent या रेफ़रर आवश्यक है, वे शायद न चलें।</string>
     <string name="settings_resume_always">हमेशा जारी रखें</string>
     <string name="settings_resume_ask">जारी रखने से पहले पूछें</string>
@@ -928,7 +933,7 @@
     <string name="settings_backup_section_settings">ऐप सेटिंग</string>
     <string name="settings_backup_section_settings_desc">थीम, एक्सेंट, प्लेयर और लेआउट प्राथमिकताएँ</string>
     <string name="settings_backup_device_settings">दूसरे डिवाइस की हार्डवेयर सेटिंग</string>
-    <string name="settings_backup_device_settings_desc">प्लेयर इंजन, हार्डवेयर डिकोडिंग, फ़्रेम रेट, HDR, सराउंड और डीइंटरलेसिंग। इन्हें तभी वापस लाएँ जब दोनों डिवाइस का हार्डवेयर एक जैसा हो।</string>
+    <string name="settings_backup_device_settings_desc">प्लेयर इंजन, हार्डवेयर डिकोडिंग, फ़्रेम रेट, HDR और सराउंड। इन्हें तभी वापस लाएँ जब दोनों डिवाइस का हार्डवेयर एक जैसा हो।</string>
     <string name="settings_backup_saved_to"><xliff:g id="path">%1$s</xliff:g> में सहेजा गया।</string>
     <string name="settings_backup_saved_to_without_passwords"><xliff:g id="path">%1$s</xliff:g> में सहेजा गया। पासवर्ड और पिन शामिल नहीं किए गए।</string>
     <plurals name="settings_backup_restored">

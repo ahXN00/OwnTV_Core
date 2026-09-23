@@ -110,6 +110,7 @@
     <string name="settings_remote_button_fast_forward">Előretekerés</string>
     <string name="settings_remote_button_previous">Előző</string>
     <string name="settings_remote_button_next">Következő</string>
+    <string name="settings_remote_button_last_channel">Utolsó csatorna</string>
     <string name="settings_remote_button_menu">Menü</string>
     <string name="settings_remote_button_red">Piros gomb</string>
     <string name="settings_remote_button_green">Zöld gomb</string>
@@ -218,7 +219,7 @@
     <string name="settings_quick_live_preview">Élő előnézet</string>
     <string name="settings_quick_preview_sound">Előnézet hangja</string>
     <string name="settings_quick_channel_numbers">Csatornaszámok</string>
-    <string name="settings_quick_hdr">HDR</string>
+    <string name="settings_quick_hdr">HDR (csak mpv)</string>
     <string name="settings_quick_autoplay">Automatikus lejátszás</string>
     <string name="settings_quick_check_update">Frissítés keresése</string>
     <string name="settings_search_label">Beállítások keresése</string>
@@ -325,8 +326,8 @@
     <string name="settings_preview_audio_description">Hang lejátszása az élő előnézetben</string>
     <string name="settings_mini_player_root">Mini lejátszó</string>
     <string name="settings_mini_player_root_description">A dokkolt mini lejátszó mérete és pozíciója</string>
-    <string name="settings_hdr_description">HDR-kimenet használata, ha a videó és a TV is támogatja</string>
-    <string name="settings_hdr_description_mobile">HDR-kimenet használata, ha a videó és a kijelző is támogatja</string>
+    <string name="settings_hdr_description">HDR-kimenet használata, ha a videó és a TV is támogatja. Csak mpv: az ExoPlayer motor nem támogatja ezt a beállítást, és a stream HDR-jét mindig változatlanul továbbítja.</string>
+    <string name="settings_hdr_description_mobile">HDR-kimenet használata, ha a videó és a kijelző is támogatja. Csak mpv: az ExoPlayer motor nem támogatja ezt a beállítást, és a stream HDR-jét mindig változatlanul továbbítja.</string>
     <string name="settings_auto_frame_rate">Automatikus képkockasebesség</string>
     <string name="settings_auto_frame_rate_description">Teljes képernyőn a TV frissítési frekvenciáját a videóhoz igazítja (24/25/50/60 fps) élő TV és VOD esetén is, kilépéskor pedig visszaállítja. Kapcsold ki, ha a TV-d vagy a vevőd minden csatornaváltásnál zajosan újraegyezteti a HDMI-t.</string>
     <string name="settings_auto_frame_rate_description_mobile">Teljes képernyőn a kijelző frissítési frekvenciáját a videóhoz igazítja (24/25/50/60 fps) élő TV és VOD esetén is, kilépéskor pedig visszaállítja. Kapcsold ki, ha a kijelző villog vagy elsötétül, amikor egy videó elindul.</string>
@@ -534,8 +535,6 @@
     <string name="settings_hardware_decoding">Hardveres dekódolás</string>
     <string name="settings_hardware_decoding_description">A TV hardveres dekóderének használata. Kapcsold ki, ha egyes adatfolyamok akadoznak vagy képhibásak.</string>
     <string name="settings_hardware_decoding_description_mobile">Az eszköz hardveres dekóderének használata. Kapcsold ki, ha egyes adatfolyamok akadoznak vagy képhibásak.</string>
-    <string name="settings_deinterlace">Váltottsorosság-mentesítés</string>
-    <string name="settings_deinterlace_description">Elsimítja a fésűszerű vonalakat, amiket egyes régi SD-csatornák mutatnak mozgásnál. Az mpv motorra vonatkozik, amíg az maga rajzolja a képet, ezért kapcsold ki a hardveres dekódolást, ha nincs hatása.</string>
     <string name="settings_movies_series_player">Filmek és sorozatok lejátszója</string>
     <string name="settings_live_tv_player">Élő TV lejátszója</string>
     <string name="settings_engine_order"><xliff:g id="first">%1$s</xliff:g>, majd <xliff:g id="second">%2$s</xliff:g></string>
@@ -579,7 +578,7 @@
     <string name="settings_audio">Hang</string>
     <string name="settings_preferred_audio_language">Előnyben részesített hangnyelv</string>
     <string name="settings_audio_sync">Hangszinkron</string>
-    <string name="settings_audio_sync_description">A hang előre- vagy hátracsúsztatása a képhez igazításhoz. Csak az mpv motorra vonatkozik.</string>
+    <string name="settings_audio_sync_description">A hang előre- vagy hátracsúsztatása a képhez igazításhoz. Mindkét lejátszóval működik (mpv és ExoPlayer).</string>
     <string name="settings_live_tv">Élő TV</string>
     <string name="settings_live_latency_description">Milyen közel az élő adáshoz játsszon. Az alacsonyabb közelebb van az élőhöz, de kisebb a puffer, így a gyenge adatfolyamok akadozhatnak vagy többször újracsatlakozhatnak. A legközelebb megnyitott csatornától él.</string>
     <string name="settings_live_latency_bitrate_note">Nagyon nagy bitsebességű csatornán — különösen 4K esetén — a puffer kevesebb időt tárolhat a kértnél, mert korlátozott, mennyi videó tartható egyszerre a memóriában.</string>
@@ -612,8 +611,8 @@ Válaszd a Kiegyensúlyozott beállítást, ha egy csatorna megbízhatatlanná v
     <string name="settings_audio_delay"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_external_player_description">Válaszd ki, mely szakaszok nyíljanak külső alkalmazásban.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
-    <string name="settings_movies_player_description">Az mpv (ajánlott) támogatja a legtöbb formátumot — DTS/TrueHD hang, szokatlan fájlok —, és van A/V szinkronjavítása. Az ExoPlayer egyes TV-ken lejátszik olyan adatfolyamokat, amiket az mpv nem, viszont nem tud DTS/TrueHD hangot dekódolni, és nincs A/V szinkronjavítása. A kombinált beállítások automatikusan megpróbálják a másik lejátszót, ha az első nem működik; az egy lejátszós beállítások soha, ami néhány másodpernyi fekete képernyőt spórol, ha a másik lejátszó a TV-den sosem működik.</string>
-    <string name="settings_movies_player_description_mobile">Az mpv (ajánlott) támogatja a legtöbb formátumot — DTS/TrueHD hang, szokatlan fájlok —, és van A/V szinkronjavítása. Az ExoPlayer egyes eszközökön lejátszik olyan adatfolyamokat, amiket az mpv nem, viszont nem tud DTS/TrueHD hangot dekódolni, és nincs A/V szinkronjavítása. A kombinált beállítások automatikusan megpróbálják a másik lejátszót, ha az első nem működik; az egy lejátszós beállítások soha, ami néhány másodpernyi fekete képernyőt spórol, ha a másik lejátszó az eszközödön sosem működik.</string>
+    <string name="settings_movies_player_description">Az mpv (ajánlott) támogatja a legtöbb formátumot — DTS/TrueHD hang, szokatlan fájlok. Az ExoPlayer egyes TV-ken lejátszik olyan adatfolyamokat, amiket az mpv nem, viszont nem tud DTS/TrueHD hangot dekódolni. A kombinált beállítások automatikusan megpróbálják a másik lejátszót, ha az első nem működik; az egy lejátszós beállítások soha, ami néhány másodpernyi fekete képernyőt spórol, ha a másik lejátszó a TV-den sosem működik.</string>
+    <string name="settings_movies_player_description_mobile">Az mpv (ajánlott) támogatja a legtöbb formátumot — DTS/TrueHD hang, szokatlan fájlok. Az ExoPlayer egyes eszközökön lejátszik olyan adatfolyamokat, amiket az mpv nem, viszont nem tud DTS/TrueHD hangot dekódolni. A kombinált beállítások automatikusan megpróbálják a másik lejátszót, ha az első nem működik; az egy lejátszós beállítások soha, ami néhány másodpernyi fekete képernyőt spórol, ha a másik lejátszó az eszközödön sosem működik.</string>
     <string name="settings_live_player_description">Az ExoPlayer (ajánlott) sokkal gyorsabban nyitja a csatornákat, és egyedül ez tud élő feliratot. Az mpv olyan csatornákat is lejátszik, amiket az ExoPlayer nem, köztük szokatlan hangúakat is. A kombinált beállítások automatikusan megpróbálják a másik lejátszót, ha az első nem működik; az egy lejátszós beállítások soha, ami néhány másodpernyi fekete képernyőt spórol, ha a másik lejátszó a TV-den sosem működik. Ha a lejátszóban kézzel váltasz egy csatornán, az a választásod mindkét esetben megmarad.</string>
     <string name="settings_live_player_description_mobile">Az ExoPlayer (ajánlott) sokkal gyorsabban nyitja a csatornákat, és egyedül ez tud élő feliratot. Az mpv olyan csatornákat is lejátszik, amiket az ExoPlayer nem, köztük szokatlan hangúakat is. A kombinált beállítások automatikusan megpróbálják a másik lejátszót, ha az első nem működik; az egy lejátszós beállítások soha, ami néhány másodpernyi fekete képernyőt spórol, ha a másik lejátszó az eszközödön sosem működik. Ha a lejátszóban kézzel váltasz egy csatornán, az a választásod mindkét esetben megmarad.</string>
     <string name="settings_reset_player_choices_description">Ha a lejátszóban egyetlen filmnél vagy epizódnál mpv és ExoPlayer között váltasz, a választás elmentődik a következő alkalomra. A visszaállítás után minden újra a fenti beállítást követi. Az élő csatornákhoz mentett választások megmaradnak.</string>
@@ -624,6 +623,14 @@ Válaszd a Kiegyensúlyozott beállítást, ha egy csatorna megbízhatatlanná v
     </plurals>
     <string name="settings_reset_player_choices_confirm">Visszaállítod a mentett lejátszóválasztásokat?</string>
     <string name="settings_reset_player_choices_confirm_description">Minden film és epizód visszatér a „Filmek és sorozatok lejátszója” beállításhoz. Bármikor válthatsz újra egyedileg a lejátszóból.</string>
+    <string name="settings_reset_live_player_choices">Az élő TV mentett lejátszóválasztásainak visszaállítása</string>
+    <string name="settings_reset_live_player_choices_description">Ha a lejátszóban egy csatornánál ExoPlayer és mpv között váltasz, a választás elmentődik a csatornához. A visszaállítás után minden csatorna újra az „Élő TV lejátszója” beállítást követi. A filmekhez és epizódokhoz mentett választások megmaradnak.</string>
+    <string name="settings_reset_live_player_choices_confirm">Visszaállítod az élő TV mentett lejátszóválasztásait?</string>
+    <string name="settings_reset_live_player_choices_confirm_description">Minden csatorna visszatér az „Élő TV lejátszója” beállításhoz. Bármikor válthatsz újra egy csatornát a lejátszóból.</string>
+    <string name="settings_forget_stream_fixes">Tanult streamjavítások elfelejtése</string>
+    <string name="settings_forget_stream_fixes_description">A lejátszó megtanulja, mire van szükségük az egyes szolgáltatók streamjeinek – mpv az ExoPlayer helyett, más formátum, szoftveres dekódolás a visszanézéshez. Felejtsd el, ha egy szolgáltató kijavította a streamjeit. A visszanézéssel kapcsolatos tanulságokat 14 nap után magától is elfelejti.</string>
+    <string name="settings_forget_stream_fixes_confirm">Elfelejted a tanult streamjavításokat?</string>
+    <string name="settings_forget_stream_fixes_confirm_description">A csatornák újra a szokásos módon nyílnak meg, és a lejátszó újra megtanulja, amire egy szolgáltatónak még szüksége van. Egy érintett csatorna első indítása néhány másodperccel tovább tarthat.</string>
     <string name="settings_external_player_row_description">Az adatfolyamok megnyitása külső alkalmazásban (VLC, MX Player) a beépített lejátszó helyett, szakaszonként választva. Hasznos olyan adatfolyamokhoz, amiket ez az alkalmazás nem tud dekódolni, vagy ha másik lejátszót szeretsz. Külső lejátszás közben a folytatási pozíció és az előző/következő nem érhető el; az egyéni User-Agentet vagy hivatkozót igénylő adatfolyamok esetleg nem indulnak el.</string>
     <string name="settings_resume_always">Mindig folytassa</string>
     <string name="settings_resume_ask">Kérdezzen rá</string>
@@ -962,7 +969,7 @@ Az Újraszinkronizálás és a hiányzó címek eltávolítása azt is lehetőv�
     <string name="settings_backup_section_settings">Alkalmazásbeállítások</string>
     <string name="settings_backup_section_settings_desc">Téma, kiemelőszín, lejátszó és elrendezés beállításai</string>
     <string name="settings_backup_device_settings">A másik eszköz hardverbeállításai</string>
-    <string name="settings_backup_device_settings_desc">Lejátszómotor, hardveres dekódolás, képkockasebesség, HDR, térhatású hang és váltottsoros kép feloldása. Csak akkor állítsa vissza, ha a két eszköz hardvere azonos.</string>
+    <string name="settings_backup_device_settings_desc">Lejátszómotor, hardveres dekódolás, képkockasebesség, HDR és térhatású hang. Csak akkor állítsa vissza, ha a két eszköz hardvere azonos.</string>
     <string name="settings_backup_saved_to">Mentve ide: <xliff:g id="path">%1$s</xliff:g>.</string>
     <string name="settings_backup_saved_to_without_passwords">Mentve ide: <xliff:g id="path">%1$s</xliff:g>. A jelszavak és PIN-kódok nem kerültek bele.</string>
     <plurals name="settings_backup_restored">

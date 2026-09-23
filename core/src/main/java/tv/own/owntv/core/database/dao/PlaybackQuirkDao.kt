@@ -79,6 +79,16 @@ interface PlaybackQuirkDao {
     @Query("UPDATE playback_quirks SET enginePin = NULL WHERE mediaType != 'LIVE'")
     suspend fun clearVodPinColumn()
 
+    /** "Reset saved live TV player choices" (N15); the films' and episodes' pins are kept. */
+    @Transaction
+    suspend fun clearLivePins() {
+        clearLivePinColumn()
+        dropEmptyRows()
+    }
+
+    @Query("UPDATE playback_quirks SET enginePin = NULL WHERE mediaType = 'LIVE'")
+    suspend fun clearLivePinColumn()
+
     @Transaction
     suspend fun clearAudioDelays() {
         clearAudioDelayColumn()

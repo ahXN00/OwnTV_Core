@@ -116,6 +116,7 @@ class PlayerControlsTest {
                 PlayerControl.AUDIO,
                 PlayerControl.FAVOURITE,
                 PlayerControl.CATCH_UP,
+                PlayerControl.PREVIOUS_CHANNEL,
                 PlayerControl.ENGINE,
                 PlayerControl.ASPECT,
                 PlayerControl.MINI_PLAYER,

@@ -436,7 +436,6 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val EXTERNAL_PLAYER_SERIES = booleanPreferencesKey("external_player_series")
         val DEFAULT_ZOOM = stringPreferencesKey("default_zoom")
         val DEFAULT_VOLUME = intPreferencesKey("default_volume")
-        val DEINTERLACE = booleanPreferencesKey("deinterlace")
         val SEEK_STEP_SEC = intPreferencesKey("seek_step_sec")
         val LIVE_REWIND_STEP_SEC = intPreferencesKey("live_rewind_step_sec")
         /** Legacy single subtitle size, superseded by the two per-engine keys below but still read as
@@ -951,8 +950,22 @@ class SettingsRepository(private val context: Context, private val localeStore: 
      *  usually matches the user's region — so **Device** is the default; a manual UTC offset is the fallback. */
     enum class CatchupTimezone { DEVICE, MANUAL }
 
-    /** Manual UTC offset bounds (whole hours), in minutes. */
+    /** Manual UTC offset bounds, in minutes. */
     val catchupOffsetRangeMinutes: IntRange = -12 * 60..14 * 60
+
+    /** One press of the manual offset's − / + (N20): a quarter hour, so +05:30 and +05:45 are reachable. */
+    val catchupOffsetStepMinutes: Int = 15
+
+    /**
+     * The offsets a list picker offers (the per-playlist choice): every whole hour plus the half- and
+     * quarter-hour offsets real zones use. A plain 15-minute sweep would be 105 rows, mostly offsets no
+     * clock anywhere keeps.
+     */
+    val catchupOffsetChoicesMinutes: List<Int> = (
+        (catchupOffsetRangeMinutes step 60).toList() +
+            listOf(-9 * 60 - 30, -3 * 60 - 30, 3 * 60 + 30, 4 * 60 + 30, 5 * 60 + 30, 5 * 60 + 45,
+                6 * 60 + 30, 8 * 60 + 45, 9 * 60 + 30, 10 * 60 + 30, 12 * 60 + 45, 13 * 60 + 45)
+        ).sorted()
 
     val catchupTimezone: Flow<CatchupTimezone> = prefsFlow { prefs ->
         prefs[Keys.CATCHUP_TZ]?.let { runCatching { CatchupTimezone.valueOf(it) }.getOrNull() } ?: CatchupTimezone.DEVICE
@@ -1492,21 +1505,6 @@ class SettingsRepository(private val context: Context, private val localeStore: 
 
     suspend fun setSeekStepSec(seconds: Int) {
         context.dataStore.edit { it[Keys.SEEK_STEP_SEC] = seconds }
-    }
-
-    /**
-     * Deinterlacing for interlaced broadcast material (old SD channels that show combing on movement).
-     * Off by default, because the TV's own panel processing usually handles it and a filter that isn't
-     * needed only costs frames.
-     *
-     * mpv only, and only while mpv is doing its own rendering — on the direct decoder-to-surface path
-     * ([OwnTVPlayer] `vo=mediacodec_embed`) no video filter runs at all, so nothing is inserted there.
-     * The setting's description says so rather than pretending otherwise.
-     */
-    val deinterlace: Flow<Boolean> = prefsFlow { it[Keys.DEINTERLACE] ?: false }
-
-    suspend fun setDeinterlace(enabled: Boolean) {
-        context.dataStore.edit { it[Keys.DEINTERLACE] = enabled }
     }
 
     /** How far one press of Rewind/Forward moves inside a live channel's catch-up archive. */
@@ -2620,7 +2618,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             Keys.DNS_ENABLED,
             Keys.REMEMBER_LAST_LIVE, Keys.REMEMBER_LAST_MOVIES, Keys.REMEMBER_LAST_SERIES,
             Keys.REMEMBER_CAT_LIVE, Keys.REMEMBER_CAT_MOVIES, Keys.REMEMBER_CAT_SERIES,
-            Keys.SUB_STYLE_ENABLED, Keys.SUB_SEARCH_FILTER, Keys.DEINTERLACE,
+            Keys.SUB_STYLE_ENABLED, Keys.SUB_SEARCH_FILTER,
                 Keys.PANEL_W_LIVE_ON, Keys.PANEL_W_MOVIES_ON, Keys.PANEL_W_SERIES_ON, Keys.GUIDE_WIDTH_ON,
             Keys.AMBIENT_GLOW_ENABLED, Keys.AMBIENT_GLOW_PULSE,
             Keys.GLASS_ALLOW_FULL_TRANSPARENCY, Keys.GLASS_DEPTH_EFFECTS, Keys.GLASS_GLINT,
@@ -2702,13 +2700,13 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     /**
      * The settings that describe this device's hardware rather than the user's taste: which player
      * engine copes with its decoders, whether hardware decoding works on it, whether its display can
-     * switch frame rate, HDR, what its audio output accepts, deinterlacing. Restored from another
+     * switch frame rate, HDR, what its audio output accepts. Restored from another
      * device only when the user says so ([importSettings]'s `keepDeviceSettings`) — a phone's or an
      * Android 11 box's values were simply copied onto whatever the backup was restored to.
      */
     private val deviceSpecificSettings: Set<String> = listOf(
         Keys.LIVE_ENGINE, Keys.VOD_ENGINE, Keys.VOD_PREFER_EXO, Keys.HW_DECODING, Keys.AUTO_FRAME_RATE,
-        Keys.HDR_ENABLED, Keys.SURROUND_MODE, Keys.SURROUND_SOUND, Keys.DEINTERLACE,
+        Keys.HDR_ENABLED, Keys.SURROUND_MODE, Keys.SURROUND_SOUND,
     ).map { it.name }.toSet()
 
     /** Whether a backup's settings block holds any of the [deviceSpecificSettings]. */

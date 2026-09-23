@@ -74,6 +74,13 @@ class ForceMpvStore(
         dao.setEnginePin(url, sourceIdOfPinKey(url), LIVE, null)
     }
 
+    /** Forget every channel's pin, so all of them follow the Live TV player setting again (N15). The
+     *  films' and episodes' pins ([VodEngineStore]) are kept. */
+    suspend fun clearAll() {
+        copy.ensure()
+        dao.clearLivePins()
+    }
+
     /**
      * The engine a channel is pinned to — true = mpv, false = ExoPlayer, null = not pinned — read the
      * same way by both apps. The phone used to consult only the mpv list, so a channel pinned to

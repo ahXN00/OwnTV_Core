@@ -107,6 +107,7 @@
     <string name="settings_remote_button_fast_forward">تقديم سريع</string>
     <string name="settings_remote_button_previous">السابق</string>
     <string name="settings_remote_button_next">التالي</string>
+    <string name="settings_remote_button_last_channel">آخر قناة</string>
     <string name="settings_remote_button_menu">القائمة</string>
     <string name="settings_remote_button_red">الزر الأحمر</string>
     <string name="settings_remote_button_green">الزر الأخضر</string>
@@ -206,7 +207,7 @@
     <string name="settings_quick_live_preview">المعاينة المباشرة</string>
     <string name="settings_quick_preview_sound">صوت المعاينة</string>
     <string name="settings_quick_channel_numbers">أرقام القنوات</string>
-    <string name="settings_quick_hdr">HDR</string>
+    <string name="settings_quick_hdr">HDR (mpv فقط)</string>
     <string name="settings_quick_autoplay">التشغيل التلقائي</string>
     <string name="settings_quick_check_update">التحقق من وجود تحديث</string>
     <string name="settings_search_label">بحث في الإعدادات</string>
@@ -273,8 +274,8 @@
     <string name="settings_preview_audio_description">تشغيل الصوت في المعاينة المباشرة</string>
     <string name="settings_mini_player_root">المشغّل المصغّر</string>
     <string name="settings_mini_player_root_description">حجم المشغّل المصغّر المُرسى وموضعه</string>
-    <string name="settings_hdr_description">استخدام خرج HDR عندما يدعمه الفيديو والتلفزيون</string>
-    <string name="settings_hdr_description_mobile">استخدام خرج HDR عندما يدعمه الفيديو والشاشة</string>
+    <string name="settings_hdr_description">استخدام خرج HDR عندما يدعمه الفيديو والتلفزيون. لـ mpv فقط: لا يدعم محرّك ExoPlayer هذا الإعداد ويمرّر HDR الخاص بالبث كما هو دائمًا.</string>
+    <string name="settings_hdr_description_mobile">استخدام خرج HDR عندما يدعمه الفيديو والشاشة. لـ mpv فقط: لا يدعم محرّك ExoPlayer هذا الإعداد ويمرّر HDR الخاص بالبث كما هو دائمًا.</string>
     <string name="settings_auto_frame_rate">معدل الإطارات التلقائي</string>
     <string name="settings_auto_frame_rate_description">مطابقة معدل تحديث التلفزيون مع الفيديو (24/25/50/60 إطارًا في الثانية) في وضع ملء الشاشة، للبث التلفزيوني المباشر والفيديو حسب الطلب، واستعادته عند الخروج. عطّل هذا الخيار إذا كان التلفزيون أو جهاز الاستقبال يعيد مصافحة HDMI بصورة مزعجة عند كل تغيير للقناة.</string>
     <string name="settings_auto_frame_rate_description_mobile">مطابقة معدل تحديث الشاشة مع الفيديو (24/25/50/60 إطارًا في الثانية) في وضع ملء الشاشة، للبث التلفزيوني المباشر والفيديو حسب الطلب، واستعادته عند الخروج. عطّل هذا الخيار إذا كانت الشاشة تومض أو تسودّ عند بدء تشغيل الفيديو.</string>
@@ -488,10 +489,6 @@
     <string name="settings_hardware_decoding">فك الترميز بالأجهزة</string>
     <string name="settings_hardware_decoding_description">استخدام وحدة فك الترميز بالأجهزة في التلفزيون. عطّل هذا الخيار إذا تقطعت بعض عمليات البث أو ظهرت بها عيوب مرئية.</string>
     <string name="settings_hardware_decoding_description_mobile">استخدام وحدة فك الترميز بالأجهزة في الجهاز. عطّل هذا الخيار إذا تقطعت بعض عمليات البث أو ظهرت بها عيوب مرئية.</string>
-    <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
-    <string name="settings_deinterlace">إزالة التشابك</string>
-    <!-- Translators: Description of the deinterlacing setting. -->
-    <string name="settings_deinterlace_description">تنعيم الخطوط المتداخلة التي تظهرها بعض قنوات SD القديمة عند الحركة. يسري على محرّك mpv أثناء رسمه للصورة بنفسه، لذا أوقف فك التشفير العتادي إذا لم يُحدث فرقًا.</string>
     <string name="settings_movies_series_player">مشغّل الأفلام والمسلسلات</string>
     <string name="settings_live_tv_player">مشغّل البث المباشر</string>
     <string name="settings_engine_order"><xliff:g id="first">%1$s</xliff:g>، ثم <xliff:g id="second">%2$s</xliff:g></string>
@@ -566,7 +563,7 @@
     <string name="settings_audio">الصوت</string>
     <string name="settings_preferred_audio_language">لغة الصوت المفضّلة</string>
     <string name="settings_audio_sync">مزامنة الصوت</string>
-    <string name="settings_audio_sync_description">قدّم الصوت أو أخّره ليتطابق مع الفيديو. ينطبق على محرك mpv فقط.</string>
+    <string name="settings_audio_sync_description">قدّم الصوت أو أخّره ليتطابق مع الفيديو. يعمل مع المشغّلين كليهما (mpv وExoPlayer).</string>
     <string name="settings_live_tv">البث التلفزيوني المباشر</string>
     <string name="settings_live_latency_description">مدى قرب التشغيل من البث المباشر. تعني القيمة الأقل قربًا أكبر من البث المباشر، ولكن مع مخزن مؤقت أصغر، لذلك قد تتقطّع عمليات البث الضعيفة أو تعيد الاتصال أكثر. ينطبق ذلك على القناة التالية التي تفتحها.</string>
     <string name="settings_live_latency_bitrate_note">على قناة ذات معدل بت مرتفع جدًا — وخاصةً بدقة 4K — قد يحتفظ المخزن المؤقت بمدة أقل مما طلبت، لأن هناك حدًا لكمية الفيديو التي يمكن الاحتفاظ بها في الذاكرة دفعة واحدة.</string>
@@ -597,8 +594,8 @@
     <string name="settings_audio_delay"><xliff:g id="delay">%1$d</xliff:g> مللي ثانية</string>
     <string name="settings_external_player_description">اختر الأقسام التي تُفتح في تطبيق خارجي.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> مللي ثانية</string>
-    <string name="settings_movies_player_description">يوفّر mpv (موصى به) أوسع دعم للصيغ — صوت DTS/TrueHD والملفات غير المألوفة — إضافة إلى إصلاح مزامنة الصوت والصورة. ويشغّل ExoPlayer بعض المقاطع التي لا يستطيع mpv تشغيلها على تلفازات معيّنة، لكنه لا يفك ترميز صوت DTS/TrueHD ولا يوفّر إصلاح المزامنة. تجرّب الخيارات المزدوجة المشغّل الآخر تلقائيًا عند فشل الأول، أما خيارات المشغّل الواحد فلا تفعل ذلك أبدًا، ما يوفّر بضع ثوانٍ من الشاشة السوداء إذا كان المشغّل الثاني لا يعمل أبدًا على تلفازك.</string>
-    <string name="settings_movies_player_description_mobile">يوفّر mpv (موصى به) أوسع دعم للصيغ — صوت DTS/TrueHD والملفات غير المألوفة — إضافة إلى إصلاح مزامنة الصوت والصورة. ويشغّل ExoPlayer بعض المقاطع التي لا يستطيع mpv تشغيلها على أجهزة معيّنة، لكنه لا يفك ترميز صوت DTS/TrueHD ولا يوفّر إصلاح المزامنة. تجرّب الخيارات المزدوجة المشغّل الآخر تلقائيًا عند فشل الأول، أما خيارات المشغّل الواحد فلا تفعل ذلك أبدًا، ما يوفّر بضع ثوانٍ من الشاشة السوداء إذا كان المشغّل الثاني لا يعمل أبدًا على جهازك.</string>
+    <string name="settings_movies_player_description">يوفّر mpv (موصى به) أوسع دعم للصيغ — صوت DTS/TrueHD والملفات غير المألوفة. ويشغّل ExoPlayer بعض المقاطع التي لا يستطيع mpv تشغيلها على تلفازات معيّنة، لكنه لا يفك ترميز صوت DTS/TrueHD. تجرّب الخيارات المزدوجة المشغّل الآخر تلقائيًا عند فشل الأول، أما خيارات المشغّل الواحد فلا تفعل ذلك أبدًا، ما يوفّر بضع ثوانٍ من الشاشة السوداء إذا كان المشغّل الثاني لا يعمل أبدًا على تلفازك.</string>
+    <string name="settings_movies_player_description_mobile">يوفّر mpv (موصى به) أوسع دعم للصيغ — صوت DTS/TrueHD والملفات غير المألوفة. ويشغّل ExoPlayer بعض المقاطع التي لا يستطيع mpv تشغيلها على أجهزة معيّنة، لكنه لا يفك ترميز صوت DTS/TrueHD. تجرّب الخيارات المزدوجة المشغّل الآخر تلقائيًا عند فشل الأول، أما خيارات المشغّل الواحد فلا تفعل ذلك أبدًا، ما يوفّر بضع ثوانٍ من الشاشة السوداء إذا كان المشغّل الثاني لا يعمل أبدًا على جهازك.</string>
     <string name="settings_live_player_description">يفتح ExoPlayer (موصى به) القنوات أسرع بكثير وهو الوحيد الذي يدعم الترجمة أثناء البث المباشر. ويشغّل mpv قنوات لا يستطيع ExoPlayer تشغيلها، بما فيها بعض القنوات ذات الصوت غير المألوف. تجرّب الخيارات المزدوجة المشغّل الآخر تلقائيًا عند فشل الأول، أما خيارات المشغّل الواحد فلا تفعل ذلك أبدًا، ما يوفّر بضع ثوانٍ من الشاشة السوداء إذا كان المشغّل الثاني لا يعمل أبدًا على تلفازك. وتحتفظ أي قناة تبدّلها يدويًا في المشغّل باختيارك في الحالتين.</string>
     <string name="settings_live_player_description_mobile">يفتح ExoPlayer (موصى به) القنوات أسرع بكثير وهو الوحيد الذي يدعم الترجمة أثناء البث المباشر. ويشغّل mpv قنوات لا يستطيع ExoPlayer تشغيلها، بما فيها بعض القنوات ذات الصوت غير المألوف. تجرّب الخيارات المزدوجة المشغّل الآخر تلقائيًا عند فشل الأول، أما خيارات المشغّل الواحد فلا تفعل ذلك أبدًا، ما يوفّر بضع ثوانٍ من الشاشة السوداء إذا كان المشغّل الثاني لا يعمل أبدًا على جهازك. وتحتفظ أي قناة تبدّلها يدويًا في المشغّل باختيارك في الحالتين.</string>
     <string name="settings_reset_player_choices_description">عند تبديل فيلم أو حلقة واحدة بين mpv وExoPlayer داخل المشغّل، يُحفظ هذا الخيار للمرة التالية. تعيد إعادة الضبط كل شيء إلى الإعداد أعلاه. أما الخيارات المحفوظة لقنوات البث المباشر فتبقى كما هي.</string>
@@ -613,6 +610,14 @@
     </plurals>
     <string name="settings_reset_player_choices_confirm">إعادة ضبط خيارات المشغّل المحفوظة؟</string>
     <string name="settings_reset_player_choices_confirm_description">يعود كل فيلم وحلقة إلى إعداد «مشغّل الأفلام والمسلسلات». يمكنك دائمًا تبديل عنصر واحد مرة أخرى من المشغّل.</string>
+    <string name="settings_reset_live_player_choices">إعادة ضبط خيارات مشغّل البث المباشر المحفوظة</string>
+    <string name="settings_reset_live_player_choices_description">عند تبديل قناة بين ExoPlayer وmpv داخل المشغّل، يُحفظ هذا الخيار لتلك القناة. تعيد إعادة الضبط كل القنوات إلى إعداد «مشغّل البث المباشر». أما الخيارات المحفوظة للأفلام والحلقات فتبقى كما هي.</string>
+    <string name="settings_reset_live_player_choices_confirm">إعادة ضبط خيارات مشغّل البث المباشر المحفوظة؟</string>
+    <string name="settings_reset_live_player_choices_confirm_description">تعود كل قناة إلى إعداد «مشغّل البث المباشر». يمكنك دائمًا تبديل قناة واحدة مرة أخرى من المشغّل.</string>
+    <string name="settings_forget_stream_fixes">نسيان إصلاحات البث التي تعلّمها المشغّل</string>
+    <string name="settings_forget_stream_fixes_description">يتعلّم المشغّل ما تحتاجه بثوث كل مزوّد — mpv بدل ExoPlayer، أو صيغة أخرى، أو فك ترميز برمجي للمشاهدة الاستدراكية. انسَ ذلك إذا أصلح المزوّد بثوثه. كما تُنسى دروس المشاهدة الاستدراكية تلقائيًا بعد 14 يومًا.</string>
+    <string name="settings_forget_stream_fixes_confirm">نسيان إصلاحات البث التي تعلّمها المشغّل؟</string>
+    <string name="settings_forget_stream_fixes_confirm_description">تُفتح القنوات بالطريقة المعتادة من جديد، ويتعلّم المشغّل مجددًا ما يحتاجه المزوّد. قد يستغرق التشغيل الأول لقناة متأثرة بضع ثوانٍ إضافية.</string>
     <string name="settings_external_player_row_description">افتح عمليات البث في تطبيق خارجي (VLC أو MX Player) بدلًا من المشغّل المدمج، مع تحديد ذلك لكل قسم. يفيد هذا مع عمليات البث التي لا يستطيع هذا التطبيق فك ترميزها، أو إذا كنت تفضّل مشغّلًا آخر. لا يتوفر موضع الاستئناف ولا السابق/التالي أثناء التشغيل خارجيًا؛ وقد لا تعمل عمليات البث التي تحتاج إلى User-Agent مخصّص أو مُحيل.</string>
     <string name="settings_resume_always">الاستئناف دائمًا</string>
     <string name="settings_resume_ask">السؤال قبل الاستئناف</string>
@@ -972,7 +977,7 @@
     <string name="settings_backup_section_settings">إعدادات التطبيق</string>
     <string name="settings_backup_section_settings_desc">تفضيلات السمة واللون المميّز والمشغّل والتخطيط</string>
     <string name="settings_backup_device_settings">إعدادات العتاد من الجهاز الآخر</string>
-    <string name="settings_backup_device_settings_desc">محرّك المشغّل وفك الترميز بالعتاد ومعدل الإطارات وHDR والصوت المحيطي وإزالة التشابك. استعِدها فقط إذا كان للجهازين العتاد نفسه.</string>
+    <string name="settings_backup_device_settings_desc">محرّك المشغّل وفك الترميز بالعتاد ومعدل الإطارات وHDR والصوت المحيطي. استعِدها فقط إذا كان للجهازين العتاد نفسه.</string>
     <string name="settings_backup_saved_to">تم الحفظ في <xliff:g id="path">%1$s</xliff:g>.</string>
     <string name="settings_backup_saved_to_without_passwords">تم الحفظ في <xliff:g id="path">%1$s</xliff:g>. لم تُضمّن كلمات المرور ورموز PIN.</string>
     <plurals name="settings_backup_restored">

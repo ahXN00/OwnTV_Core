@@ -82,9 +82,20 @@ object AudioOutputPolicy {
 class OwnTVRenderersFactory(
     context: Context,
     private val forceStereo: Boolean,
+    /** A/V-sync offset applied to whichever sink is built — see [AudioDelayClock]. Null = none. */
+    private val audioDelay: AudioDelayClock? = null,
 ) : DefaultRenderersFactory(context) {
 
     override fun buildAudioSink(
+        context: Context,
+        enableFloatOutput: Boolean,
+        enableAudioOutputPlaybackParams: Boolean,
+    ): AudioSink? {
+        val sink = buildBaseAudioSink(context, enableFloatOutput, enableAudioOutputPlaybackParams) ?: return null
+        return if (audioDelay != null) DelayedClockAudioSink(sink, audioDelay) else sink
+    }
+
+    private fun buildBaseAudioSink(
         context: Context,
         enableFloatOutput: Boolean,
         enableAudioOutputPlaybackParams: Boolean,

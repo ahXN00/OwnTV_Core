@@ -107,6 +107,7 @@
     <string name="settings_remote_button_fast_forward">Перемотка вперёд</string>
     <string name="settings_remote_button_previous">Предыдущий</string>
     <string name="settings_remote_button_next">Следующий</string>
+    <string name="settings_remote_button_last_channel">Последний канал</string>
     <string name="settings_remote_button_menu">Меню</string>
     <string name="settings_remote_button_red">Красная кнопка</string>
     <string name="settings_remote_button_green">Зелёная кнопка</string>
@@ -204,7 +205,7 @@
     <string name="settings_quick_live_preview">Предпросмотр эфира</string>
     <string name="settings_quick_preview_sound">Звук предпросмотра</string>
     <string name="settings_quick_channel_numbers">Номера каналов</string>
-    <string name="settings_quick_hdr">HDR</string>
+    <string name="settings_quick_hdr">HDR (только mpv)</string>
     <string name="settings_quick_autoplay">Автовоспроизведение</string>
     <string name="settings_quick_check_update">Проверить обновление</string>
     <string name="settings_search_label">Поиск настроек</string>
@@ -271,8 +272,8 @@
     <string name="settings_preview_audio_description">Воспроизводить звук при предпросмотре эфира</string>
     <string name="settings_mini_player_root">Мини-плеер</string>
     <string name="settings_mini_player_root_description">Размер и положение закреплённого мини-плеера</string>
-    <string name="settings_hdr_description">Использовать вывод HDR, если видео и телевизор его поддерживают</string>
-    <string name="settings_hdr_description_mobile">Использовать вывод HDR, если видео и экран его поддерживают</string>
+    <string name="settings_hdr_description">Использовать вывод HDR, если видео и телевизор его поддерживают. Только mpv: движок ExoPlayer не поддерживает эту настройку и всегда передаёт HDR потока без изменений.</string>
+    <string name="settings_hdr_description_mobile">Использовать вывод HDR, если видео и экран его поддерживают. Только mpv: движок ExoPlayer не поддерживает эту настройку и всегда передаёт HDR потока без изменений.</string>
     <string name="settings_auto_frame_rate">Автоматическая частота кадров</string>
     <string name="settings_auto_frame_rate_description">Согласовывать частоту обновления телевизора с видео (24/25/50/60 кадров/с) в полноэкранном режиме для прямого эфира и VOD и восстанавливать её при выходе. Отключите, если телевизор или ресивер при каждой смене канала заново устанавливает соединение HDMI с заметными помехами.</string>
     <string name="settings_auto_frame_rate_description_mobile">Согласовывать частоту обновления экрана с видео (24/25/50/60 кадров/с) в полноэкранном режиме для прямого эфира и VOD и восстанавливать её при выходе. Отключите, если экран мерцает или гаснет при запуске видео.</string>
@@ -484,10 +485,6 @@
     <string name="settings_hardware_decoding">Аппаратное декодирование</string>
     <string name="settings_hardware_decoding_description">Использовать аппаратный декодер телевизора. Отключите, если некоторые потоки воспроизводятся с рывками или артефактами.</string>
     <string name="settings_hardware_decoding_description_mobile">Использовать аппаратный декодер устройства. Отключите, если некоторые потоки воспроизводятся с рывками или артефактами.</string>
-    <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
-    <string name="settings_deinterlace">Деинтерлейсинг</string>
-    <!-- Translators: Description of the deinterlacing setting. -->
-    <string name="settings_deinterlace_description">Сглаживает гребёнку, которую некоторые старые SD-каналы показывают при движении. Действует в плеере mpv, пока он сам рисует изображение, — если разницы нет, отключите аппаратное декодирование.</string>
     <string name="settings_movies_series_player">Плеер фильмов и сериалов</string>
     <string name="settings_live_tv_player">Плеер прямого эфира</string>
     <string name="settings_engine_order"><xliff:g id="first">%1$s</xliff:g>, затем <xliff:g id="second">%2$s</xliff:g></string>
@@ -562,7 +559,7 @@
     <string name="settings_audio">Звук</string>
     <string name="settings_preferred_audio_language">Предпочитаемый язык звука</string>
     <string name="settings_audio_sync">Синхронизация звука</string>
-    <string name="settings_audio_sync_description">Сдвигайте звук вперёд или назад, чтобы синхронизировать его с видео. Применяется только к движку mpv.</string>
+    <string name="settings_audio_sync_description">Сдвигайте звук вперёд или назад, чтобы синхронизировать его с видео. Работает в обоих плеерах (mpv и ExoPlayer).</string>
     <string name="settings_live_tv">Прямой эфир</string>
     <string name="settings_live_latency_description">Насколько близко к текущей позиции эфира вести воспроизведение. Чем ниже задержка, тем ближе воспроизведение к прямому эфиру, но тем меньше буфер, поэтому слабые потоки могут чаще прерываться или переподключаться. Применяется к следующему открытому каналу.</string>
     <string name="settings_live_latency_bitrate_note">На канале с очень высоким битрейтом — особенно в 4K — буфер может вместить меньше времени, чем вы задали, поскольку объём видео, который можно держать в памяти одновременно, ограничен.</string>
@@ -593,8 +590,8 @@
     <string name="settings_audio_delay"><xliff:g id="delay">%1$d</xliff:g> мс</string>
     <string name="settings_external_player_description">Выберите разделы, которые будут открываться во внешнем приложении.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> мс</string>
-    <string name="settings_movies_player_description">mpv (рекомендуется) поддерживает больше всего форматов — звук DTS/TrueHD, необычные файлы — и исправляет рассинхрон звука и видео. На некоторых телевизорах ExoPlayer воспроизводит потоки, которые не даются mpv, но он не декодирует звук DTS/TrueHD и не исправляет рассинхрон. Комбинированные варианты автоматически пробуют второй плеер, когда первый не справился; варианты с одним плеером не делают этого никогда, что экономит несколько секунд чёрного экрана, если второй плеер на вашем телевизоре всё равно не работает.</string>
-    <string name="settings_movies_player_description_mobile">mpv (рекомендуется) поддерживает больше всего форматов — звук DTS/TrueHD, необычные файлы — и исправляет рассинхрон звука и видео. На некоторых устройствах ExoPlayer воспроизводит потоки, которые не даются mpv, но он не декодирует звук DTS/TrueHD и не исправляет рассинхрон. Комбинированные варианты автоматически пробуют второй плеер, когда первый не справился; варианты с одним плеером не делают этого никогда, что экономит несколько секунд чёрного экрана, если второй плеер на вашем устройстве всё равно не работает.</string>
+    <string name="settings_movies_player_description">mpv (рекомендуется) поддерживает больше всего форматов — звук DTS/TrueHD, необычные файлы. На некоторых телевизорах ExoPlayer воспроизводит потоки, которые не даются mpv, но он не декодирует звук DTS/TrueHD. Комбинированные варианты автоматически пробуют второй плеер, когда первый не справился; варианты с одним плеером не делают этого никогда, что экономит несколько секунд чёрного экрана, если второй плеер на вашем телевизоре всё равно не работает.</string>
+    <string name="settings_movies_player_description_mobile">mpv (рекомендуется) поддерживает больше всего форматов — звук DTS/TrueHD, необычные файлы. На некоторых устройствах ExoPlayer воспроизводит потоки, которые не даются mpv, но он не декодирует звук DTS/TrueHD. Комбинированные варианты автоматически пробуют второй плеер, когда первый не справился; варианты с одним плеером не делают этого никогда, что экономит несколько секунд чёрного экрана, если второй плеер на вашем устройстве всё равно не работает.</string>
     <string name="settings_live_player_description">ExoPlayer (рекомендуется) открывает каналы намного быстрее и единственный поддерживает субтитры в прямом эфире. mpv воспроизводит каналы, которые не даются ExoPlayer, в том числе некоторые с необычным звуком. Комбинированные варианты автоматически пробуют второй плеер, когда первый не справился; варианты с одним плеером не делают этого никогда, что экономит несколько секунд чёрного экрана, если второй плеер на вашем телевизоре всё равно не работает. На канале, переключённом вручную в плеере, ваш выбор сохраняется в любом случае.</string>
     <string name="settings_live_player_description_mobile">ExoPlayer (рекомендуется) открывает каналы намного быстрее и единственный поддерживает субтитры в прямом эфире. mpv воспроизводит каналы, которые не даются ExoPlayer, в том числе некоторые с необычным звуком. Комбинированные варианты автоматически пробуют второй плеер, когда первый не справился; варианты с одним плеером не делают этого никогда, что экономит несколько секунд чёрного экрана, если второй плеер на вашем устройстве всё равно не работает. На канале, переключённом вручную в плеере, ваш выбор сохраняется в любом случае.</string>
     <string name="settings_reset_player_choices_description">Если переключить отдельный фильм или серию между mpv и ExoPlayer прямо в плеере, этот выбор сохраняется на следующий раз. Сброс возвращает всё к настройке выше. Сохранённый выбор для каналов прямого эфира остаётся.</string>
@@ -607,6 +604,14 @@
     </plurals>
     <string name="settings_reset_player_choices_confirm">Сбросить сохранённый выбор плеера?</string>
     <string name="settings_reset_player_choices_confirm_description">Все фильмы и серии снова следуют настройке «Плеер фильмов и сериалов». Отдельный элемент всегда можно переключить заново прямо в плеере.</string>
+    <string name="settings_reset_live_player_choices">Сбросить сохранённый выбор плеера прямого эфира</string>
+    <string name="settings_reset_live_player_choices_description">Если переключить канал между ExoPlayer и mpv прямо в плеере, этот выбор сохраняется для канала. Сброс возвращает все каналы к настройке «Плеер прямого эфира». Сохранённый выбор для фильмов и серий остаётся.</string>
+    <string name="settings_reset_live_player_choices_confirm">Сбросить сохранённый выбор плеера прямого эфира?</string>
+    <string name="settings_reset_live_player_choices_confirm_description">Все каналы снова следуют настройке «Плеер прямого эфира». Отдельный канал всегда можно переключить заново прямо в плеере.</string>
+    <string name="settings_forget_stream_fixes">Забыть изученные исправления потоков</string>
+    <string name="settings_forget_stream_fixes_description">Плеер узнаёт, что нужно потокам каждого провайдера: mpv вместо ExoPlayer, другой формат, программное декодирование для архива. Забудьте это, если провайдер исправил свои потоки. Изученное об архиве и так забывается само через 14 дней.</string>
+    <string name="settings_forget_stream_fixes_confirm">Забыть изученные исправления потоков?</string>
+    <string name="settings_forget_stream_fixes_confirm_description">Каналы снова открываются обычным способом, а плеер заново узнаёт то, что провайдеру ещё нужно. Первый запуск затронутого канала может занять на несколько секунд дольше.</string>
     <string name="settings_external_player_row_description">Открывать потоки во внешнем приложении (VLC, MX Player), а не во встроенном плеере; выбор задаётся отдельно для каждого раздела. Полезно для потоков, которые это приложение не может декодировать, или если вы предпочитаете другой плеер. При воспроизведении во внешнем плеере продолжение с места остановки и переход к предыдущему или следующему недоступны; потоки, для которых требуется особый User-Agent или источник перехода, могут не воспроизводиться.</string>
     <string name="settings_resume_always">Всегда продолжать</string>
     <string name="settings_resume_ask">Спрашивать о продолжении</string>
@@ -950,7 +955,7 @@
     <string name="settings_backup_section_settings">Настройки приложения</string>
     <string name="settings_backup_section_settings_desc">Настройки темы, акцентного цвета, плеера и компоновки</string>
     <string name="settings_backup_device_settings">Аппаратные настройки другого устройства</string>
-    <string name="settings_backup_device_settings_desc">Движок плеера, аппаратное декодирование, частота кадров, HDR, объёмный звук и деинтерлейсинг. Восстанавливайте их, только если у обоих устройств одинаковое оборудование.</string>
+    <string name="settings_backup_device_settings_desc">Движок плеера, аппаратное декодирование, частота кадров, HDR и объёмный звук. Восстанавливайте их, только если у обоих устройств одинаковое оборудование.</string>
     <string name="settings_backup_saved_to">Сохранено в <xliff:g id="path">%1$s</xliff:g>.</string>
     <string name="settings_backup_saved_to_without_passwords">Сохранено в <xliff:g id="path">%1$s</xliff:g>. Пароли и PIN-коды не включены.</string>
     <plurals name="settings_backup_restored">
