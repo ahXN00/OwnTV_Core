@@ -16,6 +16,7 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.okhttp.OkHttpDataSource
 import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.SeekParameters
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import kotlinx.coroutines.launch
@@ -628,9 +629,16 @@ class ExoSubtitleEngine(
     fun togglePlayPause() { player?.let { if (it.isPlaying) it.pause() else it.play() } }
 
     fun seekTo(positionMs: Long) { player?.seekTo(positionMs.coerceAtLeast(0)); emitPositionDuration() }
+
+    /** A D-pad step. Snaps to the nearest keyframe, as mpv's relative seeks do: an exact seek decodes
+     *  from the previous keyframe up to the target, a multi-second freeze per press on 4K HEVC. Put
+     *  back to EXACT straight after — the player applies both in order — so a resume, a chosen point or
+     *  the passthrough re-prime (which must not jump) never inherits the snap. */
     fun seekBy(deltaMs: Long) {
         val p = player ?: return
+        p.setSeekParameters(SeekParameters.CLOSEST_SYNC)
         p.seekTo((p.currentPosition + deltaMs).coerceAtLeast(0))
+        p.setSeekParameters(SeekParameters.EXACT)
         emitPositionDuration()
     }
 

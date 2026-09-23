@@ -4093,6 +4093,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	${d.refreshRate}Hz@modeId=${d.mode?.modeId}
 1	file-path	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	${font.name.lowercase(Locale.US)}.ttf
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	${h}p
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	${load.currentVideoCodec} is outside hwdec-codecs
 2	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	${load.currentWidthPx}x${load.currentHeightPx}
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	${prefix.trim().trimEnd(':')}: $t
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	${width}x$height
@@ -4214,7 +4215,7 @@
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	decoder+vo
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	decoder-drops=${getPropertyString("decoder-frame-drop-count")}
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	decoder-frame-drop-count
-1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	default
+2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	default
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	deinterlace
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	demux-fps=${videoDemuxFps(this)}
 4	protocol	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	demuxer-cache-duration
@@ -4275,6 +4276,7 @@
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	gpu
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	gpu-context
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	h264
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	h264,vc1,hevc,vp8,vp9,av1,prores,prores_raw,ffv1,dpx,apv,mpeg2video,mpeg4
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	h265
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	handoff to exo
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	hardReset thrash guard — $consecutiveHardResets consecutive resets, aborting
@@ -4289,6 +4291,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	http-proxy
 1	regex	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	http|error|fail|refus|timed out|unrecogn|cannot|no such|invalid|denied|forbidden|not found|
 3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	hwdec
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	hwdec-codecs
 4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	hwdec-current
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	hwdec-current='$value' (height=${load.currentHeightPx}px, setting=${if (hwDecoding) "on" else "off"})
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	idle
@@ -4335,10 +4338,11 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	msg-level
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mute
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	network-timeout
-25	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	no
+26	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	no
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	no-video (mpv, Live) — audio progressing but no video frame after ~${elapsedMs}ms
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	no-video (mpv, Live) — reconnect attempt ${item.liveStallReconnects}/$MAX_LIVE_RECONNECTS
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	no-video (mpv, Live) — reconnect budget exhausted, surfacing error
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	nonref
 5	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	null
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	off
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	on
@@ -4419,6 +4423,8 @@
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	user-agent
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vc-1
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vc1
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vd-lavc-fast
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vd-lavc-skiploopfilter
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vid
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	video-aspect-override
 4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	video-bitrate
@@ -4463,7 +4469,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog: archive loaded but produced no video
 4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	width
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	xsub
-24	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	yes
+25	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	yes
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	ytdl
 6	empty	player-core/src/main/java/tv/own/owntv/player/PlaybackErrorLog.kt	\0
 2	file-path	player-core/src/main/java/tv/own/owntv/player/PlaybackErrorLog.kt	$relativePath$EXPORT_NAME

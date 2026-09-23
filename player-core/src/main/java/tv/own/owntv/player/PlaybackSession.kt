@@ -38,7 +38,7 @@ import kotlinx.coroutines.launch
  * | Focus change | What we do |
  * |---|---|
  * | `LOSS_TRANSIENT_CAN_DUCK` | nothing — `setWillPauseWhenDucked(false)` means the platform attenuates our stream itself, with no HUD-visible volume change |
- * | `LOSS_TRANSIENT` | duck to [DUCK_PERCENT] ourselves and restore on the next gain |
+ * | `LOSS_TRANSIENT` | duck by [DUCK_DB] ourselves and restore on the next gain |
  * | `LOSS` (permanent) | **pause**, and abandon focus. This one is another app taking the speaker for good; continuing is the "two apps playing at once" bug |
  * | `GAIN` | restore the pre-duck volume; playback that we paused stays paused (the user chose the other app) |
  *
@@ -62,7 +62,7 @@ class PlaybackSession(
 
     /** What losing audio focus transiently should do to playback. See the class doc. */
     enum class FocusPolicy {
-        /** Quieten to [DUCK_PERCENT] and keep playing — a television. */
+        /** Quieten by [DUCK_DB] and keep playing — a television. */
         DUCK,
 
         /** Pause, and resume on the next gain unless the user paused by hand — a phone. */
@@ -354,7 +354,7 @@ class PlaybackSession(
         if (preDuckVolume != null) return
         val current = e.volume.value
         preDuckVolume = current
-        val target = (current * DUCK_PERCENT / 100).coerceAtLeast(0)
+        val target = VolumeCurve.shiftedByDb(current, DUCK_DB)
         duckedTo = target
         withEngine { it.adjustVolume(target - current) }
     }
@@ -375,7 +375,9 @@ class PlaybackSession(
 
     private companion object {
         const val SESSION_TAG = "OwnTV"
-        /** How far down a manual duck goes — quiet enough to talk over, loud enough not to look broken. */
-        const val DUCK_PERCENT = 25
+        /** How far down a manual duck goes — quiet enough to talk over, loud enough not to look broken.
+         *  In dB, so it is the same drop on every engine and from any starting volume (a quarter of
+         *  the HUD number used to be −12 dB on ExoPlayer and −36 dB, effectively mute, on mpv). */
+        const val DUCK_DB = -12.0
     }
 }

@@ -204,6 +204,25 @@ class OwnTVPlayer(
             ?: android.media.MediaCodecList(android.media.MediaCodecList.REGULAR_CODECS).codecInfos
                 .also { codecInfos = it }
 
+        /**
+         * mpv `hwdec-codecs`: mpv's own default list plus `mpeg2video` and `mpeg4`. mpv leaves those two
+         * out for desktop-GPU reasons that don't apply to a TV's VPU, which decodes both without effort —
+         * without them an SD MPEG-2 channel or an Xvid film decoded in software, which the direct surface
+         * can't show, and sat through three retries before the ladder reached a working rung. A SoC whose
+         * MPEG-2 decoder is broken still falls to software through that same ladder.
+         */
+        internal const val HWDEC_CODECS = "h264,vc1,hevc,vp8,vp9,av1,prores,prores_raw,ffv1,dpx,apv,mpeg2video,mpeg4"
+
+        /**
+         * Whether [HWDEC_CODECS] lets mpv hardware-decode [videoCodec] (mpv's `video-codec`, whose first
+         * word is the FFmpeg name). Null when unknown. A definite false means the direct path cannot
+         * engage however often it is retried.
+         */
+        internal fun hwdecCovers(videoCodec: String?): Boolean? {
+            val name = videoCodec?.trim()?.substringBefore(' ')?.lowercase()?.takeIf { it.isNotEmpty() } ?: return null
+            return name in HWDEC_CODECS.split(',')
+        }
+
         // mpv's stock subtitle values, restored verbatim for every option of the custom look (#96)
         // that is left on "Default" — or whenever the master toggle is off.
         private const val MPV_DEFAULT_SUB_COLOR = "#FFFFFFFF"
@@ -659,6 +678,13 @@ class OwnTVPlayer(
         if (surfaceAttached) setPropertyString("vo", targetVo())
         _directRender.value = targetVo() == "mediacodec_embed"
         applyDeinterlace()
+        // Software rescue rung on a TV-class CPU: 1080p H.264 in software on four A53 cores often isn't
+        // real time. Skipping the loop filter on non-reference frames and FFmpeg's "fast" shortcuts trade
+        // a little sharpness for frames that arrive. Never on the direct path, where they do nothing, and
+        // never on a CPU that can afford the full decode.
+        val lightDecode = item.forceSoftwareThisLoad && lowSpecDevice
+        setPropertyString("vd-lavc-skiploopfilter", if (lightDecode) "nonref" else "default")
+        setPropertyString("vd-lavc-fast", if (lightDecode) "yes" else "no")
     }
 
     /** Settings → Deinterlacing. Written on every render-config change because the render path decides
@@ -966,7 +992,7 @@ class OwnTVPlayer(
             // A reload re-inits the audio chain so the new channel layout takes effect on the playing stream.
             if (initialized) {
                 mpvAsync {
-                    val sur = multichannelAllowed()
+                    val sur = multichannelAllowed() // AUTO or Surround; see the #25 pin in ensureInit
                     setPropertyString("audio-channels", audioChannelsValue())
                     setPropertyString("audio-format", if (sur) "s16" else "")
                     setPropertyString("audio-samplerate", if (sur) "48000" else "0")
@@ -2246,6 +2272,7 @@ class OwnTVPlayer(
             setOptionString("vo", if (useDirect()) "mediacodec_embed" else "gpu")
             setOptionString("gpu-context", "android")
             setOptionString("hwdec", if (useDirect()) "mediacodec" else "no")
+            setOptionString("hwdec-codecs", HWDEC_CODECS)
             setOptionString("ao", "audiotrack")
             // Surround sound (opt-in, default off): decode Dolby/DTS to MULTICHANNEL LPCM (5.1/7.1) over HDMI. The
             // AudioTrack stays a normal PCM track, so getTimestamp() keeps mpv's audio clock alive and the
@@ -2255,7 +2282,10 @@ class OwnTVPlayer(
             // stalls the direct VO into a ~2fps slideshow on Dolby/DTS content.)
             setOptionString("audio-channels", audioChannelsValue())
             // Compatibility for multichannel: some HALs choke on Float / 44.1 kHz 5.1 PCM (mis-sized buffer
-            // → 2× drain, #25). Pin the universally-safe 16-bit/48 kHz output when surround is on.
+            // → 2× drain, #25). Pin the universally-safe 16-bit/48 kHz output whenever multichannel is
+            // allowed — that is AUTO (the default) as well as Surround, not only "when surround is on". On
+            // 44.1 kHz films and music this costs a resample pass; kept on purpose, because AUTO is where
+            // a sink that over-claims 5.1 does its damage.
             val sur = multichannelAllowed()
             setOptionString("audio-format", if (sur) "s16" else "")
             setOptionString("audio-samplerate", if (sur) "48000" else "0")
@@ -2267,7 +2297,8 @@ class OwnTVPlayer(
             // into a selectable subtitle track — ExoPlayer doesn't surface undeclared CC, so this is the path
             // that actually shows them. Harmless when there are none (no track is created).
             setOptionString("sub-create-cc-track", "yes")
-            // Allow volume boost above 100% (Kodi-style amplification) for quiet streams; mpv soft-limits.
+            // Allow volume boost above 100% for quiet streams. The HUD's 150 % reaches mpv as ≈146.8
+            // (VolumeCurve's cube root), so this ceiling is never the limit; mpv soft-limits.
             setOptionString("volume-max", "150")
             // A/V sync on hardware decode: a few movies (high bitrate / 50–60 fps) decode just behind
             // real time, so the picture drifts slightly behind the audio. mpv's default framedrop is "vo",
@@ -3264,8 +3295,9 @@ class OwnTVPlayer(
 
     // --- Volume (mpv software volume, independent of the system/hardware volume) ---
     fun setVolume(percent: Int) {
-        val v = percent.coerceIn(0, 150)
-        if (exoActive) exoEngine?.setVolume(v) else if (initialized) mpvAsync { setPropertyDouble("volume", v.toDouble()) }
+        val v = percent.coerceIn(0, VolumeCurve.MAX_PERCENT)
+        // mpv cubes its volume property; VolumeCurve hands it the value that gives ExoPlayer's loudness.
+        if (exoActive) exoEngine?.setVolume(v) else if (initialized) mpvAsync { setPropertyDouble("volume", VolumeCurve.mpvVolume(v)) }
         _volume.value = v
         if (v > 0) preMuteVolume = v
     }
@@ -4359,6 +4391,12 @@ class OwnTVPlayer(
                             // A catch-up archive skips the retry ladder: the hardware decoder not engaging
                             // on a mid-GOP stream repeats identically on every retry.
                             if (tryArchiveSoftwareRescue("direct decoder never engaged on archive")) return@mpvAsync
+                            // A codec mpv is not allowed to hardware-decode (outside HWDEC_CODECS) fails the
+                            // direct path identically on every retry, and the copy rung is hardware too —
+                            // straight to software.
+                            if (hwdecCovers(load.currentVideoCodec) == false &&
+                                trySoftwareRescue("${load.currentVideoCodec} is outside hwdec-codecs")
+                            ) return@mpvAsync
                             if (hardwareCannotDecodeCurrent() &&
                                 tryDecodeRescue("hardware can't decode ${load.currentVideoCodec} at ${load.currentWidthPx}x${load.currentHeightPx}")
                             ) {
