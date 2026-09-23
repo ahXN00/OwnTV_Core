@@ -261,6 +261,7 @@
     <string name="settings_ui_zoom_description">Die gesamte Oberfläche skalieren</string>
     <string name="settings_animations">Animationen</string>
     <string name="settings_animations_description">Bewegungen der Oberfläche ein- oder ausschalten — ausgeschaltet reagiert die Oberfläche auf leistungsschwächeren TV-Boxen schneller</string>
+    <string name="settings_animations_description_mobile">Bewegungen der Oberfläche ein- oder ausschalten — ausgeschaltet reagiert die Oberfläche auf älteren Smartphones und Tablets schneller</string>
     <string name="settings_weather_description_root">Wetter-Chip in der oberen Leiste: ein- oder ausblenden, benutzerdefinierter Standort sowie Celsius / Fahrenheit.</string>
     <string name="settings_playback_group">Wiedergabe</string>
     <string name="settings_live_preview_description">Einen Sender automatisch wiedergeben, wenn er fokussiert wird</string>
@@ -269,10 +270,13 @@
     <string name="settings_mini_player_root">Mini-Player</string>
     <string name="settings_mini_player_root_description">Größe und Position des angedockten Mini-Players</string>
     <string name="settings_hdr_description">HDR-Ausgabe verwenden, wenn Video und Fernseher sie unterstützen</string>
+    <string name="settings_hdr_description_mobile">HDR-Ausgabe verwenden, wenn Video und Bildschirm sie unterstützen</string>
     <string name="settings_auto_frame_rate">Automatische Bildrate</string>
     <string name="settings_auto_frame_rate_description">Die Bildwiederholfrequenz des Fernsehers im Vollbild für Live-TV und VOD an das Video anpassen (24/25/50/60 Bilder/s) und beim Beenden wiederherstellen. Deaktivieren Sie dies, wenn Ihr Fernseher oder Receiver bei jedem Senderwechsel geräuschvoll einen neuen HDMI-Handshake durchführt.</string>
+    <string name="settings_auto_frame_rate_description_mobile">Die Bildwiederholfrequenz des Bildschirms im Vollbild für Live-TV und VOD an das Video anpassen (24/25/50/60 Bilder/s) und beim Beenden wiederherstellen. Deaktivieren Sie dies, wenn der Bildschirm beim Start eines Videos flackert oder dunkel wird.</string>
     <string name="settings_surround_sound">Surround-Sound</string>
     <string name="settings_surround_description">Dolby/DTS für einen echten 5.1-/7.1-Receiver als Surround-Sound (5.1/7.1) decodieren. Für TV-Lautsprecher oder eine Stereo-Soundbar DEAKTIVIERT lassen — Mehrkanalton kann bei manchen Fernsehern/Soundbars zu einer Verzögerung des Tons gegenüber dem Bild führen. Falls der Ton abdriftet, passen Sie ihn im Audiomenü des Players unter A/V-Synchronisierung an.</string>
+    <string name="settings_surround_description_mobile">Dolby/DTS für einen echten, mit diesem Gerät verbundenen 5.1-/7.1-Receiver als Surround-Sound (5.1/7.1) decodieren. Für den eingebauten Lautsprecher, Kopfhörer oder eine Stereo-Soundbar DEAKTIVIERT lassen — Mehrkanalton kann zu einer Verzögerung des Tons gegenüber dem Bild führen. Falls der Ton abdriftet, passen Sie ihn im Audiomenü des Players unter A/V-Synchronisierung an.</string>
     <string name="settings_autoplay_next">Nächste Folge automatisch wiedergeben</string>
     <string name="settings_autoplay_next_description">Nach dem Ende einer Folge automatisch die nächste starten — und anschließend mit der nächsten Staffel fortfahren. Auch Catch-up läuft zur nächsten Sendung weiter.</string>
     <string name="settings_catchup">Catch-up</string>
@@ -474,6 +478,7 @@
     <string name="settings_decoding">Decodierung</string>
     <string name="settings_hardware_decoding">Hardwaredecodierung</string>
     <string name="settings_hardware_decoding_description">Den Hardwaredecoder des Fernsehers verwenden. Deaktivieren Sie diese Option, wenn einige Streams ruckeln oder Bildfehler zeigen.</string>
+    <string name="settings_hardware_decoding_description_mobile">Den Hardwaredecoder des Geräts verwenden. Deaktivieren Sie diese Option, wenn einige Streams ruckeln oder Bildfehler zeigen.</string>
     <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
     <string name="settings_deinterlace">Deinterlacing</string>
     <!-- Translators: Description of the deinterlacing setting. -->
@@ -558,9 +563,11 @@
     <string name="settings_live_latency_bitrate_note">Bei einem Sender mit sehr hoher Bitrate – besonders in 4K – kann der Puffer weniger Zeit fassen, als du eingestellt hast, denn es gibt eine Grenze dafür, wie viel Video gleichzeitig im Speicher gehalten werden kann.</string>
     <string name="settings_channel_numbers">Sendernummern</string>
     <string name="settings_channel_numbers_description">Die Sendernummer deines Anbieters neben dem Namen in der Live-TV-Liste, in der Senderlisten-Einblendung und im Player anzeigen – und während der Wiedergabe im Vollbild eine Nummer über die Fernbedienung eingeben, um direkt zu diesem Sender zu wechseln (OK schaltet sofort um, Zurück bricht ab). Wenn diese Option ausgeschaltet ist, werden alle Nummern ausgeblendet und die Zifferntasten ignoriert; es geht nichts verloren, und nach dem erneuten Einschalten werden die Nummern wieder angezeigt.</string>
+    <string name="settings_channel_numbers_description_mobile">Die Sendernummer deines Anbieters neben dem Namen in der Live-TV-Liste und im Player anzeigen. Wenn diese Option ausgeschaltet ist, werden alle Nummern ausgeblendet; es geht nichts verloren, und nach dem erneuten Einschalten werden die Nummern wieder angezeigt.</string>
     <string name="settings_diagnostics">Diagnose</string>
     <string name="settings_measured_stats">Gemessene Streamstatistiken</string>
     <string name="settings_measured_stats_description">Aktuelle Bildrate, Bitrate und verworfene Frames in der Streaminfo-Einblendung anzeigen (gemessen, während die Einblendung geöffnet ist, bei Streams, die diese Werte nicht angeben). Nur ausschalten, wenn ein leistungsschwacher Fernseher stockt – das eigentliche Video wird dadurch nie beeinflusst, sondern nur die Diagnosewerte.</string>
+    <string name="settings_measured_stats_description_mobile">Aktuelle Bildrate, Bitrate und verworfene Frames in der Streaminfo-Einblendung anzeigen (gemessen, während die Einblendung geöffnet ist, bei Streams, die diese Werte nicht angeben). Nur ausschalten, wenn ein leistungsschwaches Gerät stockt – das eigentliche Video wird dadurch nie beeinflusst, sondern nur die Diagnosewerte.</string>
     <string name="settings_none_auto">Keine / Automatisch</string>
     <string name="settings_view_grid">Raster</string>
     <string name="settings_view_list">Liste</string>
@@ -582,7 +589,9 @@
     <string name="settings_external_player_description">Auswählen, welche Bereiche in einer externen App geöffnet werden.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_movies_player_description">mpv (empfohlen) bietet die umfassendste Formatunterstützung — DTS/TrueHD-Audio, ungewöhnliche Dateien — sowie die Korrektur der A/V-Synchronisierung. ExoPlayer gibt auf bestimmten Fernsehern einige Streams wieder, die mpv nicht schafft, kann jedoch kein DTS/TrueHD-Audio decodieren und bietet keine A/V-Korrektur. Die kombinierten Optionen probieren automatisch den anderen Player, wenn der erste scheitert; die Optionen mit nur einem Player tun das nie, was ein paar Sekunden Schwarzbild spart, falls der zweite Player auf deinem Fernseher ohnehin nicht funktioniert.</string>
+    <string name="settings_movies_player_description_mobile">mpv (empfohlen) bietet die umfassendste Formatunterstützung — DTS/TrueHD-Audio, ungewöhnliche Dateien — sowie die Korrektur der A/V-Synchronisierung. ExoPlayer gibt auf bestimmten Geräten einige Streams wieder, die mpv nicht schafft, kann jedoch kein DTS/TrueHD-Audio decodieren und bietet keine A/V-Korrektur. Die kombinierten Optionen probieren automatisch den anderen Player, wenn der erste scheitert; die Optionen mit nur einem Player tun das nie, was ein paar Sekunden Schwarzbild spart, falls der zweite Player auf deinem Gerät ohnehin nicht funktioniert.</string>
     <string name="settings_live_player_description">ExoPlayer (empfohlen) öffnet Sender deutlich schneller und ist der einzige mit Untertiteln im Live-TV. mpv gibt Sender wieder, die ExoPlayer nicht schafft, darunter manche mit ungewöhnlichem Ton. Die kombinierten Optionen probieren automatisch den anderen Player, wenn der erste scheitert; die Optionen mit nur einem Player tun das nie, was ein paar Sekunden Schwarzbild spart, falls der zweite Player auf deinem Fernseher ohnehin nicht funktioniert. Bei einem Sender, den du im Player von Hand umschaltest, bleibt deine Auswahl in beiden Fällen erhalten.</string>
+    <string name="settings_live_player_description_mobile">ExoPlayer (empfohlen) öffnet Sender deutlich schneller und ist der einzige mit Untertiteln im Live-TV. mpv gibt Sender wieder, die ExoPlayer nicht schafft, darunter manche mit ungewöhnlichem Ton. Die kombinierten Optionen probieren automatisch den anderen Player, wenn der erste scheitert; die Optionen mit nur einem Player tun das nie, was ein paar Sekunden Schwarzbild spart, falls der zweite Player auf deinem Gerät ohnehin nicht funktioniert. Bei einem Sender, den du im Player von Hand umschaltest, bleibt deine Auswahl in beiden Fällen erhalten.</string>
     <string name="settings_reset_player_choices_description">Wenn du einen einzelnen Film oder eine Folge im Player zwischen mpv und ExoPlayer umschaltest, wird diese Auswahl für das nächste Mal gespeichert. Beim Zurücksetzen folgt wieder alles der Einstellung oben. Gespeicherte Auswahlen für Live-Kanäle bleiben erhalten.</string>
     <string name="settings_reset_player_choices_none">Nichts gespeichert</string>
     <plurals name="settings_reset_player_choices_count">
@@ -633,6 +642,7 @@
     <string name="settings_ui_zoom_range">Die gesamte Benutzeroberfläche skalieren (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
     <string name="settings_low_zoom_warning_title">⚠️ Warnung bei niedrigem Zoom</string>
     <string name="settings_low_zoom_warning">Bei <xliff:g id="zoom">%1$d</xliff:g>%% Zoom werden deutlich mehr Elemente gleichzeitig auf dem Bildschirm angezeigt. Auf Geräten mit wenig Arbeitsspeicher (zum Beispiel TV-Sticks mit 2 GB) kann die App dadurch instabil werden oder abstürzen, insbesondere bei großen Wiedergabelisten und umfangreichen EPG-Daten.\n\nDrücke OK, um fortzufahren, oder Zurück, um bei <xliff:g id="safe_zoom">%2$d</xliff:g>%% zu bleiben.</string>
+    <string name="settings_low_zoom_warning_mobile">Bei <xliff:g id="zoom">%1$d</xliff:g>%% Zoom werden deutlich mehr Elemente gleichzeitig auf dem Bildschirm angezeigt. Auf Geräten mit wenig Arbeitsspeicher kann die App dadurch instabil werden oder abstürzen, insbesondere bei großen Wiedergabelisten und umfangreichen EPG-Daten.\n\nWähle Abbrechen, um bei <xliff:g id="safe_zoom">%2$d</xliff:g>%% zu bleiben.</string>
     <string name="settings_low_zoom_accept">Ich verstehe und akzeptiere das Risiko</string>
     <string name="settings_surface_transparency"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="settings_surface_count_all">Oberflächen: Alle</string>
@@ -1085,13 +1095,21 @@
     <string name="settings_live_latency_per_playlist">Live-Latenz pro Playlist</string>
     <!-- Translators: Description of the per-playlist Live latency override row. -->
     <string name="settings_live_latency_per_playlist_description">Überschreibt die obige Einstellung für eine Playlist — für einen Anbieter, der einen größeren oder kleineren Puffer als die anderen braucht.</string>
+    <string name="settings_catchup_timezone_per_playlist">Catch-up-Zeitzone pro Playlist</string>
+    <string name="settings_catchup_timezone_per_playlist_description">Überschreibt die obige Zeitzone für eine Playlist — für einen Anbieter, dessen Archiv nach einer anderen Uhr läuft.</string>
+    <string name="settings_vod_engine_per_playlist">Player für Filme &amp; Serien pro Playlist</string>
+    <string name="settings_vod_engine_per_playlist_description">Überschreibt die obige Einstellung für eine Playlist — für einen Anbieter, dessen Filme und Folgen nur einer der Player gut abspielt.</string>
+    <string name="settings_live_tune_timeout_per_playlist">Aufgeben nach, pro Playlist</string>
+    <string name="settings_live_tune_timeout_per_playlist_description">Überschreibt die obige Einstellung für eine Playlist — für einen Anbieter, dessen Sender langsam starten oder oft ausfallen.</string>
     <plurals name="settings_live_preroll_overrides">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> Playlist angepasst</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> Playlists angepasst</item>
     </plurals>
     <string name="settings_surround_stereo">Nur Stereo</string>
     <string name="settings_surround_auto_description">Auto — Dolby/DTS-Surround ausprobieren und automatisch wieder zu Stereo wechseln, wenn der Fernseher oder die Soundbar den Ton nicht wiedergeben kann. Empfohlen.</string>
+    <string name="settings_surround_auto_description_mobile">Auto — Dolby/DTS-Surround ausprobieren und automatisch wieder zu Stereo wechseln, wenn der Lautsprecher, die Kopfhörer oder der verbundene Receiver den Ton nicht wiedergeben können. Empfohlen.</string>
     <string name="settings_surround_stereo_description">Nur Stereo — immer in der App dekodieren und reinen 2.0-Ton ausgeben. Verwende diese Option bei TV-Lautsprechern oder einer Stereo-Soundbar oder wenn der Ton dem Bild hinterherhinkt.</string>
+    <string name="settings_surround_stereo_description_mobile">Nur Stereo — immer in der App dekodieren und reinen 2.0-Ton ausgeben. Verwende diese Option beim eingebauten Lautsprecher, bei Kopfhörern oder einer Stereo-Soundbar oder wenn der Ton dem Bild hinterherhinkt.</string>
     <string name="settings_surround_forced_description">Surround — Dolby/DTS an einen echten 5.1/7.1-Receiver ausgeben. Wenn der Ton ausfällt oder ruckelt, wechselt OwnTV trotzdem zu Stereo und informiert dich.</string>
     <string name="settings_panel_width">Panelbreite anpassen</string>
     <string name="settings_panel_width_description">Die Kategorie-, Listen- und Vorschau-Panels für Live-TV sowie Filme &amp; Serien in der Größe ändern.</string>
@@ -1144,7 +1162,9 @@
     <string name="settings_language_contribution_copy_failed">Der Link konnte nicht kopiert werden. Lesen Sie die oben angezeigte URL ab oder geben Sie sie ein.</string>
     <string name="settings_auto_frame_rate_warning_suffix">Auf diesem Fernseher nicht empfohlen: Vor Android 12 lässt sich die Bildwiederholrate nicht fließend ändern.</string>
     <string name="settings_auto_frame_rate_warning_title">Auf diesem Fernseher nicht empfohlen</string>
+    <string name="settings_auto_frame_rate_warning_title_mobile">Auf diesem Gerät nicht empfohlen</string>
     <string name="settings_auto_frame_rate_warning_description">Auf diesem Gerät läuft Android <xliff:g id="android_version">%1$s</xliff:g>. Vor Android 12 kann der Fernseher OwnTV nicht mitteilen, zu welchen Bildwiederholraten er fließend wechseln kann. Daher kann der Bildschirm beim Wechsel der Bildwiederholrate für ein oder zwei Sekunden schwarz werden – manchmal mehr als einmal während einer Sendung.\n\nWir empfehlen, die automatische Bildwiederholrate hier deaktiviert zu lassen. Wenn Ihr Fernseher sauber umschaltet, aktivieren Sie sie und sehen Sie selbst: Sie können die Einstellung jederzeit wieder ändern.</string>
+    <string name="settings_auto_frame_rate_warning_description_mobile">Auf diesem Gerät läuft Android <xliff:g id="android_version">%1$s</xliff:g>. Vor Android 12 kann das Gerät OwnTV nicht mitteilen, zu welchen Bildwiederholraten es fließend wechseln kann. Daher kann der Bildschirm beim Wechsel der Bildwiederholrate für ein oder zwei Sekunden schwarz werden – manchmal mehr als einmal während einer Sendung.\n\nWir empfehlen, die automatische Bildwiederholrate hier deaktiviert zu lassen. Wenn Ihr Bildschirm sauber umschaltet, aktivieren Sie sie und sehen Sie selbst: Sie können die Einstellung jederzeit wieder ändern.</string>
     <string name="settings_auto_frame_rate_keep_off">Deaktiviert lassen</string>
     <string name="settings_auto_frame_rate_turn_on_anyway">Trotzdem aktivieren</string>
     <string name="settings_language_request_workflow">Möchtest du eine Sprache hinzufügen, die nicht aufgeführt ist? Stelle zuerst eine Sprachanfrage. Ein Maintainer registriert sie und bereitet die Basis-Übersetzungsdateien vor; sobald sie auf Hosted Weblate erscheint, kannst du mit dem Übersetzen beginnen.</string>

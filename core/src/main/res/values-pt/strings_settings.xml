@@ -262,6 +262,7 @@
     <string name="settings_ui_zoom_description">Ajuste a escala de toda a interface</string>
     <string name="settings_animations">Animações</string>
     <string name="settings_animations_description">Ative ou desative o movimento da interface — desativá-lo deixa a resposta mais rápida em aparelhos de TV de baixo desempenho</string>
+    <string name="settings_animations_description_mobile">Ative ou desative o movimento da interface — desativá-lo deixa a resposta mais rápida em celulares e tablets mais antigos</string>
     <string name="settings_weather_description_root">Chip de clima na barra superior: mostre ou oculte, defina uma localização personalizada e escolha Celsius/Fahrenheit.</string>
     <string name="settings_playback_group">Reprodução</string>
     <string name="settings_live_preview_description">Reproduza automaticamente um canal quando ele ficar em foco</string>
@@ -270,10 +271,13 @@
     <string name="settings_mini_player_root">Minirreprodutor</string>
     <string name="settings_mini_player_root_description">Tamanho e posição do minirreprodutor encaixado</string>
     <string name="settings_hdr_description">Use a saída HDR quando o vídeo e a TV forem compatíveis</string>
+    <string name="settings_hdr_description_mobile">Use a saída HDR quando o vídeo e a tela forem compatíveis</string>
     <string name="settings_auto_frame_rate">Taxa de quadros automática</string>
     <string name="settings_auto_frame_rate_description">Ajuste a taxa de atualização da TV ao vídeo (24/25/50/60 fps) em tela cheia, para TV ao vivo e VOD, e restaure-a ao sair. Desative se a TV ou o receiver refizer a negociação HDMI com ruído a cada troca de canal.</string>
+    <string name="settings_auto_frame_rate_description_mobile">Ajuste a taxa de atualização da tela ao vídeo (24/25/50/60 fps) em tela cheia, para TV ao vivo e VOD, e restaure-a ao sair. Desative se a tela piscar ou ficar escura quando um vídeo começar.</string>
     <string name="settings_surround_sound">Som surround</string>
     <string name="settings_surround_description">Decodifique Dolby/DTS para som surround (5.1/7.1) com um receiver 5.1/7.1 de verdade. Deixe DESATIVADO para os alto-falantes da TV ou uma soundbar estéreo — o áudio multicanal pode ficar atrasado em relação ao vídeo em algumas TVs/soundbars. Se perder a sincronização, faça um pequeno ajuste em Áudio, no menu do reprodutor → Sincronização A/V.</string>
+    <string name="settings_surround_description_mobile">Decodifique Dolby/DTS para som surround (5.1/7.1) com um receiver 5.1/7.1 de verdade conectado a este dispositivo. Deixe DESATIVADO para o alto-falante embutido, fones de ouvido ou uma soundbar estéreo — o áudio multicanal pode ficar atrasado em relação ao vídeo. Se perder a sincronização, faça um pequeno ajuste em Áudio, no menu do reprodutor → Sincronização A/V.</string>
     <string name="settings_autoplay_next">Reproduzir próximo episódio automaticamente</string>
     <string name="settings_autoplay_next_description">Quando um episódio terminar, inicie automaticamente o próximo — e continue na temporada seguinte. A programação retroativa também continua no próximo programa.</string>
     <string name="settings_catchup">Programação retroativa</string>
@@ -476,6 +480,7 @@
     <string name="settings_decoding">Decodificação</string>
     <string name="settings_hardware_decoding">Decodificação por hardware</string>
     <string name="settings_hardware_decoding_description">Use o decodificador por hardware da TV. Desative se algumas transmissões engasgarem ou exibirem artefatos.</string>
+    <string name="settings_hardware_decoding_description_mobile">Use o decodificador por hardware do dispositivo. Desative se algumas transmissões engasgarem ou exibirem artefatos.</string>
     <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
     <string name="settings_deinterlace">Desentrelaçamento</string>
     <!-- Translators: Description of the deinterlacing setting. -->
@@ -560,9 +565,11 @@
     <string name="settings_live_latency_bitrate_note">Em um canal com taxa de bits muito alta — especialmente em 4K — o buffer pode guardar menos tempo do que você pediu, porque há um limite de quanto vídeo pode ficar na memória de uma vez.</string>
     <string name="settings_channel_numbers">Números dos canais</string>
     <string name="settings_channel_numbers_description">Mostre o número de canal do seu provedor ao lado do nome na lista da TV ao vivo, na sobreposição da lista de canais e no reprodutor — e digite um número no controle remoto durante a reprodução em tela cheia para ir diretamente a esse canal (OK sintoniza imediatamente; Voltar cancela). Desativar oculta todos os números e ignora as teclas numéricas; nada é perdido e, ao reativar, os números são restaurados.</string>
+    <string name="settings_channel_numbers_description_mobile">Mostre o número de canal do seu provedor ao lado do nome na lista da TV ao vivo e no reprodutor. Desativar oculta todos os números; nada é perdido e, ao reativar, os números são restaurados.</string>
     <string name="settings_diagnostics">Diagnóstico</string>
     <string name="settings_measured_stats">Estatísticas medidas da transmissão</string>
     <string name="settings_measured_stats_description">Mostre em tempo real os fps, a taxa de bits e os quadros perdidos na sobreposição de informações da transmissão (medidos enquanto a sobreposição está aberta, para transmissões que não informam esses valores). Desative apenas se uma TV de baixo desempenho apresentar travamentos — isso nunca afeta o vídeo em si, apenas os números do diagnóstico.</string>
+    <string name="settings_measured_stats_description_mobile">Mostre em tempo real os fps, a taxa de bits e os quadros perdidos na sobreposição de informações da transmissão (medidos enquanto a sobreposição está aberta, para transmissões que não informam esses valores). Desative apenas se um dispositivo de baixo desempenho apresentar travamentos — isso nunca afeta o vídeo em si, apenas os números do diagnóstico.</string>
     <string name="settings_none_auto">Nenhum / Automático</string>
     <string name="settings_view_grid">Grade</string>
     <string name="settings_view_list">Lista</string>
@@ -584,7 +591,9 @@
     <string name="settings_external_player_description">Escolha quais seções serão abertas em um aplicativo externo.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_movies_player_description">O mpv (recomendado) tem o maior suporte a formatos — áudio DTS/TrueHD, arquivos incomuns — além da correção de sincronia de áudio e vídeo. Em certas TVs o ExoPlayer reproduz transmissões que o mpv não consegue, mas não decodifica áudio DTS/TrueHD e não corrige a sincronia. As opções combinadas tentam o outro reprodutor automaticamente quando o primeiro falha; as opções de um único reprodutor nunca fazem isso, o que poupa alguns segundos de tela preta se o segundo reprodutor não funcionar mesmo na sua TV.</string>
+    <string name="settings_movies_player_description_mobile">O mpv (recomendado) tem o maior suporte a formatos — áudio DTS/TrueHD, arquivos incomuns — além da correção de sincronia de áudio e vídeo. Em certos dispositivos o ExoPlayer reproduz transmissões que o mpv não consegue, mas não decodifica áudio DTS/TrueHD e não corrige a sincronia. As opções combinadas tentam o outro reprodutor automaticamente quando o primeiro falha; as opções de um único reprodutor nunca fazem isso, o que poupa alguns segundos de tela preta se o segundo reprodutor não funcionar mesmo no seu dispositivo.</string>
     <string name="settings_live_player_description">O ExoPlayer (recomendado) abre os canais bem mais rápido e é o único com legendas ao vivo. O mpv reproduz canais que o ExoPlayer não consegue, incluindo alguns com áudio incomum. As opções combinadas tentam o outro reprodutor automaticamente quando o primeiro falha; as opções de um único reprodutor nunca fazem isso, o que poupa alguns segundos de tela preta se o segundo reprodutor não funcionar mesmo na sua TV. Num canal que você troca à mão no reprodutor, sua escolha é mantida de qualquer forma.</string>
+    <string name="settings_live_player_description_mobile">O ExoPlayer (recomendado) abre os canais bem mais rápido e é o único com legendas ao vivo. O mpv reproduz canais que o ExoPlayer não consegue, incluindo alguns com áudio incomum. As opções combinadas tentam o outro reprodutor automaticamente quando o primeiro falha; as opções de um único reprodutor nunca fazem isso, o que poupa alguns segundos de tela preta se o segundo reprodutor não funcionar mesmo no seu dispositivo. Num canal que você troca à mão no reprodutor, sua escolha é mantida de qualquer forma.</string>
     <string name="settings_reset_player_choices_description">Alternar um filme ou episódio específico entre mpv e ExoPlayer no reprodutor salva essa opção para a próxima vez. Redefinir faz tudo seguir novamente a configuração acima. As opções salvas dos canais ao vivo são mantidas.</string>
     <string name="settings_reset_player_choices_none">Nenhuma salva</string>
     <plurals name="settings_reset_player_choices_count">
@@ -636,6 +645,7 @@
     <string name="settings_ui_zoom_range">Ajuste a escala de toda a interface (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
     <string name="settings_low_zoom_warning_title">⚠️ Aviso de zoom baixo</string>
     <string name="settings_low_zoom_warning">O zoom de <xliff:g id="zoom">%1$d</xliff:g>%% mostra muito mais itens na tela de uma só vez. Em dispositivos com memória limitada (por exemplo, dispositivos de TV com 2 GB), isso pode deixar o aplicativo instável ou causar falhas, principalmente com listas de reprodução grandes e dados de EPG.\n\nPressione OK para continuar ou Voltar para permanecer em <xliff:g id="safe_zoom">%2$d</xliff:g>%%.</string>
+    <string name="settings_low_zoom_warning_mobile">O zoom de <xliff:g id="zoom">%1$d</xliff:g>%% mostra muito mais itens na tela de uma só vez. Em dispositivos com memória limitada, isso pode deixar o aplicativo instável ou causar falhas, principalmente com listas de reprodução grandes e dados de EPG.\n\nEscolha Cancelar para permanecer em <xliff:g id="safe_zoom">%2$d</xliff:g>%%.</string>
     <string name="settings_low_zoom_accept">Entendo e aceito o risco</string>
     <string name="settings_surface_transparency"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="settings_surface_count_all">Superfícies: todas</string>
@@ -1104,6 +1114,12 @@
     <string name="settings_live_latency_per_playlist">Latência da transmissão ao vivo por playlist</string>
     <!-- Translators: Description of the per-playlist Live latency override row. -->
     <string name="settings_live_latency_per_playlist_description">Substitui a configuração acima para uma playlist, para um provedor que precisa de um buffer maior ou menor que os demais.</string>
+    <string name="settings_catchup_timezone_per_playlist">Fuso horário do catch-up por playlist</string>
+    <string name="settings_catchup_timezone_per_playlist_description">Substitui o fuso horário acima para uma playlist, para um provedor cujo arquivo segue outro relógio.</string>
+    <string name="settings_vod_engine_per_playlist">Player de filmes e séries por playlist</string>
+    <string name="settings_vod_engine_per_playlist_description">Substitui a configuração acima para uma playlist, para um provedor cujos filmes e episódios só um dos players reproduz bem.</string>
+    <string name="settings_live_tune_timeout_per_playlist">Desistir após, por playlist</string>
+    <string name="settings_live_tune_timeout_per_playlist_description">Substitui a configuração acima para uma playlist, para um provedor cujos canais demoram a iniciar ou costumam estar fora do ar.</string>
     <plurals name="settings_live_preroll_overrides">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> conjunto</item>
         <item quantity="many"><xliff:g id="count">%1$d</xliff:g> conjuntos</item>
@@ -1111,7 +1127,9 @@
     </plurals>
     <string name="settings_surround_stereo">Somente estéreo</string>
     <string name="settings_surround_auto_description">Automático — tenta o surround Dolby/DTS e volta para o estéreo automaticamente se a TV ou a soundbar não reproduzir. Recomendado.</string>
+    <string name="settings_surround_auto_description_mobile">Automático — tenta o surround Dolby/DTS e volta para o estéreo automaticamente se o alto-falante, os fones de ouvido ou o receiver conectado não reproduzirem. Recomendado.</string>
     <string name="settings_surround_stereo_description">Somente estéreo — sempre decodifica no app e envia som 2.0 simples. Use esta opção nas caixas de som da TV ou em uma soundbar estéreo, ou se o áudio estiver atrasado em relação à imagem.</string>
+    <string name="settings_surround_stereo_description_mobile">Somente estéreo — sempre decodifica no app e envia som 2.0 simples. Use esta opção com o alto-falante embutido, fones de ouvido ou uma soundbar estéreo, ou se o áudio estiver atrasado em relação à imagem.</string>
     <string name="settings_surround_forced_description">Surround — envia Dolby/DTS para um receptor 5.1/7.1 real. Se ele ficar sem som ou engasgar, o OwnTV ainda assim volta para o estéreo e avisa você.</string>
     <string name="settings_panel_width">Ajuste de largura dos painéis</string>
     <string name="settings_panel_width_description">Redimensiona os painéis de categoria, lista e pré-visualização na TV ao vivo, em Filmes e Séries.</string>
@@ -1164,7 +1182,9 @@
     <string name="settings_language_contribution_copy_failed">O link não pôde ser copiado. Leia ou digite a URL mostrada acima.</string>
     <string name="settings_auto_frame_rate_warning_suffix">Não recomendado nesta TV: abaixo do Android 12, a taxa não pode ser alterada suavemente.</string>
     <string name="settings_auto_frame_rate_warning_title">Não recomendado nesta TV</string>
+    <string name="settings_auto_frame_rate_warning_title_mobile">Não recomendado neste dispositivo</string>
     <string name="settings_auto_frame_rate_warning_description">Este dispositivo roda Android <xliff:g id="android_version">%1$s</xliff:g>. Abaixo do Android 12, a TV não consegue informar ao OwnTV quais taxas de atualização ela pode alternar suavemente; portanto, alterar a taxa pode deixar a tela preta por um ou dois segundos — às vezes mais de uma vez durante um programa.\n\nRecomendamos deixar a Taxa de atualização automática desativada aqui. Se a sua TV alternar sem problemas, ative-a e veja: você pode desativá-la novamente a qualquer momento.</string>
+    <string name="settings_auto_frame_rate_warning_description_mobile">Este dispositivo roda Android <xliff:g id="android_version">%1$s</xliff:g>. Abaixo do Android 12, o dispositivo não consegue informar ao OwnTV quais taxas de atualização ele pode alternar suavemente; portanto, alterar a taxa pode deixar a tela preta por um ou dois segundos — às vezes mais de uma vez durante um programa.\n\nRecomendamos deixar a Taxa de atualização automática desativada aqui. Se a sua tela alternar sem problemas, ative-a e veja: você pode desativá-la novamente a qualquer momento.</string>
     <string name="settings_auto_frame_rate_keep_off">Manter desativada</string>
     <string name="settings_auto_frame_rate_turn_on_anyway">Ativar mesmo assim</string>
     <string name="settings_language_request_workflow">Quer adicionar um idioma que não está listado? Abra uma solicitação de idioma primeiro. Um mantenedor fará o registro e preparará os arquivos de tradução base; quando ele aparecer no Hosted Weblate, você poderá começar a contribuir.</string>

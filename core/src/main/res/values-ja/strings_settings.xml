@@ -260,6 +260,7 @@
     <string name="settings_ui_zoom_description">画面全体を拡大縮小</string>
     <string name="settings_animations">アニメーション</string>
     <string name="settings_animations_description">画面の動きをオンまたはオフにします。オフにすると低性能のTVボックスでも軽快に動作します</string>
+    <string name="settings_animations_description_mobile">画面の動きをオンまたはオフにします。オフにすると古いスマートフォンやタブレットでも軽快に動作します</string>
     <string name="settings_weather_description_root">トップバーの天気チップ：表示／非表示、カスタム地点、摂氏／華氏を設定します。</string>
     <string name="settings_playback_group">再生</string>
     <string name="settings_live_preview_description">フォーカスしたチャンネルを自動再生</string>
@@ -268,10 +269,13 @@
     <string name="settings_mini_player_root">ミニプレーヤー</string>
     <string name="settings_mini_player_root_description">ドッキングしたミニプレーヤーのサイズと位置</string>
     <string name="settings_hdr_description">動画とTVが対応している場合にHDR出力を使用</string>
+    <string name="settings_hdr_description_mobile">動画と画面が対応している場合にHDR出力を使用</string>
     <string name="settings_auto_frame_rate">自動フレームレート</string>
     <string name="settings_auto_frame_rate_description">全画面表示でライブTVとVODの再生時にTVのリフレッシュレートを動画（24/25/50/60 fps）に合わせ、終了時に元に戻します。チャンネルを切り替えるたびにTVやレシーバーが大きな音を伴ってHDMIを再ハンドシェイクする場合はオフにしてください。</string>
+    <string name="settings_auto_frame_rate_description_mobile">全画面表示でライブTVとVODの再生時に画面のリフレッシュレートを動画（24/25/50/60 fps）に合わせ、終了時に元に戻します。動画の開始時に画面がちらついたり暗くなったりする場合はオフにしてください。</string>
     <string name="settings_surround_sound">サラウンドサウンド</string>
     <string name="settings_surround_description">実際の5.1/7.1対応レシーバー向けにDolby/DTSをサラウンド（5.1/7.1）へデコードします。TVスピーカーまたはステレオサウンドバーではオフのままにしてください。一部のTV／サウンドバーでは、マルチチャンネル音声が映像より遅れることがあります。ずれが生じる場合は、プレーヤーの「音声」メニュー→「A/V同期」で微調整してください。</string>
+    <string name="settings_surround_description_mobile">このデバイスに接続した実際の5.1/7.1対応レシーバー向けにDolby/DTSをサラウンド（5.1/7.1）へデコードします。内蔵スピーカー、ヘッドホン、ステレオサウンドバーではオフのままにしてください。マルチチャンネル音声が映像より遅れることがあります。ずれが生じる場合は、プレーヤーの「音声」メニュー→「A/V同期」で微調整してください。</string>
     <string name="settings_autoplay_next">次のエピソードを自動再生</string>
     <string name="settings_autoplay_next_description">エピソードの終了時に次のエピソードを自動的に開始し、シーズンの最後では次のシーズンに進みます。見逃し配信も次の番組へ続けて再生します。</string>
     <string name="settings_catchup">見逃し配信</string>
@@ -472,6 +476,7 @@
     <string name="settings_decoding">デコード</string>
     <string name="settings_hardware_decoding">ハードウェアデコード</string>
     <string name="settings_hardware_decoding_description">TVのハードウェアデコーダーを使用します。一部のストリームで映像が途切れたり、表示が乱れたりする場合はオフにしてください。</string>
+    <string name="settings_hardware_decoding_description_mobile">デバイスのハードウェアデコーダーを使用します。一部のストリームで映像が途切れたり、表示が乱れたりする場合はオフにしてください。</string>
     <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
     <string name="settings_deinterlace">インターレース解除</string>
     <!-- Translators: Description of the deinterlacing setting. -->
@@ -556,9 +561,11 @@
     <string name="settings_live_latency_bitrate_note">ビットレートが非常に高いチャンネル（特に4K）では、メモリに保持できる映像の量に上限があるため、指定した長さよりも短いぶんしかバッファできないことがあります。</string>
     <string name="settings_channel_numbers">チャンネル番号</string>
     <string name="settings_channel_numbers_description">ライブTVの一覧、チャンネル一覧オーバーレイ、プレーヤーで、名前の横にプロバイダーのチャンネル番号を表示します。また、全画面再生中にリモコンで番号を入力すると、そのチャンネルへ直接切り替えられます（OKを押すとすぐに切り替え、戻るでキャンセル）。オフにするとすべての番号が非表示になり、数字キーも無視されます。データが失われることはなく、オンに戻すと再び表示されます。</string>
+    <string name="settings_channel_numbers_description_mobile">ライブTVの一覧とプレーヤーで、名前の横にプロバイダーのチャンネル番号を表示します。オフにするとすべての番号が非表示になります。データが失われることはなく、オンに戻すと再び表示されます。</string>
     <string name="settings_diagnostics">診断</string>
     <string name="settings_measured_stats">測定したストリーム統計</string>
     <string name="settings_measured_stats_description">ストリーム情報オーバーレイに、リアルタイムのfps、ビットレート、ドロップフレーム数を表示します（これらの値が明示されていないストリームでは、オーバーレイを開いている間に測定します）。低性能のテレビで再生が途切れる場合にのみオフにしてください。実際の映像には影響せず、診断値だけに影響します。</string>
+    <string name="settings_measured_stats_description_mobile">ストリーム情報オーバーレイに、リアルタイムのfps、ビットレート、ドロップフレーム数を表示します（これらの値が明示されていないストリームでは、オーバーレイを開いている間に測定します）。低性能のデバイスで再生が途切れる場合にのみオフにしてください。実際の映像には影響せず、診断値だけに影響します。</string>
     <string name="settings_none_auto">なし／自動</string>
     <string name="settings_view_grid">グリッド</string>
     <string name="settings_view_list">一覧</string>
@@ -580,7 +587,9 @@
     <string name="settings_external_player_description">外部アプリで開くセクションを選択します。</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_movies_player_description">mpv（推奨）は対応形式が最も広く、DTS/TrueHD 音声や珍しいファイルに加えて音ズレの補正も備えています。ExoPlayer は一部のテレビで mpv が再生できないストリームを再生できますが、DTS/TrueHD 音声はデコードできず、音ズレの補正もありません。組み合わせの選択肢では、最初のプレーヤーが失敗すると自動的にもう一方を試します。単独のプレーヤーの選択肢では決して試さないため、もう一方がお使いのテレビでどのみち動作しない場合に数秒の黒画面を省けます。</string>
+    <string name="settings_movies_player_description_mobile">mpv（推奨）は対応形式が最も広く、DTS/TrueHD 音声や珍しいファイルに加えて音ズレの補正も備えています。ExoPlayer は一部のデバイスで mpv が再生できないストリームを再生できますが、DTS/TrueHD 音声はデコードできず、音ズレの補正もありません。組み合わせの選択肢では、最初のプレーヤーが失敗すると自動的にもう一方を試します。単独のプレーヤーの選択肢では決して試さないため、もう一方がお使いのデバイスでどのみち動作しない場合に数秒の黒画面を省けます。</string>
     <string name="settings_live_player_description">ExoPlayer（推奨）はチャンネルを開くのがはるかに速く、ライブ字幕に対応する唯一のプレーヤーです。mpv は ExoPlayer で再生できないチャンネル、たとえば珍しい音声を含むチャンネルも再生できます。組み合わせの選択肢では、最初のプレーヤーが失敗すると自動的にもう一方を試します。単独のプレーヤーの選択肢では決して試さないため、もう一方がお使いのテレビでどのみち動作しない場合に数秒の黒画面を省けます。プレーヤーで手動で切り替えたチャンネルでは、いずれの場合も選択が保持されます。</string>
+    <string name="settings_live_player_description_mobile">ExoPlayer（推奨）はチャンネルを開くのがはるかに速く、ライブ字幕に対応する唯一のプレーヤーです。mpv は ExoPlayer で再生できないチャンネル、たとえば珍しい音声を含むチャンネルも再生できます。組み合わせの選択肢では、最初のプレーヤーが失敗すると自動的にもう一方を試します。単独のプレーヤーの選択肢では決して試さないため、もう一方がお使いのデバイスでどのみち動作しない場合に数秒の黒画面を省けます。プレーヤーで手動で切り替えたチャンネルでは、いずれの場合も選択が保持されます。</string>
     <string name="settings_reset_player_choices_description">プレーヤーで個々の映画やエピソードをmpvとExoPlayerで切り替えると、その選択が次回のために保存されます。リセットすると、すべてが再び上記の設定に従います。ライブチャンネルの保存済みの選択はそのまま残ります。</string>
     <string name="settings_reset_player_choices_none">保存なし</string>
     <plurals name="settings_reset_player_choices_count">
@@ -630,6 +639,7 @@
     <string name="settings_ui_zoom_range">インターフェース全体を拡大縮小します（<xliff:g id="min">%1$d</xliff:g>%%～<xliff:g id="max">%2$d</xliff:g>%%）。</string>
     <string name="settings_low_zoom_warning_title">⚠️ 低ズームの警告</string>
     <string name="settings_low_zoom_warning">ズームを<xliff:g id="zoom">%1$d</xliff:g>%%にすると、一度に画面に表示される項目が大幅に増えます。メモリが少ないデバイス（例：2 GBのTVスティック）では、特に大きなプレイリストやEPGデータを使用すると、アプリが不安定になったりクラッシュしたりする可能性があります。\n\n続行するにはOKを押してください。<xliff:g id="safe_zoom">%2$d</xliff:g>%%のままにするには戻るを押してください。</string>
+    <string name="settings_low_zoom_warning_mobile">ズームを<xliff:g id="zoom">%1$d</xliff:g>%%にすると、一度に画面に表示される項目が大幅に増えます。メモリが少ないデバイスでは、特に大きなプレイリストやEPGデータを使用すると、アプリが不安定になったりクラッシュしたりする可能性があります。\n\n<xliff:g id="safe_zoom">%2$d</xliff:g>%%のままにするには「キャンセル」を選択してください。</string>
     <string name="settings_low_zoom_accept">理解したうえでリスクを受け入れます</string>
     <string name="settings_surface_transparency"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="settings_surface_count_all">サーフェス：すべて</string>
@@ -1066,12 +1076,20 @@
     <string name="settings_live_latency_per_playlist">プレイリストごとのライブ遅延</string>
     <!-- Translators: Description of the per-playlist Live latency override row. -->
     <string name="settings_live_latency_per_playlist_description">上記の設定を1つのプレイリストだけ上書きします。他より深い、または浅いバッファーが必要な提供元に使います。</string>
+    <string name="settings_catchup_timezone_per_playlist">プレイリストごとのキャッチアップのタイムゾーン</string>
+    <string name="settings_catchup_timezone_per_playlist_description">上のタイムゾーンを1つのプレイリストだけ上書きします。アーカイブが別の時計で動いている提供元に使います。</string>
+    <string name="settings_vod_engine_per_playlist">プレイリストごとの映画・シリーズのプレーヤー</string>
+    <string name="settings_vod_engine_per_playlist_description">上記の設定を1つのプレイリストだけ上書きします。映画やエピソードを片方のプレーヤーしかうまく再生できない提供元に使います。</string>
+    <string name="settings_live_tune_timeout_per_playlist">プレイリストごとの再生をあきらめるまでの時間</string>
+    <string name="settings_live_tune_timeout_per_playlist_description">上記の設定を1つのプレイリストだけ上書きします。チャンネルの開始が遅い、またはよく止まっている提供元に使います。</string>
     <plurals name="settings_live_preroll_overrides">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g>件</item>
     </plurals>
     <string name="settings_surround_stereo">ステレオのみ</string>
     <string name="settings_surround_auto_description">自動 — Dolby/DTSサラウンドを試し、テレビまたはサウンドバーで再生できない場合は自動的にステレオに切り替えます。推奨。</string>
+    <string name="settings_surround_auto_description_mobile">自動 — Dolby/DTSサラウンドを試し、スピーカー、ヘッドホン、または接続したレシーバーで再生できない場合は自動的にステレオに切り替えます。推奨。</string>
     <string name="settings_surround_stereo_description">ステレオのみ — 常にアプリ内でデコードし、通常の2.0サウンドを送信します。テレビの内蔵スピーカーやステレオサウンドバーで使用するか、音声が映像より遅れる場合に使用してください。</string>
+    <string name="settings_surround_stereo_description_mobile">ステレオのみ — 常にアプリ内でデコードし、通常の2.0サウンドを送信します。内蔵スピーカー、ヘッドホン、ステレオサウンドバーで使用するか、音声が映像より遅れる場合に使用してください。</string>
     <string name="settings_surround_forced_description">サラウンド — Dolby/DTSを実際の5.1/7.1レシーバーに送信します。無音になったりカクついたりする場合は、OwnTVはステレオに切り替えてその旨通知します。</string>
     <string name="settings_panel_width">パネル幅の調整</string>
     <string name="settings_panel_width_description">ライブTV、映画、シリーズで、カテゴリ、一覧、プレビューの各パネルのサイズを変更します。</string>
@@ -1124,7 +1142,9 @@
     <string name="settings_language_contribution_copy_failed">リンクをコピーできませんでした。上に表示されているURLを読み取るか、入力してください。</string>
     <string name="settings_auto_frame_rate_warning_suffix">このテレビでは非推奨：Android 12未満では、フレームレートをスムーズに変更できません。</string>
     <string name="settings_auto_frame_rate_warning_title">このテレビでは非推奨</string>
+    <string name="settings_auto_frame_rate_warning_title_mobile">このデバイスでは非推奨</string>
     <string name="settings_auto_frame_rate_warning_description">このデバイスはAndroid <xliff:g id="android_version">%1$s</xliff:g>で動作しています。Android 12未満では、テレビがOwnTVにスムーズに切り替え可能なリフレッシュレートを伝えられないため、レートを変更すると1〜2秒間画面が暗転する可能性があります。番組中に複数回発生することもあります。\n\nここではオートフレームレートをオフにしておくことをお勧めします。テレビが問題なく切り替えられる場合は、オンにして試してみてください。いつでも元に戻せます。</string>
+    <string name="settings_auto_frame_rate_warning_description_mobile">このデバイスはAndroid <xliff:g id="android_version">%1$s</xliff:g>で動作しています。Android 12未満では、デバイスがOwnTVにスムーズに切り替え可能なリフレッシュレートを伝えられないため、レートを変更すると1〜2秒間画面が暗転する可能性があります。番組中に複数回発生することもあります。\n\nここではオートフレームレートをオフにしておくことをお勧めします。画面が問題なく切り替えられる場合は、オンにして試してみてください。いつでも元に戻せます。</string>
     <string name="settings_auto_frame_rate_keep_off">オフのまま</string>
     <string name="settings_auto_frame_rate_turn_on_anyway">それでもオンにする</string>
     <string name="settings_language_request_workflow">リストにない言語を追加したい場合は、まず言語リクエストを開いてください。メンテナーがそれを登録し、ベースの翻訳ファイルを準備します。Hosted Weblate に表示されたら、翻訳に貢献できます。</string>

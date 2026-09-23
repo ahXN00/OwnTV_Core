@@ -80,6 +80,23 @@ interface SourceDao {
     @Query("UPDATE sources SET liveLatencyMode = :mode, liveLatencyCustomSecs = :customSecs WHERE id = :id")
     suspend fun updateLiveLatency(id: Long, mode: String?, customSecs: Int)
 
+    /** Per-playlist catch-up time zone (a `CatchupTimezone` name); `null` follows the global setting. The
+     *  offset is written alongside so a MANUAL choice can never land without its value. */
+    @Query("UPDATE sources SET catchupTimezone = :mode, catchupOffsetMin = :offsetMin WHERE id = :id")
+    suspend fun updateCatchupTimezone(id: Long, mode: String?, offsetMin: Int?)
+
+    /** Per-playlist Movies & Series engine (an `EnginePreference` name); `null` follows the global setting. */
+    @Query("UPDATE sources SET vodEnginePreference = :preference WHERE id = :id")
+    suspend fun updateVodEnginePreference(id: Long, preference: String?)
+
+    /** Per-playlist "Give up after" in seconds (0 = never); `null` follows the global setting. */
+    @Query("UPDATE sources SET liveTuneTimeoutSecs = :secs WHERE id = :id")
+    suspend fun updateLiveTuneTimeout(id: Long, secs: Int?)
+
+    /** Per-playlist HTTP Referer; `null` sends none beyond what each stream declares. */
+    @Query("UPDATE sources SET httpReferer = :referer WHERE id = :id")
+    suspend fun updateHttpReferer(id: Long, referer: String?)
+
     // --- profile <-> source links (hybrid model) ---
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

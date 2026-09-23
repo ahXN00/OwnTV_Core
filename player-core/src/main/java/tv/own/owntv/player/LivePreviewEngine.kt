@@ -1309,6 +1309,7 @@ class LivePreviewEngine(
             else -> defaultVolume
         }
         applyRememberedPrefs(meta.contentKey ?: url)
+        recallTracks(meta.contentKey ?: url)
         _state.value = State.LOADING
         _buffering.value = true
         runCatching {
@@ -2239,7 +2240,66 @@ class LivePreviewEngine(
             play(request.copy(url = fresh ?: url))
         }
     }
+    // --- Remembered audio / subtitle language (playback_prefs, v44, owner decision 11). Same rules as
+    // OwnTVPlayer: each half applied once per tune, when the database answer and that track list are
+    // both in; a pick by the user closes that half and is remembered by its language.
+
+    private class TrackRecall(val key: String) {
+        var loaded = false
+        var audio: String? = null
+        var sub: String? = null
+        var audioDone = false
+        var subDone = false
+    }
+
+    private var trackRecall: TrackRecall? = null
+
+    private fun recallTracks(key: String) {
+        val recall = TrackRecall(key)
+        trackRecall = recall
+        scope.launch {
+            val remembered = playbackPrefs.tracksFor(key)
+            if (trackRecall !== recall) return@launch
+            recall.audio = remembered?.first
+            recall.sub = remembered?.second
+            recall.loaded = true
+            applyRememberedTracks()
+        }
+    }
+
+    private fun applyRememberedTracks() {
+        val recall = trackRecall ?: return
+        if (!recall.loaded) return
+        if (!recall.audioDone && tune.audioTrackList.isNotEmpty()) {
+            recall.audioDone = true
+            TrackMemory.audioToSelect(tune.audioTrackList, recall.audio)?.let { applyAudioTrack(it.mpvId) }
+        }
+        if (!recall.subDone && tune.textTrackList.isNotEmpty()) {
+            recall.subDone = true
+            when (val action = TrackMemory.subtitleAction(tune.textTrackList, recall.sub, allowImage = true)) {
+                TrackMemory.SubtitleAction.None -> Unit
+                TrackMemory.SubtitleAction.Off -> applySubtitlesOff()
+                is TrackMemory.SubtitleAction.Select -> applySubtitleTrack(action.track.mpvId)
+            }
+        }
+    }
+
+    private fun rememberTrack(audio: Boolean, lang: String?) {
+        val recall = trackRecall ?: return
+        if (audio) recall.audioDone = true else recall.subDone = true
+        if (lang.isNullOrBlank()) return
+        val key = recall.key
+        scope.launch {
+            if (audio) playbackPrefs.rememberAudioLang(key, lang) else playbackPrefs.rememberSubtitleLang(key, lang)
+        }
+    }
+
     override fun selectAudio(id: Int) {
+        applyAudioTrack(id)
+        rememberTrack(audio = true, lang = tune.audioTrackList.firstOrNull { it.mpvId == id }?.lang)
+    }
+
+    private fun applyAudioTrack(id: Int) {
         val p = player ?: return
         val sel = tune.audioSelections.firstOrNull { it.id == id } ?: return
         p.trackSelectionParameters = p.trackSelectionParameters.buildUpon()
@@ -2261,6 +2321,11 @@ class LivePreviewEngine(
     }
 
     override fun selectSubtitle(id: Int) {
+        applySubtitleTrack(id)
+        rememberTrack(audio = false, lang = tune.textTrackList.firstOrNull { it.mpvId == id }?.lang)
+    }
+
+    private fun applySubtitleTrack(id: Int) {
         val p = player ?: return
         val sel = tune.textSelections.firstOrNull { it.id == id } ?: return
         p.trackSelectionParameters = p.trackSelectionParameters.buildUpon()
@@ -2272,6 +2337,11 @@ class LivePreviewEngine(
     }
 
     override fun disableSubtitles() {
+        applySubtitlesOff()
+        rememberTrack(audio = false, lang = tv.own.owntv.core.player.PlaybackPrefsStore.SUBTITLES_OFF)
+    }
+
+    private fun applySubtitlesOff() {
         player?.let {
             it.trackSelectionParameters = it.trackSelectionParameters.buildUpon()
                 .setTrackTypeDisabled(androidx.media3.common.C.TRACK_TYPE_TEXT, true).build()
@@ -2343,6 +2413,7 @@ class LivePreviewEngine(
         applyMute()
         tune.audioTrackList = audio; tune.audioSelections = aSel; _audioCount.value = audio.size
         tune.textTrackList = text; tune.textSelections = tSel; _subCount.value = text.size
+        applyRememberedTracks()
         if (tv.own.owntv.core.CoreBuildInfo.debug) {
             LiveDiagnosticsLog.event(
                 "tracks: audio=${audio.size} text=${text.size}" +

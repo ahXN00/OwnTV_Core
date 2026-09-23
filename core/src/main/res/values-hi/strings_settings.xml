@@ -261,6 +261,7 @@
     <string name="settings_ui_zoom_description">पूरे इंटरफ़ेस का आकार बदलें</string>
     <string name="settings_animations">ऐनिमेशन</string>
     <string name="settings_animations_description">इंटरफ़ेस की गति चालू या बंद करें — बंद करने पर कम क्षमता वाले TV बॉक्स पर प्रतिक्रिया अधिक तेज़ लगती है</string>
+    <string name="settings_animations_description_mobile">इंटरफ़ेस की गति चालू या बंद करें — बंद करने पर पुराने फ़ोन और टैबलेट पर प्रतिक्रिया अधिक तेज़ लगती है</string>
     <string name="settings_weather_description_root">शीर्ष बार का मौसम चिप: दिखाएँ या छिपाएँ, कस्टम स्थान चुनें और सेल्सियस / फ़ारेनहाइट सेट करें।</string>
     <string name="settings_playback_group">प्लेबैक</string>
     <string name="settings_live_preview_description">चैनल पर फ़ोकस करने पर उसे अपने-आप चलाएँ</string>
@@ -269,10 +270,13 @@
     <string name="settings_mini_player_root">मिनी-प्लेयर</string>
     <string name="settings_mini_player_root_description">डॉक किए गए मिनी-प्लेयर का आकार और स्थिति</string>
     <string name="settings_hdr_description">वीडियो और TV द्वारा समर्थित होने पर HDR आउटपुट का उपयोग करें</string>
+    <string name="settings_hdr_description_mobile">वीडियो और स्क्रीन द्वारा समर्थित होने पर HDR आउटपुट का उपयोग करें</string>
     <string name="settings_auto_frame_rate">अपने-आप फ़्रेम दर मिलाना</string>
     <string name="settings_auto_frame_rate_description">फ़ुल स्क्रीन में लाइव टीवी और VOD के लिए TV की रीफ़्रेश दर को वीडियो (24/25/50/60 fps) से मिलाएँ और बाहर निकलने पर उसे पहले जैसा करें। यदि हर चैनल बदलने पर आपका TV या रिसीवर शोर के साथ फिर से HDMI हैंडशेक करता है, तो इसे बंद कर दें।</string>
+    <string name="settings_auto_frame_rate_description_mobile">फ़ुल स्क्रीन में लाइव टीवी और VOD के लिए स्क्रीन की रीफ़्रेश दर को वीडियो (24/25/50/60 fps) से मिलाएँ और बाहर निकलने पर उसे पहले जैसा करें। यदि वीडियो शुरू होने पर स्क्रीन झिलमिलाती है या काली हो जाती है, तो इसे बंद कर दें।</string>
     <string name="settings_surround_sound">सराउंड साउंड</string>
     <string name="settings_surround_description">वास्तविक 5.1/7.1 रिसीवर के लिए Dolby/DTS को सराउंड (5.1/7.1) में डिकोड करें। TV स्पीकर या स्टीरियो साउंडबार के लिए इसे बंद रखें — कुछ TV/साउंडबार पर मल्टीचैनल ऑडियो वीडियो से पीछे हो सकता है। यदि सिंक बिगड़ता है, तो प्लेयर के ऑडियो मेन्यू → A/V सिंक को थोड़ा समायोजित करें।</string>
+    <string name="settings_surround_description_mobile">इस डिवाइस से जुड़े वास्तविक 5.1/7.1 रिसीवर के लिए Dolby/DTS को सराउंड (5.1/7.1) में डिकोड करें। बिल्ट-इन स्पीकर, हेडफ़ोन या स्टीरियो साउंडबार के लिए इसे बंद रखें — मल्टीचैनल ऑडियो वीडियो से पीछे हो सकता है। यदि सिंक बिगड़ता है, तो प्लेयर के ऑडियो मेन्यू → A/V सिंक को थोड़ा समायोजित करें।</string>
     <string name="settings_autoplay_next">अगला एपिसोड अपने-आप चलाएँ</string>
     <string name="settings_autoplay_next_description">एपिसोड समाप्त होने पर अगला एपिसोड अपने-आप शुरू करें — और अगला सीज़न भी चलाएँ। कैच-अप भी अगले कार्यक्रम पर चलता रहता है।</string>
     <string name="settings_catchup">कैच-अप</string>
@@ -474,6 +478,7 @@
     <string name="settings_decoding">डिकोडिंग</string>
     <string name="settings_hardware_decoding">हार्डवेयर डिकोडिंग</string>
     <string name="settings_hardware_decoding_description">TV के हार्डवेयर डिकोडर का उपयोग करें। यदि कुछ स्ट्रीम अटकती हैं या उनमें दृश्य विकृतियाँ दिखाई देती हैं, तो इसे बंद कर दें।</string>
+    <string name="settings_hardware_decoding_description_mobile">डिवाइस के हार्डवेयर डिकोडर का उपयोग करें। यदि कुछ स्ट्रीम अटकती हैं या उनमें दृश्य विकृतियाँ दिखाई देती हैं, तो इसे बंद कर दें।</string>
     <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
     <string name="settings_deinterlace">डीइंटरलेसिंग</string>
     <!-- Translators: Description of the deinterlacing setting. -->
@@ -558,9 +563,11 @@
     <string name="settings_live_latency_bitrate_note">बहुत ज़्यादा बिटरेट वाले चैनल पर — खास तौर पर 4K में — बफ़र आपकी माँगी गई अवधि से कम रख पाता है, क्योंकि एक बार में मेमोरी में रखे जा सकने वाले वीडियो की एक सीमा है।</string>
     <string name="settings_channel_numbers">चैनल नंबर</string>
     <string name="settings_channel_numbers_description">लाइव टीवी सूची, चैनल सूची ओवरले और प्लेयर में नाम के पास अपने प्रदाता का चैनल नंबर दिखाएँ—और फ़ुल स्क्रीन प्लेबैक के दौरान रिमोट कंट्रोल पर नंबर लिखकर सीधे उस चैनल पर जाएँ (OK तुरंत चैनल चलाता है, Back रद्द करता है)। बंद करने पर सभी नंबर छिप जाते हैं और नंबर कुंजियाँ अनदेखी की जाती हैं; कुछ भी खोता नहीं है और इसे दोबारा चालू करने पर नंबर वापस दिखाई देते हैं।</string>
+    <string name="settings_channel_numbers_description_mobile">लाइव टीवी सूची और प्लेयर में नाम के पास अपने प्रदाता का चैनल नंबर दिखाएँ। बंद करने पर सभी नंबर छिप जाते हैं; कुछ भी खोता नहीं है और इसे दोबारा चालू करने पर नंबर वापस दिखाई देते हैं।</string>
     <string name="settings_diagnostics">डायग्नोस्टिक्स</string>
     <string name="settings_measured_stats">मापे गए स्ट्रीम आँकड़े</string>
     <string name="settings_measured_stats_description">स्ट्रीम-जानकारी ओवरले में लाइव fps, बिटरेट और छूटे हुए फ़्रेम दिखाएँ (जिन स्ट्रीम में ये मान घोषित नहीं होते, उनके लिए ओवरले खुला रहने के दौरान इन्हें मापा जाता है)। इसे केवल तभी बंद करें जब कम क्षमता वाला टीवी अटकता हो—इससे वास्तविक वीडियो पर कभी असर नहीं पड़ता, केवल डायग्नोस्टिक संख्याओं पर पड़ता है।</string>
+    <string name="settings_measured_stats_description_mobile">स्ट्रीम-जानकारी ओवरले में लाइव fps, बिटरेट और छूटे हुए फ़्रेम दिखाएँ (जिन स्ट्रीम में ये मान घोषित नहीं होते, उनके लिए ओवरले खुला रहने के दौरान इन्हें मापा जाता है)। इसे केवल तभी बंद करें जब कम क्षमता वाला डिवाइस अटकता हो—इससे वास्तविक वीडियो पर कभी असर नहीं पड़ता, केवल डायग्नोस्टिक संख्याओं पर पड़ता है।</string>
     <string name="settings_none_auto">कोई नहीं / अपने-आप</string>
     <string name="settings_view_grid">ग्रिड</string>
     <string name="settings_view_list">सूची</string>
@@ -582,7 +589,9 @@
     <string name="settings_external_player_description">चुनें कि कौन-से अनुभाग बाहरी ऐप में खुलेंगे।</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> मि.से.</string>
     <string name="settings_movies_player_description">mpv (सुझाया गया) सबसे अधिक फ़ॉर्मैट सपोर्ट करता है — DTS/TrueHD ऑडियो, असामान्य फ़ाइलें — साथ ही A/V सिंक सुधार भी। कुछ टीवी पर ExoPlayer ऐसी स्ट्रीम चला देता है जो mpv नहीं चला पाता, लेकिन यह DTS/TrueHD ऑडियो डिकोड नहीं कर सकता और इसमें A/V सिंक सुधार नहीं है। संयुक्त विकल्पों में पहला विफल होने पर दूसरा प्लेयर अपने आप आज़माया जाता है; एकल-प्लेयर विकल्पों में ऐसा कभी नहीं होता, जिससे दूसरा प्लेयर आपके टीवी पर काम न करने की स्थिति में कुछ सेकंड की काली स्क्रीन बच जाती है।</string>
+    <string name="settings_movies_player_description_mobile">mpv (सुझाया गया) सबसे अधिक फ़ॉर्मैट सपोर्ट करता है — DTS/TrueHD ऑडियो, असामान्य फ़ाइलें — साथ ही A/V सिंक सुधार भी। कुछ डिवाइस पर ExoPlayer ऐसी स्ट्रीम चला देता है जो mpv नहीं चला पाता, लेकिन यह DTS/TrueHD ऑडियो डिकोड नहीं कर सकता और इसमें A/V सिंक सुधार नहीं है। संयुक्त विकल्पों में पहला विफल होने पर दूसरा प्लेयर अपने आप आज़माया जाता है; एकल-प्लेयर विकल्पों में ऐसा कभी नहीं होता, जिससे दूसरा प्लेयर आपके डिवाइस पर काम न करने की स्थिति में कुछ सेकंड की काली स्क्रीन बच जाती है।</string>
     <string name="settings_live_player_description">ExoPlayer (सुझाया गया) चैनल बहुत तेज़ी से खोलता है और लाइव सबटाइटल केवल इसी में हैं। mpv ऐसे चैनल भी चलाता है जो ExoPlayer नहीं चला पाता, जिनमें असामान्य ऑडियो वाले कुछ चैनल भी शामिल हैं। संयुक्त विकल्पों में पहला विफल होने पर दूसरा प्लेयर अपने आप आज़माया जाता है; एकल-प्लेयर विकल्पों में ऐसा कभी नहीं होता, जिससे दूसरा प्लेयर आपके टीवी पर काम न करने की स्थिति में कुछ सेकंड की काली स्क्रीन बच जाती है। प्लेयर में हाथ से बदले गए चैनल पर आपकी पसंद दोनों ही स्थितियों में बनी रहती है।</string>
+    <string name="settings_live_player_description_mobile">ExoPlayer (सुझाया गया) चैनल बहुत तेज़ी से खोलता है और लाइव सबटाइटल केवल इसी में हैं। mpv ऐसे चैनल भी चलाता है जो ExoPlayer नहीं चला पाता, जिनमें असामान्य ऑडियो वाले कुछ चैनल भी शामिल हैं। संयुक्त विकल्पों में पहला विफल होने पर दूसरा प्लेयर अपने आप आज़माया जाता है; एकल-प्लेयर विकल्पों में ऐसा कभी नहीं होता, जिससे दूसरा प्लेयर आपके डिवाइस पर काम न करने की स्थिति में कुछ सेकंड की काली स्क्रीन बच जाती है। प्लेयर में हाथ से बदले गए चैनल पर आपकी पसंद दोनों ही स्थितियों में बनी रहती है।</string>
     <string name="settings_reset_player_choices_description">प्लेयर में किसी एक फ़िल्म या एपिसोड को mpv और ExoPlayer के बीच बदलने पर वह विकल्प अगली बार के लिए सहेज लिया जाता है। रीसेट करने पर सब कुछ फिर से ऊपर दी गई सेटिंग का पालन करेगा। लाइव चैनलों के सहेजे गए विकल्प बने रहते हैं।</string>
     <string name="settings_reset_player_choices_none">कोई सहेजा नहीं गया</string>
     <plurals name="settings_reset_player_choices_count">
@@ -633,6 +642,7 @@
     <string name="settings_ui_zoom_range">पूरे इंटरफ़ेस का आकार बदलें (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%)।</string>
     <string name="settings_low_zoom_warning_title">⚠️ कम ज़ूम की चेतावनी</string>
     <string name="settings_low_zoom_warning"><xliff:g id="zoom">%1$d</xliff:g>%% ज़ूम से स्क्रीन पर एक साथ बहुत अधिक आइटम दिखाई देते हैं। सीमित मेमोरी वाले डिवाइस पर (उदाहरण के लिए, 2 GB टीवी स्टिक) इससे ऐप अस्थिर हो सकता है या बंद हो सकता है, खासकर बड़ी प्लेलिस्ट और EPG डेटा के साथ।\n\nजारी रखने के लिए OK दबाएँ या <xliff:g id="safe_zoom">%2$d</xliff:g>%% पर बने रहने के लिए Back दबाएँ।</string>
+    <string name="settings_low_zoom_warning_mobile"><xliff:g id="zoom">%1$d</xliff:g>%% ज़ूम से स्क्रीन पर एक साथ बहुत अधिक आइटम दिखाई देते हैं। सीमित मेमोरी वाले डिवाइस पर इससे ऐप अस्थिर हो सकता है या बंद हो सकता है, खासकर बड़ी प्लेलिस्ट और EPG डेटा के साथ।\n\n<xliff:g id="safe_zoom">%2$d</xliff:g>%% पर बने रहने के लिए रद्द करें चुनें।</string>
     <string name="settings_low_zoom_accept">मैं समझता/समझती हूँ और जोखिम स्वीकार करता/करती हूँ</string>
     <string name="settings_surface_transparency"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="settings_surface_count_all">सतहें: सभी</string>
@@ -1085,13 +1095,21 @@
     <string name="settings_live_latency_per_playlist">हर प्लेलिस्ट के लिए लाइव विलंबता</string>
     <!-- Translators: Description of the per-playlist Live latency override row. -->
     <string name="settings_live_latency_per_playlist_description">ऊपर वाली सेटिंग को एक प्लेलिस्ट के लिए अलग से सेट करें — ऐसे प्रदाता के लिए जिसे बाकी से बड़ा या छोटा बफ़र चाहिए।</string>
+    <string name="settings_catchup_timezone_per_playlist">प्लेलिस्ट के अनुसार कैच-अप समय क्षेत्र</string>
+    <string name="settings_catchup_timezone_per_playlist_description">ऊपर दिए समय क्षेत्र को एक प्लेलिस्ट के लिए बदलें, उस प्रदाता के लिए जिसका आर्काइव दूसरी घड़ी पर चलता है।</string>
+    <string name="settings_vod_engine_per_playlist">प्लेलिस्ट के अनुसार फ़िल्म और सीरीज़ प्लेयर</string>
+    <string name="settings_vod_engine_per_playlist_description">ऊपर की सेटिंग को एक प्लेलिस्ट के लिए बदलें, उस प्रदाता के लिए जिसकी फ़िल्में और एपिसोड केवल एक प्लेयर ठीक से चलाता है।</string>
+    <string name="settings_live_tune_timeout_per_playlist">प्लेलिस्ट के अनुसार कोशिश छोड़ने का समय</string>
+    <string name="settings_live_tune_timeout_per_playlist_description">ऊपर की सेटिंग को एक प्लेलिस्ट के लिए बदलें, उस प्रदाता के लिए जिसके चैनल धीरे शुरू होते हैं या अक्सर बंद रहते हैं।</string>
     <plurals name="settings_live_preroll_overrides">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> सेट</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> सेट</item>
     </plurals>
     <string name="settings_surround_stereo">केवल स्टीरियो</string>
     <string name="settings_surround_auto_description">ऑटो — Dolby/DTS सराउंड आज़माता है, और अगर टीवी या साउंडबार उसे नहीं चला पाता तो अपने आप स्टीरियो पर लौट आता है। अनुशंसित।</string>
+    <string name="settings_surround_auto_description_mobile">ऑटो — Dolby/DTS सराउंड आज़माता है, और अगर स्पीकर, हेडफ़ोन या जुड़ा हुआ रिसीवर उसे नहीं चला पाता तो अपने आप स्टीरियो पर लौट आता है। अनुशंसित।</string>
     <string name="settings_surround_stereo_description">केवल स्टीरियो — हमेशा ऐप में डिकोड करता है और सादा 2.0 ऑडियो भेजता है। इसे टीवी स्पीकर या स्टीरियो साउंडबार पर इस्तेमाल करें, या अगर ऑडियो वीडियो से पीछे रह जाता है।</string>
+    <string name="settings_surround_stereo_description_mobile">केवल स्टीरियो — हमेशा ऐप में डिकोड करता है और सादा 2.0 ऑडियो भेजता है। इसे बिल्ट-इन स्पीकर, हेडफ़ोन या स्टीरियो साउंडबार के लिए इस्तेमाल करें, या अगर ऑडियो वीडियो से पीछे रह जाता है।</string>
     <string name="settings_surround_forced_description">सराउंड — Dolby/DTS को असली 5.1/7.1 रिसीवर पर भेजता है। अगर आवाज़ बंद हो जाए या अटक जाए, तो OwnTV फिर भी स्टीरियो पर लौट आता है और आपको बता देता है।</string>
     <string name="settings_panel_width">पैनल चौड़ाई समायोजन</string>
     <string name="settings_panel_width_description">लाइव टीवी, फ़िल्मों और सीरीज़ में श्रेणी, सूची और पूर्वावलोकन पैनल का आकार बदलें।</string>
@@ -1144,7 +1162,9 @@
     <string name="settings_language_contribution_copy_failed">लिंक कॉपी नहीं किया जा सका। ऊपर दिखाया गया URL पढ़ें या टाइप करें।</string>
     <string name="settings_auto_frame_rate_warning_suffix">इस टीवी पर अनुशंसित नहीं: Android 12 से नीचे रेट सुचारू रूप से नहीं बदला जा सकता।</string>
     <string name="settings_auto_frame_rate_warning_title">इस टीवी पर अनुशंसित नहीं</string>
+    <string name="settings_auto_frame_rate_warning_title_mobile">इस डिवाइस पर अनुशंसित नहीं</string>
     <string name="settings_auto_frame_rate_warning_description">यह डिवाइस Android <xliff:g id="android_version">%1$s</xliff:g> पर चलता है। Android 12 से नीचे टीवी OwnTV को यह नहीं बता सकता कि वह किन रिफ़्रेश रेटों पर सुचारू रूप से स्विच कर सकता है, इसलिए रेट बदलने पर स्क्रीन एक-दो सेकंड के लिए काली हो सकती है — कभी-कभी कार्यक्रम के दौरान एक से अधिक बार।\n\nहम यहाँ Auto frame rate बंद रखने की अनुशंसा करते हैं। अगर आपका टीवी बिना किसी समस्या के स्विच करता है, तो इसे चालू करके देखें: आप इसे कभी भी वापस बदल सकते हैं।</string>
+    <string name="settings_auto_frame_rate_warning_description_mobile">यह डिवाइस Android <xliff:g id="android_version">%1$s</xliff:g> पर चलता है। Android 12 से नीचे डिवाइस OwnTV को यह नहीं बता सकता कि वह किन रिफ़्रेश रेटों पर सुचारू रूप से स्विच कर सकता है, इसलिए रेट बदलने पर स्क्रीन एक-दो सेकंड के लिए काली हो सकती है — कभी-कभी कार्यक्रम के दौरान एक से अधिक बार।\n\nहम यहाँ Auto frame rate बंद रखने की अनुशंसा करते हैं। अगर आपकी स्क्रीन बिना किसी समस्या के स्विच करती है, तो इसे चालू करके देखें: आप इसे कभी भी वापस बदल सकते हैं।</string>
     <string name="settings_auto_frame_rate_keep_off">बंद रखें</string>
     <string name="settings_auto_frame_rate_turn_on_anyway">फिर भी चालू करें</string>
     <string name="settings_language_request_workflow">क्या आप कोई ऐसी भाषा जोड़ना चाहते हैं जो सूचीबद्ध नहीं है? पहले भाषा अनुरोध खोलें। एक मेंटेनर इसे पंजीकृत करेगा और आधार अनुवाद फ़ाइलें तैयार करेगा; एक बार यह Hosted Weblate पर दिखाई दे, तो आप योगदान देना शुरू कर सकते हैं।</string>

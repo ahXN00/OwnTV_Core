@@ -89,6 +89,9 @@ data class MediaMeta(
     val episodeNumber: Int? = null,
     /** Semantic live-rewind start; formatted by the current HUD locale, never in the ViewModel. */
     val rewindStartMs: Long? = null,
+    /** v44 — what the remembered audio/subtitle language is keyed on: the SERIES for an episode (owner
+     *  decision 11), so every episode starts on the tracks last picked in that show. Null = [contentKey]. */
+    val trackKey: String? = null,
 )
 
 /** An item in a play queue (e.g. a season's episodes), for prev/next.
@@ -847,6 +850,8 @@ class OwnTVPlayer(
     // The global "Movies & Series player" setting: which engine an item starts on and whether the other
     // may rescue it. Default mpv-first — see SettingsRepository.vodEnginePreference.
     @Volatile private var vodEngine = tv.own.owntv.core.player.EnginePreference.MPV_FIRST
+    /** The current load's playlist-level [vodEngine] override (v44); set by every [play]/[playEpisodes]. */
+    @Volatile private var vodEngineOverride: tv.own.owntv.core.player.EnginePreference? = null
     // The preference in force for the item currently loaded, after a per-item pin and the HUD toggle
     // have had their say. Read by the two auto-fallback paths, which is why it is resolved once at load
     // time rather than recomputed from the setting: the setting can change mid-film, and an item that
@@ -1478,6 +1483,7 @@ class OwnTVPlayer(
         override fun onAudioTracks(tracks: List<TrackOption>) {
             _audioTrackList.value = tracks
             _audioCount.value = tracks.size
+            applyRememberedTracks()
         }
         override fun onTextTracks(tracks: List<TrackOption>) {
             // Only when Exo owns playback as a VOD ENGINE: mpv never probed the file, so its subtitle
@@ -1486,6 +1492,7 @@ class OwnTVPlayer(
             if (!item.exoVodFallback) return
             _subTrackList.value = tracks
             _subCount.value = tracks.size
+            applyRememberedTracks()
         }
         override fun onVideoFps(fps: Float) { _videoFps.value = fps; updateStreamChips() }
         // ExoPlayer knows this straight from the track list, so a music-only VOD played on the Exo engine
@@ -2431,7 +2438,12 @@ class OwnTVPlayer(
         liveBufferOverride: LiveBuffer.Override? = null,
         /** Expiring-URL provider for THIS item (Stalker VOD). See [reconnectUrlProvider]. */
         reconnectProvider: tv.own.owntv.core.stalker.ReconnectUrlProvider? = null,
+        /** Per-playlist Movies & Series engine (v44); null follows the global setting. */
+        vodEngineOverride: tv.own.owntv.core.player.EnginePreference? = null,
+        /** v44 — see [MediaMeta.trackKey]; null keys the remembered tracks on [contentKey]. */
+        trackKey: String? = null,
     ) {
+        this.vodEngineOverride = vodEngineOverride
         // F12 — the provider belongs to the load. A VOD load with none clears whatever the previous
         // item left behind; live keeps the field as-is when none is passed, because LiveViewModel
         // installs the live provider on BOTH engines just before calling this.
@@ -2453,7 +2465,7 @@ class OwnTVPlayer(
         if (!muted) setVolume(defaultVolume) // …and at the default volume; loadUrl re-applies any per-item override
         loadUrl(
             url,
-            MediaMeta(title, subtitle, year, logoUrl, contentKey, seasonNumber, episodeNumber, rewindStartMs),
+            MediaMeta(title, subtitle, year, logoUrl, contentKey, seasonNumber, episodeNumber, rewindStartMs, trackKey),
             isLive,
             startPositionMs,
             muted,
@@ -2464,10 +2476,18 @@ class OwnTVPlayer(
 
     /** Play a queue (a season's episodes) starting at [startIndex] — enables prev/next.
      *  [userAgent] is the per-source custom UA from source settings; null means use the default. */
-    fun playEpisodes(items: List<PlaylistItem>, startIndex: Int, startPositionMs: Long = 0, userAgent: String? = null) {
+    fun playEpisodes(
+        items: List<PlaylistItem>,
+        startIndex: Int,
+        startPositionMs: Long = 0,
+        userAgent: String? = null,
+        /** Per-playlist Movies & Series engine (v44) — a queue is one playlist; null follows the global setting. */
+        vodEngineOverride: tv.own.owntv.core.player.EnginePreference? = null,
+    ) {
         // Headers are a per-ITEM property in a queue (an M3U episode line can carry its own
         // #EXTVLCOPT), so they're applied in loadItem, not once for the whole queue.
         queueUserAgent = userAgent?.takeIf { it.isNotBlank() }
+        this.vodEngineOverride = vodEngineOverride
         playlist = items
         playlistIndex = startIndex.coerceIn(0, (items.size - 1).coerceAtLeast(0))
         val item = items.getOrNull(playlistIndex) ?: return
@@ -2681,6 +2701,7 @@ class OwnTVPlayer(
         // volume / audio delay and applies them over those defaults, so a reset that ran later would
         // undo it. It is asynchronous and generation-guarded, so it still cannot delay the load.
         applyRememberedPrefs(meta.contentKey ?: url)
+        recallTracks(meta.trackKey ?: meta.contentKey ?: url)
         // The decode watchdog's own state rode in [LoadState] above; the StateFlows it feeds are here.
         _videoAspect.value = null
         _videoSize.value = null
@@ -2722,6 +2743,8 @@ class OwnTVPlayer(
         // outranks both the setting and a per-item pin, because the alternative is not a slower route
         // but no route at all.
         val drmProtected = currentDrm != null
+        // v44 — the playlist's own Movies & Series engine wins over the global one.
+        val vodEngine = vodEngineOverride ?: vodEngine
         val startOnExo = if (drmProtected) true else pinnedToExo ?: !vodEngine.startsOnMpv
         // A pin that contradicts an "only" setting re-opens the handover for this one item: the user
         // named an engine for it *against* the global rule, so locking that item to the engine they
@@ -3261,6 +3284,73 @@ class OwnTVPlayer(
                 _audioDelayRemembered.value = true
             }
         }
+    }
+
+    // --- Remembered audio / subtitle language (playback_prefs, v44, owner decision 11) ---
+
+    /** One load's remembered track languages. Each half is applied once, when both the answer from the
+     *  database and that kind's track list are in — whichever arrives last does it. */
+    private class TrackRecall(val key: String) {
+        var loaded = false
+        var audio: String? = null
+        var sub: String? = null
+        var audioDone = false
+        var subDone = false
+    }
+
+    @Volatile private var trackRecall: TrackRecall? = null
+
+    private fun recallTracks(key: String) {
+        val recall = TrackRecall(key)
+        trackRecall = recall
+        scope.launch {
+            val remembered = playbackPrefs.tracksFor(key)
+            if (trackRecall !== recall) return@launch // a newer load started while we were reading
+            recall.audio = remembered?.first
+            recall.sub = remembered?.second
+            recall.loaded = true
+            applyRememberedTracks()
+        }
+    }
+
+    /** Main thread only (ExoPlayer requires it); the mpv event thread reaches it through [scope]. */
+    private fun applyRememberedTracks() {
+        val recall = trackRecall ?: return
+        if (!recall.loaded) return
+        val audio = _audioTrackList.value
+        if (!recall.audioDone && audio.isNotEmpty()) {
+            recall.audioDone = true
+            TrackMemory.audioToSelect(audio, recall.audio)?.let { applyAudioTrack(it.mpvId) }
+        }
+        val subs = _subTrackList.value
+        if (!recall.subDone && subs.isNotEmpty()) {
+            recall.subDone = true
+            // A bitmap subtitle is only chosen where ExoPlayer already owns the item; on mpv it would
+            // cost a handoff (VOD) or cannot be drawn at all (live).
+            when (val action = TrackMemory.subtitleAction(subs, recall.sub, allowImage = exoActive && item.exoVodFallback)) {
+                TrackMemory.SubtitleAction.None -> Unit
+                TrackMemory.SubtitleAction.Off -> applySubtitlesOff()
+                is TrackMemory.SubtitleAction.Select -> applySubtitleTrack(action.track.mpvId)
+            }
+        }
+    }
+
+    // A pick by the user closes that half of the recall too, so a database answer arriving after it
+    // cannot undo it.
+    private fun rememberAudioLang(lang: String?) {
+        val recall = trackRecall ?: return
+        recall.audioDone = true
+        val key = recall.key
+        if (lang.isNullOrBlank()) return
+        scope.launch { playbackPrefs.rememberAudioLang(key, lang) }
+    }
+
+    private fun rememberSubtitleLang(lang: String?) {
+        val recall = trackRecall ?: return
+        recall.subDone = true
+        val key = recall.key
+        if (lang.isNullOrBlank()) return
+        scope.launch { playbackPrefs.rememberSubtitleLang(key, lang) }
     }
 
     /** Deliberate zoom choice from the HUD — applied now and remembered for this item. */
@@ -3885,12 +3975,25 @@ class OwnTVPlayer(
         return out
     }
 
+    /** The user picked an audio track in the HUD — applied, and remembered by language (v44). */
     fun selectAudio(mpvId: Int) {
+        applyAudioTrack(mpvId)
+        rememberAudioLang(_audioTrackList.value.find { it.mpvId == mpvId }?.lang)
+    }
+
+    private fun applyAudioTrack(mpvId: Int) {
         if (exoActive) exoEngine?.selectAudio(mpvId) else if (initialized) mpvAsync { setPropertyInt("aid", mpvId) }
         _audioTrackList.value = _audioTrackList.value.map { it.copy(selected = it.mpvId == mpvId) }
     }
 
+    /** The user picked a subtitle in the HUD — applied, and remembered by language when it took (v44). */
     fun selectSubtitle(mpvId: Int) {
+        val lang = _subTrackList.value.find { it.mpvId == mpvId }?.lang
+        if (applySubtitleTrack(mpvId)) rememberSubtitleLang(lang)
+    }
+
+    /** False when the track could not be shown (a bitmap subtitle on live), so nothing is remembered. */
+    private fun applySubtitleTrack(mpvId: Int): Boolean {
         val track = _subTrackList.value.find { it.mpvId == mpvId }
         // Engine-fallback playback: mpv already failed this item, so subtitle picks (text AND image —
         // ExoPlayer renders both natively) are applied on ExoPlayer instead of reverting to mpv.
@@ -3898,7 +4001,7 @@ class OwnTVPlayer(
             track?.let { exoEngine?.selectTextTrack(it.typeIndex, it.lang) }
             _subTrackList.value = _subTrackList.value.map { it.copy(selected = it.mpvId == mpvId) }
             notifyActiveSubtitle(track)
-            return
+            return true
         }
         // Image subtitle on a VOD → hand playback to ExoPlayer (it draws bitmap subs on its own layer).
         if (track?.image == true) {
@@ -3909,12 +4012,13 @@ class OwnTVPlayer(
                 // selected told the user it was on while nothing ever appeared on screen; say so instead
                 // and leave whatever was selected before in place.
                 toast(toastRenderer.render(PlaybackFailure.ImageFormat))
+                return false
             }
-            return
+            return true
         }
         // Text subtitle: mpv's direct path + app overlay. If we're mid-handoff, return to mpv first and
         // apply this sub once it reloads.
-        if (exoActive) { revertToMpv(thenSelectSid = mpvId); return }
+        if (exoActive) { revertToMpv(thenSelectSid = mpvId); return true }
         if (initialized) mpvAsync {
             setPropertyInt("sid", mpvId)
             setPropertyString("sub-visibility", "yes") // ensure subs aren't hidden
@@ -3930,9 +4034,16 @@ class OwnTVPlayer(
         }
         _subTrackList.value = _subTrackList.value.map { it.copy(selected = it.mpvId == mpvId) }
         notifyActiveSubtitle(track)
+        return true
     }
 
+    /** The user turned subtitles off in the HUD — applied, and remembered as "off" (v44). */
     fun disableSubtitles() {
+        applySubtitlesOff()
+        rememberSubtitleLang(tv.own.owntv.core.player.PlaybackPrefsStore.SUBTITLES_OFF)
+    }
+
+    private fun applySubtitlesOff() {
         if (exoActive && item.exoVodFallback) { // fallback playback stays on Exo — just turn its text off
             exoEngine?.disableTextTracks()
             _subTrackList.value = _subTrackList.value.map { it.copy(selected = false) }
@@ -4244,6 +4355,9 @@ class OwnTVPlayer(
                         notifyActiveSubtitle(t)
                     }
                 }
+                // v44 — the item's remembered audio/subtitle language, after every pending pick above
+                // (those are the user's choice during this very load, and must win).
+                scope.launch { applyRememberedTracks() }
                 mpv?.getPropertyBoolean("pause")?.let { _isPlaying.value = !it }
                 mpv?.getPropertyInt("height")?.let {
                     _videoRes.value = resolutionLabel(it, mpv?.getPropertyInt("width") ?: load.currentWidthPx)

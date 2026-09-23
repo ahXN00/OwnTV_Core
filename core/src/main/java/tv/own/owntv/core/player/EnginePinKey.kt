@@ -21,3 +21,10 @@ package tv.own.owntv.core.player
  */
 fun enginePinKey(sourceId: Long, mediaType: String, remoteId: String?): String? =
     remoteId?.takeIf { it.isNotBlank() }?.let { "$sourceId:$mediaType:$it" }
+
+/** The playlist an [enginePinKey] belongs to, or `-1` for a legacy stream-URL key. */
+fun sourceIdOfPinKey(key: String): Long = key.substringBefore(':').toLongOrNull() ?: -1L
+
+/** The media type an [enginePinKey] names (`LIVE`, `MOVIE`, `EPISODE`), or null for a stream-URL key. */
+fun mediaTypeOfPinKey(key: String): String? =
+    if (sourceIdOfPinKey(key) < 0) null else key.substringAfter(':').substringBefore(':').takeIf { it.isNotEmpty() }

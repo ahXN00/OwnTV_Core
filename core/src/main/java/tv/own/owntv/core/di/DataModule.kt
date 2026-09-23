@@ -78,12 +78,12 @@ val dataModule = module {
     single { ConnectivityObserver(androidContext()) }
     single { CustomizationStore(androidContext()) }
     single { tv.own.owntv.core.epg.EpgSourceStore(androidContext()) }
-    single { tv.own.owntv.core.player.ForceMpvStore(androidContext()) }
+    single { tv.own.owntv.core.player.ForceMpvStore(androidContext(), get()) }
     single { tv.own.owntv.core.player.ArchiveDecodeStore(androidContext()) }
     // Per-channel "watched without a picture" memory, for the mobile audio-only mode.
-    single { tv.own.owntv.core.player.AudioOnlyStore(androidContext()) }
+    single { tv.own.owntv.core.player.AudioOnlyStore(androidContext(), get()) }
     // Per-item zoom/volume the player remembers (playbackPrefsDao, settings).
-    single { tv.own.owntv.core.player.PlaybackPrefsStore(get(), get()) }
+    single { tv.own.owntv.core.player.PlaybackPrefsStore(dao = get(), settings = get(), quirks = get()) }
     single { tv.own.owntv.core.player.ExternalPlayerLauncher(androidContext()) }
     // store, sourceDao, epgRepository
     single { tv.own.owntv.core.epg.EpgMigration(get(), get(), get()) }
@@ -128,7 +128,7 @@ val dataModule = module {
     single { tv.own.owntv.core.subtitles.SubtitleRepository(androidContext(), get(), get(), get(), get()) }
     single { WeatherRepository(get(), get()) }
     // Per-item VOD engine pins made with the player's gear toggle (VOD counterpart of ForceMpvStore).
-    single { tv.own.owntv.core.player.VodEngineStore(androidContext()) }
+    single { tv.own.owntv.core.player.VodEngineStore(androidContext(), get()) }
     // Remote (companion) add-source LAN server — one shared instance for Setup + Settings.
     single { tv.own.owntv.core.companion.CompanionController(androidContext(), get()) }
     // Local sync between two OwnTV devices on the same Wi-Fi (Plan 4 Phase 12). The payload is a
@@ -166,7 +166,7 @@ val dataModule = module {
     // the delete in the same transaction. db, favoriteDao, historyDao, progressDao, customCategoryDao, userData
     single { tv.own.owntv.core.backup.UserDataWriter(get(), get(), get(), get(), get(), get()) }
     // sourceDao, syncManager, userDataResolver, channelDao, movieDao, seriesDao, categoryDao
-    single { SourceRepository(get(), get(), get(), get(), get(), get(), get()) }
+    single { SourceRepository(get(), get(), get(), get(), get(), get(), get(), playbackQuirkDao = get(), playbackPrefsDao = get()) }
     // settings, sourceRepository, channelDao, movieDao, seriesDao
     single { tv.own.owntv.core.nav.NavVisibility(get(), get(), get(), get(), get()) }
     single {

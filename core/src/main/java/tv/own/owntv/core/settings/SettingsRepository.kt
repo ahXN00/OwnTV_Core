@@ -986,6 +986,10 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         CatchupTimezone.MANUAL -> java.util.SimpleTimeZone(catchupOffsetMinutes.first() * 60_000, "catchup")
     }
 
+    /** [resolveCatchupTimeZone] with [source]'s own choice winning when it has one (v44). */
+    suspend fun resolveCatchupTimeZone(source: tv.own.owntv.core.database.entity.SourceEntity?): java.util.TimeZone =
+        SourceOverrides.catchupTimeZoneOf(source) ?: resolveCatchupTimeZone()
+
     /** Automatically check GitHub Releases for a newer version shortly after launch. */
     val updateCheckOnStart: Flow<Boolean> = prefsFlow { it[Keys.UPDATE_CHECK_ON_START] ?: true }
 

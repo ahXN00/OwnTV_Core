@@ -261,6 +261,7 @@
     <string name="settings_ui_zoom_description">Skala hela gränssnittet</string>
     <string name="settings_animations">Animationer</string>
     <string name="settings_animations_description">Slå på eller av rörelser i gränssnittet — avstängt känns snabbare på enklare tv-boxar</string>
+    <string name="settings_animations_description_mobile">Slå på eller av rörelser i gränssnittet — avstängt känns snabbare på äldre telefoner och surfplattor</string>
     <string name="settings_weather_description_root">Väderchip i det övre fältet: visa eller dölj, anpassad plats samt Celsius / Fahrenheit.</string>
     <string name="settings_playback_group">Uppspelning</string>
     <string name="settings_live_preview_description">Spela automatiskt upp en kanal när du fokuserar den</string>
@@ -269,10 +270,13 @@
     <string name="settings_mini_player_root">Minispelare</string>
     <string name="settings_mini_player_root_description">Den dockade minispelarens storlek och position</string>
     <string name="settings_hdr_description">Använd HDR-utdata när videon och tv:n stöder det</string>
+    <string name="settings_hdr_description_mobile">Använd HDR-utdata när videon och skärmen stöder det</string>
     <string name="settings_auto_frame_rate">Automatisk bildfrekvens</string>
     <string name="settings_auto_frame_rate_description">Matcha tv:ns uppdateringsfrekvens med videon (24/25/50/60 bildrutor/s) i helskärm för live-tv och VOD och återställ den vid avslut. Stäng av om tv:n eller mottagaren genomför en ny HDMI-handskakning med störande ljud vid varje kanalbyte.</string>
+    <string name="settings_auto_frame_rate_description_mobile">Matcha skärmens uppdateringsfrekvens med videon (24/25/50/60 bildrutor/s) i helskärm för live-tv och VOD och återställ den vid avslut. Stäng av om skärmen flimrar eller blir mörk när en video startar.</string>
     <string name="settings_surround_sound">Surroundljud</string>
     <string name="settings_surround_description">Avkoda Dolby/DTS till surroundljud (5.1/7.1) för en riktig 5.1/7.1-mottagare. Låt vara AV för tv-högtalare eller en soundbar med stereo — flerkanalsljud kan göra att ljudet hamnar efter bilden på vissa tv-apparater/soundbar-högtalare. Om synkroniseringen glider justerar du Spelarens ljudmeny → A/V-synkronisering.</string>
+    <string name="settings_surround_description_mobile">Avkoda Dolby/DTS till surroundljud (5.1/7.1) för en riktig 5.1/7.1-mottagare som är ansluten till den här enheten. Låt vara AV för den inbyggda högtalaren, hörlurar eller en soundbar med stereo — flerkanalsljud kan göra att ljudet hamnar efter bilden. Om synkroniseringen glider justerar du Spelarens ljudmeny → A/V-synkronisering.</string>
     <string name="settings_autoplay_next">Spela upp nästa avsnitt automatiskt</string>
     <string name="settings_autoplay_next_description">Starta nästa avsnitt automatiskt när ett avsnitt tar slut — och fortsätt till nästa säsong. Tv-arkiv fortsätter också till nästa program.</string>
     <string name="settings_catchup">Tv-arkiv</string>
@@ -474,6 +478,7 @@
     <string name="settings_decoding">Avkodning</string>
     <string name="settings_hardware_decoding">Maskinvaruavkodning</string>
     <string name="settings_hardware_decoding_description">Använd tv:ns maskinvaruavkodare. Stäng av om vissa strömmar hackar eller visar bildfel.</string>
+    <string name="settings_hardware_decoding_description_mobile">Använd enhetens maskinvaruavkodare. Stäng av om vissa strömmar hackar eller visar bildfel.</string>
     <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
     <string name="settings_deinterlace">Avflätning</string>
     <!-- Translators: Description of the deinterlacing setting. -->
@@ -558,9 +563,11 @@
     <string name="settings_live_latency_bitrate_note">På en kanal med mycket hög bithastighet – särskilt 4K – kan bufferten rymma kortare tid än du har angett, eftersom det finns en gräns för hur mycket video som kan hållas i minnet samtidigt.</string>
     <string name="settings_channel_numbers">Kanalnummer</string>
     <string name="settings_channel_numbers_description">Visa leverantörens kanalnummer bredvid namnet i listan för live-tv, kanallistans överlägg och spelaren – och skriv ett nummer på fjärrkontrollen under uppspelning i helskärm för att gå direkt till den kanalen (OK byter kanal direkt, Tillbaka avbryter). När detta är av döljs alla nummer och sifferknapparna ignoreras. Ingenting går förlorat, och numren återställs när du slår på detta igen.</string>
+    <string name="settings_channel_numbers_description_mobile">Visa leverantörens kanalnummer bredvid namnet i listan för live-tv och i spelaren. När detta är av döljs alla nummer. Ingenting går förlorat, och numren återställs när du slår på detta igen.</string>
     <string name="settings_diagnostics">Diagnostik</string>
     <string name="settings_measured_stats">Uppmätt strömningsstatistik</string>
     <string name="settings_measured_stats_description">Visa bildfrekvens i realtid, bithastighet och tappade bildrutor i överlägget med strömningsinformation (mäts medan överlägget är öppet för strömmar som inte anger dessa värden). Stäng endast av detta om en enklare tv hackar – det påverkar aldrig själva videon, bara diagnostikvärdena.</string>
+    <string name="settings_measured_stats_description_mobile">Visa bildfrekvens i realtid, bithastighet och tappade bildrutor i överlägget med strömningsinformation (mäts medan överlägget är öppet för strömmar som inte anger dessa värden). Stäng endast av detta om en enklare enhet hackar – det påverkar aldrig själva videon, bara diagnostikvärdena.</string>
     <string name="settings_none_auto">Ingen/automatiskt</string>
     <string name="settings_view_grid">Rutnät</string>
     <string name="settings_view_list">Lista</string>
@@ -582,7 +589,9 @@
     <string name="settings_external_player_description">Välj vilka avsnitt som ska öppnas i en extern app.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_movies_player_description">mpv (rekommenderas) har bredast formatstöd — DTS/TrueHD-ljud, ovanliga filer — plus korrigeringen av A/V-synkroniseringen. På vissa tv-apparater spelar ExoPlayer upp strömmar som mpv inte klarar, men den avkodar inte DTS/TrueHD-ljud och saknar A/V-korrigering. De kombinerade alternativen provar automatiskt den andra spelaren när den första misslyckas; alternativen med bara en spelare gör det aldrig, vilket sparar några sekunders svart skärm om den andra spelaren ändå inte fungerar på din tv.</string>
+    <string name="settings_movies_player_description_mobile">mpv (rekommenderas) har bredast formatstöd — DTS/TrueHD-ljud, ovanliga filer — plus korrigeringen av A/V-synkroniseringen. På vissa enheter spelar ExoPlayer upp strömmar som mpv inte klarar, men den avkodar inte DTS/TrueHD-ljud och saknar A/V-korrigering. De kombinerade alternativen provar automatiskt den andra spelaren när den första misslyckas; alternativen med bara en spelare gör det aldrig, vilket sparar några sekunders svart skärm om den andra spelaren ändå inte fungerar på din enhet.</string>
     <string name="settings_live_player_description">ExoPlayer (rekommenderas) öppnar kanaler betydligt snabbare och är den enda med undertexter i direktsändning. mpv spelar upp kanaler som ExoPlayer inte klarar, bland annat några med ovanligt ljud. De kombinerade alternativen provar automatiskt den andra spelaren när den första misslyckas; alternativen med bara en spelare gör det aldrig, vilket sparar några sekunders svart skärm om den andra spelaren ändå inte fungerar på din tv. En kanal som du växlar för hand i spelaren behåller ditt val i båda fallen.</string>
+    <string name="settings_live_player_description_mobile">ExoPlayer (rekommenderas) öppnar kanaler betydligt snabbare och är den enda med undertexter i direktsändning. mpv spelar upp kanaler som ExoPlayer inte klarar, bland annat några med ovanligt ljud. De kombinerade alternativen provar automatiskt den andra spelaren när den första misslyckas; alternativen med bara en spelare gör det aldrig, vilket sparar några sekunders svart skärm om den andra spelaren ändå inte fungerar på din enhet. En kanal som du växlar för hand i spelaren behåller ditt val i båda fallen.</string>
     <string name="settings_reset_player_choices_description">När du växlar en enskild film eller ett avsnitt mellan mpv och ExoPlayer i spelaren sparas det valet till nästa gång. Återställning gör att allt följer inställningen ovan igen. Sparade val för livekanaler behålls.</string>
     <string name="settings_reset_player_choices_none">Inga sparade</string>
     <plurals name="settings_reset_player_choices_count">
@@ -633,6 +642,7 @@
     <string name="settings_ui_zoom_range">Skala hela gränssnittet (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
     <string name="settings_low_zoom_warning_title">⚠️ Varning för låg zoom</string>
     <string name="settings_low_zoom_warning"><xliff:g id="zoom">%1$d</xliff:g>%% zoom visar många fler objekt på skärmen samtidigt. På enheter med begränsat minne (till exempel tv-stickor med 2 GB) kan detta göra appen instabil eller få den att krascha, särskilt med stora spellistor och mycket EPG-data.\n\nTryck på OK för att fortsätta eller på Tillbaka för att stanna på <xliff:g id="safe_zoom">%2$d</xliff:g>%%.</string>
+    <string name="settings_low_zoom_warning_mobile"><xliff:g id="zoom">%1$d</xliff:g>%% zoom visar många fler objekt på skärmen samtidigt. På enheter med begränsat minne kan detta göra appen instabil eller få den att krascha, särskilt med stora spellistor och mycket EPG-data.\n\nVälj Avbryt för att stanna på <xliff:g id="safe_zoom">%2$d</xliff:g>%%.</string>
     <string name="settings_low_zoom_accept">Jag förstår och accepterar risken</string>
     <string name="settings_surface_transparency"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="settings_surface_count_all">Ytor: Alla</string>
@@ -1085,13 +1095,21 @@
     <string name="settings_live_latency_per_playlist">Livefördröjning per spellista</string>
     <!-- Translators: Description of the per-playlist Live latency override row. -->
     <string name="settings_live_latency_per_playlist_description">Åsidosätt inställningen ovan för en spellista — för en leverantör som behöver en större eller mindre buffert än de andra.</string>
+    <string name="settings_catchup_timezone_per_playlist">Tidszon för catch-up per spellista</string>
+    <string name="settings_catchup_timezone_per_playlist_description">Åsidosätt tidszonen ovan för en spellista – för en leverantör vars arkiv går efter en annan klocka.</string>
+    <string name="settings_vod_engine_per_playlist">Spelare för filmer och serier per spellista</string>
+    <string name="settings_vod_engine_per_playlist_description">Åsidosätt inställningen ovan för en spellista – för en leverantör vars filmer och avsnitt bara en av spelarna hanterar bra.</string>
+    <string name="settings_live_tune_timeout_per_playlist">Ge upp efter, per spellista</string>
+    <string name="settings_live_tune_timeout_per_playlist_description">Åsidosätt inställningen ovan för en spellista – för en leverantör vars kanaler startar långsamt eller ofta är döda.</string>
     <plurals name="settings_live_preroll_overrides">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> uppsättning</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> uppsättningar</item>
     </plurals>
     <string name="settings_surround_stereo">Endast stereo</string>
     <string name="settings_surround_auto_description">Auto – prova Dolby/DTS-surround och växla automatiskt tillbaka till stereo om TV:n eller soundbaren inte spelar det. Rekommenderas.</string>
+    <string name="settings_surround_auto_description_mobile">Auto – prova Dolby/DTS-surround och växla automatiskt tillbaka till stereo om högtalaren, hörlurarna eller den anslutna mottagaren inte spelar det. Rekommenderas.</string>
     <string name="settings_surround_stereo_description">Endast stereo – avkoda alltid i appen och skicka vanligt 2.0-ljud. Använd detta på TV-högtalare eller en stereo-soundbar, eller om ljudet ligger efter bilden.</string>
+    <string name="settings_surround_stereo_description_mobile">Endast stereo – avkoda alltid i appen och skicka vanligt 2.0-ljud. Använd detta för den inbyggda högtalaren, hörlurar eller en stereo-soundbar, eller om ljudet ligger efter bilden.</string>
     <string name="settings_surround_forced_description">Surround – skicka Dolby/DTS till en riktig 5.1/7.1-mottagare. Om det blir tyst eller hackar faller OwnTV ändå tillbaka till stereo och meddelar dig.</string>
     <string name="settings_panel_width">Panelbreddsjustering</string>
     <string name="settings_panel_width_description">Ändra storlek på panelerna för kategori, lista och förhandsvisning i Live-TV, Filmer och Serier.</string>
@@ -1144,7 +1162,9 @@
     <string name="settings_language_contribution_copy_failed">Länken kunde inte kopieras. Läs eller skriv webbadressen ovan.</string>
     <string name="settings_auto_frame_rate_warning_suffix">Rekommenderas inte på den här TV:n: på Android-versioner lägre än 12 kan bildfrekvensen inte ändras smidigt.</string>
     <string name="settings_auto_frame_rate_warning_title">Rekommenderas inte på den här TV:n</string>
+    <string name="settings_auto_frame_rate_warning_title_mobile">Rekommenderas inte på den här enheten</string>
     <string name="settings_auto_frame_rate_warning_description">Den här enheten kör Android <xliff:g id="android_version">%1$s</xliff:g>. På Android-versioner lägre än 12 kan TV:n inte tala om för OwnTV vilka uppdateringsfrekvenser den kan växla till smidigt, så kan en ändring av bildfrekvensen göra att skärmen blir svart i en eller två sekunder — ibland mer än en gång under ett program.\n\nVi rekommenderar att du låter automatisk bildfrekvens vara av här. Om din TV växlar utan problem kan du slå på den och se: du kan när som helst ändra tillbaka.</string>
+    <string name="settings_auto_frame_rate_warning_description_mobile">Den här enheten kör Android <xliff:g id="android_version">%1$s</xliff:g>. På Android-versioner lägre än 12 kan enheten inte tala om för OwnTV vilka uppdateringsfrekvenser den kan växla till smidigt, så kan en ändring av bildfrekvensen göra att skärmen blir svart i en eller två sekunder — ibland mer än en gång under ett program.\n\nVi rekommenderar att du låter automatisk bildfrekvens vara av här. Om din skärm växlar utan problem kan du slå på den och se: du kan när som helst ändra tillbaka.</string>
     <string name="settings_auto_frame_rate_keep_off">Behåll av</string>
     <string name="settings_auto_frame_rate_turn_on_anyway">Slå på ändå</string>
     <string name="settings_language_request_workflow">Vill du lägga till ett språk som inte är listat? Öppna en språkförfrågan först. En underhållare registrerar det och förbereder basöversättningsfilerna; när det dyker upp på Hosted Weblate kan du börja bidra.</string>

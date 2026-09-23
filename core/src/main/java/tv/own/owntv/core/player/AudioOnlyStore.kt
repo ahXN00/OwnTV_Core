@@ -7,6 +7,8 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
@@ -23,20 +25,43 @@ private val Context.audioOnlyStore: DataStore<Preferences> by preferencesDataSto
  *
  * Honoured only while the "Remember per channel" setting is on; the store keeps its entries when that
  * is switched off so turning it back on restores what the user had taught it.
+ *
+ * Since v44 stored in `playback_quirks`, shared by every profile and deleted with its playlist; the old
+ * DataStore file is copied in once. Now in backups too, with the other per-item quirks.
  */
-class AudioOnlyStore(private val context: Context) {
+class AudioOnlyStore(
+    private val context: Context,
+    private val dao: tv.own.owntv.core.database.dao.PlaybackQuirkDao,
+) {
+    // The pre-v44 DataStore key. Read once, by [copy], and never written again.
     private val key = stringSetPreferencesKey("keys")
+    private val movedKey = androidx.datastore.preferences.core.booleanPreferencesKey("moved_to_db_v44")
 
-    val keys: Flow<Set<String>> = context.audioOnlyStore.data.map { it[key] ?: emptySet() }
+    private val copy = CopyOnce(
+        isDone = { context.audioOnlyStore.data.first()[movedKey] == true },
+        markDone = { context.audioOnlyStore.edit { it[movedKey] = true } },
+        copy = {
+            (context.audioOnlyStore.data.first()[key] ?: emptySet()).forEach { write(it, true) }
+        },
+    )
+
+    val keys: Flow<Set<String>> = flow {
+        copy.ensure()
+        emitAll(dao.observeAudioOnly().map { it.toSet() })
+    }
 
     /** Was this item last watched without a picture? */
-    suspend fun isAudioOnly(pinKey: String): Boolean = keys.first().contains(pinKey)
+    suspend fun isAudioOnly(pinKey: String): Boolean {
+        copy.ensure()
+        return dao.get(pinKey)?.audioOnly == true
+    }
 
     /** Record — or clear — the sound-only choice for one item. */
     suspend fun set(pinKey: String, audioOnly: Boolean) {
-        context.audioOnlyStore.edit { prefs ->
-            val current = prefs[key] ?: emptySet()
-            prefs[key] = if (audioOnly) current + pinKey else current - pinKey
-        }
+        copy.ensure()
+        write(pinKey, audioOnly)
     }
+
+    private suspend fun write(pinKey: String, audioOnly: Boolean) =
+        dao.setAudioOnly(pinKey, sourceIdOfPinKey(pinKey), mediaTypeOfPinKey(pinKey) ?: "LIVE", audioOnly)
 }

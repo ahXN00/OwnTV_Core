@@ -438,7 +438,7 @@ class LiveArchiveUrls(
                         .getOrNull()
                 }
             } else {
-                tv.own.owntv.core.epg.CatchupUrl.forSource(ch, programme, source, settings.resolveCatchupTimeZone(), xtreamClient)
+                tv.own.owntv.core.epg.CatchupUrl.forSource(ch, programme, source, settings.resolveCatchupTimeZone(source), xtreamClient)
             }
         }
 

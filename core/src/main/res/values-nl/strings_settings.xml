@@ -261,6 +261,7 @@
     <string name="settings_ui_zoom_description">Schaal de volledige interface</string>
     <string name="settings_animations">Animaties</string>
     <string name="settings_animations_description">Schakel beweging in de interface in of uit — Uit voelt sneller aan op minder krachtige tv-boxen</string>
+    <string name="settings_animations_description_mobile">Schakel beweging in de interface in of uit — Uit voelt sneller aan op oudere telefoons en tablets</string>
     <string name="settings_weather_description_root">Weerchip in de bovenbalk: tonen of verbergen, aangepaste locatie en Celsius / Fahrenheit.</string>
     <string name="settings_playback_group">Afspelen</string>
     <string name="settings_live_preview_description">Speel automatisch een zender af wanneer je deze focust</string>
@@ -269,10 +270,13 @@
     <string name="settings_mini_player_root">Minispeler</string>
     <string name="settings_mini_player_root_description">Grootte en positie van de vastgezette minispeler</string>
     <string name="settings_hdr_description">Gebruik HDR-uitvoer wanneer de video en tv dit ondersteunen</string>
+    <string name="settings_hdr_description_mobile">Gebruik HDR-uitvoer wanneer de video en het scherm dit ondersteunen</string>
     <string name="settings_auto_frame_rate">Automatische beeldfrequentie</string>
     <string name="settings_auto_frame_rate_description">Stem in volledig scherm de vernieuwingsfrequentie van de tv af op de video (24/25/50/60 fps), voor live-tv en VOD, en herstel deze bij afsluiten. Schakel dit uit als je tv of ontvanger bij elke zenderwissel de HDMI-verbinding hoorbaar opnieuw opbouwt.</string>
+    <string name="settings_auto_frame_rate_description_mobile">Stem in volledig scherm de vernieuwingsfrequentie van het scherm af op de video (24/25/50/60 fps), voor live-tv en VOD, en herstel deze bij afsluiten. Schakel dit uit als het scherm flikkert of zwart wordt wanneer een video start.</string>
     <string name="settings_surround_sound">Surroundsound</string>
     <string name="settings_surround_description">Decodeer Dolby/DTS naar surround (5.1/7.1) voor een echte 5.1/7.1-ontvanger. Laat dit UIT voor tv-luidsprekers of een stereosoundbar — meerkanaalsaudio kan op sommige tv\'s/soundbars achterlopen op het beeld. Als het geluid wegdrijft, pas je dit licht aan via het menu Audio van de speler → A/V-synchronisatie.</string>
+    <string name="settings_surround_description_mobile">Decodeer Dolby/DTS naar surround (5.1/7.1) voor een echte 5.1/7.1-ontvanger die op dit apparaat is aangesloten. Laat dit UIT voor de ingebouwde luidspreker, een koptelefoon of een stereosoundbar — meerkanaalsaudio kan achterlopen op het beeld. Als het geluid wegdrijft, pas je dit licht aan via het menu Audio van de speler → A/V-synchronisatie.</string>
     <string name="settings_autoplay_next">Volgende aflevering automatisch afspelen</string>
     <string name="settings_autoplay_next_description">Wanneer een aflevering eindigt, wordt automatisch de volgende gestart — en daarna het volgende seizoen. Ook terugkijken gaat door naar het volgende programma.</string>
     <string name="settings_catchup">Terugkijken</string>
@@ -474,6 +478,7 @@
     <string name="settings_decoding">Decodering</string>
     <string name="settings_hardware_decoding">Hardwaredecodering</string>
     <string name="settings_hardware_decoding_description">Gebruik de hardwaredecoder van de tv. Schakel dit uit als sommige streams haperen of beeldfouten vertonen.</string>
+    <string name="settings_hardware_decoding_description_mobile">Gebruik de hardwaredecoder van het apparaat. Schakel dit uit als sommige streams haperen of beeldfouten vertonen.</string>
     <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
     <string name="settings_deinterlace">Deïnterlacen</string>
     <!-- Translators: Description of the deinterlacing setting. -->
@@ -558,9 +563,11 @@
     <string name="settings_live_latency_bitrate_note">Bij een kanaal met een zeer hoge bitrate — vooral in 4K — kan de buffer minder tijd bevatten dan je hebt ingesteld, omdat er een limiet zit op hoeveel video tegelijk in het geheugen past.</string>
     <string name="settings_channel_numbers">Zendernummers</string>
     <string name="settings_channel_numbers_description">Toon het zendernummer van uw aanbieder naast de naam in de live-tv-lijst, de overlay met de zenderlijst en de speler. U kunt tijdens afspelen op volledig scherm ook een nummer invoeren met de afstandsbediening om direct naar die zender te gaan (OK schakelt meteen over, Terug annuleert). Als dit uitstaat, worden alle nummers verborgen en de cijfertoetsen genegeerd; er gaat niets verloren en als u dit weer aanzet, worden ze hersteld.</string>
+    <string name="settings_channel_numbers_description_mobile">Toon het zendernummer van uw aanbieder naast de naam in de live-tv-lijst en de speler. Als dit uitstaat, worden alle nummers verborgen; er gaat niets verloren en als u dit weer aanzet, worden ze hersteld.</string>
     <string name="settings_diagnostics">Diagnostiek</string>
     <string name="settings_measured_stats">Gemeten streamstatistieken</string>
     <string name="settings_measured_stats_description">Toon live de fps, bitsnelheid en overgeslagen frames in de overlay met streaminformatie (gemeten terwijl de overlay geopend is, voor streams die deze waarden niet opgeven). Schakel dit alleen uit als een minder krachtige tv hapert — het heeft nooit invloed op de video zelf, alleen op de diagnostische waarden.</string>
+    <string name="settings_measured_stats_description_mobile">Toon live de fps, bitsnelheid en overgeslagen frames in de overlay met streaminformatie (gemeten terwijl de overlay geopend is, voor streams die deze waarden niet opgeven). Schakel dit alleen uit als een minder krachtig apparaat hapert — het heeft nooit invloed op de video zelf, alleen op de diagnostische waarden.</string>
     <string name="settings_none_auto">Geen / Automatisch</string>
     <string name="settings_view_grid">Raster</string>
     <string name="settings_view_list">Lijst</string>
@@ -582,7 +589,9 @@
     <string name="settings_external_player_description">Kies welke onderdelen in een externe app worden geopend.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_movies_player_description">mpv (aanbevolen) ondersteunt de meeste formaten — DTS/TrueHD-audio, ongebruikelijke bestanden — plus de correctie van de A/V-synchronisatie. Op sommige tv’s speelt ExoPlayer streams af die mpv niet aankan, maar het decodeert geen DTS/TrueHD-audio en heeft geen A/V-correctie. De gecombineerde opties proberen automatisch de andere speler zodra de eerste faalt; de opties met één speler doen dat nooit, wat een paar seconden zwart beeld scheelt als de tweede speler op jouw tv toch niet werkt.</string>
+    <string name="settings_movies_player_description_mobile">mpv (aanbevolen) ondersteunt de meeste formaten — DTS/TrueHD-audio, ongebruikelijke bestanden — plus de correctie van de A/V-synchronisatie. Op sommige apparaten speelt ExoPlayer streams af die mpv niet aankan, maar het decodeert geen DTS/TrueHD-audio en heeft geen A/V-correctie. De gecombineerde opties proberen automatisch de andere speler zodra de eerste faalt; de opties met één speler doen dat nooit, wat een paar seconden zwart beeld scheelt als de tweede speler op jouw apparaat toch niet werkt.</string>
     <string name="settings_live_player_description">ExoPlayer (aanbevolen) opent zenders veel sneller en is de enige met ondertiteling bij live-tv. mpv speelt zenders af die ExoPlayer niet aankan, waaronder een aantal met ongebruikelijke audio. De gecombineerde opties proberen automatisch de andere speler zodra de eerste faalt; de opties met één speler doen dat nooit, wat een paar seconden zwart beeld scheelt als de tweede speler op jouw tv toch niet werkt. Bij een zender die je in de speler handmatig omschakelt, blijft je keuze in beide gevallen bewaard.</string>
+    <string name="settings_live_player_description_mobile">ExoPlayer (aanbevolen) opent zenders veel sneller en is de enige met ondertiteling bij live-tv. mpv speelt zenders af die ExoPlayer niet aankan, waaronder een aantal met ongebruikelijke audio. De gecombineerde opties proberen automatisch de andere speler zodra de eerste faalt; de opties met één speler doen dat nooit, wat een paar seconden zwart beeld scheelt als de tweede speler op jouw apparaat toch niet werkt. Bij een zender die je in de speler handmatig omschakelt, blijft je keuze in beide gevallen bewaard.</string>
     <string name="settings_reset_player_choices_description">Als je een afzonderlijke film of aflevering in de speler tussen mpv en ExoPlayer wisselt, wordt die keuze bewaard voor de volgende keer. Na opnieuw instellen volgt alles weer de instelling hierboven. Opgeslagen keuzes voor livekanalen blijven behouden.</string>
     <string name="settings_reset_player_choices_none">Niets opgeslagen</string>
     <plurals name="settings_reset_player_choices_count">
@@ -633,6 +642,7 @@
     <string name="settings_ui_zoom_range">Schaal de volledige interface (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
     <string name="settings_low_zoom_warning_title">⚠️ Waarschuwing voor lage zoom</string>
     <string name="settings_low_zoom_warning">Met <xliff:g id="zoom">%1$d</xliff:g>%% zoom worden veel meer items tegelijk op het scherm weergegeven. Op apparaten met beperkt geheugen (bijvoorbeeld tv-sticks met 2 GB) kan dit de app instabiel maken of laten crashen, vooral bij grote afspeellijsten en veel EPG-gegevens.\n\nDruk op OK om door te gaan of op Terug om op <xliff:g id="safe_zoom">%2$d</xliff:g>%% te blijven.</string>
+    <string name="settings_low_zoom_warning_mobile">Met <xliff:g id="zoom">%1$d</xliff:g>%% zoom worden veel meer items tegelijk op het scherm weergegeven. Op apparaten met beperkt geheugen kan dit de app instabiel maken of laten crashen, vooral bij grote afspeellijsten en veel EPG-gegevens.\n\nKies Annuleren om op <xliff:g id="safe_zoom">%2$d</xliff:g>%% te blijven.</string>
     <string name="settings_low_zoom_accept">Ik begrijp en aanvaard het risico</string>
     <string name="settings_surface_transparency"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="settings_surface_count_all">Oppervlakken: alle</string>
@@ -1085,13 +1095,21 @@
     <string name="settings_live_latency_per_playlist">Livevertraging per afspeellijst</string>
     <!-- Translators: Description of the per-playlist Live latency override row. -->
     <string name="settings_live_latency_per_playlist_description">Overschrijf de bovenstaande instelling voor één afspeellijst — voor een aanbieder die een grotere of kleinere buffer nodig heeft dan de andere.</string>
+    <string name="settings_catchup_timezone_per_playlist">Catch-up-tijdzone per playlist</string>
+    <string name="settings_catchup_timezone_per_playlist_description">Overschrijf de tijdzone hierboven voor één playlist, voor een aanbieder wiens archief op een andere klok loopt.</string>
+    <string name="settings_vod_engine_per_playlist">Speler voor films en series per playlist</string>
+    <string name="settings_vod_engine_per_playlist_description">Overschrijf de instelling hierboven voor één playlist, voor een aanbieder wiens films en afleveringen maar door één van de spelers goed worden afgespeeld.</string>
+    <string name="settings_live_tune_timeout_per_playlist">Opgeven na, per playlist</string>
+    <string name="settings_live_tune_timeout_per_playlist_description">Overschrijf de instelling hierboven voor één playlist, voor een aanbieder wiens zenders traag starten of vaak dood zijn.</string>
     <plurals name="settings_live_preroll_overrides">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> set</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> sets</item>
     </plurals>
     <string name="settings_surround_stereo">Alleen stereo</string>
     <string name="settings_surround_auto_description">Auto — probeer Dolby/DTS-surround en schakel automatisch terug naar stereo als de tv of soundbar het niet afspeelt. Aanbevolen.</string>
+    <string name="settings_surround_auto_description_mobile">Auto — probeer Dolby/DTS-surround en schakel automatisch terug naar stereo als de luidspreker, koptelefoon of aangesloten ontvanger het niet afspeelt. Aanbevolen.</string>
     <string name="settings_surround_stereo_description">Alleen stereo — decodeer altijd in de app en stuur gewoon 2.0-geluid. Gebruik dit op tv-luidsprekers of een stereo-soundbar, of als audio achterloopt op het beeld.</string>
+    <string name="settings_surround_stereo_description_mobile">Alleen stereo — decodeer altijd in de app en stuur gewoon 2.0-geluid. Gebruik dit voor de ingebouwde luidspreker, een koptelefoon of een stereo-soundbar, of als audio achterloopt op het beeld.</string>
     <string name="settings_surround_forced_description">Surround — stuur Dolby/DTS naar een echte 5.1/7.1-receiver. Als het stil wordt of hapert, valt OwnTV alsnog terug op stereo en meldt je dat.</string>
     <string name="settings_panel_width">Paneelbreedte aanpassen</string>
     <string name="settings_panel_width_description">Pas de categorie-, lijst- en voorbeeldpanelen aan in Live-tv, films en series.</string>
@@ -1144,7 +1162,9 @@
     <string name="settings_language_contribution_copy_failed">De link kon niet worden gekopieerd. Lees of typ de hierboven getoonde URL.</string>
     <string name="settings_auto_frame_rate_warning_suffix">Niet aanbevolen op deze tv: onder Android 12 kan de framesnelheid niet soepel worden gewijzigd.</string>
     <string name="settings_auto_frame_rate_warning_title">Niet aanbevolen op deze tv</string>
+    <string name="settings_auto_frame_rate_warning_title_mobile">Niet aanbevolen op dit apparaat</string>
     <string name="settings_auto_frame_rate_warning_description">Dit apparaat draait op Android <xliff:g id="android_version">%1$s</xliff:g>. Onder Android 12 kan de tv OwnTV niet vertellen naar welke verversingsfrequenties hij soepel kan overschakelen, dus het wijzigen van de frequentie kan het scherm een seconde of twee zwart maken — soms meerdere keren tijdens een programma.\n\nWe raden aan om Automatische framesnelheid hier uit te laten staan. Als je tv probleemloos overschakelt, zet je hem aan en kijk je: je kunt hem op elk moment weer uitzetten.</string>
+    <string name="settings_auto_frame_rate_warning_description_mobile">Dit apparaat draait op Android <xliff:g id="android_version">%1$s</xliff:g>. Onder Android 12 kan het apparaat OwnTV niet vertellen naar welke verversingsfrequenties het soepel kan overschakelen, dus het wijzigen van de frequentie kan het scherm een seconde of twee zwart maken — soms meerdere keren tijdens een programma.\n\nWe raden aan om Automatische framesnelheid hier uit te laten staan. Als je scherm probleemloos overschakelt, zet je hem aan en kijk je: je kunt hem op elk moment weer uitzetten.</string>
     <string name="settings_auto_frame_rate_keep_off">Uit laten staan</string>
     <string name="settings_auto_frame_rate_turn_on_anyway">Toch inschakelen</string>
     <string name="settings_language_request_workflow">Wil je een taal toevoegen die niet in de lijst staat? Dien dan eerst een taalverzoek in. Een beheerder registreert de taal en bereidt de basisvertalingsbestanden voor; zodra deze op Hosted Weblate verschijnt, kun je beginnen met bijdragen.</string>

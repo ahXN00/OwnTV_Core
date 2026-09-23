@@ -62,6 +62,7 @@
 1	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	.bak
 1	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	.tmp
 1	log	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	BackupManager
+2	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	LIVE
 1	protocol	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	LOCAL
 1	protocol	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	MOVIE
 1	log	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	Profile picture restore failed: ${it.message}
@@ -69,8 +70,9 @@
 1	log	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	Restore start file=${file.name} sections=${sections.joinToString(",") { it.name }}
 1	log	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	Restore: skipping source '${o.optString("name")}' — unknown type '${o.optString("type")}'
 1	log	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	Wallpaper restore failed: ${it.message}
-2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	a
+4	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	a
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	activeProfileId
+2	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	al
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	avatarColor
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	avatarFile
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	avatarId
@@ -79,6 +81,8 @@
 1	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	backup_invalid
 5	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	c
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	cache
+3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	catchupOffsetMin
+3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	catchupTimezone
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	compatMode
 4	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	createdAt
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	crypto
@@ -86,6 +90,7 @@
 1	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	cust_${pid}_${body.substringAfter('_')}
 4	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	customizations
 4	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	customizePins
+5	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	d
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	defaultSourceId
 4	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	device
 1	log	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	encrypted=${crypto != null} key=${key != null} profiles=${fileProfiles.length()} sources=${fileSources.length()}
@@ -102,11 +107,12 @@
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	his
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	hlsSupported
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	homeConfigs
+3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	httpReferer
 7	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	id
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	importPortalEpg
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	isKids
 1	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	json
-6	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	k
+8	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	k
 4	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	kind
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	language
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	languageName
@@ -119,6 +125,7 @@
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	liveLatencyMode
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	liveMpvUrls
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	livePrerollSecs
+3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	liveTuneTimeoutSecs
 1	protocol	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	local:
 4	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	mac
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	maxConnections
@@ -139,6 +146,7 @@
 4	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	pinHash
 1	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	pinLocked
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	playbackPrefs
+2	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	playbackQuirks
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	playlistAutoRefresh
 1	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	png
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	preferHls
@@ -153,6 +161,7 @@
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	selections
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	session
 8	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	settings
+3	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	sl
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	sort
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	source
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	sourceId
@@ -168,7 +177,7 @@
 4	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	syncLive
 4	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	syncMovies
 4	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	syncSeries
-2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	t
+4	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	t
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	timings
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	tmdbOverrides
 4	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	tmdb_key_enc
@@ -181,6 +190,7 @@
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	username
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	v
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	version
+3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	vodEnginePreference
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	vodExoUrls
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	vodMpvUrls
 1	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	wallpaper
@@ -480,7 +490,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/BulkInsertHelper.kt	movies_fts
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/BulkInsertHelper.kt	room_fts_content_sync_${it}_AFTER_INSERT
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/BulkInsertHelper.kt	series_fts
-16	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	)
+17	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	?
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `$table` ADD COLUMN `advertisedCapabilities` TEXT
@@ -509,10 +519,14 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `metadata_cache` ADD COLUMN `trailerKey` TEXT
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `movies` ADD COLUMN `contentHash` INTEGER NOT NULL DEFAULT 0
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `movies` ADD COLUMN `httpHeaders` TEXT
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `playback_prefs` ADD COLUMN `audioLang` TEXT
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `playback_prefs` ADD COLUMN `sourceId` INTEGER NOT NULL DEFAULT -1
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `playback_prefs` ADD COLUMN `subtitleLang` TEXT
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `profiles` ADD COLUMN `avatarPath` TEXT
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `series` ADD COLUMN `addedAt` INTEGER
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `series` ADD COLUMN `contentHash` INTEGER NOT NULL DEFAULT 0
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `series` ADD COLUMN `episodesSyncedAt` INTEGER NOT NULL DEFAULT 0
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `sources` ADD COLUMN `$column` $type
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `sources` ADD COLUMN `importPortalEpg` INTEGER NOT NULL DEFAULT 1
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `sources` ADD COLUMN `livePrerollSecs` INTEGER NOT NULL DEFAULT -1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `sources` ADD COLUMN `mac` TEXT
@@ -566,6 +580,8 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_movies_sourceId_titleSignature_parsedYear` ON `movies` (`sourceId`, `titleSignature`, `parsedYear`)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_movies_sourceId` ON `movies` (`sourceId`)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_playback_prefs_profileId` ON `playback_prefs` (`profileId`)
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_playback_prefs_sourceId` ON `playback_prefs` (`sourceId`)
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_playback_quirks_sourceId` ON `playback_quirks` (`sourceId`)
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_recording_rules_profileId` ON `recording_rules` (`profileId`)
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_recordings_profileId` ON `recordings` (`profileId`)
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_recordings_ruleId` ON `recordings` (`ruleId`)
@@ -604,6 +620,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `metadata_cache` (
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `metadata_match` (
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `playback_prefs` (
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `playback_quirks` (
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `recording_rules` (
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `recordings` (
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `series_sort_order` (
@@ -643,6 +660,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	FOREIGN KEY(`sourceId`) REFERENCES `trending_snapshots`(`sourceId`) ON UPDATE NO ACTION ON DELETE CASCADE
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	IF NOT EXISTS `
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	INSERT INTO `$name`(`$name`) VALUES('rebuild')
+2	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	INTEGER
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ON UPDATE NO ACTION ON DELETE CASCADE )
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ON `$table` (`sourceId`, `titleSignature`, `parsedYear`)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ON `catalog_backfill` (`sourceId`, `mediaType`, `done`)
@@ -654,6 +672,7 @@
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ON `user_data_tombstones` (`profileId`, `kind`, `identity`)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ON\\s+`([^`]+)`\\s*\\(([^)]*)\\)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	PRAGMA table_info(`$table`)
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	PRIMARY KEY(`contentKey`)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	PRIMARY KEY(`key`)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	PRIMARY KEY(`localKey`)
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	PRIMARY KEY(`profileId`, `contentKey`),
@@ -665,6 +684,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	SELECT 1 FROM sqlite_master WHERE type='table' AND name='$name'
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	SELECT COUNT(*) FROM sqlite_master WHERE name IN ($placeholders)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	SELECT `id`, `epgChannelId`, `displayName` FROM `epg_channels`
+3	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	TEXT
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	UPDATE `epg_channels` SET `normName` = ?, `normId` = ? WHERE `id` = ?
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	UPDATE `movies` SET `addedAt` = `addedAt` * 1000
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	WHERE `addedAt` IS NOT NULL AND `addedAt` > 0 AND `addedAt` < 10000000000
@@ -672,6 +692,8 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`addedAt` INTEGER NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`advertisedCapabilities` TEXT,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`advertisedQuality` TEXT,
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`audioDelayMs` INTEGER,
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`audioOnly` INTEGER,
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`backdropPath` TEXT,
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`bytes` INTEGER NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`cacheId` INTEGER NOT NULL,
@@ -686,7 +708,7 @@
 2	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`channelId` INTEGER NOT NULL,
 2	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`channelName` TEXT NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`confidence` REAL NOT NULL,
-4	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`contentKey` TEXT NOT NULL,
+5	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`contentKey` TEXT NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`contentTitle` TEXT NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`contextKey` TEXT NOT NULL,
 2	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`createdAt` INTEGER NOT NULL,
@@ -696,6 +718,7 @@
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`durationMs` INTEGER NOT NULL,
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`enabled` INTEGER NOT NULL,
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`endedAt` INTEGER,
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`enginePin` TEXT,
 2	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`epgChannelId` TEXT,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`episodesDescending` INTEGER NOT NULL,
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`failure` TEXT NOT NULL,
@@ -724,7 +747,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`localKey` TEXT NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`localizedTitle` TEXT NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`maxPageItems` INTEGER NOT NULL,
-7	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`mediaType` TEXT NOT NULL,
+8	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`mediaType` TEXT NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`metadataLanguage` TEXT NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`nextPage` INTEGER NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`off` INTEGER NOT NULL DEFAULT 0,
@@ -749,8 +772,9 @@
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`ruleId` INTEGER,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`seasonsDescending` INTEGER NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`seriesId` INTEGER NOT NULL,
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`softwareDecode` INTEGER,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`sortBase` INTEGER NOT NULL,
-5	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`sourceId` INTEGER NOT NULL,
+6	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`sourceId` INTEGER NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`source` TEXT NOT NULL,
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`startMs` INTEGER NOT NULL,
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`startedAt` INTEGER,
@@ -768,14 +792,17 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`trailerKey` TEXT,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`trendingRank` INTEGER NOT NULL,
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`type` TEXT NOT NULL,
-6	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`updatedAt` INTEGER NOT NULL,
+7	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`updatedAt` INTEGER NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`volumeBoost` INTEGER,
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`year` INTEGER,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`zoomMode` TEXT,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	addedAt
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	audioLang
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	catchup
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	catchupDays
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	catchupOffsetMin
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	catchupSource
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	catchupTimezone
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	catchupType
 10	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	channels
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	channels_fts
@@ -788,8 +815,10 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	episodesSyncedAt
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	episodes_fts
 3	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	httpHeaders
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	httpReferer
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	iconUrl
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	livePrerollSecs
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	liveTuneTimeoutSecs
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	mac
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	manifestType
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	maxConnections
@@ -800,16 +829,20 @@
 1	log	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	normId
 1	log	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	normName
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	owntv.db
+4	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	playback_prefs
 5	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	series
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	series_fts
-16	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	sources
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	sourceId
+17	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	sources
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	stalkerDeviceId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	stalkerDeviceId2
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	stalkerSerialNumber
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	stalkerSignature
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	subtitleLang
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	syncLive
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	syncMovies
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	syncSeries
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	vodEnginePreference
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CatalogBackfillDao.kt	AND categoryRemoteId = :categoryRemoteId
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CatalogBackfillDao.kt	AND done = 0 ORDER BY sortBase ASC
 3	sql	core/src/main/java/tv/own/owntv/core/database/dao/CatalogBackfillDao.kt	AND mediaType = :mediaType AND categoryRemoteId = :categoryRemoteId
@@ -1150,12 +1183,32 @@
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	WHERE sourceId = :sourceId AND id IN
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	WHERE sourceId = :sourceId AND titleSignature IN (:titleSignatures)
 2	sql	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	titleSignature, parsedYear, providerLanguage, qualityRank, advertisedCapabilities FROM movies
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackPrefsDao.kt	AND audioLang IS NULL AND subtitleLang IS NULL
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackPrefsDao.kt	DELETE FROM playback_prefs WHERE sourceId = :sourceId
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackPrefsDao.kt	SELECT * FROM playback_prefs
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackPrefsDao.kt	SELECT * FROM playback_prefs WHERE audioDelayMs IS NOT NULL ORDER BY updatedAt ASC
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackPrefsDao.kt	SELECT * FROM playback_prefs WHERE profileId = :profileId AND contentKey = :contentKey LIMIT 1
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackPrefsDao.kt	SELECT COUNT(*) FROM playback_prefs WHERE volumeBoost IS NOT NULL
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackPrefsDao.kt	SELECT COUNT(*) FROM playback_prefs WHERE zoomMode IS NOT NULL
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackPrefsDao.kt	UPDATE playback_prefs SET sourceId = CAST(substr(contentKey, 1, instr(contentKey, ':') - 1) AS INTEGER)
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackPrefsDao.kt	UPDATE playback_prefs SET volumeBoost = NULL
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackPrefsDao.kt	UPDATE playback_prefs SET zoomMode = NULL
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackPrefsDao.kt	WHERE sourceId = -1 AND contentKey GLOB '[0-9]*:*'
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	AND audioDelayMs IS NULL AND softwareDecode IS NULL
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	DELETE FROM playback_quirks WHERE enginePin IS NULL AND audioOnly IS NULL
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	DELETE FROM playback_quirks WHERE sourceId = :sourceId
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	SELECT * FROM playback_quirks
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	SELECT * FROM playback_quirks WHERE contentKey = :contentKey LIMIT 1
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	SELECT COUNT(*) FROM playback_quirks
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	SELECT COUNT(*) FROM playback_quirks WHERE audioDelayMs IS NOT NULL
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	SELECT contentKey FROM playback_quirks WHERE audioOnly = 1
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	SELECT contentKey FROM playback_quirks WHERE enginePin = :pin AND (mediaType = 'LIVE') = :live
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	UPDATE OR IGNORE playback_quirks SET contentKey = :stableKey, sourceId = :sourceId WHERE contentKey = :legacyKey
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	UPDATE playback_quirks SET audioDelayMs = :audioDelayMs, updatedAt = :now WHERE contentKey = :contentKey
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	UPDATE playback_quirks SET audioDelayMs = NULL
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	UPDATE playback_quirks SET audioOnly = :audioOnly, updatedAt = :now WHERE contentKey = :contentKey
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	UPDATE playback_quirks SET enginePin = :pin, updatedAt = :now WHERE contentKey = :contentKey
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	UPDATE playback_quirks SET enginePin = NULL WHERE mediaType != 'LIVE'
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProfileDao.kt	DELETE FROM profiles
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProfileDao.kt	SELECT * FROM profiles ORDER BY createdAt ASC
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProfileDao.kt	SELECT * FROM profiles WHERE id = :id
@@ -1330,11 +1383,15 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	SELECT profileId FROM profile_source WHERE sourceId = :sourceId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	SELECT s.* FROM sources s
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	SELECT sourceId FROM profile_source WHERE profileId = :profileId
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET catchupTimezone = :mode, catchupOffsetMin = :offsetMin WHERE id = :id
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET hlsSupported = :hlsSupported WHERE id = :id
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET httpReferer = :referer WHERE id = :id
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET lastSyncAt = :timestamp WHERE id = :id
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET livePrerollSecs = :secs WHERE id = :id
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET liveTuneTimeoutSecs = :secs WHERE id = :id
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET maxConnections = :maxConnections WHERE id = :id
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET maxConnections = :maxConnections, maxConnectionsProbedAt = :probedAt WHERE id = :id
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET vodEnginePreference = :preference WHERE id = :id
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	WHERE ps.profileId = :profileId ORDER BY s.createdAt ASC
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SubtitleDao.kt	DELETE FROM subtitle_cache WHERE id = :id
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SubtitleDao.kt	DELETE FROM subtitle_link WHERE profileId = :profileId AND cacheId = :cacheId
@@ -1480,6 +1537,7 @@
 3	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/TvProviderEntities.kt	profileId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/TvProviderEntities.kt	surface
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/TvProviderEntities.kt	tv_provider_programs
+1	sql	core/src/main/java/tv/own/owntv/core/database/entity/UserDataEntities.kt	-1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/UserDataEntities.kt	__fav__
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/UserDataEntities.kt	contentKey
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/UserDataEntities.kt	content_order
@@ -1494,9 +1552,11 @@
 6	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/UserDataEntities.kt	mediaType
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/UserDataEntities.kt	playback_prefs
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/UserDataEntities.kt	playback_progress
+1	sql	core/src/main/java/tv/own/owntv/core/database/entity/UserDataEntities.kt	playback_quirks
 30	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/UserDataEntities.kt	profileId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/UserDataEntities.kt	seriesId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/UserDataEntities.kt	series_sort_order
+2	sql	core/src/main/java/tv/own/owntv/core/database/entity/UserDataEntities.kt	sourceId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/UserDataEntities.kt	status
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/UserDataEntities.kt	user_data_tombstones
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/UserDataEntities.kt	watch_history
@@ -2258,7 +2318,9 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	—
 1	preference-key	core/src/main/java/tv/own/owntv/core/player/ArchiveDecodeStore.kt	owntv_archive_decode
 1	preference-key	core/src/main/java/tv/own/owntv/core/player/ArchiveDecodeStore.kt	software_archive_hosts
+1	technical	core/src/main/java/tv/own/owntv/core/player/AudioOnlyStore.kt	LIVE
 1	preference-key	core/src/main/java/tv/own/owntv/core/player/AudioOnlyStore.kt	keys
+1	technical	core/src/main/java/tv/own/owntv/core/player/AudioOnlyStore.kt	moved_to_db_v44
 1	preference-key	core/src/main/java/tv/own/owntv/core/player/AudioOnlyStore.kt	owntv_audio_only
 1	technical	core/src/main/java/tv/own/owntv/core/player/EnginePinKey.kt	$sourceId:$mediaType:$it
 2	empty	core/src/main/java/tv/own/owntv/core/player/ExternalPlayerLauncher.kt	\0
@@ -2287,13 +2349,19 @@
 2	protocol	core/src/main/java/tv/own/owntv/core/player/ExternalPlayerLauncher.kt	video/*
 1	mime	core/src/main/java/tv/own/owntv/core/player/ExternalPlayerLauncher.kt	video/mp2t
 2	mime	core/src/main/java/tv/own/owntv/core/player/ExternalPlayerLauncher.kt	video/mp4
+1	technical	core/src/main/java/tv/own/owntv/core/player/ForceMpvStore.kt	EXO
+1	technical	core/src/main/java/tv/own/owntv/core/player/ForceMpvStore.kt	LIVE
+1	technical	core/src/main/java/tv/own/owntv/core/player/ForceMpvStore.kt	MPV
 1	preference-key	core/src/main/java/tv/own/owntv/core/player/ForceMpvStore.kt	exo_urls
+1	technical	core/src/main/java/tv/own/owntv/core/player/ForceMpvStore.kt	moved_to_db_v44
 1	technical	core/src/main/java/tv/own/owntv/core/player/ForceMpvStore.kt	owntv_force_mpv
 1	preference-key	core/src/main/java/tv/own/owntv/core/player/ForceMpvStore.kt	urls
 1	protocol	core/src/main/java/tv/own/owntv/core/player/ManifestType.kt	hls
 1	protocol	core/src/main/java/tv/own/owntv/core/player/ManifestType.kt	ism
 1	protocol	core/src/main/java/tv/own/owntv/core/player/ManifestType.kt	manifest_type
 1	protocol	core/src/main/java/tv/own/owntv/core/player/ManifestType.kt	mpd
+2	technical	core/src/main/java/tv/own/owntv/core/player/PlaybackPrefsStore.kt	LIVE
+1	technical	core/src/main/java/tv/own/owntv/core/player/PlaybackPrefsStore.kt	off
 1	technical	core/src/main/java/tv/own/owntv/core/player/PlayerBudget.kt	10
 1	technical	core/src/main/java/tv/own/owntv/core/player/PlayerBudget.kt	120
 1	technical	core/src/main/java/tv/own/owntv/core/player/PlayerBudget.kt	128MiB
@@ -2305,7 +2373,9 @@
 1	technical	core/src/main/java/tv/own/owntv/core/player/PlayerBudget.kt	48MiB
 2	technical	core/src/main/java/tv/own/owntv/core/player/PlayerBudget.kt	60
 1	technical	core/src/main/java/tv/own/owntv/core/player/PlayerBudget.kt	64MiB
+1	technical	core/src/main/java/tv/own/owntv/core/player/VodEngineStore.kt	MOVIE
 1	preference-key	core/src/main/java/tv/own/owntv/core/player/VodEngineStore.kt	exo_urls
+1	technical	core/src/main/java/tv/own/owntv/core/player/VodEngineStore.kt	moved_to_db_v44
 1	preference-key	core/src/main/java/tv/own/owntv/core/player/VodEngineStore.kt	mpv_urls
 1	technical	core/src/main/java/tv/own/owntv/core/player/VodEngineStore.kt	owntv_vod_engine
 1	log	core/src/main/java/tv/own/owntv/core/profile/ProfileAvatarStore.kt	ProfileAvatar
@@ -2762,12 +2832,14 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	weather_enabled
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	weather_fahrenheit
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	weather_location
+2	technical	core/src/main/java/tv/own/owntv/core/settings/SourceOverrides.kt	Referer
+1	technical	core/src/main/java/tv/own/owntv/core/settings/SourceOverrides.kt	catchup
 1	empty	core/src/main/java/tv/own/owntv/core/setup/SetupText.kt	\0
 1	protocol	core/src/main/java/tv/own/owntv/core/setup/SetupText.kt	Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG250 stbapp ver: 2 rev: 250 Safari/533.3
 1	protocol	core/src/main/java/tv/own/owntv/core/setup/SetupText.kt	Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG254 stbapp ver: 2 rev: 250 Safari/533.3
 1	protocol	core/src/main/java/tv/own/owntv/core/setup/SetupText.kt	Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG270 stbapp ver: 2 rev: 250 Safari/533.3
 1	protocol	core/src/main/java/tv/own/owntv/core/setup/SetupText.kt	Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/601.1 (KHTML, like Gecko) MAG420 stbapp ver: 4 rev: 2721 Safari/601.1
-10	empty	core/src/main/java/tv/own/owntv/core/setup/SourceImporter.kt	\0
+13	empty	core/src/main/java/tv/own/owntv/core/setup/SourceImporter.kt	\0
 1	file-path	core/src/main/java/tv/own/owntv/core/setup/SourceImporter.kt	/
 1	technical	core/src/main/java/tv/own/owntv/core/setup/SourceImporter.kt	add_remainder
 1	url	core/src/main/java/tv/own/owntv/core/setup/SourceImporter.kt	content://
@@ -4656,6 +4728,46 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleFonts.kt	Poppins
 1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleFonts.kt	monospace
 1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleFonts.kt	sans-serif
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	alb
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	arm
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	baq
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	bod
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	bur
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	ces
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	chi
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	cym
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	cze
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	deu
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	dut
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	ell
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	eus
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	fas
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	fra
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	fre
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	geo
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	ger
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	gre
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	hye
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	ice
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	isl
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	kat
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	mac
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	mao
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	may
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	mkd
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	mri
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	msa
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	mya
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	nld
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	per
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	ron
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	rum
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	slk
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	slo
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	sqi
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	tib
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	wel
+1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleLanguage.kt	zho
 2	empty	player-core/src/main/java/tv/own/owntv/player/SubtitleShift.kt	\0
 1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleShift.kt	%02d:%02d:%02d%c%03d
 1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleShift.kt	%d:%02d:%02d.%02d

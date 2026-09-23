@@ -263,6 +263,7 @@
     <string name="settings_ui_zoom_description">Změna velikosti celého rozhraní</string>
     <string name="settings_animations">Animace</string>
     <string name="settings_animations_description">Zapněte nebo vypněte pohyb v rozhraní — vypnutí působí svižněji na méně výkonných TV boxech</string>
+    <string name="settings_animations_description_mobile">Zapněte nebo vypněte pohyb v rozhraní — vypnutí působí svižněji na starších telefonech a tabletech</string>
     <string name="settings_weather_description_root">Štítek počasí v horní liště: zobrazení nebo skrytí, vlastní poloha a stupně Celsia či Fahrenheita.</string>
     <string name="settings_playback_group">Přehrávání</string>
     <string name="settings_live_preview_description">Automaticky přehrát kanál, když jej zaměříte</string>
@@ -271,10 +272,13 @@
     <string name="settings_mini_player_root">Minipřehrávač</string>
     <string name="settings_mini_player_root_description">Velikost a umístění ukotveného minipřehrávače</string>
     <string name="settings_hdr_description">Používat výstup HDR, pokud jej video a televizor podporují</string>
+    <string name="settings_hdr_description_mobile">Používat výstup HDR, pokud jej video a obrazovka podporují</string>
     <string name="settings_auto_frame_rate">Automatická snímková frekvence</string>
     <string name="settings_auto_frame_rate_description">Při zobrazení na celé obrazovce přizpůsobit obnovovací frekvenci televizoru videu (24/25/50/60 sn./s) pro živé vysílání i VOD a při ukončení ji obnovit. Vypněte, pokud televizor nebo přijímač při každé změně kanálu rušivě znovu navazuje spojení HDMI.</string>
+    <string name="settings_auto_frame_rate_description_mobile">Při zobrazení na celé obrazovce přizpůsobit obnovovací frekvenci obrazovky videu (24/25/50/60 sn./s) pro živé vysílání i VOD a při ukončení ji obnovit. Vypněte, pokud obrazovka při spuštění videa bliká nebo ztmavne.</string>
     <string name="settings_surround_sound">Prostorový zvuk</string>
     <string name="settings_surround_description">Dekódovat Dolby/DTS do prostorového zvuku (5.1/7.1) pro skutečný přijímač 5.1/7.1. U reproduktorů televizoru nebo stereofonního soundbaru ponechte VYPNUTO — na některých televizorech a soundbarech může vícekanálový zvuk zaostávat za obrazem. Pokud se rozchází, upravte v nabídce Zvuk přehrávače → Synchronizace A/V.</string>
+    <string name="settings_surround_description_mobile">Dekódovat Dolby/DTS do prostorového zvuku (5.1/7.1) pro skutečný přijímač 5.1/7.1 připojený k tomuto zařízení. U vestavěného reproduktoru, sluchátek nebo stereofonního soundbaru ponechte VYPNUTO — vícekanálový zvuk může zaostávat za obrazem. Pokud se rozchází, upravte v nabídce Zvuk přehrávače → Synchronizace A/V.</string>
     <string name="settings_autoplay_next">Automaticky přehrát další epizodu</string>
     <string name="settings_autoplay_next_description">Po skončení epizody automaticky spustit další — a pokračovat i do následující řady. TV archiv rovněž pokračuje na další pořad.</string>
     <string name="settings_catchup">TV archiv</string>
@@ -478,6 +482,7 @@
     <string name="settings_decoding">Dekódování</string>
     <string name="settings_hardware_decoding">Hardwarové dekódování</string>
     <string name="settings_hardware_decoding_description">Používat hardwarový dekodér televizoru. Vypněte, pokud se některé streamy sekají nebo zobrazují obrazové vady.</string>
+    <string name="settings_hardware_decoding_description_mobile">Používat hardwarový dekodér zařízení. Vypněte, pokud se některé streamy sekají nebo zobrazují obrazové vady.</string>
     <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
     <string name="settings_deinterlace">Odstranění prokládání</string>
     <!-- Translators: Description of the deinterlacing setting. -->
@@ -562,9 +567,11 @@
     <string name="settings_live_latency_bitrate_note">U kanálu s velmi vysokým datovým tokem — zvláště ve 4K — může vyrovnávací paměť pojmout kratší dobu, než jste zadali, protože množství videa uchovávaného v paměti je omezené.</string>
     <string name="settings_channel_numbers">Čísla kanálů</string>
     <string name="settings_channel_numbers_description">Zobrazovat číslo kanálu od poskytovatele vedle jeho názvu v seznamu živého vysílání, překryvu seznamu kanálů a přehrávači. Během přehrávání na celé obrazovce také můžete zadat číslo na dálkovém ovladači a přejít přímo na daný kanál (tlačítko OK přepne okamžitě, tlačítko Zpět zadání zruší). Vypnutím se skryjí všechna čísla a číselná tlačítka se budou ignorovat. Nic se neztratí a po opětovném zapnutí se čísla obnoví.</string>
+    <string name="settings_channel_numbers_description_mobile">Zobrazovat číslo kanálu od poskytovatele vedle jeho názvu v seznamu živého vysílání a v přehrávači. Vypnutím se skryjí všechna čísla. Nic se neztratí a po opětovném zapnutí se čísla obnoví.</string>
     <string name="settings_diagnostics">Diagnostika</string>
     <string name="settings_measured_stats">Měřené statistiky streamu</string>
     <string name="settings_measured_stats_description">V překryvu s informacemi o streamu zobrazovat aktuální snímkovou frekvenci, datový tok a vynechané snímky (měří se, když je překryv otevřený, a to u streamů, které tyto hodnoty neuvádějí). Vypněte pouze v případě, že se obraz na méně výkonném televizoru zadrhává — skutečné video to nikdy neovlivňuje, pouze diagnostické hodnoty.</string>
+    <string name="settings_measured_stats_description_mobile">V překryvu s informacemi o streamu zobrazovat aktuální snímkovou frekvenci, datový tok a vynechané snímky (měří se, když je překryv otevřený, a to u streamů, které tyto hodnoty neuvádějí). Vypněte pouze v případě, že se obraz na méně výkonném zařízení zadrhává — skutečné video to nikdy neovlivňuje, pouze diagnostické hodnoty.</string>
     <string name="settings_none_auto">Žádné / Automaticky</string>
     <string name="settings_view_grid">Mřížka</string>
     <string name="settings_view_list">Seznam</string>
@@ -586,7 +593,9 @@
     <string name="settings_external_player_description">Vyberte, které sekce se mají otevírat v externí aplikaci.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_movies_player_description">mpv (doporučeno) má nejširší podporu formátů — zvuk DTS/TrueHD, neobvyklé soubory — a navíc opravu synchronizace zvuku a obrazu. ExoPlayer na některých televizích přehraje streamy, na které mpv nestačí, neumí však dekódovat zvuk DTS/TrueHD a opravu synchronizace nemá. Kombinované možnosti při selhání prvního přehrávače automaticky zkusí druhý; možnosti s jediným přehrávačem to nedělají nikdy, což ušetří několik vteřin černé obrazovky, pokud druhý přehrávač na vaší televizi stejně nefunguje.</string>
+    <string name="settings_movies_player_description_mobile">mpv (doporučeno) má nejširší podporu formátů — zvuk DTS/TrueHD, neobvyklé soubory — a navíc opravu synchronizace zvuku a obrazu. ExoPlayer na některých zařízeních přehraje streamy, na které mpv nestačí, neumí však dekódovat zvuk DTS/TrueHD a opravu synchronizace nemá. Kombinované možnosti při selhání prvního přehrávače automaticky zkusí druhý; možnosti s jediným přehrávačem to nedělají nikdy, což ušetří několik vteřin černé obrazovky, pokud druhý přehrávač na vašem zařízení stejně nefunguje.</string>
     <string name="settings_live_player_description">ExoPlayer (doporučeno) otevírá kanály mnohem rychleji a jako jediný zvládá titulky v živém vysílání. mpv přehraje kanály, na které ExoPlayer nestačí, včetně některých s neobvyklým zvukem. Kombinované možnosti při selhání prvního přehrávače automaticky zkusí druhý; možnosti s jediným přehrávačem to nedělají nikdy, což ušetří několik vteřin černé obrazovky, pokud druhý přehrávač na vaší televizi stejně nefunguje. U kanálu přepnutého ručně v přehrávači zůstane vaše volba tak jako tak.</string>
+    <string name="settings_live_player_description_mobile">ExoPlayer (doporučeno) otevírá kanály mnohem rychleji a jako jediný zvládá titulky v živém vysílání. mpv přehraje kanály, na které ExoPlayer nestačí, včetně některých s neobvyklým zvukem. Kombinované možnosti při selhání prvního přehrávače automaticky zkusí druhý; možnosti s jediným přehrávačem to nedělají nikdy, což ušetří několik vteřin černé obrazovky, pokud druhý přehrávač na vašem zařízení stejně nefunguje. U kanálu přepnutého ručně v přehrávači zůstane vaše volba tak jako tak.</string>
     <string name="settings_reset_player_choices_description">Když v přehrávači přepnete jednotlivý film nebo epizodu mezi mpv a ExoPlayerem, tato volba se uloží pro příště. Reset vrátí vše zpět k nastavení výše. Uložené volby pro živé kanály zůstávají zachovány.</string>
     <string name="settings_reset_player_choices_none">Nic uloženo</string>
     <plurals name="settings_reset_player_choices_count">
@@ -639,6 +648,7 @@
     <string name="settings_ui_zoom_range">Změnit měřítko celého rozhraní (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
     <string name="settings_low_zoom_warning_title">⚠️ Upozornění na malé přiblížení</string>
     <string name="settings_low_zoom_warning">Při přiblížení <xliff:g id="zoom">%1$d</xliff:g>%% se na obrazovce zobrazí mnohem více položek najednou. Na zařízeních s omezenou pamětí (například TV stick s 2 GB) to může způsobit nestabilitu nebo pád aplikace, zejména u velkých playlistů a objemných dat EPG.\n\nStisknutím tlačítka OK pokračujte, nebo se tlačítkem Zpět vraťte k hodnotě <xliff:g id="safe_zoom">%2$d</xliff:g>%%.</string>
+    <string name="settings_low_zoom_warning_mobile">Při přiblížení <xliff:g id="zoom">%1$d</xliff:g>%% se na obrazovce zobrazí mnohem více položek najednou. Na zařízeních s omezenou pamětí to může způsobit nestabilitu nebo pád aplikace, zejména u velkých playlistů a objemných dat EPG.\n\nVolbou Zrušit zůstanete na hodnotě <xliff:g id="safe_zoom">%2$d</xliff:g>%%.</string>
     <string name="settings_low_zoom_accept">Rozumím a přijímám riziko</string>
     <string name="settings_surface_transparency"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="settings_surface_count_all">Plochy: Všechny</string>
@@ -1123,6 +1133,12 @@
     <string name="settings_live_latency_per_playlist">Zpoždění živého vysílání pro playlist</string>
     <!-- Translators: Description of the per-playlist Live latency override row. -->
     <string name="settings_live_latency_per_playlist_description">Přepíše výše uvedené nastavení pro jeden playlist — pro poskytovatele, který potřebuje hlubší nebo mělčí vyrovnávací paměť než ostatní.</string>
+    <string name="settings_catchup_timezone_per_playlist">Časové pásmo záznamů podle playlistu</string>
+    <string name="settings_catchup_timezone_per_playlist_description">Přepíše časové pásmo výše pro jeden playlist – pro poskytovatele, jehož archiv běží podle jiných hodin.</string>
+    <string name="settings_vod_engine_per_playlist">Přehrávač filmů a seriálů podle playlistu</string>
+    <string name="settings_vod_engine_per_playlist_description">Přepíše nastavení výše pro jeden playlist – pro poskytovatele, jehož filmy a díly dobře zvládá jen jeden z přehrávačů.</string>
+    <string name="settings_live_tune_timeout_per_playlist">Vzdát to po, podle playlistu</string>
+    <string name="settings_live_tune_timeout_per_playlist_description">Přepíše nastavení výše pro jeden playlist – pro poskytovatele, jehož kanály startují pomalu nebo často nefungují.</string>
     <plurals name="settings_live_preroll_overrides">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> nastavení</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> nastavení</item>
@@ -1131,7 +1147,9 @@
     </plurals>
     <string name="settings_surround_stereo">Pouze stereo</string>
     <string name="settings_surround_auto_description">Auto – zkusí prostorový zvuk Dolby/DTS a automaticky přepne zpět na stereo, pokud ho televize nebo soundbar nepřehraje. Doporučeno.</string>
+    <string name="settings_surround_auto_description_mobile">Auto – zkusí prostorový zvuk Dolby/DTS a automaticky přepne zpět na stereo, pokud ho reproduktor, sluchátka nebo připojený přijímač nepřehrají. Doporučeno.</string>
     <string name="settings_surround_stereo_description">Pouze stereo – vždy dekódujte v aplikaci a posílejte čistý zvuk 2.0. Použijte to u reproduktorů televize nebo stereo soundbaru, případně pokud zvuk zaostává za obrazem.</string>
+    <string name="settings_surround_stereo_description_mobile">Pouze stereo – vždy dekódujte v aplikaci a posílejte čistý zvuk 2.0. Použijte to u vestavěného reproduktoru, sluchátek nebo stereo soundbaru, případně pokud zvuk zaostává za obrazem.</string>
     <string name="settings_surround_forced_description">Prostorový zvuk – posílejte Dolby/DTS do skutečného přijímače 5.1/7.1. Pokud ztichne nebo se zadrhává, OwnTV se i tak vrátí ke stereu a dá vám vědět.</string>
     <string name="settings_panel_width">Úprava šířky panelů</string>
     <string name="settings_panel_width_description">Změňte velikost panelů kategorií, seznamu a náhledu v Živé TV, filmech a seriálech.</string>
@@ -1184,7 +1202,9 @@
     <string name="settings_language_contribution_copy_failed">Odkaz se nepodařilo zkopírovat. Přečtěte si nebo zadejte výše uvedenou adresu URL.</string>
     <string name="settings_auto_frame_rate_warning_suffix">Na tomto televizoru se nedoporučuje: na Androidu nižším než 12 nelze frekvenci měnit plynule.</string>
     <string name="settings_auto_frame_rate_warning_title">Na tomto televizoru se nedoporučuje</string>
+    <string name="settings_auto_frame_rate_warning_title_mobile">Na tomto zařízení se nedoporučuje</string>
     <string name="settings_auto_frame_rate_warning_description">Toto zařízení běží na Androidu <xliff:g id="android_version">%1$s</xliff:g>. Na Androidu nižším než 12 televizor nedokáže OwnTV sdělit, které obnovovací frekvence umí plynule přepínat, takže změna frekvence může na vteřinu nebo dvě zhasnout obrazovku – někdy i vícekrát během jednoho pořadu.\n\nDoporučujeme zde nechat automatickou snímkovou frekvenci vypnutou. Pokud váš televizor přepíná bez problémů, zapněte ji a uvidíte: můžete to kdykoli změnit zpět.</string>
+    <string name="settings_auto_frame_rate_warning_description_mobile">Toto zařízení běží na Androidu <xliff:g id="android_version">%1$s</xliff:g>. Na Androidu nižším než 12 zařízení nedokáže OwnTV sdělit, které obnovovací frekvence umí plynule přepínat, takže změna frekvence může na vteřinu nebo dvě zhasnout obrazovku – někdy i vícekrát během jednoho pořadu.\n\nDoporučujeme zde nechat automatickou snímkovou frekvenci vypnutou. Pokud vaše obrazovka přepíná bez problémů, zapněte ji a uvidíte: můžete to kdykoli změnit zpět.</string>
     <string name="settings_auto_frame_rate_keep_off">Ponechat vypnuté</string>
     <string name="settings_auto_frame_rate_turn_on_anyway">Přesto zapnout</string>
     <string name="settings_language_request_workflow">Chcete přidat jazyk, který není v seznamu? Nejprve otevřete žádost o jazyk. Správce jej zaregistruje a připraví základní soubory překladů; jakmile se objeví na Hosted Weblate, můžete začít přispívat.</string>

@@ -265,6 +265,7 @@
     <string name="settings_ui_zoom_description">تغيير حجم الواجهة بالكامل</string>
     <string name="settings_animations">الحركات</string>
     <string name="settings_animations_description">تشغيل حركة الواجهة أو إيقافها — يبدو الأداء أسرع عند إيقافها على أجهزة التلفزيون منخفضة الإمكانات</string>
+    <string name="settings_animations_description_mobile">تشغيل حركة الواجهة أو إيقافها — يبدو الأداء أسرع عند إيقافها على الهواتف والأجهزة اللوحية الأقدم</string>
     <string name="settings_weather_description_root">شريحة الطقس في الشريط العلوي: إظهارها أو إخفاؤها وتحديد موقع مخصص والاختيار بين الدرجة المئوية والفهرنهايت.</string>
     <string name="settings_playback_group">التشغيل</string>
     <string name="settings_live_preview_description">تشغيل قناة تلقائيًا عند وضع التركيز عليها</string>
@@ -273,10 +274,13 @@
     <string name="settings_mini_player_root">المشغّل المصغّر</string>
     <string name="settings_mini_player_root_description">حجم المشغّل المصغّر المُرسى وموضعه</string>
     <string name="settings_hdr_description">استخدام خرج HDR عندما يدعمه الفيديو والتلفزيون</string>
+    <string name="settings_hdr_description_mobile">استخدام خرج HDR عندما يدعمه الفيديو والشاشة</string>
     <string name="settings_auto_frame_rate">معدل الإطارات التلقائي</string>
     <string name="settings_auto_frame_rate_description">مطابقة معدل تحديث التلفزيون مع الفيديو (24/25/50/60 إطارًا في الثانية) في وضع ملء الشاشة، للبث التلفزيوني المباشر والفيديو حسب الطلب، واستعادته عند الخروج. عطّل هذا الخيار إذا كان التلفزيون أو جهاز الاستقبال يعيد مصافحة HDMI بصورة مزعجة عند كل تغيير للقناة.</string>
+    <string name="settings_auto_frame_rate_description_mobile">مطابقة معدل تحديث الشاشة مع الفيديو (24/25/50/60 إطارًا في الثانية) في وضع ملء الشاشة، للبث التلفزيوني المباشر والفيديو حسب الطلب، واستعادته عند الخروج. عطّل هذا الخيار إذا كانت الشاشة تومض أو تسودّ عند بدء تشغيل الفيديو.</string>
     <string name="settings_surround_sound">الصوت المحيطي</string>
     <string name="settings_surround_description">فك ترميز Dolby/DTS إلى صوت محيطي (5.1/7.1) لجهاز استقبال حقيقي يدعم 5.1/7.1. اتركه متوقفًا لسماعات التلفزيون أو مكبّر صوت استريو — قد يتأخر الصوت متعدد القنوات عن الفيديو في بعض أجهزة التلفزيون/مكبّرات الصوت. إذا انحرفت المزامنة، فاضبط قليلًا قائمة الصوت في المشغّل ← مزامنة A/V.</string>
+    <string name="settings_surround_description_mobile">فك ترميز Dolby/DTS إلى صوت محيطي (5.1/7.1) لجهاز استقبال حقيقي يدعم 5.1/7.1 متصل بهذا الجهاز. اتركه متوقفًا للسماعة المدمجة أو سماعات الرأس أو مكبّر صوت استريو — قد يتأخر الصوت متعدد القنوات عن الفيديو. إذا انحرفت المزامنة، فاضبط قليلًا قائمة الصوت في المشغّل ← مزامنة A/V.</string>
     <string name="settings_autoplay_next">تشغيل الحلقة التالية تلقائيًا</string>
     <string name="settings_autoplay_next_description">عند انتهاء حلقة، شغّل الحلقة التالية تلقائيًا — وانتقل إلى الموسم التالي. كما تتابع مشاهدة البث الفائت إلى البرنامج التالي.</string>
     <string name="settings_catchup">مشاهدة البث الفائت</string>
@@ -482,6 +486,7 @@
     <string name="settings_decoding">فك الترميز</string>
     <string name="settings_hardware_decoding">فك الترميز بالأجهزة</string>
     <string name="settings_hardware_decoding_description">استخدام وحدة فك الترميز بالأجهزة في التلفزيون. عطّل هذا الخيار إذا تقطعت بعض عمليات البث أو ظهرت بها عيوب مرئية.</string>
+    <string name="settings_hardware_decoding_description_mobile">استخدام وحدة فك الترميز بالأجهزة في الجهاز. عطّل هذا الخيار إذا تقطعت بعض عمليات البث أو ظهرت بها عيوب مرئية.</string>
     <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
     <string name="settings_deinterlace">إزالة التشابك</string>
     <!-- Translators: Description of the deinterlacing setting. -->
@@ -566,9 +571,11 @@
     <string name="settings_live_latency_bitrate_note">على قناة ذات معدل بت مرتفع جدًا — وخاصةً بدقة 4K — قد يحتفظ المخزن المؤقت بمدة أقل مما طلبت، لأن هناك حدًا لكمية الفيديو التي يمكن الاحتفاظ بها في الذاكرة دفعة واحدة.</string>
     <string name="settings_channel_numbers">أرقام القنوات</string>
     <string name="settings_channel_numbers_description">اعرض رقم القناة الذي يحدده مزوّدك بجوار الاسم في قائمة البث التلفزيوني المباشر وطبقة قائمة القنوات المتراكبة والمشغّل — وأدخل رقمًا بجهاز التحكم عن بُعد أثناء التشغيل بملء الشاشة للانتقال مباشرةً إلى تلك القناة (ينتقل زر «موافق» فورًا، ويلغي زر «رجوع»). يؤدي إيقاف الخيار إلى إخفاء جميع الأرقام وتجاهل مفاتيح الأرقام؛ ولن تفقد شيئًا، إذ يعيد تشغيله إظهارها.</string>
+    <string name="settings_channel_numbers_description_mobile">اعرض رقم القناة الذي يحدده مزوّدك بجوار الاسم في قائمة البث التلفزيوني المباشر والمشغّل. يؤدي إيقاف الخيار إلى إخفاء جميع الأرقام؛ ولن تفقد شيئًا، إذ يعيد تشغيله إظهارها.</string>
     <string name="settings_diagnostics">التشخيصات</string>
     <string name="settings_measured_stats">إحصاءات البث المقاسة</string>
     <string name="settings_measured_stats_description">اعرض معدل الإطارات المباشر ومعدل البت والإطارات الساقطة في طبقة معلومات البث المتراكبة (تُقاس أثناء فتح الطبقة المتراكبة لعمليات البث التي لا تعلن هذه القيم). أوقفه فقط إذا كان التلفزيون منخفض الإمكانات يتقطّع — فهو لا يؤثر مطلقًا في الفيديو الفعلي، بل في أرقام التشخيصات فقط.</string>
+    <string name="settings_measured_stats_description_mobile">اعرض معدل الإطارات المباشر ومعدل البت والإطارات الساقطة في طبقة معلومات البث المتراكبة (تُقاس أثناء فتح الطبقة المتراكبة لعمليات البث التي لا تعلن هذه القيم). أوقفه فقط إذا كان الجهاز منخفض الإمكانات يتقطّع — فهو لا يؤثر مطلقًا في الفيديو الفعلي، بل في أرقام التشخيصات فقط.</string>
     <string name="settings_none_auto">لا شيء / تلقائي</string>
     <string name="settings_view_grid">شبكة</string>
     <string name="settings_view_list">قائمة</string>
@@ -590,7 +597,9 @@
     <string name="settings_external_player_description">اختر الأقسام التي تُفتح في تطبيق خارجي.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> مللي ثانية</string>
     <string name="settings_movies_player_description">يوفّر mpv (موصى به) أوسع دعم للصيغ — صوت DTS/TrueHD والملفات غير المألوفة — إضافة إلى إصلاح مزامنة الصوت والصورة. ويشغّل ExoPlayer بعض المقاطع التي لا يستطيع mpv تشغيلها على تلفازات معيّنة، لكنه لا يفك ترميز صوت DTS/TrueHD ولا يوفّر إصلاح المزامنة. تجرّب الخيارات المزدوجة المشغّل الآخر تلقائيًا عند فشل الأول، أما خيارات المشغّل الواحد فلا تفعل ذلك أبدًا، ما يوفّر بضع ثوانٍ من الشاشة السوداء إذا كان المشغّل الثاني لا يعمل أبدًا على تلفازك.</string>
+    <string name="settings_movies_player_description_mobile">يوفّر mpv (موصى به) أوسع دعم للصيغ — صوت DTS/TrueHD والملفات غير المألوفة — إضافة إلى إصلاح مزامنة الصوت والصورة. ويشغّل ExoPlayer بعض المقاطع التي لا يستطيع mpv تشغيلها على أجهزة معيّنة، لكنه لا يفك ترميز صوت DTS/TrueHD ولا يوفّر إصلاح المزامنة. تجرّب الخيارات المزدوجة المشغّل الآخر تلقائيًا عند فشل الأول، أما خيارات المشغّل الواحد فلا تفعل ذلك أبدًا، ما يوفّر بضع ثوانٍ من الشاشة السوداء إذا كان المشغّل الثاني لا يعمل أبدًا على جهازك.</string>
     <string name="settings_live_player_description">يفتح ExoPlayer (موصى به) القنوات أسرع بكثير وهو الوحيد الذي يدعم الترجمة أثناء البث المباشر. ويشغّل mpv قنوات لا يستطيع ExoPlayer تشغيلها، بما فيها بعض القنوات ذات الصوت غير المألوف. تجرّب الخيارات المزدوجة المشغّل الآخر تلقائيًا عند فشل الأول، أما خيارات المشغّل الواحد فلا تفعل ذلك أبدًا، ما يوفّر بضع ثوانٍ من الشاشة السوداء إذا كان المشغّل الثاني لا يعمل أبدًا على تلفازك. وتحتفظ أي قناة تبدّلها يدويًا في المشغّل باختيارك في الحالتين.</string>
+    <string name="settings_live_player_description_mobile">يفتح ExoPlayer (موصى به) القنوات أسرع بكثير وهو الوحيد الذي يدعم الترجمة أثناء البث المباشر. ويشغّل mpv قنوات لا يستطيع ExoPlayer تشغيلها، بما فيها بعض القنوات ذات الصوت غير المألوف. تجرّب الخيارات المزدوجة المشغّل الآخر تلقائيًا عند فشل الأول، أما خيارات المشغّل الواحد فلا تفعل ذلك أبدًا، ما يوفّر بضع ثوانٍ من الشاشة السوداء إذا كان المشغّل الثاني لا يعمل أبدًا على جهازك. وتحتفظ أي قناة تبدّلها يدويًا في المشغّل باختيارك في الحالتين.</string>
     <string name="settings_reset_player_choices_description">عند تبديل فيلم أو حلقة واحدة بين mpv وExoPlayer داخل المشغّل، يُحفظ هذا الخيار للمرة التالية. تعيد إعادة الضبط كل شيء إلى الإعداد أعلاه. أما الخيارات المحفوظة لقنوات البث المباشر فتبقى كما هي.</string>
     <string name="settings_reset_player_choices_none">لا شيء محفوظ</string>
     <plurals name="settings_reset_player_choices_count">
@@ -645,6 +654,7 @@
     <string name="settings_ui_zoom_range">تغيير حجم الواجهة بالكامل (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
     <string name="settings_low_zoom_warning_title">⚠️ تحذير بشأن التكبير المنخفض</string>
     <string name="settings_low_zoom_warning">يعرض التكبير بنسبة <xliff:g id="zoom">%1$d</xliff:g>%% عددًا أكبر بكثير من العناصر على الشاشة في وقت واحد. وقد يؤدي ذلك إلى عدم استقرار التطبيق أو تعطّله على الأجهزة ذات الذاكرة المحدودة (مثل أجهزة بث التلفزيون المزودة بذاكرة 2 غيغابايت)، خاصةً مع قوائم التشغيل الكبيرة وبيانات دليل البرامج الإلكتروني.\n\nاضغط على «موافق» للمتابعة، أو «رجوع» للبقاء عند <xliff:g id="safe_zoom">%2$d</xliff:g>%%.</string>
+    <string name="settings_low_zoom_warning_mobile">يعرض التكبير بنسبة <xliff:g id="zoom">%1$d</xliff:g>%% عددًا أكبر بكثير من العناصر على الشاشة في وقت واحد. وقد يؤدي ذلك إلى عدم استقرار التطبيق أو تعطّله على الأجهزة ذات الذاكرة المحدودة، خاصةً مع قوائم التشغيل الكبيرة وبيانات دليل البرامج الإلكتروني.\n\nاختر «إلغاء» للبقاء عند <xliff:g id="safe_zoom">%2$d</xliff:g>%%.</string>
     <string name="settings_low_zoom_accept">أفهم المخاطر وأقبلها</string>
     <string name="settings_surface_transparency"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="settings_surface_count_all">الأسطح: الكل</string>
@@ -1161,6 +1171,12 @@
     <string name="settings_live_latency_per_playlist">زمن استجابة البث المباشر لكل قائمة تشغيل</string>
     <!-- Translators: Description of the per-playlist Live latency override row. -->
     <string name="settings_live_latency_per_playlist_description">تجاوز الإعداد أعلاه لقائمة تشغيل واحدة، لمزوّد يحتاج إلى مخزن مؤقت أكبر أو أصغر من غيره.</string>
+    <string name="settings_catchup_timezone_per_playlist">المنطقة الزمنية لإعادة المشاهدة لكل قائمة تشغيل</string>
+    <string name="settings_catchup_timezone_per_playlist_description">تجاوز المنطقة الزمنية أعلاه لقائمة تشغيل واحدة، لمزوّد يعمل أرشيفه على توقيت مختلف.</string>
+    <string name="settings_vod_engine_per_playlist">مشغّل الأفلام والمسلسلات لكل قائمة تشغيل</string>
+    <string name="settings_vod_engine_per_playlist_description">تجاوز الإعداد أعلاه لقائمة تشغيل واحدة، لمزوّد لا يتعامل مع أفلامه وحلقاته جيدًا إلا أحد المشغّلَين.</string>
+    <string name="settings_live_tune_timeout_per_playlist">التوقف عن المحاولة لكل قائمة تشغيل</string>
+    <string name="settings_live_tune_timeout_per_playlist_description">تجاوز الإعداد أعلاه لقائمة تشغيل واحدة، لمزوّد تبدأ قنواته ببطء أو تكون متوقفة غالبًا.</string>
     <plurals name="settings_live_preroll_overrides">
         <item quantity="zero"><xliff:g id="count">%1$d</xliff:g> من قوائم التشغيل</item>
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> من قوائم التشغيل</item>
@@ -1171,7 +1187,9 @@
     </plurals>
     <string name="settings_surround_stereo">ستيريو فقط</string>
     <string name="settings_surround_auto_description">تلقائي — جرّب صوت Dolby/DTS المحيطي، وارجع إلى الستيريو تلقائيًا إذا لم يشغّله التلفزيون أو شريط الصوت. موصى به.</string>
+    <string name="settings_surround_auto_description_mobile">تلقائي — جرّب صوت Dolby/DTS المحيطي، وارجع إلى الستيريو تلقائيًا إذا لم تشغّله السماعة أو سماعات الرأس أو جهاز الاستقبال المتصل. موصى به.</string>
     <string name="settings_surround_stereo_description">ستيريو فقط — فكّ الترميز دائمًا داخل التطبيق وأرسل صوت 2.0 عاديًا. استخدم هذا مع مكبرات صوت التلفزيون أو شريط ستيريو، أو إذا تأخر الصوت خلف الصورة.</string>
+    <string name="settings_surround_stereo_description_mobile">ستيريو فقط — فكّ الترميز دائمًا داخل التطبيق وأرسل صوت 2.0 عاديًا. استخدم هذا مع السماعة المدمجة أو سماعات الرأس أو شريط ستيريو، أو إذا تأخر الصوت خلف الصورة.</string>
     <string name="settings_surround_forced_description">صوت محيطي — أرسل Dolby/DTS إلى مستقبل 5.1/7.1 حقيقي. إذا انقطع الصوت أو تذبذب، يعود OwnTV إلى الستيريو ويخبرك.</string>
     <string name="settings_panel_width">ضبط عرض اللوحة</string>
     <string name="settings_panel_width_description">غيّر حجم لوحات الفئة والقائمة والمعاينة في تلفزيون مباشر والأفلام والمسلسلات.</string>
@@ -1224,7 +1242,9 @@
     <string name="settings_language_contribution_copy_failed">تعذّر نسخ الرابط. اقرأ الرابط المعروض أعلاه أو اكتبه.</string>
     <string name="settings_auto_frame_rate_warning_suffix">غير موصى به على هذا التلفزيون: لا يمكن تغيير معدل الإطارات بسلاسة على الإصدارات الأقدم من Android 12.</string>
     <string name="settings_auto_frame_rate_warning_title">غير موصى به على هذا التلفزيون</string>
+    <string name="settings_auto_frame_rate_warning_title_mobile">غير موصى به على هذا الجهاز</string>
     <string name="settings_auto_frame_rate_warning_description">يعمل هذا الجهاز بنظام Android <xliff:g id="android_version">%1$s</xliff:g>. على الإصدارات الأقدم من Android 12، لا يستطيع التلفزيون إخبار OwnTV بمعدلات التحديث التي يمكنه التبديل إليها بسلاسة، لذا قد يؤدي تغيير معدل الإطارات إلى اسوداد الشاشة لثانية أو ثانيتين — وأحيانًا أكثر من مرة أثناء البرنامج.\n\nنوصي بترك معدل الإطارات التلقائي معطّلًا هنا. إذا كان تلفزيونك ينتقل بين معدلات التحديث بسلاسة، فعّله وجرّب: يمكنك تغييره مرة أخرى في أي وقت.</string>
+    <string name="settings_auto_frame_rate_warning_description_mobile">يعمل هذا الجهاز بنظام Android <xliff:g id="android_version">%1$s</xliff:g>. على الإصدارات الأقدم من Android 12، لا يستطيع الجهاز إخبار OwnTV بمعدلات التحديث التي يمكنه التبديل إليها بسلاسة، لذا قد يؤدي تغيير معدل الإطارات إلى اسوداد الشاشة لثانية أو ثانيتين — وأحيانًا أكثر من مرة أثناء البرنامج.\n\nنوصي بترك معدل الإطارات التلقائي معطّلًا هنا. إذا كانت شاشتك تنتقل بين معدلات التحديث بسلاسة، فعّله وجرّب: يمكنك تغييره مرة أخرى في أي وقت.</string>
     <string name="settings_auto_frame_rate_keep_off">إبقاؤه معطّلًا</string>
     <string name="settings_auto_frame_rate_turn_on_anyway">تفعيله على أي حال</string>
     <string name="settings_language_request_workflow">هل تريد إضافة لغة غير مدرجة؟ قدّم طلب لغة أولاً. سيقوم أحد المشرفين بتسجيلها وتجهيز ملفات الترجمة الأساسية؛ وبمجرد ظهورها على Hosted Weblate، يمكنك البدء في المساهمة.</string>

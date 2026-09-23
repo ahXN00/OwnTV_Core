@@ -317,6 +317,7 @@
     <string name="settings_subtitle_font">Felirat betűtípusa</string>
     <string name="settings_animations">Animációk</string>
     <string name="settings_animations_description">A felület mozgásának be- vagy kikapcsolása — kikapcsolva gyorsabbnak hat a gyengébb TV-boxokon</string>
+    <string name="settings_animations_description_mobile">A felület mozgásának be- vagy kikapcsolása — kikapcsolva gyorsabbnak hat a régebbi telefonokon és táblagépeken</string>
     <string name="settings_weather_description_root">Időjárásjelző a felső sávban: megjelenítés vagy elrejtés, egyéni helyszín, Celsius / Fahrenheit.</string>
     <string name="settings_playback_group">Lejátszás</string>
     <string name="settings_live_preview_description">Csatorna automatikus lejátszása, amikor ráfókuszálsz</string>
@@ -325,15 +326,20 @@
     <string name="settings_mini_player_root">Mini lejátszó</string>
     <string name="settings_mini_player_root_description">A dokkolt mini lejátszó mérete és pozíciója</string>
     <string name="settings_hdr_description">HDR-kimenet használata, ha a videó és a TV is támogatja</string>
+    <string name="settings_hdr_description_mobile">HDR-kimenet használata, ha a videó és a kijelző is támogatja</string>
     <string name="settings_auto_frame_rate">Automatikus képkockasebesség</string>
     <string name="settings_auto_frame_rate_description">Teljes képernyőn a TV frissítési frekvenciáját a videóhoz igazítja (24/25/50/60 fps) élő TV és VOD esetén is, kilépéskor pedig visszaállítja. Kapcsold ki, ha a TV-d vagy a vevőd minden csatornaváltásnál zajosan újraegyezteti a HDMI-t.</string>
+    <string name="settings_auto_frame_rate_description_mobile">Teljes képernyőn a kijelző frissítési frekvenciáját a videóhoz igazítja (24/25/50/60 fps) élő TV és VOD esetén is, kilépéskor pedig visszaállítja. Kapcsold ki, ha a kijelző villog vagy elsötétül, amikor egy videó elindul.</string>
     <string name="settings_auto_frame_rate_warning_suffix">Ezen a TV-n nem ajánlott: Android 12 alatt a frekvencia nem váltható zökkenőmentesen.</string>
     <string name="settings_auto_frame_rate_warning_title">Ezen a TV-n nem ajánlott</string>
+    <string name="settings_auto_frame_rate_warning_title_mobile">Ezen az eszközön nem ajánlott</string>
     <string name="settings_auto_frame_rate_warning_description">Ezen az eszközön Android <xliff:g id="android_version">%1$s</xliff:g> fut. Android 12 alatt a TV nem tudja megmondani az OwnTV-nek, mely frissítési frekvenciákra tud zökkenőmentesen váltani, ezért a frekvenciaváltás egy-két másodpercre elsötétítheti a képet — néha egy műsor alatt többször is.\n\nAzt javasoljuk, hagyd itt kikapcsolva az automatikus képkockasebességet. Ha a TV-d tisztán vált, kapcsold be, és próbáld ki: bármikor visszaállíthatod.</string>
+    <string name="settings_auto_frame_rate_warning_description_mobile">Ezen az eszközön Android <xliff:g id="android_version">%1$s</xliff:g> fut. Android 12 alatt az eszköz nem tudja megmondani az OwnTV-nek, mely frissítési frekvenciákra tud zökkenőmentesen váltani, ezért a frekvenciaváltás egy-két másodpercre elsötétítheti a képet — néha egy műsor alatt többször is.\n\nAzt javasoljuk, hagyd itt kikapcsolva az automatikus képkockasebességet. Ha a kijelződ tisztán vált, kapcsold be, és próbáld ki: bármikor visszaállíthatod.</string>
     <string name="settings_auto_frame_rate_keep_off">Maradjon ki</string>
     <string name="settings_auto_frame_rate_turn_on_anyway">Mégis bekapcsolom</string>
     <string name="settings_surround_sound">Térhatású hang</string>
     <string name="settings_surround_description">A Dolby/DTS térhangzásra (5.1/7.1) dekódolása igazi 5.1/7.1 vevőhöz. TV-hangszórókhoz vagy sztereó hangprojektorhoz hagyd KI — a többcsatornás hang egyes TV-ken/hangprojektorokon a kép mögé csúszhat. Ha elcsúszik, igazíts a lejátszó Hang menü → A/V szinkron beállításán.</string>
+    <string name="settings_surround_description_mobile">A Dolby/DTS térhangzásra (5.1/7.1) dekódolása egy ehhez az eszközhöz csatlakoztatott igazi 5.1/7.1 vevőhöz. A beépített hangszóróhoz, fejhallgatóhoz vagy sztereó hangprojektorhoz hagyd KI — a többcsatornás hang a kép mögé csúszhat. Ha elcsúszik, igazíts a lejátszó Hang menü → A/V szinkron beállításán.</string>
     <string name="settings_autoplay_next">Következő epizód automatikus lejátszása</string>
     <string name="settings_autoplay_next_description">Amikor egy epizód véget ér, automatikusan elindítja a következőt — és átvált a következő évadra is. A visszanézés is továbbfut a következő műsorra.</string>
     <string name="settings_catchup">Visszanézés</string>
@@ -526,6 +532,7 @@
     <string name="settings_decoding">Dekódolás</string>
     <string name="settings_hardware_decoding">Hardveres dekódolás</string>
     <string name="settings_hardware_decoding_description">A TV hardveres dekóderének használata. Kapcsold ki, ha egyes adatfolyamok akadoznak vagy képhibásak.</string>
+    <string name="settings_hardware_decoding_description_mobile">Az eszköz hardveres dekóderének használata. Kapcsold ki, ha egyes adatfolyamok akadoznak vagy képhibásak.</string>
     <string name="settings_deinterlace">Váltottsorosság-mentesítés</string>
     <string name="settings_deinterlace_description">Elsimítja a fésűszerű vonalakat, amiket egyes régi SD-csatornák mutatnak mozgásnál. Az mpv motorra vonatkozik, amíg az maga rajzolja a képet, ezért kapcsold ki a hardveres dekódolást, ha nincs hatása.</string>
     <string name="settings_movies_series_player">Filmek és sorozatok lejátszója</string>
@@ -577,9 +584,11 @@
     <string name="settings_live_latency_bitrate_note">Nagyon nagy bitsebességű csatornán — különösen 4K esetén — a puffer kevesebb időt tárolhat a kértnél, mert korlátozott, mennyi videó tartható egyszerre a memóriában.</string>
     <string name="settings_channel_numbers">Csatornaszámok</string>
     <string name="settings_channel_numbers_description">A szolgáltatód csatornaszámának megjelenítése a név mellett az Élő TV listában, a csatornalista-átfedésben és a lejátszóban — teljes képernyős lejátszás közben pedig beírhatsz egy számot a távirányítón, hogy egyből arra a csatornára ugorj (az OK azonnal hangol, a Vissza megszakít). Kikapcsolva minden szám eltűnik, és a számgombokat is figyelmen kívül hagyja; semmi nem vész el, és visszakapcsolva minden visszatér.</string>
+    <string name="settings_channel_numbers_description_mobile">A szolgáltatód csatornaszámának megjelenítése a név mellett az Élő TV listában és a lejátszóban. Kikapcsolva minden szám eltűnik; semmi nem vész el, és visszakapcsolva minden visszatér.</string>
     <string name="settings_diagnostics">Diagnosztika</string>
     <string name="settings_measured_stats">Mért adatfolyam-statisztikák</string>
     <string name="settings_measured_stats_description">Élő fps, bitsebesség és eldobott képkockák megjelenítése az adatfolyam-információs átfedésben (az átfedés nyitva tartása alatt mérve, azokhoz az adatfolyamokhoz, amelyek nem közlik ezeket az értékeket). Csak akkor kapcsold ki, ha egy gyengébb TV akadozik — a tényleges videót sosem befolyásolja, csak a diagnosztikai számokat.</string>
+    <string name="settings_measured_stats_description_mobile">Élő fps, bitsebesség és eldobott képkockák megjelenítése az adatfolyam-információs átfedésben (az átfedés nyitva tartása alatt mérve, azokhoz az adatfolyamokhoz, amelyek nem közlik ezeket az értékeket). Csak akkor kapcsold ki, ha egy gyengébb eszköz akadozik — a tényleges videót sosem befolyásolja, csak a diagnosztikai számokat.</string>
     <string name="settings_none_auto">Nincs / Automatikus</string>
     <string name="settings_view_grid">Rács</string>
     <string name="settings_view_list">Lista</string>
@@ -603,7 +612,9 @@ Válaszd a Kiegyensúlyozott beállítást, ha egy csatorna megbízhatatlanná v
     <string name="settings_external_player_description">Válaszd ki, mely szakaszok nyíljanak külső alkalmazásban.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_movies_player_description">Az mpv (ajánlott) támogatja a legtöbb formátumot — DTS/TrueHD hang, szokatlan fájlok —, és van A/V szinkronjavítása. Az ExoPlayer egyes TV-ken lejátszik olyan adatfolyamokat, amiket az mpv nem, viszont nem tud DTS/TrueHD hangot dekódolni, és nincs A/V szinkronjavítása. A kombinált beállítások automatikusan megpróbálják a másik lejátszót, ha az első nem működik; az egy lejátszós beállítások soha, ami néhány másodpernyi fekete képernyőt spórol, ha a másik lejátszó a TV-den sosem működik.</string>
+    <string name="settings_movies_player_description_mobile">Az mpv (ajánlott) támogatja a legtöbb formátumot — DTS/TrueHD hang, szokatlan fájlok —, és van A/V szinkronjavítása. Az ExoPlayer egyes eszközökön lejátszik olyan adatfolyamokat, amiket az mpv nem, viszont nem tud DTS/TrueHD hangot dekódolni, és nincs A/V szinkronjavítása. A kombinált beállítások automatikusan megpróbálják a másik lejátszót, ha az első nem működik; az egy lejátszós beállítások soha, ami néhány másodpernyi fekete képernyőt spórol, ha a másik lejátszó az eszközödön sosem működik.</string>
     <string name="settings_live_player_description">Az ExoPlayer (ajánlott) sokkal gyorsabban nyitja a csatornákat, és egyedül ez tud élő feliratot. Az mpv olyan csatornákat is lejátszik, amiket az ExoPlayer nem, köztük szokatlan hangúakat is. A kombinált beállítások automatikusan megpróbálják a másik lejátszót, ha az első nem működik; az egy lejátszós beállítások soha, ami néhány másodpernyi fekete képernyőt spórol, ha a másik lejátszó a TV-den sosem működik. Ha a lejátszóban kézzel váltasz egy csatornán, az a választásod mindkét esetben megmarad.</string>
+    <string name="settings_live_player_description_mobile">Az ExoPlayer (ajánlott) sokkal gyorsabban nyitja a csatornákat, és egyedül ez tud élő feliratot. Az mpv olyan csatornákat is lejátszik, amiket az ExoPlayer nem, köztük szokatlan hangúakat is. A kombinált beállítások automatikusan megpróbálják a másik lejátszót, ha az első nem működik; az egy lejátszós beállítások soha, ami néhány másodpernyi fekete képernyőt spórol, ha a másik lejátszó az eszközödön sosem működik. Ha a lejátszóban kézzel váltasz egy csatornán, az a választásod mindkét esetben megmarad.</string>
     <string name="settings_reset_player_choices_description">Ha a lejátszóban egyetlen filmnél vagy epizódnál mpv és ExoPlayer között váltasz, a választás elmentődik a következő alkalomra. A visszaállítás után minden újra a fenti beállítást követi. Az élő csatornákhoz mentett választások megmaradnak.</string>
     <string name="settings_reset_player_choices_none">Nincs mentve</string>
     <plurals name="settings_reset_player_choices_count">
@@ -654,6 +665,7 @@ Válaszd a Kiegyensúlyozott beállítást, ha egy csatorna megbízhatatlanná v
     <string name="settings_ui_zoom_range">A teljes felület méretezése (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
     <string name="settings_low_zoom_warning_title">⚠️ Figyelmeztetés alacsony nagyításnál</string>
     <string name="settings_low_zoom_warning"><xliff:g id="zoom">%1$d</xliff:g>%%-os nagyítás mellett sokkal több elem fér ki egyszerre a képernyőre. Korlátozott memóriájú eszközökön (például 2 GB-os TV-sticken) ettől instabillá válhat vagy összeomolhat az alkalmazás, különösen nagy lejátszási listákkal és EPG-adatokkal.\n\nNyomd meg az OK-t a folytatáshoz, vagy a Vissza gombot, hogy <xliff:g id="safe_zoom">%2$d</xliff:g>%%-on maradj.</string>
+    <string name="settings_low_zoom_warning_mobile"><xliff:g id="zoom">%1$d</xliff:g>%%-os nagyítás mellett sokkal több elem fér ki egyszerre a képernyőre. Korlátozott memóriájú eszközökön ettől instabillá válhat vagy összeomolhat az alkalmazás, különösen nagy lejátszási listákkal és EPG-adatokkal.\n\nVálaszd a Mégse lehetőséget, hogy <xliff:g id="safe_zoom">%2$d</xliff:g>%%-on maradj.</string>
     <string name="settings_low_zoom_accept">Megértettem, és vállalom a kockázatot</string>
     <string name="settings_surface_transparency"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="settings_surface_count_all">Felületek: Mind</string>
@@ -1119,13 +1131,21 @@ Az Újraszinkronizálás és a hiányzó címek eltávolítása azt is lehetőv�
     <string name="settings_live_engine_per_playlist_description">A fenti beállítás felülírása egyetlen lejátszási listára, olyan szolgáltatóhoz, amelynek csatornáit csak az egyik lejátszó kezeli jól.</string>
     <string name="settings_live_latency_per_playlist">Élő késleltetés lejátszási listánként</string>
     <string name="settings_live_latency_per_playlist_description">A fenti beállítás felülírása egyetlen lejátszási listára, olyan szolgáltatóhoz, amelynek a többinél mélyebb vagy sekélyebb pufferre van szüksége.</string>
+    <string name="settings_catchup_timezone_per_playlist">Visszanézés időzónája lejátszási listánként</string>
+    <string name="settings_catchup_timezone_per_playlist_description">Felülírja a fenti időzónát egy lejátszási listánál, olyan szolgáltatóhoz, amelynek archívuma más óra szerint jár.</string>
+    <string name="settings_vod_engine_per_playlist">Filmek és sorozatok lejátszója listánként</string>
+    <string name="settings_vod_engine_per_playlist_description">Felülírja a fenti beállítást egy lejátszási listánál, olyan szolgáltatóhoz, amelynek filmjeit és epizódjait csak az egyik lejátszó kezeli jól.</string>
+    <string name="settings_live_tune_timeout_per_playlist">Feladás ennyi idő után, listánként</string>
+    <string name="settings_live_tune_timeout_per_playlist_description">Felülírja a fenti beállítást egy lejátszási listánál, olyan szolgáltatóhoz, amelynek csatornái lassan indulnak vagy gyakran nem működnek.</string>
     <plurals name="settings_live_preroll_overrides">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> beállítva</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> beállítva</item>
     </plurals>
     <string name="settings_surround_stereo">Csak sztereó</string>
     <string name="settings_surround_auto_description">Automatikus — próbálja meg a Dolby/DTS térhangzást, és váltson vissza automatikusan sztereóra, ha a TV vagy a hangprojektor nem játssza le. Ajánlott.</string>
+    <string name="settings_surround_auto_description_mobile">Automatikus — próbálja meg a Dolby/DTS térhangzást, és váltson vissza automatikusan sztereóra, ha a hangszóró, a fejhallgató vagy a csatlakoztatott vevő nem játssza le. Ajánlott.</string>
     <string name="settings_surround_stereo_description">Csak sztereó — mindig az alkalmazásban dekódoljon, és sima 2.0 hangot küldjön. Ezt használd TV-hangszórón vagy sztereó hangprojektoron, illetve ha a hang lemarad a képhez képest.</string>
+    <string name="settings_surround_stereo_description_mobile">Csak sztereó — mindig az alkalmazásban dekódoljon, és sima 2.0 hangot küldjön. Ezt használd a beépített hangszóróhoz, fejhallgatóhoz vagy sztereó hangprojektorhoz, illetve ha a hang lemarad a képhez képest.</string>
     <string name="settings_surround_forced_description">Térhangzás — Dolby/DTS küldése valódi 5.1/7.1 erősítőnek. Ha elnémul vagy akadozik, az OwnTV akkor is sztereóra vált, és szól róla.</string>
     <string name="settings_panel_width">Panelszélesség beállítása</string>
     <string name="settings_panel_width_description">A kategória-, lista- és előnézeti panelek átméretezése az Élő TV-ben, a Filmekben és a Sorozatokban.</string>

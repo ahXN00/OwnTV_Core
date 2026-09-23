@@ -260,6 +260,7 @@
     <string name="settings_ui_zoom_description">전체 인터페이스 크기 조절</string>
     <string name="settings_animations">애니메이션</string>
     <string name="settings_animations_description">인터페이스 움직임을 켜거나 끕니다. 끄면 사양이 낮은 TV 박스에서 더 빠르게 느껴집니다.</string>
+    <string name="settings_animations_description_mobile">인터페이스 움직임을 켜거나 끕니다. 끄면 오래된 휴대전화와 태블릿에서 더 빠르게 느껴집니다.</string>
     <string name="settings_weather_description_root">상단 표시줄 날씨 칩의 표시 여부, 사용자 지정 위치, 섭씨/화씨를 설정합니다.</string>
     <string name="settings_playback_group">재생</string>
     <string name="settings_live_preview_description">채널에 포커스를 맞추면 자동으로 재생합니다</string>
@@ -268,10 +269,13 @@
     <string name="settings_mini_player_root">미니 플레이어</string>
     <string name="settings_mini_player_root_description">고정된 미니 플레이어의 크기와 위치</string>
     <string name="settings_hdr_description">동영상과 TV가 지원할 때 HDR 출력을 사용합니다</string>
+    <string name="settings_hdr_description_mobile">동영상과 화면이 지원할 때 HDR 출력을 사용합니다</string>
     <string name="settings_auto_frame_rate">자동 프레임 레이트</string>
     <string name="settings_auto_frame_rate_description">전체 화면에서 실시간 TV와 VOD의 동영상에 맞게 TV 화면 주사율(24/25/50/60fps)을 조정하고 종료할 때 복원합니다. 채널을 바꿀 때마다 TV 또는 리시버가 HDMI 핸드셰이크를 다시 수행해 소음이 발생하면 끄세요.</string>
+    <string name="settings_auto_frame_rate_description_mobile">전체 화면에서 실시간 TV와 VOD의 동영상에 맞게 화면 주사율(24/25/50/60fps)을 조정하고 종료할 때 복원합니다. 동영상이 시작될 때 화면이 깜박이거나 어두워지면 끄세요.</string>
     <string name="settings_surround_sound">서라운드 사운드</string>
     <string name="settings_surround_description">실제 5.1/7.1 리시버를 사용할 때 Dolby/DTS를 서라운드(5.1/7.1)로 디코딩합니다. TV 스피커나 스테레오 사운드바를 사용한다면 끄세요. 일부 TV/사운드바에서는 다채널 오디오가 영상보다 지연될 수 있습니다. 싱크가 어긋나면 플레이어의 오디오 메뉴 → A/V 동기화에서 미세 조정하세요.</string>
+    <string name="settings_surround_description_mobile">이 기기에 연결된 실제 5.1/7.1 리시버를 사용할 때 Dolby/DTS를 서라운드(5.1/7.1)로 디코딩합니다. 내장 스피커, 헤드폰 또는 스테레오 사운드바를 사용한다면 끄세요. 다채널 오디오가 영상보다 지연될 수 있습니다. 싱크가 어긋나면 플레이어의 오디오 메뉴 → A/V 동기화에서 미세 조정하세요.</string>
     <string name="settings_autoplay_next">다음 에피소드 자동 재생</string>
     <string name="settings_autoplay_next_description">에피소드가 끝나면 다음 에피소드를 자동으로 시작하며 다음 시즌까지 이어서 재생합니다. 다시보기도 다음 프로그램으로 이어서 재생합니다.</string>
     <string name="settings_catchup">다시보기</string>
@@ -472,6 +476,7 @@
     <string name="settings_decoding">디코딩</string>
     <string name="settings_hardware_decoding">하드웨어 디코딩</string>
     <string name="settings_hardware_decoding_description">TV의 하드웨어 디코더를 사용합니다. 일부 스트림이 끊기거나 화면에 이상이 나타나면 끄세요.</string>
+    <string name="settings_hardware_decoding_description_mobile">기기의 하드웨어 디코더를 사용합니다. 일부 스트림이 끊기거나 화면에 이상이 나타나면 끄세요.</string>
     <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
     <string name="settings_deinterlace">디인터레이스</string>
     <!-- Translators: Description of the deinterlacing setting. -->
@@ -556,9 +561,11 @@
     <string name="settings_live_latency_bitrate_note">비트레이트가 매우 높은 채널에서는(특히 4K) 메모리에 한 번에 담을 수 있는 영상의 양에 한계가 있어, 설정한 시간보다 짧게만 버퍼링될 수 있습니다.</string>
     <string name="settings_channel_numbers">채널 번호</string>
     <string name="settings_channel_numbers_description">실시간 TV 목록, 채널 목록 오버레이 및 플레이어에서 이름 옆에 제공업체의 채널 번호를 표시하고, 전체 화면 재생 중 리모컨으로 번호를 입력하여 해당 채널로 바로 이동합니다(확인을 누르면 즉시 채널이 선택되고 뒤로를 누르면 취소됩니다). 끄면 모든 번호가 숨겨지고 숫자 키 입력이 무시되지만 삭제되는 정보는 없으며, 다시 켜면 번호가 복원됩니다.</string>
+    <string name="settings_channel_numbers_description_mobile">실시간 TV 목록과 플레이어에서 이름 옆에 제공업체의 채널 번호를 표시합니다. 끄면 모든 번호가 숨겨지지만 삭제되는 정보는 없으며, 다시 켜면 번호가 복원됩니다.</string>
     <string name="settings_diagnostics">진단</string>
     <string name="settings_measured_stats">측정된 스트림 통계</string>
     <string name="settings_measured_stats_description">스트림 정보 오버레이에 실시간 fps, 비트레이트 및 손실 프레임을 표시합니다(이 값을 명시하지 않는 스트림의 경우 오버레이가 열려 있는 동안 측정됩니다). 사양이 낮은 TV에서 끊김이 발생하는 경우에만 끄세요. 실제 영상에는 영향을 주지 않으며 진단 수치에만 영향을 줍니다.</string>
+    <string name="settings_measured_stats_description_mobile">스트림 정보 오버레이에 실시간 fps, 비트레이트 및 손실 프레임을 표시합니다(이 값을 명시하지 않는 스트림의 경우 오버레이가 열려 있는 동안 측정됩니다). 사양이 낮은 기기에서 끊김이 발생하는 경우에만 끄세요. 실제 영상에는 영향을 주지 않으며 진단 수치에만 영향을 줍니다.</string>
     <string name="settings_none_auto">없음 / 자동</string>
     <string name="settings_view_grid">격자</string>
     <string name="settings_view_list">목록</string>
@@ -580,7 +587,9 @@
     <string name="settings_external_player_description">외부 앱에서 열 섹션을 선택합니다.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_movies_player_description">mpv(권장)는 DTS/TrueHD 오디오와 특이한 파일 등 가장 폭넓은 형식을 지원하고 A/V 싱크 보정도 제공합니다. ExoPlayer는 일부 TV에서 mpv가 열지 못하는 스트림을 재생하지만 DTS/TrueHD 오디오를 디코딩하지 못하고 A/V 싱크 보정도 없습니다. 조합 옵션은 첫 번째 플레이어가 실패하면 다른 플레이어를 자동으로 시도하고, 단일 플레이어 옵션은 절대 시도하지 않습니다. 두 번째 플레이어가 TV에서 어차피 작동하지 않는다면 몇 초의 검은 화면을 줄일 수 있습니다.</string>
+    <string name="settings_movies_player_description_mobile">mpv(권장)는 DTS/TrueHD 오디오와 특이한 파일 등 가장 폭넓은 형식을 지원하고 A/V 싱크 보정도 제공합니다. ExoPlayer는 일부 기기에서 mpv가 열지 못하는 스트림을 재생하지만 DTS/TrueHD 오디오를 디코딩하지 못하고 A/V 싱크 보정도 없습니다. 조합 옵션은 첫 번째 플레이어가 실패하면 다른 플레이어를 자동으로 시도하고, 단일 플레이어 옵션은 절대 시도하지 않습니다. 두 번째 플레이어가 기기에서 어차피 작동하지 않는다면 몇 초의 검은 화면을 줄일 수 있습니다.</string>
     <string name="settings_live_player_description">ExoPlayer(권장)는 채널을 훨씬 빠르게 열며 실시간 자막을 지원하는 유일한 플레이어입니다. mpv는 ExoPlayer가 재생하지 못하는 채널도 재생하며, 여기에는 특이한 오디오를 쓰는 채널도 포함됩니다. 조합 옵션은 첫 번째 플레이어가 실패하면 다른 플레이어를 자동으로 시도하고, 단일 플레이어 옵션은 절대 시도하지 않습니다. 두 번째 플레이어가 TV에서 어차피 작동하지 않는다면 몇 초의 검은 화면을 줄일 수 있습니다. 플레이어에서 직접 전환한 채널은 어느 쪽이든 선택이 유지됩니다.</string>
+    <string name="settings_live_player_description_mobile">ExoPlayer(권장)는 채널을 훨씬 빠르게 열며 실시간 자막을 지원하는 유일한 플레이어입니다. mpv는 ExoPlayer가 재생하지 못하는 채널도 재생하며, 여기에는 특이한 오디오를 쓰는 채널도 포함됩니다. 조합 옵션은 첫 번째 플레이어가 실패하면 다른 플레이어를 자동으로 시도하고, 단일 플레이어 옵션은 절대 시도하지 않습니다. 두 번째 플레이어가 기기에서 어차피 작동하지 않는다면 몇 초의 검은 화면을 줄일 수 있습니다. 플레이어에서 직접 전환한 채널은 어느 쪽이든 선택이 유지됩니다.</string>
     <string name="settings_reset_player_choices_description">플레이어에서 개별 영화나 에피소드를 mpv와 ExoPlayer 간에 전환하면 그 선택이 다음을 위해 저장됩니다. 초기화하면 모두 다시 위 설정을 따릅니다. 라이브 채널의 저장된 선택은 유지됩니다.</string>
     <string name="settings_reset_player_choices_none">저장된 항목 없음</string>
     <plurals name="settings_reset_player_choices_count">
@@ -630,6 +639,7 @@
     <string name="settings_ui_zoom_range">전체 인터페이스 크기를 조절합니다(<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
     <string name="settings_low_zoom_warning_title">⚠️ 낮은 화면 확대 경고</string>
     <string name="settings_low_zoom_warning">화면 확대를 <xliff:g id="zoom">%1$d</xliff:g>%%로 설정하면 한 화면에 훨씬 더 많은 항목이 표시됩니다. 메모리가 제한된 기기(예: 2GB TV 스틱)에서는 특히 대용량 플레이리스트와 EPG 데이터를 사용할 때 앱이 불안정해지거나 비정상 종료될 수 있습니다.\n\n계속하려면 확인을 누르고 <xliff:g id="safe_zoom">%2$d</xliff:g>%%로 유지하려면 뒤로를 누르세요.</string>
+    <string name="settings_low_zoom_warning_mobile">화면 확대를 <xliff:g id="zoom">%1$d</xliff:g>%%로 설정하면 한 화면에 훨씬 더 많은 항목이 표시됩니다. 메모리가 제한된 기기에서는 특히 대용량 플레이리스트와 EPG 데이터를 사용할 때 앱이 불안정해지거나 비정상 종료될 수 있습니다.\n\n<xliff:g id="safe_zoom">%2$d</xliff:g>%%로 유지하려면 취소를 선택하세요.</string>
     <string name="settings_low_zoom_accept">위험을 이해하고 동의합니다</string>
     <string name="settings_surface_transparency"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="settings_surface_count_all">표면: 모두</string>
@@ -1066,12 +1076,20 @@
     <string name="settings_live_latency_per_playlist">재생목록별 실시간 지연 시간</string>
     <!-- Translators: Description of the per-playlist Live latency override row. -->
     <string name="settings_live_latency_per_playlist_description">위 설정을 한 재생목록에만 재정의합니다. 다른 곳보다 크거나 작은 버퍼가 필요한 제공업체에 사용하세요.</string>
+    <string name="settings_catchup_timezone_per_playlist">재생 목록별 다시보기 시간대</string>
+    <string name="settings_catchup_timezone_per_playlist_description">위의 시간대를 재생 목록 하나에만 다르게 적용합니다. 아카이브가 다른 시계로 돌아가는 제공업체에 사용하세요.</string>
+    <string name="settings_vod_engine_per_playlist">재생 목록별 영화 및 시리즈 플레이어</string>
+    <string name="settings_vod_engine_per_playlist_description">위의 설정을 재생 목록 하나에만 다르게 적용합니다. 영화와 에피소드를 한 플레이어만 잘 재생하는 제공업체에 사용하세요.</string>
+    <string name="settings_live_tune_timeout_per_playlist">재생 목록별 포기 시간</string>
+    <string name="settings_live_tune_timeout_per_playlist_description">위의 설정을 재생 목록 하나에만 다르게 적용합니다. 채널 시작이 느리거나 자주 끊겨 있는 제공업체에 사용하세요.</string>
     <plurals name="settings_live_preroll_overrides">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g>개 설정됨</item>
     </plurals>
     <string name="settings_surround_stereo">스테레오만</string>
     <string name="settings_surround_auto_description">자동 — Dolby/DTS 서라운드를 시도하고, TV나 사운드바가 재생하지 못하면 자동으로 스테레오로 전환합니다. 권장합니다.</string>
+    <string name="settings_surround_auto_description_mobile">자동 — Dolby/DTS 서라운드를 시도하고, 스피커, 헤드폰 또는 연결된 리시버가 재생하지 못하면 자동으로 스테레오로 전환합니다. 권장합니다.</string>
     <string name="settings_surround_stereo_description">스테레오만 — 항상 앱에서 디코딩하고 일반 2.0 사운드를 보냅니다. TV 스피커나 스테레오 사운드바에서 사용하거나, 오디오가 화면보다 늦어질 때 사용하세요.</string>
+    <string name="settings_surround_stereo_description_mobile">스테레오만 — 항상 앱에서 디코딩하고 일반 2.0 사운드를 보냅니다. 내장 스피커, 헤드폰 또는 스테레오 사운드바에서 사용하거나, 오디오가 화면보다 늦어질 때 사용하세요.</string>
     <string name="settings_surround_forced_description">서라운드 — Dolby/DTS를 실제 5.1/7.1 리시버로 보냅니다. 소리가 나지 않거나 끊기면 OwnTV가 그래도 스테레오로 전환하고 알려 줍니다.</string>
     <string name="settings_panel_width">패널 너비 조정</string>
     <string name="settings_panel_width_description">실시간 TV, 영화 및 시리즈에서 카테고리, 목록, 미리보기 패널의 크기를 조정합니다.</string>
@@ -1124,7 +1142,9 @@
     <string name="settings_language_contribution_copy_failed">링크를 복사할 수 없습니다. 위에 표시된 URL을 읽거나 직접 입력하세요.</string>
     <string name="settings_auto_frame_rate_warning_suffix">이 TV에서는 권장되지 않음: Android 12 미만에서는 프레임 레이트를 부드럽게 변경할 수 없습니다.</string>
     <string name="settings_auto_frame_rate_warning_title">이 TV에서는 권장되지 않음</string>
+    <string name="settings_auto_frame_rate_warning_title_mobile">이 기기에서는 권장되지 않음</string>
     <string name="settings_auto_frame_rate_warning_description">이 기기는 Android <xliff:g id="android_version">%1$s</xliff:g>을 실행 중입니다. Android 12 미만에서는 TV가 OwnTV에 매끄럽게 전환할 수 있는 주사율을 알려줄 수 없으므로, 프레임 레이트를 변경하면 화면이 1~2초간 꺼질 수 있습니다. 때로는 프로그램 중에 두 번 이상 꺼질 수도 있습니다.\n\n여기서는 자동 프레임 레이트를 끈 상태로 두는 것을 권장합니다. TV가 깔끔하게 전환된다면 켜서 확인해 보세요. 언제든 다시 끌 수 있습니다.</string>
+    <string name="settings_auto_frame_rate_warning_description_mobile">이 기기는 Android <xliff:g id="android_version">%1$s</xliff:g>을 실행 중입니다. Android 12 미만에서는 기기가 OwnTV에 매끄럽게 전환할 수 있는 주사율을 알려줄 수 없으므로, 프레임 레이트를 변경하면 화면이 1~2초간 꺼질 수 있습니다. 때로는 프로그램 중에 두 번 이상 꺼질 수도 있습니다.\n\n여기서는 자동 프레임 레이트를 끈 상태로 두는 것을 권장합니다. 화면이 깔끔하게 전환된다면 켜서 확인해 보세요. 언제든 다시 끌 수 있습니다.</string>
     <string name="settings_auto_frame_rate_keep_off">끈 상태 유지</string>
     <string name="settings_auto_frame_rate_turn_on_anyway">그래도 켜기</string>
     <string name="settings_language_request_workflow">목록에 없는 언어를 추가하고 싶으신가요? 먼저 언어 요청을 제출하세요. 관리자가 해당 언어를 등록하고 기본 번역 파일을 준비합니다. Hosted Weblate에 표시되면 번역에 참여할 수 있습니다.</string>

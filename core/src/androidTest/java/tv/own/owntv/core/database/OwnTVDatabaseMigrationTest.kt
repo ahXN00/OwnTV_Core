@@ -15,6 +15,7 @@ import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import tv.own.owntv.core.epg.EpgMatcher
@@ -529,6 +530,61 @@ class OwnTVDatabaseMigrationTest {
             // otherwise it would drop out of the picker's search.
             assertEquals(null, normNameOf(sqlite, "nameless"))
             assertEquals(EpgMatcher.normalizeForEpg("nameless"), normIdOf(sqlite, "nameless"))
+        } finally {
+            db.close()
+        }
+    }
+
+    /**
+     * v43 → v44 (plan P5), from the published baseline (core-1.0.57 ships v43). Additive only: the
+     * remembered zoom / volume / delay a user already has must survive untouched and read as
+     * "no playlist known" (`sourceId = -1`) until the startup step fills it in; the new table and
+     * every new column must exist, and a new quirk row must be writable.
+     */
+    @Test
+    fun migrateVersion43To44_addsPlaybackQuirksAndPerPlaylistColumns_keepingPrefs() {
+        context.deleteDatabase(DB_NAME)
+        val db43 = context.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null)
+        try {
+            executeSchemaQueries(db43, "tv.own.owntv.core.database.OwnTVDatabase/43.json")
+            db43.execSQL("INSERT INTO profiles (id, name, avatarColor, avatarId, isKids, pinHash, createdAt) VALUES (1, 'Primary', 1122867, 7, 0, NULL, 1)")
+            db43.execSQL(
+                "INSERT INTO playback_prefs (profileId, contentKey, zoomMode, volumeBoost, audioDelayMs, updatedAt) " +
+                    "VALUES (1, '10:LIVE:bbc-one', 'FILL', 130, 250, 5)",
+            )
+            db43.version = 43
+        } finally {
+            db43.close()
+        }
+
+        val db = openWithAllMigrations()
+        try {
+            val sqlite = openForAssertions(db)
+            assertTableExists(sqlite, "playback_quirks")
+            assertIndexExists(sqlite, "index_playback_quirks_sourceId")
+            assertIndexExists(sqlite, "index_playback_prefs_sourceId")
+            listOf("sourceId", "audioLang", "subtitleLang").forEach { assertColumnExists(sqlite, "playback_prefs", it) }
+            listOf("catchupTimezone", "catchupOffsetMin", "vodEnginePreference", "liveTuneTimeoutSecs", "httpReferer")
+                .forEach { assertColumnExists(sqlite, "sources", it) }
+
+            // The user's row came through whole, with the new columns at their "unknown" values.
+            assertCount(sqlite, "playback_prefs", 1)
+            sqlite.prepare("SELECT zoomMode, volumeBoost, audioDelayMs, sourceId, audioLang, subtitleLang FROM playback_prefs").use {
+                assertTrue(it.step())
+                assertEquals("FILL", it.getText(0))
+                assertEquals(130L, it.getLong(1))
+                assertEquals(250L, it.getLong(2))
+                assertEquals(-1L, it.getLong(3))
+                assertTrue(it.isNull(4))
+                assertTrue(it.isNull(5))
+            }
+
+            assertCount(sqlite, "playback_quirks", 0)
+            sqlite.execSQL(
+                "INSERT INTO playback_quirks (contentKey, sourceId, mediaType, enginePin, audioOnly, audioDelayMs, softwareDecode, updatedAt) " +
+                    "VALUES ('10:LIVE:bbc-one', 10, 'LIVE', 'MPV', NULL, 250, NULL, 6)",
+            )
+            assertCount(sqlite, "playback_quirks", 1)
         } finally {
             db.close()
         }

@@ -585,6 +585,8 @@
     <string name="settings_animations">Animations</string>
     <!-- Translators: Description of the Animations setting. -->
     <string name="settings_animations_description">Turn interface motion on or off — Off feels snappier on lower-end TV boxes</string>
+    <!-- Translators: Phone/tablet wording of settings_animations_description. -->
+    <string name="settings_animations_description_mobile">Turn interface motion on or off — Off feels snappier on older phones and tablets</string>
     <!-- Translators: Description of the Weather settings group in the root Settings screen. -->
     <string name="settings_weather_description_root">Top-bar weather chip: show or hide, custom location, and Celsius / Fahrenheit.</string>
     <!-- Translators: Settings navigation group label for Playback settings. -->
@@ -601,16 +603,24 @@
     <string name="settings_mini_player_root_description">Size and position of the docked mini-player</string>
     <!-- Translators: Description of the HDR output setting. 'HDR' is High Dynamic Range. -->
     <string name="settings_hdr_description">Use HDR output when the video &amp; TV support it</string>
+    <!-- Translators: Phone/tablet wording of settings_hdr_description. 'HDR' is High Dynamic Range. -->
+    <string name="settings_hdr_description_mobile">Use HDR output when the video &amp; screen support it</string>
     <!-- Translators: Setting label for auto frame rate matching. -->
     <string name="settings_auto_frame_rate">Auto frame rate</string>
     <!-- Translators: Description of the auto frame rate setting. Explains when to turn it off. -->
     <string name="settings_auto_frame_rate_description">Match the TV\'s refresh rate to the video (24/25/50/60 fps) in full screen, for Live TV and VOD, and restore it on exit. Turn off if your TV or receiver re-handshakes HDMI noisily on every channel change.</string>
+    <!-- Translators: Phone/tablet wording of settings_auto_frame_rate_description. -->
+    <string name="settings_auto_frame_rate_description_mobile">Match the screen\'s refresh rate to the video (24/25/50/60 fps) in full screen, for Live TV and VOD, and restore it on exit. Turn off if the screen flickers or goes dark when a video starts.</string>
     <!-- Translators: Extra warning appended to Auto frame rate on devices older than Android 12. -->
     <string name="settings_auto_frame_rate_warning_suffix">Not recommended on this TV: below Android 12 the rate can\'t be changed smoothly.</string>
     <!-- Translators: Title warning that Auto frame rate may blank the display on this older TV. -->
     <string name="settings_auto_frame_rate_warning_title">Not recommended on this TV</string>
+    <!-- Translators: Phone/tablet wording of settings_auto_frame_rate_warning_title. -->
+    <string name="settings_auto_frame_rate_warning_title_mobile">Not recommended on this device</string>
     <!-- Translators: Auto frame rate warning. %1$s is the device Android version, such as 11. -->
     <string name="settings_auto_frame_rate_warning_description">This device runs Android <xliff:g id="android_version">%1$s</xliff:g>. Below Android 12 the TV can\'t tell OwnTV which refresh rates it can switch to smoothly, so changing the rate may black the screen out for a second or two — sometimes more than once during a programme.\n\nWe recommend leaving Auto frame rate off here. If your TV switches cleanly, turn it on and see: you can change it back at any time.</string>
+    <!-- Translators: Phone/tablet wording of settings_auto_frame_rate_warning_description. %1$s is the device Android version, such as 11. -->
+    <string name="settings_auto_frame_rate_warning_description_mobile">This device runs Android <xliff:g id="android_version">%1$s</xliff:g>. Below Android 12 the device can\'t tell OwnTV which refresh rates it can switch to smoothly, so changing the rate may black the screen out for a second or two — sometimes more than once during a programme.\n\nWe recommend leaving Auto frame rate off here. If your screen switches cleanly, turn it on and see: you can change it back at any time.</string>
     <!-- Translators: Safe action that leaves Auto frame rate disabled. -->
     <string name="settings_auto_frame_rate_keep_off">Keep off</string>
     <!-- Translators: Action that enables Auto frame rate despite the warning. -->
@@ -619,6 +629,8 @@
     <string name="settings_surround_sound">Surround sound</string>
     <!-- Translators: Description of the surround sound setting. Explains when to leave it OFF. -->
     <string name="settings_surround_description">Decode Dolby/DTS to surround (5.1/7.1) for a real 5.1/7.1 receiver. Leave OFF for TV speakers or a stereo soundbar — multichannel can lag audio behind video on some TVs/soundbars. If it drifts, nudge the player\'s Audio menu → A/V sync.</string>
+    <!-- Translators: Phone/tablet wording of settings_surround_description. -->
+    <string name="settings_surround_description_mobile">Decode Dolby/DTS to surround (5.1/7.1) for a real 5.1/7.1 receiver connected to this device. Leave OFF for the built-in speaker, headphones or a stereo soundbar — multichannel can lag audio behind video. If it drifts, nudge the player\'s Audio menu → A/V sync.</string>
     <!-- Translators: Setting label to auto-play the next episode. -->
     <string name="settings_autoplay_next">Auto-play next episode</string>
     <!-- Translators: Description of the auto-play next episode setting. -->
@@ -1005,6 +1017,8 @@
     <string name="settings_hardware_decoding">Hardware decoding</string>
     <!-- Translators: Description of the hardware decoding setting. -->
     <string name="settings_hardware_decoding_description">Use the TV\'s hardware decoder. Turn off if some streams stutter or show artifacts.</string>
+    <!-- Translators: Phone/tablet wording of settings_hardware_decoding_description. -->
+    <string name="settings_hardware_decoding_description_mobile">Use the device\'s hardware decoder. Turn off if some streams stutter or show artifacts.</string>
     <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
     <string name="settings_deinterlace">Deinterlacing</string>
     <!-- Translators: Description of the deinterlacing setting. -->
@@ -1105,12 +1119,16 @@
     <string name="settings_channel_numbers">Channel numbers</string>
     <!-- Translators: Description of the channel numbers setting. -->
     <string name="settings_channel_numbers_description">Show your provider\'s channel number beside the name in the Live TV list, the channel-list overlay and the player — and type a number on the remote during full-screen playback to jump straight to that channel (OK tunes at once, Back cancels). Off hides every number and ignores the number keys; nothing is lost, and turning it back on restores them.</string>
+    <!-- Translators: Phone/tablet wording of settings_channel_numbers_description (phones have no remote-control number keys). -->
+    <string name="settings_channel_numbers_description_mobile">Show your provider\'s channel number beside the name in the Live TV list and the player. Off hides every number; nothing is lost, and turning it back on restores them.</string>
     <!-- Translators: Section header for diagnostic settings. -->
     <string name="settings_diagnostics">Diagnostics</string>
     <!-- Translators: Toggle label for showing measured stream statistics. -->
     <string name="settings_measured_stats">Measured stream stats</string>
     <!-- Translators: Description of the measured stats setting. -->
     <string name="settings_measured_stats_description">Show live fps, bitrate and dropped frames in the stream-info overlay (measured while the overlay is open, for streams that don\'t declare these values). Turn off only if a low-end TV stutters — it never affects the actual video, only the diagnostic numbers.</string>
+    <!-- Translators: Phone/tablet wording of settings_measured_stats_description. -->
+    <string name="settings_measured_stats_description_mobile">Show live fps, bitrate and dropped frames in the stream-info overlay (measured while the overlay is open, for streams that don\'t declare these values). Turn off only if a low-end device stutters — it never affects the actual video, only the diagnostic numbers.</string>
     <!-- Translators: Option label for 'None / Auto' in various pickers. -->
     <string name="settings_none_auto">None / Auto</string>
     <!-- Translators: View mode option: grid layout. -->
@@ -1155,8 +1173,12 @@ Choose Balanced if a channel becomes unreliable.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <!-- Translators: Description of the Movies & Series player engine choice. 'mpv' and 'ExoPlayer' are engine brand names. -->
     <string name="settings_movies_player_description">mpv (recommended) has the widest format support — DTS/TrueHD audio, unusual files — plus the A/V sync fix. ExoPlayer plays some streams mpv can\'t on certain TVs, but can\'t decode DTS/TrueHD audio and has no A/V sync fix. The combined options try the other player automatically when the first one fails; the single-player options never do, which saves a few seconds of black screen if the second player never works on your TV.</string>
+    <!-- Translators: Phone/tablet wording of settings_movies_player_description. 'mpv' and 'ExoPlayer' are engine brand names. -->
+    <string name="settings_movies_player_description_mobile">mpv (recommended) has the widest format support — DTS/TrueHD audio, unusual files — plus the A/V sync fix. ExoPlayer plays some streams mpv can\'t on certain devices, but can\'t decode DTS/TrueHD audio and has no A/V sync fix. The combined options try the other player automatically when the first one fails; the single-player options never do, which saves a few seconds of black screen if the second player never works on your device.</string>
     <!-- Translators: Description of the Live TV player engine choice. 'mpv' and 'ExoPlayer' are engine brand names. -->
     <string name="settings_live_player_description">ExoPlayer (recommended) opens channels much faster and is the only one with live subtitles. mpv plays channels ExoPlayer can\'t, including some with unusual audio. The combined options try the other player automatically when the first one fails; the single-player options never do, which saves a few seconds of black screen if the second player never works on your TV. A channel you switch by hand in the player keeps your choice either way.</string>
+    <!-- Translators: Phone/tablet wording of settings_live_player_description. 'mpv' and 'ExoPlayer' are engine brand names. -->
+    <string name="settings_live_player_description_mobile">ExoPlayer (recommended) opens channels much faster and is the only one with live subtitles. mpv plays channels ExoPlayer can\'t, including some with unusual audio. The combined options try the other player automatically when the first one fails; the single-player options never do, which saves a few seconds of black screen if the second player never works on your device. A channel you switch by hand in the player keeps your choice either way.</string>
     <!-- Translators: Description of the row that forgets per-movie/per-episode player choices. 'mpv' and 'ExoPlayer' are engine brand names. -->
     <string name="settings_reset_player_choices_description">Switching a single movie or episode between mpv and ExoPlayer in the player saves that choice for next time. Reset makes everything follow the setting above again. Saved choices for live channels are kept.</string>
     <!-- Translators: Chip on the reset row when no movie or episode has its own saved player. -->
@@ -1254,6 +1276,8 @@ Choose Balanced if a channel becomes unreliable.</string>
     <string name="settings_low_zoom_warning_title">⚠️ Low zoom warning</string>
     <!-- Translators: Warning about low zoom levels causing instability. 'zoom' is the zoom percentage, 'safe_zoom' is the recommended safe level. -->
     <string name="settings_low_zoom_warning"><xliff:g id="zoom">%1$d</xliff:g>%% zoom shows many more items on screen at once. On devices with limited memory (for example, 2 GB TV sticks) this can make the app unstable or crash, especially with large playlists and EPG data.\n\nPress OK to continue, or Back to stay at <xliff:g id="safe_zoom">%2$d</xliff:g>%%.</string>
+    <!-- Translators: Phone/tablet wording of settings_low_zoom_warning. 'zoom' is the chosen zoom percentage, 'safe_zoom' the recommended level. Cancel is the dialog button common_cancel. -->
+    <string name="settings_low_zoom_warning_mobile"><xliff:g id="zoom">%1$d</xliff:g>%% zoom shows many more items on screen at once. On devices with limited memory this can make the app unstable or crash, especially with large playlists and EPG data.\n\nChoose Cancel to stay at <xliff:g id="safe_zoom">%2$d</xliff:g>%%.</string>
     <!-- Translators: Button to acknowledge the low zoom warning. -->
     <string name="settings_low_zoom_accept">I understand and accept the risk</string>
     <!-- Translators: Generic percentage readout used for both transparency and blur intensity. "percent" is the value. -->
@@ -2119,6 +2143,18 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <string name="settings_live_latency_per_playlist">Live latency per playlist</string>
     <!-- Translators: Description of the per-playlist Live latency override row. -->
     <string name="settings_live_latency_per_playlist_description">Override the setting above for one playlist, for a provider that needs a deeper or shallower buffer than the others.</string>
+    <!-- Translators: Title of the per-playlist catch-up time zone override row. -->
+    <string name="settings_catchup_timezone_per_playlist">Catch-up time zone per playlist</string>
+    <!-- Translators: Description of the per-playlist catch-up time zone override row. -->
+    <string name="settings_catchup_timezone_per_playlist_description">Override the time zone above for one playlist, for a provider whose archive runs on a different clock.</string>
+    <!-- Translators: Title of the per-playlist Movies & Series player override row. -->
+    <string name="settings_vod_engine_per_playlist">Movies &amp; Series player per playlist</string>
+    <!-- Translators: Description of the per-playlist Movies & Series player override row. -->
+    <string name="settings_vod_engine_per_playlist_description">Override the setting above for one playlist, for a provider whose films and episodes only one of the players handles well.</string>
+    <!-- Translators: Title of the per-playlist override of "Give up on a channel after" (settings_live_tune_timeout). -->
+    <string name="settings_live_tune_timeout_per_playlist">Give up after, per playlist</string>
+    <!-- Translators: Description of the per-playlist "Give up after" override row. -->
+    <string name="settings_live_tune_timeout_per_playlist_description">Override the setting above for one playlist, for a provider whose channels are slow to start or often dead.</string>
     <!-- Translators: Number of playlists with a custom pre-buffer override. -->
     <plurals name="settings_live_preroll_overrides">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> set</item>
@@ -2126,7 +2162,11 @@ Resync and remove missing titles also allows removing titles the provider no lon
     </plurals>
     <string name="settings_surround_stereo">Stereo only</string>
     <string name="settings_surround_auto_description">Auto — try Dolby/DTS surround, and switch back to stereo automatically if the TV or soundbar does not play it. Recommended.</string>
+    <!-- Translators: Phone/tablet wording of settings_surround_auto_description. -->
+    <string name="settings_surround_auto_description_mobile">Auto — try Dolby/DTS surround, and switch back to stereo automatically if the speaker, headphones or connected receiver do not play it. Recommended.</string>
     <string name="settings_surround_stereo_description">Stereo only — always decode in the app and send plain 2.0 sound. Use this on TV speakers or a stereo soundbar, or if audio lags behind the picture.</string>
+    <!-- Translators: Phone/tablet wording of settings_surround_stereo_description. -->
+    <string name="settings_surround_stereo_description_mobile">Stereo only — always decode in the app and send plain 2.0 sound. Use this for the built-in speaker, headphones or a stereo soundbar, or if audio lags behind the picture.</string>
     <string name="settings_surround_forced_description">Surround — send Dolby/DTS to a real 5.1/7.1 receiver. If it goes silent or stutters, OwnTV still falls back to stereo and tells you.</string>
     <string name="settings_panel_width">Panel Width Adjustment</string>
     <string name="settings_panel_width_description">Resize the category, list and preview panels in Live TV, Movies &amp; Series.</string>

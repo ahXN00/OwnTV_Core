@@ -263,6 +263,7 @@
     <string name="settings_ui_zoom_description">Масштабирование всего интерфейса</string>
     <string name="settings_animations">Анимации</string>
     <string name="settings_animations_description">Включение или отключение анимации интерфейса — без неё интерфейс быстрее реагирует на маломощных ТВ-приставках</string>
+    <string name="settings_animations_description_mobile">Включение или отключение анимации интерфейса — без неё интерфейс быстрее реагирует на старых телефонах и планшетах</string>
     <string name="settings_weather_description_root">Чип погоды на верхней панели: отображение, другое местоположение и градусы Цельсия или Фаренгейта.</string>
     <string name="settings_playback_group">Воспроизведение</string>
     <string name="settings_live_preview_description">Автоматически воспроизводить канал при переводе на него фокуса</string>
@@ -271,10 +272,13 @@
     <string name="settings_mini_player_root">Мини-плеер</string>
     <string name="settings_mini_player_root_description">Размер и положение закреплённого мини-плеера</string>
     <string name="settings_hdr_description">Использовать вывод HDR, если видео и телевизор его поддерживают</string>
+    <string name="settings_hdr_description_mobile">Использовать вывод HDR, если видео и экран его поддерживают</string>
     <string name="settings_auto_frame_rate">Автоматическая частота кадров</string>
     <string name="settings_auto_frame_rate_description">Согласовывать частоту обновления телевизора с видео (24/25/50/60 кадров/с) в полноэкранном режиме для прямого эфира и VOD и восстанавливать её при выходе. Отключите, если телевизор или ресивер при каждой смене канала заново устанавливает соединение HDMI с заметными помехами.</string>
+    <string name="settings_auto_frame_rate_description_mobile">Согласовывать частоту обновления экрана с видео (24/25/50/60 кадров/с) в полноэкранном режиме для прямого эфира и VOD и восстанавливать её при выходе. Отключите, если экран мерцает или гаснет при запуске видео.</string>
     <string name="settings_surround_sound">Объёмный звук</string>
     <string name="settings_surround_description">Декодировать Dolby/DTS в объёмный звук (5.1/7.1) для настоящего ресивера 5.1/7.1. Оставьте ВЫКЛ. для динамиков телевизора или стереофонического саундбара — на некоторых телевизорах и саундбарах многоканальный звук может отставать от видео. Если синхронизация сбивается, скорректируйте её в меню плеера «Звук → Синхронизация аудио и видео».</string>
+    <string name="settings_surround_description_mobile">Декодировать Dolby/DTS в объёмный звук (5.1/7.1) для настоящего ресивера 5.1/7.1, подключённого к этому устройству. Оставьте ВЫКЛ. для встроенного динамика, наушников или стереофонического саундбара — многоканальный звук может отставать от видео. Если синхронизация сбивается, скорректируйте её в меню плеера «Звук → Синхронизация аудио и видео».</string>
     <string name="settings_autoplay_next">Автовоспроизведение следующей серии</string>
     <string name="settings_autoplay_next_description">Когда серия заканчивается, автоматически начинать следующую, а после завершения сезона переходить к следующему сезону. Архив тоже продолжается со следующей передачи.</string>
     <string name="settings_catchup">Архив</string>
@@ -478,6 +482,7 @@
     <string name="settings_decoding">Декодирование</string>
     <string name="settings_hardware_decoding">Аппаратное декодирование</string>
     <string name="settings_hardware_decoding_description">Использовать аппаратный декодер телевизора. Отключите, если некоторые потоки воспроизводятся с рывками или артефактами.</string>
+    <string name="settings_hardware_decoding_description_mobile">Использовать аппаратный декодер устройства. Отключите, если некоторые потоки воспроизводятся с рывками или артефактами.</string>
     <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
     <string name="settings_deinterlace">Деинтерлейсинг</string>
     <!-- Translators: Description of the deinterlacing setting. -->
@@ -562,9 +567,11 @@
     <string name="settings_live_latency_bitrate_note">На канале с очень высоким битрейтом — особенно в 4K — буфер может вместить меньше времени, чем вы задали, поскольку объём видео, который можно держать в памяти одновременно, ограничен.</string>
     <string name="settings_channel_numbers">Номера каналов</string>
     <string name="settings_channel_numbers_description">Показывать назначенный поставщиком номер канала рядом с его названием в списке прямого эфира, оверлее списка каналов и плеере, а также позволить вводить номер с пульта ДУ во время полноэкранного воспроизведения для мгновенного перехода к каналу (OK сразу включает канал, «Назад» отменяет ввод). Если настройка отключена, все номера скрываются, а цифровые кнопки игнорируются; данные не теряются, и после повторного включения номера снова появятся.</string>
+    <string name="settings_channel_numbers_description_mobile">Показывать назначенный поставщиком номер канала рядом с его названием в списке прямого эфира и плеере. Если настройка отключена, все номера скрываются; данные не теряются, и после повторного включения номера снова появятся.</string>
     <string name="settings_diagnostics">Диагностика</string>
     <string name="settings_measured_stats">Измеренная статистика потока</string>
     <string name="settings_measured_stats_description">Показывать текущую частоту кадров, битрейт и количество пропущенных кадров в оверлее информации о потоке (значения измеряются, пока открыт оверлей, для потоков, в которых эти данные не указаны). Отключайте только в том случае, если маломощный телевизор начинает воспроизводить видео рывками: настройка никогда не влияет на само видео, а только на диагностические показатели.</string>
+    <string name="settings_measured_stats_description_mobile">Показывать текущую частоту кадров, битрейт и количество пропущенных кадров в оверлее информации о потоке (значения измеряются, пока открыт оверлей, для потоков, в которых эти данные не указаны). Отключайте только в том случае, если маломощное устройство начинает воспроизводить видео рывками: настройка никогда не влияет на само видео, а только на диагностические показатели.</string>
     <string name="settings_none_auto">Нет / Авто</string>
     <string name="settings_view_grid">Сетка</string>
     <string name="settings_view_list">Список</string>
@@ -586,7 +593,9 @@
     <string name="settings_external_player_description">Выберите разделы, которые будут открываться во внешнем приложении.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> мс</string>
     <string name="settings_movies_player_description">mpv (рекомендуется) поддерживает больше всего форматов — звук DTS/TrueHD, необычные файлы — и исправляет рассинхрон звука и видео. На некоторых телевизорах ExoPlayer воспроизводит потоки, которые не даются mpv, но он не декодирует звук DTS/TrueHD и не исправляет рассинхрон. Комбинированные варианты автоматически пробуют второй плеер, когда первый не справился; варианты с одним плеером не делают этого никогда, что экономит несколько секунд чёрного экрана, если второй плеер на вашем телевизоре всё равно не работает.</string>
+    <string name="settings_movies_player_description_mobile">mpv (рекомендуется) поддерживает больше всего форматов — звук DTS/TrueHD, необычные файлы — и исправляет рассинхрон звука и видео. На некоторых устройствах ExoPlayer воспроизводит потоки, которые не даются mpv, но он не декодирует звук DTS/TrueHD и не исправляет рассинхрон. Комбинированные варианты автоматически пробуют второй плеер, когда первый не справился; варианты с одним плеером не делают этого никогда, что экономит несколько секунд чёрного экрана, если второй плеер на вашем устройстве всё равно не работает.</string>
     <string name="settings_live_player_description">ExoPlayer (рекомендуется) открывает каналы намного быстрее и единственный поддерживает субтитры в прямом эфире. mpv воспроизводит каналы, которые не даются ExoPlayer, в том числе некоторые с необычным звуком. Комбинированные варианты автоматически пробуют второй плеер, когда первый не справился; варианты с одним плеером не делают этого никогда, что экономит несколько секунд чёрного экрана, если второй плеер на вашем телевизоре всё равно не работает. На канале, переключённом вручную в плеере, ваш выбор сохраняется в любом случае.</string>
+    <string name="settings_live_player_description_mobile">ExoPlayer (рекомендуется) открывает каналы намного быстрее и единственный поддерживает субтитры в прямом эфире. mpv воспроизводит каналы, которые не даются ExoPlayer, в том числе некоторые с необычным звуком. Комбинированные варианты автоматически пробуют второй плеер, когда первый не справился; варианты с одним плеером не делают этого никогда, что экономит несколько секунд чёрного экрана, если второй плеер на вашем устройстве всё равно не работает. На канале, переключённом вручную в плеере, ваш выбор сохраняется в любом случае.</string>
     <string name="settings_reset_player_choices_description">Если переключить отдельный фильм или серию между mpv и ExoPlayer прямо в плеере, этот выбор сохраняется на следующий раз. Сброс возвращает всё к настройке выше. Сохранённый выбор для каналов прямого эфира остаётся.</string>
     <string name="settings_reset_player_choices_none">Ничего не сохранено</string>
     <plurals name="settings_reset_player_choices_count">
@@ -639,6 +648,7 @@
     <string name="settings_ui_zoom_range">Масштаб всего интерфейса (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
     <string name="settings_low_zoom_warning_title">⚠️ Предупреждение о малом масштабе</string>
     <string name="settings_low_zoom_warning">При масштабе <xliff:g id="zoom">%1$d</xliff:g>%% на экране одновременно отображается гораздо больше элементов. На устройствах с небольшим объёмом памяти (например, ТВ-приставках с 2 ГБ памяти) это может привести к нестабильной работе или сбою приложения, особенно при больших плейлистах и объёмах данных EPG.\n\nНажмите OK, чтобы продолжить, или «Назад», чтобы оставить масштаб <xliff:g id="safe_zoom">%2$d</xliff:g>%%.</string>
+    <string name="settings_low_zoom_warning_mobile">При масштабе <xliff:g id="zoom">%1$d</xliff:g>%% на экране одновременно отображается гораздо больше элементов. На устройствах с небольшим объёмом памяти это может привести к нестабильной работе или сбою приложения, особенно при больших плейлистах и объёмах данных EPG.\n\nВыберите «Отмена», чтобы оставить масштаб <xliff:g id="safe_zoom">%2$d</xliff:g>%%.</string>
     <string name="settings_low_zoom_accept">Я понимаю и принимаю риск</string>
     <string name="settings_surface_transparency"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="settings_surface_count_all">Поверхности: все</string>
@@ -1123,6 +1133,12 @@
     <string name="settings_live_latency_per_playlist">Задержка прямого эфира для плейлиста</string>
     <!-- Translators: Description of the per-playlist Live latency override row. -->
     <string name="settings_live_latency_per_playlist_description">Переопределяет указанную выше настройку для одного плейлиста — для провайдера, которому нужен больший или меньший буфер, чем остальным.</string>
+    <string name="settings_catchup_timezone_per_playlist">Часовой пояс архива для плейлиста</string>
+    <string name="settings_catchup_timezone_per_playlist_description">Заменяет часовой пояс выше для одного плейлиста — для провайдера, чей архив идёт по другим часам.</string>
+    <string name="settings_vod_engine_per_playlist">Плеер фильмов и сериалов для плейлиста</string>
+    <string name="settings_vod_engine_per_playlist_description">Заменяет настройку выше для одного плейлиста — для провайдера, чьи фильмы и серии хорошо воспроизводит только один из плееров.</string>
+    <string name="settings_live_tune_timeout_per_playlist">Прекращать попытки через, для плейлиста</string>
+    <string name="settings_live_tune_timeout_per_playlist_description">Заменяет настройку выше для одного плейлиста — для провайдера, чьи каналы долго запускаются или часто не работают.</string>
     <plurals name="settings_live_preroll_overrides">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> набор</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> набора</item>
@@ -1131,7 +1147,9 @@
     </plurals>
     <string name="settings_surround_stereo">Только стерео</string>
     <string name="settings_surround_auto_description">Авто — пробовать объёмный звук Dolby/DTS и автоматически возвращаться к стерео, если телевизор или саундбар его не воспроизводит. Рекомендуется.</string>
+    <string name="settings_surround_auto_description_mobile">Авто — пробовать объёмный звук Dolby/DTS и автоматически возвращаться к стерео, если динамик, наушники или подключённый ресивер его не воспроизводят. Рекомендуется.</string>
     <string name="settings_surround_stereo_description">Только стерео — всегда декодировать в приложении и передавать обычный звук 2.0. Используйте на встроенных динамиках телевизора или стерео-саундбаре, а также если звук отстаёт от картинки.</string>
+    <string name="settings_surround_stereo_description_mobile">Только стерео — всегда декодировать в приложении и передавать обычный звук 2.0. Используйте со встроенным динамиком, наушниками или стерео-саундбаром, а также если звук отстаёт от картинки.</string>
     <string name="settings_surround_forced_description">Объёмный звук — передавать Dolby/DTS на настоящий ресивер 5.1/7.1. Если звук пропадает или прерывается, OwnTV всё равно переключится на стерео и сообщит вам.</string>
     <string name="settings_panel_width">Настройка ширины панелей</string>
     <string name="settings_panel_width_description">Изменение размера панелей категорий, списка и предпросмотра в разделах «Прямой эфир», «Фильмы» и «Сериалы».</string>
@@ -1184,7 +1202,9 @@
     <string name="settings_language_contribution_copy_failed">Не удалось скопировать ссылку. Прочитайте или введите URL, указанный выше.</string>
     <string name="settings_auto_frame_rate_warning_suffix">Не рекомендуется на этом телевизоре: на Android ниже 12 частота не может меняться плавно.</string>
     <string name="settings_auto_frame_rate_warning_title">Не рекомендуется на этом телевизоре</string>
+    <string name="settings_auto_frame_rate_warning_title_mobile">Не рекомендуется на этом устройстве</string>
     <string name="settings_auto_frame_rate_warning_description">На этом устройстве установлен Android <xliff:g id="android_version">%1$s</xliff:g>. На Android ниже 12 телевизор не может сообщить OwnTV, между какими частотами обновления он может переключаться плавно, поэтому смена частоты может погасить экран на секунду-другую — иногда не один раз за время передачи.\n\nМы рекомендуем оставить автоподбор частоты кадров выключенным здесь. Если ваш телевизор переключается без проблем, включите его и проверьте: вы сможете вернуть всё обратно в любой момент.</string>
+    <string name="settings_auto_frame_rate_warning_description_mobile">На этом устройстве установлен Android <xliff:g id="android_version">%1$s</xliff:g>. На Android ниже 12 устройство не может сообщить OwnTV, между какими частотами обновления оно может переключаться плавно, поэтому смена частоты может погасить экран на секунду-другую — иногда не один раз за время передачи.\n\nМы рекомендуем оставить автоподбор частоты кадров выключенным здесь. Если ваш экран переключается без проблем, включите его и проверьте: вы сможете вернуть всё обратно в любой момент.</string>
     <string name="settings_auto_frame_rate_keep_off">Оставить выключенным</string>
     <string name="settings_auto_frame_rate_turn_on_anyway">Включить всё равно</string>
     <string name="settings_language_request_workflow">Хотите добавить язык, которого нет в списке? Сначала отправьте заявку на язык. Сопровождающий зарегистрирует его и подготовит базовые файлы перевода; как только язык появится на Hosted Weblate, вы сможете начать вносить свой вклад.</string>

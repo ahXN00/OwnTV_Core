@@ -262,6 +262,7 @@
     <string name="settings_ui_zoom_description">Redimensionner toute l’interface</string>
     <string name="settings_animations">Animations</string>
     <string name="settings_animations_description">Activer ou désactiver les animations de l’interface — la désactivation offre une meilleure réactivité sur les box TV d’entrée de gamme</string>
+    <string name="settings_animations_description_mobile">Activer ou désactiver les animations de l’interface — la désactivation offre une meilleure réactivité sur les téléphones et tablettes plus anciens</string>
     <string name="settings_weather_description_root">Puce météo de la barre supérieure : affichage, lieu personnalisé et degrés Celsius / Fahrenheit.</string>
     <string name="settings_playback_group">Lecture</string>
     <string name="settings_live_preview_description">Lire automatiquement une chaîne lorsque vous la sélectionnez</string>
@@ -270,10 +271,13 @@
     <string name="settings_mini_player_root">Mini-lecteur</string>
     <string name="settings_mini_player_root_description">Taille et position du mini-lecteur ancré</string>
     <string name="settings_hdr_description">Utiliser la sortie HDR lorsque la vidéo et le téléviseur la prennent en charge</string>
+    <string name="settings_hdr_description_mobile">Utiliser la sortie HDR lorsque la vidéo et l’écran la prennent en charge</string>
     <string name="settings_auto_frame_rate">Fréquence d’images automatique</string>
     <string name="settings_auto_frame_rate_description">Adapter la fréquence de rafraîchissement du téléviseur à la vidéo (24/25/50/60 ips) en plein écran, pour la TV en direct et la VOD, puis la rétablir en quittant la lecture. Désactivez cette option si votre téléviseur ou récepteur relance bruyamment la négociation HDMI à chaque changement de chaîne.</string>
+    <string name="settings_auto_frame_rate_description_mobile">Adapter la fréquence de rafraîchissement de l’écran à la vidéo (24/25/50/60 ips) en plein écran, pour la TV en direct et la VOD, puis la rétablir en quittant la lecture. Désactivez cette option si l’écran scintille ou devient noir au démarrage d’une vidéo.</string>
     <string name="settings_surround_sound">Son surround</string>
     <string name="settings_surround_description">Décoder Dolby/DTS en son surround (5.1/7.1) pour un véritable récepteur 5.1/7.1. Laissez cette option DÉSACTIVÉE avec les haut-parleurs du téléviseur ou une barre de son stéréo — sur certains téléviseurs et certaines barres de son, le multicanal peut retarder le son par rapport à l’image. En cas de décalage progressif, ajustez le menu Audio du lecteur → Synchronisation A/V.</string>
+    <string name="settings_surround_description_mobile">Décoder Dolby/DTS en son surround (5.1/7.1) pour un véritable récepteur 5.1/7.1 relié à cet appareil. Laissez cette option DÉSACTIVÉE avec le haut-parleur intégré, un casque ou une barre de son stéréo — le multicanal peut retarder le son par rapport à l’image. En cas de décalage progressif, ajustez le menu Audio du lecteur → Synchronisation A/V.</string>
     <string name="settings_autoplay_next">Lire automatiquement l’épisode suivant</string>
     <string name="settings_autoplay_next_description">Lorsqu’un épisode se termine, lancer automatiquement le suivant — et passer à la saison suivante. Le rattrapage enchaîne lui aussi sur le programme suivant.</string>
     <string name="settings_catchup">Rattrapage</string>
@@ -476,6 +480,7 @@
     <string name="settings_decoding">Décodage</string>
     <string name="settings_hardware_decoding">Décodage matériel</string>
     <string name="settings_hardware_decoding_description">Utiliser le décodeur matériel du téléviseur. Désactivez cette option si certains flux saccadent ou présentent des artefacts.</string>
+    <string name="settings_hardware_decoding_description_mobile">Utiliser le décodeur matériel de l’appareil. Désactivez cette option si certains flux saccadent ou présentent des artefacts.</string>
     <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
     <string name="settings_deinterlace">Désentrelacement</string>
     <!-- Translators: Description of the deinterlacing setting. -->
@@ -560,9 +565,11 @@
     <string name="settings_live_latency_bitrate_note">Sur une chaîne à très haut débit — en 4K en particulier — la mémoire tampon peut contenir moins de temps que demandé, car la quantité de vidéo conservée en mémoire est limitée.</string>
     <string name="settings_channel_numbers">Numéros des chaînes</string>
     <string name="settings_channel_numbers_description">Afficher le numéro attribué par votre fournisseur à côté du nom dans la liste de la TV en direct, la superposition de la liste des chaînes et le lecteur. Pendant une lecture en plein écran, saisissez un numéro avec la télécommande pour accéder directement à cette chaîne (OK la sélectionne immédiatement, Retour annule). Lorsque cette option est désactivée, tous les numéros sont masqués et les touches numériques sont ignorées. Rien n’est perdu : réactiver l’option les restaure.</string>
+    <string name="settings_channel_numbers_description_mobile">Afficher le numéro attribué par votre fournisseur à côté du nom dans la liste de la TV en direct et le lecteur. Lorsque cette option est désactivée, tous les numéros sont masqués. Rien n’est perdu : réactiver l’option les restaure.</string>
     <string name="settings_diagnostics">Diagnostic</string>
     <string name="settings_measured_stats">Statistiques mesurées du flux</string>
     <string name="settings_measured_stats_description">Afficher en direct le nombre d’images par seconde, le débit binaire et les images perdues dans la superposition des informations sur le flux (mesurés pendant que la superposition est ouverte pour les flux qui ne déclarent pas ces valeurs). Désactivez cette option uniquement si un téléviseur peu puissant subit des saccades : elle n’affecte jamais la vidéo elle-même, seulement les données de diagnostic.</string>
+    <string name="settings_measured_stats_description_mobile">Afficher en direct le nombre d’images par seconde, le débit binaire et les images perdues dans la superposition des informations sur le flux (mesurés pendant que la superposition est ouverte pour les flux qui ne déclarent pas ces valeurs). Désactivez cette option uniquement si un appareil peu puissant subit des saccades : elle n’affecte jamais la vidéo elle-même, seulement les données de diagnostic.</string>
     <string name="settings_none_auto">Aucun / Auto</string>
     <string name="settings_view_grid">Grille</string>
     <string name="settings_view_list">Liste</string>
@@ -584,7 +591,9 @@
     <string name="settings_external_player_description">Choisissez les sections à ouvrir dans une application externe.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_movies_player_description">mpv (recommandé) offre la plus large prise en charge des formats — audio DTS/TrueHD, fichiers inhabituels — ainsi que la correction de synchronisation audio/vidéo. Sur certains téléviseurs, ExoPlayer lit des flux que mpv ne parvient pas à lire, mais il ne décode pas l’audio DTS/TrueHD et n’a pas de correction de synchronisation. Les options combinées essaient automatiquement l’autre lecteur lorsque le premier échoue ; les options à un seul lecteur ne le font jamais, ce qui évite quelques secondes d’écran noir si le second lecteur ne fonctionne de toute façon pas sur votre téléviseur.</string>
+    <string name="settings_movies_player_description_mobile">mpv (recommandé) offre la plus large prise en charge des formats — audio DTS/TrueHD, fichiers inhabituels — ainsi que la correction de synchronisation audio/vidéo. Sur certains appareils, ExoPlayer lit des flux que mpv ne parvient pas à lire, mais il ne décode pas l’audio DTS/TrueHD et n’a pas de correction de synchronisation. Les options combinées essaient automatiquement l’autre lecteur lorsque le premier échoue ; les options à un seul lecteur ne le font jamais, ce qui évite quelques secondes d’écran noir si le second lecteur ne fonctionne de toute façon pas sur votre appareil.</string>
     <string name="settings_live_player_description">ExoPlayer (recommandé) ouvre les chaînes beaucoup plus vite et il est le seul à gérer les sous-titres en direct. mpv lit des chaînes qu’ExoPlayer ne parvient pas à lire, dont certaines à l’audio inhabituel. Les options combinées essaient automatiquement l’autre lecteur lorsque le premier échoue ; les options à un seul lecteur ne le font jamais, ce qui évite quelques secondes d’écran noir si le second lecteur ne fonctionne de toute façon pas sur votre téléviseur. Une chaîne que vous basculez à la main dans le lecteur conserve votre choix dans les deux cas.</string>
+    <string name="settings_live_player_description_mobile">ExoPlayer (recommandé) ouvre les chaînes beaucoup plus vite et il est le seul à gérer les sous-titres en direct. mpv lit des chaînes qu’ExoPlayer ne parvient pas à lire, dont certaines à l’audio inhabituel. Les options combinées essaient automatiquement l’autre lecteur lorsque le premier échoue ; les options à un seul lecteur ne le font jamais, ce qui évite quelques secondes d’écran noir si le second lecteur ne fonctionne de toute façon pas sur votre appareil. Une chaîne que vous basculez à la main dans le lecteur conserve votre choix dans les deux cas.</string>
     <string name="settings_reset_player_choices_description">Lorsque vous basculez un film ou un épisode précis entre mpv et ExoPlayer depuis le lecteur, ce choix est enregistré pour la prochaine fois. La réinitialisation fait de nouveau suivre le réglage ci-dessus à tout le contenu. Les choix enregistrés pour les chaînes en direct sont conservés.</string>
     <string name="settings_reset_player_choices_none">Aucun enregistré</string>
     <plurals name="settings_reset_player_choices_count">
@@ -636,6 +645,7 @@
     <string name="settings_ui_zoom_range">Mettre toute l’interface à l’échelle (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
     <string name="settings_low_zoom_warning_title">⚠️ Avertissement de zoom faible</string>
     <string name="settings_low_zoom_warning">Un zoom de <xliff:g id="zoom">%1$d</xliff:g>%% affiche beaucoup plus d’éléments simultanément à l’écran. Sur les appareils dont la mémoire est limitée (par exemple, les clés TV de 2 Go), cela peut rendre l’application instable ou la faire planter, en particulier avec les listes de lecture volumineuses et les données EPG.\n\nAppuyez sur OK pour continuer ou sur Retour pour rester à <xliff:g id="safe_zoom">%2$d</xliff:g>%%.</string>
+    <string name="settings_low_zoom_warning_mobile">Un zoom de <xliff:g id="zoom">%1$d</xliff:g>%% affiche beaucoup plus d’éléments simultanément à l’écran. Sur les appareils dont la mémoire est limitée, cela peut rendre l’application instable ou la faire planter, en particulier avec les listes de lecture volumineuses et les données EPG.\n\nChoisissez Annuler pour rester à <xliff:g id="safe_zoom">%2$d</xliff:g>%%.</string>
     <string name="settings_low_zoom_accept">J’ai compris et j’accepte le risque</string>
     <string name="settings_surface_transparency"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="settings_surface_count_all">Surfaces : toutes</string>
@@ -1104,6 +1114,12 @@
     <string name="settings_live_latency_per_playlist">Latence du direct par liste de lecture</string>
     <!-- Translators: Description of the per-playlist Live latency override row. -->
     <string name="settings_live_latency_per_playlist_description">Remplacez le paramètre ci-dessus pour une liste de lecture, pour un fournisseur qui a besoin d’une mémoire tampon plus grande ou plus petite que les autres.</string>
+    <string name="settings_catchup_timezone_per_playlist">Fuseau horaire du replay par liste</string>
+    <string name="settings_catchup_timezone_per_playlist_description">Remplacez le fuseau ci-dessus pour une liste de lecture, pour un fournisseur dont l’archive suit une autre horloge.</string>
+    <string name="settings_vod_engine_per_playlist">Lecteur films et séries par liste</string>
+    <string name="settings_vod_engine_per_playlist_description">Remplacez le paramètre ci-dessus pour une liste de lecture, pour un fournisseur dont un seul des lecteurs gère bien les films et épisodes.</string>
+    <string name="settings_live_tune_timeout_per_playlist">Abandonner après, par liste</string>
+    <string name="settings_live_tune_timeout_per_playlist_description">Remplacez le paramètre ci-dessus pour une liste de lecture, pour un fournisseur dont les chaînes démarrent lentement ou sont souvent hors service.</string>
     <plurals name="settings_live_preroll_overrides">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> réglage personnalisé</item>
         <item quantity="many"><xliff:g id="count">%1$d</xliff:g> réglages personnalisés</item>
@@ -1111,7 +1127,9 @@
     </plurals>
     <string name="settings_surround_stereo">Stéréo uniquement</string>
     <string name="settings_surround_auto_description">Auto — essayez le son surround Dolby/DTS et revenez automatiquement à la stéréo si le téléviseur ou la barre de son ne le restitue pas. Recommandé.</string>
+    <string name="settings_surround_auto_description_mobile">Auto — essayez le son surround Dolby/DTS et revenez automatiquement à la stéréo si le haut-parleur, le casque ou le récepteur connecté ne le restitue pas. Recommandé.</string>
     <string name="settings_surround_stereo_description">Stéréo uniquement — toujours décoder dans l\'application et envoyer un simple son 2.0. Utilisez ceci avec les haut-parleurs du téléviseur ou une barre de son stéréo, ou si l\'audio est en retard sur l\'image.</string>
+    <string name="settings_surround_stereo_description_mobile">Stéréo uniquement — toujours décoder dans l\'application et envoyer un simple son 2.0. Utilisez ceci avec le haut-parleur intégré, un casque ou une barre de son stéréo, ou si l\'audio est en retard sur l\'image.</string>
     <string name="settings_surround_forced_description">Surround — envoyer le Dolby/DTS vers un véritable récepteur 5.1/7.1. Si le son coupe ou saccade, OwnTV revient quand même à la stéréo et vous le signale.</string>
     <string name="settings_panel_width">Ajustement de la largeur des panneaux</string>
     <string name="settings_panel_width_description">Redimensionnez les panneaux de catégorie, de liste et d\'aperçu dans TV en direct, Films et Séries.</string>
@@ -1164,7 +1182,9 @@
     <string name="settings_language_contribution_copy_failed">Le lien n\'a pas pu être copié. Lisez ou saisissez l\'URL affichée ci-dessus.</string>
     <string name="settings_auto_frame_rate_warning_suffix">Déconseillé sur ce téléviseur : avant Android 12, la fréquence ne peut pas être modifiée en douceur.</string>
     <string name="settings_auto_frame_rate_warning_title">Déconseillé sur ce téléviseur</string>
+    <string name="settings_auto_frame_rate_warning_title_mobile">Déconseillé sur cet appareil</string>
     <string name="settings_auto_frame_rate_warning_description">Cet appareil fonctionne sous Android <xliff:g id="android_version">%1$s</xliff:g>. Avant Android 12, le téléviseur ne peut pas indiquer à OwnTV les fréquences de rafraîchissement vers lesquelles il peut basculer en douceur ; changer la fréquence peut donc faire passer l\'écran au noir pendant une seconde ou deux — parfois plus d\'une fois au cours d\'un programme.\n\nNous vous recommandons de laisser la fréquence d\'images automatique désactivée ici. Si votre téléviseur bascule proprement, activez-la et voyez : vous pouvez la désactiver à nouveau à tout moment.</string>
+    <string name="settings_auto_frame_rate_warning_description_mobile">Cet appareil fonctionne sous Android <xliff:g id="android_version">%1$s</xliff:g>. Avant Android 12, l\'appareil ne peut pas indiquer à OwnTV les fréquences de rafraîchissement vers lesquelles il peut basculer en douceur ; changer la fréquence peut donc faire passer l\'écran au noir pendant une seconde ou deux — parfois plus d\'une fois au cours d\'un programme.\n\nNous vous recommandons de laisser la fréquence d\'images automatique désactivée ici. Si votre écran bascule proprement, activez-la et voyez : vous pouvez la désactiver à nouveau à tout moment.</string>
     <string name="settings_auto_frame_rate_keep_off">Ne pas activer</string>
     <string name="settings_auto_frame_rate_turn_on_anyway">Activer quand même</string>
     <string name="settings_language_request_workflow">Vous voulez ajouter une langue qui n\'est pas listée ? Faites d\'abord une demande de langue. Un mainteneur l\'enregistrera et préparera les fichiers de traduction de base ; une fois qu\'elle apparaîtra sur Hosted Weblate, vous pourrez commencer à contribuer.</string>

@@ -26,6 +26,8 @@ class SourceRepository(
     private val movieDao: tv.own.owntv.core.database.dao.MovieDao,
     private val seriesDao: tv.own.owntv.core.database.dao.SeriesDao,
     private val categoryDao: tv.own.owntv.core.database.dao.CategoryDao,
+    private val playbackQuirkDao: tv.own.owntv.core.database.dao.PlaybackQuirkDao,
+    private val playbackPrefsDao: tv.own.owntv.core.database.dao.PlaybackPrefsDao,
 ) {
     fun observeSources(profileId: Long): Flow<List<SourceEntity>> = sourceDao.observeForProfile(profileId)
 
@@ -36,21 +38,23 @@ class SourceRepository(
         userAgent: String? = null, epgUrl: String? = null,
         syncLive: Boolean = true, syncMovies: Boolean = true, syncSeries: Boolean = true,
         preferHls: Boolean = false,
+        httpReferer: String? = null,
     ): SourceEntity = addAndLink(
         profileId,
         SourceEntity(
             name = name, type = SourceType.XTREAM, url = serverUrl,
             username = username, password = password, userAgent = userAgent, epgUrl = epgUrl,
             syncLive = syncLive, syncMovies = syncMovies, syncSeries = syncSeries,
-            preferHls = preferHls,
+            preferHls = preferHls, httpReferer = httpReferer,
         ),
     )
 
     suspend fun addM3uSource(
         profileId: Long, name: String, url: String, userAgent: String? = null, epgUrl: String? = null,
+        httpReferer: String? = null,
     ): SourceEntity = addAndLink(
         profileId,
-        SourceEntity(name = name, type = SourceType.M3U, url = url, userAgent = userAgent, epgUrl = epgUrl),
+        SourceEntity(name = name, type = SourceType.M3U, url = url, userAgent = userAgent, epgUrl = epgUrl, httpReferer = httpReferer),
     )
 
     suspend fun addStalkerSource(
@@ -58,6 +62,7 @@ class SourceRepository(
         serialNumber: String? = null, deviceId: String? = null, deviceId2: String? = null,
         signature: String? = null, userAgent: String? = null,
         syncLive: Boolean = true, syncMovies: Boolean = true, syncSeries: Boolean = true,
+        httpReferer: String? = null,
     ): SourceEntity = addAndLink(
         profileId,
         SourceEntity(
@@ -65,6 +70,7 @@ class SourceRepository(
             stalkerSerialNumber = serialNumber, stalkerDeviceId = deviceId,
             stalkerDeviceId2 = deviceId2, stalkerSignature = signature, userAgent = userAgent,
             syncLive = syncLive, syncMovies = syncMovies, syncSeries = syncSeries,
+            httpReferer = httpReferer,
         ),
     )
 
@@ -74,7 +80,16 @@ class SourceRepository(
         return source.copy(id = id)
     }
 
-    suspend fun deleteSource(source: SourceEntity) = sourceDao.delete(source)
+    /**
+     * Deletes the playlist and everything remembered for its items (owner decision 13): engine pins,
+     * sound-only marks, audio delays, and every profile's zoom, volume and track choices. Those rows
+     * are keyed by content, not by a foreign key, so without this they outlived the playlist forever.
+     */
+    suspend fun deleteSource(source: SourceEntity) {
+        sourceDao.delete(source)
+        runCatching { playbackQuirkDao.deleteBySource(source.id) }
+        runCatching { playbackPrefsDao.deleteBySource(source.id) }
+    }
 
     /**
      * Wipe a source's imported content (channels/movies/series + their categories) but KEEP the

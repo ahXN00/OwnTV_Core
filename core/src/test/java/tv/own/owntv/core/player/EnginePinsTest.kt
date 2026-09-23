@@ -39,4 +39,13 @@ class EnginePinsTest {
         assertEquals(setOf("k", "n"), mpv)
         assertEquals(emptySet<String>(), exo)
     }
+
+    @Test
+    fun `a key names its playlist and kind, a stream URL names neither`() {
+        assertEquals(10L, sourceIdOfPinKey("10:LIVE:bbc-one"))
+        assertEquals("LIVE", mediaTypeOfPinKey("10:LIVE:bbc-one"))
+        assertEquals("EPISODE", mediaTypeOfPinKey("7:EPISODE:show:S1E2"))
+        assertEquals(-1L, sourceIdOfPinKey("http://panel.example:8080/live/u/p/1.ts"))
+        assertNull(mediaTypeOfPinKey("http://panel.example:8080/live/u/p/1.ts"))
+    }
 }

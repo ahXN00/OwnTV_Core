@@ -7,6 +7,8 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
@@ -21,38 +23,55 @@ private val Context.forceMpvStore: DataStore<Preferences> by preferencesDataStor
  * Both directions are stored, because the global setting has both directions. While Live TV was always
  * ExoPlayer-first, "pinned" could only ever mean mpv and one list was enough; once a user can set mpv as
  * the starting engine — or as the *only* engine — the exception they need to record is just as often
- * "this one channel on ExoPlayer". The mpv list keeps its original preference key so pins made by every
- * previous build are read unchanged.
+ * "this one channel on ExoPlayer".
+ *
+ * Since v44 the pins live in `playback_quirks` (one row, one pin, shared by every profile, deleted with
+ * its playlist). The DataStore file that held them before is copied in once ([CopyOnce]) and then left
+ * on disk untouched for one release.
  *
  * Keyed by [enginePinKey] — sourceId + media type + provider remoteId — which is stable across
  * playlist re-syncs for all three source types. Channel rows are REPLACE-upserted on every sync, so a
  * column on the channel (or its Room id) would be wiped on refresh; the provider id is not. Pins made
  * by older builds are keyed by stream URL and still read (see [migrateKey] — P6).
  */
-class ForceMpvStore(private val context: Context) {
+class ForceMpvStore(
+    private val context: Context,
+    private val dao: tv.own.owntv.core.database.dao.PlaybackQuirkDao,
+) {
+    // The pre-v44 DataStore keys. Read once, by [copy], and never written again.
     private val key = stringSetPreferencesKey("urls")
     private val exoKey = stringSetPreferencesKey("exo_urls")
+    private val movedKey = androidx.datastore.preferences.core.booleanPreferencesKey("moved_to_db_v44")
 
-    val urls: Flow<Set<String>> = context.forceMpvStore.data.map { it[key] ?: emptySet() }
-    val exoUrls: Flow<Set<String>> = context.forceMpvStore.data.map { it[exoKey] ?: emptySet() }
+    private val copy = CopyOnce(
+        isDone = { context.forceMpvStore.data.first()[movedKey] == true },
+        markDone = { context.forceMpvStore.edit { it[movedKey] = true } },
+        copy = {
+            val prefs = context.forceMpvStore.data.first()
+            (prefs[key] ?: emptySet()).forEach { dao.setEnginePin(it, sourceIdOfPinKey(it), LIVE, MPV) }
+            (prefs[exoKey] ?: emptySet()).forEach { dao.setEnginePin(it, sourceIdOfPinKey(it), LIVE, EXO) }
+        },
+    )
 
-    /** Pin [url] to one engine, clearing any pin it had to the other — the two lists are exclusive, and
-     *  a channel in both would make the routing depend on which list happened to be read first. */
+    val urls: Flow<Set<String>> = pinned(MPV)
+    val exoUrls: Flow<Set<String>> = pinned(EXO)
+
+    private fun pinned(pin: String): Flow<Set<String>> = flow {
+        copy.ensure()
+        emitAll(dao.observePinned(pin, live = true).map { it.toSet() })
+    }
+
+    /** Pin [url] to one engine, clearing any pin it had to the other — one row holds one pin, so a
+     *  channel can never be pinned both ways. */
     suspend fun pin(url: String, onMpv: Boolean) {
-        context.forceMpvStore.edit { prefs ->
-            val mpv = prefs[key] ?: emptySet()
-            val exo = prefs[exoKey] ?: emptySet()
-            prefs[key] = if (onMpv) mpv + url else mpv - url
-            prefs[exoKey] = if (onMpv) exo - url else exo + url
-        }
+        copy.ensure()
+        dao.setEnginePin(url, sourceIdOfPinKey(url), LIVE, if (onMpv) MPV else EXO)
     }
 
     /** Drop any pin for [url] in either direction, so the channel follows the global setting again. */
     suspend fun forget(url: String) {
-        context.forceMpvStore.edit { prefs ->
-            prefs[key] = (prefs[key] ?: emptySet()) - url
-            prefs[exoKey] = (prefs[exoKey] ?: emptySet()) - url
-        }
+        copy.ensure()
+        dao.setEnginePin(url, sourceIdOfPinKey(url), LIVE, null)
     }
 
     /**
@@ -62,9 +81,7 @@ class ForceMpvStore(private val context: Context) {
      * (older builds) is migrated to [stableKey] on the way.
      */
     suspend fun pinFor(stableKey: String?, legacyUrl: String): Boolean? {
-        val prefs = context.forceMpvStore.data.first()
-        val lookup = pinOf(stableKey, legacyUrl, prefs[key] ?: emptySet(), prefs[exoKey] ?: emptySet())
-            ?: return null
+        val lookup = pinOf(stableKey, legacyUrl, urls.first(), exoUrls.first()) ?: return null
         if (lookup.legacy && stableKey != null) migrateKey(legacyUrl, stableKey)
         return lookup.onMpv
     }
@@ -72,45 +89,40 @@ class ForceMpvStore(private val context: Context) {
     /** Migrate-on-read: an existing pin found under the legacy URL key moves to [stableKey],
      *  preserving which engine it was pinned to. */
     suspend fun migrateKey(legacyUrl: String, stableKey: String) {
-        context.forceMpvStore.edit { prefs ->
-            val mpv = prefs[key] ?: emptySet()
-            val exo = prefs[exoKey] ?: emptySet()
-            if (legacyUrl in mpv) prefs[key] = mpv - legacyUrl + stableKey
-            if (legacyUrl in exo) prefs[exoKey] = exo - legacyUrl + stableKey
-        }
+        copy.ensure()
+        dao.migrateKey(legacyUrl, stableKey, sourceIdOfPinKey(stableKey))
     }
 
-    // --- Backup / restore (optional section; keyed by stream URL, no id remapping needed) ---
+    // --- Backup / restore (optional section) ---
 
     /** Current mpv-pinned keys, for backup export. */
-    suspend fun exportUrls(): Set<String> =
-        context.forceMpvStore.data.first()[key] ?: emptySet()
+    suspend fun exportUrls(): Set<String> = urls.first()
 
     /** Current ExoPlayer-pinned keys, for backup export. */
-    suspend fun exportExoUrls(): Set<String> =
-        context.forceMpvStore.data.first()[exoKey] ?: emptySet()
+    suspend fun exportExoUrls(): Set<String> = exoUrls.first()
 
     /**
-     * Merge restored pins into the current ones. A key present in both incoming lists is a corrupt
-     * backup: it is dropped rather than guessed at, same as the VOD store. An incoming pin wins over
-     * this device's pin in the other direction and is removed from that list — a plain union used to
-     * leave such a channel in both, routed by whichever list happened to be read first.
+     * Merge restored pins into the current ones — see [mergePins]: a key present in both incoming
+     * lists is a corrupt backup and is dropped rather than guessed at, and an incoming pin wins over
+     * this device's pin in the other direction.
      *
      * [exoUrls] is absent from backups written before Live had an ExoPlayer pin; that restores as an
      * empty list, which is exactly right — those users had no ExoPlayer pins to restore.
      */
     suspend fun importUrls(urls: Collection<String>, exoUrls: Collection<String> = emptyList()) {
-        context.forceMpvStore.edit { prefs ->
-            val (mpv, exo) = mergePins(prefs[key] ?: emptySet(), prefs[exoKey] ?: emptySet(), urls, exoUrls)
-            prefs[key] = mpv
-            prefs[exoKey] = exo
-        }
+        val (mpv, exo) = mergePins(this.urls.first(), this.exoUrls.first(), urls, exoUrls)
+        mpv.forEach { dao.setEnginePin(it, sourceIdOfPinKey(it), LIVE, MPV) }
+        exo.forEach { dao.setEnginePin(it, sourceIdOfPinKey(it), LIVE, EXO) }
     }
 
     /** [pinFor]'s answer, and whether it came from a legacy URL key. */
     data class PinLookup(val onMpv: Boolean, val legacy: Boolean)
 
     companion object {
+        internal const val MPV = "MPV"
+        internal const val EXO = "EXO"
+        private const val LIVE = "LIVE"
+
         /**
          * A restore's pins merged into this device's: incoming keys found in both incoming lists are
          * dropped (corrupt file), and every other incoming pin wins over this device's pin in the other

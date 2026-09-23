@@ -144,6 +144,8 @@ class BackupV17ScopingTest {
             // is the same wherever it is restored. The merge prefers whatever this device measured
             // itself.
             "maxConnections", "maxConnectionsProbedAt",
+            // v44: the four per-playlist overrides of owner decision 12 (five columns).
+            "catchupTimezone", "catchupOffsetMin", "vodEnginePreference", "liveTuneTimeoutSecs", "httpReferer",
         )
         val deliberatelyExcluded = emptySet<String>()
         // Not a field of the entity at all: the Compose compiler adds `$stable` as a static, and

@@ -260,6 +260,7 @@
     <string name="settings_ui_zoom_description">縮放整個介面</string>
     <string name="settings_animations">動畫</string>
     <string name="settings_animations_description">開啟或關閉介面動畫 — 關閉後在低階電視盒上會更流暢俐落</string>
+    <string name="settings_animations_description_mobile">開啟或關閉介面動畫 — 關閉後在較舊的手機和平板上會更流暢俐落</string>
     <string name="settings_weather_description_root">頂端列天氣資訊方塊：顯示或隱藏、自訂位置，以及攝氏／華氏。</string>
     <string name="settings_playback_group">播放</string>
     <string name="settings_live_preview_description">焦點移至頻道時自動播放</string>
@@ -268,10 +269,13 @@
     <string name="settings_mini_player_root">迷你播放器</string>
     <string name="settings_mini_player_root_description">已停駐迷你播放器的大小和位置</string>
     <string name="settings_hdr_description">影片和電視支援時使用 HDR 輸出</string>
+    <string name="settings_hdr_description_mobile">影片和螢幕支援時使用 HDR 輸出</string>
     <string name="settings_auto_frame_rate">自動影格率</string>
     <string name="settings_auto_frame_rate_description">在全螢幕播放電視直播和隨選影片時，將電視更新率配合影片調整為 24/25/50/60 fps，並在結束時還原。如果您的電視或接收器每次切換頻道時都會重新進行 HDMI 交握並產生明顯干擾，請關閉此功能。</string>
+    <string name="settings_auto_frame_rate_description_mobile">在全螢幕播放電視直播和隨選影片時，將螢幕更新率配合影片調整為 24/25/50/60 fps，並在結束時還原。如果影片開始播放時螢幕閃爍或變黑，請關閉此功能。</string>
     <string name="settings_surround_sound">環繞音效</string>
     <string name="settings_surround_description">針對真正的 5.1/7.1 接收器，將 Dolby/DTS 解碼為環繞音效（5.1/7.1）。使用電視揚聲器或立體聲聲霸時請保持關閉 — 多聲道音訊在部分電視／聲霸上可能落後於畫面。如果音訊逐漸不同步，請微調播放器的「音訊」選單 → A/V 同步。</string>
+    <string name="settings_surround_description_mobile">針對連接到此裝置的真正 5.1/7.1 接收器，將 Dolby/DTS 解碼為環繞音效（5.1/7.1）。使用內建揚聲器、耳機或立體聲聲霸時請保持關閉 — 多聲道音訊可能落後於畫面。如果音訊逐漸不同步，請微調播放器的「音訊」選單 → A/V 同步。</string>
     <string name="settings_autoplay_next">自動播放下一集</string>
     <string name="settings_autoplay_next_description">一集播放完畢時自動開始播放下一集 — 並在本季結束後接續下一季。回看也會接續播放下一個節目。</string>
     <string name="settings_catchup">回看</string>
@@ -472,6 +476,7 @@
     <string name="settings_decoding">解碼</string>
     <string name="settings_hardware_decoding">硬體解碼</string>
     <string name="settings_hardware_decoding_description">使用電視的硬體解碼器。如果部分串流播放不順或出現影像瑕疵，請關閉此功能。</string>
+    <string name="settings_hardware_decoding_description_mobile">使用裝置的硬體解碼器。如果部分串流播放不順或出現影像瑕疵，請關閉此功能。</string>
     <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
     <string name="settings_deinterlace">去交錯</string>
     <!-- Translators: Description of the deinterlacing setting. -->
@@ -556,9 +561,11 @@
     <string name="settings_live_latency_bitrate_note">在位元率非常高的頻道上（尤其是 4K），由於記憶體一次能保存的影片量有限，緩衝的時間可能比你設定的更短。</string>
     <string name="settings_channel_numbers">頻道號碼</string>
     <string name="settings_channel_numbers_description">在電視直播清單、頻道清單疊加層和播放器中，於名稱旁顯示供應商的頻道號碼；在全螢幕播放期間，也可使用遙控器輸入號碼直接跳至該頻道（按「確定」可立即轉台，按「返回」則取消）。關閉後會隱藏所有號碼並忽略數字鍵；不會遺失任何資料，重新開啟即可恢復顯示。</string>
+    <string name="settings_channel_numbers_description_mobile">在電視直播清單和播放器中，於名稱旁顯示供應商的頻道號碼。關閉後會隱藏所有號碼；不會遺失任何資料，重新開啟即可恢復顯示。</string>
     <string name="settings_diagnostics">診斷</string>
     <string name="settings_measured_stats">實測串流統計資料</string>
     <string name="settings_measured_stats_description">在串流資訊疊加層中顯示即時 fps、位元率和掉格數（在疊加層開啟期間進行測量，適用於未宣告這些數值的串流）。只有低階電視發生停頓時才需要關閉；這絕不會影響實際視訊，只會影響診斷數值。</string>
+    <string name="settings_measured_stats_description_mobile">在串流資訊疊加層中顯示即時 fps、位元率和掉格數（在疊加層開啟期間進行測量，適用於未宣告這些數值的串流）。只有低階裝置發生停頓時才需要關閉；這絕不會影響實際視訊，只會影響診斷數值。</string>
     <string name="settings_none_auto">無／自動</string>
     <string name="settings_view_grid">網格</string>
     <string name="settings_view_list">清單</string>
@@ -580,7 +587,9 @@
     <string name="settings_external_player_description">選擇要在哪些區段中使用外部應用程式開啟內容。</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> 毫秒</string>
     <string name="settings_movies_player_description">mpv（建議）支援的格式最廣——DTS/TrueHD 音訊、少見的檔案——還帶有音畫同步修正。在某些電視上，ExoPlayer 能播放 mpv 開不了的串流，但它無法解碼 DTS/TrueHD 音訊，也沒有音畫同步修正。組合選項會在第一個播放器失敗時自動改試另一個；單一播放器選項則從不改試，若另一個播放器在你的電視上本來就用不了，這樣可省下幾秒鐘黑畫面。</string>
+    <string name="settings_movies_player_description_mobile">mpv（建議）支援的格式最廣——DTS/TrueHD 音訊、少見的檔案——還帶有音畫同步修正。在某些裝置上，ExoPlayer 能播放 mpv 開不了的串流，但它無法解碼 DTS/TrueHD 音訊，也沒有音畫同步修正。組合選項會在第一個播放器失敗時自動改試另一個；單一播放器選項則從不改試，若另一個播放器在你的裝置上本來就用不了，這樣可省下幾秒鐘黑畫面。</string>
     <string name="settings_live_player_description">ExoPlayer（建議）開啟頻道快得多，也是唯一支援直播字幕的播放器。mpv 能播放 ExoPlayer 開不了的頻道，包括一些音訊格式少見的頻道。組合選項會在第一個播放器失敗時自動改試另一個；單一播放器選項則從不改試，若另一個播放器在你的電視上本來就用不了，這樣可省下幾秒鐘黑畫面。在播放器中手動切換過的頻道，兩種情況下都會保留你的選擇。</string>
+    <string name="settings_live_player_description_mobile">ExoPlayer（建議）開啟頻道快得多，也是唯一支援直播字幕的播放器。mpv 能播放 ExoPlayer 開不了的頻道，包括一些音訊格式少見的頻道。組合選項會在第一個播放器失敗時自動改試另一個；單一播放器選項則從不改試，若另一個播放器在你的裝置上本來就用不了，這樣可省下幾秒鐘黑畫面。在播放器中手動切換過的頻道，兩種情況下都會保留你的選擇。</string>
     <string name="settings_reset_player_choices_description">在播放器中將單一電影或影集在 mpv 與 ExoPlayer 之間切換後，該選擇會儲存下來供下次使用。重設後，所有內容會重新依照上方的設定。直播頻道已儲存的選擇會保留。</string>
     <string name="settings_reset_player_choices_none">未儲存任何選擇</string>
     <plurals name="settings_reset_player_choices_count">
@@ -630,6 +639,7 @@
     <string name="settings_ui_zoom_range">縮放整個介面（<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%）。</string>
     <string name="settings_low_zoom_warning_title">⚠️ 低縮放比例警告</string>
     <string name="settings_low_zoom_warning"><xliff:g id="zoom">%1$d</xliff:g>%% 的縮放比例會同時在畫面上顯示更多項目。在記憶體有限的裝置上（例如 2 GB 電視棒），這可能導致應用程式不穩定或當機，尤其是播放清單和電子節目表資料量龐大時。\n\n按「確定」繼續，或按「返回」維持在 <xliff:g id="safe_zoom">%2$d</xliff:g>%%。</string>
+    <string name="settings_low_zoom_warning_mobile"><xliff:g id="zoom">%1$d</xliff:g>%% 的縮放比例會同時在畫面上顯示更多項目。在記憶體有限的裝置上，這可能導致應用程式不穩定或當機，尤其是播放清單和電子節目表資料量龐大時。\n\n選擇「取消」維持在 <xliff:g id="safe_zoom">%2$d</xliff:g>%%。</string>
     <string name="settings_low_zoom_accept">我瞭解並接受風險</string>
     <string name="settings_surface_transparency"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="settings_surface_count_all">介面區塊：全部</string>
@@ -1066,12 +1076,20 @@
     <string name="settings_live_latency_per_playlist">依播放清單設定直播延遲</string>
     <!-- Translators: Description of the per-playlist Live latency override row. -->
     <string name="settings_live_latency_per_playlist_description">為某個播放清單覆寫上述設定，適用於需要比其他供應商更大或更小緩衝的供應商。</string>
+    <string name="settings_catchup_timezone_per_playlist">依播放清單設定回看時區</string>
+    <string name="settings_catchup_timezone_per_playlist_description">為單一播放清單覆寫上方的時區，適用於存檔依另一個時鐘運作的供應商。</string>
+    <string name="settings_vod_engine_per_playlist">依播放清單設定電影和影集播放器</string>
+    <string name="settings_vod_engine_per_playlist_description">為單一播放清單覆寫上方的設定，適用於電影和集數只有其中一個播放器能順利播放的供應商。</string>
+    <string name="settings_live_tune_timeout_per_playlist">依播放清單設定放棄等待時間</string>
+    <string name="settings_live_tune_timeout_per_playlist_description">為單一播放清單覆寫上方的設定，適用於頻道啟動緩慢或經常失效的供應商。</string>
     <plurals name="settings_live_preroll_overrides">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 個播放清單</item>
     </plurals>
     <string name="settings_surround_stereo">僅立體聲</string>
     <string name="settings_surround_auto_description">自動 — 嘗試播放 Dolby/DTS 環繞音效，如果電視或 Soundbar 無法播放，就會自動切回立體聲。建議使用。</string>
+    <string name="settings_surround_auto_description_mobile">自動 — 嘗試播放 Dolby/DTS 環繞音效，如果揚聲器、耳機或連接的接收器無法播放，就會自動切回立體聲。建議使用。</string>
     <string name="settings_surround_stereo_description">僅立體聲 — 一律在應用程式內解碼，並傳送純 2.0 音效。電視喇叭或立體聲 Soundbar 請使用此選項；若聲音比畫面慢，也請使用此選項。</string>
+    <string name="settings_surround_stereo_description_mobile">僅立體聲 — 一律在應用程式內解碼，並傳送純 2.0 音效。內建揚聲器、耳機或立體聲 Soundbar 請使用此選項；若聲音比畫面慢，也請使用此選項。</string>
     <string name="settings_surround_forced_description">環繞音效 — 將 Dolby/DTS 傳送至實體的 5.1/7.1 環繞擴大機。如果出現無聲或卡頓，OwnTV 仍會自動切回立體聲並通知你。</string>
     <string name="settings_panel_width">面板寬度調整</string>
     <string name="settings_panel_width_description">在直播電視、電影與影集中調整分類、清單和預覽面板的大小。</string>
@@ -1124,7 +1142,9 @@
     <string name="settings_language_contribution_copy_failed">無法複製連結。請閱讀或輸入上方顯示的網址。</string>
     <string name="settings_auto_frame_rate_warning_suffix">不建議在此電視上使用：在 Android 12 以下，更新率無法平滑切換。</string>
     <string name="settings_auto_frame_rate_warning_title">不建議在此電視上使用</string>
+    <string name="settings_auto_frame_rate_warning_title_mobile">不建議在此裝置上使用</string>
     <string name="settings_auto_frame_rate_warning_description">此裝置執行的是 Android <xliff:g id="android_version">%1$s</xliff:g>。在 Android 12 以下，電視無法告知 OwnTV 它可以順暢切換到哪些更新率，因此切換更新率可能會讓畫面變黑一兩秒——有時在節目播放期間還會發生不只一次。\n\n我們建議在此保持自動更新率關閉。如果你的電視切換得很順暢，不妨開啟試試看：你隨時都可以改回來。</string>
+    <string name="settings_auto_frame_rate_warning_description_mobile">此裝置執行的是 Android <xliff:g id="android_version">%1$s</xliff:g>。在 Android 12 以下，裝置無法告知 OwnTV 它可以順暢切換到哪些更新率，因此切換更新率可能會讓畫面變黑一兩秒——有時在節目播放期間還會發生不只一次。\n\n我們建議在此保持自動更新率關閉。如果你的螢幕切換得很順暢，不妨開啟試試看：你隨時都可以改回來。</string>
     <string name="settings_auto_frame_rate_keep_off">保持關閉</string>
     <string name="settings_auto_frame_rate_turn_on_anyway">仍要開啟</string>
     <string name="settings_language_request_workflow">想要新增未列出的語言嗎？請先提出語言請求。維護者會註冊該語言並準備基礎翻譯檔案；一旦它出現在 Hosted Weblate 上，你就可以開始貢獻。</string>

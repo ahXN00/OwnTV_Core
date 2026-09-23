@@ -125,7 +125,7 @@ data class ContentOrderEntity(
     foreignKeys = [
         ForeignKey(entity = ProfileEntity::class, parentColumns = ["id"], childColumns = ["profileId"], onDelete = ForeignKey.CASCADE),
     ],
-    indices = [Index("profileId")],
+    indices = [Index("profileId"), Index("sourceId")],
 )
 data class PlaybackPrefsEntity(
     val profileId: Long,
@@ -143,6 +143,48 @@ data class PlaybackPrefsEntity(
      * correction onto the next, correctly-muxed item would break it.
      */
     val audioDelayMs: Int? = null,
+    val updatedAt: Long = System.currentTimeMillis(),
+    /**
+     * v44: the playlist [contentKey] belongs to, so deleting a playlist deletes its rows (owner
+     * decision 13). `-1` = unknown — a legacy stream-URL key, or a row written before v44.
+     */
+    @androidx.room.ColumnInfo(defaultValue = "-1") val sourceId: Long = -1,
+    /** v44: the audio track language this profile last chose here (N12); null = follow the preference. */
+    val audioLang: String? = null,
+    /** v44: the subtitle track language this profile last chose here; `""` = subtitles off. */
+    val subtitleLang: String? = null,
+)
+
+/**
+ * What a **stream** needs, whoever is watching (v44, owner decision 10). [playback_prefs][PlaybackPrefsEntity]
+ * is what a *person* prefers — zoom and volume — and stays per profile; the facts here belong to the
+ * stream and the device's output, so they are shared: the engine a channel only plays on, whether it is
+ * sound only, its lip-sync correction, whether it needs software decoding.
+ *
+ * Keyed by [tv.own.owntv.core.player.enginePinKey] like every per-item store. Replaces the DataStore
+ * sets `ForceMpvStore` / `VodEngineStore` / `AudioOnlyStore`, which are copied in once at startup and
+ * kept readable for one release (owner decision 14). [sourceId] lets a playlist's rows go with it.
+ */
+@Entity(
+    tableName = "playback_quirks",
+    indices = [Index("sourceId")],
+)
+data class PlaybackQuirkEntity(
+    @PrimaryKey val contentKey: String,
+    /** `-1` = unknown (a legacy stream-URL key). */
+    val sourceId: Long,
+    /**
+     * `LIVE`, `MOVIE` or `EPISODE` — the kind of item, recorded by whoever wrote the row. The key
+     * alone cannot say: an item with no provider id is keyed by its stream URL. Lets the channel
+     * pins and the film pins be counted and reset separately, as their two Settings rows do.
+     */
+    val mediaType: String,
+    /** "MPV" or "EXO"; null = no pin, follow the settings. */
+    val enginePin: String? = null,
+    val audioOnly: Boolean? = null,
+    /** A/V-sync offset in ms (-5000..5000, positive = audio delayed); null = follow the global default. */
+    val audioDelayMs: Int? = null,
+    val softwareDecode: Boolean? = null,
     val updatedAt: Long = System.currentTimeMillis(),
 )
 

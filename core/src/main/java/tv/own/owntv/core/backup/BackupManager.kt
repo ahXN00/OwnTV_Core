@@ -102,7 +102,7 @@ class BackupManager(
             val seal: ((String) -> JSONObject)? = key?.let { k -> { plain -> BackupCrypto.encrypt(k, plain) } }
 
             val root = JSONObject().apply {
-                put("version", 22) // v22: sources carry the measured stream limit (maxConnections + maxConnectionsProbedAt), because measuring it costs minutes and interrupts playback and the answer belongs to the account, not the device. v21: "tombstones" — the user data the user DELETED, so a merge (restore or local sync) does not reinstate it. Older readers ignore the block and behave exactly as they do today. v20: playbackPrefs carry the per-item A/V-sync offset. v19: sources carry the per-playlist Live TV engine and Live latency overrides. v18: per-profile specific-channel startup targets. v17: startupModes/customizePins moved SOURCES→SETTINGS (readers accept both); PIN hashes and legacy URL-shaped player keys are encrypted-only; sources carry preferHls/livePrerollSecs/hlsSupported; source-keyed blocks scoped to the ticked profiles' sources. v16: optional Stalker serial/device IDs/signature. v15: custom category membership (issue #87) rides userData as kind "member"; customCategories blobs pass through unremapped. v14: .own container (wallpaper rides along). v13: sources.syncLive/Movies/Series. v12: per-profile OpenSubtitles login (encrypted-only). v11: profile-scoped export. v10: sources.mac. v9: custom TMDB names, encrypted TMDB key
+                put("version", 23) // v23: "playbackQuirks" — what a stream needs, shared by every profile (sound-only marks and audio delays; the engine pins stay in compatMode so older readers still get them), and playbackPrefs carry the remembered track languages ("al"/"sl"). A playbackPrefs "d" from an older file restores into the shared delay. v22: sources carry the measured stream limit (maxConnections + maxConnectionsProbedAt), because measuring it costs minutes and interrupts playback and the answer belongs to the account, not the device. v21: "tombstones" — the user data the user DELETED, so a merge (restore or local sync) does not reinstate it. Older readers ignore the block and behave exactly as they do today. v20: playbackPrefs carry the per-item A/V-sync offset. v19: sources carry the per-playlist Live TV engine and Live latency overrides. v18: per-profile specific-channel startup targets. v17: startupModes/customizePins moved SOURCES→SETTINGS (readers accept both); PIN hashes and legacy URL-shaped player keys are encrypted-only; sources carry preferHls/livePrerollSecs/hlsSupported; source-keyed blocks scoped to the ticked profiles' sources. v16: optional Stalker serial/device IDs/signature. v15: custom category membership (issue #87) rides userData as kind "member"; customCategories blobs pass through unremapped. v14: .own container (wallpaper rides along). v13: sources.syncLive/Movies/Series. v12: per-profile OpenSubtitles login (encrypted-only). v11: profile-scoped export. v10: sources.mac. v9: custom TMDB names, encrypted TMDB key
                 put("sections", JSONArray().apply { sections.forEach { put(it.name) } })
                 if (salt != null) put("crypto", BackupCrypto.cryptoBlock(salt))
                 // Ticked profiles always ride (backup is profile-based); restore needs SOURCES to apply them.
@@ -222,7 +222,26 @@ class BackupManager(
                                         put("k", row.contentKey)
                                         row.zoomMode?.let { put("z", it) }
                                         row.volumeBoost?.let { put("v", it) }
-                                        row.audioDelayMs?.let { put("d", it) }
+                                        row.audioLang?.let { put("al", it) }
+                                        row.subtitleLang?.let { put("sl", it) }
+                                    },
+                                )
+                            }
+                        })
+                        // v23: sound-only marks and audio delays, shared by every profile — scoped and
+                        // key-guarded exactly like the rows above. Engine pins ride in compatMode.
+                        val quirks = runCatching { db.playbackQuirkDao().getAllOnce() }.getOrDefault(emptyList())
+                        put("playbackQuirks", JSONArray().apply {
+                            quirks.filter { q ->
+                                (q.audioOnly == true || q.audioDelayMs != null) &&
+                                    filterEnginePinKeys(listOf(q.contentKey), linkedSourceIds, urlKeysAllowed).isNotEmpty()
+                            }.forEach { q ->
+                                put(
+                                    JSONObject().apply {
+                                        put("k", q.contentKey)
+                                        put("t", q.mediaType)
+                                        if (q.audioOnly == true) put("a", true)
+                                        q.audioDelayMs?.let { put("d", it) }
                                     },
                                 )
                             }
@@ -936,6 +955,12 @@ class BackupManager(
                                         livePrerollSecs = if (srcJson.has("livePrerollSecs")) incoming.livePrerollSecs else existing.livePrerollSecs,
                                         liveEnginePreference = if (srcJson.has("liveEnginePreference")) incoming.liveEnginePreference else existing.liveEnginePreference,
                                         liveLatencyMode = if (srcJson.has("liveLatencyMode")) incoming.liveLatencyMode else existing.liveLatencyMode,
+                                        // v44 per-playlist overrides: the file wins only where it says anything.
+                                        catchupTimezone = if (srcJson.has("catchupTimezone")) incoming.catchupTimezone else existing.catchupTimezone,
+                                        catchupOffsetMin = if (srcJson.has("catchupOffsetMin")) incoming.catchupOffsetMin else existing.catchupOffsetMin,
+                                        vodEnginePreference = if (srcJson.has("vodEnginePreference")) incoming.vodEnginePreference else existing.vodEnginePreference,
+                                        liveTuneTimeoutSecs = if (srcJson.has("liveTuneTimeoutSecs")) incoming.liveTuneTimeoutSecs else existing.liveTuneTimeoutSecs,
+                                        httpReferer = if (srcJson.has("httpReferer")) incoming.httpReferer else existing.httpReferer,
                                         liveLatencyCustomSecs = if (srcJson.has("liveLatencyCustomSecs")) incoming.liveLatencyCustomSecs else existing.liveLatencyCustomSecs,
                                         // A measurement this device already took beats the file's: it
                                         // was taken on this network, against this provider, now.
@@ -1180,15 +1205,40 @@ class BackupManager(
                             ?.let { remapEnginePinKey(it, sourceIdMap) } ?: continue
                         val zoom = e.optString("z").takeIf { it.isNotBlank() }
                         val volume = if (e.has("v")) e.optInt("v").coerceIn(0, 150) else null
-                        // Absent on a pre-v20 backup, which is what "no per-item delay" already means.
-                        val delay = if (e.has("d")) e.optInt("d").coerceIn(-5_000, 5_000) else null
-                        if (zoom == null && volume == null && delay == null) continue
+                        val audioLang = e.optString("al").takeIf { it.isNotBlank() }
+                        // "" is a real answer — subtitles off — so only an absent field means "nothing".
+                        val subtitleLang = if (e.has("sl")) e.optString("sl") else null
+                        // v20–v22 files carry the delay per profile; since v44 it is the stream's, shared.
+                        if (e.has("d")) {
+                            val delay = e.optInt("d").coerceIn(-5_000, 5_000)
+                            runCatching {
+                                db.playbackQuirkDao().setAudioDelay(key, tv.own.owntv.core.player.sourceIdOfPinKey(key), tv.own.owntv.core.player.mediaTypeOfPinKey(key) ?: "LIVE", delay)
+                            }
+                        }
+                        if (zoom == null && volume == null && audioLang == null && subtitleLang == null) continue
                         rows += tv.own.owntv.core.database.entity.PlaybackPrefsEntity(
                             profileId = pid, contentKey = key, zoomMode = zoom, volumeBoost = volume,
-                            audioDelayMs = delay,
+                            sourceId = tv.own.owntv.core.player.sourceIdOfPinKey(key),
+                            audioLang = audioLang, subtitleLang = subtitleLang,
                         )
                     }
                     if (rows.isNotEmpty()) runCatching { db.playbackPrefsDao().insertAll(rows) }
+                }
+                // v23: sound-only marks and audio delays, shared by every profile. Remapped like every
+                // per-item key; a key whose playlist did not come along is dropped.
+                root.optJSONArray("playbackQuirks")?.let { arr ->
+                    val dao = db.playbackQuirkDao()
+                    for (i in 0 until arr.length()) {
+                        val e = arr.optJSONObject(i) ?: continue
+                        val key = e.optString("k").takeIf { it.isNotBlank() }
+                            ?.let { remapEnginePinKey(it, sourceIdMap) } ?: continue
+                        val sourceId = tv.own.owntv.core.player.sourceIdOfPinKey(key)
+                        val type = e.optString("t").takeIf { it.isNotBlank() } ?: tv.own.owntv.core.player.mediaTypeOfPinKey(key) ?: "LIVE"
+                        runCatching {
+                            if (e.optBoolean("a", false)) dao.setAudioOnly(key, sourceId, type, true)
+                            if (e.has("d")) dao.setAudioDelay(key, sourceId, type, e.optInt("d").coerceIn(-5_000, 5_000))
+                        }
+                    }
                 }
                 // Per-profile OpenSubtitles login: decrypt each blob and store it under the remapped
                 // device profile id. Encrypted-only, so it's skipped when there's no key (no passphrase).
@@ -1489,6 +1539,11 @@ class BackupManager(
         // above — deliberate user choices in the playlist editor that cannot be re-derived.
         put("liveEnginePreference", s.liveEnginePreference ?: JSONObject.NULL)
         put("liveLatencyMode", s.liveLatencyMode ?: JSONObject.NULL)
+        put("catchupTimezone", s.catchupTimezone ?: JSONObject.NULL)
+        put("catchupOffsetMin", s.catchupOffsetMin ?: JSONObject.NULL)
+        put("vodEnginePreference", s.vodEnginePreference ?: JSONObject.NULL)
+        put("liveTuneTimeoutSecs", s.liveTuneTimeoutSecs ?: JSONObject.NULL)
+        put("httpReferer", s.httpReferer ?: JSONObject.NULL)
         put("liveLatencyCustomSecs", s.liveLatencyCustomSecs)
         // v22: the measured stream limit and when it was measured.
         //
@@ -1543,6 +1598,12 @@ class BackupManager(
             liveEnginePreference = o.optStringOrNull("liveEnginePreference"),
             liveLatencyMode = o.optStringOrNull("liveLatencyMode"),
             liveLatencyCustomSecs = o.optInt("liveLatencyCustomSecs", FOLLOW_GLOBAL_LATENCY_SECS),
+            // v44: absent (older backup) or null restores as "follow the global setting".
+            catchupTimezone = o.optStringOrNull("catchupTimezone"),
+            catchupOffsetMin = o.optIntOrNull("catchupOffsetMin"),
+            vodEnginePreference = o.optStringOrNull("vodEnginePreference"),
+            liveTuneTimeoutSecs = o.optIntOrNull("liveTuneTimeoutSecs"),
+            httpReferer = o.optStringOrNull("httpReferer"),
             // Pre-v22 backups omit both, which restores as "nothing known, never measured" — exactly
             // what those installs had, and what makes a Re-test the obvious next step.
             maxConnections = o.optInt("maxConnections", 0),
@@ -1881,6 +1942,9 @@ internal fun unsealValues(map: JSONObject, unseal: (Any?) -> String?): JSONObjec
 }
 
 private fun JSONObject.optStringOrNull(key: String): String? = if (isNull(key)) null else optString(key).takeIf { it.isNotEmpty() }
+
+/** An int field that may be absent or JSON null (both mean "not set"). */
+private fun JSONObject.optIntOrNull(key: String): Int? = if (isNull(key)) null else optInt(key)
 
 /** Reads a JSON array as a list of non-blank strings, tolerating nulls/non-string entries. */
 private fun jsonStrings(arr: JSONArray?): List<String> {

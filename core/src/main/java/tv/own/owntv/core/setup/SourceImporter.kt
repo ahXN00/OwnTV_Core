@@ -139,6 +139,7 @@ class SourceImporter(
         series: SyncScopeChoice = SyncScopeChoice.Now,
         preferHls: Boolean = false,
         makeDefault: Boolean = false,
+        httpReferer: String = "",
     ) {
         val enabled = SyncContentTypes.fromChoices(live, movies, series)
         val priority = SyncContentTypes.priorityFromChoices(live, movies, series)
@@ -156,6 +157,7 @@ class SourceImporter(
                 epgUrl = epgUrl.trim().takeIf { it.isNotBlank() },
                 syncLive = enabled.live, syncMovies = enabled.movies, syncSeries = enabled.series,
                 preferHls = preferHls,
+                httpReferer = httpReferer.trim().takeIf { it.isNotBlank() },
             )
         }
     }
@@ -177,6 +179,7 @@ class SourceImporter(
         movies: SyncScopeChoice = SyncScopeChoice.Later,
         series: SyncScopeChoice = SyncScopeChoice.Later,
         makeDefault: Boolean = false,
+        httpReferer: String = "",
     ) {
         val canonicalMac = StalkerClient.canonicalizeMac(mac)
         if (canonicalMac == null) {
@@ -211,6 +214,7 @@ class SourceImporter(
                 signature.trim().takeIf { it.isNotBlank() },
                 userAgent.trim().takeIf { it.isNotBlank() },
                 syncLive = enabled.live, syncMovies = enabled.movies, syncSeries = enabled.series,
+                httpReferer = httpReferer.trim().takeIf { it.isNotBlank() },
             )
         }
     }
@@ -222,6 +226,7 @@ class SourceImporter(
         epgUrl: String = "",
         autoRefresh: PlaylistRefresh = PlaylistRefresh.OFF,
         makeDefault: Boolean = false,
+        httpReferer: String = "",
     ) = runImport(autoRefresh, requiresNetwork = !url.isLocalPlaylistPath(), makeDefault = makeDefault) { profileId ->
         sourceRepository.addM3uSource(
             profileId = profileId,
@@ -229,6 +234,7 @@ class SourceImporter(
             url = url.trim(),
             userAgent = userAgent.trim().takeIf { it.isNotBlank() },
             epgUrl = epgUrl.trim().takeIf { it.isNotBlank() },
+            httpReferer = httpReferer.trim().takeIf { it.isNotBlank() },
         )
     }
 

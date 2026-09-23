@@ -261,6 +261,7 @@
     <string name="settings_ui_zoom_description">Tüm arayüzü ölçeklendirin</string>
     <string name="settings_animations">Animasyonlar</string>
     <string name="settings_animations_description">Arayüz hareketlerini açın veya kapatın — Kapalı seçeneği, düşük donanımlı TV kutularında daha hızlı hissettirir</string>
+    <string name="settings_animations_description_mobile">Arayüz hareketlerini açın veya kapatın — Kapalı seçeneği, eski telefon ve tabletlerde daha hızlı hissettirir</string>
     <string name="settings_weather_description_root">Üst çubuktaki hava durumu çipi: gösterin veya gizleyin, özel konumu ve Celsius / Fahrenheit birimini ayarlayın.</string>
     <string name="settings_playback_group">Oynatma</string>
     <string name="settings_live_preview_description">Odaklandığınız kanalı otomatik olarak oynatın</string>
@@ -269,10 +270,13 @@
     <string name="settings_mini_player_root">Mini oynatıcı</string>
     <string name="settings_mini_player_root_description">Sabitlenmiş mini oynatıcının boyutu ve konumu</string>
     <string name="settings_hdr_description">Video ve TV desteklediğinde HDR çıkışı kullanın</string>
+    <string name="settings_hdr_description_mobile">Video ve ekran desteklediğinde HDR çıkışı kullanın</string>
     <string name="settings_auto_frame_rate">Otomatik kare hızı</string>
     <string name="settings_auto_frame_rate_description">Canlı TV ve VOD içeriklerinde tam ekrandayken TV\'nin yenileme hızını videoyla (24/25/50/60 fps) eşleştirin ve çıkışta eski hâline getirin. TV\'niz veya alıcınız her kanal değişikliğinde HDMI el sıkışmasını gürültülü biçimde tekrarlıyorsa bu seçeneği kapatın.</string>
+    <string name="settings_auto_frame_rate_description_mobile">Canlı TV ve VOD içeriklerinde tam ekrandayken ekranın yenileme hızını videoyla (24/25/50/60 fps) eşleştirin ve çıkışta eski hâline getirin. Bir video başladığında ekran titriyor veya kararıyorsa bu seçeneği kapatın.</string>
     <string name="settings_surround_sound">Çevresel ses</string>
     <string name="settings_surround_description">Gerçek bir 5.1/7.1 alıcı için Dolby/DTS sesini çevresel sese (5.1/7.1) dönüştürün. TV hoparlörleri veya stereo soundbar kullanıyorsanız KAPALI bırakın — çok kanallı ses bazı TV\'lerde/soundbar\'larda sesin görüntünün gerisinde kalmasına yol açabilir. Eşitleme kayarsa oynatıcının Ses menüsü → A/V eşitleme ayarını hafifçe değiştirin.</string>
+    <string name="settings_surround_description_mobile">Bu cihaza bağlı gerçek bir 5.1/7.1 alıcı için Dolby/DTS sesini çevresel sese (5.1/7.1) dönüştürün. Dahili hoparlör, kulaklık veya stereo soundbar kullanıyorsanız KAPALI bırakın — çok kanallı ses, sesin görüntünün gerisinde kalmasına yol açabilir. Eşitleme kayarsa oynatıcının Ses menüsü → A/V eşitleme ayarını hafifçe değiştirin.</string>
     <string name="settings_autoplay_next">Sonraki bölümü otomatik oynat</string>
     <string name="settings_autoplay_next_description">Bir bölüm sona erdiğinde sonraki bölümü otomatik olarak başlatın — sezon bitince sonraki sezona geçin. Geri izleme de sonraki programla devam eder.</string>
     <string name="settings_catchup">Geri izleme</string>
@@ -474,6 +478,7 @@
     <string name="settings_decoding">Kod çözme</string>
     <string name="settings_hardware_decoding">Donanımla kod çözme</string>
     <string name="settings_hardware_decoding_description">TV\'nin donanım kod çözücüsünü kullanın. Bazı akışlar takılıyor veya görüntü bozuklukları gösteriyorsa kapatın.</string>
+    <string name="settings_hardware_decoding_description_mobile">Cihazın donanım kod çözücüsünü kullanın. Bazı akışlar takılıyor veya görüntü bozuklukları gösteriyorsa kapatın.</string>
     <!-- Translators: Setting label for deinterlacing of interlaced broadcast video. -->
     <string name="settings_deinterlace">Taramasızlaştırma</string>
     <!-- Translators: Description of the deinterlacing setting. -->
@@ -558,9 +563,11 @@
     <string name="settings_live_latency_bitrate_note">Çok yüksek bit hızına sahip bir kanalda (özellikle 4K) arabellek, istediğinden daha kısa bir süreyi tutabilir; çünkü aynı anda bellekte tutulabilecek video miktarı sınırlıdır.</string>
     <string name="settings_channel_numbers">Kanal numaraları</string>
     <string name="settings_channel_numbers_description">Sağlayıcınızın kanal numarasını Canlı TV listesindeki, kanal listesi ekran katmanındaki ve oynatıcıdaki adın yanında gösterin; ayrıca tam ekran oynatma sırasında doğrudan o kanala geçmek için uzaktan kumandadan bir numara girin (OK anında kanala geçer, Geri iptal eder). Kapalıyken tüm numaralar gizlenir ve sayı tuşları yok sayılır; hiçbir veri kaybolmaz ve tekrar açıldığında numaralar geri gelir.</string>
+    <string name="settings_channel_numbers_description_mobile">Sağlayıcınızın kanal numarasını Canlı TV listesindeki ve oynatıcıdaki adın yanında gösterin. Kapalıyken tüm numaralar gizlenir; hiçbir veri kaybolmaz ve tekrar açıldığında numaralar geri gelir.</string>
     <string name="settings_diagnostics">Tanılama</string>
     <string name="settings_measured_stats">Ölçülen akış istatistikleri</string>
     <string name="settings_measured_stats_description">Akış bilgisi ekran katmanında anlık fps, bit hızı ve atlanan kareleri gösterin (bu değerleri bildirmeyen akışlarda, ekran katmanı açıkken ölçülür). Yalnızca düşük donanımlı bir TV takılıyorsa kapatın — gerçek görüntüyü hiçbir zaman etkilemez, yalnızca tanılama sayılarını etkiler.</string>
+    <string name="settings_measured_stats_description_mobile">Akış bilgisi ekran katmanında anlık fps, bit hızı ve atlanan kareleri gösterin (bu değerleri bildirmeyen akışlarda, ekran katmanı açıkken ölçülür). Yalnızca düşük donanımlı bir cihaz takılıyorsa kapatın — gerçek görüntüyü hiçbir zaman etkilemez, yalnızca tanılama sayılarını etkiler.</string>
     <string name="settings_none_auto">Yok / Otomatik</string>
     <string name="settings_view_grid">Izgara</string>
     <string name="settings_view_list">Liste</string>
@@ -582,7 +589,9 @@
     <string name="settings_external_player_description">Hangi bölümlerin harici bir uygulamada açılacağını seçin.</string>
     <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
     <string name="settings_movies_player_description">mpv (önerilir) en geniş biçim desteğine sahiptir — DTS/TrueHD ses, alışılmadık dosyalar — ayrıca A/V eşitleme düzeltmesi de vardır. Bazı televizyonlarda ExoPlayer, mpv’nin açamadığı yayınları oynatır; ancak DTS/TrueHD sesi çözemez ve A/V eşitleme düzeltmesi yoktur. Birleşik seçenekler ilki başarısız olduğunda diğer oynatıcıyı otomatik dener; tek oynatıcılı seçenekler bunu hiç yapmaz; ikinci oynatıcı televizyonunuzda zaten çalışmıyorsa bu, birkaç saniyelik siyah ekrandan kurtarır.</string>
+    <string name="settings_movies_player_description_mobile">mpv (önerilir) en geniş biçim desteğine sahiptir — DTS/TrueHD ses, alışılmadık dosyalar — ayrıca A/V eşitleme düzeltmesi de vardır. Bazı cihazlarda ExoPlayer, mpv’nin açamadığı yayınları oynatır; ancak DTS/TrueHD sesi çözemez ve A/V eşitleme düzeltmesi yoktur. Birleşik seçenekler ilki başarısız olduğunda diğer oynatıcıyı otomatik dener; tek oynatıcılı seçenekler bunu hiç yapmaz; ikinci oynatıcı cihazınızda zaten çalışmıyorsa bu, birkaç saniyelik siyah ekrandan kurtarır.</string>
     <string name="settings_live_player_description">ExoPlayer (önerilir) kanalları çok daha hızlı açar ve canlı altyazıyı destekleyen tek oynatıcıdır. mpv, ExoPlayer’ın açamadığı kanalları, alışılmadık sese sahip bazıları dahil, oynatır. Birleşik seçenekler ilki başarısız olduğunda diğer oynatıcıyı otomatik dener; tek oynatıcılı seçenekler bunu hiç yapmaz; ikinci oynatıcı televizyonunuzda zaten çalışmıyorsa bu, birkaç saniyelik siyah ekrandan kurtarır. Oynatıcıda elle değiştirdiğiniz bir kanalda seçiminiz her iki durumda da korunur.</string>
+    <string name="settings_live_player_description_mobile">ExoPlayer (önerilir) kanalları çok daha hızlı açar ve canlı altyazıyı destekleyen tek oynatıcıdır. mpv, ExoPlayer’ın açamadığı kanalları, alışılmadık sese sahip bazıları dahil, oynatır. Birleşik seçenekler ilki başarısız olduğunda diğer oynatıcıyı otomatik dener; tek oynatıcılı seçenekler bunu hiç yapmaz; ikinci oynatıcı cihazınızda zaten çalışmıyorsa bu, birkaç saniyelik siyah ekrandan kurtarır. Oynatıcıda elle değiştirdiğiniz bir kanalda seçiminiz her iki durumda da korunur.</string>
     <string name="settings_reset_player_choices_description">Oynatıcıda tek bir filmi veya bölümü mpv ile ExoPlayer arasında değiştirmek, bu seçimi bir sonraki sefer için kaydeder. Sıfırlama her şeyin yeniden yukarıdaki ayarı izlemesini sağlar. Canlı kanallar için kaydedilen seçimler korunur.</string>
     <string name="settings_reset_player_choices_none">Kayıtlı seçim yok</string>
     <plurals name="settings_reset_player_choices_count">
@@ -633,6 +642,7 @@
     <string name="settings_ui_zoom_range">Tüm arayüzü ölçeklendirin (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
     <string name="settings_low_zoom_warning_title">⚠️ Düşük yakınlaştırma uyarısı</string>
     <string name="settings_low_zoom_warning"><xliff:g id="zoom">%1$d</xliff:g>%% yakınlaştırma, ekranda aynı anda çok daha fazla öğe gösterir. Sınırlı belleğe sahip cihazlarda (örneğin 2 GB belleğe sahip TV çubuklarında), özellikle büyük oynatma listeleri ve EPG verileri kullanılırken bu durum uygulamanın kararsızlaşmasına veya çökmesine neden olabilir.\n\nDevam etmek için OK düğmesine, <xliff:g id="safe_zoom">%2$d</xliff:g>%% düzeyinde kalmak için Geri düğmesine basın.</string>
+    <string name="settings_low_zoom_warning_mobile"><xliff:g id="zoom">%1$d</xliff:g>%% yakınlaştırma, ekranda aynı anda çok daha fazla öğe gösterir. Sınırlı belleğe sahip cihazlarda, özellikle büyük oynatma listeleri ve EPG verileri kullanılırken bu durum uygulamanın kararsızlaşmasına veya çökmesine neden olabilir.\n\n<xliff:g id="safe_zoom">%2$d</xliff:g>%% düzeyinde kalmak için İptal\'i seçin.</string>
     <string name="settings_low_zoom_accept">Anlıyorum ve riski kabul ediyorum</string>
     <string name="settings_surface_transparency"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="settings_surface_count_all">Yüzeyler: Tümü</string>
@@ -1085,13 +1095,21 @@
     <string name="settings_live_latency_per_playlist">Yayın listesi başına canlı yayın gecikmesi</string>
     <!-- Translators: Description of the per-playlist Live latency override row. -->
     <string name="settings_live_latency_per_playlist_description">Üstteki ayarı bir yayın listesi için geçersiz kılar — diğerlerinden daha büyük veya daha küçük bir arabellek gereken bir sağlayıcı için.</string>
+    <string name="settings_catchup_timezone_per_playlist">Oynatma listesine göre catch-up saat dilimi</string>
+    <string name="settings_catchup_timezone_per_playlist_description">Yukarıdaki saat dilimini tek bir oynatma listesi için değiştirin; arşivi başka bir saate göre çalışan sağlayıcılar için.</string>
+    <string name="settings_vod_engine_per_playlist">Oynatma listesine göre film ve dizi oynatıcısı</string>
+    <string name="settings_vod_engine_per_playlist_description">Yukarıdaki ayarı tek bir oynatma listesi için değiştirin; filmlerini ve bölümlerini oynatıcılardan yalnızca birinin iyi oynattığı sağlayıcılar için.</string>
+    <string name="settings_live_tune_timeout_per_playlist">Oynatma listesine göre vazgeçme süresi</string>
+    <string name="settings_live_tune_timeout_per_playlist_description">Yukarıdaki ayarı tek bir oynatma listesi için değiştirin; kanalları yavaş açılan veya sık sık çalışmayan sağlayıcılar için.</string>
     <plurals name="settings_live_preroll_overrides">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> ayar</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> ayar</item>
     </plurals>
     <string name="settings_surround_stereo">Yalnızca stereo</string>
     <string name="settings_surround_auto_description">Otomatik — Dolby/DTS surround\'u dener; TV ya da soundbar çalamazsa otomatik olarak stereoya geri döner. Önerilir.</string>
+    <string name="settings_surround_auto_description_mobile">Otomatik — Dolby/DTS surround\'u dener; hoparlör, kulaklık ya da bağlı alıcı çalamazsa otomatik olarak stereoya geri döner. Önerilir.</string>
     <string name="settings_surround_stereo_description">Yalnızca stereo — her zaman uygulamada kod çözün ve düz 2.0 ses gönderin. Bunu TV hoparlörlerinde veya stereo soundbar\'da, ya da ses görüntünün gerisinde kalıyorsa kullanın.</string>
+    <string name="settings_surround_stereo_description_mobile">Yalnızca stereo — her zaman uygulamada kod çözün ve düz 2.0 ses gönderin. Bunu dahili hoparlör, kulaklık veya stereo soundbar için, ya da ses görüntünün gerisinde kalıyorsa kullanın.</string>
     <string name="settings_surround_forced_description">Surround — Dolby/DTS\'yi gerçek bir 5.1/7.1 alıcıya gönderin. Ses kesilirse veya takılırsa OwnTV yine de stereoya geri döner ve size bildirir.</string>
     <string name="settings_panel_width">Panel genişliği ayarı</string>
     <string name="settings_panel_width_description">Canlı TV, Filmler ve Diziler bölümlerindeki kategori, liste ve önizleme panellerini yeniden boyutlandırın.</string>
@@ -1144,7 +1162,9 @@
     <string name="settings_language_contribution_copy_failed">Bağlantı kopyalanamadı. Yukarıda gösterilen URL\'yi okuyun veya yazın.</string>
     <string name="settings_auto_frame_rate_warning_suffix">Bu TV\'de önerilmez: Android 12 altında hız sorunsuz değiştirilemez.</string>
     <string name="settings_auto_frame_rate_warning_title">Bu TV\'de önerilmez</string>
+    <string name="settings_auto_frame_rate_warning_title_mobile">Bu cihazda önerilmez</string>
     <string name="settings_auto_frame_rate_warning_description">Bu cihaz Android <xliff:g id="android_version">%1$s</xliff:g> sürümüyle çalışıyor. Android 12\'den önceki sürümlerde TV, OwnTV\'ye hangi yenileme hızlarına sorunsuz geçebileceğini bildiremez; bu yüzden hızı değiştirmek ekranın bir iki saniyeliğine kararmasına neden olabilir — bazen bir program sırasında birden fazla kez.\n\nBurada otomatik yenileme hızını kapalı bırakmanızı öneririz. TV\'niz sorunsuz geçiş yapıyorsa açıp deneyin: istediğiniz zaman geri değiştirebilirsiniz.</string>
+    <string name="settings_auto_frame_rate_warning_description_mobile">Bu cihaz Android <xliff:g id="android_version">%1$s</xliff:g> sürümüyle çalışıyor. Android 12\'den önceki sürümlerde cihaz, OwnTV\'ye hangi yenileme hızlarına sorunsuz geçebileceğini bildiremez; bu yüzden hızı değiştirmek ekranın bir iki saniyeliğine kararmasına neden olabilir — bazen bir program sırasında birden fazla kez.\n\nBurada otomatik yenileme hızını kapalı bırakmanızı öneririz. Ekranınız sorunsuz geçiş yapıyorsa açıp deneyin: istediğiniz zaman geri değiştirebilirsiniz.</string>
     <string name="settings_auto_frame_rate_keep_off">Kapalı bırak</string>
     <string name="settings_auto_frame_rate_turn_on_anyway">Yine de aç</string>
     <string name="settings_language_request_workflow">Listede olmayan bir dil mi eklemek istiyorsunuz? Önce bir dil talebi açın. Bir proje yöneticisi dili kaydeder ve temel çeviri dosyalarını hazırlar; Hosted Weblate üzerinde göründüğünde katkıda bulunmaya başlayabilirsiniz.</string>
