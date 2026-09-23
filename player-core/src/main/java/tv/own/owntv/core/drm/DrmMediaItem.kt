@@ -1,8 +1,8 @@
 package tv.own.owntv.core.drm
 
-// Stays in the app module, in DrmConfig's own package so no call site changes: `DrmConfig` itself is
-// a plain JSON model and belongs in :core, but this one extension speaks Media3, and core carries no
-// player dependency. It moves to :player-core in Phase 8, with the rest of the engine glue.
+// Lives in :player-core, in DrmConfig's own package so no call site changes: `DrmConfig` itself is
+// a plain JSON model and belongs in :core, but this one extension speaks Media3, and :core carries no
+// player dependency.
 
 /**
  * The Media3 licence configuration for this item. `DefaultMediaSourceFactory` reads it off the

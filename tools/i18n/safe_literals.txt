@@ -3831,11 +3831,12 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/HeroPreviewEngine.kt	HeroPreviewEngine
 1	technical	player-core/src/main/java/tv/own/owntv/player/HeroPreviewEngine.kt	User-Agent
 4	empty	player-core/src/main/java/tv/own/owntv/player/LiveDiagnosticsLog.kt	\0
-1	log	player-core/src/main/java/tv/own/owntv/player/LiveDiagnosticsLog.kt	${timeFmt.format(Date())} $message
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveDiagnosticsLog.kt	${timeFmt.format(LocalDateTime.now())} $message
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveDiagnosticsLog.kt	MM-dd HH:mm:ss.SSS
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveDiagnosticsLog.kt	OwnTV-LivePreviewEngine
 1	file-path	player-core/src/main/java/tv/own/owntv/player/LiveDiagnosticsLog.kt	diagnostics
 1	file-path	player-core/src/main/java/tv/own/owntv/player/LiveDiagnosticsLog.kt	live_diagnostics.log
+1	technical	player-core/src/main/java/tv/own/owntv/player/LiveDiagnosticsLog.kt	owntv-diag-log
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveExoWatchdog.kt	'$channelName' opened on ExoPlayer
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveExoWatchdog.kt	'$channelName' stopped playing (state=$left) — ${STALL_HANDOFF_MS / 1000}s to recover
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveExoWatchdog.kt	ExoPlayer error before first frame: ${engine.errorInfo.value?.raw ?: engine.error.value}
@@ -4296,7 +4297,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live died mid-play — reconnect attempt ${item.liveStallReconnects}/$MAX_LIVE_RECONNECTS
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live died mid-play — reconnect budget exhausted after $MAX_LIVE_RECONNECTS attempts, surfacing error
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live open timeout
-1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live playback resumed (mpv, Live) after stall/reconnect
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live playback healthy (mpv, Live) after reconnect — budget reset
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live stall (mpv, Live) — frozen ~${frozenMs}ms but offline; showing spinner, waiting for network
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live stall (mpv, Live) — no progress for ~${frozenMs}ms, reconnect attempt ${item.liveStallReconnects}/$MAX_LIVE_RECONNECTS
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live stall (mpv, Live) — reconnect budget exhausted after $MAX_LIVE_RECONNECTS attempts, surfacing error

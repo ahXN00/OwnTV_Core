@@ -26,6 +26,7 @@ import androidx.media3.exoplayer.video.VideoFrameMetadataListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -42,8 +43,9 @@ import tv.own.owntv.core.network.StreamHeaders
  * ExoPlayer (Media3) that drives the muted **in-pane Live preview**. ExoPlayer starts HLS far faster than
  * mpv (which full-probes ~5 s before the first frame), so scrolling the channel list feels responsive.
  *
- * The **full** player stays on mpv (4K/HDR direct path, broad IPTV/raw-TS compatibility) — going fullscreen
- * [stop]s this engine and hands the channel to mpv. Preview and fullscreen use separate SurfaceViews on
+ * Full-screen Live TV also runs on this engine, unless the Live TV engine setting (global or per
+ * playlist) or the fallback ladder puts the channel on mpv — then going fullscreen [stop]s this engine
+ * and hands the channel to mpv. Preview and fullscreen use separate SurfaceViews on
  * separate screens, so the two decoders never share a surface. Historically one long-lived
  * instance, like [OwnTVPlayer]; it's [stop]ped (not released) whenever the preview isn't on screen.
  *
@@ -1423,9 +1425,10 @@ class LivePreviewEngine(
      * playlist's pre-buffer override, and a channel that needs a Referer or a custom UA to open needs
      * them on the way back too — restoring with the URL only 403s a channel that had just been playing.
      * The values are the ones the tune came in with (see [tunedUserAgent]), so the restore goes down
-     * exactly the same path as a fresh tune, including the per-channel UA precedence.
+     * exactly the same path as a fresh tune, including the per-channel UA precedence. HUD Retry replays
+     * the same value, so a field added to [play] is added here once and both paths carry it.
      */
-    private data class LiveRestore(
+    private data class TunedRequest(
         val url: String,
         val muted: Boolean,
         val meta: MediaMeta,
@@ -1437,17 +1440,24 @@ class LivePreviewEngine(
         val manifestType: String?,
         val directSource: String?,
     )
-    @Volatile private var backgroundRestore: LiveRestore? = null
+    @Volatile private var backgroundRestore: TunedRequest? = null
+
+    /** The current channel as it was tuned, at [url] (a Stalker retry swaps in a freshly minted one). */
+    private fun tunedRequest(url: String) = TunedRequest(
+        url, muted, _currentMeta.value, tunedUserAgent, tunedPrerollSecs, tunedLiveBufferOverride,
+        tunedHttpHeaders, tunedDrmConfig, tunedManifestType, tunedDirectSource,
+    )
+
+    private fun play(r: TunedRequest) = play(
+        r.url, muted = r.muted, meta = r.meta, userAgent = r.userAgent, prerollSecsOverride = r.prerollSecs,
+        liveBufferOverride = r.liveBufferOverride, httpHeaders = r.httpHeaders, drmConfig = r.drmConfig,
+        manifestType = r.manifestType, directSource = r.directSource,
+    )
 
     /** Backgrounded (screensaver / Home): remember what's playing, then free the stream. Paired with
      *  [onAppForegrounded]. */
     fun onAppBackgrounded() {
-        currentUrl?.let {
-            backgroundRestore = LiveRestore(
-                it, muted, _currentMeta.value, tunedUserAgent, tunedPrerollSecs, tunedLiveBufferOverride,
-                tunedHttpHeaders, tunedDrmConfig, tunedManifestType, tunedDirectSource,
-            )
-        }
+        currentUrl?.let { backgroundRestore = tunedRequest(it) }
         stop()
     }
 
@@ -1457,11 +1467,7 @@ class LivePreviewEngine(
         val r = backgroundRestore ?: return
         backgroundRestore = null
         if (currentUrl != null) return
-        play(
-            r.url, muted = r.muted, meta = r.meta, userAgent = r.userAgent, prerollSecsOverride = r.prerollSecs,
-            liveBufferOverride = r.liveBufferOverride, httpHeaders = r.httpHeaders, drmConfig = r.drmConfig,
-            manifestType = r.manifestType, directSource = r.directSource,
-        )
+        play(r)
     }
 
     /** Drop any pending restore (e.g. on profile switch — don't bring back the previous user's channel). */
@@ -1536,6 +1542,10 @@ class LivePreviewEngine(
         currentUrl = null
         sawUhd = false
         _state.value = State.IDLE
+        // A released engine is never reused (LiveEnginePool drops it), and each Multiview tile is its
+        // own engine — without this every closed tile left its settings collectors running for ever.
+        settingsScope.cancel()
+        scope.cancel()
     }
 
     /** Live auto-reconnect: re-fetch [currentUrl] from the live edge after a mid-stream error/stall. Backs
@@ -2198,13 +2208,10 @@ class LivePreviewEngine(
         val url = currentUrl ?: return
         // Replay the identity this channel was tuned with — HUD Retry used to re-open with the URL only,
         // so a channel needing a Referer/UA played on first open and 403'd the moment you pressed Retry.
-        val ua = tunedUserAgent
-        val preroll = tunedPrerollSecs
-        val latency = tunedLiveBufferOverride
-        val headers = tunedHttpHeaders
-        val drm = tunedDrmConfig
+        // Captured now: play() below resets the tuned fields, and the Stalker path resolves first.
+        val request = tunedRequest(url)
         val provider = reconnectUrlProvider
-        if (provider == null) { play(url, muted, _currentMeta.value, ua, preroll, latency, headers, drm); return }
+        if (provider == null) { play(request); return }
         // Expiring-URL source (Stalker): re-resolve before retrying, then reload on the main thread.
         scope.launch {
             val fresh = withContext(Dispatchers.IO) {
@@ -2212,7 +2219,7 @@ class LivePreviewEngine(
                     .onFailure { LiveDiagnosticsLog.event("retry fresh-url failed: ${it.message}") }
                     .getOrNull()
             }
-            play(fresh ?: url, muted, _currentMeta.value, ua, preroll, latency, headers, drm)
+            play(request.copy(url = fresh ?: url))
         }
     }
     override fun selectAudio(id: Int) {

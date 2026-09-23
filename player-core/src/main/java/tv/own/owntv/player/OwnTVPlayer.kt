@@ -125,9 +125,10 @@ enum class ZoomMode(@param:androidx.annotation.StringRes val labelRes: Int) {
  * audio/subtitle track — the right engine for IPTV (ExoPlayer only surfaced device-decodable tracks).
  * Also gives caching, playback speed, etc. State is published as StateFlows for the Compose HUD.
  *
- * For the one case mpv's direct path can't render — a VOD with an **image** subtitle (PGS/VOBSUB/DVB) —
- * it hands playback to [ExoSubtitleEngine] (ExoPlayer), which keeps video zero-copy AND draws the bitmap
- * sub on its own layer. The handoff is transparent: ExoPlayer's state is mirrored into these same flows.
+ * Some playback is handed to [ExoSubtitleEngine] (ExoPlayer): a VOD with an **image** subtitle
+ * (PGS/VOBSUB/DVB), which mpv's direct path can't render; a VOD whose user chose ExoPlayer as its engine;
+ * and a VOD mpv terminally failed, as a fallback. The handoff is transparent: ExoPlayer's state is
+ * mirrored into these same flows.
  *
  * ## Threading (load-bearing — read before touching a libmpv call)
  *
@@ -193,6 +194,15 @@ class OwnTVPlayer(
 
     companion object {
         const val TAG = "OwnTVPlayer"
+
+        // The decoder list is fixed for the life of the process, and building it is an IPC to the
+        // media service that the Exo codec gate and the rescue ladder used to repeat on every load.
+        // Only a successful answer is kept, so a query that threw once is simply asked again.
+        @Volatile private var codecInfos: Array<android.media.MediaCodecInfo>? = null
+
+        private fun regularCodecInfos(): Array<android.media.MediaCodecInfo> = codecInfos
+            ?: android.media.MediaCodecList(android.media.MediaCodecList.REGULAR_CODECS).codecInfos
+                .also { codecInfos = it }
 
         // mpv's stock subtitle values, restored verbatim for every option of the custom look (#96)
         // that is left on "Default" — or whenever the master toggle is off.
@@ -1339,8 +1349,9 @@ class OwnTVPlayer(
      */
     val currentMediaContentKey: String? get() = if (currentUrl != null) currentContentKey else null
 
-    // --- ExoPlayer image-subtitle handoff -----------------------------------------------------
-    // ExoPlayer takes over playback ONLY for a VOD with an image subtitle selected. mpv is stopped first
+    // --- ExoPlayer handoff ----------------------------------------------------------------------
+    // ExoPlayer takes over a VOD for an image subtitle, an ExoPlayer engine choice, or as the fallback
+    // after mpv failed (see the class KDoc) — never live. mpv is stopped first
     // (so the provider sees one connection), and ExoPlayer's state is mirrored into the flows above so the
     // HUD is unchanged. All Exo access is on the main scope (its application thread).
     @Volatile private var attachedSurface: Surface? = null
@@ -1498,8 +1509,7 @@ class OwnTVPlayer(
 
     /** Does this device expose a (hardware or software) MediaCodec decoder for [mime]? */
     private fun deviceHasAudioDecoder(mime: String): Boolean = runCatching {
-        val list = android.media.MediaCodecList(android.media.MediaCodecList.REGULAR_CODECS)
-        list.codecInfos.any { info -> !info.isEncoder && info.supportedTypes.any { it.equals(mime, ignoreCase = true) } }
+        regularCodecInfos().any { info -> !info.isEncoder && info.supportedTypes.any { it.equals(mime, ignoreCase = true) } }
     }.getOrDefault(false)
 
     // --- Video decode capability + rescue ladder (F08/F09/F10) --------------------------------
@@ -1528,8 +1538,7 @@ class OwnTVPlayer(
      */
     private fun hardwareCanDecode(mime: String, w: Int, h: Int): Boolean? = runCatching {
         if (w <= 0 || h <= 0) return null
-        val list = android.media.MediaCodecList(android.media.MediaCodecList.REGULAR_CODECS)
-        for (info in list.codecInfos) {
+        for (info in regularCodecInfos()) {
             if (info.isEncoder) continue
             if (!info.supportedTypes.any { it.equals(mime, ignoreCase = true) }) continue
             val isHw = if (android.os.Build.VERSION.SDK_INT >= 29) {
@@ -2907,6 +2916,7 @@ class OwnTVPlayer(
                 // at all, so they never enter this branch. Reuses the same bounded reconnect budget/UX
                 // as the freeze watchdog above.
                 var noVideoStalls = 0
+                val health = LiveHealthClock()
                 while (gen == loadGeneration) {
                     delay(liveStallPollMs)
                     if (gen != loadGeneration || !isLiveContent) return@launch
@@ -2934,11 +2944,13 @@ class OwnTVPlayer(
                     // while mpv itself is buffering (paused-for-cache already drives the spinner there).
                     if (exoActive || load.expectingPlayback || _error.value != null || !_isPlaying.value) {
                         stalls = 0; lastPos = -1L; noVideoStalls = 0
+                        health.reset()
                         continue
                     }
                     val pos = _position.value
                     if (pos > 0 && pos == lastPos) {
                         // No progress since the last poll.
+                        health.reset()
                         if (++stalls < liveStallLimit) continue
                         val frozenMs = liveStallLimit * liveStallPollMs
                         if (!connectivity.isOnlineNow()) {
@@ -2972,13 +2984,15 @@ class OwnTVPlayer(
                             return@launch
                         }
                     } else {
-                        // Progress (or not yet started) → healthy on the position check. Clear any stall
-                        // state and, if we'd been reconnecting, log the recovery and reset the budget.
-                        if (stalls > 0 || item.liveStallReconnects > 0) {
-                            android.util.Log.i(TAG, "live playback resumed (mpv, Live) after stall/reconnect")
-                        }
+                        // Progress (or not yet started) → healthy on the position check. Clear the stall
+                        // count now; the reconnect budget only once playback has held for
+                        // LivePreviewEngine.HEALTHY_MS, so a channel that dies seconds after every
+                        // reconnect still runs out of attempts.
                         stalls = 0
-                        item.liveStallReconnects = 0
+                        if (item.liveStallReconnects > 0 && health.onProgress(System.currentTimeMillis())) {
+                            android.util.Log.i(TAG, "live playback healthy (mpv, Live) after reconnect — budget reset")
+                            item.liveStallReconnects = 0
+                        }
                         lastPos = pos
                         // Audio is advancing, but a video track was selected and still hasn't produced a
                         // single decoded frame — the "audio plays, no picture" case position-only checks
@@ -4575,12 +4589,11 @@ class OwnTVPlayer(
                         _buffering.value = false
                         _error.value = PlaybackFailure.NoInternet
                     } else if (item.liveStallReconnects >= MAX_LIVE_RECONNECTS) {
-                        // Bounded, like every other live recovery path. This one used to call retry(),
-                        // which reloads with resetRetries = true — so a channel dying immediately after
-                        // each reconnect reset its own budget and looped forever behind a spinner, with
-                        // no message and no way out but Back. The stall watchdog clears the counter as
-                        // soon as the picture is genuinely progressing again, so this only ever fires on
-                        // consecutive failures.
+                        // Bounded, like every other live recovery path. The reconnect below keeps the
+                        // item's state (resetRetries = false) — retry() would hand the channel a fresh
+                        // budget on every attempt and loop forever behind a spinner. The stall watchdog
+                        // clears the counter only after sustained playback (LiveHealthClock), so this
+                        // fires on a channel that keeps dying.
                         android.util.Log.w(TAG, "live died mid-play — reconnect budget exhausted after $MAX_LIVE_RECONNECTS attempts, surfacing error")
                         LiveDiagnosticsLog.event("mpv live mid-play reconnects exhausted ($MAX_LIVE_RECONNECTS) — surfacing error")
                         load.expectingPlayback = false
@@ -4594,7 +4607,8 @@ class OwnTVPlayer(
                         val gen = loadGeneration
                         scope.launch {
                             delay(LIVE_RECONNECT_DELAY_MS)
-                            if (gen == loadGeneration && currentUrl != null) retry() else _buffering.value = false
+                            val url = currentUrl
+                            if (gen == loadGeneration && url != null) reloadLive(url, resetRetries = false) else _buffering.value = false
                         }
                     }
                 } else if (!isLiveContent && currentUrl != null) {
@@ -4722,9 +4736,6 @@ internal data class ItemState(
      *  reject. [triedTolerantDemux] keeps it to a single attempt. */
     @field:Volatile var tolerantDemuxThisLoad: Boolean = false,
     @field:Volatile var triedTolerantDemux: Boolean = false,
-    /** Catch-up/VOD streams that start mid-GOP (no H.264 SPS/PPS yet) can play audio with a blank
-     *  video; one software-decode reload is tried before surfacing an error. */
-    @field:Volatile var triedSoftwareForVideo: Boolean = false,
     /** With no custom User-Agent, a failed load is retried once under the neutral FALLBACK_USER_AGENT -
      *  some panels sit behind a WAF that blocklists player identities by name. */
     @field:Volatile var triedUaFallback: Boolean = false,

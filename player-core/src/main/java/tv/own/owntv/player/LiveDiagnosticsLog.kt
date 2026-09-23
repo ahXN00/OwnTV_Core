@@ -2,10 +2,11 @@ package tv.own.owntv.player
 
 import android.content.Context
 import java.io.File
-import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.ArrayDeque
-import java.util.Date
 import java.util.Locale
+import java.util.concurrent.Executors
 import tv.own.owntv.core.CoreBuildInfo
 import tv.own.owntv.core.player.PlayerBudget
 
@@ -28,9 +29,9 @@ object LiveDiagnosticsLog {
      * Rolling-file cap, device-tiered like [PlayerBudget]'s memory budget.
      *
      * Rolling the file means reading all of it back and rewriting the half worth keeping, so the cap is
-     * also the size of the read/write burst that happens on whichever thread logged the line that
-     * overflowed it. On a 2 GB TV, halving it halves that burst; on anything larger the extra history is
-     * worth having when a hang has to be diagnosed after the fact.
+     * also the size of the read/write burst on the [writer] thread. On a 2 GB TV, halving it halves that
+     * burst; on anything larger the extra history is worth having when a hang has to be diagnosed after
+     * the fact.
      */
     private const val MAX_FILE_BYTES = 256 * 1024L
     private const val MAX_FILE_BYTES_LOW_SPEC = 128 * 1024L
@@ -38,8 +39,13 @@ object LiveDiagnosticsLog {
     @Volatile private var maxFileBytes = MAX_FILE_BYTES
     private val ring = ArrayDeque<String>()
     private val lock = Any()
-    private val timeFmt = SimpleDateFormat("MM-dd HH:mm:ss.SSS", Locale.US)
-    private var logFile: File? = null
+    // Immutable and thread-safe: events arrive from the main, player and mpv event threads at once, and
+    // the SimpleDateFormat this replaced could print a garbled timestamp when two of them overlapped.
+    private val timeFmt = DateTimeFormatter.ofPattern("MM-dd HH:mm:ss.SSS", Locale.US)
+    // File I/O used to run on whichever thread logged the line — often the main thread. One thread, so
+    // lines still land in the order they were logged.
+    private val writer = Executors.newSingleThreadExecutor { Thread(it, "owntv-diag-log").apply { isDaemon = true } }
+    @Volatile private var logFile: File? = null
 
     /** Call once with an app [Context] so events can be flushed to [file]. Safe to call repeatedly. */
     fun init(context: Context) {
@@ -54,7 +60,7 @@ object LiveDiagnosticsLog {
     /** Record one diagnostic line. Always kept in the in-memory ring; also written to Logcat + the rolling
      *  file when [enabled]. [message] must already be redacted of URLs/credentials by the caller. */
     fun event(message: String) {
-        val line = "${timeFmt.format(Date())} $message"
+        val line = "${timeFmt.format(LocalDateTime.now())} $message"
         synchronized(lock) {
             ring.addLast(line)
             while (ring.size > MAX_EVENTS) ring.pollFirst()
@@ -67,12 +73,14 @@ object LiveDiagnosticsLog {
 
     private fun writeLine(line: String) {
         val f = logFile ?: return
-        runCatching {
-            if (f.exists() && f.length() > maxFileBytes) {
-                val kept = f.readLines().takeLast(MAX_EVENTS / 2)
-                f.writeText(kept.joinToString("\n") + "\n")
+        writer.execute {
+            runCatching {
+                if (f.exists() && f.length() > maxFileBytes) {
+                    val kept = f.readLines().takeLast(MAX_EVENTS / 2)
+                    f.writeText(kept.joinToString("\n") + "\n")
+                }
+                f.appendText(line + "\n")
             }
-            f.appendText(line + "\n")
         }
     }
 

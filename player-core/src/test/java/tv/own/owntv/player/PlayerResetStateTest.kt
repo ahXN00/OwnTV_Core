@@ -29,7 +29,6 @@ class PlayerResetStateTest {
         val used = ItemState().apply {
             autoRetries = 2
             triedAltFormat = true
-            triedSoftwareForVideo = true
             altFormatBaseUrl = "http://example.invalid/stream.ts"
         }
         assertNotEquals(ItemState(), used)

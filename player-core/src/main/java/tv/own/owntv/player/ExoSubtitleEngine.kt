@@ -28,8 +28,9 @@ import tv.own.owntv.core.player.PlayerBudget
 import tv.own.owntv.core.player.SurroundMode
 
 /**
- * ExoPlayer (Media3) used **only** for the one case mpv's direct path can't handle: a VOD with an
- * **image-based** subtitle (PGS/VOBSUB/DVB) selected. ExoPlayer keeps the video on the same zero-copy
+ * ExoPlayer (Media3) for VOD, in three roles: a VOD with an **image-based** subtitle (PGS/VOBSUB/DVB)
+ * selected — the case mpv's direct path can't handle — the VOD engine fallback below, and the primary
+ * engine when the user chose ExoPlayer for Movies/Series. ExoPlayer keeps the video on the same zero-copy
  * decoder→SurfaceView path *and* renders the bitmap subtitle on its own UI layer ([Cue]s → SubtitleView),
  * which mpv can't do without GL-compositing the whole 4K frame (the heavy path we removed).
  *

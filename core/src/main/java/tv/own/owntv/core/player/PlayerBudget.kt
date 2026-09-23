@@ -26,7 +26,13 @@ data class PlayerBudget(
         /** Aggressive shrink target applied live when the OS signals critical memory pressure. */
         const val TRIM_DEMUXER_BYTES = "24MiB"
 
-        fun of(context: Context): PlayerBudget {
+        // Total RAM never changes, so the answer is worked out once per process and shared by every
+        // engine build, the diagnostics log and the settings repository.
+        @Volatile private var cached: PlayerBudget? = null
+
+        fun of(context: Context): PlayerBudget = cached ?: compute(context).also { cached = it }
+
+        private fun compute(context: Context): PlayerBudget {
             val am = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
             val info = ActivityManager.MemoryInfo().also { am.getMemoryInfo(it) }
             val totalGb = info.totalMem / (1024.0 * 1024.0 * 1024.0)
