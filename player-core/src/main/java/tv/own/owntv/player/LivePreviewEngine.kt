@@ -94,6 +94,23 @@ class LivePreviewEngine(
     /** The buffering numbers the live [player] instance was actually constructed with. A LoadControl can't
      *  be changed afterwards, so this is what [play] compares against to decide on a rebuild. */
     @Volatile private var builtLoadControl: LiveBuffer.LoadControlMs? = null
+
+    /** Set by [onMemoryPressure]; from then on this engine builds with the low-RAM byte target. */
+    @Volatile private var memoryPressure = false
+    /** Whether the current [player] was built with the low-RAM byte target. */
+    @Volatile private var builtLowRam = false
+
+    /**
+     * The OS reported critical memory pressure. A built LoadControl cannot shrink, so the next tune
+     * rebuilds the player with the low-RAM byte target (the same check that rebuilds on a changed
+     * buffer setting); the channel playing now is left alone rather than cut. Lasts for the life of
+     * this engine — a device that hit critical pressure once is likely to again.
+     */
+    fun onMemoryPressure() {
+        if (memoryPressure) return
+        memoryPressure = true
+        LiveDiagnosticsLog.event("critical memory pressure — next tune rebuilds with the low-RAM buffer")
+    }
     /** The pre-roll this tune should use — zero for a stream already caught unable to satisfy one
      *  ([LiveStreamQuirks.defeatsPreroll]), otherwise the per-playlist override or the global setting. */
     /** The live-edge depth this tune should use: the playlist's override if it set one, else the global
@@ -1300,7 +1317,7 @@ class LivePreviewEngine(
             // differs from the last channel's, would otherwise never take effect (the "Pre-buffer
             // does nothing" report). Drop the player whenever the numbers it was built with no longer match.
             val wanted = LiveBuffer.loadControlFor(effectiveLiveBufferSecs(), effectivePrerollSecs())
-            if (player != null && builtLoadControl != wanted) {
+            if (player != null && (builtLoadControl != wanted || (memoryPressure && !builtLowRam))) {
                 LiveDiagnosticsLog.event("load_control stale (was=$builtLoadControl want=$wanted) — rebuilding player")
                 player?.run { removeListener(listener); release() }
                 player = null
@@ -2693,7 +2710,9 @@ class LivePreviewEngine(
         // window at every setting), and the new "Pre-buffer" drives the start thresholds.
         // Balanced + Off reproduces the previous constants exactly.
         val lc = LiveBuffer.loadControlFor(effectiveLiveBufferSecs(), effectivePrerollSecs()).also { builtLoadControl = it }
-        val defaultBytes = if (budget.lowSpec) LOW_RAM_TARGET_BYTES else TARGET_BUFFER_BYTES
+        val lowRam = budget.lowSpec || memoryPressure
+        builtLowRam = lowRam
+        val defaultBytes = if (lowRam) LOW_RAM_TARGET_BYTES else TARGET_BUFFER_BYTES
         LiveDiagnosticsLog.event(
             "load_control min=${lc.minBufferMs} max=${lc.maxBufferMs} start=${lc.bufferForPlaybackMs} " +
                 "restart=${lc.bufferForPlaybackAfterRebufferMs} preroll=${effectivePrerollSecs()}s " +

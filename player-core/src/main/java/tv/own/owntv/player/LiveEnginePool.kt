@@ -88,6 +88,16 @@ class LiveEnginePool(private val newEngine: () -> LivePreviewEngine) {
         if (_audibleTile.value == tile) _audibleTile.value = null
     }
 
+    /** Home / screensaver: every tile remembers its channel and frees its stream — the grid used to keep
+     *  playing, sound included, behind the launcher. Paired with [onAppForegrounded]. */
+    fun onAppBackgrounded() = engines.values.forEach { it.onAppBackgrounded() }
+
+    /** Back in front: every tile re-tunes the channel it had, at the live edge. */
+    fun onAppForegrounded() = engines.values.forEach { it.onAppForegrounded() }
+
+    /** Critical memory pressure — see [LivePreviewEngine.onMemoryPressure]. */
+    fun onMemoryPressure() = engines.values.forEach { it.onMemoryPressure() }
+
     /** Free every engine. Leaving Multiview, and the only thing a caller must not forget. */
     fun releaseAll() {
         engines.values.forEach { it.release() }

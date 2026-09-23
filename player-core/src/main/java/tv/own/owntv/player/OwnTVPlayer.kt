@@ -2602,6 +2602,7 @@ class OwnTVPlayer(
         // Internal retries keep the current item's notice; a new item must never inherit it.
         if (resetRetries) clearToast()
         ensureInit()
+        restoreTrimmedCache()
         // THE per-load reset. Everything this load must not inherit from the previous one is in
         // [LoadState], so forgetting it is one assignment that cannot be partially done. The four values
         // that are not simply cleared come from this call's own arguments.
@@ -3538,13 +3539,30 @@ class OwnTVPlayer(
 
     /**
      * The OS signaled serious memory pressure while we're alive: yield before the kernel takes.
-     * Shrinks the demuxer cache live (it prunes already-buffered data too).
+     * Shrinks the demuxer cache live (it prunes already-buffered data too). The shrink lasts until the
+     * next load, which puts the device budget back ([restoreTrimmedCache]) — it used to stay for the
+     * rest of the session, so one Home press left every later stream on a fraction of its cache.
+     * Called through [PlaybackEngines.onTrimMemory], which decides which levels count.
      */
     fun onTrimMemory() {
         if (!initialized) return
+        cacheTrimmed = true
         mpvAsync {
             setPropertyString("demuxer-max-bytes", PlayerBudget.TRIM_DEMUXER_BYTES)
             setPropertyString("demuxer-max-back-bytes", "8MiB")
+        }
+    }
+
+    @Volatile private var cacheTrimmed = false
+
+    /** Put the device budget back after an [onTrimMemory]; queued ahead of the load that calls it. */
+    private fun restoreTrimmedCache() {
+        if (!cacheTrimmed) return
+        cacheTrimmed = false
+        val budget = playerBudget ?: return
+        mpvAsync {
+            setPropertyString("demuxer-max-bytes", budget.demuxerMaxBytes)
+            setPropertyString("demuxer-max-back-bytes", budget.demuxerBackBytes)
         }
     }
 

@@ -3936,6 +3936,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	buffered but never started playing ($detail)
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	buffering stalled
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	connection pool evict failed: ${it.javaClass.simpleName}
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	critical memory pressure — next tune rebuilds with the low-RAM buffer
 1	protocol	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	dash
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	dataType=${mediaLoadData.dataType} canceled=$wasCanceled
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	decoder exhausted — no MediaCodec instance available
@@ -4222,8 +4223,8 @@
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	demuxer-lavf-analyzeduration
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	demuxer-lavf-o
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	demuxer-lavf-probesize
-2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	demuxer-max-back-bytes
-3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	demuxer-max-bytes
+3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	demuxer-max-back-bytes
+4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	demuxer-max-bytes
 4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	demuxer-readahead-secs
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	demuxerLavfO="$demuxerOptions" streamLavfO="${streamLavfOptionsFor(url, isLiveContent, effectiveHls)}"
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	demuxerLavfO="$trimmedOptions"
@@ -4471,6 +4472,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	xsub
 25	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	yes
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	ytdl
+1	technical	player-core/src/main/java/tv/own/owntv/player/PlaybackEngines.kt	DEPRECATION
 6	empty	player-core/src/main/java/tv/own/owntv/player/PlaybackErrorLog.kt	\0
 2	file-path	player-core/src/main/java/tv/own/owntv/player/PlaybackErrorLog.kt	$relativePath$EXPORT_NAME
 1	technical	player-core/src/main/java/tv/own/owntv/player/PlaybackErrorLog.kt	${Build.MANUFACTURER} ${Build.MODEL}
