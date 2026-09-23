@@ -2106,10 +2106,20 @@
 2	json	core/src/main/java/tv/own/owntv/core/model/HomeRow.kt	order
 2	preference-key	core/src/main/java/tv/own/owntv/core/model/HomeRow.kt	recentLiveMode
 2	json	core/src/main/java/tv/own/owntv/core/model/HomeRow.kt	trendingStyle
+1	url	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	$base${if ('?' in base) '&' else '?'}dns=$query
+1	technical	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	${cfg.dohUrl}|${cfg.host}:${cfg.port}|$hostname
+2	technical	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	Accept
 1	log	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	DoH lookup failed for $hostname, falling back to system DNS
 1	log	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	DoH lookup returned no addresses for $hostname, falling back to system DNS
 1	log	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	UDP DNS lookup failed for $hostname via $server:$port, falling back to system DNS
 1	log	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	UDP DNS timeout for $hostname via $server:$port, falling back to system DNS
+1	regex	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	\\d{1,3}(\\.\\d{1,3}){3}
+1	technical	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	application/dns-message
+1	log	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	dns
+1	technical	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	owntv-dns
+1	json	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	type
+1	log	core/src/main/java/tv/own/owntv/core/network/FirstRead.kt	$name setting not read after ${timeoutMs}ms; going on without it
+1	log	core/src/main/java/tv/own/owntv/core/network/FirstRead.kt	OwnTV-Network
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	\0
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	$1***@
 2	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	$1=***
@@ -2144,6 +2154,7 @@
 2	log	core/src/main/java/tv/own/owntv/core/network/ProxyConfig.kt	Proxy-Authorization
 2	log	core/src/main/java/tv/own/owntv/core/network/ProxyConfig.kt	UTF-8
 1	log	core/src/main/java/tv/own/owntv/core/network/ProxyConfig.kt	http://$auth${c.host}:${c.port}
+1	log	core/src/main/java/tv/own/owntv/core/network/ProxyConfig.kt	proxy
 1	empty	core/src/main/java/tv/own/owntv/core/network/StreamHeaders.kt	\0
 1	protocol	core/src/main/java/tv/own/owntv/core/network/StreamHeaders.kt	$name: $value
 1	protocol	core/src/main/java/tv/own/owntv/core/network/StreamHeaders.kt	${it.key}: ${it.value}
@@ -2635,6 +2646,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	HOURS_24
 1	protocol	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	HOURS_48
 1	log	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	OwnTV-Settings
+1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	UNCHECKED_CAST
 1	regex	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	^[0-9a-fA-F]{16}:[0-9a-fA-F]{64}$
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	accent_color
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	accent_custom
@@ -2735,6 +2747,7 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	mini_player_position
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	mini_player_size_pct
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	mini_player_style
+1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	moved_from_settings
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	multiview_enabled
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	multiview_tiles
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	multiview_warning_accepted
@@ -2743,6 +2756,7 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	nav_menu_mode
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	open_subtitles_api_key
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	open_subtitles_server_url
+1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	owntv_positions
 1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	owntv_settings
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	panel_w_live_cat
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	panel_w_live_list

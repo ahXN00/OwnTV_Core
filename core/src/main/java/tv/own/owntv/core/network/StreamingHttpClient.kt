@@ -26,7 +26,10 @@ class StreamingHttpClient(base: OkHttpClient) {
      *  from a warm socket and only a *stop* clears the pool. */
     private val pool = ConnectionPool(MAX_IDLE_CONNECTIONS, KEEP_ALIVE_MINUTES, TimeUnit.MINUTES)
 
-    val client: OkHttpClient = base.newBuilder().connectionPool(pool).build()
+    /** Unlike the shared client, OkHttp may retry a connection failure here (E18): a stream GET is
+     *  idempotent, and a pooled socket the panel half-closed would otherwise fail the first playlist or
+     *  segment request after a zap back. Sync keeps its own retries, so the shared client stays off. */
+    val client: OkHttpClient = base.newBuilder().connectionPool(pool).retryOnConnectionFailure(true).build()
 
     /** Close the idle stream sockets. Connections with a call in flight are untouched — OkHttp only
      *  evicts what nothing is using. */

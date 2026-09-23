@@ -834,7 +834,7 @@ class OwnTVPlayer(
     /** Settings → Deinterlacing (Off / Auto). See [applyDeinterlace] for where it can take effect. */
     private var deinterlace = false
     // Escape-hatch toggle: when off, no live fps/bitrate measuring runs at all (declared values only).
-    private var measuredStreamStats = true
+    private var measuredStreamStats = settings.measuredStreamStatsDefault
     // Live latency (#72): demuxer readahead seconds for live streams; null = keep the device budget
     // default (Balanced). Applied per-load in applyProbeProfile (live only, so VOD is never affected).
     @Volatile private var liveBufferSecs: Int? = null

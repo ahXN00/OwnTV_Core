@@ -47,14 +47,22 @@ class ProxyConfigHolder(configFlow: Flow<ProxyConfig>) {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
+    private val firstRead = FirstRead("proxy")
+
     init {
-        configFlow.onEach { current = it }.launchIn(scope)
+        configFlow.onEach { current = it; firstRead.arrived() }.launchIn(scope)
     }
 
     fun snapshot(): ProxyConfig = current
 
+    /** [current] once the stored setting has been read — what every request and mpv load routes by. */
+    private fun live(): ProxyConfig {
+        firstRead.await()
+        return current
+    }
+
     private fun activeProxy(): Proxy? {
-        val c = current
+        val c = live()
         // createUnresolved: let the connection layer resolve the proxy host; the destination host is
         // resolved by the proxy itself (correct behavior for an HTTP forward proxy).
         return if (c.usable) Proxy(Proxy.Type.HTTP, InetSocketAddress.createUnresolved(c.host, c.port)) else null
@@ -72,7 +80,7 @@ class ProxyConfigHolder(configFlow: Flow<ProxyConfig>) {
      * cleanly instead of looping). Credentials are never logged.
      */
     val proxyAuthenticator: Authenticator = Authenticator { _, response ->
-        val c = current
+        val c = live()
         if (!c.usable || !c.hasAuth) return@Authenticator null
         if (response.request.header("Proxy-Authorization") != null) return@Authenticator null
         response.request.newBuilder()
@@ -86,7 +94,7 @@ class ProxyConfigHolder(configFlow: Flow<ProxyConfig>) {
      * NEVER log the returned string — use [HttpClient.redactUrl] if it must appear anywhere.
      */
     fun mpvProxyUrl(): String? {
-        val c = current
+        val c = live()
         if (!c.usable) return null
         val auth = if (c.hasAuth) {
             val u = URLEncoder.encode(c.username, "UTF-8")

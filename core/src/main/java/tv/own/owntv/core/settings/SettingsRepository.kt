@@ -246,6 +246,37 @@ data class EpgRefresh(
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "owntv_settings")
 
+/**
+ * The positions written while the user browses — last channel, last category per section — kept apart
+ * from the settings file (S14). Each one used to be a write to `owntv_settings`, and every write there
+ * re-runs every settings collector in both engines and every screen. Copied over once, on first open.
+ */
+private val Context.positionStore: DataStore<Preferences> by preferencesDataStore(
+    name = "owntv_positions",
+    produceMigrations = { context -> listOf(PositionsFromSettings(context)) },
+)
+
+private class PositionsFromSettings(private val context: Context) : androidx.datastore.core.DataMigration<Preferences> {
+    private val moved = booleanPreferencesKey("moved_from_settings")
+
+    override suspend fun shouldMigrate(currentData: Preferences) = currentData[moved] != true
+
+    override suspend fun migrate(currentData: Preferences): Preferences {
+        val old = context.dataStore.data.first()
+        return currentData.toMutablePreferences().apply {
+            for (key in SettingsRepository.Keys.POSITIONS) {
+                @Suppress("UNCHECKED_CAST")
+                val k = key as Preferences.Key<Any>
+                old[k]?.let { this[k] = it }
+            }
+            this[moved] = true
+        }.toPreferences()
+    }
+
+    // The old values stay in the settings file, unread; nothing is deleted on the way.
+    override suspend fun cleanUp() = Unit
+}
+
 /** CH+- key paging limits. Top-level so any caller (VM, UI) can reference them via the class. */
 object ChNavLimits {
     /** Hard cap for the CH+- skip counts — protects against typos (e.g. 999999) overloading slow TVs. */
@@ -298,6 +329,14 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     private fun <T> prefsFlow(transform: (Preferences) -> T): Flow<T> =
         context.dataStore.data.map(transform).distinctUntilChanged()
 
+    /** One stored string, parsed only when *it* changes — not on every write to the settings file, which
+     *  is what [prefsFlow] costs a JSON or list parser (S14). */
+    private fun <V, T> parsedFlow(key: Preferences.Key<V>, parse: (V?) -> T): Flow<T> =
+        context.dataStore.data.map { it[key] }.distinctUntilChanged().map(parse)
+
+    private fun <T> positionFlow(key: Preferences.Key<T>): Flow<T?> =
+        context.positionStore.data.map { it[key] }.distinctUntilChanged()
+
     // Glass effect defaults: OFF (empty scope) — the glass look is strictly opt-in, the app looks
     // unchanged until the user enables it in Settings → Glass Effect. Alpha/blur defaults are the
     // "nice preset" applied once glass is turned on.
@@ -306,7 +345,8 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     private val GLASS_BLUR_DEFAULT_PCT: Int = 78
     private val GLASS_HIGHLIGHT_DEFAULT_PCT: Int = 55
 
-    private object Keys {
+    // Internal (not private) only so SettingsBackupCoverageTest can check every key has a backup decision.
+    internal object Keys {
         val THEME_MODE = stringPreferencesKey("theme_mode")
         val UI_ZOOM_PCT = intPreferencesKey("ui_zoom_percent")
         val FONT_SIZE_PCT = intPreferencesKey("font_size_percent")
@@ -546,6 +586,9 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val REMEMBER_CAT_SERIES = booleanPreferencesKey("remember_cat_series")
         val LAST_MOVIES_CATEGORY = stringPreferencesKey("last_movies_category")
         val LAST_SERIES_CATEGORY = stringPreferencesKey("last_series_category")
+
+        /** Written while browsing, so kept in their own store rather than the settings file (S14). */
+        val POSITIONS: List<Preferences.Key<*>> = listOf(LAST_LIVE_CHANNEL, LAST_LIVE_CATEGORY, LAST_MOVIES_CATEGORY, LAST_SERIES_CATEGORY)
         // Background image (Glass effect). bg_image_path holds the absolute path of the image we
         // COPIED into app-private storage (so a USB unplug or source-folder delete never blanks it);
         // blank = no background (feature off, panels stay solid). glass_scope is the bitmask of which
@@ -603,9 +646,9 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     }
 
     // --- Live TV: remember the last focused channel so reopening lands focus back on it ---
-    val lastLiveChannelId: Flow<Long> = prefsFlow { it[Keys.LAST_LIVE_CHANNEL] ?: -1L }
+    val lastLiveChannelId: Flow<Long> = positionFlow(Keys.LAST_LIVE_CHANNEL).map { it ?: -1L }
     suspend fun setLastLiveChannelId(id: Long) {
-        context.dataStore.edit { it[Keys.LAST_LIVE_CHANNEL] = id }
+        context.positionStore.edit { it[Keys.LAST_LIVE_CHANNEL] = id }
     }
 
     // --- Startup: per-profile landing (v4.0.0). Falls back to the legacy global resume toggle for existing
@@ -618,9 +661,8 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         context.dataStore.edit { it[stringPreferencesKey("startup_mode_$profileId")] = mode.name }
     }
 
-    fun startupChannel(profileId: Long): Flow<StartupChannelRef?> = prefsFlow { prefs ->
-        StartupChannelRef.fromJson(prefs[stringPreferencesKey("startup_channel_$profileId")])
-    }
+    fun startupChannel(profileId: Long): Flow<StartupChannelRef?> =
+        parsedFlow(stringPreferencesKey("startup_channel_$profileId")) { StartupChannelRef.fromJson(it) }
 
     suspend fun setStartupChannel(profileId: Long, channel: StartupChannelRef?) {
         context.dataStore.edit { prefs ->
@@ -665,9 +707,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     // --- Home: per-profile row order / visibility / hero filters. ---
     private fun homeConfigKey(profileId: Long) = stringPreferencesKey("home_config_$profileId")
 
-    fun homeConfig(profileId: Long): Flow<HomeConfig> = prefsFlow { prefs ->
-        HomeConfig.fromJson(prefs[homeConfigKey(profileId)])
-    }
+    fun homeConfig(profileId: Long): Flow<HomeConfig> = parsedFlow(homeConfigKey(profileId)) { HomeConfig.fromJson(it) }
 
     suspend fun updateHomeConfig(profileId: Long, transform: (HomeConfig) -> HomeConfig) {
         context.dataStore.edit { prefs ->
@@ -685,17 +725,17 @@ class SettingsRepository(private val context: Context, private val localeStore: 
 
     // --- Remember the last selected category so reopening a section lands where you left off.
     //     Written by each section's view model (debounced), read once on restore. ---
-    val lastLiveCategory: Flow<String> = prefsFlow { it[Keys.LAST_LIVE_CATEGORY] ?: "" }
+    val lastLiveCategory: Flow<String> = positionFlow(Keys.LAST_LIVE_CATEGORY).map { it ?: "" }
     suspend fun setLastLiveCategory(key: String) {
-        context.dataStore.edit { it[Keys.LAST_LIVE_CATEGORY] = key }
+        context.positionStore.edit { it[Keys.LAST_LIVE_CATEGORY] = key }
     }
-    val lastMoviesCategory: Flow<String> = prefsFlow { it[Keys.LAST_MOVIES_CATEGORY] ?: "" }
+    val lastMoviesCategory: Flow<String> = positionFlow(Keys.LAST_MOVIES_CATEGORY).map { it ?: "" }
     suspend fun setLastMoviesCategory(key: String) {
-        context.dataStore.edit { it[Keys.LAST_MOVIES_CATEGORY] = key }
+        context.positionStore.edit { it[Keys.LAST_MOVIES_CATEGORY] = key }
     }
-    val lastSeriesCategory: Flow<String> = prefsFlow { it[Keys.LAST_SERIES_CATEGORY] ?: "" }
+    val lastSeriesCategory: Flow<String> = positionFlow(Keys.LAST_SERIES_CATEGORY).map { it ?: "" }
     suspend fun setLastSeriesCategory(key: String) {
-        context.dataStore.edit { it[Keys.LAST_SERIES_CATEGORY] = key }
+        context.positionStore.edit { it[Keys.LAST_SERIES_CATEGORY] = key }
     }
 
     // --- Per-section "remember last CATEGORY" (default ON each — Live TV's long-standing behaviour,
@@ -731,8 +771,8 @@ class SettingsRepository(private val context: Context, private val localeStore: 
 
     // --- Search: recent search terms (most-recent first, capped). Stored as one newline-joined string
     //     so no schema/table is needed; blank entries are ignored on read. ---
-    val recentSearches: Flow<List<String>> = prefsFlow { prefs ->
-        prefs[Keys.RECENT_SEARCHES]?.split('\n')?.map { it.trim() }?.filter { it.isNotEmpty() } ?: emptyList()
+    val recentSearches: Flow<List<String>> = parsedFlow(Keys.RECENT_SEARCHES) { raw ->
+        raw?.split('\n')?.map { it.trim() }?.filter { it.isNotEmpty() } ?: emptyList()
     }
 
     /** Push a query to the top of the recents (case-insensitive dedup), capped at 12 entries. */
@@ -1314,8 +1354,13 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     /** Measure live fps / bitrate / dropped frames for the stream-info overlay. On (default) = the
      *  overlay shows measured values that ExoPlayer doesn't declare for raw MPEG-TS. Off = a hard
      *  escape hatch: no live measuring runs at all (declared values only), for any low-end TV where
-     *  the measuring is ever suspected of causing stutter. Never affects the actual playback pipeline. */
-    val measuredStreamStats: Flow<Boolean> = prefsFlow { it[Keys.MEASURED_STREAM_STATS] ?: true }
+     *  the measuring is ever suspected of causing stutter. Never affects the actual playback pipeline.
+     *  Defaults off on a low-RAM device (S16), like [heroPreviewDefault]; auto frame rate measures fps on
+     *  its own, so it does not depend on this. */
+    val measuredStreamStats: Flow<Boolean> = prefsFlow { it[Keys.MEASURED_STREAM_STATS] ?: measuredStreamStatsDefault }
+
+    /** What [measuredStreamStats] reports until the user picks; also the settings row's first value. */
+    val measuredStreamStatsDefault: Boolean get() = !lowSpecDevice
 
     suspend fun setMeasuredStreamStats(enabled: Boolean) {
         context.dataStore.edit { it[Keys.MEASURED_STREAM_STATS] = enabled }
@@ -1579,9 +1624,9 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     }
 
     /** Configurable remote shortcuts. An absent key means factory defaults; an empty set means none. */
-    val remoteShortcutBindings: Flow<List<RemoteShortcutBinding>> = prefsFlow { prefs ->
-        if (Keys.REMOTE_SHORTCUT_BINDINGS in prefs) {
-            RemoteShortcutBindings.decode(prefs[Keys.REMOTE_SHORTCUT_BINDINGS].orEmpty())
+    val remoteShortcutBindings: Flow<List<RemoteShortcutBinding>> = parsedFlow(Keys.REMOTE_SHORTCUT_BINDINGS) { raw ->
+        if (raw != null) {
+            RemoteShortcutBindings.decode(raw)
         } else {
             RemoteShortcutBindings.defaults
         }
@@ -1760,8 +1805,8 @@ class SettingsRepository(private val context: Context, private val localeStore: 
      * Stored as a comma-joined list of row keys. Unknown keys are kept here but ignored when the list
      * is drawn, so a pin that belongs to a row hidden by the current theme/profile survives.
      */
-    val quickPinnedKeys: Flow<List<String>> = prefsFlow { prefs ->
-        (prefs[Keys.QUICK_PINNED] ?: DEFAULT_QUICK_PINNED.joinToString(","))
+    val quickPinnedKeys: Flow<List<String>> = parsedFlow(Keys.QUICK_PINNED) { raw ->
+        (raw ?: DEFAULT_QUICK_PINNED.joinToString(","))
             .split(',').map { it.trim() }.filter { it.isNotEmpty() }
     }
 
@@ -1775,8 +1820,8 @@ class SettingsRepository(private val context: Context, private val localeStore: 
      * independent lists. Keys that no longer exist are ignored on read and actions the list has never
      * heard of are appended, which is what lets a later release add an action without it vanishing.
      */
-    fun menuOrder(menu: String): Flow<List<String>> = prefsFlow { prefs ->
-        (prefs[menuOrderKey(menu)] ?: "").split(',').map { it.trim() }.filter { it.isNotEmpty() }
+    fun menuOrder(menu: String): Flow<List<String>> = parsedFlow(menuOrderKey(menu)) { raw ->
+        (raw ?: "").split(',').map { it.trim() }.filter { it.isNotEmpty() }
     }
 
     suspend fun setMenuOrder(menu: String, keys: List<String>) {
@@ -1811,8 +1856,8 @@ class SettingsRepository(private val context: Context, private val localeStore: 
      * EPG sources whose own `<icon src>` channel logos should replace the playlist's logos. Per source,
      * so one feed can supply logos while another only supplies programmes. Missing ids default to off.
      */
-    val epgUseLogos: Flow<Set<Long>> = prefsFlow { prefs ->
-        parseRefreshMap(prefs[Keys.EPG_USE_LOGOS])
+    val epgUseLogos: Flow<Set<Long>> = parsedFlow(Keys.EPG_USE_LOGOS) { raw ->
+        parseRefreshMap(raw)
             .filterValues { it.toBoolean() }
             .keys.mapNotNullTo(LinkedHashSet()) { it.toLongOrNull() }
     }
@@ -2501,87 +2546,120 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     // Deliberately EXCLUDES the download folder (a device-specific path) and the profile/source-coupled
     // keys (active profile, default source, refresh-on-startup) — those ride with the sources backup.
 
-    private val backupStringKeys = listOf(
-        Keys.THEME_MODE, Keys.ACCENT, Keys.ACCENT_CUSTOM, Keys.FOCUS_HIGHLIGHT, Keys.DEFAULT_ZOOM,
-        // Current global engine choices. VOD_PREFER_EXO below is migration-only and cannot represent
-        // all four EnginePreference modes, so the two string values must travel themselves.
-        Keys.LIVE_ENGINE, Keys.VOD_ENGINE,
-        Keys.MAIN_FONT_FAMILY, Keys.POPUP_FONT_FAMILY,
-        Keys.PREF_AUDIO_LANG, Keys.PREF_SUB_LANG, Keys.SUB_SEARCH_LANGS, Keys.SORT_LIVE, Keys.SORT_GUIDE, Keys.SORT_MOVIES,
-        Keys.SORT_SERIES, Keys.RESUME_MODE, Keys.CATCHUP_TZ, Keys.CATCHUP_PLAYER, Keys.ANIMATION_LEVEL, Keys.VOD_VIEW_MODE, Keys.GUIDE_VIEW,
-        Keys.EPISODE_VIEW_MODE, Keys.VOD_LAYOUT,
-        Keys.WEATHER_LOCATION, Keys.RECENT_SEARCHES,
-        // Global proxy — non-secret fields only. The proxy password (Keys.PROXY_PASS) is NEVER part of
-        // this whitelist; it is handled separately by BackupManager (encrypted or omitted).
-        Keys.PROXY_HOST, Keys.PROXY_USER,
-        // TMDB metadata: source mode + self-host URL. The user's own TMDB API key (Keys.TMDB_API_KEY) is a
-        // secret and is deliberately NOT backed up in plaintext (same policy as the proxy password).
-        Keys.METADATA_SERVER_URL, Keys.METADATA_MODE, Keys.METADATA_LANGUAGE,
-        Keys.OPEN_SUBTITLES_SERVER_URL,
-        // Download folder. Backed up so a same-device reinstall keeps the chosen folder; on a different
-        // device a path that no longer exists is harmless — StorageAccess.resolveRoot falls back to app
-        // storage, so a stale restore never breaks downloads.
-        Keys.DOWNLOAD_ROOT,
-        // Nav menu mode rides with settings backup so a reinstall keeps the user's DYNAMIC/STATIC choice.
-        Keys.NAV_MENU_MODE,
-        // Docked mini-player position rides with settings backup (size is an int key, see backupIntKeys).
-        Keys.MINI_PLAYER_POSITION,
-        // Live TV latency preset (custom seconds is an int key, see backupIntKeys).
-        Keys.LIVE_LATENCY_MODE,
-        // Glass effect: the background image path + scope/alpha so a reinstall keeps the look.
-        // NOTE: only the path string travels — the image bytes live in app-private storage which is
-        // wiped on uninstall, so on a new device a stale path is ignored gracefully (falls back to none).
-        Keys.BG_IMAGE_PATH,
-        Keys.GLASS_PRESET,
-        // Subtitle appearance: text color and screen position (toggle is a bool key, size a float
-        // key, background transparency an int key).
-        Keys.SUB_COLOR,
-        Keys.SUB_FONT,
-        Keys.SUB_POSITION,
-        // Custom DNS — not secret, backed up alongside proxy
-        Keys.DNS_HOST, Keys.DNS_DOH_URL,
-        // Surround mode (Auto/Stereo only/Surround). The legacy boolean is in backupBoolKeys and stays
-        // in sync, but the string is what is read first, so it has to travel too.
-        Keys.SURROUND_MODE,
-        // The mobility layer's two choices. Same reasoning as the touch-host booleans below: a phone
-        // restored from a phone keeps them, a television never reads them.
-        Keys.MINI_PLAYER_STYLE, Keys.PIP_SIZE,
-        // Settings personalization: Quick pins (including their order) and the independently arranged
-        // action order for each of the four long-press content menus.
-        Keys.QUICK_PINNED,
-    ) + ContentMenu.entries.map { menuOrderKey(it.name.lowercase()) }
-    private val backupStringSetKeys = listOf(
-        // The STATIC-mode hidden set rides with backup so a reinstall keeps the user's hidden icons.
-        Keys.NAV_MENU_HIDDEN,
-        Keys.REMOTE_SHORTCUT_BINDINGS,
-    )
-    private val backupIntKeys = listOf(Keys.GUIDE_DAYS_TO_KEEP, Keys.FOCUS_HIGHLIGHT_WIDTH, Keys.DEFAULT_VOLUME, Keys.SEEK_STEP_SEC, Keys.LIVE_REWIND_STEP_SEC, Keys.UI_ZOOM_PCT, Keys.FONT_SIZE_PCT, Keys.AUDIO_DELAY_MS, Keys.CATCHUP_OFFSET_MIN, Keys.EPG_OFFSET_MIN, Keys.PROXY_PORT, Keys.DNS_PORT, Keys.CH_NAV_UP_SKIP, Keys.CH_NAV_DOWN_SKIP, Keys.MINI_PLAYER_SIZE_PCT, Keys.LIVE_LATENCY_CUSTOM_SECS, Keys.LIVE_PREROLL_SECS, Keys.LIVE_TUNE_TIMEOUT_SECS, Keys.GLASS_SCOPE, Keys.GLASS_ALPHA, Keys.GLASS_BLUR, Keys.GLASS_HIGHLIGHT, Keys.SUB_BG_OPACITY,
-        Keys.PANEL_W_LIVE_CAT, Keys.PANEL_W_LIVE_LIST, Keys.PANEL_W_LIVE_PREVIEW,
-        Keys.PANEL_W_MOVIES_CAT, Keys.PANEL_W_MOVIES_LIST, Keys.PANEL_W_MOVIES_PREVIEW,
-            Keys.PANEL_W_SERIES_CAT, Keys.PANEL_W_SERIES_LIST, Keys.PANEL_W_SERIES_PREVIEW,
-        Keys.CINEMATIC_DETAILS_MOVIES, Keys.CINEMATIC_DETAILS_SERIES,
-        Keys.GUIDE_WIDTH_CHANNELS, Keys.GUIDE_WIDTH_EPG,
-        Keys.POPUP_FONT_SIZE_PCT, Keys.POPUP_SIZE_PCT, Keys.VOD_GRID_COLUMNS, Keys.GUIDE_DENSITY_PCT,
-        Keys.GESTURE_SENSITIVITY_PCT)
-    private val backupBoolKeys = listOf(
-        Keys.LIVE_PREVIEW, Keys.LIVE_PREVIEW_AUDIO, Keys.HERO_PREVIEW, Keys.HDR_ENABLED, Keys.AUTO_FRAME_RATE, Keys.AUTO_FRAME_RATE_PROMPTED, Keys.ANDROID_TV_HOME, Keys.HW_DECODING,
-        Keys.VOD_PREFER_EXO, Keys.MEASURED_STREAM_STATS, Keys.DETAILED_DIAGNOSTICS, Keys.DIRECT_TUNE, Keys.EXTERNAL_PLAYER,
-        Keys.EXTERNAL_PLAYER_LIVE, Keys.EXTERNAL_PLAYER_MOVIES, Keys.EXTERNAL_PLAYER_SERIES, Keys.UPDATE_CHECK_ON_START, Keys.SURROUND_SOUND, Keys.AUTO_PLAY_NEXT, Keys.PROXY_ENABLED,
-        Keys.WEATHER_ENABLED, Keys.WEATHER_FAHRENHEIT, Keys.RESUME_LAST_CHANNEL, Keys.METADATA_ENABLED, Keys.CH_NAV_ENABLED,
-        Keys.DNS_ENABLED,
-        Keys.REMEMBER_LAST_LIVE, Keys.REMEMBER_LAST_MOVIES, Keys.REMEMBER_LAST_SERIES,
-        Keys.REMEMBER_CAT_LIVE, Keys.REMEMBER_CAT_MOVIES, Keys.REMEMBER_CAT_SERIES,
-        Keys.SUB_STYLE_ENABLED, Keys.SUB_SEARCH_FILTER, Keys.DEINTERLACE,
-            Keys.PANEL_W_LIVE_ON, Keys.PANEL_W_MOVIES_ON, Keys.PANEL_W_SERIES_ON, Keys.GUIDE_WIDTH_ON,
-        Keys.AMBIENT_GLOW_ENABLED, Keys.AMBIENT_GLOW_PULSE,
-        Keys.GLASS_ALLOW_FULL_TRANSPARENCY, Keys.GLASS_DEPTH_EFFECTS, Keys.GLASS_GLINT,
-        // Touch-host settings. They travel even though a television has no row for them: a phone
-        // restored from a phone must keep them, and a television simply ignores what it never reads.
-        Keys.BACKGROUND_PLAYBACK, Keys.PIP_ENABLED, Keys.DATA_SAVER, Keys.DOWNLOADS_WIFI_ONLY,
-        Keys.PIP_ON_BACK, Keys.PIP_SNAP, Keys.AUDIO_ON_SCREEN_OFF, Keys.AUDIO_ON_MOBILE_DATA,
-        Keys.AUDIO_PER_CHANNEL,
-    )
-    private val backupFloatKeys = listOf(Keys.SUB_SCALE, Keys.SUB_SCALE_MPV, Keys.SUB_SCALE_EXO)
+    // A new key belongs in one of these lists, or in SettingsBackupCoverageTest's exclusions with a reason.
+    internal object BackupKeys {
+        val strings = listOf(
+            Keys.THEME_MODE, Keys.ACCENT, Keys.ACCENT_CUSTOM, Keys.FOCUS_HIGHLIGHT, Keys.DEFAULT_ZOOM,
+            // Current global engine choices. VOD_PREFER_EXO below is migration-only and cannot represent
+            // all four EnginePreference modes, so the two string values must travel themselves.
+            Keys.LIVE_ENGINE, Keys.VOD_ENGINE,
+            Keys.MAIN_FONT_FAMILY, Keys.POPUP_FONT_FAMILY,
+            Keys.PREF_AUDIO_LANG, Keys.PREF_SUB_LANG, Keys.SUB_SEARCH_LANGS, Keys.SORT_LIVE, Keys.SORT_GUIDE, Keys.SORT_MOVIES,
+            Keys.SORT_SERIES, Keys.RESUME_MODE, Keys.CATCHUP_TZ, Keys.CATCHUP_PLAYER, Keys.ANIMATION_LEVEL, Keys.VOD_VIEW_MODE, Keys.GUIDE_VIEW,
+            Keys.EPISODE_VIEW_MODE, Keys.VOD_LAYOUT,
+            Keys.WEATHER_LOCATION, Keys.RECENT_SEARCHES,
+            // Global proxy — non-secret fields only. The proxy password (Keys.PROXY_PASS) is NEVER part of
+            // this whitelist; it is handled separately by BackupManager (encrypted or omitted).
+            Keys.PROXY_HOST, Keys.PROXY_USER,
+            // TMDB metadata: source mode + self-host URL. The user's own TMDB API key (Keys.TMDB_API_KEY) is a
+            // secret and is deliberately NOT backed up in plaintext (same policy as the proxy password).
+            Keys.METADATA_SERVER_URL, Keys.METADATA_MODE, Keys.METADATA_LANGUAGE,
+            Keys.OPEN_SUBTITLES_SERVER_URL,
+            // Download folder. Backed up so a same-device reinstall keeps the chosen folder; on a different
+            // device a path that no longer exists is harmless — StorageAccess.resolveRoot falls back to app
+            // storage, so a stale restore never breaks downloads.
+            Keys.DOWNLOAD_ROOT,
+            // Nav menu mode rides with settings backup so a reinstall keeps the user's DYNAMIC/STATIC choice.
+            Keys.NAV_MENU_MODE,
+            // Docked mini-player position rides with settings backup (size is an int key, see backupIntKeys).
+            Keys.MINI_PLAYER_POSITION,
+            // Live TV latency preset (custom seconds is an int key, see backupIntKeys).
+            Keys.LIVE_LATENCY_MODE,
+            // Glass effect: the background image path + scope/alpha so a reinstall keeps the look.
+            // NOTE: only the path string travels — the image bytes live in app-private storage which is
+            // wiped on uninstall, so on a new device a stale path is ignored gracefully (falls back to none).
+            Keys.BG_IMAGE_PATH,
+            Keys.GLASS_PRESET,
+            // Subtitle appearance: text color and screen position (toggle is a bool key, size a float
+            // key, background transparency an int key).
+            Keys.SUB_COLOR,
+            Keys.SUB_FONT,
+            Keys.SUB_POSITION,
+            // Custom DNS — not secret, backed up alongside proxy
+            Keys.DNS_HOST, Keys.DNS_DOH_URL,
+            // Surround mode (Auto/Stereo only/Surround). The legacy boolean is in backupBoolKeys and stays
+            // in sync, but the string is what is read first, so it has to travel too.
+            Keys.SURROUND_MODE,
+            // The mobility layer's two choices. Same reasoning as the touch-host booleans below: a phone
+            // restored from a phone keeps them, a television never reads them.
+            Keys.MINI_PLAYER_STYLE, Keys.PIP_SIZE,
+            // Settings personalization: Quick pins (including their order) and the independently arranged
+            // action order for each of the four long-press content menus.
+            Keys.QUICK_PINNED,
+        )
+        val stringSets = listOf(
+            // The STATIC-mode hidden set rides with backup so a reinstall keeps the user's hidden icons.
+            Keys.NAV_MENU_HIDDEN,
+            Keys.REMOTE_SHORTCUT_BINDINGS,
+        )
+        val ints = listOf(Keys.GUIDE_DAYS_TO_KEEP, Keys.FOCUS_HIGHLIGHT_WIDTH, Keys.DEFAULT_VOLUME, Keys.SEEK_STEP_SEC, Keys.LIVE_REWIND_STEP_SEC, Keys.UI_ZOOM_PCT, Keys.FONT_SIZE_PCT, Keys.AUDIO_DELAY_MS, Keys.CATCHUP_OFFSET_MIN, Keys.EPG_OFFSET_MIN, Keys.PROXY_PORT, Keys.DNS_PORT, Keys.CH_NAV_UP_SKIP, Keys.CH_NAV_DOWN_SKIP, Keys.MINI_PLAYER_SIZE_PCT, Keys.LIVE_LATENCY_CUSTOM_SECS, Keys.LIVE_PREROLL_SECS, Keys.LIVE_TUNE_TIMEOUT_SECS, Keys.GLASS_SCOPE, Keys.GLASS_ALPHA, Keys.GLASS_BLUR, Keys.GLASS_HIGHLIGHT, Keys.SUB_BG_OPACITY,
+            Keys.PANEL_W_LIVE_CAT, Keys.PANEL_W_LIVE_LIST, Keys.PANEL_W_LIVE_PREVIEW,
+            Keys.PANEL_W_MOVIES_CAT, Keys.PANEL_W_MOVIES_LIST, Keys.PANEL_W_MOVIES_PREVIEW,
+                Keys.PANEL_W_SERIES_CAT, Keys.PANEL_W_SERIES_LIST, Keys.PANEL_W_SERIES_PREVIEW,
+            Keys.CINEMATIC_DETAILS_MOVIES, Keys.CINEMATIC_DETAILS_SERIES,
+            Keys.GUIDE_WIDTH_CHANNELS, Keys.GUIDE_WIDTH_EPG,
+            Keys.POPUP_FONT_SIZE_PCT, Keys.POPUP_SIZE_PCT, Keys.VOD_GRID_COLUMNS, Keys.GUIDE_DENSITY_PCT,
+            Keys.GESTURE_SENSITIVITY_PCT,
+            // Multiview's tile count and recording's start-early / finish-late minutes (readers clamp them).
+            Keys.MULTIVIEW_TILES, Keys.RECORDING_PRE_ROLL_MINUTES, Keys.RECORDING_POST_ROLL_MINUTES)
+        val bools = listOf(
+            Keys.LIVE_PREVIEW, Keys.LIVE_PREVIEW_AUDIO, Keys.HERO_PREVIEW, Keys.HDR_ENABLED, Keys.AUTO_FRAME_RATE, Keys.AUTO_FRAME_RATE_PROMPTED, Keys.ANDROID_TV_HOME, Keys.HW_DECODING,
+            Keys.VOD_PREFER_EXO, Keys.MEASURED_STREAM_STATS, Keys.DETAILED_DIAGNOSTICS, Keys.DIRECT_TUNE, Keys.EXTERNAL_PLAYER,
+            Keys.EXTERNAL_PLAYER_LIVE, Keys.EXTERNAL_PLAYER_MOVIES, Keys.EXTERNAL_PLAYER_SERIES, Keys.UPDATE_CHECK_ON_START, Keys.SURROUND_SOUND, Keys.AUTO_PLAY_NEXT, Keys.PROXY_ENABLED,
+            Keys.WEATHER_ENABLED, Keys.WEATHER_FAHRENHEIT, Keys.RESUME_LAST_CHANNEL, Keys.METADATA_ENABLED, Keys.CH_NAV_ENABLED,
+            Keys.DNS_ENABLED,
+            Keys.REMEMBER_LAST_LIVE, Keys.REMEMBER_LAST_MOVIES, Keys.REMEMBER_LAST_SERIES,
+            Keys.REMEMBER_CAT_LIVE, Keys.REMEMBER_CAT_MOVIES, Keys.REMEMBER_CAT_SERIES,
+            Keys.SUB_STYLE_ENABLED, Keys.SUB_SEARCH_FILTER, Keys.DEINTERLACE,
+                Keys.PANEL_W_LIVE_ON, Keys.PANEL_W_MOVIES_ON, Keys.PANEL_W_SERIES_ON, Keys.GUIDE_WIDTH_ON,
+            Keys.AMBIENT_GLOW_ENABLED, Keys.AMBIENT_GLOW_PULSE,
+            Keys.GLASS_ALLOW_FULL_TRANSPARENCY, Keys.GLASS_DEPTH_EFFECTS, Keys.GLASS_GLINT,
+            // Touch-host settings. They travel even though a television has no row for them: a phone
+            // restored from a phone must keep them, and a television simply ignores what it never reads.
+            Keys.BACKGROUND_PLAYBACK, Keys.PIP_ENABLED, Keys.DATA_SAVER, Keys.DOWNLOADS_WIFI_ONLY,
+            Keys.PIP_ON_BACK, Keys.PIP_SNAP, Keys.AUDIO_ON_SCREEN_OFF, Keys.AUDIO_ON_MOBILE_DATA,
+            Keys.AUDIO_PER_CHANNEL,
+            Keys.MULTIVIEW_ENABLED, Keys.MULTIVIEW_WARNING_ACCEPTED,
+            Keys.RECORDING_RESERVE_CONNECTION, Keys.RECORD_WHAT_IM_WATCHING, Keys.RECORDING_OVER_MOBILE_DATA,
+        )
+        val floats = listOf(Keys.SUB_SCALE, Keys.SUB_SCALE_MPV, Keys.SUB_SCALE_EXO)
+
+        /**
+         * Old keys that are still *imported* (older backups carry them) but exported only while they
+         * still decide something — each is read as the fallback for the keys listed with it, until those
+         * are written. `pip_on_back` has no reader at all, so it is never exported.
+         */
+        val legacySuccessors: Map<Preferences.Key<*>, List<Preferences.Key<*>>> = mapOf(
+            Keys.VOD_PREFER_EXO to listOf(Keys.VOD_ENGINE),
+            Keys.SURROUND_SOUND to listOf(Keys.SURROUND_MODE),
+            Keys.EXTERNAL_PLAYER to listOf(Keys.EXTERNAL_PLAYER_MOVIES, Keys.EXTERNAL_PLAYER_SERIES),
+            Keys.SUB_SCALE to listOf(Keys.SUB_SCALE_MPV, Keys.SUB_SCALE_EXO, Keys.SUB_STYLE_ENABLED),
+        )
+
+        /** Whether [k] goes into a new backup, given this device's stored [p]. */
+        fun exports(k: Preferences.Key<*>, p: Preferences): Boolean = when (k) {
+            Keys.PIP_ON_BACK -> false
+            // The fallback for every profile that never picked a startup mode; only "on" changes anything.
+            Keys.RESUME_LAST_CHANNEL -> p[Keys.RESUME_LAST_CHANNEL] == true
+            else -> legacySuccessors[k]?.any { p[it] == null } ?: true
+        }
+    }
+
+    private val backupStringKeys = BackupKeys.strings + ContentMenu.entries.map { menuOrderKey(it.name.lowercase()) }
+    private val backupStringSetKeys = BackupKeys.stringSets
+    private val backupIntKeys = BackupKeys.ints
+    private val backupBoolKeys = BackupKeys.bools
+    private val backupFloatKeys = BackupKeys.floats
 
     /**
      * "Remember last category" values (see the REMEMBER_CAT_* toggles, which are backed up as plain
@@ -2605,11 +2683,12 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val p = context.dataStore.data.first()
         return org.json.JSONObject().apply {
             backupStringKeys.forEach { k -> p[k]?.let { put(k.name, it) } }
-            backupLastCategoryKeys.forEach { k -> p[k]?.takeIf(::isPortableCategoryKey)?.let { put(k.name, it) } }
+            val positions = context.positionStore.data.first()
+            backupLastCategoryKeys.forEach { k -> positions[k]?.takeIf(::isPortableCategoryKey)?.let { put(k.name, it) } }
             backupStringSetKeys.forEach { k -> p[k]?.let { put(k.name, org.json.JSONArray(it)) } }
             backupIntKeys.forEach { k -> p[k]?.let { put(k.name, it) } }
-            backupBoolKeys.forEach { k -> p[k]?.let { put(k.name, it) } }
-            backupFloatKeys.forEach { k -> p[k]?.let { put(k.name, it.toDouble()) } }
+            backupBoolKeys.filter { BackupKeys.exports(it, p) }.forEach { k -> p[k]?.let { put(k.name, it) } }
+            backupFloatKeys.filter { BackupKeys.exports(it, p) }.forEach { k -> p[k]?.let { put(k.name, it.toDouble()) } }
             // The UI language lives in SharedPreferences (LocaleStore), not DataStore, so it carries as
             // solate, explicitly serialised field rather than pretending it is a DataStore key. `""` means
             // follow system (see docs/internationalization.md 0b, "Backup interaction").
@@ -2651,12 +2730,6 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             backupStringKeys.forEach { k ->
                 each(k) { SettingsImportRules.string(k.name, o.getString(k.name))?.let { prefs[k] = it } }
             }
-            // Guarded on read as well as on write: a file written by another build (or edited by hand)
-            // must not be able to restore a "FOLDER:<id>" that points at whatever this device's sync
-            // happens to have put behind that number.
-            backupLastCategoryKeys.forEach { k ->
-                each(k) { o.getString(k.name).takeIf(::isPortableCategoryKey)?.let { prefs[k] = it } }
-            }
             backupStringSetKeys.forEach { k ->
                 each(k) { prefs[k] = o.getJSONArray(k.name).let { arr -> buildSet { for (i in 0 until arr.length()) add(arr.getString(i)) } } }
             }
@@ -2671,6 +2744,14 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             // pre-Android-12 AFR reset is deliberately left to run: it is a fact about this device.
             if (o.has(Keys.LIVE_LATENCY_MODE.name)) prefs[Keys.LIVE_LATENCY_RESET_416] = true
             if (o.has(Keys.AUTO_FRAME_RATE.name) && !keepDeviceSettings) prefs[Keys.AUTO_FRAME_RATE_RESET_416] = true
+        }
+        // The last categories live in the position store. Guarded on read as well as on write: a file
+        // written by another build (or edited by hand) must not be able to restore a "FOLDER:<id>" that
+        // points at whatever this device's sync happens to have put behind that number.
+        context.positionStore.edit { positions ->
+            backupLastCategoryKeys.forEach { k ->
+                if (o.has(k.name)) runCatching { o.getString(k.name).takeIf(::isPortableCategoryKey)?.let { positions[k] = it } }
+            }
         }
         // Do not publish a locale while the restore is still applying database/DataStore sections.
         // The caller applies this validated value after the restore marker is cleared. Invalid data

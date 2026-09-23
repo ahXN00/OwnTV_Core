@@ -117,11 +117,14 @@ object LiveBuffer {
      * floor could ever be reached. On a high-bitrate feed even the scaled cap can be the binding one —
      * `LivePreviewEngine`'s re-buffer-flap detector is the backstop for that (it drops the pre-roll for
      * that stream), because no sane heap budget holds 10 s of a 4K channel.
+     *
+     * [lowSpec] caps the scaling at 2× instead of 3× (S16): on a 2 GB TV the live buffer's 48 MB stacks
+     * with mpv's 48 MiB cache while an engine handoff overlaps the two.
      */
-    fun targetBufferBytes(bufferSecs: Int?, prerollSecs: Int, defaultBytes: Int): Int {
+    fun targetBufferBytes(bufferSecs: Int?, prerollSecs: Int, defaultBytes: Int, lowSpec: Boolean = false): Int {
         val depthSecs = maxOf(bufferSecs ?: BALANCED_SECS, prerollSecs.coerceAtLeast(0))
         if (depthSecs <= BALANCED_SECS) return defaultBytes
         val scaled = defaultBytes.toLong() * depthSecs / BALANCED_SECS
-        return scaled.coerceAtMost(defaultBytes.toLong() * 3).toInt()
+        return scaled.coerceAtMost(defaultBytes.toLong() * if (lowSpec) 2 else 3).toInt()
     }
 }

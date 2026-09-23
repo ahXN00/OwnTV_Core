@@ -127,4 +127,16 @@ class LiveBufferTest {
         val default = 24 * 1024 * 1024
         assertEquals(default * 10 / LiveBuffer.BALANCED_SECS, LiveBuffer.targetBufferBytes(LiveBuffer.LOW_SECS, 10, default))
     }
+
+    @Test
+    fun `a 2 GB TV scales the byte cap to twice the default at most`() {
+        val lowRam = 16 * 1024 * 1024
+        assertEquals(lowRam * 2, LiveBuffer.targetBufferBytes(LiveBuffer.CUSTOM_MAX, 0, lowRam, lowSpec = true))
+        // Below the ceiling nothing changes.
+        val justDeeper = LiveBuffer.BALANCED_SECS + 1
+        assertEquals(
+            (lowRam.toLong() * justDeeper / LiveBuffer.BALANCED_SECS).toInt(),
+            LiveBuffer.targetBufferBytes(justDeeper, 0, lowRam, lowSpec = true),
+        )
+    }
 }

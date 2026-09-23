@@ -49,6 +49,10 @@ data class DnsConfig(
 
 /**
  * Well-known DNS-over-HTTPS endpoints — offered as one-tap presets in the settings UI.
+ *
+ * Asked in the standard binary form (RFC 8484, `?dns=`), which all three answer. The JSON form these
+ * URLs were once used with works on Cloudflare only: Google and Quad9 answer it with HTTP 400 on
+ * `/dns-query` (tested 2026-09-23).
  */
 object DohPresets {
     val GOOGLE = "https://dns.google/dns-query"
@@ -72,14 +76,20 @@ object DohPresets {
  */
 class DnsConfigHolder(
     configFlow: Flow<DnsConfig>,
-    initialConfig: DnsConfig = DnsConfig(),
+    /** A config to use from the start (the settings screens' Test button). Without one, lookups wait
+     *  for the stored setting's first read — see [FirstRead]. */
+    initialConfig: DnsConfig? = null,
     private val fallbackToSystem: Boolean = true,
 ) {
 
     @Volatile
-    private var current: DnsConfig = initialConfig
+    private var current: DnsConfig = initialConfig ?: DnsConfig()
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+    private val firstRead = FirstRead("dns", open = initialConfig != null)
+
+    private val cache = DnsCache()
 
     /** Bootstrap client for DoH requests — always uses system DNS, never our custom DNS. */
     private val bootstrapClient by lazy {
@@ -91,7 +101,7 @@ class DnsConfigHolder(
     }
 
     init {
-        configFlow.onEach { current = it }.launchIn(scope)
+        configFlow.onEach { current = it; firstRead.arrived() }.launchIn(scope)
     }
 
     fun snapshot(): DnsConfig = current
@@ -103,23 +113,43 @@ class DnsConfigHolder(
      */
     val dns: Dns = object : Dns {
         override fun lookup(hostname: String): List<InetAddress> {
+            firstRead.await()
             val cfg = current
-            return when {
-                cfg.dohUsable -> resolveViaDoH(hostname, cfg.dohUrl)
-                cfg.plainUsable -> resolveViaUdp(hostname, cfg.host, cfg.port)
-                else -> Dns.SYSTEM.lookup(hostname)
-            }
+            if (!cfg.dohUsable && !cfg.plainUsable) return Dns.SYSTEM.lookup(hostname)
+            // The stream pool is emptied on every live stop, so each zap opens a new connection and
+            // asks again; a minute's memory keeps the lookup off the zap.
+            val key = "${cfg.dohUrl}|${cfg.host}:${cfg.port}|$hostname"
+            cache.get(key)?.let { return it }
+            val result = if (cfg.dohUsable) resolveViaDoH(hostname, cfg.dohUrl) else resolveViaUdp(hostname, cfg.host, cfg.port)
+            cache.put(key, result)
+            return result
         }
+    }
+
+    /**
+     * A and AAAA at the same time. Once A has answered, AAAA gets [AAAA_GRACE_MS] more: a server that
+     * drops AAAA questions used to add its whole 5 s timeout to every new connection. An AAAA failure
+     * never costs the A answers; an A failure is the lookup's failure, as before.
+     */
+    private fun bothFamilies(ask: (Int) -> List<InetAddress>): List<InetAddress> {
+        val aaaa = lookupPool.submit<List<InetAddress>> { ask(DNS_TYPE_AAAA) }
+        val a = try {
+            ask(DNS_TYPE_A)
+        } catch (e: Exception) {
+            aaaa.cancel(true)
+            throw e
+        }
+        val v6 = runCatching {
+            if (a.isEmpty()) aaaa.get() else aaaa.get(AAAA_GRACE_MS, TimeUnit.MILLISECONDS)
+        }.getOrElse { aaaa.cancel(true); emptyList() }
+        return a + v6
     }
 
     // --- DNS-over-HTTPS (RFC 8484) via manual HTTP requests ---
 
     private fun resolveViaDoH(hostname: String, dohUrl: String): List<InetAddress> {
         return try {
-            val results = mutableListOf<InetAddress>()
-            // Query both A and AAAA, merge results
-            results.addAll(dohLookup(hostname, dohUrl, "A"))
-            results.addAll(dohLookup(hostname, dohUrl, "AAAA"))
+            val results = bothFamilies { qtype -> dohLookup(hostname, dohUrl, qtype) }
             if (results.isNotEmpty()) {
                 Log.d(TAG, "DoH lookup $hostname → ${results.map { it.hostAddress }} (server=$dohUrl)")
                 results
@@ -135,39 +165,24 @@ class DnsConfigHolder(
         }
     }
 
-    private fun dohLookup(hostname: String, dohUrl: String, type: String): List<InetAddress> {
-        val url = "${dohUrl.trimEnd('/')}?name=$hostname&type=$type"
-        val request = Request.Builder().url(url)
-            .header("Accept", "application/dns-json")
+    /** The standard binary query first; a server that does not answer it gets the JSON form. */
+    private fun dohLookup(hostname: String, dohUrl: String, qtype: Int): List<InetAddress> {
+        val wire = Request.Builder().url(dohWireUrl(dohUrl, hostname, qtype))
+            .header("Accept", DNS_MESSAGE)
             .build()
-        val response = bootstrapClient.newCall(request).execute()
-        return response.use { resp ->
-            if (!resp.isSuccessful) throw java.io.IOException("DoH HTTP ${resp.code}")
-            val body = resp.body.string()
-            parseDohJson(body)
-        }
-    }
-
-    private fun parseDohJson(json: String): List<InetAddress> {
-        val obj = JSONObject(json)
-        val answers = obj.optJSONArray("Answer") ?: return emptyList()
-        val results = mutableListOf<InetAddress>()
-        for (i in 0 until answers.length()) {
-            val a = answers.getJSONObject(i)
-            val data = a.optString("data", "")
-            if (data.isBlank()) continue
-            try {
-                // data is either an IPv4 string ("1.2.3.4") or an IPv6 string ("::1")
-                val addr = InetAddress.getByName(data)
-                // Only keep the type we asked for (A or AAAA may both appear)
-                if (addr is Inet4Address || addr is Inet6Address) {
-                    results.add(addr)
-                }
-            } catch (_: Exception) {
-                // skip malformed entries
+        bootstrapClient.newCall(wire).execute().use { resp ->
+            if (resp.isSuccessful && resp.body.contentType()?.toString()?.startsWith(DNS_MESSAGE) == true) {
+                return parseDnsResponse(resp.body.bytes(), expectedId = 0)
             }
         }
-        return results
+        val type = if (qtype == DNS_TYPE_AAAA) "AAAA" else "A"
+        val json = Request.Builder().url("${dohUrl.trimEnd('/')}?name=$hostname&type=$type")
+            .header("Accept", "application/dns-json")
+            .build()
+        return bootstrapClient.newCall(json).execute().use { resp ->
+            if (!resp.isSuccessful) throw java.io.IOException("DoH HTTP ${resp.code}")
+            parseDohJson(resp.body.string())
+        }
     }
 
     // --- Plain DNS-over-UDP resolver ---
@@ -176,8 +191,7 @@ class DnsConfigHolder(
         try {
             // Both families, like the DoH path: asking only for A left an AAAA-only host unresolvable
             // whenever custom plain DNS was in use. A failure of the AAAA half never costs the A answers.
-            val result = askUdp(hostname, DNS_TYPE_A, server, port) +
-                runCatching { askUdp(hostname, DNS_TYPE_AAAA, server, port) }.getOrDefault(emptyList())
+            val result = bothFamilies { qtype -> askUdp(hostname, qtype, server, port) }
             Log.d(TAG, "UDP DNS lookup $hostname → ${result.map { it.hostAddress }} (server=$server:$port)")
             return if (result.isNotEmpty() || !fallbackToSystem) result else Dns.SYSTEM.lookup(hostname)
         } catch (e: SocketTimeoutException) {
@@ -229,6 +243,45 @@ class DnsConfigHolder(
         private const val DNS_TYPE_A = 1
         private const val DNS_TYPE_AAAA = 28
         private const val DNS_CLASS_IN = 1
+        private const val DNS_MESSAGE = "application/dns-message"
+        private const val AAAA_GRACE_MS = 500L
+
+        /** Runs the AAAA half of each lookup beside the A half. Daemon threads, created on demand. */
+        private val lookupPool = java.util.concurrent.Executors.newCachedThreadPool { r ->
+            Thread(r, "owntv-dns").apply { isDaemon = true }
+        }
+
+        /** RFC 8484 GET: the query with ID 0, as the RFC asks, in base64url without padding. */
+        fun dohWireUrl(dohUrl: String, hostname: String, qtype: Int): String {
+            val query = java.util.Base64.getUrlEncoder().withoutPadding()
+                .encodeToString(buildDnsQuery(hostname, qtype, id = 0))
+            val base = dohUrl.trimEnd('/')
+            return "$base${if ('?' in base) '&' else '?'}dns=$query"
+        }
+
+        /**
+         * The JSON form's addresses. Only A (1) and AAAA (28) answers count: a CNAME's `data` is a host
+         * name, and handing that to [InetAddress.getByName] resolved it through the *system* DNS — the
+         * very thing custom DNS is there to avoid, on every CDN host. Anything that is not an IP literal
+         * is skipped for the same reason.
+         */
+        fun parseDohJson(json: String): List<InetAddress> {
+            val answers = JSONObject(json).optJSONArray("Answer") ?: return emptyList()
+            val results = mutableListOf<InetAddress>()
+            for (i in 0 until answers.length()) {
+                val a = answers.optJSONObject(i) ?: continue
+                val data = a.optString("data", "")
+                val literal = when (a.optInt("type")) {
+                    DNS_TYPE_A -> IPV4_LITERAL.matches(data)
+                    DNS_TYPE_AAAA -> ':' in data && data.all { it == ':' || it == '.' || it.isDigit() || it.lowercaseChar() in 'a'..'f' }
+                    else -> false
+                }
+                if (literal) runCatching { InetAddress.getByName(data) }.getOrNull()?.let(results::add)
+            }
+            return results
+        }
+
+        private val IPV4_LITERAL = Regex("""\d{1,3}(\.\d{1,3}){3}""")
 
         /**
          * One DNS question for [hostname].
@@ -280,8 +333,10 @@ class DnsConfigHolder(
             val qdCount = buf.getShort().toInt() and 0xFFFF
             val anCount = buf.getShort().toInt() and 0xFFFF
 
-            // Skip question section
-            var pos = buf.position()
+            // Skip question section. It starts after the whole 12-byte header: NSCOUNT and ARCOUNT are not
+            // read above, and starting at the read position (byte 8) misread every answer as nothing — so
+            // custom plain DNS silently fell back to the system resolver on every lookup.
+            var pos = DNS_HEADER_LEN
             for (q in 0 until qdCount) {
                 pos = skipDnsName(data, pos)
                 if (pos < 0) return emptyList()
@@ -326,5 +381,36 @@ class DnsConfigHolder(
             }
             return -1
         }
+    }
+}
+
+/**
+ * A minute's memory of custom-DNS answers, per server and host name. Deliberately not the records'
+ * own TTL: the UDP parser does not read it, and a minute is short enough that a moved CDN host is
+ * followed quickly. Empty answers are never kept, and the whole map is dropped once it is [MAX] long.
+ */
+internal class DnsCache(
+    private val ttlMs: Long = 60_000L,
+    private val now: () -> Long = System::currentTimeMillis,
+) {
+    private class Entry(val addresses: List<InetAddress>, val until: Long)
+
+    private val entries = java.util.concurrent.ConcurrentHashMap<String, Entry>()
+
+    fun get(key: String): List<InetAddress>? {
+        val e = entries[key] ?: return null
+        if (e.until > now()) return e.addresses
+        entries.remove(key, e)
+        return null
+    }
+
+    fun put(key: String, addresses: List<InetAddress>) {
+        if (addresses.isEmpty()) return
+        if (entries.size >= MAX) entries.clear()
+        entries[key] = Entry(addresses, now() + ttlMs)
+    }
+
+    private companion object {
+        const val MAX = 256
     }
 }

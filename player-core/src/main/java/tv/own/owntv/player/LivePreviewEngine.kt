@@ -72,7 +72,7 @@ class LivePreviewEngine(
 
     // Escape-hatch toggle (Settings → Video player → Diagnostics). When off, no live fps/bitrate
     // measuring runs on this engine — declared values only. Never affects the playback pipeline.
-    @Volatile private var measuredStatsEnabled = true
+    @Volatile private var measuredStatsEnabled = settings.measuredStreamStatsDefault
     private val settingsFlow = settings.measuredStreamStats
     private val settingsScope = kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.Main.immediate)
 
@@ -2803,7 +2803,7 @@ class LivePreviewEngine(
                 lc.bufferForPlaybackMs,
                 lc.bufferForPlaybackAfterRebufferMs,
             )
-            .setTargetBufferBytes(LiveBuffer.targetBufferBytes(effectiveLiveBufferSecs(), effectivePrerollSecs(), defaultBytes))
+            .setTargetBufferBytes(LiveBuffer.targetBufferBytes(effectiveLiveBufferSecs(), effectivePrerollSecs(), defaultBytes, lowSpec = budget.lowSpec))
             .build()
         // Decode-path config is shared with the other ExoPlayer engines — see [ownTVRenderers].
         // The audio sink is pinned to stereo PCM when the user asked for "Stereo only" or when the
