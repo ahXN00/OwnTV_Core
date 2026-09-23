@@ -173,6 +173,9 @@ class BackupManager(
                     val openSubtitlesKey = settings.currentOpenSubtitlesApiKey()
                     if (seal != null && openSubtitlesKey.isNotEmpty()) s.put("opensub_api_key_enc", seal(openSubtitlesKey))
                     put("settings", s)
+                    // Which device wrote this, so a restore can hold back the hardware settings when
+                    // it lands somewhere else (see DeviceIdentity).
+                    put("device", settings.deviceIdentity().toJson())
                     // Per-profile landing screen + the Customize PIN lock. These moved out of the
                     // SOURCES block in v17: neither is a playlist or a credential, so a user who
                     // deselected "Sources" was silently dropping them. Readers accept both places.
@@ -515,7 +518,17 @@ class BackupManager(
      * afterwards — and may skip it. A sealed container reveals nothing at all until it is decrypted,
      * so the password comes FIRST and cannot be skipped.
      */
-    data class Inspection(val sections: Set<Section>, val encrypted: Boolean, val sealed: Boolean = false)
+    data class Inspection(
+        val sections: Set<Section>,
+        val encrypted: Boolean,
+        val sealed: Boolean = false,
+        /**
+         * The file was written on another device (or before backups recorded which). Its hardware
+         * settings are then kept out of a restore unless the user ticks them — see [import]'s
+         * `deviceSettings`. Only meaningful when [sections] has [Section.SETTINGS].
+         */
+        val fromOtherDevice: Boolean = true,
+    )
 
     /** True when [file] is a container that cannot be inspected at all without the backup password. */
     suspend fun isSealed(file: File): Boolean = withContext(Dispatchers.IO) {
@@ -581,7 +594,12 @@ class BackupManager(
                 }
             }
             if (out.isEmpty()) error("backup_invalid")
-            Inspection(out, encrypted = root.has("crypto"), sealed = sealed)
+            Inspection(
+                out,
+                encrypted = root.has("crypto"),
+                sealed = sealed,
+                fromOtherDevice = !DeviceIdentity.sameDevice(DeviceIdentity.fromJson(root.optJSONObject("device")), settings.deviceIdentity()),
+            )
         }
     }
 
@@ -609,6 +627,11 @@ class BackupManager(
         val hasCustomizations: Boolean = false,
         /** Rows this device would LOSE, because the other device deleted them more recently. */
         val deletions: Int = 0,
+        /**
+         * The file comes from another device and carries its hardware settings or engine pins —
+         * which [import] keeps out unless `deviceSettings` is passed. The confirm step offers them.
+         */
+        val hasDeviceSettings: Boolean = false,
     ) {
         val isEmpty: Boolean
             get() = newProfiles == 0 && newSources == 0 && newFavorites == 0 && newHistory == 0 &&
@@ -712,6 +735,10 @@ class BackupManager(
                 hasCustomizations = Section.CUSTOMIZE in sections &&
                     root.optJSONObject("customizations")?.keys()?.hasNext() == true,
                 deletions = deletions,
+                hasDeviceSettings = Section.SETTINGS in sections &&
+                    !DeviceIdentity.sameDevice(DeviceIdentity.fromJson(root.optJSONObject("device")), settings.deviceIdentity()) &&
+                    (root.optJSONObject("settings")?.let(settings::carriesDeviceSettings) == true ||
+                        root.optJSONObject("compatMode")?.keys()?.hasNext() == true),
             )
         }
     }
@@ -743,6 +770,13 @@ class BackupManager(
         sections: Set<Section> = Section.entries.toSet(),
         backupPassword: String? = null,
         mode: ImportMode = ImportMode.RESTORE,
+        /**
+         * The user asked for the hardware settings of *another* device (decoder, engines, frame rate,
+         * HDR, surround, deinterlace) and its per-channel engine pins. A restore of this device's own
+         * backup applies them anyway; a file from elsewhere — a restore or a local sync alike — keeps
+         * this device's unless this is true (owner decision 9, extended to sync on 2026-09-23).
+         */
+        deviceSettings: Boolean = false,
     ): Result<ImportSummary> = withContext(Dispatchers.IO) {
         runCatching {
             val (root, payload) = readBackup(file, backupPassword)
@@ -957,8 +991,8 @@ class BackupManager(
                 // Pre-v17 files carried these in the SOURCES block, so keep honouring that for them.
                 // v17+ files are handled in the SETTINGS block, where they now belong.
                 if (fileVersion < 17) {
-                    root.optJSONObject("startupModes")?.let { settings.importStartupModes(remapKeys(it, profileIdMap), profileIds) }
-                    root.optJSONObject("customizePins")?.let { settings.importCustomizePins(remapKeys(it, profileIdMap), profileIds) }
+                    root.optJSONObject("startupModes")?.let { settings.importStartupModes(remapProfileKeys(it, profileIdMap), profileIds) }
+                    root.optJSONObject("customizePins")?.let { settings.importCustomizePins(remapProfileKeys(it, profileIdMap), profileIds) }
                 }
                 existingProfileIds = profileIds
                 // Auto-refresh maps + default source, remapped to device ids; entries whose ids didn't
@@ -986,14 +1020,16 @@ class BackupManager(
                         if (!k.startsWith("cust_")) return@forEach
                         val body = k.removePrefix("cust_")
                         val filePid = body.substringBefore('_').toLongOrNull() ?: return@forEach
-                        val pid = profileIdMap[filePid] ?: filePid
+                        // Unmapped = that person is not on this device. Falling back to the file's number
+                        // handed their customizations (parental state included) to whoever has it here.
+                        val pid = profileIdMap[filePid] ?: return@forEach
                         cust["cust_${pid}_${body.substringAfter('_')}"] = remapCustomizationValue(o.getString(k), sourceIdMap)
                     }
                     customize.mergeAll(cust)
                     count += cust.size
                 }
-                root.optJSONObject("homeConfigs")?.let { settings.importHomeConfigs(remapKeys(it, profileIdMap), existingProfileIds) }
-                root.optJSONObject("hideNewCategories")?.let { settings.importHideNewCategories(remapKeys(it, profileIdMap), existingProfileIds) }
+                root.optJSONObject("homeConfigs")?.let { settings.importHomeConfigs(remapProfileKeys(it, profileIdMap), existingProfileIds) }
+                root.optJSONObject("hideNewCategories")?.let { settings.importHideNewCategories(remapProfileKeys(it, profileIdMap), existingProfileIds) }
                 // Custom TMDB names: merge (backup wins per key), then drop any cached match/details stored
                 // under the imported keys so the corrected title is re-fetched instead of showing stale art.
                 // Keys embed the source id ("movie:<sourceId>:…") — remap before merging.
@@ -1067,8 +1103,13 @@ class BackupManager(
             }
 
             if (Section.SETTINGS in sections) {
+                // Decision 9: another device's hardware settings — the global ones below and the
+                // per-channel engine pins — only come along when the user ticked them.
+                val fromHere = DeviceIdentity.sameDevice(DeviceIdentity.fromJson(root.optJSONObject("device")), settings.deviceIdentity())
+                val keepDeviceSettings = !fromHere && !deviceSettings
                 root.optJSONObject("settings")?.let { s ->
-                    val importedSettings = settings.importSettings(s) // non-secret keys (incl. proxy host/port/user/enabled)
+                    // non-secret keys (incl. proxy host/port/user/enabled)
+                    val importedSettings = settings.importSettings(s, keepDeviceSettings)
                     if (importedSettings.localePresent) {
                         localeFieldPresent = true
                         pendingLocaleTag = importedSettings.localeTag
@@ -1091,10 +1132,10 @@ class BackupManager(
                 // Per-profile landing screen + Customize PIN lock (v17: moved here from SOURCES).
                 if (fileVersion >= 17) {
                     val pids = profileDao.getAllOnce().map { it.id }.toSet()
-                root.optJSONObject("startupModes")?.let { settings.importStartupModes(remapKeys(it, profileIdMap), pids) }
+                root.optJSONObject("startupModes")?.let { settings.importStartupModes(remapProfileKeys(it, profileIdMap), pids) }
                 root.optJSONObject("startupChannels")?.let {
                     settings.importStartupChannels(
-                        remapKeys(it, profileIdMap),
+                        remapProfileKeys(it, profileIdMap),
                         pids,
                         sourceIdMap,
                     )
@@ -1103,7 +1144,7 @@ class BackupManager(
                     // Encrypted-only since v17, so this restores the lock exactly when the passphrase
                     // is available and otherwise leaves the device's own Customize PIN untouched.
                     root.optJSONObject("customizePins")?.let { o ->
-                        settings.importCustomizePins(remapKeys(unsealValues(o, unseal), profileIdMap), pids)
+                        settings.importCustomizePins(remapProfileKeys(unsealValues(o, unseal), profileIdMap), pids)
                     }
                 }
                 // Per-item compatibility-mode engine pins. Optional; merged (union) into the current
@@ -1114,8 +1155,10 @@ class BackupManager(
                 // nothing (the file's id is free on this device, so the pin named a source that does
                 // not exist) or, worse, pinned the items of whatever unrelated source already held
                 // that id. Legacy stream-URL keys carry no id and pass through untouched.
-                root.optJSONObject("compatMode")?.let { c ->
-                    fun keys(name: String) = jsonStrings(c.optJSONArray(name)).map { remapEnginePinKey(it, sourceIdMap) }
+                // Also device knowledge: a channel pinned to mpv because this box's decoder mangles it
+                // says nothing about a phone's. Held back with the other hardware settings.
+                root.optJSONObject("compatMode")?.takeIf { !keepDeviceSettings }?.let { c ->
+                    fun keys(name: String) = jsonStrings(c.optJSONArray(name)).mapNotNull { remapEnginePinKey(it, sourceIdMap) }
                     runCatching { forceMpvStore.importUrls(keys("liveMpvUrls"), keys("liveExoUrls")) }
                     runCatching { vodEngineStore.importUrls(keys("vodMpvUrls"), keys("vodExoUrls")) }
                 }
@@ -1128,7 +1171,8 @@ class BackupManager(
                     for (i in 0 until arr.length()) {
                         val e = arr.optJSONObject(i) ?: continue
                         val filePid = e.optLong("p", -1)
-                        val pid = profileIdMap[filePid] ?: filePid
+                        // Unmapped = not on this device; the file's own number may be someone else here.
+                        val pid = profileIdMap[filePid] ?: continue
                         if (pid !in deviceProfileIds) continue
                         // Same [enginePinKey] shape as compatMode above — remap the source id, or the
                         // restored zoom/volume lands on the wrong item (or on nothing at all).
@@ -1155,7 +1199,8 @@ class BackupManager(
                     for (i in 0 until arr.length()) {
                         val e = arr.getJSONObject(i)
                         val filePid = e.optLong("p", -1)
-                        val pid = profileIdMap[filePid] ?: filePid
+                        // Unmapped = not on this device; the file's own number may be someone else here.
+                        val pid = profileIdMap[filePid] ?: continue
                         if (pid !in deviceProfileIds) continue
                         unseal(e.opt("session"))?.let { plain ->
                             runCatching { openSubAuth.importJson(pid, JSONObject(plain)) }
@@ -1257,7 +1302,8 @@ class BackupManager(
         /** Profile + content key remapped to this device, or null when the row cannot be attached. */
         fun target(e: JSONObject): Pair<Long, String>? {
             val filePid = e.optLong("p", -1)
-            val pid = profileIdMap[filePid] ?: filePid
+            // Unmapped = not on this device; the file's own number may be someone else here.
+            val pid = profileIdMap[filePid] ?: return null
             if (pid !in deviceProfileIds) return null
             val key = e.optString("k").takeIf { it.isNotBlank() } ?: return null
             return pid to remapTypedContentKey(key, sourceIdMap)
@@ -1644,6 +1690,22 @@ internal fun matchSourceForRestore(candidates: List<SourceEntity>, incoming: Sou
     }
 }
 
+/**
+ * [remapKeys] for maps keyed by **profile** id (startup modes, Customize PINs, home layouts, "hide new
+ * categories"). An id with no entry in [profileIdMap] belongs to someone who is not on this device —
+ * profiles are matched by name, so every person who is here is mapped — and is dropped. Passing it
+ * through, as [remapKeys] does for sources, handed that person's layout or PIN to whoever holds the
+ * same number here. Non-numeric keys pass through.
+ */
+internal fun remapProfileKeys(o: JSONObject, profileIdMap: Map<Long, Long>): JSONObject {
+    val out = JSONObject()
+    o.keys().forEach { k ->
+        val id = k.toLongOrNull()
+        if (id == null) out.put(k, o.get(k)) else profileIdMap[id]?.let { out.put(it.toString(), o.get(k)) }
+    }
+    return out
+}
+
 /** Rewrites an id-keyed JSON map ({"<fileId>": …}) to device ids; unmapped keys pass through. */
 internal fun remapKeys(o: JSONObject, idMap: Map<Long, Long>): JSONObject {
     if (idMap.isEmpty()) return o
@@ -1761,13 +1823,15 @@ internal fun filterBySourceId(map: JSONObject, sourceIds: Set<Long>): JSONObject
  * "<sourceId>:<MEDIA_TYPE>:<remoteId>". Used for the compatibility-mode pins and the per-item
  * zoom/volume rows, both of which embed the id of the source the item came from.
  *
- * A key in the older stream-URL shape has no source id to remap ("http" never parses as a Long), and
- * an id with no entry in [sourceIdMap] took no part in this restore — both pass through unchanged.
+ * A key in the older stream-URL shape has no source id to remap ("http" never parses as a Long) and
+ * passes through unchanged, as does every key when no sources took part ([sourceIdMap] empty). A key
+ * whose source id has no entry in a non-empty map is **dropped** (null): its playlist was not restored,
+ * and the same number here may be a different playlist, which would inherit the pin or zoom.
  */
-internal fun remapEnginePinKey(key: String, sourceIdMap: Map<Long, Long>): String {
+internal fun remapEnginePinKey(key: String, sourceIdMap: Map<Long, Long>): String? {
     if (sourceIdMap.isEmpty()) return key
     val sourceId = key.substringBefore(':').toLongOrNull() ?: return key
-    val mapped = sourceIdMap[sourceId] ?: return key
+    val mapped = sourceIdMap[sourceId] ?: return null
     return "$mapped:${key.substringAfter(':')}"
 }
 

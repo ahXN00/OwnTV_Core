@@ -369,6 +369,8 @@ class SourceImporter(
     suspend fun importBackup(
         file: File,
         sections: Set<BackupManager.Section> = BackupManager.Section.entries.toSet(),
+        /** Also take another device's hardware settings — see [BackupManager.import]. */
+        deviceSettings: Boolean = false,
     ): Boolean {
         _state.value = ImportState.Running
         // A sealed .own reveals nothing before it is decrypted — ask for the password first.
@@ -384,7 +386,7 @@ class SourceImporter(
             _state.value = ImportState.NeedPassword(file)
             return false
         }
-        return doRestore(file, null, sections)
+        return doRestore(file, null, sections, deviceSettings)
     }
 
     /** Continue an encrypted restore once the user provides (or skips, password = null) the passphrase. */
@@ -392,17 +394,19 @@ class SourceImporter(
         file: File,
         password: String?,
         sections: Set<BackupManager.Section> = BackupManager.Section.entries.toSet(),
+        deviceSettings: Boolean = false,
     ): Boolean {
         _state.value = ImportState.Running
-        return doRestore(file, password, sections)
+        return doRestore(file, password, sections, deviceSettings)
     }
 
     private suspend fun doRestore(
         file: File,
         password: String?,
         sections: Set<BackupManager.Section>,
+        deviceSettings: Boolean,
     ): Boolean =
-        backup.import(file, sections, backupPassword = password).fold(
+        backup.import(file, sections, backupPassword = password, deviceSettings = deviceSettings).fold(
             onSuccess = { summary ->
                 _state.value = ImportState.Success(
                     restoredItems = summary.items,

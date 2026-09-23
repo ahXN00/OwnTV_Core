@@ -77,19 +77,14 @@ class VodEngineStore(private val context: Context) {
     suspend fun exportExoUrls(): Set<String> = context.vodEngineStore.data.first()[exoKey] ?: emptySet()
 
     /**
-     * Merge restored pins in. A URL present in both lists (corrupt backup) resolves to MPV then EXO
-     * removes it — so we drop any URL that appears in both to avoid an inconsistent double-pin.
+     * Merge restored pins in — see [ForceMpvStore.mergePins]: a URL in both incoming lists (corrupt
+     * backup) is dropped, and an incoming pin wins over this device's pin in the other direction.
      */
     suspend fun importUrls(mpvUrls: Collection<String>, exoUrls: Collection<String>) {
-        val mpv = mpvUrls.filterNotNull().map { it.trim() }.filter { it.isNotEmpty() }.toSet()
-        val exo = exoUrls.filterNotNull().map { it.trim() }.filter { it.isNotEmpty() }.toSet()
-        val conflicting = mpv intersect exo
-        val mpvClean = mpv - conflicting
-        val exoClean = exo - conflicting
-        if (mpvClean.isEmpty() && exoClean.isEmpty()) return
         context.vodEngineStore.edit { prefs ->
-            prefs[mpvKey] = (prefs[mpvKey] ?: emptySet()) + mpvClean
-            prefs[exoKey] = (prefs[exoKey] ?: emptySet()) + exoClean
+            val (mpv, exo) = ForceMpvStore.mergePins(prefs[mpvKey] ?: emptySet(), prefs[exoKey] ?: emptySet(), mpvUrls, exoUrls)
+            prefs[mpvKey] = mpv
+            prefs[exoKey] = exo
         }
     }
 }

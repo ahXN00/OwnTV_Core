@@ -55,6 +55,20 @@ class ForceMpvStore(private val context: Context) {
         }
     }
 
+    /**
+     * The engine a channel is pinned to — true = mpv, false = ExoPlayer, null = not pinned — read the
+     * same way by both apps. The phone used to consult only the mpv list, so a channel pinned to
+     * ExoPlayer on the television opened on mpv there. A pin found only under the legacy stream URL
+     * (older builds) is migrated to [stableKey] on the way.
+     */
+    suspend fun pinFor(stableKey: String?, legacyUrl: String): Boolean? {
+        val prefs = context.forceMpvStore.data.first()
+        val lookup = pinOf(stableKey, legacyUrl, prefs[key] ?: emptySet(), prefs[exoKey] ?: emptySet())
+            ?: return null
+        if (lookup.legacy && stableKey != null) migrateKey(legacyUrl, stableKey)
+        return lookup.onMpv
+    }
+
     /** Migrate-on-read: an existing pin found under the legacy URL key moves to [stableKey],
      *  preserving which engine it was pinned to. */
     suspend fun migrateKey(legacyUrl: String, stableKey: String) {
@@ -77,23 +91,52 @@ class ForceMpvStore(private val context: Context) {
         context.forceMpvStore.data.first()[exoKey] ?: emptySet()
 
     /**
-     * Merge restored pins into the current ones (union — never drops existing pins). A key present in
-     * both lists is a corrupt backup: it is dropped rather than guessed at, same as the VOD store, since
-     * an inconsistent double-pin would route that channel differently on every read.
+     * Merge restored pins into the current ones. A key present in both incoming lists is a corrupt
+     * backup: it is dropped rather than guessed at, same as the VOD store. An incoming pin wins over
+     * this device's pin in the other direction and is removed from that list — a plain union used to
+     * leave such a channel in both, routed by whichever list happened to be read first.
      *
      * [exoUrls] is absent from backups written before Live had an ExoPlayer pin; that restores as an
      * empty list, which is exactly right — those users had no ExoPlayer pins to restore.
      */
     suspend fun importUrls(urls: Collection<String>, exoUrls: Collection<String> = emptyList()) {
-        val mpv = urls.filterNotNull().map { it.trim() }.filter { it.isNotEmpty() }.toSet()
-        val exo = exoUrls.filterNotNull().map { it.trim() }.filter { it.isNotEmpty() }.toSet()
-        val conflicting = mpv intersect exo
-        val mpvClean = mpv - conflicting
-        val exoClean = exo - conflicting
-        if (mpvClean.isEmpty() && exoClean.isEmpty()) return
         context.forceMpvStore.edit { prefs ->
-            prefs[key] = (prefs[key] ?: emptySet()) + mpvClean
-            prefs[exoKey] = (prefs[exoKey] ?: emptySet()) + exoClean
+            val (mpv, exo) = mergePins(prefs[key] ?: emptySet(), prefs[exoKey] ?: emptySet(), urls, exoUrls)
+            prefs[key] = mpv
+            prefs[exoKey] = exo
+        }
+    }
+
+    /** [pinFor]'s answer, and whether it came from a legacy URL key. */
+    data class PinLookup(val onMpv: Boolean, val legacy: Boolean)
+
+    companion object {
+        /**
+         * A restore's pins merged into this device's: incoming keys found in both incoming lists are
+         * dropped (corrupt file), and every other incoming pin wins over this device's pin in the other
+         * direction, so no key ever ends up in both lists. Returns (mpv, exo). Shared with [VodEngineStore].
+         */
+        fun mergePins(
+            currentMpv: Set<String>,
+            currentExo: Set<String>,
+            incomingMpv: Collection<String?>,
+            incomingExo: Collection<String?>,
+        ): Pair<Set<String>, Set<String>> {
+            val mpv = incomingMpv.mapNotNull { it?.trim()?.takeIf(String::isNotEmpty) }.toSet()
+            val exo = incomingExo.mapNotNull { it?.trim()?.takeIf(String::isNotEmpty) }.toSet()
+            val conflicting = mpv intersect exo
+            val mpvClean = mpv - conflicting
+            val exoClean = exo - conflicting
+            return (currentMpv - exoClean + mpvClean) to (currentExo - mpvClean + exoClean)
+        }
+
+        /** Stable key first, then the legacy stream URL; null when the channel is not pinned. */
+        fun pinOf(stableKey: String?, legacyUrl: String, mpvPins: Set<String>, exoPins: Set<String>): PinLookup? = when {
+            stableKey != null && stableKey in mpvPins -> PinLookup(onMpv = true, legacy = false)
+            stableKey != null && stableKey in exoPins -> PinLookup(onMpv = false, legacy = false)
+            legacyUrl in mpvPins -> PinLookup(onMpv = true, legacy = true)
+            legacyUrl in exoPins -> PinLookup(onMpv = false, legacy = true)
+            else -> null
         }
     }
 }

@@ -2264,6 +2264,19 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         }
     }
 
+    /**
+     * Every one-shot settings migration, for both apps at start. They used to run from the TV shell
+     * only, so on the phone [liveLatencyMode] and [autoFrameRate] — which read as Balanced / Off until
+     * their migration has run — ignored a restored or synced choice. Each is idempotent and flag-guarded,
+     * and one failing must not stop the rest.
+     */
+    suspend fun runOneTimeMigrations() {
+        runCatching { migrateLegacyRefreshFlags() }
+        runCatching { migrateAutoFrameRate416() }
+        runCatching { migrateAutoFrameRatePre12() }
+        runCatching { migrateLiveLatency416() }
+    }
+
     /** v4.1.6 only: force live latency to Balanced exactly once, including existing custom choices. */
     suspend fun migrateLiveLatency416() {
         context.dataStore.edit { prefs ->
@@ -2600,24 +2613,60 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         }
     }
 
-    suspend fun importSettings(o: org.json.JSONObject): SettingsImportResult {
+    /** This device, as a backup records it (see [tv.own.owntv.core.backup.DeviceIdentity]). */
+    fun deviceIdentity(): tv.own.owntv.core.backup.DeviceIdentity = tv.own.owntv.core.backup.DeviceIdentity.of(context)
+
+    /**
+     * The settings that describe this device's hardware rather than the user's taste: which player
+     * engine copes with its decoders, whether hardware decoding works on it, whether its display can
+     * switch frame rate, HDR, what its audio output accepts, deinterlacing. Restored from another
+     * device only when the user says so ([importSettings]'s `keepDeviceSettings`) — a phone's or an
+     * Android 11 box's values were simply copied onto whatever the backup was restored to.
+     */
+    private val deviceSpecificSettings: Set<String> = listOf(
+        Keys.LIVE_ENGINE, Keys.VOD_ENGINE, Keys.VOD_PREFER_EXO, Keys.HW_DECODING, Keys.AUTO_FRAME_RATE,
+        Keys.HDR_ENABLED, Keys.SURROUND_MODE, Keys.SURROUND_SOUND, Keys.DEINTERLACE,
+    ).map { it.name }.toSet()
+
+    /** Whether a backup's settings block holds any of the [deviceSpecificSettings]. */
+    fun carriesDeviceSettings(o: org.json.JSONObject): Boolean = deviceSpecificSettings.any { o.has(it) }
+
+    /**
+     * [keepDeviceSettings]: leave this device's [deviceSpecificSettings] as they are, because the file
+     * came from another device and the user did not ask for them.
+     */
+    suspend fun importSettings(o: org.json.JSONObject, keepDeviceSettings: Boolean = false): SettingsImportResult {
         context.dataStore.edit { prefs ->
-            backupStringKeys.forEach { k -> if (o.has(k.name)) prefs[k] = o.getString(k.name) }
+            // Every value on its own: one wrong-typed or out-of-range entry (another build, a hand edit)
+            // is skipped and this device keeps its own value, instead of aborting the whole restore.
+            // Values the UI can only ever write in range are checked here too — see [SettingsImportRules].
+            fun each(k: Preferences.Key<*>, apply: () -> Unit) {
+                if (keepDeviceSettings && k.name in deviceSpecificSettings) return
+                if (o.has(k.name)) runCatching(apply).onFailure { android.util.Log.w("OwnTV-Settings", "settings import: skipped ${k.name}") }
+            }
+            backupStringKeys.forEach { k ->
+                each(k) { SettingsImportRules.string(k.name, o.getString(k.name))?.let { prefs[k] = it } }
+            }
             // Guarded on read as well as on write: a file written by another build (or edited by hand)
             // must not be able to restore a "FOLDER:<id>" that points at whatever this device's sync
             // happens to have put behind that number.
             backupLastCategoryKeys.forEach { k ->
-                if (o.has(k.name)) o.getString(k.name).takeIf(::isPortableCategoryKey)?.let { prefs[k] = it }
+                each(k) { o.getString(k.name).takeIf(::isPortableCategoryKey)?.let { prefs[k] = it } }
             }
             backupStringSetKeys.forEach { k ->
-                if (o.has(k.name)) prefs[k] = o.getJSONArray(k.name).let { arr -> buildSet { for (i in 0 until arr.length()) add(arr.getString(i)) } }
+                each(k) { prefs[k] = o.getJSONArray(k.name).let { arr -> buildSet { for (i in 0 until arr.length()) add(arr.getString(i)) } } }
             }
-            backupIntKeys.forEach { k -> if (o.has(k.name)) prefs[k] = o.getInt(k.name) }
-            backupBoolKeys.forEach { k -> if (o.has(k.name)) prefs[k] = o.getBoolean(k.name) }
-            backupFloatKeys.forEach { k -> if (o.has(k.name)) prefs[k] = o.getDouble(k.name).toFloat() }
+            backupIntKeys.forEach { k -> each(k) { SettingsImportRules.int(k.name, o.getInt(k.name))?.let { prefs[k] = it } } }
+            backupBoolKeys.forEach { k -> each(k) { prefs[k] = o.getBoolean(k.name) } }
+            backupFloatKeys.forEach { k -> each(k) { SettingsImportRules.float(o.getDouble(k.name))?.let { prefs[k] = it } } }
             if (livePreviewPanelHidden(prefs)) {
                 prefs[Keys.LIVE_PREVIEW] = false
             }
+            // A restored latency / frame-rate choice is the user's own, exactly like one made in
+            // Settings, so the v4.1.6 one-shot resets must neither hide it nor overwrite it later. The
+            // pre-Android-12 AFR reset is deliberately left to run: it is a fact about this device.
+            if (o.has(Keys.LIVE_LATENCY_MODE.name)) prefs[Keys.LIVE_LATENCY_RESET_416] = true
+            if (o.has(Keys.AUTO_FRAME_RATE.name) && !keepDeviceSettings) prefs[Keys.AUTO_FRAME_RATE_RESET_416] = true
         }
         // Do not publish a locale while the restore is still applying database/DataStore sections.
         // The caller applies this validated value after the restore marker is cleared. Invalid data
@@ -2675,6 +2724,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
 
         /** Backup payload field name for the UI locale tag (read from / written to [LocaleStore]). */
         const val UI_LANGUAGE_KEY = "ui_language"
+
 
         /** The six toggles Quick started life with, kept as the out-of-the-box pin list. */
         val DEFAULT_QUICK_PINNED = listOf(

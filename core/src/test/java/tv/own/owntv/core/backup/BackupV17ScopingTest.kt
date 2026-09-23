@@ -35,11 +35,12 @@ class BackupV17ScopingTest {
     }
 
     @Test
-    fun `engine pin key for a source that took no part in the restore is left alone`() {
+    fun `engine pin key for a source that took no part in the restore is dropped`() {
         // 5 is not in the map: the file's source was not merged, so there is no device id to point
-        // at. Rewriting it to anything would be a guess; passing it through leaves a pin that simply
-        // never matches, which is the safe failure.
-        assertEquals("5:LIVE:abc", remapEnginePinKey("5:LIVE:abc", idMap))
+        // at. Passing it through was not the safe failure it looked like — this device may have its
+        // own, unrelated source 5, which would inherit the pin or zoom. Dropped instead.
+        assertEquals(null, remapEnginePinKey("5:LIVE:abc", idMap))
+        // With no sources in the restore at all there is nothing to remap against: unchanged.
         assertEquals("7:LIVE:abc", remapEnginePinKey("7:LIVE:abc", emptyMap()))
     }
 

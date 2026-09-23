@@ -294,4 +294,16 @@ class BackupMergeRemappingTest {
         val wrongOrder = remapKeys(filterByProfile(file, deviceProfileIds), profileIdMap)
         assertEquals(0, wrongOrder.length())
     }
+
+    @Test
+    fun `a profile key with no one here is dropped, not handed to whoever has that number`() {
+        // File profile 3 was not matched on this device; device profile 3 is somebody else.
+        val file = JSONObject().put("1", "mine").put("3", "their-pin").put("theme", "dark")
+        val out = remapProfileKeys(file, mapOf(1L to 3L))
+        assertEquals("mine", out.getString("3"))
+        assertEquals(false, out.has("1"))
+        assertEquals("dark", out.getString("theme"))
+        assertEquals(2, out.length())
+        assertEquals(0, remapProfileKeys(JSONObject().put("5", "x"), emptyMap()).length())
+    }
 }

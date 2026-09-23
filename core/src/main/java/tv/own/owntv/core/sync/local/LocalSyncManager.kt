@@ -342,9 +342,11 @@ class LocalSyncManager(
         file: File,
         sections: Set<BackupManager.Section>,
         password: String? = null,
+        /** The user ticked the other device's hardware settings on the confirm step. */
+        deviceSettings: Boolean = false,
     ): Result<BackupManager.ImportSummary> {
         _progress.value = SyncProgress.Applying
-        return backups.import(file, sections, password, BackupManager.ImportMode.MERGE)
+        return backups.import(file, sections, password, BackupManager.ImportMode.MERGE, deviceSettings)
             .onSuccess { _progress.value = SyncProgress.Done(received = it, sent = false) }
             .onFailure { _progress.value = SyncProgress.Failed(failureFor(it)) }
     }
