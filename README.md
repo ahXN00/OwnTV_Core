@@ -68,7 +68,7 @@ have numbers that can disagree.
 | Module | Namespace | What it is |
 |---|---|---|
 | **`:core`** | `tv.own.owntv.core` | Room database and migrations, sync, parsers, EPG, backup, profiles, downloads, settings, metadata, and every string. |
-| **`:player-core`** | `tv.own.owntv.playercore` | The playback engine — libmpv plus the Media3/ExoPlayer handoff, the fallback ladder, watchdogs and stream diagnostics. Depends on `:core`. |
+| **`:player-core`** | `tv.own.owntv.playercore` | The playback engine — libmpv plus the Media3/ExoPlayer handoff, the fallback ladder, watchdogs, live tuning shared by both apps (`LiveTuneController`) and stream diagnostics. Depends on `:core`. |
 
 ## ✨ What's inside
 

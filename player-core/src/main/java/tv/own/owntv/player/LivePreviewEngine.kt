@@ -73,7 +73,8 @@ class LivePreviewEngine(
     // Escape-hatch toggle (Settings → Video player → Diagnostics). When off, no live fps/bitrate
     // measuring runs on this engine — declared values only. Never affects the playback pipeline.
     @Volatile private var measuredStatsEnabled = settings.measuredStreamStatsDefault
-    private val settingsFlow = settings.measuredStreamStats
+    /** Every setting this engine reads, as one process-wide snapshot (S15) — see [PlaybackSettings]. */
+    private val playbackSettings = PlaybackSettings.of(settings)
     private val settingsScope = kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.Main.immediate)
 
     /** Everything this tune must forget when the next channel starts — see [TuneState]. One assignment
@@ -216,7 +217,7 @@ class LivePreviewEngine(
 
     init {
         // Keep the escape-hatch flag current; turning it off stops any in-flight measuring immediately.
-        settingsFlow.onEach { measuredStatsEnabled = it; if (!it) throughputTracker.setEnabled(false) }
+        playbackSettings.field { it.measuredStreamStats }.onEach { measuredStatsEnabled = it; if (!it) throughputTracker.setEnabled(false) }
             .launchIn(settingsScope)
         // Detailed playback logging (F18) is observed for the whole process in OwnTVApp — this engine is
         // a lazy singleton, so an observer here only started once the user opened Live TV.
@@ -224,14 +225,14 @@ class LivePreviewEngine(
         // and ignores for the raw MPEG-TS most Xtream live URLs are) — it now drives the LoadControl,
         // whose durations are fixed at construction. So a change while a channel is playing rebuilds,
         // exactly like the surround/hardware-decoding settings above. (F06)
-        settings.liveBufferSeconds.onEach {
+        playbackSettings.field { it.liveBufferSeconds }.onEach {
             val changed = liveBufferSecs != it
             liveBufferSecs = it
             // A playlist override outranks the global value, so a global change cannot alter what this
             // tune is using — rebuilding for it would drop the picture to arrive at the same numbers.
             if (changed && liveBufferOverride == null) currentUrl?.let { _ -> rebuildForSettingChange() }
         }.launchIn(settingsScope)
-        settings.livePrerollSecs.onEach {
+        playbackSettings.field { it.livePrerollSecs }.onEach {
             val changed = livePrerollSecs != it
             livePrerollSecs = it
             if (changed) currentUrl?.let { _ -> rebuildForSettingChange() }
@@ -240,7 +241,7 @@ class LivePreviewEngine(
         // fixed at construction), so a change while a channel is playing rebuilds it — same as mpv's
         // in-place reload. Changing the setting also clears the session latch, which is handled by
         // whoever wrote the setting; here we only need the new value and a rebuild.
-        settings.surroundMode.onEach { mode ->
+        playbackSettings.field { it.surroundMode }.onEach { mode ->
             val changed = surroundMode != mode
             surroundMode = mode
             if (changed) currentUrl?.let { rebuildForSettingChange() }
@@ -248,7 +249,7 @@ class LivePreviewEngine(
         // "Hardware decoding = Off" used to reach mpv only, which left Live TV — whose default engine is
         // this one — on the hardware decoder the user was trying to avoid. Rebuild so the new selector
         // takes effect; the factory is fixed at construction.
-        settings.hwDecoding.onEach { on ->
+        playbackSettings.field { it.hwDecoding }.onEach { on ->
             val changed = hwDecodingEnabled != on
             hwDecodingEnabled = on
             if (changed) currentUrl?.let { rebuildForSettingChange() }
@@ -256,18 +257,18 @@ class LivePreviewEngine(
         // "Preferred audio/subtitle language" reached mpv only (alang/slang). Live TV's default engine is
         // this one, so on every multi-language live channel the setting silently did nothing. Unlike the
         // options above these are track-selection parameters, so they apply in place — no rebuild.
-        settings.preferredAudioLang.onEach { lang ->
+        playbackSettings.field { it.preferredAudioLang }.onEach { lang ->
             if (prefAudioLang != lang) { prefAudioLang = lang; applyLanguagePrefs() }
         }.launchIn(settingsScope)
-        settings.preferredSubLang.onEach { lang ->
+        playbackSettings.field { it.preferredSubLang }.onEach { lang ->
             if (prefSubLang != lang) { prefSubLang = lang; applyLanguagePrefs() }
         }.launchIn(settingsScope)
         // "Default zoom" was applied by mpv/VOD only (OwnTVPlayer), so a live channel promoted to
         // fullscreen always started at FIT however the user had set it. Applied per tune, same as there.
-        settings.defaultZoom.onEach { name ->
+        playbackSettings.field { it.defaultZoom }.onEach { name ->
             defaultZoom = runCatching { ZoomMode.valueOf(name) }.getOrDefault(ZoomMode.FIT)
         }.launchIn(settingsScope)
-        settings.defaultVolume.onEach { defaultVolume = it }.launchIn(settingsScope)
+        playbackSettings.field { it.defaultVolume }.onEach { defaultVolume = it }.launchIn(settingsScope)
     }
 
     /** Mirrors Settings → Video player → Hardware decoding. Read at [build] time. */

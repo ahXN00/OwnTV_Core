@@ -64,6 +64,9 @@ class ExoSubtitleEngine(
         /** Text/image subtitle tracks from the active file — [OwnTVPlayer] shows these in the HUD while
          *  this engine owns playback as a VOD engine (mpv never probed the file, so its list is empty). */
         fun onTextTracks(tracks: List<TrackOption>)
+        /** Whether any subtitle track (text or image) is selected — however it came to be: a pick in the
+         *  HUD, the image-subtitle handoff, remembered tracks, or ExoPlayer's own default/forced choice. */
+        fun onSubtitleSelected(selected: Boolean) {}
         fun onVideoFps(fps: Float)
         /** This file declares no video track at all (music-only VOD). The HUD says so on screen — sound
          *  over black is otherwise indistinguishable from a broken player. */
@@ -252,6 +255,7 @@ class ExoSubtitleEngine(
             rebuildAudioTracks(tracks)
             rebuildTextTracks(tracks)
             applyPendingSubtitle(tracks)
+            callbacks.onSubtitleSelected(tracks.groups.any { it.type == C.TRACK_TYPE_TEXT && it.isSelected })
         }
 
         override fun onPlayerError(error: PlaybackException) {

@@ -1,0 +1,145 @@
+package tv.own.owntv.player
+
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withTimeoutOrNull
+import tv.own.owntv.core.settings.LiveBuffer
+import tv.own.owntv.core.stalker.ReconnectUrlProvider
+
+/** Everything a live tune hands an engine besides the URL. */
+data class LiveRequest(
+    val meta: MediaMeta,
+    val userAgent: String?,
+    val prerollSecs: Int?,
+    val liveBuffer: LiveBuffer.Override?,
+    val httpHeaders: String?,
+    val drmConfig: String?,
+    val manifestType: String?,
+    val directSource: String?,
+)
+
+/** What mpv did with a channel it was just given: a picture (or the spinner clearing), or an error. */
+data class MpvOutcome(val opened: Boolean, val error: String?)
+
+/**
+ * The two live engines, as [LiveTuneController] drives them.
+ *
+ * Exactly the operations the controller uses and nothing more. It exists so the controller's
+ * sequencing — superseding tunes, the ladder, the give-up alarm — can be unit-tested against a fake;
+ * production is [EnginePair], a thin pass-through to the real engines.
+ */
+interface LiveEngines {
+    /** What ExoPlayer holds right now, or null. */
+    val exoUrl: String?
+    val exoIsHls: Boolean
+    val exoFailed: Boolean
+    /** Whether mpv holds a stream (full-screen live, a film, a catch-up). */
+    val mpvHasStream: Boolean
+
+    fun exoPlay(url: String, muted: Boolean, request: LiveRequest)
+    fun exoSetMuted(muted: Boolean)
+    fun exoStop()
+    fun exoReleaseUhdDecoder()
+    fun exoAbandon(reason: String)
+
+    /** Run [LiveExoWatchdog] on ExoPlayer until the outcome is settled. */
+    suspend fun watchExo(
+        channelName: String,
+        stillOurs: () -> Boolean,
+        handOver: suspend (String) -> Unit,
+        onOpened: () -> Unit,
+        postponeDeadline: (Long) -> Unit,
+        log: (String) -> Unit,
+    )
+
+    fun mpvPlay(url: String, request: LiveRequest)
+    fun mpvStop()
+    suspend fun mpvStopAndAwaitRelease()
+    fun mpvAbandon(reason: String)
+
+    /**
+     * Wait up to [timeoutMs] for mpv to open or fail; null when it did neither.
+     *
+     * **"Opened" is a decoded picture or the spinner clearing — never `isPlaying`.** mpv seeds that flag
+     * true at load time, so it says nothing about whether the stream ever arrived.
+     */
+    suspend fun awaitMpvOutcome(timeoutMs: Long): MpvOutcome?
+
+    /** The Stalker re-resolve hook, installed on both engines, or cleared with null. */
+    fun setReconnectProvider(provider: ReconnectUrlProvider?)
+}
+
+/** Start [url] on a live ExoPlayer engine with everything [request] carries — a tune, or a Multiview tile. */
+internal fun LivePreviewEngine.play(url: String, muted: Boolean, request: LiveRequest) = play(
+    url,
+    muted = muted,
+    meta = request.meta,
+    userAgent = request.userAgent,
+    prerollSecsOverride = request.prerollSecs,
+    liveBufferOverride = request.liveBuffer,
+    httpHeaders = request.httpHeaders,
+    drmConfig = request.drmConfig,
+    manifestType = request.manifestType,
+    directSource = request.directSource,
+)
+
+/** The real engines: the live ExoPlayer engine and the process-wide mpv player. */
+class EnginePair(private val exo: LivePreviewEngine, private val mpv: OwnTVPlayer) : LiveEngines {
+    override val exoUrl: String? get() = exo.currentUrl
+    override val exoIsHls: Boolean get() = exo.isHlsStream
+    override val exoFailed: Boolean get() = exo.state.value == LivePreviewEngine.State.ERROR
+    override val mpvHasStream: Boolean get() = mpv.hasActiveStream
+
+    override fun exoPlay(url: String, muted: Boolean, request: LiveRequest) = exo.play(url, muted, request)
+
+    override fun exoSetMuted(muted: Boolean) = exo.setMuted(muted)
+    override fun exoStop() = exo.stop()
+    override fun exoReleaseUhdDecoder() = exo.releaseDecoderForUhd()
+    override fun exoAbandon(reason: String) { exo.abandon(reason) }
+
+    override suspend fun watchExo(
+        channelName: String,
+        stillOurs: () -> Boolean,
+        handOver: suspend (String) -> Unit,
+        onOpened: () -> Unit,
+        postponeDeadline: (Long) -> Unit,
+        log: (String) -> Unit,
+    ) {
+        LiveExoWatchdog(exo, stillOurs, handOver, onOpened, postponeDeadline, log).watch(channelName)
+    }
+
+    override fun mpvPlay(url: String, request: LiveRequest) = mpv.play(
+        url = url,
+        title = request.meta.title,
+        subtitle = request.meta.subtitle,
+        logoUrl = request.meta.logoUrl,
+        isLive = true,
+        muted = false,
+        userAgent = request.userAgent,
+        httpHeaders = request.httpHeaders,
+        // The same stable key ExoPlayer files this channel under, so a zoom or volume set on one
+        // engine is not forgotten when the channel falls back to the other.
+        contentKey = request.meta.contentKey,
+        livePrerollSecsOverride = request.prerollSecs,
+        liveBufferOverride = request.liveBuffer,
+    )
+
+    override fun mpvStop() = mpv.stop()
+    override suspend fun mpvStopAndAwaitRelease() { mpv.stopAndAwaitRelease() }
+    override fun mpvAbandon(reason: String) = mpv.abandonLive(reason)
+
+    override suspend fun awaitMpvOutcome(timeoutMs: Long): MpvOutcome? = withTimeoutOrNull(timeoutMs) {
+        combine(mpv.videoRes, mpv.buffering, mpv.error) { res, buffering, error ->
+            when {
+                error != null -> MpvOutcome(opened = false, error = error.toString())
+                res != null || !buffering -> MpvOutcome(opened = true, error = null)
+                else -> null
+            }
+        }.first { it != null }
+    }
+
+    override fun setReconnectProvider(provider: ReconnectUrlProvider?) {
+        exo.reconnectUrlProvider = provider
+        mpv.reconnectUrlProvider = provider
+    }
+}

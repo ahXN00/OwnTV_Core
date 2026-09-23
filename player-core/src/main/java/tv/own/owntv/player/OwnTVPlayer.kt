@@ -975,21 +975,24 @@ class OwnTVPlayer(
 
     private fun consumePendingStopEndFile(): Boolean = pendingStopEndFiles.consume()
 
+    /** Every setting this engine reads, as one process-wide snapshot (S15) — see [PlaybackSettings]. */
+    private val playbackSettings = PlaybackSettings.of(settings)
+
     init {
         // Track the HDR setting; apply it live and re-apply on each load via ensureInit.
-        settings.hdrEnabled.onEach { enabled ->
+        playbackSettings.field { it.hdrEnabled }.onEach { enabled ->
             hdrHint = enabled
             if (initialized) mpvAsync { setPropertyString("target-colorspace-hint", if (enabled) "yes" else "no") }
         }.launchIn(scope)
-        settings.hwDecoding.onEach { on ->
+        playbackSettings.field { it.hwDecoding }.onEach { on ->
             hwDecoding = on
             if (initialized) mpvAsync { applyRenderConfig() }
         }.launchIn(scope)
-        settings.deinterlace.onEach { on ->
+        playbackSettings.field { it.deinterlace }.onEach { on ->
             deinterlace = on
             if (initialized) mpvAsync { applyDeinterlace() }
         }.launchIn(scope)
-        settings.surroundMode.onEach { mode ->
+        playbackSettings.field { it.surroundMode }.onEach { mode ->
             val changed = surroundMode != mode
             surroundMode = mode
             // Touching the setting is the user asking the audio output for another chance.
@@ -1005,16 +1008,16 @@ class OwnTVPlayer(
                 reloadCurrentInPlace()
             }
         }.launchIn(scope)
-        settings.autoPlayNext.onEach { autoPlayNext = it }.launchIn(scope)
+        playbackSettings.field { it.autoPlayNext }.onEach { autoPlayNext = it }.launchIn(scope)
         // Applies from the next VOD load.
-        settings.vodEnginePreference.onEach { vodEngine = it }.launchIn(scope)
-        settings.measuredStreamStats.onEach { on ->
+        playbackSettings.field { it.vodEnginePreference }.onEach { vodEngine = it }.launchIn(scope)
+        playbackSettings.field { it.measuredStreamStats }.onEach { on ->
             measuredStreamStats = on
             if (!on) exoEngine?.setBitrateTrackingEnabled(false) // turning it off stops any in-flight measuring now
         }.launchIn(scope)
-        settings.livePrerollSecs.onEach { livePrerollSecs = it } // applies from the next live open
+        playbackSettings.field { it.livePrerollSecs }.onEach { livePrerollSecs = it } // applies from the next live open
             .launchIn(scope)
-        settings.liveBufferSeconds.onEach {
+        playbackSettings.field { it.liveBufferSeconds }.onEach {
             liveBufferSecs = it
             // Re-apply live to a playing live channel; VOD is untouched. Next-open covers the rest.
             // A playlist override outranks the global value, so a global change is not this tune's to apply.
@@ -1033,31 +1036,31 @@ class OwnTVPlayer(
         // OFF — has to actively restore mpv's own value: the properties were already set on the
         // running instance, so simply skipping the write would leave the last custom look on screen
         // until the next channel/file load.
-        settings.subtitleStyleEnabled.onEach { on ->
+        playbackSettings.field { it.subtitleStyleEnabled }.onEach { on ->
             subStyleOn = on
             if (initialized) mpvAsync { applySubtitleStyle() }
         }.launchIn(scope)
-        settings.subtitleScaleMpv.onEach { s ->
+        playbackSettings.field { it.subtitleScaleMpv }.onEach { s ->
             subScale = s.toDouble()
             if (initialized) mpvAsync { applySubtitleStyle() }
         }.launchIn(scope)
-        settings.subtitleFont.onEach { font ->
+        playbackSettings.field { it.subtitleFont }.onEach { font ->
             subFont = font
             if (initialized) mpvAsync { applySubtitleStyle() }
         }.launchIn(scope)
-        settings.subtitleColor.onEach { hex ->
+        playbackSettings.field { it.subtitleColor }.onEach { hex ->
             subColorHex = hex
             if (initialized) mpvAsync { applySubtitleStyle() }
         }.launchIn(scope)
-        settings.subtitlePosition.onEach { position ->
+        playbackSettings.field { it.subtitlePosition }.onEach { position ->
             subPosition = position
             if (initialized) mpvAsync { applySubtitleStyle() }
         }.launchIn(scope)
-        settings.subtitleBgOpacity.onEach { pct ->
+        playbackSettings.field { it.subtitleBgOpacity }.onEach { pct ->
             subBgOpacity = pct
             if (initialized) mpvAsync { applySubtitleStyle() }
         }.launchIn(scope)
-        settings.audioDelayMs.onEach { ms ->
+        playbackSettings.field { it.audioDelayMs }.onEach { ms ->
             baseAudioDelayMs = ms // the Settings default each new file resets to
             applyAudioDelay(ms)
         }.launchIn(scope)
@@ -1065,26 +1068,26 @@ class OwnTVPlayer(
         // running core, so skipping the write on a blank value left the old preference in force — turning
         // "Preferred audio language" back to none did nothing until the app restarted. Empty is mpv's own
         // "no preference", which is exactly what a cleared setting means.
-        settings.preferredAudioLang.onEach { lang ->
+        playbackSettings.field { it.preferredAudioLang }.onEach { lang ->
             prefAudioLang = lang
             if (initialized) mpvAsync { setPropertyString("alang", lang) }
         }.launchIn(scope)
-        settings.preferredSubLang.onEach { lang ->
+        playbackSettings.field { it.preferredSubLang }.onEach { lang ->
             prefSubLang = lang
             if (initialized) mpvAsync {
                 setPropertyString("slang", lang)
                 setPropertyString("subs-with-matching-audio", if (lang.isBlank()) "no" else "yes")
             }
         }.launchIn(scope)
-        settings.defaultZoom.onEach { name ->
+        playbackSettings.field { it.defaultZoom }.onEach { name ->
             defaultZoom = runCatching { ZoomMode.valueOf(name) }.getOrDefault(ZoomMode.FIT)
         }.launchIn(scope)
-        settings.defaultVolume.onEach { defaultVolume = it }.launchIn(scope)
-        settings.seekStepSec.onEach { _seekStepMs.value = it * 1000L }.launchIn(scope)
+        playbackSettings.field { it.defaultVolume }.onEach { defaultVolume = it }.launchIn(scope)
+        playbackSettings.field { it.seekStepSec }.onEach { _seekStepMs.value = it * 1000L }.launchIn(scope)
         // Auto frame rate drives the display-mode switch from the Compose surface; ExoPlayer has a
         // SECOND mechanism (Surface.setFrameRate) that must follow the same switch, so the value is
         // tracked here and handed to the handoff engine in [startExo].
-        settings.autoFrameRate.onEach { autoFrameRate = it }.launchIn(scope)
+        playbackSettings.field { it.autoFrameRate }.onEach { autoFrameRate = it }.launchIn(scope)
         // Subtitle overlay is fed by OBSERVING "sub-text" (see eventProperty) — not polling. The old
         // 250 ms getPropertyString poll logged a "property unavailable" error 4×/sec whenever no line
         // was on screen, flooding logcat and burning a cross-thread call the whole time.
@@ -1445,7 +1448,18 @@ class OwnTVPlayer(
      *  SurfaceView loses its hardware-overlay / direct scan-out path and 4K stutters to a slideshow. */
     val exoActiveState: StateFlow<Boolean> = _exoActiveState.asStateFlow()
 
+    private val _exoSubtitleOn = MutableStateFlow(false)
+    /**
+     * T16 — whether ExoPlayer has a subtitle track selected while it owns playback. The UI mounts the
+     * subtitle view only while this AND [exoActiveState] are true: a film handed to ExoPlayer with
+     * subtitles off used to keep an empty view over the SurfaceView for its whole length, which can
+     * knock the surface off direct scan-out on Realtek 4K. Set from ExoPlayer's own track selection, so
+     * every way a track gets turned on or off is covered.
+     */
+    val exoSubtitleOn: StateFlow<Boolean> = _exoSubtitleOn.asStateFlow()
+
     private val exoCallbacks = object : ExoSubtitleEngine.Callbacks {
+        override fun onSubtitleSelected(selected: Boolean) { _exoSubtitleOn.value = selected }
         override fun onPlayingChanged(playing: Boolean) { _isPlaying.value = playing }
         override fun onBuffering(buffering: Boolean) { _buffering.value = buffering }
         override fun onVideoSize(width: Int, height: Int) {
@@ -2191,6 +2205,7 @@ class OwnTVPlayer(
         mpvFailureBeforeFallback = null
         _engineChip.value = "MPV"
         _exoActiveState.value = false // unmount the SubtitleView overlay → SurfaceView regains direct scan-out
+        _exoSubtitleOn.value = false
         exoTickJob?.cancel()
         _exoCues.value = emptyList()
         setFreezeFrame(null)

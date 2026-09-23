@@ -121,4 +121,5 @@ dependencies {
     implementation(libs.androidx.compose.runtime)
 
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
 }

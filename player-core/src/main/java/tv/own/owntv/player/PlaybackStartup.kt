@@ -18,6 +18,8 @@ import tv.own.owntv.core.settings.SettingsRepository
 object PlaybackStartup {
 
     fun start(scope: CoroutineScope, settings: SettingsRepository, archiveStore: ArchiveDecodeStore) {
+        // S15 — start reading the engines' settings now, so an engine built later is born with them.
+        PlaybackSettings.of(settings)
         // Detailed playback logging follows the setting for the whole process — not from whenever a
         // live engine first happens to be built.
         scope.launch {

@@ -4179,11 +4179,39 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	waiting ${SESSION_RELEASE_MS}ms for the provider to free the account session, then retrying
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	x-vnd.on2.vp9
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	{
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveRouting.kt	$engine (pinned)
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveRouting.kt	$engine (setting)
+1	technical	player-core/src/main/java/tv/own/owntv/player/LiveRouting.kt	exoplayer
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveRouting.kt	exoplayer (drm)
+1	technical	player-core/src/main/java/tv/own/owntv/player/LiveRouting.kt	mpv
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveRouting.kt	mpv (panel refuses segments)
 1	empty	player-core/src/main/java/tv/own/owntv/player/LiveStreamQuirks.kt	\0
 1	protocol	player-core/src/main/java/tv/own/owntv/player/LiveStreamQuirks.kt	$rewritten?$query
 2	protocol	player-core/src/main/java/tv/own/owntv/player/LiveStreamQuirks.kt	.m3u8
 1	protocol	player-core/src/main/java/tv/own/owntv/player/LiveStreamQuirks.kt	.ts
 1	protocol	player-core/src/main/java/tv/own/owntv/player/LiveStreamQuirks.kt	://
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	$reason — gave up after ${armedBudgetMs / 1000}s
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' falling back to $label ($reason)
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' opened on mpv
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — giving up: $detail
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — no fallback left ($detail)
+3	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}': $detail
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}': $label — $reason
+1	technical	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	ExoPlayer
+1	technical	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	LiveEngine
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	engine toggle '${channel.name}' -> ${if (goToMpv) "mpv" else "exoplayer"}
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	engine: $message
+1	technical	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	exoplayer
+2	technical	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	mpv
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	mpv couldn't play it: ${outcome.error}
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	mpv handoff for '${channel.name}' abandoned — the channel changed while ExoPlayer released
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	mpv never opened it (${MPV_OPEN_TIMEOUT_MS / 1000}s, no picture and no error)
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	no picture within ${armedBudgetMs / 1000}s of tuning
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	stalker reconnect re-resolve failed '${channel.name}'
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	stalker resolve failed
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	starting mpv for '${channel.name}' — reason=$reason
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	tune '${channel.name}' -> ${route.why} [${route.preference.name}]
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	user chose compatibility mode
 12	empty	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	\0
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	$STREAM_RECONNECT_OPTIONS,reconnect_at_eof=1
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	$reason — archive rescue: reopening mid-GOP catch-up in software decode
@@ -4643,6 +4671,7 @@
 1	file-path	player-core/src/main/java/tv/own/owntv/player/PlaybackErrorLog.kt	yyyy-MM-dd HH:mm:ss
 1	technical	player-core/src/main/java/tv/own/owntv/player/PlaybackErrorLog.kt	•
 1	technical	player-core/src/main/java/tv/own/owntv/player/PlaybackSession.kt	OwnTV
+1	compiler	player-core/src/main/java/tv/own/owntv/player/PlaybackSettings.kt	UNCHECKED_CAST
 1	log	player-core/src/main/java/tv/own/owntv/player/PlayerDiagnostics.kt	${e.tag}: ${e.text}
 1	regex	player-core/src/main/java/tv/own/owntv/player/PlayerDiagnostics.kt	(?:\\bhttp(?: error)? |\\bresponse code[:= ]+|\\bstatus(?: code)?[:= ]+)(\\d{3})\\b
 1	log	player-core/src/main/java/tv/own/owntv/player/PlayerDiagnostics.kt	*:S
