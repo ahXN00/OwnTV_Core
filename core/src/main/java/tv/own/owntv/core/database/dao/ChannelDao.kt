@@ -278,6 +278,18 @@ interface ChannelDao {
     )
     fun pagingFavoritesManual(profileId: Long, contextKey: String, sourceIds: List<Long>): PagingSource<Int, ChannelEntity>
 
+    /** A–Z variant of [pagingFavoritesManual]: a manually placed favourite keeps its saved position,
+     *  the rest sort by name instead of falling back to added-date order — the same "manual order wins,
+     *  the rest goes A–Z" convention the folder list itself uses (see `alphaRest`). */
+    @Query(
+        "SELECT c.* FROM channels c " +
+            "INNER JOIN favorites f ON f.itemId = c.id AND f.mediaType = 'LIVE' " +
+            "LEFT JOIN content_order o ON o.itemId = c.id AND o.profileId = :profileId AND o.mediaType = 'LIVE' AND o.contextKey = :contextKey " +
+            "WHERE f.profileId = :profileId AND c.sourceId IN (:sourceIds) " +
+            "ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, c.name",
+    )
+    fun pagingFavoritesManualAlpha(profileId: Long, contextKey: String, sourceIds: List<Long>): PagingSource<Int, ChannelEntity>
+
     /** Bounded snapshot of a folder in manual order, for the Move session's in-memory reorder. */
     @Query(
         "SELECT c.* FROM channels c " +

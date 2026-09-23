@@ -19,6 +19,21 @@ Core is versioned independently of the apps. A core version never lines up with 
 
 ---
 
+## core-1.0.58 — unreleased
+
+No database, backup or API change.
+
+### Alphabetical sort reaches Favorites too
+
+`core-1.0.27` made the Folder and Custom-category branches of `livePagingSource` look at the Live
+TV sort mode; the Favorites branch was left calling `pagingFavoritesManual` unconditionally, so
+switching to A–Z left Favorites sorted by added date regardless. `pagingFavoritesManualAlpha` fills
+the gap: a manually placed favourite keeps its saved position, the rest sort by name — the same
+"manual order wins, the rest goes A–Z" convention the folder list itself already uses (`alphaRest`).
+Playlist mode is unchanged.
+
+Reported against `core-1.0.27`/OwnTV `v5.0.0` (ahXN00/OwnTV_Core#5, comment from `wangts`).
+
 ## core-1.0.57 — 2026-09-21
 
 **Strings.** A guide source that answers and turns out to be empty now says so, once, in every
