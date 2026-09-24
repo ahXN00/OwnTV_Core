@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -31,9 +32,14 @@ import kotlinx.coroutines.launch
  *   moment, and that is not the user stopping.
  * - **What "stop" means is the app's.** [stopPlayback] is assigned by the host: on a phone the tuner
  *   stops, on a television the player closes *and* the preview pane stops, which closing alone does not.
+ * - **Then the screen goes off, if the user allowed it** ([screenOff]; see [ScreenOff]).
+ * - **"End of film / episode"** ([startUntilItemEnd]) waits for the item's real end rather than a clock,
+ *   so a pause or a seek moves it too, and the autoplay into the next episode never starts ([itemEnd]).
  */
 class SleepTimer(
     active: Flow<Boolean>,
+    private val screenOff: ScreenOff? = null,
+    private val itemEnd: ItemEnd? = null,
     private val clock: () -> Long = SystemClock::elapsedRealtime,
     private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate),
 ) {
@@ -64,10 +70,11 @@ class SleepTimer(
     /** Start (or replace) the countdown. A non-positive duration stops playback at once. */
     fun start(durationMs: Long) {
         job?.cancel()
+        itemEnd?.stopAtItemEnd = false
         if (durationMs <= 0L) {
             job = null
             _remainingMs.value = null
-            stopPlayback?.invoke()
+            fire()
             return
         }
         val deadline = clock() + durationMs
@@ -81,14 +88,55 @@ class SleepTimer(
             }
             job = null
             _remainingMs.value = null
-            stopPlayback?.invoke()
+            fire()
         }
+    }
+
+    /** What "the end" of what plays now is called, or null when it has none to wait for. */
+    fun itemEndKind(): EndKind? = itemEnd?.itemEndKind()
+
+    /** Stop when the film or episode playing now ends; the label counts down the time left in it. */
+    fun startUntilItemEnd() {
+        val end = itemEnd ?: return
+        job?.cancel()
+        end.stopAtItemEnd = true
+        _remainingMs.value = end.remainingInItemMs()
+        job = scope.launch {
+            val ticker = launch {
+                while (true) {
+                    _remainingMs.value = end.remainingInItemMs()
+                    delay(TICK_MS)
+                }
+            }
+            end.stoppedAtItemEnd.first()
+            ticker.cancel()
+            job = null
+            _remainingMs.value = null
+            fire()
+        }
+    }
+
+    private fun fire() {
+        stopPlayback?.invoke()
+        screenOff?.turnOffIfAllowed()
     }
 
     fun cancel() {
         job?.cancel()
+        itemEnd?.stopAtItemEnd = false
         job = null
         _remainingMs.value = null
+    }
+
+    enum class EndKind { FILM, EPISODE }
+
+    /** The player's side of "End of film / episode" — [OwnTVPlayer]. */
+    interface ItemEnd {
+        /** While true, the next natural end stops instead of autoplaying, and emits [stoppedAtItemEnd]. */
+        var stopAtItemEnd: Boolean
+        val stoppedAtItemEnd: Flow<Unit>
+        fun itemEndKind(): EndKind?
+        fun remainingInItemMs(): Long
     }
 
     companion object {

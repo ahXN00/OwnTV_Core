@@ -109,6 +109,8 @@ interface PlaybackEngine {
     /** Title of the next queued item (in-season next episode), for the HUD next-episode countdown card.
      *  Null when there is no next item — a live engine leaves it null. */
     val nextUpTitle: StateFlow<String?> get() = NULL_STRING
+    /** True while the sleep timer waits for this item's end — the HUD then shows no next-episode card. */
+    val stopsAtItemEnd: StateFlow<Boolean> get() = FALSE_FLOW
     /** In-player A/V-sync nudge (ms); positive = sound later. 0 on an engine that cannot shift it. */
     val audioDelayMs: StateFlow<Int> get() = ZERO_INT
     /** True when this engine can shift audio against video — mpv (`audio-delay`) and the ExoPlayer
@@ -175,6 +177,7 @@ class MpvPlaybackEngine(private val p: OwnTVPlayer) : PlaybackEngine {
     override val speed get() = p.speed
     override val nav get() = p.nav
     override val nextUpTitle get() = p.nextUpTitle
+    override val stopsAtItemEnd get() = p.stopsAtItemEnd
     override val audioDelayMs get() = p.audioDelayMs
     override fun audioDelayAvailable() = true
     override val subDelayMs get() = p.subDelayMs

@@ -163,7 +163,7 @@ class OwnTVPlayer(
     private val vodEngineStore: tv.own.owntv.core.player.VodEngineStore,
     private val localeStore: LocaleStore,
     private val playbackPrefs: tv.own.owntv.core.player.PlaybackPrefsStore,
-) : MPVLib.EventObserver {
+) : MPVLib.EventObserver, SleepTimer.ItemEnd {
     private val toastRenderer = PlayerToastRenderer(context, localeStore)
 
     /** Lets mpv play a download or recording saved into a folder the user picked (a SAF document). */
@@ -1176,6 +1176,27 @@ class OwnTVPlayer(
     private val _archiveEnded = kotlinx.coroutines.flow.MutableSharedFlow<Unit>(extraBufferCapacity = 1)
     val archiveEnded: kotlinx.coroutines.flow.SharedFlow<Unit> = _archiveEnded
 
+    // Sleep timer "End of film / episode": the next natural end stops here instead of continuing.
+    override var stopAtItemEnd: Boolean
+        get() = _stopsAtItemEnd.value
+        set(value) { _stopsAtItemEnd.value = value }
+    private val _stopsAtItemEnd = MutableStateFlow(false)
+
+    /** Watched by both HUDs: no "Next episode" countdown for an episode that will not be followed. */
+    val stopsAtItemEnd: StateFlow<Boolean> = _stopsAtItemEnd.asStateFlow()
+    private val _stoppedAtItemEnd = kotlinx.coroutines.flow.MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    override val stoppedAtItemEnd: kotlinx.coroutines.flow.SharedFlow<Unit> = _stoppedAtItemEnd
+
+    // Live and catch-up have none (their end is the guide's "End of programme"), nor does an engine that
+    // is not playing — on a television a live channel plays on the preview engine while this one idles.
+    override fun itemEndKind(): SleepTimer.EndKind? = when {
+        !hasActiveStream || isLiveContent || item.archiveThisItem || _duration.value <= 0L -> null
+        currentEpisodeNumber != null -> SleepTimer.EndKind.EPISODE
+        else -> SleepTimer.EndKind.FILM
+    }
+
+    override fun remainingInItemMs(): Long = (_duration.value - _position.value).coerceAtLeast(0L)
+
     var currentTitle: String? = null
         private set
     var currentSubtitle: String? = null
@@ -2154,12 +2175,18 @@ class OwnTVPlayer(
      *  - a catch-up archive with no queue → [archiveEnded], for the live view model to look up the next
      *    programme in the guide. Without this a finished catch-up programme just left a black screen.
      *
-     * A single movie (no queue, not an archive) stops, as it always has.
+     * A single movie (no queue, not an archive) stops, as it always has. So does anything while the
+     * sleep timer waits for the end of it ([stopAtItemEnd]) — the timer then stops the app's playback.
      *
      * Advancing waits a short settle so the ended item's decoder can release; the fresh Surface in
      * loadUrl is what actually prevents the back-to-back >1080p 0x80001000.
      */
     private fun advanceAfterNaturalEnd() {
+        if (stopAtItemEnd) {
+            stopAtItemEnd = false
+            _stoppedAtItemEnd.tryEmit(Unit)
+            return
+        }
         if (!autoPlayNext || item.autoNextCancelled) return
         val advance: () -> Unit = when {
             playlist.isEmpty() -> if (item.archiveThisItem) ({ _archiveEnded.tryEmit(Unit) }) else return
