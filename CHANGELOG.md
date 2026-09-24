@@ -19,6 +19,38 @@ Core is versioned independently of the apps. A core version never lines up with 
 
 ---
 
+## core-1.0.58 — unreleased
+
+**API · Strings.** A new icon and logo for both apps, the "flip card", in eight colours the user picks.
+No database or backup-format change: the choice is one new setting, `app_icon`, and it rides in the
+settings backup.
+
+### Eight app icons and logos, one switcher
+
+- **`tv.own.owntv.core.brand.AppIcon`** (API): `PETROL`, `SUNFLOWER`, `COBALT`, `TOMATO`,
+  `BOARD`, `EGGSHELL` (default), `OLIVE`, `OLIVE_CREAM`. Each carries its name string, its flat in-app mark, its
+  ≤32 dp mark, its TV banner, and the two accents of the wordmark's "TV".
+- **`AppIconSwitcher`** (API): which launcher activity is enabled (`applied`), switching it (`apply`,
+  `restartWith`), the enabled one for an `Intent` (`launchComponent`), and `start()`, which applies a
+  pending choice when the app goes to the background. **A consuming app must** assign
+  `mainActivityClass` before Koin, call `start()` after it, and declare one launcher activity per colour
+  (`MainActivity` + `AppIcon.activitySuffix`, only `MainActivity` enabled).
+- **`SettingsRepository.appIcon` / `setAppIcon`** (key `app_icon`), included in the settings backup.
+- **Resources**, generated from the pass-6 mockup by `tools/brand/render_brand.py`:
+  - launcher foregrounds (all densities, with the mockup's shadow) and adaptive icons with a shared monochrome layer;
+  - flat and small in-app marks;
+  - the launch screen: an 800 ms flip animation, a still card for Android 11 and older, and the wordmark as a branding image;
+  - 320×180 TV banners and the `owntv_notification` status-bar icon.
+
+  The old `drawable-xhdpi/tv_banner.png` is removed.
+- The Android TV home channel's logo is the enabled icon's banner.
+- Core's download, EPG-sync and recording notifications use `owntv_notification` instead of stock
+  Android icons.
+- **Strings:** the App icon setting, its eight colour names and the restart question, in every
+  packaged locale. "Later" reuses `update_later`.
+
+---
+
 ## core-1.0.57 — 2026-09-21
 
 **Strings.** A guide source that answers and turns out to be empty now says so, once, in every

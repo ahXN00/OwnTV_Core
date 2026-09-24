@@ -1,5 +1,6 @@
 package tv.own.owntv.core.tv
 
+import tv.own.owntv.core.brand.AppIconSwitcher
 import tv.own.owntv.core.epg.displayLogoUrl
 import android.annotation.SuppressLint
 import android.content.ContentUris
@@ -602,7 +603,8 @@ class TvHomeRepository(
             .setDescription(renderContext.getString(R.string.launcher_recent_live_description))
             .setAppLinkIntentUri(LauncherDeepLink.OpenLiveSection.toUri())
             .setInternalProviderId(platformInternalId(TvProviderSurface.RECENT_LIVE, profileId, MediaType.LIVE, RECENT_LIVE_CHANNEL_STABLE_KEY))
-            .setLogo(resourceUri(R.drawable.tv_banner))
+            // The live icon's banner, so the channel matches the app row after an icon switch.
+            .setLogo(resourceUri(AppIconSwitcher.applied(context).banner))
             .build()
     }
 

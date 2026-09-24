@@ -26,7 +26,7 @@ internal object DownloadNotifications {
         ensureChannel(context, localized)
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(android.R.drawable.stat_sys_download)
+            .setSmallIcon(R.drawable.owntv_notification)
             .setContentTitle(localized.getString(R.string.app_name))
             .setContentText(progress?.title ?: localized.getString(R.string.app_name))
             .setOngoing(true)

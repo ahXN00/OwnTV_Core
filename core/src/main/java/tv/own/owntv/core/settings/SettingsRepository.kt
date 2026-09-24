@@ -23,6 +23,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import tv.own.owntv.core.brand.AppIcon
 import tv.own.owntv.core.CoreBuildInfo
 import tv.own.owntv.core.i18n.LocaleStore
 import tv.own.owntv.core.live.DEFAULT_MULTIVIEW_TILES
@@ -543,6 +544,8 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         // offers; STATIC lets the user hide specific icons. NAV_HIDDEN holds MainSection.name values the
         // user has hidden (STATIC mode only — DYNAMIC ignores it).
         val NAV_MENU_MODE = stringPreferencesKey("nav_menu_mode")
+        // Chosen flip-card icon colour (AppIcon.name). What the launcher shows is AppIconSwitcher.applied.
+        val APP_ICON = stringPreferencesKey("app_icon")
         val NAV_MENU_HIDDEN = stringSetPreferencesKey("nav_menu_hidden")
         // CH+- key paging for browse panels (Live/Movies/Series: category rail + item list/grid).
         // Master toggle + a per-direction skip count (CH+ toward first, CH− toward last). Counts are
@@ -1083,6 +1086,13 @@ class SettingsRepository(private val context: Context, private val localeStore: 
 
     suspend fun setNavMenuMode(mode: NavMenuMode) {
         context.dataStore.edit { it[Keys.NAV_MENU_MODE] = mode.name }
+    }
+
+    /** The icon and logo colour the user chose. It reaches the launcher on the next restart. */
+    val appIcon: Flow<AppIcon> = prefsFlow { prefs -> AppIcon.fromStored(prefs[Keys.APP_ICON]) }
+
+    suspend fun setAppIcon(icon: AppIcon) {
+        context.dataStore.edit { it[Keys.APP_ICON] = icon.name }
     }
 
     /** Names of the `MainSection` browse items the user has hidden (STATIC mode). */
@@ -2635,6 +2645,8 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             Keys.DOWNLOAD_ROOT,
             // Nav menu mode rides with settings backup so a reinstall keeps the user's DYNAMIC/STATIC choice.
             Keys.NAV_MENU_MODE,
+            // The chosen icon colour. After a restore the app compares it with the applied icon and offers a restart.
+            Keys.APP_ICON,
             // Docked mini-player position rides with settings backup (size is an int key, see backupIntKeys).
             Keys.MINI_PLAYER_POSITION,
             // Live TV latency preset (custom seconds is an int key, see backupIntKeys).
