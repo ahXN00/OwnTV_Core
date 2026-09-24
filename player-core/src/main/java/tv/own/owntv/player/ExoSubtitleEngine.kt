@@ -269,6 +269,26 @@ class ExoSubtitleEngine(
             // Network / source / DRM errors are NOT retried here: a different decoder cannot fix them,
             // and mpv (with its own retry ladder and different HTTP stack) is the better next step.
             val url = currentUrl
+            // N18 — a film whose connection dropped after it had started is reopened where it stopped,
+            // on this engine, within Settings → Reconnect attempts: the same budget and the same
+            // "a minute of playback earns it back" rule as mpv. Before, the drop went straight to mpv
+            // or, with "ExoPlayer only", to an error. `prepare()` retries the same item at the same
+            // position. A catch-up archive is exempt, as on mpv: without Range support it cannot reopen
+            // at an offset. Only when the budget is spent does the path below run, unchanged.
+            val p = player
+            val pos = p?.currentPosition ?: 0L
+            val next = if (error.errorCode in NETWORK_DROP_CODES && !isArchiveItem && pos > 0L) {
+                FilmNetwork.nextReconnect(reconnectsUsed, reconnectAtMs, pos, filmReconnects)
+            } else {
+                null
+            }
+            if (p != null && url != null && next != null) {
+                reconnectsUsed = next
+                reconnectAtMs = pos
+                android.util.Log.w(TAG, "film connection dropped at ${pos}ms — reopening in place ($next/$filmReconnects)")
+                p.prepare()
+                return
+            }
             if (error.errorCode in DECODE_ERROR_CODES && softwareRungAvailable() && url != null) {
                 android.util.Log.w(TAG, "software rescue: ${error.errorCodeName} on the hardware decoder, restarting in software decode")
                 onSoftwareRescue?.invoke(url, isArchiveItem)
@@ -318,6 +338,8 @@ class ExoSubtitleEngine(
         applyRequestHeaders()
 
         currentUrl = url
+        reconnectsUsed = 0
+        reconnectAtMs = 0L
         externalSubs.clear()
         sideloadSubs.forEach { externalSubs.add(ExternalSubCfg(it.path, it.title, it.lang, it.source)) }
         pendingExternalLabel = selectExternalLabel
@@ -329,13 +351,14 @@ class ExoSubtitleEngine(
         // The audio sink's capabilities are baked in at construction too, so the same rule applies: a
         // cached player built before the session latched to stereo would keep the sink that failed.
         val wantStereo = !AudioOutputPolicy.allowsMultichannel(surroundMode)
-        if (player != null && (builtForSoftware != softwarePreferred || builtForStereo != wantStereo)) {
+        val wantNetwork = filmBufferSecs to filmTimeoutSecs
+        if (player != null && (builtForSoftware != softwarePreferred || builtForStereo != wantStereo || builtForNetwork != wantNetwork)) {
             android.util.Log.i(TAG, "rebuilding ExoPlayer for ${if (softwarePreferred) "software" else "hardware"} decode, ${if (wantStereo) "stereo" else "device"} audio")
             player?.release()
             boost.release() // bound to the outgoing player's audio session
             player = null
         }
-        val p = player ?: build().also { player = it; builtForSoftware = softwarePreferred; builtForStereo = wantStereo }
+        val p = player ?: build().also { player = it; builtForSoftware = softwarePreferred; builtForStereo = wantStereo; builtForNetwork = wantNetwork }
         // Both are plain setters, so a cached player picks up a setting changed since it was built —
         // no rebuild needed for either (unlike the renderer factory and the audio sink above).
         p.setVideoChangeFrameRateStrategy(
@@ -509,20 +532,34 @@ class ExoSubtitleEngine(
     /** Whether the cached player's audio sink was pinned to stereo PCM. See the rebuild check in `start`. */
     private var builtForStereo = false
 
+    /** The (buffer, timeout) the cached player was built with. See the rebuild check in `start`. */
+    private var builtForNetwork = 0 to 0
+
     private fun build(): ExoPlayer {
         // OkHttp for the stream itself, wrapped in DefaultDataSource so file:// URIs (side-loaded
         // external subtitle files in app storage) route to FileDataSource — the bare OkHttp factory
         // can't open them, and Media3 swallows a side-loaded subtitle's load failure silently (the
         // track lists but never produces cues). The TransferListener stays on the inner OkHttp factory
         // so local subtitle-file bytes don't inflate the measured network bitrate.
-        val http = OkHttpDataSource.Factory(streamingHttp.client)
+        // N18 — a chosen timeout replaces the shared client's (connect 15 s, read 20 s) for films only;
+        // newBuilder() keeps its pool, proxy, DNS and interceptors.
+        val client = filmTimeoutSecs.takeIf { it > 0 }?.let { secs ->
+            streamingHttp.client.newBuilder()
+                .connectTimeout(secs.toLong(), java.util.concurrent.TimeUnit.SECONDS)
+                .readTimeout(secs.toLong(), java.util.concurrent.TimeUnit.SECONDS)
+                .build()
+        } ?: streamingHttp.client
+        val http = OkHttpDataSource.Factory(client)
             .setUserAgent(HttpClient.DEFAULT_USER_AGENT)
             .setTransferListener(throughputTracker)
         httpFactory = http
         applyRequestHeaders()
         val dataSource = androidx.media3.datasource.DefaultDataSource.Factory(context, http)
         // Match mpv's buffering depth so stability doesn't drop after the handoff (Dev refinement #3).
-        val maxBufferMs = (budget.cacheSecs.toIntOrNull() ?: 30) * 1000
+        val tierBufferMs = (budget.cacheSecs.toIntOrNull() ?: 30) * 1000
+        // N18 — the film buffer the user chose, or the tier's. The byte target below stays the TIER's:
+        // it scales with the duration it is given, and a longer buffer must never mean more memory.
+        val maxBufferMs = FilmNetwork.bufferSecs(filmBufferSecs, budget) * 1000
         val minBufferMs = (maxBufferMs / 2).coerceIn(15_000, maxBufferMs)
         val loadControl = DefaultLoadControl.Builder()
             .setBufferDurationsMs(minBufferMs, maxBufferMs, 2_500, 5_000)
@@ -530,7 +567,7 @@ class ExoSubtitleEngine(
             // allocator for hundreds of MB before the duration target is met, and a TV app dies long
             // before that. Media3's own default is derived from the duration, so scale with the same
             // tier instead of leaving it uncapped.
-            .setTargetBufferBytes(targetBufferBytes(maxBufferMs))
+            .setTargetBufferBytes(targetBufferBytes(tierBufferMs))
             .build()
         val trackSelector = DefaultTrackSelector(context).apply {
             // Settings → Video player → Preferred audio / subtitle language. These reached mpv only
@@ -682,6 +719,18 @@ class ExoSubtitleEngine(
 
     /** Settings → Video player → Auto frame rate, pushed in by [OwnTVPlayer]; read at build time. */
     @Volatile var autoFrameRateEnabled = false
+
+    /** N18 — films' buffer and network timeout (0 = Auto), pushed in by [OwnTVPlayer]. Both are baked
+     *  into the player at build, so a change rebuilds it on the next [start] — see [FilmNetwork]. */
+    @Volatile var filmBufferSecs: Int = 0
+    @Volatile var filmTimeoutSecs: Int = 0
+
+    /** N18 — Settings → Reconnect attempts, pushed in by [OwnTVPlayer]; read at each drop. */
+    @Volatile var filmReconnects: Int = 1
+
+    /** In-place reopens this item has used, and the position of the last — reset on every [start]. */
+    private var reconnectsUsed = 0
+    private var reconnectAtMs = 0L
 
     /** Settings → Video player → Preferred audio / subtitle language (ISO code, blank = no preference).
      *  Pushed in by [OwnTVPlayer]; applied at build time and in place from [start]. */
@@ -1038,6 +1087,12 @@ class ExoSubtitleEngine(
 
         /** Failures a different (software) decoder can plausibly fix — see the software rescue in
          *  `onPlayerError`. Everything else (network, source, DRM, renderer/timeout) goes to mpv. */
+        /** A connection that failed or went silent — what a reopen can cure, unlike a refusal or bad data. */
+        val NETWORK_DROP_CODES = setOf(
+            PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_FAILED,
+            PlaybackException.ERROR_CODE_IO_NETWORK_CONNECTION_TIMEOUT,
+        )
+
         val DECODE_ERROR_CODES = setOf(
             PlaybackException.ERROR_CODE_DECODER_INIT_FAILED,
             PlaybackException.ERROR_CODE_DECODER_QUERY_FAILED,

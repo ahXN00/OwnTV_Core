@@ -103,6 +103,12 @@ enum class PlayerControl(
     /** Record the channel already playing (Plan D, D3). Only exists once the setting is on. */
     RECORD(ControlCluster.TOOLS, ControlHost.BOTH, R.string.recording_record),
 
+    /**
+     * Stop playing after a while (N17). In the bar on both apps — the phone had it only on the
+     * sound-only screen and the floating window, the television not at all.
+     */
+    SLEEP_TIMER(ControlCluster.TOOLS, ControlHost.BOTH, R.string.player_sleep_timer),
+
     INFO(ControlCluster.TOOLS, ControlHost.BOTH, R.string.player_tool_info),
 
     /**

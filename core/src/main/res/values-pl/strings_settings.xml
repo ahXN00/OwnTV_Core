@@ -277,6 +277,10 @@
     <string name="settings_auto_frame_rate">Automatyczne dopasowanie klatek</string>
     <string name="settings_auto_frame_rate_description">Dopasuj częstotliwość odświeżania telewizora do filmu (24/25/50/60 kl./s) na pełnym ekranie w telewizji na żywo i VOD, a po zakończeniu przywróć poprzednią wartość. Wyłącz tę opcję, jeśli telewizor lub amplituner głośno ponawia uzgadnianie połączenia HDMI przy każdej zmianie kanału.</string>
     <string name="settings_auto_frame_rate_description_mobile">Dopasuj częstotliwość odświeżania ekranu do filmu (24/25/50/60 kl./s) na pełnym ekranie w telewizji na żywo i VOD, a po zakończeniu przywróć poprzednią wartość. Wyłącz tę opcję, jeśli ekran migocze lub gaśnie po rozpoczęciu filmu.</string>
+    <string name="settings_afr_pause">Pauza podczas przełączania ekranu</string>
+    <string name="settings_afr_pause_description">Tylko filmy. Gdy telewizor musi ponownie zsynchronizować się z nowym trybem ekranu, film czeka tyle czasu, aby jego początek nie przepadł w czarnym obrazie. Płynne przełączenie nigdy nie wstrzymuje.</string>
+    <string name="settings_afr_resolution">Dopasuj rozdzielczość</string>
+    <string name="settings_afr_resolution_description">Tylko filmy. Gdy tryb ekranu zmienia się dla filmu, telewizor przełącza się też na jego rozdzielczość — 1080p dla filmu HD na telewizorze 4K — nigdy powyżej rozdzielczości początkowej. Wyłączone pozostawia rozdzielczość bez zmian, a telewizor skaluje obraz, zwykle z lepszym efektem.</string>
     <string name="settings_surround_sound">Dźwięk przestrzenny</string>
     <string name="settings_surround_description">Dekoduj Dolby/DTS do dźwięku przestrzennego (5.1/7.1) dla prawdziwego amplitunera 5.1/7.1. Pozostaw WYŁĄCZONE w przypadku głośników telewizora lub stereofonicznego soundbara — dźwięk wielokanałowy może być opóźniony względem obrazu na niektórych telewizorach i soundbarach. Jeśli synchronizacja się rozjeżdża, skoryguj ją w menu Dźwięk odtwarzacza → Synchronizacja A/V.</string>
     <string name="settings_surround_description_mobile">Dekoduj Dolby/DTS do dźwięku przestrzennego (5.1/7.1) dla prawdziwego amplitunera 5.1/7.1 podłączonego do tego urządzenia. Pozostaw WYŁĄCZONE w przypadku wbudowanego głośnika, słuchawek lub stereofonicznego soundbara — dźwięk wielokanałowy może być opóźniony względem obrazu. Jeśli synchronizacja się rozjeżdża, skoryguj ją w menu Dźwięk odtwarzacza → Synchronizacja A/V.</string>
@@ -526,6 +530,13 @@
     <string name="settings_seek_step">Krok przewijania</string>
     <!-- Translators: Description of the seek step setting. -->
     <string name="settings_seek_step_description">O ile przewijanie do tyłu i do przodu przeskakuje w filmie lub odcinku.</string>
+    <string name="settings_vod_buffer">Bufor filmów</string>
+    <string name="settings_vod_buffer_description">Jak daleko naprzód ładowane są filmy, odcinki i catch-up. Auto używa ustawienia odpowiedniego dla tego urządzenia. Dłuższy bufor lepiej przetrwa słabe połączenie; granicę nadal wyznacza pamięć urządzenia, więc film o wysokim bitrate może zmieścić mniej niż wybrano.</string>
+    <string name="settings_vod_network_timeout">Limit czasu sieci</string>
+    <string name="settings_vod_network_timeout_description">Jak długo filmy, odcinki i catch-up czekają na milczący serwer, zanim połączenie zostanie uznane za utracone. Auto zachowuje własny czas każdego odtwarzacza: 60 sekund w mpv, 20 w ExoPlayer.</string>
+    <string name="settings_vod_reconnects">Próby ponownego połączenia</string>
+    <string name="settings_vod_reconnects_description">Ile razy film lub odcinek, który traci połączenie, jest ponownie otwierany w miejscu zatrzymania, zanim pojawi się błąd. Minuta stabilnego odtwarzania przywraca próby.</string>
+    <string name="settings_vod_network_auto">Auto</string>
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">Krok przewijania na żywo</string>
     <!-- Translators: Description of the live rewind step setting. -->
@@ -566,6 +577,8 @@
     <string name="settings_channel_numbers">Numery kanałów</string>
     <string name="settings_channel_numbers_description">Pokazuj numer kanału nadany przez dostawcę obok jego nazwy na liście telewizji na żywo, nakładce listy kanałów i w odtwarzaczu. Podczas odtwarzania na pełnym ekranie możesz też wpisać numer na pilocie, aby przejść bezpośrednio do danego kanału (OK przełącza od razu, a Wstecz anuluje). Wyłączenie tej opcji ukrywa wszystkie numery i powoduje ignorowanie klawiszy numerycznych; żadne dane nie zostaną utracone, a ponowne włączenie przywróci numery.</string>
     <string name="settings_channel_numbers_description_mobile">Pokazuj numer kanału nadany przez dostawcę obok jego nazwy na liście telewizji na żywo i w odtwarzaczu. Wyłączenie tej opcji ukrywa wszystkie numery; żadne dane nie zostaną utracone, a ponowne włączenie przywróci numery.</string>
+    <string name="settings_live_left_right_rewinds">Lewo i prawo przewijają telewizję na żywo</string>
+    <string name="settings_live_left_right_rewinds_description">Gdy elementy sterujące są ukryte, lewo i prawo przewijają do tyłu i do przodu na kanałach z catch-upem, zamiast otwierać listę kanałów i historię.</string>
     <string name="settings_diagnostics">Diagnostyka</string>
     <string name="settings_measured_stats">Mierzone statystyki strumienia</string>
     <string name="settings_measured_stats_description">Pokazuj na żywo liczbę klatek na sekundę, przepływność i pominięte klatki na nakładce informacji o strumieniu (pomiary są wykonywane, gdy nakładka jest otwarta, w przypadku strumieni, które nie deklarują tych wartości). Wyłącz tę opcję tylko wtedy, gdy telewizor o niskiej wydajności zaczyna się zacinać — nie wpływa ona na sam obraz, a jedynie na wartości diagnostyczne.</string>

@@ -2653,6 +2653,8 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	accent_color
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	accent_custom
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	active_profile_id
+1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	afr_match_resolution
+1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	afr_pause_secs
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	ambient_glow_enabled
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	ambient_glow_pulse
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	android_tv_home
@@ -2733,6 +2735,7 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_engine
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_latency_custom_secs
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_latency_mode
+1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_left_right_rewinds
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_preroll_secs
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_preview
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_preview_audio
@@ -2839,10 +2842,13 @@
 1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	ui_language
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	ui_zoom_percent
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	update_check_on_start
+1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	vod_buffer_secs
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	vod_engine
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	vod_grid_columns
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	vod_layout
+1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	vod_network_timeout_secs
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	vod_prefer_exo
+1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	vod_reconnects
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	vod_view_mode
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	weather_enabled
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	weather_fahrenheit
@@ -3902,6 +3908,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	codec=${f?.sampleMimeType} ch=${f?.channelCount} rate=${f?.sampleRate}
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	device
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	exo/vod: $reason
+1	log	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	film connection dropped at ${pos}ms — reopening in place ($next/$filmReconnects)
 3	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	hardware
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	hevc
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	kind unknown
@@ -4280,8 +4287,8 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	OwnTVPlayer
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	PlayerBudget: $budget
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	STEREO
-1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	VOD ended mid-stream again at ${pos}ms of ${dur}ms — surfacing error
-1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	VOD ended mid-stream at ${pos}ms of ${dur}ms — reloading once from position
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	VOD ended mid-stream at ${pos}ms of ${dur}ms — reloading from position ($next/$budget)
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	VOD ended mid-stream at ${pos}ms of ${dur}ms, reconnects spent — surfacing error
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	VOD failed on BOTH engines — exo first: '$exoErr' / mpv: '$mpvMsg'
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	VOD failed on BOTH engines — mpv: '$mpvFailureBeforeFallback' / exo: '$exoError'
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	VOD failed on ExoPlayer ($exoError) and the engine setting is ExoPlayer-only
@@ -4331,7 +4338,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	cache
 3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	cache-pause-initial
 3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	cache-pause-wait
-1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	cache-secs
+2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	cache-secs
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	cache=${getPropertyString("demuxer-cache-duration")}s
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	catch-up path URL rejected — trying timeshift.php fallback
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	clip
@@ -4468,7 +4475,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv_open hls=$effectiveHls live=$isLiveContent probe=trimmed tolerant=$tolerant
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	msg-level
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mute
-1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	network-timeout
+2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	network-timeout
 27	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	no
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	no-video (mpv, Live) — audio progressing but no video frame after ~${elapsedMs}ms
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	no-video (mpv, Live) — reconnect attempt ${item.liveStallReconnects}/$MAX_LIVE_RECONNECTS

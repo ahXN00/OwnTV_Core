@@ -276,6 +276,10 @@
     <string name="settings_auto_frame_rate">Fréquence d’images automatique</string>
     <string name="settings_auto_frame_rate_description">Adapter la fréquence de rafraîchissement du téléviseur à la vidéo (24/25/50/60 ips) en plein écran, pour la TV en direct et la VOD, puis la rétablir en quittant la lecture. Désactivez cette option si votre téléviseur ou récepteur relance bruyamment la négociation HDMI à chaque changement de chaîne.</string>
     <string name="settings_auto_frame_rate_description_mobile">Adapter la fréquence de rafraîchissement de l’écran à la vidéo (24/25/50/60 ips) en plein écran, pour la TV en direct et la VOD, puis la rétablir en quittant la lecture. Désactivez cette option si l’écran scintille ou devient noir au démarrage d’une vidéo.</string>
+    <string name="settings_afr_pause">Pause pendant le changement d’affichage</string>
+    <string name="settings_afr_pause_description">Films uniquement. Quand le téléviseur doit se resynchroniser sur un nouveau mode d’affichage, le film attend ce délai pour que son début ne se perde pas dans l’écran noir. Un changement sans coupure ne met jamais en pause.</string>
+    <string name="settings_afr_resolution">Adapter la résolution</string>
+    <string name="settings_afr_resolution_description">Films uniquement. Quand le mode d’affichage change pour un film, le téléviseur passe aussi à sa résolution — 1080p pour un film HD sur un téléviseur 4K —, jamais au-delà de celle de départ. Désactivé, la résolution reste inchangée et le téléviseur met l’image à l’échelle, en général la meilleure image.</string>
     <string name="settings_surround_sound">Son surround</string>
     <string name="settings_surround_description">Décoder Dolby/DTS en son surround (5.1/7.1) pour un véritable récepteur 5.1/7.1. Laissez cette option DÉSACTIVÉE avec les haut-parleurs du téléviseur ou une barre de son stéréo — sur certains téléviseurs et certaines barres de son, le multicanal peut retarder le son par rapport à l’image. En cas de décalage progressif, ajustez le menu Audio du lecteur → Synchronisation A/V.</string>
     <string name="settings_surround_description_mobile">Décoder Dolby/DTS en son surround (5.1/7.1) pour un véritable récepteur 5.1/7.1 relié à cet appareil. Laissez cette option DÉSACTIVÉE avec le haut-parleur intégré, un casque ou une barre de son stéréo — le multicanal peut retarder le son par rapport à l’image. En cas de décalage progressif, ajustez le menu Audio du lecteur → Synchronisation A/V.</string>
@@ -524,6 +528,13 @@
     <string name="settings_seek_step">Pas d’avance</string>
     <!-- Translators: Description of the seek step setting. -->
     <string name="settings_seek_step_description">De combien le retour et l’avance sautent dans un film ou un épisode.</string>
+    <string name="settings_vod_buffer">Mémoire tampon des films</string>
+    <string name="settings_vod_buffer_description">Jusqu’où les films, épisodes et programmes en replay sont chargés à l’avance. Auto utilise ce qui convient à cet appareil. Une mémoire tampon plus longue résiste mieux à une mauvaise connexion ; la mémoire de l’appareil reste la limite, donc un film à débit élevé peut en contenir moins que prévu.</string>
+    <string name="settings_vod_network_timeout">Délai réseau</string>
+    <string name="settings_vod_network_timeout_description">Combien de temps les films, épisodes et programmes en replay attendent un serveur muet avant de considérer la connexion comme perdue. Auto conserve le délai propre à chaque lecteur : 60 secondes avec mpv, 20 avec ExoPlayer.</string>
+    <string name="settings_vod_reconnects">Tentatives de reconnexion</string>
+    <string name="settings_vod_reconnects_description">Combien de fois un film ou un épisode qui perd la connexion est rouvert là où il s’est arrêté avant qu’une erreur s’affiche. Une minute de lecture sans coupure rend les tentatives.</string>
+    <string name="settings_vod_network_auto">Auto</string>
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">Pas de retour en direct</string>
     <!-- Translators: Description of the live rewind step setting. -->
@@ -564,6 +575,8 @@
     <string name="settings_channel_numbers">Numéros des chaînes</string>
     <string name="settings_channel_numbers_description">Afficher le numéro attribué par votre fournisseur à côté du nom dans la liste de la TV en direct, la superposition de la liste des chaînes et le lecteur. Pendant une lecture en plein écran, saisissez un numéro avec la télécommande pour accéder directement à cette chaîne (OK la sélectionne immédiatement, Retour annule). Lorsque cette option est désactivée, tous les numéros sont masqués et les touches numériques sont ignorées. Rien n’est perdu : réactiver l’option les restaure.</string>
     <string name="settings_channel_numbers_description_mobile">Afficher le numéro attribué par votre fournisseur à côté du nom dans la liste de la TV en direct et le lecteur. Lorsque cette option est désactivée, tous les numéros sont masqués. Rien n’est perdu : réactiver l’option les restaure.</string>
+    <string name="settings_live_left_right_rewinds">Gauche et droite reculent en direct</string>
+    <string name="settings_live_left_right_rewinds_description">Quand les commandes sont masquées, gauche et droite reculent et avancent sur les chaînes avec replay, au lieu d’ouvrir la liste des chaînes et l’historique.</string>
     <string name="settings_diagnostics">Diagnostic</string>
     <string name="settings_measured_stats">Statistiques mesurées du flux</string>
     <string name="settings_measured_stats_description">Afficher en direct le nombre d’images par seconde, le débit binaire et les images perdues dans la superposition des informations sur le flux (mesurés pendant que la superposition est ouverte pour les flux qui ne déclarent pas ces valeurs). Désactivez cette option uniquement si un téléviseur peu puissant subit des saccades : elle n’affecte jamais la vidéo elle-même, seulement les données de diagnostic.</string>

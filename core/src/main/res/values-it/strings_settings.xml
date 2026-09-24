@@ -276,6 +276,10 @@
     <string name="settings_auto_frame_rate">Frequenza fotogrammi automatica</string>
     <string name="settings_auto_frame_rate_description">Adatta la frequenza di aggiornamento della TV al video (24/25/50/60 fps) a schermo intero, per TV in diretta e VOD, e ripristinala all\'uscita. Disattiva questa opzione se la TV o il ricevitore ripete l\'handshake HDMI in modo fastidioso a ogni cambio di canale.</string>
     <string name="settings_auto_frame_rate_description_mobile">Adatta la frequenza di aggiornamento dello schermo al video (24/25/50/60 fps) a schermo intero, per TV in diretta e VOD, e ripristinala all\'uscita. Disattiva questa opzione se lo schermo sfarfalla o diventa nero quando si avvia un video.</string>
+    <string name="settings_afr_pause">Pausa durante il cambio di schermo</string>
+    <string name="settings_afr_pause_description">Solo film. Quando il televisore deve risincronizzarsi su una nuova modalità dello schermo, il film attende questo tempo perché l’inizio non vada perso nello schermo nero. Un cambio senza interruzioni non mette mai in pausa.</string>
+    <string name="settings_afr_resolution">Adatta la risoluzione</string>
+    <string name="settings_afr_resolution_description">Solo film. Quando la modalità dello schermo cambia per un film, il televisore passa anche alla sua risoluzione — 1080p per un film HD su un televisore 4K —, mai oltre quella iniziale. Disattivato lascia la risoluzione invariata e il televisore scala l’immagine, di solito con un risultato migliore.</string>
     <string name="settings_surround_sound">Audio surround</string>
     <string name="settings_surround_description">Decodifica Dolby/DTS in surround (5.1/7.1) per un vero ricevitore 5.1/7.1. Lascia l\'opzione DISATTIVATA per gli altoparlanti della TV o una soundbar stereo — su alcuni TV o soundbar, l\'audio multicanale può risultare in ritardo rispetto al video. Se perde la sincronizzazione, regola leggermente Menu Audio del player → Sincronizzazione A/V.</string>
     <string name="settings_surround_description_mobile">Decodifica Dolby/DTS in surround (5.1/7.1) per un vero ricevitore 5.1/7.1 collegato a questo dispositivo. Lascia l\'opzione DISATTIVATA per l\'altoparlante integrato, le cuffie o una soundbar stereo — l\'audio multicanale può risultare in ritardo rispetto al video. Se perde la sincronizzazione, regola leggermente Menu Audio del player → Sincronizzazione A/V.</string>
@@ -524,6 +528,13 @@
     <string name="settings_seek_step">Passo di avanzamento</string>
     <!-- Translators: Description of the seek step setting. -->
     <string name="settings_seek_step_description">Di quanto saltano avanti e indietro i comandi in un film o in un episodio.</string>
+    <string name="settings_vod_buffer">Buffer dei film</string>
+    <string name="settings_vod_buffer_description">Quanto in anticipo vengono caricati film, episodi e catch-up. Auto usa ciò che è adatto a questo dispositivo. Un buffer più lungo regge meglio una connessione scarsa; il limite resta la memoria del dispositivo, quindi un film ad alto bitrate può contenerne meno del previsto.</string>
+    <string name="settings_vod_network_timeout">Timeout di rete</string>
+    <string name="settings_vod_network_timeout_description">Quanto film, episodi e catch-up aspettano un server che non risponde prima di considerare persa la connessione. Auto mantiene l’attesa di ciascun lettore: 60 secondi con mpv, 20 con ExoPlayer.</string>
+    <string name="settings_vod_reconnects">Tentativi di riconnessione</string>
+    <string name="settings_vod_reconnects_description">Quante volte un film o un episodio che perde la connessione viene riaperto dal punto in cui si era fermato prima di mostrare un errore. Un minuto di riproduzione regolare restituisce i tentativi.</string>
+    <string name="settings_vod_network_auto">Auto</string>
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">Passo di riavvolgimento live</string>
     <!-- Translators: Description of the live rewind step setting. -->
@@ -564,6 +575,8 @@
     <string name="settings_channel_numbers">Numeri dei canali</string>
     <string name="settings_channel_numbers_description">Mostra il numero assegnato dal fornitore accanto al nome nell\'elenco della TV in diretta, nella sovrimpressione dell\'elenco dei canali e nel player; durante la riproduzione a schermo intero puoi inoltre digitare un numero sul telecomando per passare direttamente al canale corrispondente (OK lo sintonizza subito, Indietro annulla). Se disattivata, l\'opzione nasconde tutti i numeri e ignora i tasti numerici; non viene perso nulla e, riattivandola, i numeri vengono ripristinati.</string>
     <string name="settings_channel_numbers_description_mobile">Mostra il numero assegnato dal fornitore accanto al nome nell\'elenco della TV in diretta e nel player. Se disattivata, l\'opzione nasconde tutti i numeri; non viene perso nulla e, riattivandola, i numeri vengono ripristinati.</string>
+    <string name="settings_live_left_right_rewinds">Sinistra e destra riavvolgono la diretta</string>
+    <string name="settings_live_left_right_rewinds_description">Con i controlli nascosti, sinistra e destra riavvolgono e mandano avanti sui canali con catch-up, invece di aprire l’elenco dei canali e la cronologia.</string>
     <string name="settings_diagnostics">Diagnostica</string>
     <string name="settings_measured_stats">Statistiche misurate del flusso</string>
     <string name="settings_measured_stats_description">Mostra fps in tempo reale, bitrate e fotogrammi persi nella sovrimpressione delle informazioni sul flusso (misurati mentre la sovrimpressione è aperta per i flussi che non dichiarano questi valori). Disattiva questa opzione solo se un televisore poco potente presenta interruzioni: non influisce mai sul video effettivo, ma solo sui valori diagnostici.</string>

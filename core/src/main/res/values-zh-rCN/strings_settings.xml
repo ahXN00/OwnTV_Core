@@ -274,6 +274,10 @@
     <string name="settings_auto_frame_rate">自动匹配帧率</string>
     <string name="settings_auto_frame_rate_description">在全屏播放直播电视和点播内容时，使电视刷新率与视频匹配（24/25/50/60 fps），并在退出时恢复。如果电视或接收器在每次切换频道时都会重新进行 HDMI 握手并产生明显干扰，请关闭此功能。</string>
     <string name="settings_auto_frame_rate_description_mobile">在全屏播放直播电视和点播内容时，使屏幕刷新率与视频匹配（24/25/50/60 fps），并在退出时恢复。如果视频开始播放时屏幕闪烁或变黑，请关闭此功能。</string>
+    <string name="settings_afr_pause">切换显示时暂停</string>
+    <string name="settings_afr_pause_description">仅限电影。电视需要重新同步到新的显示模式时，电影会等待这段时间，以免开头在黑屏中错过。无缝切换不会暂停。</string>
+    <string name="settings_afr_resolution">匹配分辨率</string>
+    <string name="settings_afr_resolution_description">仅限电影。为电影切换显示模式时，电视也会切换到电影的分辨率（在 4K 电视上播放高清电影时为 1080p），但不会高于开始时的分辨率。关闭时保持分辨率不变，由电视放大画面，通常画质更好。</string>
     <string name="settings_surround_sound">环绕声</string>
     <string name="settings_surround_description">为真正的 5.1/7.1 接收器将 Dolby/DTS 解码为环绕声（5.1/7.1）。使用电视扬声器或立体声音箱时请保持关闭 — 在部分电视/音箱上，多声道可能导致音频滞后于视频。如果出现不同步，请在播放器的“音频”菜单 →“音视频同步”中进行微调。</string>
     <string name="settings_surround_description_mobile">为连接到此设备的真正 5.1/7.1 接收器将 Dolby/DTS 解码为环绕声（5.1/7.1）。使用内置扬声器、耳机或立体声音箱时请保持关闭 — 多声道可能导致音频滞后于视频。如果出现不同步，请在播放器的“音频”菜单 →“音视频同步”中进行微调。</string>
@@ -520,6 +524,13 @@
     <string name="settings_seek_step">快进步长</string>
     <!-- Translators: Description of the seek step setting. -->
     <string name="settings_seek_step_description">在电影或剧集中，快退和快进一次移动的时长。</string>
+    <string name="settings_vod_buffer">电影缓冲</string>
+    <string name="settings_vod_buffer_description">电影、剧集和回看提前加载多少。自动会使用适合本设备的值。缓冲越长越能扛住不稳定的网络；但上限仍由设备内存决定，因此高码率电影可能缓冲得比所选少。</string>
+    <string name="settings_vod_network_timeout">网络超时</string>
+    <string name="settings_vod_network_timeout_description">电影、剧集和回看在认定连接中断前，等待无响应服务器的时长。自动保留各播放器自己的等待时间：mpv 为 60 秒，ExoPlayer 为 20 秒。</string>
+    <string name="settings_vod_reconnects">重连次数</string>
+    <string name="settings_vod_reconnects_description">电影或剧集断开连接后，在显示错误前从停止处重新打开的次数。稳定播放一分钟后次数会恢复。</string>
+    <string name="settings_vod_network_auto">自动</string>
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">直播回看步长</string>
     <!-- Translators: Description of the live rewind step setting. -->
@@ -560,6 +571,8 @@
     <string name="settings_channel_numbers">频道编号</string>
     <string name="settings_channel_numbers_description">在直播电视列表、频道列表浮层和播放器中，在名称旁显示服务提供商的频道编号；全屏播放时还可用遥控器输入编号直接跳转到对应频道（按“确定”立即调台，按“返回”取消）。关闭后会隐藏所有编号并忽略数字键；不会丢失任何数据，重新开启即可恢复显示。</string>
     <string name="settings_channel_numbers_description_mobile">在直播电视列表和播放器中，在名称旁显示服务提供商的频道编号。关闭后会隐藏所有编号；不会丢失任何数据，重新开启即可恢复显示。</string>
+    <string name="settings_live_left_right_rewinds">左右键倒回直播</string>
+    <string name="settings_live_left_right_rewinds_description">控制栏隐藏时，在支持回看的频道上，左右键会快退和快进，而不是打开频道列表和历史记录。</string>
     <string name="settings_diagnostics">诊断</string>
     <string name="settings_measured_stats">实测流媒体统计信息</string>
     <string name="settings_measured_stats_description">在流媒体信息浮层中显示实时帧率、比特率和丢帧数（在浮层打开期间测量，适用于未声明这些值的流）。仅当低端电视出现卡顿时才关闭；它不会影响实际视频，只会影响诊断数值。</string>

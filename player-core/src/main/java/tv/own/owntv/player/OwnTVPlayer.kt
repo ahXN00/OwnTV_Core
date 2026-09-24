@@ -760,7 +760,16 @@ class OwnTVPlayer(
         val prerollSecs = effectivePrerollSecs()
         // The readahead must be able to HOLD the pre-roll, or the gate could never be satisfied.
         val liveReadahead = effectiveLiveBufferSecs()?.let { maxOf(it, prerollSecs) }
-        setPropertyString("demuxer-readahead-secs", if (isLiveContent) (liveReadahead?.toString() ?: budgetReadahead) else budgetReadahead)
+        // N18 — a film's own buffer and network timeout (Settings; 0 = Auto = the values used before).
+        // Set on every load, live included, so a channel after a film gets the device's values back.
+        // demuxer-max-bytes is not touched: memory stays the tier's, so a longer buffer is "up to".
+        val film = playbackSettings.value?.takeIf { !isLiveContent }
+        val filmReadahead = playerBudget?.let { FilmNetwork.readaheadSecs(film?.vodBufferSecs ?: 0, it) } ?: budgetReadahead
+        setPropertyString("demuxer-readahead-secs", if (isLiveContent) (liveReadahead?.toString() ?: budgetReadahead) else filmReadahead)
+        playerBudget?.let { budget ->
+            setPropertyString("cache-secs", FilmNetwork.bufferSecs(film?.vodBufferSecs ?: 0, budget).toString())
+        }
+        setPropertyString("network-timeout", FilmNetwork.mpvTimeoutSecs(film?.vodNetworkTimeoutSecs ?: 0).toString())
         if (isLiveContent && prerollSecs > 0) {
             setPropertyString("cache-pause-initial", "yes")
             setPropertyString("cache-pause-wait", prerollSecs.toString())
@@ -1805,6 +1814,11 @@ class OwnTVPlayer(
         // ExoPlayer (image-subtitle handoff, "prefer ExoPlayer for VOD", or an mpv fallback) quietly
         // ignored three settings the user had set. Same values, same source of truth.
         engine.autoFrameRateEnabled = autoFrameRate
+        playbackSettings.value?.let {
+            engine.filmBufferSecs = it.vodBufferSecs
+            engine.filmTimeoutSecs = it.vodNetworkTimeoutSecs
+            engine.filmReconnects = it.vodReconnects
+        }
         engine.prefAudioLang = prefAudioLang
         engine.prefSubLang = prefSubLang
         // Carry this item's request identity across the handoff (F16) — a stream that needs a custom
@@ -4826,9 +4840,14 @@ class OwnTVPlayer(
                         // support, so reopening at an offset fails outright ("not formatted for streaming")
                         // — the very trap [resumePositionForHandoff] exists for. It goes straight to the
                         // error, which is still better than the silent freeze it used to get.
-                        if (!item.triedMidStreamReload && !item.archiveThisItem && currentUrl != null) {
-                            item.triedMidStreamReload = true
-                            android.util.Log.w(TAG, "VOD ended mid-stream at ${pos}ms of ${dur}ms — reloading once from position")
+                        // N18 — "Reconnect attempts" (default 1, the single reload films always had), earned
+                        // back by a minute of playback since the last one — see [FilmNetwork.nextReconnect].
+                        val budget = playbackSettings.value?.vodReconnects ?: 1
+                        val next = FilmNetwork.nextReconnect(item.midStreamReloads, item.midStreamReloadAtMs, pos, budget)
+                        if (next != null && !item.archiveThisItem && currentUrl != null) {
+                            item.midStreamReloads = next
+                            item.midStreamReloadAtMs = pos
+                            android.util.Log.w(TAG, "VOD ended mid-stream at ${pos}ms of ${dur}ms — reloading from position ($next/$budget)")
                             _buffering.value = true
                             val gen = loadGeneration
                             scope.launch {
@@ -4841,7 +4860,7 @@ class OwnTVPlayer(
                                 }
                             }
                         } else {
-                            android.util.Log.w(TAG, "VOD ended mid-stream again at ${pos}ms of ${dur}ms — surfacing error")
+                            android.util.Log.w(TAG, "VOD ended mid-stream at ${pos}ms of ${dur}ms, reconnects spent — surfacing error")
                             _isPlaying.value = false
                             _buffering.value = false
                             _error.value = vodErrorMessage(PlaybackFailure.LostConnection)
@@ -4943,8 +4962,10 @@ internal data class ItemState(
      *  error is shown. Covers auto-play advancing while the provider still holds the previous episode's
      *  connection slot. */
     var triedOpenReset: Boolean = false,
-    /** A VOD that dies mid-stream gets ONE silent reload from the current position before an error. */
-    var triedMidStreamReload: Boolean = false,
+    /** Silent reloads from the current position a VOD that died mid-stream has used, and the position of
+     *  the last one — the budget is Settings → Reconnect attempts, earned back by a minute of playback. */
+    var midStreamReloads: Int = 0,
+    var midStreamReloadAtMs: Long = 0L,
     @field:Volatile var triedExoVodFallback: Boolean = false,
     /** A text subtitle picked while an Exo handoff is active: applied after mpv reloads (FILE_LOADED). */
     @field:Volatile var pendingSelectSid: Int? = null,

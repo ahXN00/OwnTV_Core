@@ -55,6 +55,10 @@ data class PlaybackSettings(
     val autoFrameRate: Boolean,
     val liveEnginePreference: EnginePreference,
     val liveTuneTimeoutSecs: Int,
+    /** N18 — films only; 0 = Auto for the first two. See [FilmNetwork]. */
+    val vodBufferSecs: Int,
+    val vodNetworkTimeoutSecs: Int,
+    val vodReconnects: Int,
 ) {
     companion object {
         @Volatile private var shared: Pair<SettingsRepository, StateFlow<PlaybackSettings?>>? = null
@@ -80,6 +84,7 @@ data class PlaybackSettings(
                 s.subtitlePosition, s.subtitleBgOpacity, s.audioDelayMs, s.preferredAudioLang,
                 s.preferredSubLang, s.defaultZoom, s.defaultVolume, s.seekStepSec, s.autoFrameRate,
                 s.liveEnginePreference, s.liveTuneTimeoutSecs,
+                s.vodBufferSecs, s.vodNetworkTimeoutSecs, s.vodReconnects,
             )
             return combine(sources) { v ->
                 PlaybackSettings(
@@ -106,6 +111,9 @@ data class PlaybackSettings(
                     autoFrameRate = v[20] as Boolean,
                     liveEnginePreference = v[21] as EnginePreference,
                     liveTuneTimeoutSecs = v[22] as Int,
+                    vodBufferSecs = v[23] as Int,
+                    vodNetworkTimeoutSecs = v[24] as Int,
+                    vodReconnects = v[25] as Int,
                 )
             }.stateIn(CoroutineScope(SupervisorJob() + Dispatchers.Default), SharingStarted.Eagerly, null)
         }

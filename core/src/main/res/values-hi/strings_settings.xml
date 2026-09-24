@@ -275,6 +275,10 @@
     <string name="settings_auto_frame_rate">अपने-आप फ़्रेम दर मिलाना</string>
     <string name="settings_auto_frame_rate_description">फ़ुल स्क्रीन में लाइव टीवी और VOD के लिए TV की रीफ़्रेश दर को वीडियो (24/25/50/60 fps) से मिलाएँ और बाहर निकलने पर उसे पहले जैसा करें। यदि हर चैनल बदलने पर आपका TV या रिसीवर शोर के साथ फिर से HDMI हैंडशेक करता है, तो इसे बंद कर दें।</string>
     <string name="settings_auto_frame_rate_description_mobile">फ़ुल स्क्रीन में लाइव टीवी और VOD के लिए स्क्रीन की रीफ़्रेश दर को वीडियो (24/25/50/60 fps) से मिलाएँ और बाहर निकलने पर उसे पहले जैसा करें। यदि वीडियो शुरू होने पर स्क्रीन झिलमिलाती है या काली हो जाती है, तो इसे बंद कर दें।</string>
+    <string name="settings_afr_pause">डिस्प्ले बदलते समय रोकें</string>
+    <string name="settings_afr_pause_description">सिर्फ़ फ़िल्में। जब टीवी को नए डिस्प्ले मोड पर दोबारा सिंक होना पड़ता है, तो फ़िल्म इतनी देर रुकती है ताकि उसकी शुरुआत काली स्क्रीन में न छूटे। सहज बदलाव पर कभी नहीं रुकती।</string>
+    <string name="settings_afr_resolution">रिज़ॉल्यूशन मिलाएँ</string>
+    <string name="settings_afr_resolution_description">सिर्फ़ फ़िल्में। जब किसी फ़िल्म के लिए डिस्प्ले मोड बदलता है, तो टीवी उसके रिज़ॉल्यूशन पर भी चला जाता है — 4K टीवी पर HD फ़िल्म के लिए 1080p — पर शुरुआती रिज़ॉल्यूशन से ऊपर कभी नहीं। बंद होने पर रिज़ॉल्यूशन वैसा ही रहता है और टीवी तस्वीर को बड़ा करता है, जो आम तौर पर बेहतर होता है।</string>
     <string name="settings_surround_sound">सराउंड साउंड</string>
     <string name="settings_surround_description">वास्तविक 5.1/7.1 रिसीवर के लिए Dolby/DTS को सराउंड (5.1/7.1) में डिकोड करें। TV स्पीकर या स्टीरियो साउंडबार के लिए इसे बंद रखें — कुछ TV/साउंडबार पर मल्टीचैनल ऑडियो वीडियो से पीछे हो सकता है। यदि सिंक बिगड़ता है, तो प्लेयर के ऑडियो मेन्यू → A/V सिंक को थोड़ा समायोजित करें।</string>
     <string name="settings_surround_description_mobile">इस डिवाइस से जुड़े वास्तविक 5.1/7.1 रिसीवर के लिए Dolby/DTS को सराउंड (5.1/7.1) में डिकोड करें। बिल्ट-इन स्पीकर, हेडफ़ोन या स्टीरियो साउंडबार के लिए इसे बंद रखें — मल्टीचैनल ऑडियो वीडियो से पीछे हो सकता है। यदि सिंक बिगड़ता है, तो प्लेयर के ऑडियो मेन्यू → A/V सिंक को थोड़ा समायोजित करें।</string>
@@ -522,6 +526,13 @@
     <string name="settings_seek_step">सीक स्टेप</string>
     <!-- Translators: Description of the seek step setting. -->
     <string name="settings_seek_step_description">किसी फ़िल्म या एपिसोड में रिवाइंड और फ़ॉरवर्ड कितना छलांग लगाएँ।</string>
+    <string name="settings_vod_buffer">फ़िल्म बफ़र</string>
+    <string name="settings_vod_buffer_description">फ़िल्में, एपिसोड और कैच-अप कितना पहले से लोड हों। ऑटो इस डिवाइस के लिए सही मान चुनता है। लंबा बफ़र खराब कनेक्शन को बेहतर झेलता है; सीमा फिर भी डिवाइस की मेमोरी तय करती है, इसलिए ज़्यादा बिटरेट वाली फ़िल्म चुने गए से कम रख सकती है।</string>
+    <string name="settings_vod_network_timeout">नेटवर्क टाइमआउट</string>
+    <string name="settings_vod_network_timeout_description">कनेक्शन टूटा माने जाने से पहले फ़िल्में, एपिसोड और कैच-अप चुप सर्वर का कितना इंतज़ार करें। ऑटो हर प्लेयर का अपना इंतज़ार रखता है: mpv में 60 सेकंड, ExoPlayer में 20।</string>
+    <string name="settings_vod_reconnects">दोबारा जुड़ने के प्रयास</string>
+    <string name="settings_vod_reconnects_description">कनेक्शन खोने वाली फ़िल्म या एपिसोड त्रुटि दिखाने से पहले कितनी बार वहीं से दोबारा खोली जाए जहाँ वह रुकी थी। एक मिनट का स्थिर प्लेबैक प्रयास वापस दे देता है।</string>
+    <string name="settings_vod_network_auto">ऑटो</string>
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">लाइव रिवाइंड स्टेप</string>
     <!-- Translators: Description of the live rewind step setting. -->
@@ -562,6 +573,8 @@
     <string name="settings_channel_numbers">चैनल नंबर</string>
     <string name="settings_channel_numbers_description">लाइव टीवी सूची, चैनल सूची ओवरले और प्लेयर में नाम के पास अपने प्रदाता का चैनल नंबर दिखाएँ—और फ़ुल स्क्रीन प्लेबैक के दौरान रिमोट कंट्रोल पर नंबर लिखकर सीधे उस चैनल पर जाएँ (OK तुरंत चैनल चलाता है, Back रद्द करता है)। बंद करने पर सभी नंबर छिप जाते हैं और नंबर कुंजियाँ अनदेखी की जाती हैं; कुछ भी खोता नहीं है और इसे दोबारा चालू करने पर नंबर वापस दिखाई देते हैं।</string>
     <string name="settings_channel_numbers_description_mobile">लाइव टीवी सूची और प्लेयर में नाम के पास अपने प्रदाता का चैनल नंबर दिखाएँ। बंद करने पर सभी नंबर छिप जाते हैं; कुछ भी खोता नहीं है और इसे दोबारा चालू करने पर नंबर वापस दिखाई देते हैं।</string>
+    <string name="settings_live_left_right_rewinds">बाएँ और दाएँ से लाइव टीवी पीछे करें</string>
+    <string name="settings_live_left_right_rewinds_description">कंट्रोल छिपे होने पर, कैच-अप वाले चैनलों पर बाएँ और दाएँ चैनल सूची और इतिहास खोलने के बजाय पीछे और आगे करते हैं।</string>
     <string name="settings_diagnostics">डायग्नोस्टिक्स</string>
     <string name="settings_measured_stats">मापे गए स्ट्रीम आँकड़े</string>
     <string name="settings_measured_stats_description">स्ट्रीम-जानकारी ओवरले में लाइव fps, बिटरेट और छूटे हुए फ़्रेम दिखाएँ (जिन स्ट्रीम में ये मान घोषित नहीं होते, उनके लिए ओवरले खुला रहने के दौरान इन्हें मापा जाता है)। इसे केवल तभी बंद करें जब कम क्षमता वाला टीवी अटकता हो—इससे वास्तविक वीडियो पर कभी असर नहीं पड़ता, केवल डायग्नोस्टिक संख्याओं पर पड़ता है।</string>

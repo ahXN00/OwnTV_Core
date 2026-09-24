@@ -613,6 +613,14 @@
     <string name="settings_auto_frame_rate_description">Match the TV\'s refresh rate to the video (24/25/50/60 fps) in full screen, for Live TV and VOD, and restore it on exit. Turn off if your TV or receiver re-handshakes HDMI noisily on every channel change.</string>
     <!-- Translators: Phone/tablet wording of settings_auto_frame_rate_description. -->
     <string name="settings_auto_frame_rate_description_mobile">Match the screen\'s refresh rate to the video (24/25/50/60 fps) in full screen, for Live TV and VOD, and restore it on exit. Turn off if the screen flickers or goes dark when a video starts.</string>
+    <!-- Translators: TV setting under Auto frame rate. How long a film pauses while the TV switches display mode. -->
+    <string name="settings_afr_pause">Pause during the display switch</string>
+    <!-- Translators: Description of settings_afr_pause. "Re-sync" = the HDMI handshake that blacks the screen for a moment. -->
+    <string name="settings_afr_pause_description">Films only. When the TV has to re-sync to a new display mode, the film waits this long so its opening is not lost to the black screen. A seamless switch never pauses.</string>
+    <!-- Translators: TV setting under Auto frame rate. Also switch the display to the resolution of the film. -->
+    <string name="settings_afr_resolution">Match resolution</string>
+    <!-- Translators: Description of settings_afr_resolution. "Upscale" = the TV enlarging a lower-resolution picture itself. -->
+    <string name="settings_afr_resolution_description">Films only. When the display mode changes for a film, the TV also switches to its resolution — 1080p for an HD film on a 4K TV — never above the resolution it started on. Off leaves the resolution alone and lets the TV upscale, usually the better picture.</string>
     <!-- Translators: Extra warning appended to Auto frame rate on devices older than Android 12. -->
     <string name="settings_auto_frame_rate_warning_suffix">Not recommended on this TV: below Android 12 the rate can\'t be changed smoothly.</string>
     <!-- Translators: Title warning that Auto frame rate may blank the display on this older TV. -->
@@ -1073,6 +1081,20 @@
     <string name="settings_seek_step">Seek step</string>
     <!-- Translators: Description of the seek step setting. -->
     <string name="settings_seek_step_description">How far rewind and forward jump in a movie or episode.</string>
+    <!-- Translators: Setting (Video player). How much of a film is loaded ahead of the picture. -->
+    <string name="settings_vod_buffer">Film buffer</string>
+    <!-- Translators: Description of settings_vod_buffer. -->
+    <string name="settings_vod_buffer_description">How far ahead films, episodes and catch-up are loaded. Auto uses what suits this device. A longer buffer rides out a bad connection better; this device’s memory still sets the limit, so a high-bitrate film may hold less than chosen.</string>
+    <!-- Translators: Setting (Video player). How long a film waits on a server that sends nothing. -->
+    <string name="settings_vod_network_timeout">Network timeout</string>
+    <!-- Translators: Description of settings_vod_network_timeout. mpv and ExoPlayer are the two player engines; keep the names. -->
+    <string name="settings_vod_network_timeout_description">How long films, episodes and catch-up wait on a silent server before the connection counts as lost. Auto keeps each player’s own wait: 60 seconds on mpv, 20 on ExoPlayer.</string>
+    <!-- Translators: Setting (Video player). How often a film that lost its connection is reopened. -->
+    <string name="settings_vod_reconnects">Reconnect attempts</string>
+    <!-- Translators: Description of settings_vod_reconnects. -->
+    <string name="settings_vod_reconnects_description">How many times a film or episode that loses its connection is reopened where it stopped before an error is shown. A minute of steady playback earns the attempts back.</string>
+    <!-- Translators: Choice label for the film buffer and network timeout: use what suits this device. -->
+    <string name="settings_vod_network_auto">Auto</string>
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">Live rewind step</string>
     <!-- Translators: Description of the live rewind step setting. -->
@@ -1121,6 +1143,10 @@
     <string name="settings_channel_numbers_description">Show your provider\'s channel number beside the name in the Live TV list, the channel-list overlay and the player — and type a number on the remote during full-screen playback to jump straight to that channel (OK tunes at once, Back cancels). Off hides every number and ignores the number keys; nothing is lost, and turning it back on restores them.</string>
     <!-- Translators: Phone/tablet wording of settings_channel_numbers_description (phones have no remote-control number keys). -->
     <string name="settings_channel_numbers_description_mobile">Show your provider\'s channel number beside the name in the Live TV list and the player. Off hides every number; nothing is lost, and turning it back on restores them.</string>
+    <!-- Translators: TV setting (Video player). Left/Right on the remote while the player's controls are hidden. -->
+    <string name="settings_live_left_right_rewinds">Left and right rewind live TV</string>
+    <!-- Translators: Description of settings_live_left_right_rewinds. "Catch-up" = channels whose provider keeps an archive. -->
+    <string name="settings_live_left_right_rewinds_description">With the controls hidden, Left and Right rewind and go forward on channels with catch-up, instead of opening the channel list and history.</string>
     <!-- Translators: Section header for diagnostic settings. -->
     <string name="settings_diagnostics">Diagnostics</string>
     <!-- Translators: Toggle label for showing measured stream statistics. -->

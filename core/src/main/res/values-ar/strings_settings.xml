@@ -279,6 +279,10 @@
     <string name="settings_auto_frame_rate">معدل الإطارات التلقائي</string>
     <string name="settings_auto_frame_rate_description">مطابقة معدل تحديث التلفزيون مع الفيديو (24/25/50/60 إطارًا في الثانية) في وضع ملء الشاشة، للبث التلفزيوني المباشر والفيديو حسب الطلب، واستعادته عند الخروج. عطّل هذا الخيار إذا كان التلفزيون أو جهاز الاستقبال يعيد مصافحة HDMI بصورة مزعجة عند كل تغيير للقناة.</string>
     <string name="settings_auto_frame_rate_description_mobile">مطابقة معدل تحديث الشاشة مع الفيديو (24/25/50/60 إطارًا في الثانية) في وضع ملء الشاشة، للبث التلفزيوني المباشر والفيديو حسب الطلب، واستعادته عند الخروج. عطّل هذا الخيار إذا كانت الشاشة تومض أو تسودّ عند بدء تشغيل الفيديو.</string>
+    <string name="settings_afr_pause">إيقاف مؤقت أثناء تبديل الشاشة</string>
+    <string name="settings_afr_pause_description">للأفلام فقط. عندما يحتاج التلفاز إلى إعادة المزامنة مع وضع شاشة جديد، ينتظر الفيلم هذه المدة حتى لا تضيع بدايته في الشاشة السوداء. التبديل السلس لا يوقف التشغيل أبدًا.</string>
+    <string name="settings_afr_resolution">مطابقة الدقة</string>
+    <string name="settings_afr_resolution_description">للأفلام فقط. عندما يتغير وضع الشاشة لفيلم، ينتقل التلفاز أيضًا إلى دقة الفيلم — 1080p لفيلم HD على تلفاز 4K — دون أن يتجاوز الدقة التي بدأ بها. عند الإيقاف تبقى الدقة كما هي ويتولى التلفاز تكبير الصورة، وهو غالبًا الأفضل.</string>
     <string name="settings_surround_sound">الصوت المحيطي</string>
     <string name="settings_surround_description">فك ترميز Dolby/DTS إلى صوت محيطي (5.1/7.1) لجهاز استقبال حقيقي يدعم 5.1/7.1. اتركه متوقفًا لسماعات التلفزيون أو مكبّر صوت استريو — قد يتأخر الصوت متعدد القنوات عن الفيديو في بعض أجهزة التلفزيون/مكبّرات الصوت. إذا انحرفت المزامنة، فاضبط قليلًا قائمة الصوت في المشغّل ← مزامنة A/V.</string>
     <string name="settings_surround_description_mobile">فك ترميز Dolby/DTS إلى صوت محيطي (5.1/7.1) لجهاز استقبال حقيقي يدعم 5.1/7.1 متصل بهذا الجهاز. اتركه متوقفًا للسماعة المدمجة أو سماعات الرأس أو مكبّر صوت استريو — قد يتأخر الصوت متعدد القنوات عن الفيديو. إذا انحرفت المزامنة، فاضبط قليلًا قائمة الصوت في المشغّل ← مزامنة A/V.</string>
@@ -530,6 +534,13 @@
     <string name="settings_seek_step">خطوة التقديم</string>
     <!-- Translators: Description of the seek step setting. -->
     <string name="settings_seek_step_description">المسافة التي يقفزها التقديم والإرجاع داخل فيلم أو حلقة.</string>
+    <string name="settings_vod_buffer">ذاكرة التخزين المؤقت للأفلام</string>
+    <string name="settings_vod_buffer_description">إلى أي مدى تُحمَّل الأفلام والحلقات والإعادة مسبقًا. «تلقائي» يستخدم ما يناسب هذا الجهاز. الذاكرة المؤقتة الأطول تتحمل الاتصال الضعيف بشكل أفضل؛ لكن ذاكرة الجهاز تبقى الحد، لذا قد يحتفظ فيلم عالي معدل البت بأقل مما اخترت.</string>
+    <string name="settings_vod_network_timeout">مهلة الشبكة</string>
+    <string name="settings_vod_network_timeout_description">المدة التي تنتظرها الأفلام والحلقات والإعادة خادمًا صامتًا قبل اعتبار الاتصال مفقودًا. «تلقائي» يُبقي مهلة كل مشغّل: 60 ثانية في mpv و20 في ExoPlayer.</string>
+    <string name="settings_vod_reconnects">محاولات إعادة الاتصال</string>
+    <string name="settings_vod_reconnects_description">عدد المرات التي يُعاد فيها فتح فيلم أو حلقة فقد الاتصال من حيث توقف قبل عرض خطأ. دقيقة من التشغيل المستقر تعيد المحاولات.</string>
+    <string name="settings_vod_network_auto">تلقائي</string>
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">خطوة الإرجاع المباشر</string>
     <!-- Translators: Description of the live rewind step setting. -->
@@ -570,6 +581,8 @@
     <string name="settings_channel_numbers">أرقام القنوات</string>
     <string name="settings_channel_numbers_description">اعرض رقم القناة الذي يحدده مزوّدك بجوار الاسم في قائمة البث التلفزيوني المباشر وطبقة قائمة القنوات المتراكبة والمشغّل — وأدخل رقمًا بجهاز التحكم عن بُعد أثناء التشغيل بملء الشاشة للانتقال مباشرةً إلى تلك القناة (ينتقل زر «موافق» فورًا، ويلغي زر «رجوع»). يؤدي إيقاف الخيار إلى إخفاء جميع الأرقام وتجاهل مفاتيح الأرقام؛ ولن تفقد شيئًا، إذ يعيد تشغيله إظهارها.</string>
     <string name="settings_channel_numbers_description_mobile">اعرض رقم القناة الذي يحدده مزوّدك بجوار الاسم في قائمة البث التلفزيوني المباشر والمشغّل. يؤدي إيقاف الخيار إلى إخفاء جميع الأرقام؛ ولن تفقد شيئًا، إذ يعيد تشغيله إظهارها.</string>
+    <string name="settings_live_left_right_rewinds">اليسار واليمين لإرجاع البث المباشر</string>
+    <string name="settings_live_left_right_rewinds_description">عند إخفاء عناصر التحكم، يُرجع اليسار واليمين البث ويقدّمانه في القنوات التي تدعم الإعادة، بدلاً من فتح قائمة القنوات والسجل.</string>
     <string name="settings_diagnostics">التشخيصات</string>
     <string name="settings_measured_stats">إحصاءات البث المقاسة</string>
     <string name="settings_measured_stats_description">اعرض معدل الإطارات المباشر ومعدل البت والإطارات الساقطة في طبقة معلومات البث المتراكبة (تُقاس أثناء فتح الطبقة المتراكبة لعمليات البث التي لا تعلن هذه القيم). أوقفه فقط إذا كان التلفزيون منخفض الإمكانات يتقطّع — فهو لا يؤثر مطلقًا في الفيديو الفعلي، بل في أرقام التشخيصات فقط.</string>

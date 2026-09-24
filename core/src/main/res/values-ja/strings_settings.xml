@@ -274,6 +274,10 @@
     <string name="settings_auto_frame_rate">自動フレームレート</string>
     <string name="settings_auto_frame_rate_description">全画面表示でライブTVとVODの再生時にTVのリフレッシュレートを動画（24/25/50/60 fps）に合わせ、終了時に元に戻します。チャンネルを切り替えるたびにTVやレシーバーが大きな音を伴ってHDMIを再ハンドシェイクする場合はオフにしてください。</string>
     <string name="settings_auto_frame_rate_description_mobile">全画面表示でライブTVとVODの再生時に画面のリフレッシュレートを動画（24/25/50/60 fps）に合わせ、終了時に元に戻します。動画の開始時に画面がちらついたり暗くなったりする場合はオフにしてください。</string>
+    <string name="settings_afr_pause">表示切り替え中は一時停止</string>
+    <string name="settings_afr_pause_description">映画のみ。テレビが新しい表示モードへ再同期する必要があるとき、冒頭が黒い画面で失われないよう、映画はこの時間だけ待ちます。シームレスな切り替えでは一時停止しません。</string>
+    <string name="settings_afr_resolution">解像度を合わせる</string>
+    <string name="settings_afr_resolution_description">映画のみ。映画のために表示モードが変わるとき、テレビを映画の解像度にも切り替えます（4K テレビで HD 映画なら 1080p）。開始時の解像度を超えることはありません。オフでは解像度はそのままで、テレビがアップスケールします。通常はこちらのほうがきれいです。</string>
     <string name="settings_surround_sound">サラウンドサウンド</string>
     <string name="settings_surround_description">実際の5.1/7.1対応レシーバー向けにDolby/DTSをサラウンド（5.1/7.1）へデコードします。TVスピーカーまたはステレオサウンドバーではオフのままにしてください。一部のTV／サウンドバーでは、マルチチャンネル音声が映像より遅れることがあります。ずれが生じる場合は、プレーヤーの「音声」メニュー→「A/V同期」で微調整してください。</string>
     <string name="settings_surround_description_mobile">このデバイスに接続した実際の5.1/7.1対応レシーバー向けにDolby/DTSをサラウンド（5.1/7.1）へデコードします。内蔵スピーカー、ヘッドホン、ステレオサウンドバーではオフのままにしてください。マルチチャンネル音声が映像より遅れることがあります。ずれが生じる場合は、プレーヤーの「音声」メニュー→「A/V同期」で微調整してください。</string>
@@ -520,6 +524,13 @@
     <string name="settings_seek_step">シークの幅</string>
     <!-- Translators: Description of the seek step setting. -->
     <string name="settings_seek_step_description">映画やエピソードで巻き戻し・早送りが動く長さです。</string>
+    <string name="settings_vod_buffer">映画のバッファ</string>
+    <string name="settings_vod_buffer_description">映画・エピソード・キャッチアップをどれだけ先まで読み込むか。自動ではこの端末に合った値を使います。長いバッファほど不安定な回線に強くなりますが、上限は端末のメモリで決まるため、ビットレートの高い映画では選んだ量より少なくなることがあります。</string>
+    <string name="settings_vod_network_timeout">ネットワークのタイムアウト</string>
+    <string name="settings_vod_network_timeout_description">映画・エピソード・キャッチアップが、応答のないサーバーをどれだけ待ってから接続切れとみなすか。自動では各プレーヤー本来の待ち時間を使います（mpv は 60 秒、ExoPlayer は 20 秒）。</string>
+    <string name="settings_vod_reconnects">再接続の試行回数</string>
+    <string name="settings_vod_reconnects_description">接続が切れた映画やエピソードを、エラーを表示する前に止まった位置から何回開き直すか。1 分間安定して再生すると回数が戻ります。</string>
+    <string name="settings_vod_network_auto">自動</string>
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">ライブ巻き戻しの幅</string>
     <!-- Translators: Description of the live rewind step setting. -->
@@ -560,6 +571,8 @@
     <string name="settings_channel_numbers">チャンネル番号</string>
     <string name="settings_channel_numbers_description">ライブTVの一覧、チャンネル一覧オーバーレイ、プレーヤーで、名前の横にプロバイダーのチャンネル番号を表示します。また、全画面再生中にリモコンで番号を入力すると、そのチャンネルへ直接切り替えられます（OKを押すとすぐに切り替え、戻るでキャンセル）。オフにするとすべての番号が非表示になり、数字キーも無視されます。データが失われることはなく、オンに戻すと再び表示されます。</string>
     <string name="settings_channel_numbers_description_mobile">ライブTVの一覧とプレーヤーで、名前の横にプロバイダーのチャンネル番号を表示します。オフにするとすべての番号が非表示になります。データが失われることはなく、オンに戻すと再び表示されます。</string>
+    <string name="settings_live_left_right_rewinds">左右キーでライブ TV を巻き戻す</string>
+    <string name="settings_live_left_right_rewinds_description">操作パネルが非表示のとき、キャッチアップ対応チャンネルでは左右キーでチャンネルリストと履歴を開く代わりに巻き戻し・早送りします。</string>
     <string name="settings_diagnostics">診断</string>
     <string name="settings_measured_stats">測定したストリーム統計</string>
     <string name="settings_measured_stats_description">ストリーム情報オーバーレイに、リアルタイムのfps、ビットレート、ドロップフレーム数を表示します（これらの値が明示されていないストリームでは、オーバーレイを開いている間に測定します）。低性能のテレビで再生が途切れる場合にのみオフにしてください。実際の映像には影響せず、診断値だけに影響します。</string>

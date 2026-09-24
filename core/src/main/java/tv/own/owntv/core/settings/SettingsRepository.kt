@@ -394,6 +394,11 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val LIVE_LATENCY_RESET_416 = booleanPreferencesKey("live_latency_reset_416")
         val HDR_ENABLED = booleanPreferencesKey("hdr_enabled")
         val AUTO_FRAME_RATE = booleanPreferencesKey("auto_frame_rate")
+        val AFR_PAUSE_SECS = intPreferencesKey("afr_pause_secs")
+        val AFR_MATCH_RESOLUTION = booleanPreferencesKey("afr_match_resolution")
+        val VOD_BUFFER_SECS = intPreferencesKey("vod_buffer_secs")
+        val VOD_NETWORK_TIMEOUT_SECS = intPreferencesKey("vod_network_timeout_secs")
+        val VOD_RECONNECTS = intPreferencesKey("vod_reconnects")
         // v4.1.6 one-shot: AFR caused visible HDMI re-handshakes on some TVs. Existing installs are
         // forced Off once; subsequent user changes are preserved across every later update.
         val AUTO_FRAME_RATE_RESET_416 = booleanPreferencesKey("auto_frame_rate_reset_416")
@@ -425,6 +430,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val MEASURED_STREAM_STATS = booleanPreferencesKey("measured_stream_stats")
         val DETAILED_DIAGNOSTICS = booleanPreferencesKey("detailed_diagnostics")
         val DIRECT_TUNE = booleanPreferencesKey("direct_tune")
+        val LIVE_LEFT_RIGHT_REWINDS = booleanPreferencesKey("live_left_right_rewinds")
         val SURROUND_SOUND = booleanPreferencesKey("surround_sound")
         val SURROUND_MODE = stringPreferencesKey("surround_mode")
         val AUTO_PLAY_NEXT = booleanPreferencesKey("auto_play_next")
@@ -1398,6 +1404,15 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         context.dataStore.edit { it[Keys.DIRECT_TUNE] = enabled }
     }
 
+    /** N6 — with the TV player's controls hidden, Left/Right on a catch-up channel rewind and go
+     *  forward instead of opening the channel list and history. Off (default) keeps the lists; a
+     *  channel with no archive has nothing to rewind and always keeps them. Films always seek. */
+    val liveLeftRightRewinds: Flow<Boolean> = prefsFlow { it[Keys.LIVE_LEFT_RIGHT_REWINDS] ?: false }
+
+    suspend fun setLiveLeftRightRewinds(enabled: Boolean) {
+        context.dataStore.edit { it[Keys.LIVE_LEFT_RIGHT_REWINDS] = enabled }
+    }
+
     /** Which section a stream belongs to when deciding whether it goes to an external player. */
     enum class ExternalPlayerSection { LIVE_TV, MOVIES, SERIES }
 
@@ -2149,6 +2164,57 @@ class SettingsRepository(private val context: Context, private val localeStore: 
      */
     val autoFrameRatePrompted: Flow<Boolean> = prefsFlow { it[Keys.AUTO_FRAME_RATE_PROMPTED] ?: false }
 
+    /** N18 — the choices for films' buffer (seconds; 0 = Auto, the device tier). */
+    val vodBufferChoicesSecs: List<Int> = listOf(0, 30, 60, 120, 300)
+
+    /** N18 — how far ahead a film is loaded, in seconds; 0 = Auto (the device tier, as before). The
+     *  memory ceiling is the tier's either way, so this is "up to". */
+    val vodBufferSecs: Flow<Int> = prefsFlow { (it[Keys.VOD_BUFFER_SECS] ?: 0).takeIf { v -> v in vodBufferChoicesSecs } ?: 0 }
+
+    suspend fun setVodBufferSecs(secs: Int) {
+        context.dataStore.edit { it[Keys.VOD_BUFFER_SECS] = secs.takeIf { v -> v in vodBufferChoicesSecs } ?: 0 }
+    }
+
+    /** N18 — the choices for films' network timeout (seconds; 0 = Auto, each engine's own). */
+    val vodNetworkTimeoutChoicesSecs: List<Int> = listOf(0, 10, 20, 30, 60)
+
+    /** N18 — how long a film waits on a silent server; 0 = Auto (mpv 60 s, ExoPlayer 20 s, as before). */
+    val vodNetworkTimeoutSecs: Flow<Int> =
+        prefsFlow { (it[Keys.VOD_NETWORK_TIMEOUT_SECS] ?: 0).takeIf { v -> v in vodNetworkTimeoutChoicesSecs } ?: 0 }
+
+    suspend fun setVodNetworkTimeoutSecs(secs: Int) {
+        context.dataStore.edit { it[Keys.VOD_NETWORK_TIMEOUT_SECS] = secs.takeIf { v -> v in vodNetworkTimeoutChoicesSecs } ?: 0 }
+    }
+
+    /** N18 — the choices for films' reconnect attempts; 1 is what films always had. */
+    val vodReconnectChoices: List<Int> = listOf(1, 3, 5, 10)
+
+    /** N18 — times a film that loses its connection mid-play is reopened where it stopped before the error. */
+    val vodReconnects: Flow<Int> = prefsFlow { (it[Keys.VOD_RECONNECTS] ?: 1).takeIf { v -> v in vodReconnectChoices } ?: 1 }
+
+    suspend fun setVodReconnects(count: Int) {
+        context.dataStore.edit { it[Keys.VOD_RECONNECTS] = count.takeIf { v -> v in vodReconnectChoices } ?: 1 }
+    }
+
+    /** The longest pause [afrPauseSecs] offers; the TV's picker lists 0 (off) to this. */
+    val afrPauseMaxSecs: Int = 5
+
+    /** N7 — seconds a FILM stays paused after Auto frame rate makes the TV re-sync its display mode
+     *  (0 = off, the default; at most [afrPauseMaxSecs]). A seamless switch never pauses. */
+    val afrPauseSecs: Flow<Int> = prefsFlow { (it[Keys.AFR_PAUSE_SECS] ?: 0).coerceIn(0, afrPauseMaxSecs) }
+
+    suspend fun setAfrPauseSecs(secs: Int) {
+        context.dataStore.edit { it[Keys.AFR_PAUSE_SECS] = secs.coerceIn(0, afrPauseMaxSecs) }
+    }
+
+    /** N7 — Auto frame rate also switches the display to a FILM's resolution, never above the one the
+     *  TV was on before playback. Off (default): the resolution is left alone and the TV upscales. */
+    val afrMatchResolution: Flow<Boolean> = prefsFlow { it[Keys.AFR_MATCH_RESOLUTION] ?: false }
+
+    suspend fun setAfrMatchResolution(enabled: Boolean) {
+        context.dataStore.edit { it[Keys.AFR_MATCH_RESOLUTION] = enabled }
+    }
+
     suspend fun setAutoFrameRatePrompted() {
         context.dataStore.edit { it[Keys.AUTO_FRAME_RATE_PROMPTED] = true }
     }
@@ -2609,10 +2675,13 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             Keys.POPUP_FONT_SIZE_PCT, Keys.POPUP_SIZE_PCT, Keys.VOD_GRID_COLUMNS, Keys.GUIDE_DENSITY_PCT,
             Keys.GESTURE_SENSITIVITY_PCT,
             // Multiview's tile count and recording's start-early / finish-late minutes (readers clamp them).
-            Keys.MULTIVIEW_TILES, Keys.RECORDING_PRE_ROLL_MINUTES, Keys.RECORDING_POST_ROLL_MINUTES)
+            Keys.MULTIVIEW_TILES, Keys.RECORDING_PRE_ROLL_MINUTES, Keys.RECORDING_POST_ROLL_MINUTES,
+            // Auto frame rate's pause (N7) and films' buffer / timeout / reconnects (N18); the readers
+            // accept only their own choices.
+            Keys.AFR_PAUSE_SECS, Keys.VOD_BUFFER_SECS, Keys.VOD_NETWORK_TIMEOUT_SECS, Keys.VOD_RECONNECTS)
         val bools = listOf(
-            Keys.LIVE_PREVIEW, Keys.LIVE_PREVIEW_AUDIO, Keys.HERO_PREVIEW, Keys.HDR_ENABLED, Keys.AUTO_FRAME_RATE, Keys.AUTO_FRAME_RATE_PROMPTED, Keys.ANDROID_TV_HOME, Keys.HW_DECODING,
-            Keys.VOD_PREFER_EXO, Keys.MEASURED_STREAM_STATS, Keys.DETAILED_DIAGNOSTICS, Keys.DIRECT_TUNE, Keys.EXTERNAL_PLAYER,
+            Keys.LIVE_PREVIEW, Keys.LIVE_PREVIEW_AUDIO, Keys.HERO_PREVIEW, Keys.HDR_ENABLED, Keys.AUTO_FRAME_RATE, Keys.AFR_MATCH_RESOLUTION, Keys.AUTO_FRAME_RATE_PROMPTED, Keys.ANDROID_TV_HOME, Keys.HW_DECODING,
+            Keys.VOD_PREFER_EXO, Keys.MEASURED_STREAM_STATS, Keys.DETAILED_DIAGNOSTICS, Keys.DIRECT_TUNE, Keys.LIVE_LEFT_RIGHT_REWINDS, Keys.EXTERNAL_PLAYER,
             Keys.EXTERNAL_PLAYER_LIVE, Keys.EXTERNAL_PLAYER_MOVIES, Keys.EXTERNAL_PLAYER_SERIES, Keys.UPDATE_CHECK_ON_START, Keys.SURROUND_SOUND, Keys.AUTO_PLAY_NEXT, Keys.PROXY_ENABLED,
             Keys.WEATHER_ENABLED, Keys.WEATHER_FAHRENHEIT, Keys.RESUME_LAST_CHANNEL, Keys.METADATA_ENABLED, Keys.CH_NAV_ENABLED,
             Keys.DNS_ENABLED,
@@ -2706,6 +2775,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
      */
     private val deviceSpecificSettings: Set<String> = listOf(
         Keys.LIVE_ENGINE, Keys.VOD_ENGINE, Keys.VOD_PREFER_EXO, Keys.HW_DECODING, Keys.AUTO_FRAME_RATE,
+        Keys.AFR_PAUSE_SECS, Keys.AFR_MATCH_RESOLUTION,
         Keys.HDR_ENABLED, Keys.SURROUND_MODE, Keys.SURROUND_SOUND,
     ).map { it.name }.toSet()
 

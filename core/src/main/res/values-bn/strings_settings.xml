@@ -275,6 +275,10 @@
     <string name="settings_auto_frame_rate">স্বয়ংক্রিয় ফ্রেম রেট</string>
     <string name="settings_auto_frame_rate_description">পূর্ণ পর্দায় লাইভ টিভি ও VOD-এর জন্য ভিডিওর সঙ্গে TV-এর রিফ্রেশ রেট (24/25/50/60 fps) মিলিয়ে নিন এবং বের হলে আগের অবস্থায় ফিরিয়ে দিন। প্রতিবার চ্যানেল বদলালে আপনার TV বা রিসিভার HDMI-তে শব্দসহ আবার হ্যান্ডশেক করলে এটি বন্ধ করুন।</string>
     <string name="settings_auto_frame_rate_description_mobile">পূর্ণ পর্দায় লাইভ টিভি ও VOD-এর জন্য ভিডিওর সঙ্গে স্ক্রিনের রিফ্রেশ রেট (24/25/50/60 fps) মিলিয়ে নিন এবং বের হলে আগের অবস্থায় ফিরিয়ে দিন। ভিডিও শুরু হলে স্ক্রিন ঝিলমিল করলে বা অন্ধকার হয়ে গেলে এটি বন্ধ করুন।</string>
+    <string name="settings_afr_pause">ডিসপ্লে বদলের সময় বিরতি</string>
+    <string name="settings_afr_pause_description">শুধু সিনেমা। টিভিকে নতুন ডিসপ্লে মোডে আবার সিঙ্ক করতে হলে, সিনেমা এতক্ষণ অপেক্ষা করে যাতে শুরুটা কালো পর্দায় হারিয়ে না যায়। মসৃণ বদলে কখনও বিরতি হয় না।</string>
+    <string name="settings_afr_resolution">রেজোলিউশন মেলান</string>
+    <string name="settings_afr_resolution_description">শুধু সিনেমা। কোনো সিনেমার জন্য ডিসপ্লে মোড বদলালে, টিভি সেটির রেজোলিউশনেও চলে যায় — 4K টিভিতে HD সিনেমার জন্য 1080p — তবে শুরুর রেজোলিউশনের উপরে কখনও নয়। বন্ধ থাকলে রেজোলিউশন একই থাকে এবং টিভি ছবি বড় করে, যা সাধারণত ভালো দেখায়।</string>
     <string name="settings_surround_sound">সারাউন্ড সাউন্ড</string>
     <string name="settings_surround_description">প্রকৃত 5.1/7.1 রিসিভারের জন্য Dolby/DTS অডিও সারাউন্ডে (5.1/7.1) ডিকোড করুন। TV স্পিকার বা স্টেরিও সাউন্ডবারের জন্য বন্ধ রাখুন — কিছু TV/সাউন্ডবারে মাল্টিচ্যানেল অডিও ভিডিওর চেয়ে পিছিয়ে যেতে পারে। তাল হারালে প্লেয়ারের অডিও মেনু → A/V সিঙ্ক সামান্য সমন্বয় করুন।</string>
     <string name="settings_surround_description_mobile">এই ডিভাইসে সংযুক্ত প্রকৃত 5.1/7.1 রিসিভারের জন্য Dolby/DTS অডিও সারাউন্ডে (5.1/7.1) ডিকোড করুন। বিল্ট-ইন স্পিকার, হেডফোন বা স্টেরিও সাউন্ডবারের জন্য বন্ধ রাখুন — মাল্টিচ্যানেল অডিও ভিডিওর চেয়ে পিছিয়ে যেতে পারে। তাল হারালে প্লেয়ারের অডিও মেনু → A/V সিঙ্ক সামান্য সমন্বয় করুন।</string>
@@ -522,6 +526,13 @@
     <string name="settings_seek_step">সিক ধাপ</string>
     <!-- Translators: Description of the seek step setting. -->
     <string name="settings_seek_step_description">সিনেমা বা পর্বে রিওয়াইন্ড ও ফরওয়ার্ড কতটা লাফ দেবে।</string>
+    <string name="settings_vod_buffer">সিনেমার বাফার</string>
+    <string name="settings_vod_buffer_description">সিনেমা, পর্ব আর ক্যাচ-আপ কতটা আগে থেকে লোড হবে। অটো এই ডিভাইসের উপযোগী মান ব্যবহার করে। বড় বাফার খারাপ সংযোগ ভালোভাবে সামলায়; তবে সীমা ঠিক করে ডিভাইসের মেমোরি, তাই উচ্চ বিটরেটের সিনেমা বেছে নেওয়ার চেয়ে কম ধরতে পারে।</string>
+    <string name="settings_vod_network_timeout">নেটওয়ার্ক টাইমআউট</string>
+    <string name="settings_vod_network_timeout_description">সংযোগ হারিয়েছে ধরে নেওয়ার আগে সিনেমা, পর্ব আর ক্যাচ-আপ নীরব সার্ভারের জন্য কতক্ষণ অপেক্ষা করবে। অটো প্রতিটি প্লেয়ারের নিজস্ব অপেক্ষা রাখে: mpv-তে 60 সেকেন্ড, ExoPlayer-এ 20।</string>
+    <string name="settings_vod_reconnects">পুনরায় সংযোগের চেষ্টা</string>
+    <string name="settings_vod_reconnects_description">সংযোগ হারানো সিনেমা বা পর্ব ত্রুটি দেখানোর আগে যেখানে থেমেছিল সেখান থেকে কতবার আবার খোলা হবে। এক মিনিটের স্থির প্লেব্যাক চেষ্টাগুলো ফিরিয়ে দেয়।</string>
+    <string name="settings_vod_network_auto">অটো</string>
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">লাইভ রিওয়াইন্ড ধাপ</string>
     <!-- Translators: Description of the live rewind step setting. -->
@@ -562,6 +573,8 @@
     <string name="settings_channel_numbers">চ্যানেল নম্বর</string>
     <string name="settings_channel_numbers_description">লাইভ টিভির তালিকা, চ্যানেল তালিকার ওভারলে এবং প্লেয়ারে নামের পাশে আপনার প্রদানকারীর চ্যানেল নম্বর দেখান—এবং পূর্ণ পর্দায় প্লেব্যাকের সময় রিমোটে নম্বর লিখে সরাসরি সেই চ্যানেলে যান (OK চাপলে সঙ্গে সঙ্গে চ্যানেল চালু হবে, Back চাপলে বাতিল হবে)। বন্ধ করলে সব নম্বর লুকানো থাকবে এবং নম্বরের বোতাম উপেক্ষা করা হবে; কিছুই হারাবে না, আবার চালু করলে নম্বরগুলো ফিরে আসবে।</string>
     <string name="settings_channel_numbers_description_mobile">লাইভ টিভির তালিকা এবং প্লেয়ারে নামের পাশে আপনার প্রদানকারীর চ্যানেল নম্বর দেখান। বন্ধ করলে সব নম্বর লুকানো থাকবে; কিছুই হারাবে না, আবার চালু করলে নম্বরগুলো ফিরে আসবে।</string>
+    <string name="settings_live_left_right_rewinds">বাম ও ডান দিয়ে লাইভ টিভি পিছোনো</string>
+    <string name="settings_live_left_right_rewinds_description">নিয়ন্ত্রণ লুকানো থাকলে, ক্যাচ-আপ থাকা চ্যানেলে বাম ও ডান চ্যানেল তালিকা ও ইতিহাস খোলার বদলে পিছিয়ে ও এগিয়ে দেয়।</string>
     <string name="settings_diagnostics">সমস্যা নির্ণয়</string>
     <string name="settings_measured_stats">পরিমাপ করা স্ট্রিমের পরিসংখ্যান</string>
     <string name="settings_measured_stats_description">স্ট্রিম-তথ্যের ওভারলেতে লাইভ fps, বিটরেট এবং বাদ পড়া ফ্রেম দেখান (যেসব স্ট্রিমে এই মানগুলো উল্লেখ করা থাকে না, সেগুলোর ক্ষেত্রে ওভারলে খোলা থাকা অবস্থায় পরিমাপ করা হয়)। কেবল নিম্নক্ষমতার টিভিতে আটকে গেলে এটি বন্ধ করুন—এটি মূল ভিডিওতে কখনো প্রভাব ফেলে না, শুধু সমস্যা নির্ণয়ের সংখ্যাগুলোতে প্রভাব ফেলে।</string>

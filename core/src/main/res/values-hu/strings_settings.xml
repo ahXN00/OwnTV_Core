@@ -331,6 +331,10 @@
     <string name="settings_auto_frame_rate">Automatikus képkockasebesség</string>
     <string name="settings_auto_frame_rate_description">Teljes képernyőn a TV frissítési frekvenciáját a videóhoz igazítja (24/25/50/60 fps) élő TV és VOD esetén is, kilépéskor pedig visszaállítja. Kapcsold ki, ha a TV-d vagy a vevőd minden csatornaváltásnál zajosan újraegyezteti a HDMI-t.</string>
     <string name="settings_auto_frame_rate_description_mobile">Teljes képernyőn a kijelző frissítési frekvenciáját a videóhoz igazítja (24/25/50/60 fps) élő TV és VOD esetén is, kilépéskor pedig visszaállítja. Kapcsold ki, ha a kijelző villog vagy elsötétül, amikor egy videó elindul.</string>
+    <string name="settings_afr_pause">Szünet a kijelzőváltás alatt</string>
+    <string name="settings_afr_pause_description">Csak filmeknél. Ha a tévének újra kell szinkronizálnia egy új kijelzőmódra, a film ennyit vár, hogy az eleje ne vesszen el a fekete képben. Zökkenőmentes váltásnál sosem áll meg.</string>
+    <string name="settings_afr_resolution">Felbontás igazítása</string>
+    <string name="settings_afr_resolution_description">Csak filmeknél. Ha egy filmhez változik a kijelzőmód, a tévé a film felbontására is átvált – HD filmnél 1080p-re egy 4K-s tévén –, de sosem a kezdeti felbontás fölé. Kikapcsolva a felbontás marad, és a tévé skáláz fel, ami általában jobb képet ad.</string>
     <string name="settings_auto_frame_rate_warning_suffix">Ezen a TV-n nem ajánlott: Android 12 alatt a frekvencia nem váltható zökkenőmentesen.</string>
     <string name="settings_auto_frame_rate_warning_title">Ezen a TV-n nem ajánlott</string>
     <string name="settings_auto_frame_rate_warning_title_mobile">Ezen az eszközön nem ajánlott</string>
@@ -560,6 +564,13 @@
     <string name="settings_reset_saved_audio_delay_confirm_description">Minden csatorna, film és epizód visszatér a fenti hangszinkronhoz. A mentett nagyítási és hangerő-beállítások megmaradnak. Bármikor beállíthatsz újra egyedit a lejátszóból.</string>
     <string name="settings_seek_step">Tekerés lépésköze</string>
     <string name="settings_seek_step_description">Mennyit ugrik a vissza- és az előretekerés egy filmben vagy epizódban.</string>
+    <string name="settings_vod_buffer">Filmpuffer</string>
+    <string name="settings_vod_buffer_description">Mennyire előre töltődnek be a filmek, epizódok és a visszanézés. Az Auto az eszközhöz illő értéket használja. A hosszabb puffer jobban átvészeli a rossz kapcsolatot; a határt továbbra is az eszköz memóriája szabja meg, így egy nagy bitrátájú film a választottnál kevesebbet tarthat.</string>
+    <string name="settings_vod_network_timeout">Hálózati időkorlát</string>
+    <string name="settings_vod_network_timeout_description">Mennyit várnak a filmek, epizódok és a visszanézés egy néma szerverre, mielőtt a kapcsolat megszakadtnak számít. Az Auto megtartja minden lejátszó saját várakozását: mpv-nél 60 másodperc, ExoPlayernél 20.</string>
+    <string name="settings_vod_reconnects">Újracsatlakozási kísérletek</string>
+    <string name="settings_vod_reconnects_description">Hányszor nyílik meg újra ott, ahol megállt, a kapcsolatát vesztett film vagy epizód, mielőtt hiba jelenik meg. Egy perc zavartalan lejátszás visszaadja a kísérleteket.</string>
+    <string name="settings_vod_network_auto">Auto</string>
     <string name="settings_live_rewind_step">Élő visszatekerés lépésköze</string>
     <string name="settings_live_rewind_step_description">Mennyit mozdul a vissza- és az előretekerés egy élő csatorna visszanézési archívumában.</string>
     <string name="settings_resume_playback">Lejátszás folytatása</string>
@@ -585,6 +596,8 @@
     <string name="settings_channel_numbers">Csatornaszámok</string>
     <string name="settings_channel_numbers_description">A szolgáltatód csatornaszámának megjelenítése a név mellett az Élő TV listában, a csatornalista-átfedésben és a lejátszóban — teljes képernyős lejátszás közben pedig beírhatsz egy számot a távirányítón, hogy egyből arra a csatornára ugorj (az OK azonnal hangol, a Vissza megszakít). Kikapcsolva minden szám eltűnik, és a számgombokat is figyelmen kívül hagyja; semmi nem vész el, és visszakapcsolva minden visszatér.</string>
     <string name="settings_channel_numbers_description_mobile">A szolgáltatód csatornaszámának megjelenítése a név mellett az Élő TV listában és a lejátszóban. Kikapcsolva minden szám eltűnik; semmi nem vész el, és visszakapcsolva minden visszatér.</string>
+    <string name="settings_live_left_right_rewinds">Balra és jobbra tekeri az élő adást</string>
+    <string name="settings_live_left_right_rewinds_description">Rejtett vezérlőknél a balra és jobbra gomb visszatekeri és előretekeri a visszanézhető csatornákat, ahelyett hogy megnyitná a csatornalistát és az előzményeket.</string>
     <string name="settings_diagnostics">Diagnosztika</string>
     <string name="settings_measured_stats">Mért adatfolyam-statisztikák</string>
     <string name="settings_measured_stats_description">Élő fps, bitsebesség és eldobott képkockák megjelenítése az adatfolyam-információs átfedésben (az átfedés nyitva tartása alatt mérve, azokhoz az adatfolyamokhoz, amelyek nem közlik ezeket az értékeket). Csak akkor kapcsold ki, ha egy gyengébb TV akadozik — a tényleges videót sosem befolyásolja, csak a diagnosztikai számokat.</string>

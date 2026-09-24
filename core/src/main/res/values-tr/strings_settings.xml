@@ -275,6 +275,10 @@
     <string name="settings_auto_frame_rate">Otomatik kare hızı</string>
     <string name="settings_auto_frame_rate_description">Canlı TV ve VOD içeriklerinde tam ekrandayken TV\'nin yenileme hızını videoyla (24/25/50/60 fps) eşleştirin ve çıkışta eski hâline getirin. TV\'niz veya alıcınız her kanal değişikliğinde HDMI el sıkışmasını gürültülü biçimde tekrarlıyorsa bu seçeneği kapatın.</string>
     <string name="settings_auto_frame_rate_description_mobile">Canlı TV ve VOD içeriklerinde tam ekrandayken ekranın yenileme hızını videoyla (24/25/50/60 fps) eşleştirin ve çıkışta eski hâline getirin. Bir video başladığında ekran titriyor veya kararıyorsa bu seçeneği kapatın.</string>
+    <string name="settings_afr_pause">Ekran geçişinde duraklat</string>
+    <string name="settings_afr_pause_description">Yalnızca filmler. Televizyonun yeni bir ekran moduna yeniden eşitlenmesi gerektiğinde, film bu süre kadar bekler; böylece başlangıcı siyah ekranda kaybolmaz. Kesintisiz bir geçiş hiç duraklatmaz.</string>
+    <string name="settings_afr_resolution">Çözünürlüğü eşleştir</string>
+    <string name="settings_afr_resolution_description">Yalnızca filmler. Bir film için ekran modu değiştiğinde televizyon filmin çözünürlüğüne de geçer — 4K televizyonda HD bir film için 1080p —, ama başlangıçtaki çözünürlüğün üstüne asla çıkmaz. Kapalıyken çözünürlük değişmez ve görüntüyü televizyon büyütür; bu genellikle daha iyi görüntü verir.</string>
     <string name="settings_surround_sound">Çevresel ses</string>
     <string name="settings_surround_description">Gerçek bir 5.1/7.1 alıcı için Dolby/DTS sesini çevresel sese (5.1/7.1) dönüştürün. TV hoparlörleri veya stereo soundbar kullanıyorsanız KAPALI bırakın — çok kanallı ses bazı TV\'lerde/soundbar\'larda sesin görüntünün gerisinde kalmasına yol açabilir. Eşitleme kayarsa oynatıcının Ses menüsü → A/V eşitleme ayarını hafifçe değiştirin.</string>
     <string name="settings_surround_description_mobile">Bu cihaza bağlı gerçek bir 5.1/7.1 alıcı için Dolby/DTS sesini çevresel sese (5.1/7.1) dönüştürün. Dahili hoparlör, kulaklık veya stereo soundbar kullanıyorsanız KAPALI bırakın — çok kanallı ses, sesin görüntünün gerisinde kalmasına yol açabilir. Eşitleme kayarsa oynatıcının Ses menüsü → A/V eşitleme ayarını hafifçe değiştirin.</string>
@@ -522,6 +526,13 @@
     <string name="settings_seek_step">Atlama adımı</string>
     <!-- Translators: Description of the seek step setting. -->
     <string name="settings_seek_step_description">Bir filmde veya bölümde geri ve ileri sarmanın ne kadar atladığı.</string>
+    <string name="settings_vod_buffer">Film arabelleği</string>
+    <string name="settings_vod_buffer_description">Filmlerin, bölümlerin ve geri izlemenin ne kadar önceden yükleneceği. Otomatik, bu cihaza uygun olanı kullanır. Daha uzun bir arabellek kötü bir bağlantıyı daha iyi atlatır; sınırı yine cihazın belleği belirler, bu yüzden yüksek bit hızlı bir film seçilenden azını tutabilir.</string>
+    <string name="settings_vod_network_timeout">Ağ zaman aşımı</string>
+    <string name="settings_vod_network_timeout_description">Filmlerin, bölümlerin ve geri izlemenin, bağlantı kopmuş sayılmadan önce sessiz bir sunucuyu ne kadar bekleyeceği. Otomatik, her oynatıcının kendi bekleme süresini korur: mpv’de 60 saniye, ExoPlayer’da 20.</string>
+    <string name="settings_vod_reconnects">Yeniden bağlanma denemeleri</string>
+    <string name="settings_vod_reconnects_description">Bağlantısı kopan bir film veya bölümün, hata gösterilmeden önce kaldığı yerden kaç kez yeniden açılacağı. Bir dakika kesintisiz oynatma denemeleri geri verir.</string>
+    <string name="settings_vod_network_auto">Otomatik</string>
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">Canlı geri sarma adımı</string>
     <!-- Translators: Description of the live rewind step setting. -->
@@ -562,6 +573,8 @@
     <string name="settings_channel_numbers">Kanal numaraları</string>
     <string name="settings_channel_numbers_description">Sağlayıcınızın kanal numarasını Canlı TV listesindeki, kanal listesi ekran katmanındaki ve oynatıcıdaki adın yanında gösterin; ayrıca tam ekran oynatma sırasında doğrudan o kanala geçmek için uzaktan kumandadan bir numara girin (OK anında kanala geçer, Geri iptal eder). Kapalıyken tüm numaralar gizlenir ve sayı tuşları yok sayılır; hiçbir veri kaybolmaz ve tekrar açıldığında numaralar geri gelir.</string>
     <string name="settings_channel_numbers_description_mobile">Sağlayıcınızın kanal numarasını Canlı TV listesindeki ve oynatıcıdaki adın yanında gösterin. Kapalıyken tüm numaralar gizlenir; hiçbir veri kaybolmaz ve tekrar açıldığında numaralar geri gelir.</string>
+    <string name="settings_live_left_right_rewinds">Sol ve sağ canlı TV’yi geri sarar</string>
+    <string name="settings_live_left_right_rewinds_description">Kontroller gizliyken, geri izleme olan kanallarda sol ve sağ, kanal listesini ve geçmişi açmak yerine geri ve ileri sarar.</string>
     <string name="settings_diagnostics">Tanılama</string>
     <string name="settings_measured_stats">Ölçülen akış istatistikleri</string>
     <string name="settings_measured_stats_description">Akış bilgisi ekran katmanında anlık fps, bit hızı ve atlanan kareleri gösterin (bu değerleri bildirmeyen akışlarda, ekran katmanı açıkken ölçülür). Yalnızca düşük donanımlı bir TV takılıyorsa kapatın — gerçek görüntüyü hiçbir zaman etkilemez, yalnızca tanılama sayılarını etkiler.</string>

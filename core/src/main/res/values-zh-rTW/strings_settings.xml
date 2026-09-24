@@ -274,6 +274,10 @@
     <string name="settings_auto_frame_rate">自動影格率</string>
     <string name="settings_auto_frame_rate_description">在全螢幕播放電視直播和隨選影片時，將電視更新率配合影片調整為 24/25/50/60 fps，並在結束時還原。如果您的電視或接收器每次切換頻道時都會重新進行 HDMI 交握並產生明顯干擾，請關閉此功能。</string>
     <string name="settings_auto_frame_rate_description_mobile">在全螢幕播放電視直播和隨選影片時，將螢幕更新率配合影片調整為 24/25/50/60 fps，並在結束時還原。如果影片開始播放時螢幕閃爍或變黑，請關閉此功能。</string>
+    <string name="settings_afr_pause">切換顯示時暫停</string>
+    <string name="settings_afr_pause_description">僅限電影。電視需要重新同步到新的顯示模式時，電影會等待這段時間，以免開頭在黑畫面中錯過。無縫切換不會暫停。</string>
+    <string name="settings_afr_resolution">配合解析度</string>
+    <string name="settings_afr_resolution_description">僅限電影。為電影切換顯示模式時，電視也會切換到電影的解析度（在 4K 電視上播放 HD 電影時為 1080p），但不會高於開始時的解析度。關閉時保持解析度不變，由電視放大畫面，通常畫質較好。</string>
     <string name="settings_surround_sound">環繞音效</string>
     <string name="settings_surround_description">針對真正的 5.1/7.1 接收器，將 Dolby/DTS 解碼為環繞音效（5.1/7.1）。使用電視揚聲器或立體聲聲霸時請保持關閉 — 多聲道音訊在部分電視／聲霸上可能落後於畫面。如果音訊逐漸不同步，請微調播放器的「音訊」選單 → A/V 同步。</string>
     <string name="settings_surround_description_mobile">針對連接到此裝置的真正 5.1/7.1 接收器，將 Dolby/DTS 解碼為環繞音效（5.1/7.1）。使用內建揚聲器、耳機或立體聲聲霸時請保持關閉 — 多聲道音訊可能落後於畫面。如果音訊逐漸不同步，請微調播放器的「音訊」選單 → A/V 同步。</string>
@@ -520,6 +524,13 @@
     <string name="settings_seek_step">快轉間隔</string>
     <!-- Translators: Description of the seek step setting. -->
     <string name="settings_seek_step_description">在電影或影集中，倒轉與快轉一次移動的時間長度。</string>
+    <string name="settings_vod_buffer">電影緩衝</string>
+    <string name="settings_vod_buffer_description">電影、劇集和回看要預先載入多少。自動會使用適合本裝置的值。緩衝越長越能撐過不穩定的網路；但上限仍由裝置記憶體決定，因此高位元率電影可能緩衝得比所選少。</string>
+    <string name="settings_vod_network_timeout">網路逾時</string>
+    <string name="settings_vod_network_timeout_description">電影、劇集和回看在認定連線中斷前，等待無回應伺服器的時間。自動保留各播放器自己的等待時間：mpv 為 60 秒，ExoPlayer 為 20 秒。</string>
+    <string name="settings_vod_reconnects">重新連線次數</string>
+    <string name="settings_vod_reconnects_description">電影或劇集中斷連線後，在顯示錯誤前從停止處重新開啟的次數。穩定播放一分鐘後次數會恢復。</string>
+    <string name="settings_vod_network_auto">自動</string>
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">直播回看間隔</string>
     <!-- Translators: Description of the live rewind step setting. -->
@@ -560,6 +571,8 @@
     <string name="settings_channel_numbers">頻道號碼</string>
     <string name="settings_channel_numbers_description">在電視直播清單、頻道清單疊加層和播放器中，於名稱旁顯示供應商的頻道號碼；在全螢幕播放期間，也可使用遙控器輸入號碼直接跳至該頻道（按「確定」可立即轉台，按「返回」則取消）。關閉後會隱藏所有號碼並忽略數字鍵；不會遺失任何資料，重新開啟即可恢復顯示。</string>
     <string name="settings_channel_numbers_description_mobile">在電視直播清單和播放器中，於名稱旁顯示供應商的頻道號碼。關閉後會隱藏所有號碼；不會遺失任何資料，重新開啟即可恢復顯示。</string>
+    <string name="settings_live_left_right_rewinds">左右鍵倒轉直播</string>
+    <string name="settings_live_left_right_rewinds_description">控制列隱藏時，在支援回看的頻道上，左右鍵會倒轉和快轉，而不是開啟頻道清單和觀看記錄。</string>
     <string name="settings_diagnostics">診斷</string>
     <string name="settings_measured_stats">實測串流統計資料</string>
     <string name="settings_measured_stats_description">在串流資訊疊加層中顯示即時 fps、位元率和掉格數（在疊加層開啟期間進行測量，適用於未宣告這些數值的串流）。只有低階電視發生停頓時才需要關閉；這絕不會影響實際視訊，只會影響診斷數值。</string>

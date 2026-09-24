@@ -275,6 +275,10 @@
     <string name="settings_auto_frame_rate">Automatische beeldfrequentie</string>
     <string name="settings_auto_frame_rate_description">Stem in volledig scherm de vernieuwingsfrequentie van de tv af op de video (24/25/50/60 fps), voor live-tv en VOD, en herstel deze bij afsluiten. Schakel dit uit als je tv of ontvanger bij elke zenderwissel de HDMI-verbinding hoorbaar opnieuw opbouwt.</string>
     <string name="settings_auto_frame_rate_description_mobile">Stem in volledig scherm de vernieuwingsfrequentie van het scherm af op de video (24/25/50/60 fps), voor live-tv en VOD, en herstel deze bij afsluiten. Schakel dit uit als het scherm flikkert of zwart wordt wanneer een video start.</string>
+    <string name="settings_afr_pause">Pauzeren tijdens de beeldwissel</string>
+    <string name="settings_afr_pause_description">Alleen films. Als de tv opnieuw moet synchroniseren op een nieuwe beeldmodus, wacht de film zo lang, zodat het begin niet in het zwarte beeld verloren gaat. Een naadloze wissel pauzeert nooit.</string>
+    <string name="settings_afr_resolution">Resolutie aanpassen</string>
+    <string name="settings_afr_resolution_description">Alleen films. Als de beeldmodus voor een film wisselt, schakelt de tv ook naar de resolutie van de film — 1080p voor een HD-film op een 4K-tv —, nooit hoger dan de resolutie bij de start. Uit laat de resolutie ongemoeid en laat de tv opschalen, meestal het betere beeld.</string>
     <string name="settings_surround_sound">Surroundsound</string>
     <string name="settings_surround_description">Decodeer Dolby/DTS naar surround (5.1/7.1) voor een echte 5.1/7.1-ontvanger. Laat dit UIT voor tv-luidsprekers of een stereosoundbar — meerkanaalsaudio kan op sommige tv\'s/soundbars achterlopen op het beeld. Als het geluid wegdrijft, pas je dit licht aan via het menu Audio van de speler → A/V-synchronisatie.</string>
     <string name="settings_surround_description_mobile">Decodeer Dolby/DTS naar surround (5.1/7.1) voor een echte 5.1/7.1-ontvanger die op dit apparaat is aangesloten. Laat dit UIT voor de ingebouwde luidspreker, een koptelefoon of een stereosoundbar — meerkanaalsaudio kan achterlopen op het beeld. Als het geluid wegdrijft, pas je dit licht aan via het menu Audio van de speler → A/V-synchronisatie.</string>
@@ -522,6 +526,13 @@
     <string name="settings_seek_step">Zoekstap</string>
     <!-- Translators: Description of the seek step setting. -->
     <string name="settings_seek_step_description">Hoe ver terug- en vooruitspoelen springen in een film of aflevering.</string>
+    <string name="settings_vod_buffer">Filmbuffer</string>
+    <string name="settings_vod_buffer_description">Hoe ver films, afleveringen en terugkijken vooruit worden geladen. Auto gebruikt wat bij dit apparaat past. Een langere buffer vangt een slechte verbinding beter op; het geheugen van dit apparaat blijft de grens, dus een film met hoge bitrate kan minder vasthouden dan gekozen.</string>
+    <string name="settings_vod_network_timeout">Netwerktime-out</string>
+    <string name="settings_vod_network_timeout_description">Hoe lang films, afleveringen en terugkijken op een stille server wachten voordat de verbinding als verbroken geldt. Auto houdt de eigen wachttijd van elke speler aan: 60 seconden bij mpv, 20 bij ExoPlayer.</string>
+    <string name="settings_vod_reconnects">Verbindingspogingen</string>
+    <string name="settings_vod_reconnects_description">Hoe vaak een film of aflevering die de verbinding verliest opnieuw wordt geopend waar hij stopte, voordat er een fout verschijnt. Een minuut ongestoord afspelen geeft de pogingen terug.</string>
+    <string name="settings_vod_network_auto">Auto</string>
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">Live-terugspoelstap</string>
     <!-- Translators: Description of the live rewind step setting. -->
@@ -562,6 +573,8 @@
     <string name="settings_channel_numbers">Zendernummers</string>
     <string name="settings_channel_numbers_description">Toon het zendernummer van uw aanbieder naast de naam in de live-tv-lijst, de overlay met de zenderlijst en de speler. U kunt tijdens afspelen op volledig scherm ook een nummer invoeren met de afstandsbediening om direct naar die zender te gaan (OK schakelt meteen over, Terug annuleert). Als dit uitstaat, worden alle nummers verborgen en de cijfertoetsen genegeerd; er gaat niets verloren en als u dit weer aanzet, worden ze hersteld.</string>
     <string name="settings_channel_numbers_description_mobile">Toon het zendernummer van uw aanbieder naast de naam in de live-tv-lijst en de speler. Als dit uitstaat, worden alle nummers verborgen; er gaat niets verloren en als u dit weer aanzet, worden ze hersteld.</string>
+    <string name="settings_live_left_right_rewinds">Links en rechts spoelen live-tv terug</string>
+    <string name="settings_live_left_right_rewinds_description">Met verborgen bediening spoelen links en rechts terug en vooruit op zenders met terugkijken, in plaats van de zenderlijst en de geschiedenis te openen.</string>
     <string name="settings_diagnostics">Diagnostiek</string>
     <string name="settings_measured_stats">Gemeten streamstatistieken</string>
     <string name="settings_measured_stats_description">Toon live de fps, bitsnelheid en overgeslagen frames in de overlay met streaminformatie (gemeten terwijl de overlay geopend is, voor streams die deze waarden niet opgeven). Schakel dit alleen uit als een minder krachtige tv hapert — het heeft nooit invloed op de video zelf, alleen op de diagnostische waarden.</string>

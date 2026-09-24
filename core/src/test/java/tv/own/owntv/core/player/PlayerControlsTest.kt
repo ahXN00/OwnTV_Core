@@ -123,6 +123,7 @@ class PlayerControlsTest {
                 PlayerControl.AUDIO_ONLY,
                 PlayerControl.MULTIVIEW,
                 PlayerControl.RECORD,
+                PlayerControl.SLEEP_TIMER,
                 PlayerControl.INFO,
                 PlayerControl.REPORT,
             ),

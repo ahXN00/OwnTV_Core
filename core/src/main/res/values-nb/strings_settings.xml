@@ -275,6 +275,10 @@
     <string name="settings_auto_frame_rate">Automatisk bildefrekvens</string>
     <string name="settings_auto_frame_rate_description">Tilpass TV-ens oppdateringsfrekvens til videoen (24/25/50/60 bilder/s) i fullskjerm for Direkte-TV og VOD, og gjenopprett den når du avslutter. Slå av hvis TV-en eller mottakeren utfører et støyende HDMI-håndtrykk ved hvert kanalbytte.</string>
     <string name="settings_auto_frame_rate_description_mobile">Tilpass skjermens oppdateringsfrekvens til videoen (24/25/50/60 bilder/s) i fullskjerm for Direkte-TV og VOD, og gjenopprett den når du avslutter. Slå av hvis skjermen flimrer eller blir mørk når en video starter.</string>
+    <string name="settings_afr_pause">Pause under skjermbytte</string>
+    <string name="settings_afr_pause_description">Bare filmer. Når TV-en må synkronisere på nytt til en ny skjermmodus, venter filmen så lenge, slik at begynnelsen ikke går tapt i det svarte bildet. Et sømløst bytte pauser aldri.</string>
+    <string name="settings_afr_resolution">Tilpass oppløsning</string>
+    <string name="settings_afr_resolution_description">Bare filmer. Når skjermmodusen byttes for en film, bytter TV-en også til filmens oppløsning — 1080p for en HD-film på en 4K-TV —, aldri over oppløsningen den startet med. Av lar oppløsningen være og lar TV-en oppskalere, som regel det beste bildet.</string>
     <string name="settings_surround_sound">Surroundlyd</string>
     <string name="settings_surround_description">Dekod Dolby/DTS til surroundlyd (5.1/7.1) for en ekte 5.1/7.1-mottaker. La dette være AV for TV-høyttalere eller en stereolydplanke — flerkanalslyd kan føre til at lyden henger etter bildet på enkelte TV-er og lydplanker. Hvis synkroniseringen forskyves, finjusterer du den i avspillerens meny Lyd → A/V-synkronisering.</string>
     <string name="settings_surround_description_mobile">Dekod Dolby/DTS til surroundlyd (5.1/7.1) for en ekte 5.1/7.1-mottaker koblet til denne enheten. La dette være AV for den innebygde høyttaleren, hodetelefoner eller en stereolydplanke — flerkanalslyd kan føre til at lyden henger etter bildet. Hvis synkroniseringen forskyves, finjusterer du den i avspillerens meny Lyd → A/V-synkronisering.</string>
@@ -522,6 +526,13 @@
     <string name="settings_seek_step">Spolesteg</string>
     <!-- Translators: Description of the seek step setting. -->
     <string name="settings_seek_step_description">Hvor langt spol bakover og fremover hopper i en film eller episode.</string>
+    <string name="settings_vod_buffer">Filmbuffer</string>
+    <string name="settings_vod_buffer_description">Hvor langt frem filmer, episoder og catch-up lastes inn. Auto bruker det som passer denne enheten. En lengre buffer tåler en dårlig tilkobling bedre; enhetens minne setter fortsatt grensen, så en film med høy bithastighet kan romme mindre enn valgt.</string>
+    <string name="settings_vod_network_timeout">Tidsavbrudd for nettverk</string>
+    <string name="settings_vod_network_timeout_description">Hvor lenge filmer, episoder og catch-up venter på en stille server før tilkoblingen regnes som tapt. Auto beholder hver avspillers egen ventetid: 60 sekunder i mpv, 20 i ExoPlayer.</string>
+    <string name="settings_vod_reconnects">Tilkoblingsforsøk</string>
+    <string name="settings_vod_reconnects_description">Hvor mange ganger en film eller episode som mister tilkoblingen, åpnes igjen der den stoppet før en feil vises. Ett minutt med stabil avspilling gir forsøkene tilbake.</string>
+    <string name="settings_vod_network_auto">Auto</string>
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">Spolesteg for direkte</string>
     <!-- Translators: Description of the live rewind step setting. -->
@@ -562,6 +573,8 @@
     <string name="settings_channel_numbers">Kanalnumre</string>
     <string name="settings_channel_numbers_description">Vis leverandørens kanalnummer ved siden av navnet i Direkte-TV-listen, kanallisteoverlegget og avspilleren – og skriv inn et nummer på fjernkontrollen under avspilling i fullskjerm for å gå rett til den kanalen (OK bytter med én gang, Tilbake avbryter). Når dette er av, skjules alle numre, og talltastene ignoreres. Ingenting går tapt, og numrene gjenopprettes når du slår det på igjen.</string>
     <string name="settings_channel_numbers_description_mobile">Vis leverandørens kanalnummer ved siden av navnet i Direkte-TV-listen og avspilleren. Når dette er av, skjules alle numre. Ingenting går tapt, og numrene gjenopprettes når du slår det på igjen.</string>
+    <string name="settings_live_left_right_rewinds">Venstre og høyre spoler direkte-TV</string>
+    <string name="settings_live_left_right_rewinds_description">Når kontrollene er skjult, spoler venstre og høyre bakover og fremover på kanaler med catch-up i stedet for å åpne kanallisten og loggen.</string>
     <string name="settings_diagnostics">Diagnostikk</string>
     <string name="settings_measured_stats">Målt strømstatistikk</string>
     <string name="settings_measured_stats_description">Vis bildefrekvens, bithastighet og tapte bilder i sanntid i strøm informasjons-overlegget (målt mens overlegget er åpent, for strømmer som ikke oppgir disse verdiene). Slå det bare av hvis en enkel TV hakker – det påvirker aldri selve videoen, bare diagnostikktallene.</string>

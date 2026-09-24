@@ -14,6 +14,9 @@ import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -74,6 +77,15 @@ class PlaybackSession(
 
     private var engine: PlaybackEngine? = null
 
+    private val _active = MutableStateFlow(false)
+
+    /**
+     * True while an engine is attached — both apps attach whatever is playing and pass `null` only when
+     * playback has really stopped, so this is the one "is anything playing" both can share. A pause does
+     * not clear it; a switch from a channel to a film may clear it for a moment.
+     */
+    val active: StateFlow<Boolean> = _active.asStateFlow()
+
     /**
      * What "previous" from a headset or the media notification does on a live channel — go back to the
      * channel watched before (N2). A live engine has no previous item of its own, so without it the
@@ -101,6 +113,7 @@ class PlaybackSession(
         // next publish must send the metadata even if the title happens to match.
         lastMetaKey = null
         this.engine = engine
+        _active.value = engine != null
         if (engine == null) {
             unduck()
             abandonFocus()

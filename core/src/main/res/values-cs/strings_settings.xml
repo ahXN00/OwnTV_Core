@@ -277,6 +277,10 @@
     <string name="settings_auto_frame_rate">Automatická snímková frekvence</string>
     <string name="settings_auto_frame_rate_description">Při zobrazení na celé obrazovce přizpůsobit obnovovací frekvenci televizoru videu (24/25/50/60 sn./s) pro živé vysílání i VOD a při ukončení ji obnovit. Vypněte, pokud televizor nebo přijímač při každé změně kanálu rušivě znovu navazuje spojení HDMI.</string>
     <string name="settings_auto_frame_rate_description_mobile">Při zobrazení na celé obrazovce přizpůsobit obnovovací frekvenci obrazovky videu (24/25/50/60 sn./s) pro živé vysílání i VOD a při ukončení ji obnovit. Vypněte, pokud obrazovka při spuštění videa bliká nebo ztmavne.</string>
+    <string name="settings_afr_pause">Pozastavit při přepnutí obrazu</string>
+    <string name="settings_afr_pause_description">Jen filmy. Když se televizor musí znovu synchronizovat na nový režim obrazu, film tak dlouho počká, aby se jeho začátek neztratil v černé obrazovce. Plynulé přepnutí nikdy nepozastaví.</string>
+    <string name="settings_afr_resolution">Přizpůsobit rozlišení</string>
+    <string name="settings_afr_resolution_description">Jen filmy. Když se pro film mění režim obrazu, televizor přepne i na jeho rozlišení — 1080p pro HD film na 4K televizoru —, nikdy nad rozlišení, se kterým začínal. Vypnuto ponechá rozlišení beze změny a televizor obraz převzorkuje, obvykle s lepším výsledkem.</string>
     <string name="settings_surround_sound">Prostorový zvuk</string>
     <string name="settings_surround_description">Dekódovat Dolby/DTS do prostorového zvuku (5.1/7.1) pro skutečný přijímač 5.1/7.1. U reproduktorů televizoru nebo stereofonního soundbaru ponechte VYPNUTO — na některých televizorech a soundbarech může vícekanálový zvuk zaostávat za obrazem. Pokud se rozchází, upravte v nabídce Zvuk přehrávače → Synchronizace A/V.</string>
     <string name="settings_surround_description_mobile">Dekódovat Dolby/DTS do prostorového zvuku (5.1/7.1) pro skutečný přijímač 5.1/7.1 připojený k tomuto zařízení. U vestavěného reproduktoru, sluchátek nebo stereofonního soundbaru ponechte VYPNUTO — vícekanálový zvuk může zaostávat za obrazem. Pokud se rozchází, upravte v nabídce Zvuk přehrávače → Synchronizace A/V.</string>
@@ -526,6 +530,13 @@
     <string name="settings_seek_step">Krok převíjení</string>
     <!-- Translators: Description of the seek step setting. -->
     <string name="settings_seek_step_description">O kolik posune převíjení vzad a vpřed ve filmu nebo epizodě.</string>
+    <string name="settings_vod_buffer">Vyrovnávací paměť filmů</string>
+    <string name="settings_vod_buffer_description">Jak daleko dopředu se načítají filmy, díly a zpětné sledování. Auto použije to, co se hodí pro toto zařízení. Delší vyrovnávací paměť lépe překlene špatné připojení; limit ale dál určuje paměť zařízení, takže film s vysokým datovým tokem může pojmout méně, než je zvoleno.</string>
+    <string name="settings_vod_network_timeout">Časový limit sítě</string>
+    <string name="settings_vod_network_timeout_description">Jak dlouho filmy, díly a zpětné sledování čekají na mlčící server, než se připojení považuje za ztracené. Auto ponechá vlastní čekání každého přehrávače: 60 sekund u mpv, 20 u ExoPlayeru.</string>
+    <string name="settings_vod_reconnects">Pokusy o opětovné připojení</string>
+    <string name="settings_vod_reconnects_description">Kolikrát se film nebo díl, který ztratí připojení, znovu otevře v místě zastavení, než se zobrazí chyba. Minuta plynulého přehrávání pokusy vrátí.</string>
+    <string name="settings_vod_network_auto">Auto</string>
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">Krok převíjení živého vysílání</string>
     <!-- Translators: Description of the live rewind step setting. -->
@@ -566,6 +577,8 @@
     <string name="settings_channel_numbers">Čísla kanálů</string>
     <string name="settings_channel_numbers_description">Zobrazovat číslo kanálu od poskytovatele vedle jeho názvu v seznamu živého vysílání, překryvu seznamu kanálů a přehrávači. Během přehrávání na celé obrazovce také můžete zadat číslo na dálkovém ovladači a přejít přímo na daný kanál (tlačítko OK přepne okamžitě, tlačítko Zpět zadání zruší). Vypnutím se skryjí všechna čísla a číselná tlačítka se budou ignorovat. Nic se neztratí a po opětovném zapnutí se čísla obnoví.</string>
     <string name="settings_channel_numbers_description_mobile">Zobrazovat číslo kanálu od poskytovatele vedle jeho názvu v seznamu živého vysílání a v přehrávači. Vypnutím se skryjí všechna čísla. Nic se neztratí a po opětovném zapnutí se čísla obnoví.</string>
+    <string name="settings_live_left_right_rewinds">Vlevo a vpravo přetáčí živé vysílání</string>
+    <string name="settings_live_left_right_rewinds_description">Když jsou ovládací prvky skryté, šipky vlevo a vpravo na kanálech se zpětným sledováním přetáčejí zpět a vpřed, místo aby otevřely seznam kanálů a historii.</string>
     <string name="settings_diagnostics">Diagnostika</string>
     <string name="settings_measured_stats">Měřené statistiky streamu</string>
     <string name="settings_measured_stats_description">V překryvu s informacemi o streamu zobrazovat aktuální snímkovou frekvenci, datový tok a vynechané snímky (měří se, když je překryv otevřený, a to u streamů, které tyto hodnoty neuvádějí). Vypněte pouze v případě, že se obraz na méně výkonném televizoru zadrhává — skutečné video to nikdy neovlivňuje, pouze diagnostické hodnoty.</string>
