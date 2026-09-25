@@ -44,6 +44,7 @@ class LiveEnginePool(private val newEngine: () -> LivePreviewEngine) {
         newEngine().also {
             it.setMuted(true)
             it.setMaxVideoHeight(BACKGROUND_TILE_HEIGHT)
+            it.setTunnelingAllowed(false)
         }
     }
 

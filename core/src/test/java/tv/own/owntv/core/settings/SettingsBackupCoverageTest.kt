@@ -22,6 +22,8 @@ class SettingsBackupCoverageTest {
         "avatar_id", "active_profile_id", "default_source_id", "refresh_migration_done", "epg_refill_checked",
         "restore_in_progress", "live_latency_reset_416", "auto_frame_rate_reset_416",
         "auto_frame_rate_reset_pre12", "metadata_match_heal_version",
+        // A fact about this device's decoders (tunneled playback failed here, N19), not a choice.
+        "tunneling_failed",
         "last_backup_at", "last_backup_bytes", "last_backup_encrypted", "last_backup_path",
         // A Room channel id — meaningless after the next sync.
         "last_live_channel",

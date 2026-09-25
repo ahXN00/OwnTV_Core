@@ -69,6 +69,8 @@ class ExoSubtitleEngine(
         /** Whether any subtitle track (text or image) is selected — however it came to be: a pick in the
          *  HUD, the image-subtitle handoff, remembered tracks, or ExoPlayer's own default/forced choice. */
         fun onSubtitleSelected(selected: Boolean) {}
+        /** N11 — the picture heights this file offers (see [VideoQuality.heights]). */
+        fun onVideoQualities(heights: List<Int>) {}
         fun onVideoFps(fps: Float)
         /** This file declares no video track at all (music-only VOD). The HUD says so on screen — sound
          *  over black is otherwise indistinguishable from a broken player. */
@@ -257,6 +259,10 @@ class ExoSubtitleEngine(
             rebuildAudioTracks(tracks)
             rebuildTextTracks(tracks)
             applyPendingSubtitle(tracks)
+            callbacks.onVideoQualities(VideoQuality.heightsOf(tracks))
+            if (qualityPick != null && player?.trackSelectionParameters?.overrides?.keys?.none { it.type == C.TRACK_TYPE_VIDEO } == true &&
+                tracks.groups.any { it.type == C.TRACK_TYPE_VIDEO }
+            ) applyVideoQuality()
             callbacks.onSubtitleSelected(tracks.groups.any { it.type == C.TRACK_TYPE_TEXT && it.isSelected })
         }
 
@@ -352,13 +358,14 @@ class ExoSubtitleEngine(
         // cached player built before the session latched to stereo would keep the sink that failed.
         val wantStereo = !AudioOutputPolicy.allowsMultichannel(surroundMode)
         val wantNetwork = filmBufferSecs to filmTimeoutSecs
-        if (player != null && (builtForSoftware != softwarePreferred || builtForStereo != wantStereo || builtForNetwork != wantNetwork)) {
+        val wantPassthrough = passthroughAllowed
+        if (player != null && (builtForSoftware != softwarePreferred || builtForStereo != wantStereo || builtForNetwork != wantNetwork || builtForPassthrough != wantPassthrough)) {
             android.util.Log.i(TAG, "rebuilding ExoPlayer for ${if (softwarePreferred) "software" else "hardware"} decode, ${if (wantStereo) "stereo" else "device"} audio")
             player?.release()
             boost.release() // bound to the outgoing player's audio session
             player = null
         }
-        val p = player ?: build().also { player = it; builtForSoftware = softwarePreferred; builtForStereo = wantStereo; builtForNetwork = wantNetwork }
+        val p = player ?: build().also { player = it; builtForSoftware = softwarePreferred; builtForStereo = wantStereo; builtForNetwork = wantNetwork; builtForPassthrough = wantPassthrough }
         // Both are plain setters, so a cached player picks up a setting changed since it was built —
         // no rebuild needed for either (unlike the renderer factory and the audio sink above).
         p.setVideoChangeFrameRateStrategy(
@@ -366,6 +373,8 @@ class ExoSubtitleEngine(
             else C.VIDEO_CHANGE_FRAME_RATE_STRATEGY_OFF,
         )
         applyLanguagePrefs()
+        if (qualityPickUrl != url) { qualityPick = null; qualityPickUrl = null }
+        applyVideoQuality()
         setVideoTrackDisabled(audioOnly) // survives a player rebuild while Audio Mode is on
         p.setVideoSurface(surface)
         // Start a resumed item at its target in the initial prepare. Preparing at zero and seeking
@@ -531,6 +540,7 @@ class ExoSubtitleEngine(
     }
     /** Whether the cached player's audio sink was pinned to stereo PCM. See the rebuild check in `start`. */
     private var builtForStereo = false
+    private var builtForPassthrough = true
 
     /** The (buffer, timeout) the cached player was built with. See the rebuild check in `start`. */
     private var builtForNetwork = 0 to 0
@@ -590,6 +600,7 @@ class ExoSubtitleEngine(
             forceStereo = !AudioOutputPolicy.allowsMultichannel(surroundMode),
             softwareFirst = softwarePreferred,
             audioDelay = audioDelay,
+            passthrough = passthroughAllowed,
         )
         return ExoPlayer.Builder(context)
             .setRenderersFactory(renderers)
@@ -717,6 +728,9 @@ class ExoSubtitleEngine(
     /** The user's Auto / Stereo only / Surround choice, pushed in by [OwnTVPlayer]; read at build time. */
     @Volatile var surroundMode: SurroundMode = SurroundMode.AUTO
 
+    /** N8 + P14 — may this engine bitstream Dolby/DTS, pushed in by [OwnTVPlayer]; read at build time. */
+    @Volatile var passthroughAllowed = true
+
     /** Settings → Video player → Auto frame rate, pushed in by [OwnTVPlayer]; read at build time. */
     @Volatile var autoFrameRateEnabled = false
 
@@ -737,6 +751,33 @@ class ExoSubtitleEngine(
     @Volatile var prefAudioLang: String = ""
 
     @Volatile var prefSubLang: String = ""
+
+    /** N11 — the Settings limit for this item (lines, null = none), pushed in by [OwnTVPlayer] before
+     *  [start]; and a Quality-menu pick, which [start] forgets for a different file. */
+    @Volatile var qualityCap: Int? = null
+        set(value) { field = value; applyVideoQuality() }
+    private var qualityPick: Int? = null
+    private var qualityPickUrl: String? = null
+
+    /** N11 — the Quality menu: [height] for this file, or null for Auto (the Settings limit). */
+    fun selectVideoQuality(height: Int?) {
+        qualityPick = height
+        qualityPickUrl = currentUrl
+        applyVideoQuality()
+    }
+
+    private fun applyVideoQuality() {
+        val p = player ?: return
+        val cap = qualityCap
+        val pick = qualityPick
+        p.trackSelectionParameters = p.trackSelectionParameters.buildUpon()
+            .apply {
+                if (cap == null) clearVideoSizeConstraints() else setMaxVideoSize(Int.MAX_VALUE, cap)
+                clearOverridesOfType(C.TRACK_TYPE_VIDEO)
+                pick?.let { VideoQuality.overrideFor(p.currentTracks, it) }?.let { addOverride(it) }
+            }
+            .build()
+    }
 
     /** Push the language preferences onto a player that was built before they last changed. */
     private fun applyLanguagePrefs() {

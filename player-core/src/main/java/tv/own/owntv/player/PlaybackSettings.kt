@@ -59,6 +59,14 @@ data class PlaybackSettings(
     val vodBufferSecs: Int,
     val vodNetworkTimeoutSecs: Int,
     val vodReconnects: Int,
+    /** P14 — N8 passthrough (ExoPlayer), N9 night mode, N10 volume levelling. See [AudioDynamics]. */
+    val audioPassthrough: Boolean,
+    val nightMode: Boolean,
+    val volumeLevelling: Boolean,
+    /** P15 — N11 quality limits (0 = none; see [VideoQuality.cap]) and N19 tunneled playback. */
+    val maxVideoHeight: Int,
+    val mobileDataMaxVideoHeight: Int,
+    val tunneledPlayback: Boolean,
 ) {
     companion object {
         @Volatile private var shared: Pair<SettingsRepository, StateFlow<PlaybackSettings?>>? = null
@@ -85,6 +93,8 @@ data class PlaybackSettings(
                 s.preferredSubLang, s.defaultZoom, s.defaultVolume, s.seekStepSec, s.autoFrameRate,
                 s.liveEnginePreference, s.liveTuneTimeoutSecs,
                 s.vodBufferSecs, s.vodNetworkTimeoutSecs, s.vodReconnects,
+                s.audioPassthrough, s.nightMode, s.volumeLevelling,
+                s.maxVideoHeight, s.mobileDataMaxVideoHeight, s.tunneledPlayback,
             )
             return combine(sources) { v ->
                 PlaybackSettings(
@@ -114,6 +124,12 @@ data class PlaybackSettings(
                     vodBufferSecs = v[23] as Int,
                     vodNetworkTimeoutSecs = v[24] as Int,
                     vodReconnects = v[25] as Int,
+                    audioPassthrough = v[26] as Boolean,
+                    nightMode = v[27] as Boolean,
+                    volumeLevelling = v[28] as Boolean,
+                    maxVideoHeight = v[29] as Int,
+                    mobileDataMaxVideoHeight = v[30] as Int,
+                    tunneledPlayback = v[31] as Boolean,
                 )
             }.stateIn(CoroutineScope(SupervisorJob() + Dispatchers.Default), SharingStarted.Eagerly, null)
         }

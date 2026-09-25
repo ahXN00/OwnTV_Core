@@ -86,6 +86,12 @@ enum class PlayerControl(
     ENGINE(ControlCluster.TOOLS, ControlHost.BOTH, R.string.player_tool_engine),
     ASPECT(ControlCluster.TOOLS, ControlHost.BOTH, R.string.player_tool_aspect),
 
+    /**
+     * The picture quality of this stream (N11). Only when it offers more than one — an HLS or DASH
+     * channel or film with several variants — beside Aspect, the other "how the picture is shown".
+     */
+    QUALITY(ControlCluster.TOOLS, ControlHost.BOTH, R.string.player_tool_quality),
+
     /** The channel list over the picture. Phone-only today; the television reaches it with Left. */
     CHANNEL_LIST(ControlCluster.TOOLS, ControlHost.MOBILE_ONLY, R.string.content_channel_overlay_title),
 

@@ -30,6 +30,9 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -136,6 +139,23 @@ class LivePreviewEngine(
     @Volatile private var autoFrameRateEnabled = false
     /** Per-tile video ceiling; null = no cap, which is every case but Multiview. See [setMaxVideoHeight]. */
     @Volatile private var maxVideoHeight: Int? = null
+    /** N11 — Settings → Maximum video quality and the phone's mobile-data limit (0 = none); see [VideoQuality]. */
+    @Volatile private var qualityMaxHeight = 0
+    @Volatile private var qualityMobileMaxHeight = 0
+    private val connectivityNow = connectivity
+    private val _videoQualities = MutableStateFlow<List<Int>>(emptyList())
+    override val videoQualities: StateFlow<List<Int>> = _videoQualities.asStateFlow()
+    private val _videoQualityPick = MutableStateFlow<Int?>(null)
+    override val videoQualityPick: StateFlow<Int?> = _videoQualityPick.asStateFlow()
+    /** N19 — the setting, whether this engine may tunnel at all (a Multiview tile may not), and what the
+     *  current player was built with. */
+    @Volatile private var tunneledSetting = false
+    @Volatile private var tunnelingAllowed = true
+    @Volatile private var builtTunneled = false
+    /** Whether this stream really plays tunneled: asked for at build, and Media3 agreed for these tracks
+     *  (it declines silently when a track or renderer cannot tunnel). Main thread. */
+    private val tunneledNow: Boolean get() = builtTunneled && player?.isTunnelingEnabled == true
+    private val settingsRepo = settings
     /** Device memory budget, resolved once and reused across player rebuilds (see [build]). */
     private var playerBudget: PlayerBudget? = null
     private var surface: Surface? = null
@@ -223,6 +243,29 @@ class LivePreviewEngine(
     private val fpsSample = FpsSample()
     private var dropsBaseline = 0
 
+    // Every field the settings collectors below write is declared ABOVE this init: a collector can run
+    // during construction (the snapshot is hot), and an initializer placed after it would then reset the
+    // stored value to its default.
+
+    /** Mirrors Settings → Video player → Hardware decoding. Read at [build] time. */
+    @Volatile private var hwDecodingEnabled = true
+
+    /** Settings → Video player → Preferred audio / subtitle language (ISO code, blank = no preference). */
+    @Volatile private var prefAudioLang: String = ""
+    @Volatile private var prefSubLang: String = ""
+
+    /** Settings → Video player → Default zoom, applied to every new tune. */
+    @Volatile private var defaultZoom: ZoomMode = ZoomMode.FIT
+
+    /** Settings → Video player → Default volume, the level a newly tuned channel starts at. */
+    @Volatile private var defaultVolume: Int = 100
+
+    /** The user's Auto / Stereo only / Surround choice. Read at [build] time. */
+    @Volatile private var surroundMode: SurroundMode = SurroundMode.AUTO
+
+    /** N8 + P14: may this engine bitstream Dolby/DTS. Read at [build] time. */
+    @Volatile private var passthroughAllowed = true
+
     init {
         // Keep the escape-hatch flag current; turning it off stops any in-flight measuring immediately.
         playbackSettings.field { it.measuredStreamStats }.onEach { measuredStatsEnabled = it; if (!it) throughputTracker.setEnabled(false) }
@@ -254,6 +297,30 @@ class LivePreviewEngine(
             surroundMode = mode
             if (changed) currentUrl?.let { rebuildForSettingChange() }
         }.launchIn(settingsScope)
+        // N8 — passthrough is a sink property too, fixed at build; night mode and levelling switch it off
+        // (see [AudioDynamics.passthroughAllowed]), so any of the three can change it.
+        playbackSettings.field { AudioDynamics.passthroughAllowed(it.audioPassthrough, it.nightMode, it.volumeLevelling) }.onEach { on ->
+            val changed = passthroughAllowed != on
+            passthroughAllowed = on
+            if (changed) currentUrl?.let { rebuildForSettingChange() }
+        }.launchIn(settingsScope)
+        // N11 — a track-selection limit, so it applies in place.
+        playbackSettings.field { it.maxVideoHeight to it.mobileDataMaxVideoHeight }.onEach { (max, mobile) ->
+            qualityMaxHeight = max; qualityMobileMaxHeight = mobile
+            applyMaxVideoHeight()
+        }.launchIn(settingsScope)
+        // N11 — the mobile-data limit follows a Wi-Fi ⇄ mobile switch mid-play; with no limit set nothing
+        // is watched.
+        @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+        playbackSettings.field { it.mobileDataMaxVideoHeight > 0 }
+            .flatMapLatest { on -> if (on) connectivityNow.isMetered.drop(1) else emptyFlow() }
+            .onEach { applyMaxVideoHeight() }
+            .launchIn(settingsScope)
+        // N19 — fixed at build, like the sink: rebuild when the playing channel's answer changes.
+        playbackSettings.field { it.tunneledPlayback }.onEach { on ->
+            tunneledSetting = on
+            if (player != null && builtTunneled != wantTunneling()) currentUrl?.let { rebuildForSettingChange() }
+        }.launchIn(settingsScope)
         // "Hardware decoding = Off" used to reach mpv only, which left Live TV — whose default engine is
         // this one — on the hardware decoder the user was trying to avoid. Rebuild so the new selector
         // takes effect; the factory is fixed at construction.
@@ -283,19 +350,6 @@ class LivePreviewEngine(
         }.launchIn(settingsScope)
     }
 
-    /** Mirrors Settings → Video player → Hardware decoding. Read at [build] time. */
-    @Volatile private var hwDecodingEnabled = true
-
-    /** Settings → Video player → Preferred audio / subtitle language (ISO code, blank = no preference). */
-    @Volatile private var prefAudioLang: String = ""
-    @Volatile private var prefSubLang: String = ""
-
-    /** Settings → Video player → Default zoom, applied to every new tune. */
-    @Volatile private var defaultZoom: ZoomMode = ZoomMode.FIT
-
-    /** Settings → Video player → Default volume, the level a newly tuned channel starts at. */
-    @Volatile private var defaultVolume: Int = 100
-
     /**
      * Push the preferred-language settings into the live player's track selector.
      *
@@ -312,9 +366,6 @@ class LivePreviewEngine(
                 .build()
         }
     }
-
-    /** The user's Auto / Stereo only / Surround choice. Read at [build] time. */
-    @Volatile private var surroundMode: SurroundMode = SurroundMode.AUTO
 
     /**
      * Watches this engine's audio output for "accepted the format then played silence" and for a sink
@@ -728,7 +779,7 @@ class LivePreviewEngine(
                 val now = android.os.SystemClock.elapsedRealtime()
                 val frames = frameCounter.get()
                 val hasVideo = p.videoFormat != null
-                if (frames > 0) tune.everRendered = true
+                if (frames > 0 || (tunneledNow && tune.firstFrameRendered)) tune.everRendered = true
                 val pos = p.currentPosition
                 val posAdvanced = pos > 0 && pos != tune.lastProgressPos
                 if (posAdvanced) { tune.lastProgressPos = pos; tune.lastProgressWallMs = now }
@@ -757,6 +808,7 @@ class LivePreviewEngine(
                 // fires once per load so the VM's one-shot mpv fallback isn't retriggered after it acts.
                 if (!_audioOnly.value && !tune.noVideoTriggered && hasVideo && !tune.everRendered && now - tune.readySinceMs >= NO_VIDEO_TIMEOUT_MS) {
                     tune.noVideoTriggered = true
+                    if (tunneledNow) { tunnelingFailed("no picture after ${now - tune.readySinceMs}ms"); return }
                     LiveDiagnosticsLog.event("progressWatchdog: no video frame after ${now - tune.readySinceMs}ms (pos=$pos advancing, video track present)")
                     _noVideoDetected.value = true
                 }
@@ -773,7 +825,8 @@ class LivePreviewEngine(
                 // In Audio Mode the surface is intentionally detached, so no frames render and the count
                 // sits still — that's expected, not a frozen picture. Skip the frame-based freeze check;
                 // the position/no-progress backstop above still catches a genuinely dead feed.
-                val framesStuck = !_audioOnly.value && tune.everRendered && hasVideo && frames == tune.lastFrameCount
+                // A tunneled decoder never calls the frame hook (N19): there the position backstop is all.
+                val framesStuck = !tunneledNow && !_audioOnly.value && tune.everRendered && hasVideo && frames == tune.lastFrameCount
                 tune.lastFrameCount = frames
                 if (framesStuck) {
                     if (++tune.frozenChecks >= FROZEN_LIMIT) {
@@ -1066,6 +1119,8 @@ class LivePreviewEngine(
 
         override fun onIsPlayingChanged(isPlaying: Boolean) { _isPlaying.value = isPlaying }
 
+        override fun onRenderedFirstFrame() { tune.firstFrameRendered = true }
+
         override fun onVideoSizeChanged(videoSize: VideoSize) {
             if (videoSize.height > 0) {
                 _videoHeight.value = videoSize.height
@@ -1090,6 +1145,8 @@ class LivePreviewEngine(
         override fun onPlayerError(error: PlaybackException) {
             android.util.Log.w(LiveDiagnosticsLog.TAG, "ExoPlayer error: ${error.errorCodeName}", error)
             LiveDiagnosticsLog.event("player_error code=${error.errorCodeName} hasPlayed=${tune.hasPlayed}")
+            // A decoder or audio-output failure while tunneled is the tunnel's (N19); a network one is not.
+            if (tunneledNow && error.errorCode in TUNNEL_FAILURE_CODES) { tunnelingFailed(error.errorCodeName); return }
             // mid-stream drop → reconnect, unless a reconnect from the SAME failed prepare is already
             // in flight (ExoPlayer often fires this alongside a STATE_IDLE for one physical failure) or
             // we've already exhausted retries and are waiting on the user/a fresh play().
@@ -1324,7 +1381,9 @@ class LivePreviewEngine(
         if (!sameChannelReopen) {
             applyAudioDelay(baseAudioDelayMs)
             _audioDelayRemembered.value = false
+            _videoQualityPick.value = null // a Quality pick belongs to the channel it was made on
         }
+        _videoQualities.value = emptyList()
         applyRememberedPrefs(meta.contentKey ?: url)
         recallTracks(meta.contentKey ?: url)
         _state.value = State.LOADING
@@ -1335,7 +1394,7 @@ class LivePreviewEngine(
             // differs from the last channel's, would otherwise never take effect (the "Pre-buffer
             // does nothing" report). Drop the player whenever the numbers it was built with no longer match.
             val wanted = LiveBuffer.loadControlFor(effectiveLiveBufferSecs(), effectivePrerollSecs())
-            if (player != null && (builtLoadControl != wanted || (memoryPressure && !builtLowRam))) {
+            if (player != null && (builtLoadControl != wanted || (memoryPressure && !builtLowRam) || builtTunneled != wantTunneling())) {
                 LiveDiagnosticsLog.event("load_control stale (was=$builtLoadControl want=$wanted) — rebuilding player")
                 player?.run { removeListener(listener); release() }
                 player = null
@@ -1416,14 +1475,60 @@ class LivePreviewEngine(
         applyMaxVideoHeight()
     }
 
+    /**
+     * The video limit this engine applies: the lower of its own ([maxVideoHeight]) and the Settings one
+     * (N11, re-read for a metered connection on every call), plus a Quality-menu pick as an override —
+     * one the engine's own limit does not forbid.
+     */
     private fun applyMaxVideoHeight() {
         val p = player ?: return
-        val height = maxVideoHeight
+        val height = VideoQuality.lower(
+            maxVideoHeight,
+            VideoQuality.cap(qualityMaxHeight, qualityMobileMaxHeight, connectivityNow.isMeteredNow()),
+        )
+        val pick = _videoQualityPick.value?.takeIf { h -> maxVideoHeight.let { it == null || h <= it } }
         p.trackSelectionParameters = p.trackSelectionParameters.buildUpon()
             .apply {
                 if (height == null) clearVideoSizeConstraints() else setMaxVideoSize(Int.MAX_VALUE, height)
+                clearOverridesOfType(C.TRACK_TYPE_VIDEO)
+                pick?.let { VideoQuality.overrideFor(p.currentTracks, it) }?.let { addOverride(it) }
             }
             .build()
+    }
+
+    /** N11 — the Quality menu: [height] for this channel, or null for Auto (the Settings limit). */
+    override fun selectVideoQuality(height: Int?) {
+        _videoQualityPick.value = height
+        applyMaxVideoHeight()
+    }
+
+    /** A pick made before this stream's tracks were known (a retry of the same channel) lands here. */
+    private fun ensureQualityPick(tracks: androidx.media3.common.Tracks) {
+        val p = player ?: return
+        if (_videoQualityPick.value == null) return
+        if (p.trackSelectionParameters.overrides.keys.any { it.type == C.TRACK_TYPE_VIDEO }) return
+        if (tracks.groups.none { it.type == C.TRACK_TYPE_VIDEO }) return
+        applyMaxVideoHeight()
+    }
+
+    /** N19 — Multiview tiles never tunnel (several tunneled decoders at once is what cheap TVs fail at). */
+    fun setTunnelingAllowed(allowed: Boolean) {
+        tunnelingAllowed = allowed
+    }
+
+    private fun wantTunneling(): Boolean =
+        tunneledSetting && tunnelingAllowed && Tunneling.supported && !Tunneling.failedThisSession
+
+    /**
+     * N19 — the first decode / output failure, or no picture at all, while tunneled: switch it off for
+     * good on this device (the row says why) and reopen the channel untunneled.
+     */
+    private fun tunnelingFailed(reason: String) {
+        Tunneling.failedThisSession = true
+        android.util.Log.w(LiveDiagnosticsLog.TAG, "tunneled playback failed ($reason) — turned off on this device")
+        LiveDiagnosticsLog.event("tunneled playback failed ($reason) — turned off on this device")
+        settingsScope.launch { runCatching { settingsRepo.disableTunnelingAfterFailure() } }
+        rebuildForSettingChange()
     }
 
     /** Which instance this is, so several engines' lines can be told apart in one log. */
@@ -2224,7 +2329,9 @@ class LivePreviewEngine(
         audioDelayClock.delayMs = ms
     }
 
-    override fun audioDelayAvailable() = true
+    // Tunneled (N19), the decoder times the picture from the audio hardware itself, so the shifted clock
+    // cannot move it — the nudge is hidden rather than left doing nothing.
+    override fun audioDelayAvailable() = !tunneledNow
 
     override fun adjustAudioDelay(deltaMs: Int) {
         applyAudioDelay((_audioDelayMs.value + deltaMs).coerceIn(-5_000, 5_000))
@@ -2404,6 +2511,9 @@ class LivePreviewEngine(
     /** Build the audio + subtitle track lists from the active stream so the HUD menus can switch language /
      *  subtitles (multi-track live channels, or a VOD file imported via M3U). Mirrors [ExoSubtitleEngine]. */
     private fun rebuildTracks(tracks: androidx.media3.common.Tracks) {
+        _videoQualities.value = VideoQuality.heightsOf(tracks)
+        ensureQualityPick(tracks)
+        if (builtTunneled) LiveDiagnosticsLog.event("tunneled playback requested, active=${player?.isTunnelingEnabled == true}")
         // A preferred subtitle language makes Media3 select a matching text track on its own. The cue
         // overlay is mounted only while [subtitleOn], so without this the track would be decoded and never
         // drawn — and the HUD would report "off" while a track really is selected. Only ever turns the
@@ -2862,9 +2972,16 @@ class LivePreviewEngine(
             forceStereo = !AudioOutputPolicy.allowsMultichannel(surroundMode),
             softwareFirst = !hwDecodingEnabled,
             audioDelay = audioDelayClock,
+            passthrough = passthroughAllowed,
         )
+        val tunneled = wantTunneling().also { builtTunneled = it }
+        if (tunneled) LiveDiagnosticsLog.event("building tunneled player (N19)")
+        val trackSelector = androidx.media3.exoplayer.trackselection.DefaultTrackSelector(context).apply {
+            if (tunneled) setParameters(buildUponParameters().setTunnelingEnabled(true))
+        }
         return ExoPlayer.Builder(context)
             .setRenderersFactory(renderers)
+            .setTrackSelector(trackSelector)
             .setMediaSourceFactory(DefaultMediaSourceFactory(httpDataSourceFor(currentUa)))
             .setLoadControl(loadControl)
             .build()
@@ -3118,6 +3235,8 @@ class LivePreviewEngine(
         // from STATE_READY, not from the load, so it is a later starting point than the 12 s the
         // load-armed engines use — see [NoFrameWatchdog] for the full comparison.
         private const val NO_VIDEO_TIMEOUT_MS = 8_000L
+        /** N19 — Media3's decoder (4xxx) and audio-track (5xxx) error codes: the ones a tunnel can cause. */
+        private val TUNNEL_FAILURE_CODES = 4000..5999
         private const val AUDIO_ONLY_CONFIRM_MS = 5_000L // allow late video-track discovery before showing radio badge
         // Re-buffer flap (see [noteRebufferFlap]): this many re-buffers inside the window while the
         // position crawls == the stream is oscillating, not playing. The traced case managed ~8 per
@@ -3250,6 +3369,8 @@ internal data class TuneState(
      *  fires AFTER this — so if the per-frame hook silently failed to register (or a stream renders no
      *  video at all), healthy playback never false-triggers a reconnect; the position check covers it. */
     var everRendered: Boolean = false,
+    /** Media3's own first-frame callback — the only frame signal a tunneled decoder gives (N19). */
+    var firstFrameRendered: Boolean = false,
     var lastProgressPos: Long = -1L,
     /** `SystemClock.elapsedRealtime()` of the last forward position move. */
     var lastProgressWallMs: Long = 0L,

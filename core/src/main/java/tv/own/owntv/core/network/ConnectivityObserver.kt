@@ -47,6 +47,18 @@ class ConnectivityObserver(private val context: Context) {
         return !caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_METERED)
     }
 
+    /** [isMeteredNow] now, then again whenever the network carrying traffic changes (Wi-Fi ⇄ mobile). */
+    val isMetered: Flow<Boolean> = callbackFlow {
+        val callback = object : ConnectivityManager.NetworkCallback() {
+            override fun onCapabilitiesChanged(network: Network, caps: NetworkCapabilities) { trySend(isMeteredNow()) }
+            override fun onLost(network: Network) { trySend(isMeteredNow()) }
+        }
+        trySend(isMeteredNow())
+        val manager = cm
+        manager?.registerDefaultNetworkCallback(callback)
+        awaitClose { runCatching { manager?.unregisterNetworkCallback(callback) } }
+    }.distinctUntilChanged()
+
     private fun NetworkCapabilities.hasInternet(): Boolean =
         hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
             hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED)

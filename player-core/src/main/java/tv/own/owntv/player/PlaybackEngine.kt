@@ -90,6 +90,13 @@ interface PlaybackEngine {
     fun audioTracks(): List<TrackOption>
     fun textTracks(): List<TrackOption>
 
+    /** N11 — the picture heights this item offers, highest first; empty when there is nothing to choose
+     *  between (the player's Quality button shows only then). */
+    val videoQualities: StateFlow<List<Int>> get() = NO_QUALITIES
+    /** The Quality-menu pick for this item, or null for Auto (Settings → Maximum video quality). */
+    val videoQualityPick: StateFlow<Int?> get() = NULL_INT
+    fun selectVideoQuality(height: Int?) {}
+
     /** Live technical readout (label → value) for the stream-info overlay — codec, resolution, fps, HDR,
      *  bitrate, decoder, audio, buffer, source. A snapshot; the overlay re-reads it periodically.
      *
@@ -147,6 +154,8 @@ interface PlaybackEngine {
         private val NO_CHIPS: StateFlow<List<String>> = MutableStateFlow(emptyList())
         private val NULL_STRING: StateFlow<String?> = MutableStateFlow(null)
         private val FALSE_FLOW: StateFlow<Boolean> = MutableStateFlow(false)
+        private val NO_QUALITIES: StateFlow<List<Int>> = MutableStateFlow(emptyList())
+        private val NULL_INT: StateFlow<Int?> = MutableStateFlow(null)
         private val DEFAULT_SEEK_STEP: StateFlow<Long> =
             MutableStateFlow(tv.own.owntv.core.settings.SeekSteps.DEFAULT_SEEK_STEP_SEC * 1000L)
     }
@@ -197,6 +206,9 @@ class MpvPlaybackEngine(private val p: OwnTVPlayer) : PlaybackEngine {
     override fun addExternalSubtitle(path: String, title: String, lang: String?) = p.addExternalSubtitle(path, title, lang)
     override fun audioTracks() = p.audioTracks()
     override fun textTracks() = p.textTracks()
+    override val videoQualities get() = p.videoQualities
+    override val videoQualityPick get() = p.videoQualityPick
+    override fun selectVideoQuality(height: Int?) = p.selectVideoQuality(height)
     override suspend fun streamInfo() = p.streamInfo()
     override fun setBitrateTrackingEnabled(enabled: Boolean) = p.setBitrateTrackingEnabled(enabled)
     override fun refreshStreamChips() = p.refreshStreamChips()

@@ -10,6 +10,8 @@ import androidx.media3.exoplayer.analytics.AnalyticsListener
 import androidx.media3.exoplayer.audio.AudioCapabilities
 import androidx.media3.exoplayer.audio.AudioSink
 import androidx.media3.exoplayer.audio.DefaultAudioSink
+import androidx.media3.exoplayer.audio.ForwardingAudioSink
+import androidx.media3.exoplayer.mediacodec.MediaCodecUtil
 import tv.own.owntv.core.player.SurroundMode
 
 /**
@@ -77,6 +79,11 @@ object AudioOutputPolicy {
  * makes the sink query the real device capabilities and ignore anything set here — which is the one
  * thing we must not let it do. If a future Media3 removes it, the `runCatching` falls back to the
  * stock sink and we lose the guarantee rather than the playback.
+ *
+ * Every sink carries an [AudioDynamicsProcessor] (night mode / volume levelling, P14), which passes
+ * sound through untouched while both are off. With [passthrough] false the sink refuses encoded
+ * Dolby/DTS that the device can decode ([DecodedOnlyAudioSink]), so it is decoded here — multichannel
+ * PCM still, when the output takes it.
  */
 @UnstableApi
 class OwnTVRenderersFactory(
@@ -84,6 +91,8 @@ class OwnTVRenderersFactory(
     private val forceStereo: Boolean,
     /** A/V-sync offset applied to whichever sink is built — see [AudioDelayClock]. Null = none. */
     private val audioDelay: AudioDelayClock? = null,
+    /** N8 — false: decode Dolby/DTS in the app instead of bitstreaming it. */
+    private val passthrough: Boolean = true,
 ) : DefaultRenderersFactory(context) {
 
     override fun buildAudioSink(
@@ -91,7 +100,8 @@ class OwnTVRenderersFactory(
         enableFloatOutput: Boolean,
         enableAudioOutputPlaybackParams: Boolean,
     ): AudioSink? {
-        val sink = buildBaseAudioSink(context, enableFloatOutput, enableAudioOutputPlaybackParams) ?: return null
+        var sink = buildBaseAudioSink(context, enableFloatOutput, enableAudioOutputPlaybackParams) ?: return null
+        if (!passthrough && !forceStereo) sink = DecodedOnlyAudioSink(sink)
         return if (audioDelay != null) DelayedClockAudioSink(sink, audioDelay) else sink
     }
 
@@ -100,18 +110,51 @@ class OwnTVRenderersFactory(
         enableFloatOutput: Boolean,
         enableAudioOutputPlaybackParams: Boolean,
     ): AudioSink? {
-        if (!forceStereo) return super.buildAudioSink(context, enableFloatOutput, enableAudioOutputPlaybackParams)
+        // What DefaultRenderersFactory builds itself, plus the processor.
+        fun deviceSink(): AudioSink = DefaultAudioSink.Builder(context)
+            .setEnableFloatOutput(enableFloatOutput)
+            .setEnableAudioOutputPlaybackParameters(enableAudioOutputPlaybackParams)
+            .setAudioProcessors(arrayOf(AudioDynamicsProcessor()))
+            .build()
+        if (!forceStereo) return deviceSink()
         return runCatching<AudioSink?> {
             @Suppress("DEPRECATION")
             DefaultAudioSink.Builder()
                 .setAudioCapabilities(AudioCapabilities.DEFAULT_AUDIO_CAPABILITIES)
                 .setEnableFloatOutput(enableFloatOutput)
                 .setEnableAudioOutputPlaybackParameters(enableAudioOutputPlaybackParams)
+                .setAudioProcessors(arrayOf(AudioDynamicsProcessor()))
                 .build()
         }.getOrElse {
             android.util.Log.w("AudioOutputPolicy", "stereo-only sink unavailable, using device capabilities", it)
-            super.buildAudioSink(context, enableFloatOutput, enableAudioOutputPlaybackParams)
+            deviceSink()
         }
+    }
+}
+
+/**
+ * N8 — a sink that will not take encoded audio the device has a decoder for, so the renderer decodes it
+ * instead of bitstreaming it. A format with no decoder on this device is still passed through: sound
+ * from the receiver beats silence (and on the live engine, "no decoder" is what hands a channel to mpv).
+ */
+@UnstableApi
+class DecodedOnlyAudioSink(sink: AudioSink) : ForwardingAudioSink(sink) {
+    override fun supportsFormat(format: Format): Boolean =
+        if (mustDecode(format)) false else super.supportsFormat(format)
+
+    override fun getFormatSupport(format: Format): Int =
+        if (mustDecode(format)) AudioSink.SINK_FORMAT_UNSUPPORTED else super.getFormatSupport(format)
+
+    private fun mustDecode(format: Format): Boolean {
+        val mime = format.sampleMimeType ?: return false
+        if (mime == MimeTypes.AUDIO_RAW) return false
+        return decodable.getOrPut(mime) {
+            runCatching { MediaCodecUtil.getDecoderInfos(mime, false, false).isNotEmpty() }.getOrDefault(false)
+        }
+    }
+
+    private companion object {
+        val decodable = java.util.concurrent.ConcurrentHashMap<String, Boolean>()
     }
 }
 

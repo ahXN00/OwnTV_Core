@@ -119,6 +119,7 @@ class PlayerControlsTest {
                 PlayerControl.PREVIOUS_CHANNEL,
                 PlayerControl.ENGINE,
                 PlayerControl.ASPECT,
+                PlayerControl.QUALITY,
                 PlayerControl.MINI_PLAYER,
                 PlayerControl.AUDIO_ONLY,
                 PlayerControl.MULTIVIEW,

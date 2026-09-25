@@ -15,7 +15,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -888,6 +890,9 @@ class OwnTVPlayer(
     // eagerly mirrored so loadUrl can consult them synchronously.
     @Volatile private var vodPinnedMpv: Set<String> = emptySet()
     @Volatile private var vodPinnedExo: Set<String> = emptySet()
+    // N11 — the Settings limits (0 = none). Declared before init: its collector may run during construction.
+    @Volatile private var qualityMaxHeight = 0
+    @Volatile private var qualityMobileMaxHeight = 0
     private var surroundMode = SurroundMode.AUTO // see SettingsRepository.surroundMode (#25)
     private var autoPlayNext = true
     // Subtitle appearance (#96). While subStyleOn is false NOTHING here is pushed to mpv, so its own
@@ -1032,6 +1037,26 @@ class OwnTVPlayer(
                 }
                 reloadCurrentInPlace()
             }
+        }.launchIn(scope)
+        // N11 — mpv applies it to the file playing now; a handed-over film on its next start.
+        playbackSettings.field { it.maxVideoHeight to it.mobileDataMaxVideoHeight }.onEach { (max, mobile) ->
+            qualityMaxHeight = max; qualityMobileMaxHeight = mobile
+            if (initialized && !exoActive) mpvAsync { applyMpvVideoQuality() }
+        }.launchIn(scope)
+        // N11 — the mobile-data limit follows a Wi-Fi ⇄ mobile switch mid-play, on either engine.
+        @OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)
+        playbackSettings.field { it.mobileDataMaxVideoHeight > 0 }
+            .flatMapLatest { on -> if (on) connectivity.isMetered.drop(1) else emptyFlow() }
+            .onEach {
+                if (exoActive) exoEngine?.qualityCap = qualityCap()
+                else if (initialized) mpvAsync { applyMpvVideoQuality() }
+            }
+            .launchIn(scope)
+        playbackSettings.field { AudioDynamics.passthroughAllowed(it.audioPassthrough, it.nightMode, it.volumeLevelling) }.onEach { on ->
+            val engine = exoEngine ?: return@onEach
+            if (engine.passthroughAllowed == on) return@onEach
+            engine.passthroughAllowed = on
+            if (exoActive) reloadCurrentInPlace()
         }.launchIn(scope)
         playbackSettings.field { it.autoPlayNext }.onEach { autoPlayNext = it }.launchIn(scope)
         // Applies from the next VOD load.
@@ -1555,6 +1580,7 @@ class OwnTVPlayer(
             applyRememberedTracks()
         }
         override fun onVideoFps(fps: Float) { _videoFps.value = fps; updateStreamChips() }
+        override fun onVideoQualities(heights: List<Int>) { if (exoActive) _videoQualities.value = heights }
         // ExoPlayer knows this straight from the track list, so a music-only VOD played on the Exo engine
         // (preferred-for-VOD, or an mpv fallback) is labelled as fast as one played on mpv.
         override fun onAudioOnlyMedia(audioOnly: Boolean) { if (!_audioOnly.value) _audioOnlyMedia.value = audioOnly }
@@ -1836,6 +1862,9 @@ class OwnTVPlayer(
         // on a stereo sink — the session latch is already set by the time this fires, so `start` rebuilds.
         engine.surroundMode = surroundMode
         engine.hwDecodingEnabled = hwDecoding
+        playbackSettings.value?.let {
+            engine.passthroughAllowed = AudioDynamics.passthroughAllowed(it.audioPassthrough, it.nightMode, it.volumeLevelling)
+        }
         // Auto frame rate and the preferred languages used to reach mpv only, so an item that landed on
         // ExoPlayer (image-subtitle handoff, "prefer ExoPlayer for VOD", or an mpv fallback) quietly
         // ignored three settings the user had set. Same values, same source of truth.
@@ -1845,6 +1874,7 @@ class OwnTVPlayer(
             engine.filmTimeoutSecs = it.vodNetworkTimeoutSecs
             engine.filmReconnects = it.vodReconnects
         }
+        engine.qualityCap = qualityCap()
         engine.prefAudioLang = TrackLanguages.forEngine(prefAudioLang)
         engine.prefSubLang = prefSubLang
         // Carry this item's request identity across the handoff (F16) — a stream that needs a custom
@@ -3858,6 +3888,47 @@ class OwnTVPlayer(
     private val _audioTrackList = MutableStateFlow<List<TrackOption>>(emptyList())
     private val _subTrackList = MutableStateFlow<List<TrackOption>>(emptyList())
 
+    // --- Video quality (N11) ---
+    // mpv lists an HLS master's variants as video tracks only when FFmpeg probed their size, so the
+    // Quality menu there is best-effort; on ExoPlayer (a handed-over film) it is the track selector's.
+    private val _videoQualities = MutableStateFlow<List<Int>>(emptyList())
+    val videoQualities: StateFlow<List<Int>> = _videoQualities.asStateFlow()
+    private val _videoQualityPick = MutableStateFlow<Int?>(null)
+    val videoQualityPick: StateFlow<Int?> = _videoQualityPick.asStateFlow()
+    /** The file the pick was made on; a different one starts at Auto again. */
+    @Volatile private var qualityPickUrl: String? = null
+    /** mpv's video tracks of the loaded file, id to height — read on its event thread. */
+    @Volatile private var mpvVideoTracks: List<Pair<Int, Int>> = emptyList()
+
+    /** The Settings limit right now (the mobile-data one only on a metered connection). */
+    private fun qualityCap(): Int? =
+        VideoQuality.cap(qualityMaxHeight, qualityMobileMaxHeight, connectivity.isMeteredNow())
+
+    fun selectVideoQuality(height: Int?) {
+        _videoQualityPick.value = height
+        qualityPickUrl = currentUrl
+        if (exoActive) { exoEngine?.selectVideoQuality(height); return }
+        if (initialized) mpvAsync { applyMpvVideoQuality() }
+    }
+
+    /** mpv: select the variant the limit or the pick asks for (never while Audio Mode has video off). */
+    private fun MPVLib.applyMpvVideoQuality() {
+        if (_audioOnly.value) return
+        val pick = _videoQualityPick.value.takeIf { qualityPickUrl == currentUrl }
+        val id = VideoQuality.mpvTrack(mpvVideoTracks, qualityCap(), pick) ?: return
+        if (getPropertyInt("vid") != id) setPropertyInt("vid", id)
+    }
+
+    /** Synchronous mpv read — only call off the main thread. */
+    private fun queryVideoTracks(m: MPVLib): List<Pair<Int, Int>> {
+        val count = m.getPropertyInt("track-list/count") ?: 0
+        return (0 until count).mapNotNull { i ->
+            if (m.getPropertyString("track-list/$i/type") != "video") return@mapNotNull null
+            val id = m.getPropertyInt("track-list/$i/id") ?: return@mapNotNull null
+            id to (m.getPropertyInt("track-list/$i/demux-h") ?: 0)
+        }
+    }
+
     fun audioTracks(): List<TrackOption> = _audioTrackList.value
     fun textTracks(): List<TrackOption> = _subTrackList.value
 
@@ -4395,6 +4466,12 @@ class OwnTVPlayer(
                 }
                 _audioTrackList.value = queryTracks("audio")
                 _subTrackList.value = queryTracks("sub")
+                mpv?.let { m ->
+                    mpvVideoTracks = queryVideoTracks(m)
+                    if (qualityPickUrl != currentUrl) _videoQualityPick.value = null
+                    _videoQualities.value = VideoQuality.heights(mpvVideoTracks.map { it.second })
+                    m.applyMpvVideoQuality()
+                }
                 _audioCount.value = _audioTrackList.value.size
                 _subCount.value = _subTrackList.value.size
                 // Re-list previously downloaded subtitles for a VOD item (subtitle plan §9). Fires after

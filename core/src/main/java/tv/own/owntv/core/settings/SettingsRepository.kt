@@ -400,6 +400,13 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val VOD_BUFFER_SECS = intPreferencesKey("vod_buffer_secs")
         val VOD_NETWORK_TIMEOUT_SECS = intPreferencesKey("vod_network_timeout_secs")
         val VOD_RECONNECTS = intPreferencesKey("vod_reconnects")
+        val AUDIO_PASSTHROUGH = booleanPreferencesKey("audio_passthrough")
+        val NIGHT_MODE = booleanPreferencesKey("night_mode")
+        val VOLUME_LEVELLING = booleanPreferencesKey("volume_levelling")
+        val MAX_VIDEO_HEIGHT = intPreferencesKey("max_video_height")
+        val MOBILE_DATA_MAX_VIDEO_HEIGHT = intPreferencesKey("mobile_data_max_video_height")
+        val TUNNELED_PLAYBACK = booleanPreferencesKey("tunneled_playback")
+        val TUNNELING_FAILED = booleanPreferencesKey("tunneling_failed")
         // v4.1.6 one-shot: AFR caused visible HDMI re-handshakes on some TVs. Existing installs are
         // forced Off once; subsequent user changes are preserved across every later update.
         val AUTO_FRAME_RATE_RESET_416 = booleanPreferencesKey("auto_frame_rate_reset_416")
@@ -1491,6 +1498,71 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             it[Keys.SURROUND_MODE] = mode.name
             // Keep the legacy key consistent so a downgrade to 4.1.6 lands somewhere sane.
             it[Keys.SURROUND_SOUND] = mode == SurroundMode.SURROUND
+        }
+    }
+
+    /** N8 — ExoPlayer may hand Dolby/DTS to the TV or receiver undecoded when the output claims it can
+     *  play it (on, as before). Off: decoded in the app. mpv always decodes. */
+    val audioPassthrough: Flow<Boolean> = prefsFlow { it[Keys.AUDIO_PASSTHROUGH] ?: true }
+
+    suspend fun setAudioPassthrough(enabled: Boolean) {
+        context.dataStore.edit { it[Keys.AUDIO_PASSTHROUGH] = enabled }
+    }
+
+    /** N9 — night mode: loud passages are turned down and quiet ones up. Off by default. */
+    val nightMode: Flow<Boolean> = prefsFlow { it[Keys.NIGHT_MODE] ?: false }
+
+    suspend fun setNightMode(enabled: Boolean) {
+        context.dataStore.edit { it[Keys.NIGHT_MODE] = enabled }
+    }
+
+    /** N10 — volume levelling: every channel and film is brought slowly to one loudness. Off by default. */
+    val volumeLevelling: Flow<Boolean> = prefsFlow { it[Keys.VOLUME_LEVELLING] ?: false }
+
+    suspend fun setVolumeLevelling(enabled: Boolean) {
+        context.dataStore.edit { it[Keys.VOLUME_LEVELLING] = enabled }
+    }
+
+    /** N11 — the choices for the highest picture played (lines; 0 = Auto, no limit). */
+    val maxVideoHeightChoices: List<Int> = listOf(0, 2160, 1080, 720, 480)
+
+    /** N11 — the highest picture played when a stream offers several; 0 = Auto. */
+    val maxVideoHeight: Flow<Int> = prefsFlow { (it[Keys.MAX_VIDEO_HEIGHT] ?: 0).takeIf { v -> v in maxVideoHeightChoices } ?: 0 }
+
+    suspend fun setMaxVideoHeight(height: Int) {
+        context.dataStore.edit { it[Keys.MAX_VIDEO_HEIGHT] = height.takeIf { v -> v in maxVideoHeightChoices } ?: 0 }
+    }
+
+    /** N11 — the choices for the mobile-data limit (lines; 0 = Off, the same as on Wi-Fi). */
+    val mobileDataMaxVideoHeightChoices: List<Int> = listOf(0, 1080, 720, 480)
+
+    /** N11 — the highest picture played on a metered connection (the phone's row); 0 = Off. */
+    val mobileDataMaxVideoHeight: Flow<Int> =
+        prefsFlow { (it[Keys.MOBILE_DATA_MAX_VIDEO_HEIGHT] ?: 0).takeIf { v -> v in mobileDataMaxVideoHeightChoices } ?: 0 }
+
+    suspend fun setMobileDataMaxVideoHeight(height: Int) {
+        context.dataStore.edit { it[Keys.MOBILE_DATA_MAX_VIDEO_HEIGHT] = height.takeIf { v -> v in mobileDataMaxVideoHeightChoices } ?: 0 }
+    }
+
+    /** N19 — tunneled playback for live TV on ExoPlayer (experimental, off by default). */
+    val tunneledPlayback: Flow<Boolean> = prefsFlow { it[Keys.TUNNELED_PLAYBACK] ?: false }
+
+    /** True once tunneled playback failed on this device and switched itself off; the row says so until
+     *  the user turns it on again. */
+    val tunnelingFailed: Flow<Boolean> = prefsFlow { it[Keys.TUNNELING_FAILED] ?: false }
+
+    suspend fun setTunneledPlayback(enabled: Boolean) {
+        context.dataStore.edit {
+            it[Keys.TUNNELED_PLAYBACK] = enabled
+            if (enabled) it[Keys.TUNNELING_FAILED] = false
+        }
+    }
+
+    /** The engine's first-failure switch-off (N19). */
+    suspend fun disableTunnelingAfterFailure() {
+        context.dataStore.edit {
+            it[Keys.TUNNELED_PLAYBACK] = false
+            it[Keys.TUNNELING_FAILED] = true
         }
     }
 
@@ -2694,7 +2766,9 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             Keys.MULTIVIEW_TILES, Keys.RECORDING_PRE_ROLL_MINUTES, Keys.RECORDING_POST_ROLL_MINUTES,
             // Auto frame rate's pause (N7) and films' buffer / timeout / reconnects (N18); the readers
             // accept only their own choices.
-            Keys.AFR_PAUSE_SECS, Keys.VOD_BUFFER_SECS, Keys.VOD_NETWORK_TIMEOUT_SECS, Keys.VOD_RECONNECTS)
+            Keys.AFR_PAUSE_SECS, Keys.VOD_BUFFER_SECS, Keys.VOD_NETWORK_TIMEOUT_SECS, Keys.VOD_RECONNECTS,
+            // N11's two quality limits; the readers accept only their own choices.
+            Keys.MAX_VIDEO_HEIGHT, Keys.MOBILE_DATA_MAX_VIDEO_HEIGHT)
         val bools = listOf(
             Keys.LIVE_PREVIEW, Keys.LIVE_PREVIEW_AUDIO, Keys.HERO_PREVIEW, Keys.HDR_ENABLED, Keys.AUTO_FRAME_RATE, Keys.AFR_MATCH_RESOLUTION, Keys.AUTO_FRAME_RATE_PROMPTED, Keys.ANDROID_TV_HOME, Keys.HW_DECODING,
             Keys.VOD_PREFER_EXO, Keys.MEASURED_STREAM_STATS, Keys.DETAILED_DIAGNOSTICS, Keys.DIRECT_TUNE, Keys.LIVE_LEFT_RIGHT_REWINDS, Keys.EXTERNAL_PLAYER,
@@ -2714,6 +2788,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             Keys.AUDIO_PER_CHANNEL,
             Keys.MULTIVIEW_ENABLED, Keys.MULTIVIEW_WARNING_ACCEPTED,
             Keys.RECORDING_RESERVE_CONNECTION, Keys.RECORD_WHAT_IM_WATCHING, Keys.RECORDING_OVER_MOBILE_DATA,
+            Keys.AUDIO_PASSTHROUGH, Keys.NIGHT_MODE, Keys.VOLUME_LEVELLING, Keys.TUNNELED_PLAYBACK,
         )
         val floats = listOf(Keys.SUB_SCALE, Keys.SUB_SCALE_MPV, Keys.SUB_SCALE_EXO)
 
@@ -2792,7 +2867,8 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     private val deviceSpecificSettings: Set<String> = listOf(
         Keys.LIVE_ENGINE, Keys.VOD_ENGINE, Keys.VOD_PREFER_EXO, Keys.HW_DECODING, Keys.AUTO_FRAME_RATE,
         Keys.AFR_PAUSE_SECS, Keys.AFR_MATCH_RESOLUTION,
-        Keys.HDR_ENABLED, Keys.SURROUND_MODE, Keys.SURROUND_SOUND,
+        Keys.HDR_ENABLED, Keys.SURROUND_MODE, Keys.SURROUND_SOUND, Keys.AUDIO_PASSTHROUGH,
+        Keys.TUNNELED_PLAYBACK,
     ).map { it.name }.toSet()
 
     /** Whether a backup's settings block holds any of the [deviceSpecificSettings]. */

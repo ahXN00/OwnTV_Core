@@ -2730,6 +2730,7 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	audio_delay_ms
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	audio_on_mobile_data
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	audio_on_screen_off
+1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	audio_passthrough
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	audio_per_channel
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	auto_frame_rate
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	auto_frame_rate_prompted
@@ -2810,6 +2811,7 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_rewind_step_sec
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_tune_timeout_secs
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	main_font_family
+1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	max_video_height
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	measured_stream_stats
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	metadata_enabled
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	metadata_language
@@ -2819,6 +2821,7 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	mini_player_position
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	mini_player_size_pct
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	mini_player_style
+1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	mobile_data_max_video_height
 1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	moved_from_settings
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	multiview_enabled
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	multiview_tiles
@@ -2826,6 +2829,7 @@
 2	json	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	name
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	nav_menu_hidden
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	nav_menu_mode
+1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	night_mode
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	open_subtitles_api_key
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	open_subtitles_server_url
 1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	owntv_positions
@@ -2910,6 +2914,8 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	surround_sound
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	theme_mode
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	tmdb_api_key
+1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	tunneled_playback
+1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	tunneling_failed
 1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	ui_language
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	ui_zoom_percent
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	update_check_on_start
@@ -2921,6 +2927,7 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	vod_prefer_exo
 1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	vod_reconnects
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	vod_view_mode
+1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	volume_levelling
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	weather_enabled
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	weather_fahrenheit
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	weather_location
@@ -4114,6 +4121,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	buffer stopped growing at ${buffered}ms
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	buffered but never started playing ($detail)
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	buffering stalled
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	building tunneled player (N19)
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	connection pool evict failed: ${it.javaClass.simpleName}
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	critical memory pressure — next tune rebuilds with the low-RAM buffer
 1	protocol	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	dash
@@ -4174,6 +4182,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	muxedCaptions=${mv.muxedCaptionFormats?.size ?: 0}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	network restored
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	network restored — resuming the channel the ladder gave up on
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	no picture after ${now - tune.readySinceMs}ms
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	open stalled
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	open stalled — $detail
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	open stalled: $detail — the stream is buffered but unplayable here
@@ -4241,6 +4250,8 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	the renderer fell back after the hardware one failed
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	tracks: audio=${audio.size} text=${text.size}
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	trying direct_source: ${HttpClient.redactUrl(target)}
+2	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	tunneled playback failed ($reason) — turned off on this device
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	tunneled playback requested, active=${player?.isTunnelingEnabled == true}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	type${v.first}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	type=${response.header("Content-Type").orEmpty()}
 2	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	und
@@ -4618,12 +4629,13 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	tone-mapping
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	track-list/$i/codec
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	track-list/$i/demux-fps
-1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	track-list/$i/id
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	track-list/$i/demux-h
+2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	track-list/$i/id
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	track-list/$i/lang
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	track-list/$i/selected
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	track-list/$i/title
-1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	track-list/$i/type
-1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	track-list/count
+3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	track-list/$i/type
+3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	track-list/count
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	trimmed probe found no audio — re-probing fully
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	truehd
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	ua=${if (currentUserAgent.isNullOrBlank()) "default" else "custom"}
@@ -4634,7 +4646,8 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vc1
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vd-lavc-fast
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vd-lavc-skiploopfilter
-2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vid
+4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vid
+2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	video
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	video-aspect-override
 4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	video-bitrate
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	video-bitrate=${getPropertyString("video-bitrate")}
@@ -4908,5 +4921,6 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleShift.kt	vtt
 1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleShift.kt	webvtt
 2	technical	player-core/src/main/java/tv/own/owntv/player/SurfaceFrameRate.kt	DEPRECATION
+1	technical	player-core/src/main/java/tv/own/owntv/player/VideoQuality.kt	video/
 1	log	player-core/src/main/java/tv/own/owntv/player/VolumeBoost.kt	volume boost failed: ${it.javaClass.simpleName}
 1	log	player-core/src/main/java/tv/own/owntv/player/VolumeBoost.kt	volume boost unavailable: ${it.javaClass.simpleName}

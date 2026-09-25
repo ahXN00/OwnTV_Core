@@ -641,6 +641,36 @@
     <string name="settings_surround_description">Decode Dolby/DTS to surround (5.1/7.1) for a real 5.1/7.1 receiver. Leave OFF for TV speakers or a stereo soundbar — multichannel can lag audio behind video on some TVs/soundbars. If it drifts, nudge the player\'s Audio menu → A/V sync.</string>
     <!-- Translators: Phone/tablet wording of settings_surround_description. -->
     <string name="settings_surround_description_mobile">Decode Dolby/DTS to surround (5.1/7.1) for a real 5.1/7.1 receiver connected to this device. Leave OFF for the built-in speaker, headphones or a stereo soundbar — multichannel can lag audio behind video. If it drifts, nudge the player\'s Audio menu → A/V sync.</string>
+    <!-- Translators: Settings → Video player, Sound section. Toggle: send Dolby/DTS audio undecoded ("bitstream") to the TV or receiver. -->
+    <string name="settings_audio_passthrough">Dolby and DTS passthrough</string>
+    <!-- Translators: Description of settings_audio_passthrough. "Surround sound", "Night mode" and "Volume leveling" are the names of other settings rows. -->
+    <string name="settings_audio_passthrough_description">On: Dolby and DTS go undecoded to the TV, soundbar or receiver when it says it can play them (ExoPlayer). Off: the app decodes them, still as surround where Surround sound allows. mpv always decodes. Not used while Night mode or Volume leveling is on.</string>
+    <!-- Translators: Phone/tablet wording of settings_audio_passthrough_description. -->
+    <string name="settings_audio_passthrough_description_mobile">On: Dolby and DTS go undecoded to a connected TV or receiver when it says it can play them (ExoPlayer). Off: the app decodes them, still as surround where Surround sound allows. mpv always decodes. Not used while Night mode or Volume leveling is on.</string>
+    <!-- Translators: Settings → Video player, Sound section. Toggle: dynamic range compression (loud scenes quieter, quiet dialogue louder). -->
+    <string name="settings_night_mode">Night mode</string>
+    <!-- Translators: Description of settings_night_mode. -->
+    <string name="settings_night_mode_description">Turns loud scenes down and quiet dialogue up, for watching at a low volume.</string>
+    <!-- Translators: Settings → Video player, Sound section. Toggle: automatic loudness leveling across channels and movies. -->
+    <string name="settings_volume_leveling">Volume leveling</string>
+    <!-- Translators: Description of settings_volume_leveling. -->
+    <string name="settings_volume_leveling_description">Brings every channel and movie slowly to the same loudness, so switching does not jump in volume.</string>
+    <!-- Translators: Settings → Video player. Picker: the highest picture resolution played (Auto, 2160p, 1080p, 720p, 480p). -->
+    <string name="settings_max_video_quality">Maximum video quality</string>
+    <!-- Translators: Description of settings_max_video_quality. -->
+    <string name="settings_max_video_quality_description">The highest picture played when a channel or movie offers several. Saves bandwidth and eases the decoder.</string>
+    <!-- Translators: Phone Settings → Video player. Picker: the highest resolution played on mobile data (Off, 1080p, 720p, 480p). -->
+    <string name="settings_mobile_data_quality">Maximum quality on mobile data</string>
+    <!-- Translators: Description of settings_mobile_data_quality. "Metered" is Android's term for a connection that costs money per byte. -->
+    <string name="settings_mobile_data_quality_description">On a metered connection, plays at most this quality. Off: the same as on Wi-Fi.</string>
+    <!-- Translators: Settings → Video player. Toggle for an experimental decoder mode ("tunneled playback") where the TV hardware syncs picture and sound. -->
+    <string name="settings_tunneled_playback">Tunneled playback (experimental)</string>
+    <!-- Translators: Description of settings_tunneled_playback. -->
+    <string name="settings_tunneled_playback_description">Live TV on ExoPlayer: the TV\'s own hardware keeps picture and sound together, with less work for the processor. Works on some TVs only, and turns itself off if a channel fails with it. Audio sync cannot be nudged while it is on.</string>
+    <!-- Translators: Phone/tablet wording of settings_tunneled_playback_description. -->
+    <string name="settings_tunneled_playback_description_mobile">Live TV on ExoPlayer: the device\'s own hardware keeps picture and sound together, with less work for the processor. Works on some devices only, and turns itself off if a channel fails with it. Audio sync cannot be nudged while it is on.</string>
+    <!-- Translators: Shown under the Tunneled playback row after the app switched it off by itself because a channel failed with it. -->
+    <string name="settings_tunneled_playback_failed">Turned off after a channel failed with it on this device.</string>
     <!-- Translators: Setting label to auto-play the next episode. -->
     <string name="settings_autoplay_next">Auto-play next episode</string>
     <!-- Translators: Description of the auto-play next episode setting. -->
