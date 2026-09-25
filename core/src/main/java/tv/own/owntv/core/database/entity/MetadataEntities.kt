@@ -44,6 +44,12 @@ data class MetadataCacheEntity(
      * render time — the metadata layer never writes to the content tables.
      */
     val airDate: String? = null,
+    /**
+     * TMDB `original_language` of a movie or show (ISO 639-1), for the "Original language" audio
+     * choice (v45). Null on episode rows, search-hit fallback rows and rows cached before v45 — the
+     * player's lookup re-fetches those details once, when that title is played.
+     */
+    val originalLanguage: String? = null,
 )
 
 /**

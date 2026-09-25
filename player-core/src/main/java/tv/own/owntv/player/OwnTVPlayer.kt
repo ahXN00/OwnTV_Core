@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.coroutines.withContext
 import tv.own.owntv.core.R
 import tv.own.owntv.core.i18n.LocaleStore
@@ -27,6 +28,7 @@ import tv.own.owntv.core.network.StreamHeaders
 import tv.own.owntv.core.player.EnginePreference
 import tv.own.owntv.core.player.PlayerBudget
 import tv.own.owntv.core.player.SurroundMode
+import tv.own.owntv.core.player.TrackLanguages
 import tv.own.owntv.core.settings.LiveBuffer
 import tv.own.owntv.core.settings.SettingsRepository
 import tv.own.owntv.core.settings.SubtitleStyle
@@ -163,6 +165,7 @@ class OwnTVPlayer(
     private val vodEngineStore: tv.own.owntv.core.player.VodEngineStore,
     private val localeStore: LocaleStore,
     private val playbackPrefs: tv.own.owntv.core.player.PlaybackPrefsStore,
+    private val originalLanguage: tv.own.owntv.core.metadata.OriginalLanguageLookup,
 ) : MPVLib.EventObserver, SleepTimer.ItemEnd {
     private val toastRenderer = PlayerToastRenderer(context, localeStore)
 
@@ -247,6 +250,8 @@ class OwnTVPlayer(
         // Ceiling on outstanding app-caused END_FILE credits (see incrementPendingStopCounter). A handoff
         // issues at most a stop + a loadfile, so anything beyond a small number means credits are leaking.
         const val MAX_PENDING_STOP_CREDITS = 4
+        /** Longest a load waits for the title's original language (TMDB on a first play) before giving up. */
+        const val ORIGINAL_LANGUAGE_WAIT_MS = 4_000L
         const val END_TOLERANCE_MS = 8_000L // how close to the duration still counts as "finished"
 
         /**
@@ -1090,12 +1095,12 @@ class OwnTVPlayer(
         // "no preference", which is exactly what a cleared setting means.
         playbackSettings.field { it.preferredAudioLang }.onEach { lang ->
             prefAudioLang = lang
-            if (initialized) mpvAsync { setPropertyString("alang", lang) }
+            if (initialized) mpvAsync { setPropertyString("alang", mpvLanguageList(TrackLanguages.forEngine(lang))) }
         }.launchIn(scope)
         playbackSettings.field { it.preferredSubLang }.onEach { lang ->
             prefSubLang = lang
             if (initialized) mpvAsync {
-                setPropertyString("slang", lang)
+                setPropertyString("slang", mpvLanguageList(lang))
                 setPropertyString("subs-with-matching-audio", if (lang.isBlank()) "no" else "yes")
             }
         }.launchIn(scope)
@@ -1840,7 +1845,7 @@ class OwnTVPlayer(
             engine.filmTimeoutSecs = it.vodNetworkTimeoutSecs
             engine.filmReconnects = it.vodReconnects
         }
-        engine.prefAudioLang = prefAudioLang
+        engine.prefAudioLang = TrackLanguages.forEngine(prefAudioLang)
         engine.prefSubLang = prefSubLang
         // Carry this item's request identity across the handoff (F16) — a stream that needs a custom
         // UA/Referer on mpv needs exactly the same on ExoPlayer.
@@ -2420,8 +2425,8 @@ class OwnTVPlayer(
                 if (subStyleOverridesAss()) setOptionString("sub-ass-override", "force")
             }
             setOptionString("audio-delay", audioDelaySec.toString())
-            if (prefAudioLang.isNotBlank()) setOptionString("alang", prefAudioLang)
-            if (prefSubLang.isNotBlank()) setOptionString("slang", prefSubLang)
+            mpvLanguageList(TrackLanguages.forEngine(prefAudioLang)).takeIf { it.isNotBlank() }?.let { setOptionString("alang", it) }
+            if (prefSubLang.isNotBlank()) setOptionString("slang", mpvLanguageList(prefSubLang))
             setOptionString("subs-with-matching-audio", if (prefSubLang.isBlank()) "no" else "yes")
             // HDR passthrough: signal the source colorspace (incl. HDR10/HLG) to the display surface.
             setOptionString("target-colorspace-hint", if (hdrHint) "yes" else "no")
@@ -3373,8 +3378,13 @@ class OwnTVPlayer(
         trackRecall = recall
         scope.launch {
             val remembered = playbackPrefs.tracksFor(key)
+            // "Original language" (N14): the title's own language from TMDB, standing in for a remembered
+            // one. Bounded, because a first play may ask TMDB; with no answer the stream's main track stays.
+            val original = if (remembered?.first == null && prefAudioLang == TrackLanguages.ORIGINAL) {
+                withTimeoutOrNull(ORIGINAL_LANGUAGE_WAIT_MS) { runCatching { originalLanguage.of(key) }.getOrNull() }
+            } else null
             if (trackRecall !== recall) return@launch // a newer load started while we were reading
-            recall.audio = remembered?.first
+            recall.audio = remembered?.first ?: original
             recall.sub = remembered?.second
             recall.loaded = true
             applyRememberedTracks()

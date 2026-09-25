@@ -307,7 +307,7 @@ class LivePreviewEngine(
         val p = player ?: return
         runCatching {
             p.trackSelectionParameters = p.trackSelectionParameters.buildUpon()
-                .setPreferredAudioLanguage(prefAudioLang.takeIf { it.isNotBlank() })
+                .setPreferredAudioLanguage(tv.own.owntv.core.player.TrackLanguages.forEngine(prefAudioLang).takeIf { it.isNotBlank() })
                 .setPreferredTextLanguage(prefSubLang.takeIf { it.isNotBlank() })
                 .build()
         }

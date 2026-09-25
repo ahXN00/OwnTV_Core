@@ -181,6 +181,8 @@ data class MovieDetails(
     val trailerKey: String?,
     /** Best title/logo image path from TMDB images; null when no usable logo exists. */
     val logoPath: String?,
+    /** TMDB `original_language` (ISO 639-1, e.g. "ko"): what "Original language" audio plays (N14). */
+    val originalLanguage: String? = null,
 )
 
 /** Per-episode TMDB details (`/tv/{id}/season/{n}/episode/{m}`). Its own still, plot, air date, rating. */

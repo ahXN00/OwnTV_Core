@@ -184,13 +184,18 @@ class MetadataRepository(
         return fetchAndCacheTv(tmdbId, lang, fallback = null)
     }
 
-    private suspend fun fetchAndCacheTv(tmdbId: Int, lang: String, fallback: MetadataSearchResult?): MetadataCacheEntity? {
+    private suspend fun fetchAndCacheTv(
+        tmdbId: Int,
+        lang: String,
+        fallback: MetadataSearchResult?,
+        force: Boolean = false,
+    ): MetadataCacheEntity? {
         val now = System.currentTimeMillis()
         // Details are keyed by TMDB id, not by the local item, so a second playlist entry for the same
         // show already has them. IPTV catalogs list the same show in several categories routinely, and
         // without this each duplicate paid for an identical download. Still bypassed for a row that is
         // not usable, so the legacy-cast refresh keeps working.
-        dao.getCache(tvCacheKey(tmdbId, lang))?.let {
+        if (!force) dao.getCache(tvCacheKey(tmdbId, lang))?.let {
             if (now - it.updatedAt < POSITIVE_TTL_MS && it.isUsable()) return it
         }
         val details = provider.tvDetails(tmdbId)
@@ -205,6 +210,7 @@ class MetadataRepository(
                 castJson = details.cast.takeIf { it.isNotEmpty() }?.let { MetadataCast.serialize(it) },
                 trailerKey = details.trailerKey,
                 logoPath = details.logoPath,
+                originalLanguage = details.originalLanguage,
                 updatedAt = now,
             )
             fallback != null -> MetadataCacheEntity(
@@ -249,6 +255,26 @@ class MetadataRepository(
             MetadataType.TV -> fetchAndCacheTv(tmdbId, lang, fallback = null)
             MetadataType.EPISODE -> null
         }
+    }
+
+    /**
+     * TMDB's original language (ISO 639-1) of a film or show, for the "Original language" audio choice
+     * (N14); null when enrichment is off, the title has no match, or TMDB could not be reached.
+     *
+     * A row cached before v45 has no language yet, so its details are fetched again — once, now that
+     * the title is being played, rather than for the whole cache (the Worker's quota is shared).
+     */
+    suspend fun originalLanguageOfMovie(movie: MovieEntity): String? {
+        val row = resolveMovie(movie) ?: return null
+        return row.originalLanguage
+            ?: fetchAndCache(row.tmdbId, currentLang(), force = true)?.originalLanguage
+    }
+
+    /** Series counterpart to [originalLanguageOfMovie]; every episode plays in the show's language. */
+    suspend fun originalLanguageOfSeries(series: tv.own.owntv.core.database.entity.SeriesEntity): String? {
+        val row = resolveSeries(series) ?: return null
+        return row.originalLanguage
+            ?: fetchAndCacheTv(row.tmdbId, currentLang(), fallback = null, force = true)?.originalLanguage
     }
 
     /**
@@ -584,10 +610,11 @@ class MetadataRepository(
         localKey: String = cacheKey(tmdbId, lang),
         confidence: Double = 1.0,
         fallback: MetadataSearchResult? = null,
+        force: Boolean = false,
     ): MetadataCacheEntity? {
         val now = System.currentTimeMillis()
         // Same as fetchAndCacheTv: two local entries for one film share its TMDB details.
-        dao.getCache(cacheKey(tmdbId, lang))?.let {
+        if (!force) dao.getCache(cacheKey(tmdbId, lang))?.let {
             if (now - it.updatedAt < POSITIVE_TTL_MS && it.isUsable()) return it
         }
         val details = provider.movieDetails(tmdbId)
@@ -607,6 +634,7 @@ class MetadataRepository(
                 castJson = details.cast.takeIf { it.isNotEmpty() }?.let { MetadataCast.serialize(it) },
                 trailerKey = details.trailerKey,
                 logoPath = details.logoPath,
+                originalLanguage = details.originalLanguage,
                 updatedAt = now,
             )
             fallback != null -> MetadataCacheEntity(

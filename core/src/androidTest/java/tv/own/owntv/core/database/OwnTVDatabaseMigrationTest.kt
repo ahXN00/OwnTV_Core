@@ -590,6 +590,38 @@ class OwnTVDatabaseMigrationTest {
         }
     }
 
+    @Test
+    fun migrateVersion44To45_addsOriginalLanguage_keepingCachedRows() {
+        context.deleteDatabase(DB_NAME)
+        val db44 = context.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null)
+        try {
+            executeSchemaQueries(db44, "tv.own.owntv.core.database.OwnTVDatabase/44.json")
+            db44.execSQL(
+                "INSERT INTO metadata_cache (`key`, tmdbId, imdbId, type, title, year, overview, posterPath, backdropPath, " +
+                    "rating, genresJson, castJson, trailerKey, logoPath, updatedAt, airDate) " +
+                    "VALUES ('movie:496243', 496243, NULL, 'movie', 'Parasite', 2019, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 7, NULL)",
+            )
+            db44.version = 44
+        } finally {
+            db44.close()
+        }
+
+        val db = openWithAllMigrations()
+        try {
+            val sqlite = openForAssertions(db)
+            assertColumnExists(sqlite, "metadata_cache", "originalLanguage")
+            // The cached row came through; its language is unknown until the title is played.
+            assertCount(sqlite, "metadata_cache", 1)
+            sqlite.prepare("SELECT title, originalLanguage FROM metadata_cache").use {
+                assertTrue(it.step())
+                assertEquals("Parasite", it.getText(0))
+                assertTrue(it.isNull(1))
+            }
+        } finally {
+            db.close()
+        }
+    }
+
     private fun normNameOf(db: SQLiteConnection, epgChannelId: String): String? =
         db.prepare("SELECT normName FROM epg_channels WHERE epgChannelId = ?").use {
             it.bindText(1, epgChannelId)

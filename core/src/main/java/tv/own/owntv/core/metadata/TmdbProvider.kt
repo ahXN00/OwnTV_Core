@@ -242,6 +242,7 @@ class TmdbProvider(
             cast = cast,
             trailerKey = parseTrailerKey(o),
             logoPath = parseLogoPath(o, preferredLang),
+            originalLanguage = o.optString("original_language").takeIf { it.isNotBlank() && it != "null" },
         )
     }
 
@@ -268,6 +269,7 @@ class TmdbProvider(
             cast = cast,
             trailerKey = parseTrailerKey(o),
             logoPath = parseLogoPath(o, preferredLang),
+            originalLanguage = o.optString("original_language").takeIf { it.isNotBlank() && it != "null" },
         )
     }
 

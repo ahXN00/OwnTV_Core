@@ -1789,18 +1789,22 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         }
     }
 
-    /** Preferred audio language (ISO code, mpv alang); blank = no preference. */
-    val preferredAudioLang: Flow<String> = prefsFlow { it[Keys.PREF_AUDIO_LANG] ?: "" }
+    // Preferred languages are per profile (N13): "pref_audio_lang_<id>" / "pref_sub_lang_<id>". A profile
+    // that never chose one follows the old shared key, so nobody's language changed with the upgrade.
+    // Both flows follow the active profile, so a profile switch reaches the engines like any other change.
+
+    /** Preferred audio language of the active profile (ISO code, mpv alang); blank = no preference. */
+    val preferredAudioLang: Flow<String> = prefsFlow { profileLang(it, PREF_AUDIO_LANG_PREFIX, Keys.PREF_AUDIO_LANG) }
 
     suspend fun setPreferredAudioLang(lang: String) {
-        context.dataStore.edit { it[Keys.PREF_AUDIO_LANG] = lang }
+        context.dataStore.edit { it[activeProfileLangKey(it, PREF_AUDIO_LANG_PREFIX)] = lang }
     }
 
-    /** Preferred subtitle language (ISO code, mpv slang); blank = no preference. */
-    val preferredSubLang: Flow<String> = prefsFlow { it[Keys.PREF_SUB_LANG] ?: "" }
+    /** Preferred subtitle language of the active profile (ISO code, mpv slang); blank = no preference. */
+    val preferredSubLang: Flow<String> = prefsFlow { profileLang(it, PREF_SUB_LANG_PREFIX, Keys.PREF_SUB_LANG) }
 
     suspend fun setPreferredSubLang(lang: String) {
-        context.dataStore.edit { it[Keys.PREF_SUB_LANG] = lang }
+        context.dataStore.edit { it[activeProfileLangKey(it, PREF_SUB_LANG_PREFIX)] = lang }
     }
 
     // --- OpenSubtitles search language filter ---
@@ -2995,6 +2999,35 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         }
     }
 
+    // --- Backup: per-profile preferred languages (dynamic "pref_audio_lang_<id>" / "pref_sub_lang_<id>") ---
+
+    /** Exports { "<profileId>": { "a": "<audio>", "s": "<subtitle>" } }; a side the profile never chose is absent. */
+    suspend fun exportPreferredLanguages(): org.json.JSONObject {
+        val out = org.json.JSONObject()
+        context.dataStore.data.first().asMap().forEach { (k, v) ->
+            if (v !is String) return@forEach
+            val (pid, field) = when {
+                k.name.startsWith(PREF_AUDIO_LANG_PREFIX) -> k.name.removePrefix(PREF_AUDIO_LANG_PREFIX) to "a"
+                k.name.startsWith(PREF_SUB_LANG_PREFIX) -> k.name.removePrefix(PREF_SUB_LANG_PREFIX) to "s"
+                else -> return@forEach
+            }
+            (out.optJSONObject(pid) ?: org.json.JSONObject().also { out.put(pid, it) }).put(field, v)
+        }
+        return out
+    }
+
+    /** Restores the languages only for profile ids in [existingProfileIds] (others are dropped safely). */
+    suspend fun importPreferredLanguages(o: org.json.JSONObject, existingProfileIds: Set<Long>) {
+        context.dataStore.edit { prefs ->
+            o.keys().forEach { key ->
+                val pid = key.toLongOrNull()?.takeIf { it in existingProfileIds } ?: return@forEach
+                val langs = o.optJSONObject(key) ?: return@forEach
+                if (langs.has("a")) prefs[stringPreferencesKey(PREF_AUDIO_LANG_PREFIX + pid)] = langs.optString("a")
+                if (langs.has("s")) prefs[stringPreferencesKey(PREF_SUB_LANG_PREFIX + pid)] = langs.optString("s")
+            }
+        }
+    }
+
     // --- Backup: per-profile "hide new categories" preference (dynamic "hide_new_categories_<id>" keys) ---
 
     /** Exports all per-profile "hide new categories" preferences as { "<profileId>": true/false }. */
@@ -3145,3 +3178,14 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         }
     }
 }
+
+/** Per-profile preferred-language keys (N13); the profile id follows. */
+internal const val PREF_AUDIO_LANG_PREFIX = "pref_audio_lang_"
+internal const val PREF_SUB_LANG_PREFIX = "pref_sub_lang_"
+
+internal fun activeProfileLangKey(prefs: Preferences, prefix: String): Preferences.Key<String> =
+    stringPreferencesKey(prefix + (prefs[SettingsRepository.Keys.ACTIVE_PROFILE] ?: -1L))
+
+/** The active profile's own choice, else the shared (pre-N13) setting, else no preference. */
+internal fun profileLang(prefs: Preferences, prefix: String, shared: Preferences.Key<String>): String =
+    prefs[activeProfileLangKey(prefs, prefix)] ?: prefs[shared] ?: ""
