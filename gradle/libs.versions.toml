@@ -43,8 +43,9 @@ paging = "3.5.1"
 # Two defaults changed here: playback now uses dynamic scheduling instead of a fixed interval, and
 # the default PCM buffer is a fixed 500ms — both are felt by the forced-stereo DefaultAudioSink path.
 media3 = "1.11.1"
-# libmpv (FFmpeg-based) — full codec/track support for IPTV, caching, speed, etc.
-libmpv = "1.0.0"
+# libmpv (FFmpeg-based) — OwnTV's own build (ahXN00/OwnTV_libmpv): pinned mpv master, FFmpeg release, filters.
+# Versions are YYYY.MM.N; a new one arrives as a "Pin libmpv" pull request and waits for the device test.
+libmpv = "2026.09.1"
 
 # --- Kotlin libs ---
 coroutines = "1.11.0"
@@ -129,7 +130,7 @@ androidx-media3-ui = { group = "androidx.media3", name = "media3-ui", version.re
 androidx-media3-datasource-okhttp = { group = "androidx.media3", name = "media3-datasource-okhttp", version.ref = "media3" }
 
 # libmpv player engine
-libmpv = { group = "dev.jdtech.mpv", name = "libmpv", version.ref = "libmpv" }
+libmpv = { group = "tv.own.owntv", name = "libmpv", version.ref = "libmpv" }
 
 # Dependency injection
 koin-bom = { group = "io.insert-koin", name = "koin-bom", version.ref = "koin" }

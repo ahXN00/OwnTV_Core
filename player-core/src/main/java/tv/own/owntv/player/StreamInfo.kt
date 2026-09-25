@@ -8,13 +8,16 @@ import java.util.Locale
 import tv.own.owntv.core.R
 
 /** Stable labels and typed values for the technical stream overlay. */
-enum class StreamInfoLabel { ENGINE, FORMAT, SOURCE, VIDEO, HDR, BITRATE, DECODER, AUDIO, AUDIO_OUTPUT, BUFFER, LIVE_BUFFER }
+enum class StreamInfoLabel { ENGINE, FORMAT, SOURCE, VIDEO, HDR, INTERLACING, BITRATE, DECODER, AUDIO, AUDIO_OUTPUT, BUFFER, LIVE_BUFFER }
 
 enum class StreamEngine { MPV, EXOPLAYER }
 
 enum class StreamEngineMode { NORMAL, PREFERRED, FALLBACK, IMAGE_SUBTITLE_HANDOFF }
 
 enum class StreamHdrMode { HDR10_PQ, HLG, SDR }
+
+/** Whether the picture is interlaced and who removes the combing (mpv only; ExoPlayer cannot tell). */
+enum class InterlaceState { PROGRESSIVE, DEINTERLACED_BY_PLAYER, DEINTERLACED_BY_DEVICE, NOT_DEINTERLACED }
 
 enum class DecoderKind { HARDWARE, SOFTWARE, NAMED }
 
@@ -32,6 +35,7 @@ sealed interface StreamInfoValue {
         val bitDepth: Int? = null,
     ) : StreamInfoValue
     data class Hdr(val mode: StreamHdrMode) : StreamInfoValue
+    data class Interlacing(val state: InterlaceState) : StreamInfoValue
     data class Bitrate(val bitsPerSecond: Long) : StreamInfoValue
     data class Decoder(
         val kind: DecoderKind,
@@ -83,6 +87,7 @@ val StreamInfoLabel.titleRes: Int
         StreamInfoLabel.SOURCE -> R.string.player_stream_source
         StreamInfoLabel.VIDEO -> R.string.player_stream_video
         StreamInfoLabel.HDR -> R.string.player_stream_hdr
+        StreamInfoLabel.INTERLACING -> R.string.player_stream_interlacing
         StreamInfoLabel.BITRATE -> R.string.player_stream_bitrate
         StreamInfoLabel.DECODER -> R.string.player_stream_decoder
         StreamInfoLabel.AUDIO -> R.string.player_stream_audio
@@ -136,6 +141,14 @@ fun StreamInfoValue.displayText(res: Resources): String {
             StreamHdrMode.HLG -> res.getString(R.string.player_stream_hlg)
             StreamHdrMode.SDR -> res.getString(R.string.player_stream_sdr)
         }
+        is StreamInfoValue.Interlacing -> res.getString(
+            when (state) {
+                InterlaceState.PROGRESSIVE -> R.string.player_stream_progressive
+                InterlaceState.DEINTERLACED_BY_PLAYER -> R.string.player_stream_deinterlaced_by_player
+                InterlaceState.DEINTERLACED_BY_DEVICE -> R.string.player_stream_deinterlaced_by_device
+                InterlaceState.NOT_DEINTERLACED -> R.string.player_stream_not_deinterlaced
+            },
+        )
         is StreamInfoValue.Bitrate ->
             res.getString(R.string.player_stream_mbps, number(bitsPerSecond / 1_000_000.0))
         is StreamInfoValue.Decoder -> buildList {

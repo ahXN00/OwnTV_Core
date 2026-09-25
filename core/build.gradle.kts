@@ -97,17 +97,11 @@ publishing {
         }
     }
     repositories {
+        // A local staging repository; tools/publish_pages.py copies it into OwnTV's public Maven
+        // repository (this repo's gh-pages branch, https://ahxn00.github.io/OwnTV_Core/maven).
         maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/ahXN00/OwnTV_Core")
-            // Never in the repo — these live in ~/.gradle/gradle.properties locally, and come from
-            // repository secrets in CI.
-            credentials {
-                username = providers.gradleProperty("gpr.user")
-                    .orElse(providers.environmentVariable("GITHUB_ACTOR")).orNull
-                password = providers.gradleProperty("gpr.token")
-                    .orElse(providers.environmentVariable("GITHUB_TOKEN")).orNull
-            }
+            name = "Staging"
+            url = uri(rootProject.layout.buildDirectory.dir("staging-maven"))
         }
     }
 }

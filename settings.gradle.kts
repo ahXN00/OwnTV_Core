@@ -19,6 +19,13 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // OwnTV's own Maven repository (this repo's gh-pages branch) — public, no login. Here for
+        // tv.own.owntv:libmpv, the mpv engine built by ahXN00/OwnTV_libmpv.
+        maven {
+            name = "OwnTV"
+            url = uri("https://ahxn00.github.io/OwnTV_Core/maven")
+            content { includeGroup("tv.own.owntv") }
+        }
     }
 }
 

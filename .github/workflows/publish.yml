@@ -1,24 +1,24 @@
 name: Publish core
 
-# Publishes tv.own.owntv:core and tv.own.owntv:player-core to GitHub Packages when a core-* tag is
-# pushed, then publishes the GitHub Release for that tag. Both modules always go out together on the
+# Publishes tv.own.owntv:core and tv.own.owntv:player-core to OwnTV's public Maven repository (this
+# repo's gh-pages branch, https://ahxn00.github.io/OwnTV_Core/maven — no login to download) when a
+# core-* tag is pushed, then publishes the GitHub Release for that tag. Both modules always go out together on the
 # same version, taken from `coreVersion` in the root build file — the tag must match it, and the job
 # checks that before publishing anything.
 #
 # Order matters, and it is the design: the tag check, then the FULL gate — `build.yml` and
-# `i18n.yml`, called rather than copied — then the packages, then the release. The release is
+# `i18n.yml`, called rather than copied — then the Maven publish, then the release. The release is
 # therefore proof that everything before it succeeded, which is exactly why `bump-consumers.yml`
-# triggers on the release and not on the tag. Push a tag that fails anything and you get no packages,
+# triggers on the release and not on the tag. Push a tag that fails anything and you get no artifacts,
 # no release, no pin-bump pull request, and a clean chance to fix it and re-tag.
 #
 # The gate used to be unit tests only, with lint racing the publish from `build.yml`'s own tag
 # trigger and the i18n checks not running on a tag at all. Both of those holes have been closed; see
 # the comment on the gate jobs.
 #
-# GITHUB_TOKEN can write packages for its own repository, which is why `permissions: packages: write`
-# is set below. The RELEASE step is the exception and uses CONSUMER_BUMP_TOKEN — see its comment. A
-# PAT with read:packages is separately needed by anything that CONSUMES the artifact — see the app
-# repo's CI secrets.
+# Both the Maven publish and the RELEASE use CONSUMER_BUMP_TOKEN (Contents: write on this repo): a
+# gh-pages push made with GITHUB_TOKEN is not guaranteed to start the Pages build, and a release made
+# with it never starts bump-consumers. Consumers need no token at all.
 
 on:
   push:
@@ -27,7 +27,6 @@ on:
 
 permissions:
   contents: read
-  packages: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -55,7 +54,7 @@ jobs:
   # to main is held to.
   #
   # They used to run beside the publish instead of in front of it: `build.yml` triggered on the tag in
-  # parallel, and `i18n.yml` did not trigger on a tag at all. So a tag could reach GitHub Packages
+  # parallel, and `i18n.yml` did not trigger on a tag at all. So a tag could reach the package registry
   # while lint was still analysing, and a version could ship a string that existed in English and
   # nowhere else. core-1.0.34 is the worked example — lint's PluralsCandidate failed *after* the
   # packages were immutable, and the fix could only be a version of its own.
@@ -93,18 +92,22 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Publish to GitHub Packages
+      # Staged locally, then copied into gh-pages by tools/publish_pages.py (identical copy in
+      # ahXN00/OwnTV_libmpv). It refuses an already-published version, keeps the newest 30, and
+      # waits until Pages actually serves the new POMs — so the release below, and the pin-bump
+      # pull requests it triggers, never run ahead of the files.
+      - name: Publish to the OwnTV Maven repository
         env:
-          GITHUB_ACTOR: ${{ github.actor }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PAGES_TOKEN: ${{ secrets.CONSUMER_BUMP_TOKEN }}
         run: |
           chmod +x ./gradlew
-          ./gradlew publishAllPublicationsToGitHubPackagesRepository --stacktrace
+          ./gradlew publishAllPublicationsToStagingRepository --stacktrace
+          python3 tools/publish_pages.py build/staging-maven --keep core=30 --keep player-core=30
 
       # LAST step on purpose. The release is the visible, human-readable record that this version
       # exists — and it is also the trigger for `bump-consumers.yml`, which opens the pin-bump pull
       # request on every app. Creating it here, after the tests and the publish, means a release can
-      # only appear for a version that actually built and actually reached GitHub Packages. A failed
+      # only appear for a version that actually built and is actually served by the Maven repository. A failed
       # run leaves no release, so no consumer is ever pinned to something that does not exist, and
       # there is a chance to fix the problem and re-tag before anything downstream moves.
       #
@@ -138,7 +141,7 @@ jobs:
 
           if [ ! -s notes.md ]; then
             echo "::warning::No CHANGELOG.md section for $TAG — publishing the release without notes."
-            printf 'Published to GitHub Packages as `tv.own.owntv:core:%s` and `tv.own.owntv:player-core:%s`.\n' \
+            printf 'Published to https://ahxn00.github.io/OwnTV_Core/maven (no login) as `tv.own.owntv:core:%s` and `tv.own.owntv:player-core:%s`.\n' \
               "${TAG#core-}" "${TAG#core-}" > notes.md
           fi
 

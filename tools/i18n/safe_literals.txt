@@ -3924,6 +3924,15 @@
 1	technical	player-core/src/main/java/tv/own/owntv/core/subtitles/SubtitleController.kt	year
 1	locale	player-core/src/main/java/tv/own/owntv/core/subtitles/SubtitleController.kt	zh
 1	technical	player-core/src/main/java/tv/own/owntv/core/subtitles/SubtitleController.kt	zho
+1	technical	player-core/src/main/java/tv/own/owntv/player/AudioDynamics.kt	\0
+1	technical	player-core/src/main/java/tv/own/owntv/player/AudioDynamics.kt	%.4f
+1	technical	player-core/src/main/java/tv/own/owntv/player/AudioDynamics.kt	,
+1	technical	player-core/src/main/java/tv/own/owntv/player/AudioDynamics.kt	:attack=${(NIGHT_ATTACK_SECS * 1000).toInt()}:release=${(NIGHT_RELEASE_SECS * 1000).toInt()}
+1	technical	player-core/src/main/java/tv/own/owntv/player/AudioDynamics.kt	:makeup=${fmt(NIGHT_MAKEUP.toDouble())}
+1	technical	player-core/src/main/java/tv/own/owntv/player/AudioDynamics.kt	acompressor=threshold=${fmt(NIGHT_THRESHOLD.toDouble())}:ratio=${NIGHT_RATIO.toInt()}
+1	technical	player-core/src/main/java/tv/own/owntv/player/AudioDynamics.kt	alimiter=limit=$CEILING
+1	technical	player-core/src/main/java/tv/own/owntv/player/AudioDynamics.kt	dynaudnorm=f=250:g=15:p=0.95:m=${fmt(LEVEL_MAX.toDouble())}:r=${fmt(TARGET_RMS)}
+1	technical	player-core/src/main/java/tv/own/owntv/player/AudioDynamics.kt	lavfi=[${chain.joinToString(",")}]
 1	empty	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	\0
 1	technical	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	${f.channelCount}ch
 1	technical	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	${f.sampleRate / 1000}kHz
@@ -4383,6 +4392,8 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	absolute
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	ac-3
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	ac3
+4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	af
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	af=${getPropertyString("af").orEmpty().ifEmpty { "none" }}
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	aid
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	alac
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	alang
@@ -4396,6 +4407,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	attachSurface
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio drained ${"%.1f".format(vfps / cfps)}× too fast
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio filters: ${getPropertyString("af").orEmpty().ifEmpty { "none" }}
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio output produced no sound
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio-bitrate
 3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio-channels
@@ -4426,6 +4438,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	clip
 7	protocol	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	container-fps
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	correct-pts
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	curl-enabled
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	custom
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	cycle
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	decode check: hwdec-current='$hw' height=${h}px direct=${_directRender.value}
@@ -4436,6 +4449,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	decoder-frame-drop-count
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	default
 4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	deinterlace
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	deinterlace-active
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	deinterlace=auto unsupported by this libmpv; left off
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	demux-fps=${videoDemuxFps(this)}
 4	protocol	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	demuxer-cache-duration
@@ -4482,7 +4496,9 @@
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	fbo-format
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	fbo=${getPropertyString("fbo-format")} cache=${getPropertyString("demuxer-max-bytes")}
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	fflags=$fflags
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	ffmpeg-version
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	flac
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	flatten-editions
 4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	force-window
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	frame-drop-count
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	frame-drops=${getPropertyString("frame-drop-count")}
@@ -4530,6 +4546,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live_buffer preroll=${prerollSecs}s readahead=${liveReadahead ?: budgetReadahead} latency=${effectiveLiveBufferSecs() ?: -1}
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	load#=$mpvLoadCount freshSurface=$usedFreshSurface
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	loadfile
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	lowSpec=${budget.lowSpec} direct=${useDirect()} hwdec=${getPropertyString("hwdec")}
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	manual engine toggle
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	measured fps: est-vf-fps=$second -> ${snapped}fps (no container-fps)
 3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mediacodec
@@ -4548,9 +4565,10 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv level=$level $safe
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv live mid-play reconnects exhausted ($MAX_LIVE_RECONNECTS) — surfacing error
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv live open timed out after ${openingMs}ms — surfacing error
-1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv ready: lowSpec=${budget.lowSpec} direct=${useDirect()} hwdec=${getPropertyString("hwdec")}
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv ready: ${getPropertyString("mpv-version")} ffmpeg=${getPropertyString("ffmpeg-version")}
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv reported ${load.brokenPtsHits} broken video timestamps — switching to free-running video timing
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv-cmd
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv-version
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv: $reason
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv_load live=$isLive url=${HttpClient.redactUrl(url)}
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv_open hls=$effectiveHls live=$isLiveContent probe=full tolerant=$tolerant
@@ -4558,10 +4576,11 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	msg-level
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mute
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	network-timeout
-27	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	no
+30	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	no
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	no-video (mpv, Live) — audio progressing but no video frame after ~${elapsedMs}ms
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	no-video (mpv, Live) — reconnect attempt ${item.liveStallReconnects}/$MAX_LIVE_RECONNECTS
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	no-video (mpv, Live) — reconnect budget exhausted, surfacing error
+2	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	none
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	nonref
 5	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	null
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	off
@@ -4626,6 +4645,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	surround failsafe: $reason (est-vf-fps=$vfps container-fps=$cfps) — falling back to stereo
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	target-colorspace-hint
 4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	time-pos
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	tls-verify
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	tone-mapping
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	track-list/$i/codec
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	track-list/$i/demux-fps
@@ -4652,6 +4672,7 @@
 4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	video-bitrate
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	video-bitrate=${getPropertyString("video-bitrate")}
 4	protocol	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	video-codec
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	video-frame-info/interlaced
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	video-params/gamma
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	video-params/h
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	video-params/pixelformat
@@ -4691,7 +4712,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog: archive loaded but produced no video
 4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	width
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	xsub
-24	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	yes
+27	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	yes
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	ytdl
 1	technical	player-core/src/main/java/tv/own/owntv/player/PlaybackEngines.kt	DEPRECATION
 6	empty	player-core/src/main/java/tv/own/owntv/player/PlaybackErrorLog.kt	\0

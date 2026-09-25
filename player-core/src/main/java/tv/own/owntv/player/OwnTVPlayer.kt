@@ -498,6 +498,10 @@ class OwnTVPlayer(
     private var mpv: MPVLib? = null
     private var initialized = false
 
+    /** N9/N10 on mpv: the newest `af` value from the settings. Kept even before mpv exists, and applied
+     *  right after every init, so a setting that finishes loading while mpv starts is never lost. */
+    @Volatile private var mpvAudioFilter = AudioDynamics.mpvFilter(AudioDynamics.nightMode, AudioDynamics.levelling)
+
     /**
      * The parts of [ensureInit] that belong to the player object rather than to an mpv core: the
      * logcat diagnostics tail and the `_error` → `_errorInfo` collector. A hard reset destroys the
@@ -962,6 +966,13 @@ class OwnTVPlayer(
         if (tv.own.owntv.core.CoreBuildInfo.debug) error(message) else android.util.Log.e(TAG, message)
     }
 
+    /** Sets [mpvAudioFilter] as mpv's `af` and reads it back: mpv drops a filter it cannot build (only a
+     *  warning in its log), so the logged value is the proof that night mode / levelling really run. */
+    private fun applyMpvAudioFilter() = mpvAsync {
+        setPropertyString("af", mpvAudioFilter)
+        android.util.Log.i(TAG, "audio filters: ${getPropertyString("af").orEmpty().ifEmpty { "none" }}")
+    }
+
     private fun mpvAsync(block: MPVLib.() -> Unit) {
         val m = mpv ?: return
         mpvExecutor.execute { runCatching { m.block() } }
@@ -1052,6 +1063,11 @@ class OwnTVPlayer(
                 else if (initialized) mpvAsync { applyMpvVideoQuality() }
             }
             .launchIn(scope)
+        // N9/N10 on mpv — live, on the file playing now (the filter chain is rebuilt in place).
+        playbackSettings.field { AudioDynamics.mpvFilter(it.nightMode, it.volumeLevelling) }.onEach { af ->
+            mpvAudioFilter = af
+            if (initialized) applyMpvAudioFilter()
+        }.launchIn(scope)
         playbackSettings.field { AudioDynamics.passthroughAllowed(it.audioPassthrough, it.nightMode, it.volumeLevelling) }.onEach { on ->
             val engine = exoEngine ?: return@onEach
             if (engine.passthroughAllowed == on) return@onEach
@@ -2401,6 +2417,14 @@ class OwnTVPlayer(
             setOptionString("force-window", "no")
             setOptionString("idle", "yes")
             setOptionString("ytdl", "no") // IPTV URLs are direct; skip the youtube-dl hook
+            // Keep mpv master's newer defaults from changing IPTV behaviour (OwnTV_libmpv UPDATING.md):
+            // - many panels serve HTTPS with self-signed or expired certificates, which 0.41 played;
+            // - HLS variants / MPEG-TS programs stay one flat track list, which the Quality menu reads;
+            // - the libcurl backend ignores FFmpeg's reconnect options (STREAM_RECONNECT_OPTIONS) and
+            //   never retries a live stream. This build has no libcurl; the option is a no-op there.
+            setOptionString("tls-verify", "no")
+            setOptionString("flatten-editions", "yes")
+            setOptionString("curl-enabled", "no")
             // Closed captions (CEA-608/708): US premium channels (HBO/Showtime/Cinemax) and many movies carry
             // captions embedded in the video stream rather than as a subtitle track. mpv (FFmpeg) decodes them
             // into a selectable subtitle track — ExoPlayer doesn't surface undeclared CC, so this is the path
@@ -2455,6 +2479,8 @@ class OwnTVPlayer(
                 if (subStyleOverridesAss()) setOptionString("sub-ass-override", "force")
             }
             setOptionString("audio-delay", audioDelaySec.toString())
+            // N9/N10 on mpv: night mode and volume levelling as FFmpeg filters (AudioDynamics.mpvFilter).
+            setOptionString("af", mpvAudioFilter)
             mpvLanguageList(TrackLanguages.forEngine(prefAudioLang)).takeIf { it.isNotBlank() }?.let { setOptionString("alang", it) }
             if (prefSubLang.isNotBlank()) setOptionString("slang", mpvLanguageList(prefSubLang))
             setOptionString("subs-with-matching-audio", if (prefSubLang.isBlank()) "no" else "yes")
@@ -2466,7 +2492,9 @@ class OwnTVPlayer(
             _directRender.value = useDirect()
             android.util.Log.i(
                 TAG,
-                "mpv ready: lowSpec=${budget.lowSpec} direct=${useDirect()} hwdec=${getPropertyString("hwdec")} " +
+                "mpv ready: ${getPropertyString("mpv-version")} ffmpeg=${getPropertyString("ffmpeg-version")} " +
+                    "af=${getPropertyString("af").orEmpty().ifEmpty { "none" }} " +
+                    "lowSpec=${budget.lowSpec} direct=${useDirect()} hwdec=${getPropertyString("hwdec")} " +
                     "fbo=${getPropertyString("fbo-format")} cache=${getPropertyString("demuxer-max-bytes")}",
             )
             observeProperty("time-pos", MPVLib.MpvFormat.MPV_FORMAT_INT64)
@@ -2506,6 +2534,8 @@ class OwnTVPlayer(
             }
         }
         initialized = mpv != null
+        // A settings value that arrived while this core was being built (see mpvAudioFilter).
+        if (initialized) applyMpvAudioFilter()
     }
 
     /** Play a single item (movie / live channel) — clears any queue. [muted] is used by the live preview.
@@ -3994,6 +4024,17 @@ class OwnTVPlayer(
             null -> null
             else -> StreamHdrMode.SDR
         }?.let { out += StreamInfoRow(StreamInfoLabel.HDR, StreamInfoValue.Hdr(it)) }
+        // Interlacing: from the last decoded frame's flag. On the direct path frames never pass through
+        // mpv, so the flag is often unknown there — then no row rather than a guess.
+        when (str("video-frame-info/interlaced")) {
+            "no" -> InterlaceState.PROGRESSIVE
+            "yes" -> when {
+                _directRender.value -> InterlaceState.DEINTERLACED_BY_DEVICE
+                str("deinterlace-active") == "yes" -> InterlaceState.DEINTERLACED_BY_PLAYER
+                else -> InterlaceState.NOT_DEINTERLACED
+            }
+            else -> null
+        }?.let { out += StreamInfoRow(StreamInfoLabel.INTERLACING, StreamInfoValue.Interlacing(it)) }
         str("video-bitrate")?.toLongOrNull()?.takeIf { it > 0 }?.let {
             out += StreamInfoRow(StreamInfoLabel.BITRATE, StreamInfoValue.Bitrate(it))
         }

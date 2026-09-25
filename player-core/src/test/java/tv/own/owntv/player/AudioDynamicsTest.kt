@@ -79,4 +79,19 @@ class AudioDynamicsTest {
         assertFalse(AudioDynamics.passthroughAllowed(setting = true, night = false, levelling = true))
         assertFalse(AudioDynamics.passthroughAllowed(setting = false, night = false, levelling = false))
     }
+
+    @Test
+    fun `mpv filter mirrors the ExoPlayer settings`() {
+        assertEquals("", AudioDynamics.mpvFilter(night = false, levelling = false))
+        assertEquals(
+            "lavfi=[dynaudnorm=f=250:g=15:p=0.95:m=3.9811:r=0.1000," +
+                "acompressor=threshold=0.0316:ratio=3:attack=5:release=200:makeup=2.5119,alimiter=limit=0.98]",
+            AudioDynamics.mpvFilter(night = true, levelling = true),
+        )
+        assertEquals(
+            "lavfi=[acompressor=threshold=0.0316:ratio=3:attack=5:release=200:makeup=2.5119,alimiter=limit=0.98]",
+            AudioDynamics.mpvFilter(night = true, levelling = false),
+        )
+        assertTrue(AudioDynamics.mpvFilter(night = false, levelling = true).startsWith("lavfi=[dynaudnorm="))
+    }
 }

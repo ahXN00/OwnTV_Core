@@ -24,8 +24,8 @@ name: Bump consumers
 # checks at all.
 
 # Triggered by the GitHub RELEASE, not by the tag. The release is created by "Publish core" as its
-# last step, so it exists only if the unit tests passed and both artifacts actually reached GitHub
-# Packages. That makes the release the single visible gate: no release means no pin-bump PR, and the
+# last step, so it exists only if the unit tests passed and both artifacts are actually served by
+# OwnTV's Maven repository. That makes the release the single visible gate: no release means no pin-bump PR, and the
 # version is there on the Releases page for users to read before any consumer moves to it.
 #
 # For this to fire at all, the release must be created with CONSUMER_BUMP_TOKEN, not GITHUB_TOKEN —
@@ -51,7 +51,7 @@ concurrency:
 jobs:
   bump:
     # A release only exists if "Publish core" got as far as creating it, so reaching here already
-    # means the tests passed and both artifacts are on GitHub Packages. The tag-name guard is the
+    # means the tests passed and both artifacts are served by OwnTV's Maven repository. The tag-name guard is the
     # remaining check: this repo could carry some other release series one day, and pinning
     # consumers to a version that was never published as core breaks every contributor's build.
     if: >-
@@ -154,7 +154,7 @@ jobs:
           EOF
 
           cat > ../pr-body.md <<EOF
-          Core \`${VERSION}\` has been published to GitHub Packages.
+          Core \`${VERSION}\` has been published to OwnTV's Maven repository (https://ahxn00.github.io/OwnTV_Core/maven).
 
           - \`owntvCore\` moved to \`${VERSION}\` in \`gradle/libs.versions.toml\`
           - \`tools/i18n/locales.json\` refreshed from core

@@ -147,28 +147,25 @@ real data — installing a test APK wipes the catalog, playlists, profiles and h
 
 ## 📥 Consuming core from an app
 
-Core publishes to **GitHub Packages** as `tv.own.owntv:core` and `tv.own.owntv:player-core`:
+Core publishes `tv.own.owntv:core` and `tv.own.owntv:player-core` to OwnTV's own Maven repository —
+public, **no account or token needed**. It also serves `tv.own.owntv:libmpv`, the mpv engine built by
+[OwnTV_libmpv](https://github.com/ahXN00/OwnTV_libmpv), which `player-core` depends on.
 
 ```kotlin
-implementation("tv.own.owntv:core:1.0.43")
-implementation("tv.own.owntv:player-core:1.0.43")
-```
-
-GitHub's Maven registry asks who you are even for public packages, so add the repository with
-credentials from a [personal access token (classic)](https://github.com/settings/tokens) carrying
-only **`read:packages`**:
-
-```kotlin
+// settings.gradle.kts
 maven {
-    url = uri("https://maven.pkg.github.com/ahXN00/OwnTV_Core")
-    credentials {
-        username = providers.gradleProperty("gpr.user").orNull
-        password = providers.gradleProperty("gpr.token").orNull
-    }
+    url = uri("https://ahxn00.github.io/OwnTV_Core/maven")
+    content { includeGroup("tv.own.owntv") }
 }
+
+// build.gradle.kts
+implementation("tv.own.owntv:core:1.0.58")
+implementation("tv.own.owntv:player-core:1.0.58")
 ```
 
-Keep the token in `~/.gradle/gradle.properties` — **never** in a repository.
+The repository is this repo's `gh-pages` branch, written only by the publish workflows (the newest 30
+core versions are kept). Versions up to 1.0.57 were also published to GitHub Packages, which needs a
+token.
 
 ### Local development against core's source
 
@@ -233,8 +230,8 @@ Core versions are **independent of the TV app's `v4.x` releases** and must never
 them. Tags are prefixed — `core-1.0.0` — and pushing one publishes both modules from CI.
 
 Every published version also gets a [**GitHub Release**](https://github.com/ahXN00/OwnTV_Core/releases),
-and the order is deliberate: CI runs the unit tests, pushes both artifacts to GitHub Packages, and
-only then publishes the release. So a release exists only for a version that actually built and
+and the order is deliberate: CI runs the full gate, publishes both artifacts to the Maven repository, waits
+until they are served, and only then publishes the release. So a release exists only for a version that actually built and
 shipped — and it is the release, not the tag, that opens the pull request moving each app onto the
 new version. A tag whose tests fail stops there, with nothing downstream moved.
 
@@ -266,7 +263,8 @@ Subtitle search and downloads are powered by [OpenSubtitles](https://www.opensub
 
 ### ▶️ Playback engines
 
-[libmpv / mpv](https://mpv.io/) (FFmpeg) · [Media3 / ExoPlayer](https://developer.android.com/media/media3)
+[libmpv / mpv](https://mpv.io/) (FFmpeg), built for OwnTV by [OwnTV_libmpv](https://github.com/ahXN00/OwnTV_libmpv) from
+[jarnedemeulemeester/libmpv-android](https://github.com/jarnedemeulemeester/libmpv-android) · [Media3 / ExoPlayer](https://developer.android.com/media/media3)
 
 ### 🧩 Built with
 
