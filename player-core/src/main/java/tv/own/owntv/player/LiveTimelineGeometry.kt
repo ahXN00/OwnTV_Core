@@ -33,3 +33,14 @@ fun programmeAt(programmes: List<LiveProgramme>, liveEdgeMs: Long, offsetSec: In
 
 private fun frac(atMs: Long, liveEdgeMs: Long): Float =
     (1f - (liveEdgeMs - atMs).toFloat() / (LIVE_WINDOW_SEC * 1000L)).coerceIn(0f, 1f)
+
+/** A stretch of the bar, 0 = the far (oldest) end, 1 = the live edge. */
+data class LiveSpan(val startFrac: Float, val endFrac: Float)
+
+/**
+ * N4 — the holes in a channel's saved copy (wall-clock spans with no picture, where the connection
+ * dropped) placed on the bar, clipped to the window; empty spans are left off.
+ */
+fun liveGapSpans(gaps: List<LongRange>, liveEdgeMs: Long): List<LiveSpan> =
+    gaps.map { LiveSpan(frac(it.first, liveEdgeMs), frac(it.last, liveEdgeMs)) }
+        .filter { it.endFrac > it.startFrac }

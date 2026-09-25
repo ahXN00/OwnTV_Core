@@ -42,6 +42,7 @@ import tv.own.owntv.core.theme.PopupSizeScale
 import tv.own.owntv.core.theme.ThemeMode
 import tv.own.owntv.core.theme.UiFontScale
 import tv.own.owntv.core.theme.UiZoom
+import tv.own.owntv.core.timeshift.TimeshiftRules
 
 /** Per-profile startup landing (Phase 3 / v4.0.0). LAST_CHANNEL also covers "auto-play my channel" since
  *  it's always the one you last watched. */
@@ -439,6 +440,8 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val DETAILED_DIAGNOSTICS = booleanPreferencesKey("detailed_diagnostics")
         val DIRECT_TUNE = booleanPreferencesKey("direct_tune")
         val LIVE_LEFT_RIGHT_REWINDS = booleanPreferencesKey("live_left_right_rewinds")
+        val TIMESHIFT_ENABLED = booleanPreferencesKey("timeshift_enabled")
+        val TIMESHIFT_WINDOW_MINUTES = intPreferencesKey("timeshift_window_minutes")
         val SURROUND_SOUND = booleanPreferencesKey("surround_sound")
         val SURROUND_MODE = stringPreferencesKey("surround_mode")
         val AUTO_PLAY_NEXT = booleanPreferencesKey("auto_play_next")
@@ -1428,6 +1431,22 @@ class SettingsRepository(private val context: Context, private val localeStore: 
 
     suspend fun setLiveLeftRightRewinds(enabled: Boolean) {
         context.dataStore.edit { it[Keys.LIVE_LEFT_RIGHT_REWINDS] = enabled }
+    }
+
+    /** N4 — pause and rewind live channels that have no catch-up, from a copy saved while watching
+     *  full-screen. Off by default (decision 25): it writes to the device's storage continuously. */
+    val timeshiftEnabled: Flow<Boolean> = prefsFlow { it[Keys.TIMESHIFT_ENABLED] ?: false }
+
+    suspend fun setTimeshiftEnabled(enabled: Boolean) {
+        context.dataStore.edit { it[Keys.TIMESHIFT_ENABLED] = enabled }
+    }
+
+    /** N4 — how many minutes the saved copy keeps; one of [TimeshiftRules.WINDOW_CHOICES_MINUTES]. */
+    val timeshiftWindowMinutes: Flow<Int> =
+        prefsFlow { TimeshiftRules.windowMinutesOf(it[Keys.TIMESHIFT_WINDOW_MINUTES] ?: TimeshiftRules.DEFAULT_WINDOW_MINUTES) }
+
+    suspend fun setTimeshiftWindowMinutes(minutes: Int) {
+        context.dataStore.edit { it[Keys.TIMESHIFT_WINDOW_MINUTES] = TimeshiftRules.windowMinutesOf(minutes) }
     }
 
     /** Which section a stream belongs to when deciding whether it goes to an external player. */
@@ -2768,7 +2787,9 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             // accept only their own choices.
             Keys.AFR_PAUSE_SECS, Keys.VOD_BUFFER_SECS, Keys.VOD_NETWORK_TIMEOUT_SECS, Keys.VOD_RECONNECTS,
             // N11's two quality limits; the readers accept only their own choices.
-            Keys.MAX_VIDEO_HEIGHT, Keys.MOBILE_DATA_MAX_VIDEO_HEIGHT)
+            Keys.MAX_VIDEO_HEIGHT, Keys.MOBILE_DATA_MAX_VIDEO_HEIGHT,
+            // N4's saved-copy length; the reader accepts only its own choices.
+            Keys.TIMESHIFT_WINDOW_MINUTES)
         val bools = listOf(
             Keys.LIVE_PREVIEW, Keys.LIVE_PREVIEW_AUDIO, Keys.HERO_PREVIEW, Keys.HDR_ENABLED, Keys.AUTO_FRAME_RATE, Keys.AFR_MATCH_RESOLUTION, Keys.AUTO_FRAME_RATE_PROMPTED, Keys.ANDROID_TV_HOME, Keys.HW_DECODING,
             Keys.VOD_PREFER_EXO, Keys.MEASURED_STREAM_STATS, Keys.DETAILED_DIAGNOSTICS, Keys.DIRECT_TUNE, Keys.LIVE_LEFT_RIGHT_REWINDS, Keys.EXTERNAL_PLAYER,
@@ -2789,6 +2810,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             Keys.MULTIVIEW_ENABLED, Keys.MULTIVIEW_WARNING_ACCEPTED,
             Keys.RECORDING_RESERVE_CONNECTION, Keys.RECORD_WHAT_IM_WATCHING, Keys.RECORDING_OVER_MOBILE_DATA,
             Keys.AUDIO_PASSTHROUGH, Keys.NIGHT_MODE, Keys.VOLUME_LEVELLING, Keys.TUNNELED_PLAYBACK,
+            Keys.TIMESHIFT_ENABLED,
         )
         val floats = listOf(Keys.SUB_SCALE, Keys.SUB_SCALE_MPV, Keys.SUB_SCALE_EXO)
 

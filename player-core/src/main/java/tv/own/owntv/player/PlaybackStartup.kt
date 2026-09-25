@@ -1,10 +1,12 @@
 package tv.own.owntv.player
 
+import android.content.Context
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import tv.own.owntv.core.CoreBuildInfo
 import tv.own.owntv.core.player.ArchiveDecodeStore
 import tv.own.owntv.core.settings.SettingsRepository
+import tv.own.owntv.core.timeshift.TimeshiftStorage
 
 /**
  * The start-of-process work the engines depend on, for every host. It used to live in the TV app's
@@ -17,7 +19,7 @@ import tv.own.owntv.core.settings.SettingsRepository
  */
 object PlaybackStartup {
 
-    fun start(scope: CoroutineScope, settings: SettingsRepository, archiveStore: ArchiveDecodeStore) {
+    fun start(context: Context, scope: CoroutineScope, settings: SettingsRepository, archiveStore: ArchiveDecodeStore) {
         // S15 — start reading the engines' settings now, so an engine built later is born with them.
         val snapshot = PlaybackSettings.of(settings)
         // Night mode / volume levelling (P14) are read by every ExoPlayer audio processor on every buffer.
@@ -44,5 +46,7 @@ object PlaybackStartup {
             }
         }
         scope.launch { settings.runOneTimeMigrations() }
+        // N4 — timeshift buffers never outlive the run that wrote them (decision 23).
+        scope.launch { TimeshiftStorage.clearAll(context) }
     }
 }

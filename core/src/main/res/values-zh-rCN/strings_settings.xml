@@ -550,7 +550,7 @@
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">直播回看步长</string>
     <!-- Translators: Description of the live rewind step setting. -->
-    <string name="settings_live_rewind_step_description">在直播频道的回看存档中，快退和快进一次移动的时长。</string>
+    <string name="settings_live_rewind_step_description">直播频道上快退和快进的幅度：在回看存档中，或在“暂停和倒回直播”保存的副本中。</string>
     <string name="settings_resume_playback">继续播放</string>
     <string name="settings_resume_playback_description">电影或剧集存在已保存的播放位置时要执行的操作。</string>
     <string name="settings_subtitles">字幕</string>
@@ -589,7 +589,11 @@
     <string name="settings_channel_numbers_description">在直播电视列表、频道列表浮层和播放器中，在名称旁显示服务提供商的频道编号；全屏播放时还可用遥控器输入编号直接跳转到对应频道（按“确定”立即调台，按“返回”取消）。关闭后会隐藏所有编号并忽略数字键；不会丢失任何数据，重新开启即可恢复显示。</string>
     <string name="settings_channel_numbers_description_mobile">在直播电视列表和播放器中，在名称旁显示服务提供商的频道编号。关闭后会隐藏所有编号；不会丢失任何数据，重新开启即可恢复显示。</string>
     <string name="settings_live_left_right_rewinds">左右键倒回直播</string>
-    <string name="settings_live_left_right_rewinds_description">控制栏隐藏时，在支持回看的频道上，左右键会快退和快进，而不是打开频道列表和历史记录。</string>
+    <string name="settings_live_left_right_rewinds_description">控制栏隐藏时，在可以倒回的频道上（支持回看，或由“暂停和倒回直播”保存），左右键会快退和快进，而不是打开频道列表和历史记录。</string>
+    <string name="settings_timeshift">暂停和倒回直播</string>
+    <string name="settings_timeshift_description">不支持回看的频道在全屏观看时会保存到本设备，因此可以暂停和倒回。会持续写入存储空间；始终保留至少 1 GB 可用空间。</string>
+    <string name="settings_timeshift_window">倒回时长</string>
+    <string name="settings_timeshift_window_description">不支持回看的频道最多可倒回多久。</string>
     <string name="settings_diagnostics">诊断</string>
     <string name="settings_measured_stats">实测流媒体统计信息</string>
     <string name="settings_measured_stats_description">在流媒体信息浮层中显示实时帧率、比特率和丢帧数（在浮层打开期间测量，适用于未声明这些值的流）。仅当低端电视出现卡顿时才关闭；它不会影响实际视频，只会影响诊断数值。</string>

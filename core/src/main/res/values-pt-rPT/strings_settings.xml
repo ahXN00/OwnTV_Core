@@ -554,7 +554,7 @@
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">Salto em direto</string>
     <!-- Translators: Description of the live rewind step setting. -->
-    <string name="settings_live_rewind_step_description">Quanto avançam e recuam os comandos no arquivo de um canal em direto.</string>
+    <string name="settings_live_rewind_step_description">Quanto o recuo e o avanço se movem num canal em direto: no arquivo de catch-up ou na cópia guardada por Pausar e recuar a TV em direto.</string>
     <string name="settings_resume_playback">Retomar a reprodução</string>
     <string name="settings_resume_playback_description">O que fazer quando um filme ou episódio tem uma posição guardada.</string>
     <string name="settings_subtitles">Legendas</string>
@@ -593,7 +593,11 @@
     <string name="settings_channel_numbers_description">Mostrar o número de canal do fornecedor junto ao nome na lista da TV em direto, na sobreposição da lista de canais e no leitor — e introduzir um número no comando durante a reprodução em ecrã inteiro para ir diretamente para esse canal (OK sintoniza-o de imediato; Voltar cancela). Se desativar, todos os números ficam ocultos e as teclas numéricas são ignoradas; nada se perde e, ao reativar, os números são repostos.</string>
     <string name="settings_channel_numbers_description_mobile">Mostrar o número de canal do fornecedor junto ao nome na lista da TV em direto e no leitor. Se desativar, todos os números ficam ocultos; nada se perde e, ao reativar, os números são repostos.</string>
     <string name="settings_live_left_right_rewinds">Esquerda e direita recuam a TV em direto</string>
-    <string name="settings_live_left_right_rewinds_description">Com os controlos ocultos, esquerda e direita recuam e avançam nos canais com catch-up, em vez de abrir a lista de canais e o histórico.</string>
+    <string name="settings_live_left_right_rewinds_description">Com os controlos ocultos, esquerda e direita recuam e avançam nos canais que podem ser recuados (catch-up, ou guardados por Pausar e recuar a TV em direto), em vez de abrir a lista de canais e o histórico.</string>
+    <string name="settings_timeshift">Pausar e recuar a TV em direto</string>
+    <string name="settings_timeshift_description">Os canais sem catch-up são guardados neste dispositivo enquanto os vê em ecrã inteiro, para poder pausar e recuar. Escreve no armazenamento a toda a hora; fica sempre livre pelo menos 1 GB.</string>
+    <string name="settings_timeshift_window">Duração do recuo</string>
+    <string name="settings_timeshift_window_description">Quanto pode recuar um canal sem catch-up.</string>
     <string name="settings_diagnostics">Diagnóstico</string>
     <string name="settings_measured_stats">Estatísticas medidas da transmissão</string>
     <string name="settings_measured_stats_description">Mostrar os fps em direto, a taxa de bits e os fotogramas perdidos na sobreposição de informações da transmissão (medidos enquanto a sobreposição está aberta, em transmissões que não declarem estes valores). Desative apenas se uma TV de gama baixa apresentar interrupções — nunca afeta o vídeo em si, apenas os valores de diagnóstico.</string>

@@ -74,6 +74,13 @@ val dataModule = module {
     // but its own connection pool, so a live stop can evict *stream* sockets without dropping keep-alive
     // for EPG, panel API, metadata and image traffic (F28).
     single { tv.own.owntv.core.network.StreamingHttpClient(get()) }
+    // N4 — live timeshift buffers download on the streaming client, as the players would.
+    single {
+        tv.own.owntv.core.timeshift.TimeshiftManager(
+            androidContext(),
+            get<tv.own.owntv.core.network.StreamingHttpClient>().client,
+        )
+    }
     single { HttpClient(get()) }
     single { ConnectivityObserver(androidContext()) }
     single { CustomizationStore(androidContext()) }

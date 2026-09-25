@@ -560,7 +560,7 @@
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">خطوة الإرجاع المباشر</string>
     <!-- Translators: Description of the live rewind step setting. -->
-    <string name="settings_live_rewind_step_description">المسافة التي يتحركها التقديم والإرجاع داخل أرشيف المشاهدة اللاحقة للقناة المباشرة.</string>
+    <string name="settings_live_rewind_step_description">مقدار تحريك الإرجاع والتقديم في قناة مباشرة: في أرشيف الإعادة، أو في النسخة المحفوظة عبر إيقاف البث المباشر مؤقتًا وإرجاعه.</string>
     <string name="settings_resume_playback">استئناف التشغيل</string>
     <string name="settings_resume_playback_description">ما يجب فعله عندما يكون لفيلم أو حلقة موضع محفوظ.</string>
     <string name="settings_subtitles">الترجمات</string>
@@ -599,7 +599,11 @@
     <string name="settings_channel_numbers_description">اعرض رقم القناة الذي يحدده مزوّدك بجوار الاسم في قائمة البث التلفزيوني المباشر وطبقة قائمة القنوات المتراكبة والمشغّل — وأدخل رقمًا بجهاز التحكم عن بُعد أثناء التشغيل بملء الشاشة للانتقال مباشرةً إلى تلك القناة (ينتقل زر «موافق» فورًا، ويلغي زر «رجوع»). يؤدي إيقاف الخيار إلى إخفاء جميع الأرقام وتجاهل مفاتيح الأرقام؛ ولن تفقد شيئًا، إذ يعيد تشغيله إظهارها.</string>
     <string name="settings_channel_numbers_description_mobile">اعرض رقم القناة الذي يحدده مزوّدك بجوار الاسم في قائمة البث التلفزيوني المباشر والمشغّل. يؤدي إيقاف الخيار إلى إخفاء جميع الأرقام؛ ولن تفقد شيئًا، إذ يعيد تشغيله إظهارها.</string>
     <string name="settings_live_left_right_rewinds">اليسار واليمين لإرجاع البث المباشر</string>
-    <string name="settings_live_left_right_rewinds_description">عند إخفاء عناصر التحكم، يُرجع اليسار واليمين البث ويقدّمانه في القنوات التي تدعم الإعادة، بدلاً من فتح قائمة القنوات والسجل.</string>
+    <string name="settings_live_left_right_rewinds_description">عند إخفاء عناصر التحكم، يُرجع اليسار واليمين البث ويقدّمانه في القنوات التي يمكن إرجاعها (الإعادة، أو المحفوظة عبر إيقاف البث المباشر مؤقتًا وإرجاعه)، بدلاً من فتح قائمة القنوات والسجل.</string>
+    <string name="settings_timeshift">إيقاف البث المباشر مؤقتًا وإرجاعه</string>
+    <string name="settings_timeshift_description">تُحفظ القنوات التي لا تدعم الإعادة على هذا الجهاز أثناء مشاهدتها بملء الشاشة، لتتمكن من إيقافها مؤقتًا وإرجاعها. يكتب إلى التخزين باستمرار؛ ويبقى 1 غيغابايت على الأقل متاحًا دائمًا.</string>
+    <string name="settings_timeshift_window">مدة الإرجاع</string>
+    <string name="settings_timeshift_window_description">إلى أي مدى يمكنك إرجاع قناة لا تدعم الإعادة.</string>
     <string name="settings_diagnostics">التشخيصات</string>
     <string name="settings_measured_stats">إحصاءات البث المقاسة</string>
     <string name="settings_measured_stats_description">اعرض معدل الإطارات المباشر ومعدل البت والإطارات الساقطة في طبقة معلومات البث المتراكبة (تُقاس أثناء فتح الطبقة المتراكبة لعمليات البث التي لا تعلن هذه القيم). أوقفه فقط إذا كان التلفزيون منخفض الإمكانات يتقطّع — فهو لا يؤثر مطلقًا في الفيديو الفعلي، بل في أرقام التشخيصات فقط.</string>

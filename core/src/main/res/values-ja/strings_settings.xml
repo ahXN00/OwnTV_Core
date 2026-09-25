@@ -550,7 +550,7 @@
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">ライブ巻き戻しの幅</string>
     <!-- Translators: Description of the live rewind step setting. -->
-    <string name="settings_live_rewind_step_description">ライブチャンネルの見逃し配信内で巻き戻し・早送りが動く長さです。</string>
+    <string name="settings_live_rewind_step_description">ライブチャンネルで巻き戻し・早送りする量：キャッチアップのアーカイブ内、または「ライブ TV の一時停止と巻き戻し」で保存したコピー内。</string>
     <string name="settings_resume_playback">再生を再開</string>
     <string name="settings_resume_playback_description">映画またはエピソードに保存済みの再生位置がある場合の動作です。</string>
     <string name="settings_subtitles">字幕</string>
@@ -589,7 +589,11 @@
     <string name="settings_channel_numbers_description">ライブTVの一覧、チャンネル一覧オーバーレイ、プレーヤーで、名前の横にプロバイダーのチャンネル番号を表示します。また、全画面再生中にリモコンで番号を入力すると、そのチャンネルへ直接切り替えられます（OKを押すとすぐに切り替え、戻るでキャンセル）。オフにするとすべての番号が非表示になり、数字キーも無視されます。データが失われることはなく、オンに戻すと再び表示されます。</string>
     <string name="settings_channel_numbers_description_mobile">ライブTVの一覧とプレーヤーで、名前の横にプロバイダーのチャンネル番号を表示します。オフにするとすべての番号が非表示になります。データが失われることはなく、オンに戻すと再び表示されます。</string>
     <string name="settings_live_left_right_rewinds">左右キーでライブ TV を巻き戻す</string>
-    <string name="settings_live_left_right_rewinds_description">操作パネルが非表示のとき、キャッチアップ対応チャンネルでは左右キーでチャンネルリストと履歴を開く代わりに巻き戻し・早送りします。</string>
+    <string name="settings_live_left_right_rewinds_description">操作パネルが非表示のとき、巻き戻せるチャンネル（キャッチアップ、または「ライブ TV の一時停止と巻き戻し」で保存）では左右キーでチャンネルリストと履歴を開く代わりに巻き戻し・早送りします。</string>
+    <string name="settings_timeshift">ライブ TV の一時停止と巻き戻し</string>
+    <string name="settings_timeshift_description">キャッチアップのないチャンネルは、全画面で視聴中にこのデバイスへ保存され、一時停止や巻き戻しができます。ストレージに常に書き込みます。空き容量は常に 1 GB 以上残ります。</string>
+    <string name="settings_timeshift_window">巻き戻しの長さ</string>
+    <string name="settings_timeshift_window_description">キャッチアップのないチャンネルを巻き戻せる範囲。</string>
     <string name="settings_diagnostics">診断</string>
     <string name="settings_measured_stats">測定したストリーム統計</string>
     <string name="settings_measured_stats_description">ストリーム情報オーバーレイに、リアルタイムのfps、ビットレート、ドロップフレーム数を表示します（これらの値が明示されていないストリームでは、オーバーレイを開いている間に測定します）。低性能のテレビで再生が途切れる場合にのみオフにしてください。実際の映像には影響せず、診断値だけに影響します。</string>

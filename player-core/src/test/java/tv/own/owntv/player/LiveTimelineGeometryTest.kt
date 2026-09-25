@@ -118,4 +118,17 @@ class LiveTimelineGeometryTest {
         assertEquals(1, lit.size)
         assertEquals("Match", lit.single().title)
     }
+
+    @Test
+    fun `gaps in a saved copy land on the bar, clipped to the window`() {
+        val edge = 10_000_000L
+        val hour = 3_600_000L
+        // One hour back to 30 minutes back: the middle quarter of the two-hour bar.
+        val spans = liveGapSpans(listOf((edge - hour) until (edge - hour / 2)), edge)
+        assertEquals(1, spans.size)
+        assertEquals(0.5f, spans[0].startFrac, 0.001f)
+        assertEquals(0.75f, spans[0].endFrac, 0.001f)
+        // Wholly older than the window: nothing to draw.
+        assertTrue(liveGapSpans(listOf((edge - 4 * hour) until (edge - 3 * hour)), edge).isEmpty())
+    }
 }

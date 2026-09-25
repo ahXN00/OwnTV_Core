@@ -67,6 +67,9 @@ interface LiveEngines {
 
     /** The Stalker re-resolve hook, installed on both engines, or cleared with null. */
     fun setReconnectProvider(provider: ReconnectUrlProvider?)
+
+    /** How far into its current stream the live engine on screen is — for a saved copy's clock (N4). */
+    fun positionMs(onExo: Boolean): Long = 0L
 }
 
 /** Start [url] on a live ExoPlayer engine with everything [request] carries — a tune, or a Multiview tile. */
@@ -142,4 +145,6 @@ class EnginePair(private val exo: LivePreviewEngine, private val mpv: OwnTVPlaye
         exo.reconnectUrlProvider = provider
         mpv.reconnectUrlProvider = provider
     }
+
+    override fun positionMs(onExo: Boolean): Long = if (onExo) exo.livePositionMs() else mpv.position.value
 }

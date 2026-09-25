@@ -7,6 +7,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tv.own.owntv.core.database.dao.SourceDao
 import tv.own.owntv.core.database.entity.ChannelEntity
@@ -21,8 +22,15 @@ import tv.own.owntv.core.settings.LiveBuffer
 import tv.own.owntv.core.settings.LiveLatency
 import tv.own.owntv.core.settings.SettingsRepository
 import tv.own.owntv.core.settings.SourceOverrides
+import tv.own.owntv.core.network.HttpClient
+import tv.own.owntv.core.network.StreamHeaders
 import tv.own.owntv.core.stalker.ReconnectUrlProvider
+import tv.own.owntv.core.stalker.StalkerClient
 import tv.own.owntv.core.stalker.StreamUrlResolver
+import tv.own.owntv.core.timeshift.TimeshiftDownloader
+import tv.own.owntv.core.timeshift.TimeshiftManager
+import tv.own.owntv.core.timeshift.TimeshiftServer
+import tv.own.owntv.core.timeshift.TimeshiftSession
 
 /**
  * One live channel from "tune" to "playing" or "gave up", for both apps.
@@ -66,7 +74,23 @@ class LiveTuneController(
         fun onEngineStarted() {}
         /** A handover is re-opening the channel at its live edge, so any rewind is over. */
         fun onBackToLiveEdge() {}
+        /** N4 — the saved-copy buffers; null where there are none (tests). */
+        val timeshift: TimeshiftManager? get() = null
+        /** N4 — Settings → the window in minutes while local timeshift is on; null while it is off. */
+        suspend fun timeshiftWindowMinutes(): Int? = null
+        /** N11 — Settings → Maximum video quality, for the variant a buffer saves; null for none. */
+        suspend fun maxVideoHeight(): Int? = null
     }
+
+    /**
+     * N4 — the channel on screen is playing from its saved copy ([session]: how far back it reaches, its
+     * gaps; [timeshiftWatchingWallMs]: what is on screen). [resumeAtWallMs] is set when the user came back
+     * to a channel they had left: where they were, for "Resume from buffer / Go live".
+     */
+    class LocalTimeshift(
+        val session: TimeshiftSession,
+        val resumeAtWallMs: Long?,
+    )
 
     private val _liveOnExo = MutableStateFlow(false)
 
@@ -82,6 +106,24 @@ class LiveTuneController(
     val previewBlockedSingleSession: StateFlow<Boolean> = _previewBlocked.asStateFlow()
 
     private val recall = ChannelRecall()
+
+    private var ts: TimeshiftSession? = null
+    /** The piece the engine's stream starts at; null is the live edge. */
+    private var tsFromIndex: Long? = null
+    private var tsRequest: LiveRequest? = null
+    private var tsWindowSec = 0
+    private val _localTimeshift = MutableStateFlow<LocalTimeshift?>(null)
+
+    /** N4 — non-null while the channel plays from its saved copy (see [LocalTimeshift]). */
+    val localTimeshift: StateFlow<LocalTimeshift?> = _localTimeshift.asStateFlow()
+
+    init {
+        host.timeshift?.let { manager ->
+            scope.launch {
+                manager.gaveUp.collect { (token, why) -> if (ts?.token == token) onTimeshiftLost(why) }
+            }
+        }
+    }
 
     /** The channel watched before the one on screen — the "previous channel" key's target (N2). The app
      *  still vets it (profile, playlists, adult filter) before tuning it. */
@@ -157,6 +199,7 @@ class LiveTuneController(
             panelRefusesSegments = panelRefusesSegments(channel, source),
         )
         engineLog("tune '${channel.name}' -> ${route.why} [${route.preference.name}]")
+        openTimeshift(channel, source, resolved)
         arm(channel, source, route.preference)
         if (route.onMpv) startOnMpv(channel, source, route.why, resolved = resolved)
         else startOnExo(channel, source, resolved)
@@ -174,6 +217,10 @@ class LiveTuneController(
         // A protected channel has only one engine that can obtain its key.
         if (channel.drmConfig != null) return
         val goToMpv = _liveOnExo.value
+        // On a saved copy the other engine continues at the moment on screen, not at the live edge.
+        ts?.let { session ->
+            if (behindLive()) timeshiftWatchingWallMs()?.let { tsFromIndex = session.pieceAt(it) }
+        }
         engineLog("engine toggle '${channel.name}' -> ${if (goToMpv) "mpv" else "exoplayer"}")
         launch {
             host.pin(channel, goToMpv)
@@ -193,6 +240,17 @@ class LiveTuneController(
      */
     fun preview(channel: ChannelEntity, muted: Boolean) {
         if (_liveOnExo.value) return
+        ts?.let { session ->
+            // The pane already shows this channel from its saved copy (Back from full screen): it keeps
+            // saving, because the user has not left the channel.
+            if (session.channelKey == timeshiftKey(channel) && TimeshiftServer.isLocal(engines.exoUrl) && !engines.exoFailed) {
+                previewJob?.cancel()
+                engines.exoSetMuted(muted)
+                return
+            }
+            // Browsing to another channel is leaving this one.
+            parkTimeshift()
+        }
         previewJob?.cancel()
         previewJob = scope.launch {
             val source = host.sourceOf(channel.sourceId)
@@ -274,6 +332,7 @@ class LiveTuneController(
      * outside [launch] uses [cancelTune] first.
      */
     fun releaseForArchive() {
+        parkTimeshift()
         cancelLadderJobs()
         current = null
         _liveOnExo.value = false
@@ -285,7 +344,156 @@ class LiveTuneController(
         cancelTune()
         releaseForArchive()
         engines.mpvStop()
+        host.timeshift?.watching(null)
     }
+
+    // --- Local timeshift (N4) ---------------------------------------------------------------------
+
+    /**
+     * Show the saved copy from wall-clock instant [wallMs], or from the live edge when null. The engine
+     * on screen re-opens the copy at the piece holding that instant — the same "open the stream at a
+     * point" a catch-up rewind does. No-op while the channel is not playing from a copy.
+     */
+    fun seekTimeshift(wallMs: Long?) {
+        val session = ts ?: return
+        val request = tsRequest ?: return
+        if (current == null) return
+        tsFromIndex = if (wallMs == null) null else session.pieceAt(wallMs) ?: return
+        publishTimeshift(resumeAtWallMs = null)
+        val url = localUrl() ?: return
+        if (_liveOnExo.value) engines.exoPlay(url, muted = false, request) else engines.mpvPlay(url, request)
+    }
+
+    /**
+     * N4 — the channel's saved copy as a rewind source for [tv.own.owntv.core.live.LiveTimeshift]: the
+     * apps' existing rewind bar, counter, "Go back to…" list and "Go to live" work on it unchanged.
+     */
+    val localRewind: tv.own.owntv.core.live.LiveTimeshift.Local = object : tv.own.owntv.core.live.LiveTimeshift.Local {
+        override fun windowSec(ch: ChannelEntity): Int? =
+            ts?.takeIf { it.channelKey == timeshiftKey(ch) && current?.id == ch.id }?.let { tsWindowSec }
+        override fun depthSec(): Int {
+            val session = ts ?: return 0
+            val oldest = session.oldestWallMs() ?: return 0
+            val edge = session.playableEdgeWallMs() ?: return 0
+            return ((edge - oldest) / 1000).toInt().coerceAtLeast(0)
+        }
+        override fun watchingWallMs(): Long? = if (current == null) null else timeshiftWatchingWallMs()
+        override fun liveEdgeWallMs(): Long? = ts?.playableEdgeWallMs()
+        override fun seek(wallMs: Long?) = seekTimeshift(wallMs)
+    }
+
+    /** The "Resume from buffer / Go live" question has been answered (or ignored). */
+    fun dismissResumeOffer() = publishTimeshift(resumeAtWallMs = null)
+
+    /** N4 — the wall-clock spans the saved copy has no picture for (the connection dropped); empty without a copy. */
+    fun localGaps(): List<LongRange> = ts?.gaps().orEmpty()
+
+    /** What is on screen on the wall clock, while playing from a copy. */
+    fun timeshiftWatchingWallMs(): Long? {
+        val session = ts ?: return null
+        return session.readingFromWallMs?.plus(engines.positionMs(_liveOnExo.value))
+    }
+
+    /**
+     * Start (or wake, or keep) [channel]'s saved copy when local timeshift applies: Settings on, a live
+     * channel with no provider archive (catch-up channels rewind into that instead), not protected. The
+     * buffer is the only connection to the provider from here on, so nothing of ours may still hold the
+     * channel when it connects. Returns false — and the channel plays the ordinary way — whenever the
+     * copy cannot be made.
+     */
+    private suspend fun openTimeshift(channel: ChannelEntity, source: SourceEntity?, resolved: String?): Boolean {
+        val manager = host.timeshift ?: return false
+        val key = timeshiftKey(channel)
+        // The channel being left, parked by the manager with what was on screen — see [TimeshiftManager.open].
+        val leaving = ts?.takeIf { it.channelKey != key }
+        val leavingWallMs = leaving?.let { timeshiftWatchingWallMs() }
+        val window = if (channel.catchup || channel.drmConfig != null) null else host.timeshiftWindowMinutes()
+        if (window == null) {
+            if (leaving != null) parkTimeshift()
+            manager.watching(key)
+            clearTimeshift()
+            return false
+        }
+        if (engines.exoUrl != null && !TimeshiftServer.isLocal(engines.exoUrl)) stopExoEngine()
+        if (engines.mpvHasStream) engines.mpvStopAndAwaitRelease()
+        val stalker = host.needsResolve(source)
+        var minted = resolved
+        val headers = StreamHeaders.decode(SourceOverrides.headersWithReferer(channel.httpHeaders, source))
+        val target = TimeshiftDownloader.Target(
+            url = {
+                val first = minted
+                when {
+                    !stalker -> channel.streamUrl
+                    // The tune's own link first; every reconnect mints a fresh one (a link is single-use).
+                    first != null -> first.also { minted = null }
+                    else -> host.resolve(source!!, channel.streamUrl)
+                }
+            },
+            userAgent = StreamHeaders.userAgentOf(headers)
+                ?: source?.userAgent?.takeIf { it.isNotBlank() }
+                ?: StalkerClient.DEFAULT_MAG_USER_AGENT.takeIf { stalker }
+                ?: HttpClient.FALLBACK_USER_AGENT.takeIf { LiveStreamQuirks.blocksDefaultUserAgent(channel.streamUrl) }
+                ?: HttpClient.DEFAULT_USER_AGENT,
+            headers = headers,
+            maxVideoHeight = host.maxVideoHeight(),
+        )
+        val opened = manager.open(key, target, window, TIMESHIFT_FIRST_PIECE_MS, leavingWallMs)
+        if (opened == null) {
+            engineLog("timeshift: '${channel.name}' cannot be saved — playing it directly")
+            clearTimeshift()
+            return false
+        }
+        ts = opened.session
+        tsFromIndex = null
+        tsWindowSec = window * 60
+        // The copy is plain TS or fragmented MP4 on loopback: no container hint, no fallback address,
+        // no licence, and the provider's headers stay with the downloader.
+        tsRequest = request(channel, source).copy(httpHeaders = null, drmConfig = null, manifestType = null, directSource = null)
+        publishTimeshift(resumeAtWallMs = opened.resumeAtWallMs)
+        engineLog("timeshift: '${channel.name}' plays from its saved copy")
+        return true
+    }
+
+    /** The user left the channel: stop saving it, but keep it for a return. */
+    private fun parkTimeshift() {
+        val session = ts ?: return
+        host.timeshift?.park(session, timeshiftWatchingWallMs())
+        clearTimeshift()
+    }
+
+    private fun clearTimeshift() {
+        ts = null
+        tsRequest = null
+        _localTimeshift.value = null
+    }
+
+    private fun publishTimeshift(resumeAtWallMs: Long?) {
+        val session = ts ?: return
+        _localTimeshift.value = LocalTimeshift(session = session, resumeAtWallMs = resumeAtWallMs)
+    }
+
+    /** The copy on screen is further behind its live edge than a player keeps buffered (a pause). */
+    private fun behindLive(): Boolean {
+        val watching = timeshiftWatchingWallMs() ?: return false
+        val edge = ts?.playableEdgeWallMs() ?: return false
+        return edge - watching > LIVE_SLACK_MS
+    }
+
+    private fun localUrl(): String? = ts?.takeIf { !it.isClosed }?.let { TimeshiftServer.urlFor(it, tsFromIndex) }
+
+    /** The copy could not reconnect: the channel is lost, said on screen like any other give-up. */
+    private fun onTimeshiftLost(why: String) {
+        val channel = current
+        clearTimeshift()
+        if (channel == null || (!isStillExo(channel) && !isStillMpv(channel))) return
+        val detail = "the connection was lost ($why)"
+        engineLog("'${channel.name}' — giving up: $detail")
+        host.recordLadderEvent(_liveOnExo.value, PlayerFailureReason.LIVE_NO_FALLBACK, "'${channel.name}': $detail")
+        cancelLadderJobs()
+        abandon(channel, detail)
+    }
+
+    private fun timeshiftKey(channel: ChannelEntity): String = "${channel.sourceId}:${channel.id}"
 
     // --- Engines ----------------------------------------------------------------------------------
 
@@ -297,6 +505,21 @@ class LiveTuneController(
         mpvOutcomeJob?.cancel() // ExoPlayer owns the channel now
         _liveOnExo.value = true
         engines.mpvStop() // mpv lets go of the connection and the decoder before ExoPlayer claims either
+        val local = localUrl()
+        if (local != null) {
+            // The same address is not the same picture after a pause: "live" then means re-opening it.
+            if (engines.exoUrl == local && !behindLive()) {
+                engines.exoSetMuted(false)
+            } else {
+                engines.exoReleaseUhdDecoder()
+                exoStalkerCmd = null
+                setReconnect(null, null)
+                engines.exoPlay(local, muted = false, tsRequest ?: request(channel, source))
+            }
+            host.onEngineStarted()
+            watchExo(channel, source)
+            return
+        }
         if (host.needsResolve(source)) {
             startOnExoStalker(channel, source!!, resolved)
             return
@@ -394,6 +617,13 @@ class LiveTuneController(
             engineLog("mpv handoff for '${channel.name}' abandoned — the channel changed while ExoPlayer released")
             return
         }
+        localUrl()?.let { local ->
+            setReconnect(null, null)
+            engines.mpvPlay(local, tsRequest ?: request(channel, source))
+            host.onEngineStarted()
+            watchMpv(channel, source)
+            return
+        }
         val stalker = host.needsResolve(source)
         val raw = when {
             !stalker -> channel.streamUrl
@@ -480,7 +710,8 @@ class LiveTuneController(
         val secs = SourceOverrides.liveTuneTimeoutSecsOf(source) ?: host.globalBudgetSecs()
         armedBudgetMs = if (secs <= 0) LiveLadder.NO_BUDGET else secs * 1000L
         ladder.arm(channel.streamUrl, preference, budgetMs = armedBudgetMs, nowMs = host.nowMs()) {
-            hasHlsAlternative(channel, source)
+            // A saved copy is one address; the ladder is only the two engines.
+            ts == null && hasHlsAlternative(channel, source)
         }
         startAlarm(channel)
     }
@@ -703,6 +934,16 @@ class LiveTuneController(
         override fun onEngineStarted() = engineStarted()
         override fun onBackToLiveEdge() = backToLiveEdge()
 
+        override val timeshift: TimeshiftManager? by lazy {
+            org.koin.core.context.GlobalContext.getOrNull()?.getOrNull<TimeshiftManager>()
+        }
+
+        override suspend fun timeshiftWindowMinutes(): Int? =
+            if (settings.timeshiftEnabled.first()) settings.timeshiftWindowMinutes.first() else null
+
+        override suspend fun maxVideoHeight(): Int? =
+            PlaybackSettings.await(settings).maxVideoHeight.takeIf { it > 0 }
+
         private fun pinKey(channel: ChannelEntity): String? =
             enginePinKey(channel.sourceId, tv.own.owntv.core.model.MediaType.LIVE.name, channel.remoteId)
     }
@@ -716,5 +957,11 @@ class LiveTuneController(
          * mpv walks its own internal retry and format ladder first.
          */
         const val MPV_OPEN_TIMEOUT_MS = 35_000L
+
+        /** How long a new saved copy gets to receive its first bytes before the channel plays directly. */
+        const val TIMESHIFT_FIRST_PIECE_MS = 12_000L
+
+        /** Behind the copy's edge by more than this is not live any more (the rewind counter's own slack). */
+        const val LIVE_SLACK_MS = 8_000L
     }
 }

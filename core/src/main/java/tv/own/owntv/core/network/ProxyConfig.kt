@@ -70,7 +70,9 @@ class ProxyConfigHolder(configFlow: Flow<ProxyConfig>) {
 
     /** Routes every OkHttp request through the active proxy, or DIRECT when the proxy is off/invalid. */
     val proxySelector: ProxySelector = object : ProxySelector() {
-        override fun select(uri: URI?): List<Proxy> = listOf(activeProxy() ?: Proxy.NO_PROXY)
+        // Loopback is the app's own timeshift server (N4): a proxy elsewhere on the network cannot reach it.
+        override fun select(uri: URI?): List<Proxy> =
+            if (uri?.host == LOOPBACK) listOf(Proxy.NO_PROXY) else listOf(activeProxy() ?: Proxy.NO_PROXY)
         override fun connectFailed(uri: URI?, sa: SocketAddress?, ioe: IOException?) { /* no-op: surfaced as a normal request failure */ }
     }
 
@@ -104,5 +106,9 @@ class ProxyConfigHolder(configFlow: Flow<ProxyConfig>) {
             ""
         }
         return "http://$auth${c.host}:${c.port}"
+    }
+
+    private companion object {
+        const val LOOPBACK = "127.0.0.1"
     }
 }

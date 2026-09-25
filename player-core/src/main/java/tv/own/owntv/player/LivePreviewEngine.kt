@@ -41,6 +41,7 @@ import tv.own.owntv.core.network.HttpClient
 import java.util.Locale
 import tv.own.owntv.core.drm.toMediaDrmConfiguration
 import tv.own.owntv.core.network.StreamHeaders
+import tv.own.owntv.core.timeshift.TimeshiftServer
 
 /**
  * ExoPlayer (Media3) that drives the muted **in-pane Live preview**. ExoPlayer starts HLS far faster than
@@ -1371,7 +1372,8 @@ class LivePreviewEngine(
         // A different channel starts at normal volume. Re-opening the SAME one does not: a retry, a
         // decoder rebuild or a screensaver restore is the same channel continuing, and dropping the
         // boost there made a quiet channel go quiet again every time the stream hiccuped.
-        val sameChannelReopen = url == lastTunedUrl
+        // A saved copy re-opened at another point (a rewind, N4) is the same channel continuing too.
+        val sameChannelReopen = url == lastTunedUrl || TimeshiftServer.sameBuffer(url, lastTunedUrl)
         lastTunedUrl = url
         _volume.value = when {
             muted -> 0
@@ -1612,6 +1614,9 @@ class LivePreviewEngine(
 
     /** Drop any pending restore (e.g. on profile switch — don't bring back the previous user's channel). */
     fun discardBackgroundRestore() { backgroundRestore = null }
+
+    /** How far into the current stream playback is, in ms; 0 with nothing loaded. A saved copy's clock (N4). */
+    fun livePositionMs(): Long = player?.currentPosition?.coerceAtLeast(0L) ?: 0L
 
     /** Stop playback and free the decoder/connection (e.g. before mpv takes over for fullscreen). Keeps the
      *  ExoPlayer instance alive for the next preview. */

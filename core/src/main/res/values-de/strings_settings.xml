@@ -552,7 +552,7 @@
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">Live-Rücklaufschritt</string>
     <!-- Translators: Description of the live rewind step setting. -->
-    <string name="settings_live_rewind_step_description">Wie weit sich Rück- und Vorlauf im Catch-up-Archiv eines Live-Kanals bewegen.</string>
+    <string name="settings_live_rewind_step_description">Wie weit Zurück- und Vorspulen auf einem Live-Sender springen: in seinem Catch-up-Archiv oder in der von Live-TV anhalten und zurückspulen gespeicherten Kopie.</string>
     <string name="settings_resume_playback">Wiedergabe fortsetzen</string>
     <string name="settings_resume_playback_description">Legt fest, was geschieht, wenn für einen Film oder eine Folge eine Position gespeichert ist.</string>
     <string name="settings_subtitles">Untertitel</string>
@@ -591,7 +591,11 @@
     <string name="settings_channel_numbers_description">Die Sendernummer deines Anbieters neben dem Namen in der Live-TV-Liste, in der Senderlisten-Einblendung und im Player anzeigen – und während der Wiedergabe im Vollbild eine Nummer über die Fernbedienung eingeben, um direkt zu diesem Sender zu wechseln (OK schaltet sofort um, Zurück bricht ab). Wenn diese Option ausgeschaltet ist, werden alle Nummern ausgeblendet und die Zifferntasten ignoriert; es geht nichts verloren, und nach dem erneuten Einschalten werden die Nummern wieder angezeigt.</string>
     <string name="settings_channel_numbers_description_mobile">Die Sendernummer deines Anbieters neben dem Namen in der Live-TV-Liste und im Player anzeigen. Wenn diese Option ausgeschaltet ist, werden alle Nummern ausgeblendet; es geht nichts verloren, und nach dem erneuten Einschalten werden die Nummern wieder angezeigt.</string>
     <string name="settings_live_left_right_rewinds">Links/Rechts spult Live-TV zurück</string>
-    <string name="settings_live_left_right_rewinds_description">Bei ausgeblendeter Steuerung spulen Links und Rechts auf Sendern mit Catch-up zurück und vor, statt die Senderliste und den Verlauf zu öffnen.</string>
+    <string name="settings_live_left_right_rewinds_description">Bei ausgeblendeter Steuerung spulen Links und Rechts auf Sendern, die sich zurückspulen lassen (Catch-up oder gespeichert von Live-TV anhalten und zurückspulen), zurück und vor, statt die Senderliste und den Verlauf zu öffnen.</string>
+    <string name="settings_timeshift">Live-TV anhalten und zurückspulen</string>
+    <string name="settings_timeshift_description">Sender ohne Catch-up werden beim Ansehen im Vollbild auf diesem Gerät gespeichert, damit du anhalten und zurückspulen kannst. Schreibt ständig in den Speicher; mindestens 1 GB bleibt immer frei.</string>
+    <string name="settings_timeshift_window">Rückspul-Länge</string>
+    <string name="settings_timeshift_window_description">Wie weit du einen Sender ohne Catch-up zurückspulen kannst.</string>
     <string name="settings_diagnostics">Diagnose</string>
     <string name="settings_measured_stats">Gemessene Streamstatistiken</string>
     <string name="settings_measured_stats_description">Aktuelle Bildrate, Bitrate und verworfene Frames in der Streaminfo-Einblendung anzeigen (gemessen, während die Einblendung geöffnet ist, bei Streams, die diese Werte nicht angeben). Nur ausschalten, wenn ein leistungsschwacher Fernseher stockt – das eigentliche Video wird dadurch nie beeinflusst, sondern nur die Diagnosewerte.</string>

@@ -2166,6 +2166,7 @@
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	wireEncoding=${response.networkResponse?.header("Content-Encoding").orEmpty()}
 4	log	core/src/main/java/tv/own/owntv/core/network/ProxyConfig.kt	\0
 1	log	core/src/main/java/tv/own/owntv/core/network/ProxyConfig.kt	$u:$p@
+1	url	core/src/main/java/tv/own/owntv/core/network/ProxyConfig.kt	127.0.0.1
 2	log	core/src/main/java/tv/own/owntv/core/network/ProxyConfig.kt	Proxy-Authorization
 2	log	core/src/main/java/tv/own/owntv/core/network/ProxyConfig.kt	UTF-8
 1	log	core/src/main/java/tv/own/owntv/core/network/ProxyConfig.kt	http://$auth${c.host}:${c.port}
@@ -2913,6 +2914,8 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	surround_mode
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	surround_sound
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	theme_mode
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	timeshift_enabled
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	timeshift_window_minutes
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	tmdb_api_key
 1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	tunneled_playback
 1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	tunneling_failed
@@ -3615,6 +3618,73 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/work/TrendingRefreshWorker.kt	trending-refresh
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/work/TrendingRefreshWorker.kt	trending-refresh-source-$sourceId
 1	technical	core/src/main/java/tv/own/owntv/core/theme/Palette.kt	#
+1	empty	core/src/main/java/tv/own/owntv/core/timeshift/HlsMaster.kt	\0
+1	protocol	core/src/main/java/tv/own/owntv/core/timeshift/HlsMaster.kt	#
+1	protocol	core/src/main/java/tv/own/owntv/core/timeshift/HlsMaster.kt	#EXT-X-MAP:
+1	protocol	core/src/main/java/tv/own/owntv/core/timeshift/HlsMaster.kt	#EXT-X-MEDIA:
+1	protocol	core/src/main/java/tv/own/owntv/core/timeshift/HlsMaster.kt	#EXT-X-STREAM-INF
+1	protocol	core/src/main/java/tv/own/owntv/core/timeshift/HlsMaster.kt	#EXT-X-STREAM-INF:
+2	protocol	core/src/main/java/tv/own/owntv/core/timeshift/HlsMaster.kt	AUDIO
+1	protocol	core/src/main/java/tv/own/owntv/core/timeshift/HlsMaster.kt	BANDWIDTH
+1	protocol	core/src/main/java/tv/own/owntv/core/timeshift/HlsMaster.kt	GROUP-ID
+1	protocol	core/src/main/java/tv/own/owntv/core/timeshift/HlsMaster.kt	RESOLUTION
+1	protocol	core/src/main/java/tv/own/owntv/core/timeshift/HlsMaster.kt	TYPE
+2	protocol	core/src/main/java/tv/own/owntv/core/timeshift/HlsMaster.kt	URI
+1	protocol	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	Content-Type
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	DASH with separate audio and video
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	DASH without an init segment
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	DASH without tracks
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	HLS segments are not MPEG-TS
+3	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	HTTP ${response.code}
+2	protocol	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	User-Agent
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	WebM DASH
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	encrypted HLS
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	end of stream
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	every HLS variant has separate sound
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	no stream address
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	not an MPEG-TS stream
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	protected DASH
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	the DASH manifest is not live
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	the DASH representation went away
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	the playlist ended
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	the stream ended
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	timeshift: DASH segment ${segment.number} refused
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	timeshift: connection dropped ($why) — reconnect $failures in ${wait}ms
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	timeshift: first connection failed — $why
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	timeshift: giving up after $failures drops — $why
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	timeshift: not buffered — ${e.why}
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	timeshift: segment ${segment.sequence} refused
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	unreadable DASH manifest
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	unreadable HLS variant address
+2	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	unreadable init segment address
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	unschedulable DASH manifest
+1	protocol	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftDownloader.kt	webm
+1	empty	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftManager.kt	\0
+1	file-path	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftManager.kt	-
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftManager.kt	Timeshift
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftManager.kt	buffer parked
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftManager.kt	buffer resumed by a returning player
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftManager.kt	no data in ${firstPieceTimeoutMs}ms
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftManager.kt	not buffering: $why
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftManager.kt	not buffering: ${space / (1024 * 1024)} MB free
+1	url	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftServer.kt	127.0.0.1
+1	protocol	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftServer.kt	Cache-Control: no-cache Connection: close
+1	protocol	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftServer.kt	GET
+1	protocol	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftServer.kt	HEAD
+1	protocol	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftServer.kt	HTTP/1.1 200 OK Content-Type: ${session.container.mimeType}
+1	protocol	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftServer.kt	HTTP/1.1 404 Not Found Content-Length: 0 Connection: close
+1	url	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftServer.kt	http://$HOST:
+1	url	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftServer.kt	http://$HOST:$port/${session.token}/${fromIndex ?: LIVE}.${session.container.extension}
+1	uri	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftServer.kt	live
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftServer.kt	owntv-timeshift-client
+1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftServer.kt	owntv-timeshift-server
+1	file-path	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftSession.kt	.
+1	file-path	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftSession.kt	init.mp4
+1	file-path	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftSession.kt	mp4
+1	file-path	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftSession.kt	ts
+1	mime	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftSession.kt	video/mp2t
+1	mime	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftSession.kt	video/mp4
+1	file-path	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftStorage.kt	timeshift
 1	protocol	core/src/main/java/tv/own/owntv/core/trending/TrendingAvailability.kt	no VOD content
 1	empty	core/src/main/java/tv/own/owntv/core/trending/TrendingMatcher.kt	\0
 1	sql	core/src/main/java/tv/own/owntv/core/trending/TrendingMatcher.kt	$it*
@@ -4290,11 +4360,12 @@
 1	protocol	player-core/src/main/java/tv/own/owntv/player/LiveStreamQuirks.kt	.ts
 1	protocol	player-core/src/main/java/tv/own/owntv/player/LiveStreamQuirks.kt	://
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	$reason — gave up after ${armedBudgetMs / 1000}s
+1	technical	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	${channel.sourceId}:${channel.id}
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' falling back to $label ($reason)
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' opened on mpv
-1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — giving up: $detail
+2	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — giving up: $detail
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — no fallback left ($detail)
-3	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}': $detail
+4	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}': $detail
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}': $label — $reason
 1	technical	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	ExoPlayer
 1	technical	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	LiveEngine
@@ -4309,9 +4380,12 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	stalker reconnect re-resolve failed '${channel.name}'
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	stalker resolve failed
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	starting mpv for '${channel.name}' — reason=$reason
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	the connection was lost ($why)
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	timeshift: '${channel.name}' cannot be saved — playing it directly
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	timeshift: '${channel.name}' plays from its saved copy
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	tune '${channel.name}' -> ${route.why} [${route.preference.name}]
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	user chose compatibility mode
-12	empty	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	\0
+13	empty	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	\0
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	$STREAM_RECONNECT_OPTIONS,reconnect_at_eof=1
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	$reason — archive rescue: reopening mid-GOP catch-up in software decode
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	$reason — rescue rung 1: hwdec=mediacodec-copy (GL compositing)

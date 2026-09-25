@@ -550,7 +550,7 @@
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">直播回看間隔</string>
     <!-- Translators: Description of the live rewind step setting. -->
-    <string name="settings_live_rewind_step_description">在直播頻道的回看存檔中，倒轉與快轉一次移動的時間長度。</string>
+    <string name="settings_live_rewind_step_description">直播頻道上倒轉和快轉的幅度：在回看封存中，或在「暫停和倒轉直播」儲存的副本中。</string>
     <string name="settings_resume_playback">繼續播放</string>
     <string name="settings_resume_playback_description">電影或集數有已儲存的播放位置時要執行的動作。</string>
     <string name="settings_subtitles">字幕</string>
@@ -589,7 +589,11 @@
     <string name="settings_channel_numbers_description">在電視直播清單、頻道清單疊加層和播放器中，於名稱旁顯示供應商的頻道號碼；在全螢幕播放期間，也可使用遙控器輸入號碼直接跳至該頻道（按「確定」可立即轉台，按「返回」則取消）。關閉後會隱藏所有號碼並忽略數字鍵；不會遺失任何資料，重新開啟即可恢復顯示。</string>
     <string name="settings_channel_numbers_description_mobile">在電視直播清單和播放器中，於名稱旁顯示供應商的頻道號碼。關閉後會隱藏所有號碼；不會遺失任何資料，重新開啟即可恢復顯示。</string>
     <string name="settings_live_left_right_rewinds">左右鍵倒轉直播</string>
-    <string name="settings_live_left_right_rewinds_description">控制列隱藏時，在支援回看的頻道上，左右鍵會倒轉和快轉，而不是開啟頻道清單和觀看記錄。</string>
+    <string name="settings_live_left_right_rewinds_description">控制列隱藏時，在可以倒轉的頻道上（支援回看，或由「暫停和倒轉直播」儲存），左右鍵會倒轉和快轉，而不是開啟頻道清單和觀看記錄。</string>
+    <string name="settings_timeshift">暫停和倒轉直播</string>
+    <string name="settings_timeshift_description">不支援回看的頻道在全螢幕觀看時會儲存到這部裝置，因此可以暫停和倒轉。會持續寫入儲存空間；一律保留至少 1 GB 可用空間。</string>
+    <string name="settings_timeshift_window">倒轉長度</string>
+    <string name="settings_timeshift_window_description">不支援回看的頻道最多可倒轉多久。</string>
     <string name="settings_diagnostics">診斷</string>
     <string name="settings_measured_stats">實測串流統計資料</string>
     <string name="settings_measured_stats_description">在串流資訊疊加層中顯示即時 fps、位元率和掉格數（在疊加層開啟期間進行測量，適用於未宣告這些數值的串流）。只有低階電視發生停頓時才需要關閉；這絕不會影響實際視訊，只會影響診斷數值。</string>

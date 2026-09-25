@@ -1130,7 +1130,7 @@
     <!-- Translators: Setting label for how far rewind/forward jumps inside a live channel's archive. -->
     <string name="settings_live_rewind_step">Live rewind step</string>
     <!-- Translators: Description of the live rewind step setting. -->
-    <string name="settings_live_rewind_step_description">How far rewind and forward move inside a live channel\'s catch-up archive.</string>
+    <string name="settings_live_rewind_step_description">How far rewind and forward move on a live channel: in its catch-up archive, or in the copy saved by Pause and rewind live TV.</string>
     <!-- Translators: Setting label for the resume playback behavior. -->
     <string name="settings_resume_playback">Resume playback</string>
     <!-- Translators: Description of the resume playback setting. -->
@@ -1180,7 +1180,15 @@
     <!-- Translators: TV setting (Video player). Left/Right on the remote while the player's controls are hidden. -->
     <string name="settings_live_left_right_rewinds">Left and right rewind live TV</string>
     <!-- Translators: Description of settings_live_left_right_rewinds. "Catch-up" = channels whose provider keeps an archive. -->
-    <string name="settings_live_left_right_rewinds_description">With the controls hidden, Left and Right rewind and go forward on channels with catch-up, instead of opening the channel list and history.</string>
+    <string name="settings_live_left_right_rewinds_description">With the controls hidden, Left and Right rewind and go forward on channels you can rewind (catch-up, or saved by Pause and rewind live TV), instead of opening the channel list and history.</string>
+    <!-- Translators: Setting (Video player, Live section). N4 local timeshift: saving channels that have no provider catch-up archive, so they can be paused and rewound. -->
+    <string name="settings_timeshift">Pause and rewind live TV</string>
+    <!-- Translators: Description of settings_timeshift. "Catch-up" = channels whose provider keeps an archive. 1 GB = one gigabyte. -->
+    <string name="settings_timeshift_description">Channels without catch-up are saved on this device while you watch them full screen, so you can pause and rewind. Writes to storage all the time; at least 1 GB always stays free.</string>
+    <!-- Translators: Setting under settings_timeshift: how many minutes are kept (15, 30, 45 or 60). -->
+    <string name="settings_timeshift_window">Rewind length</string>
+    <!-- Translators: Description of settings_timeshift_window. -->
+    <string name="settings_timeshift_window_description">How far back you can rewind a channel without catch-up.</string>
     <!-- Translators: Section header for diagnostic settings. -->
     <string name="settings_diagnostics">Diagnostics</string>
     <!-- Translators: Toggle label for showing measured stream statistics. -->
