@@ -9,6 +9,13 @@
 > in one bolded line of its own (e.g. **Database v46 · Backup v24 · Breaking**). The detail — what,
 > why, files and verification — belongs in the commit message, never here.
 
+## core-1.0.61 — 2026-09-26
+
+### 🐛 Fixes
+
+- **📐 Category panel can go down to 10% when there are only two columns**
+- **🌐 French low-zoom warning synced with Weblate**
+
 ## core-1.0.60 — 2026-09-26
 
 ### 🐛 Fixes

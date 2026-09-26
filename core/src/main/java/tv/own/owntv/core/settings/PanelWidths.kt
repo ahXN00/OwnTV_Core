@@ -21,10 +21,17 @@ object PanelWidthLimits {
     const val STEP = 5
     const val TOTAL = 100
 
-    fun clamp(pct: Int): Int = pct.coerceIn(MIN, MAX)
+    fun clamp(pct: Int, max: Int = MAX): Int = pct.coerceIn(MIN, max)
 
     /** Snap to the nearest [STEP] and clamp — every stored/displayed value goes through here. */
-    fun snap(pct: Int): Int = clamp((pct.toFloat() / STEP).roundToInt() * STEP)
+    fun snap(pct: Int, max: Int = MAX): Int = clamp((pct.toFloat() / STEP).roundToInt() * STEP, max)
+
+    /**
+     * The list panel's ceiling. With no third panel (Cinematic, or the preview set to 0) the list
+     * takes what the category leaves, so it may reach `TOTAL - MIN`; capping it at [MAX] there
+     * would silently stop the category at 20% instead of the [MIN] every other layout allows.
+     */
+    fun listMax(preview: Int): Int = if (preview == 0) TOTAL - MIN else MAX
 
     /** The third panel has one extra state: exactly 0 means that it is not composed at all. */
     fun snapPreview(pct: Int): Int = if (pct <= 0) 0 else snap(pct)
@@ -43,7 +50,7 @@ data class PanelShares(val category: Int, val list: Int, val preview: Int) {
     val total: Int get() = category + list + preview
     val isValid: Boolean get() =
         category in PanelWidthLimits.MIN..PanelWidthLimits.MAX &&
-            list in PanelWidthLimits.MIN..PanelWidthLimits.MAX &&
+            list in PanelWidthLimits.MIN..PanelWidthLimits.listMax(preview) &&
             (preview == 0 || preview in PanelWidthLimits.MIN..PanelWidthLimits.MAX) &&
             total == PanelWidthLimits.TOTAL
 }
@@ -53,18 +60,21 @@ data class PanelShares(val category: Int, val list: Int, val preview: Int) {
  * first (it can absorb it least visibly) and spilling onto the others if that one hits a limit.
  */
 fun balanceToTotal(shares: PanelShares): PanelShares {
+    val preview = PanelWidthLimits.snapPreview(shares.preview)
+    val listMax = PanelWidthLimits.listMax(preview)
     val values = intArrayOf(
         PanelWidthLimits.snap(shares.category),
-        PanelWidthLimits.snap(shares.list),
-        PanelWidthLimits.snapPreview(shares.preview),
+        PanelWidthLimits.snap(shares.list, listMax),
+        preview,
     )
-    val minimums = intArrayOf(PanelWidthLimits.MIN, PanelWidthLimits.MIN, if (values[2] == 0) 0 else PanelWidthLimits.MIN)
+    val minimums = intArrayOf(PanelWidthLimits.MIN, PanelWidthLimits.MIN, if (preview == 0) 0 else PanelWidthLimits.MIN)
+    val maximums = intArrayOf(PanelWidthLimits.MAX, listMax, PanelWidthLimits.MAX)
     // Biggest first, so the correction lands where it shows least.
     val order = values.indices.sortedByDescending { values[it] }
     var diff = PanelWidthLimits.TOTAL - values.sum()
     for (i in order) {
         if (diff == 0) break
-        val moved = (values[i] + diff).coerceIn(minimums[i], PanelWidthLimits.MAX)
+        val moved = (values[i] + diff).coerceIn(minimums[i], maximums[i])
         diff -= moved - values[i]
         values[i] = moved
     }

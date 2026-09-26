@@ -1818,11 +1818,12 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         if (category == null || list == null || preview == null || category <= 0 || list <= 0 || preview < 0) {
             null
         } else {
+            val snappedPreview = PanelWidthLimits.snapPreview(preview)
             balanceToTotal(
                 PanelShares(
                     PanelWidthLimits.snap(category),
-                    PanelWidthLimits.snap(list),
-                    PanelWidthLimits.snapPreview(preview),
+                    PanelWidthLimits.snap(list, PanelWidthLimits.listMax(snappedPreview)),
+                    snappedPreview,
                 ),
             )
         }
