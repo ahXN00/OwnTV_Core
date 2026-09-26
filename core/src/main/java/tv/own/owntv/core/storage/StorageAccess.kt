@@ -60,8 +60,15 @@ object StorageAccess {
     /** The effective base folder: the configured path if usable, else the default. */
     fun resolveRoot(context: Context, configured: String?): File {
         val dir = configured?.takeIf { it.isNotBlank() }?.let { File(it) }
-        return if (dir != null && (dir.exists() || dir.mkdirs())) dir else defaultRoot(context)
+        return if (dir != null && isUsableDir(dir)) dir else defaultRoot(context)
     }
+
+    /**
+     * A folder that exists — or can be made — and can be written to. A USB stick that has been pulled
+     * leaves its path behind with nothing under it, and that must count as gone, not as a folder.
+     */
+    internal fun isUsableDir(dir: File): Boolean =
+        runCatching { (dir.isDirectory || dir.mkdirs()) && dir.canWrite() }.getOrDefault(false)
 
     /** Top-level browsable storage roots for the Compose folder picker. */
     fun storageRoots(context: Context): List<StorageRoot> {

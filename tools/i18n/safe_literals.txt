@@ -1046,6 +1046,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT epgChannelId FROM epg_channels WHERE sourceId = :sourceId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT epgChannelId, displayName, normName, normId FROM epg_channels LIMIT :limit
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT epgChannelId, iconUrl FROM epg_channels WHERE sourceId IN (:sourceIds) AND iconUrl IS NOT NULL AND iconUrl != ''
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT DISTINCT sourceId FROM epg_channels WHERE epgChannelId IN (:epgChannelIds) AND iconUrl IS NOT NULL AND iconUrl != ''
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT id, epgChannelId, startMs, contentHash FROM epg_programmes WHERE sourceId = :sourceId AND epgChannelId = :epgChannelId
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, 0 AS contentHash
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	(:type = 'LIVE' AND itemId NOT IN (SELECT id FROM channels)) OR
@@ -3753,15 +3754,15 @@
 1	file-path	core/src/main/java/tv/own/owntv/core/tv/LiveLogoArtProvider.kt	.png
 1	mime	core/src/main/java/tv/own/owntv/core/tv/LiveLogoArtProvider.kt	image/png
 1	technical	core/src/main/java/tv/own/owntv/core/tv/LiveLogoArtProvider.kt	r
-1	file-path	core/src/main/java/tv/own/owntv/core/tv/LiveLogoArtProvider.kt	tv-live-logo-art/$name
 1	empty	core/src/main/java/tv/own/owntv/core/tv/LiveLogoPosterArt.kt	\0
+1	technical	core/src/main/java/tv/own/owntv/core/tv/LiveLogoPosterArt.kt	$aspectRatio|$source
 1	file-path	core/src/main/java/tv/own/owntv/core/tv/LiveLogoPosterArt.kt	${destination.name}.tmp
-1	file-path	core/src/main/java/tv/own/owntv/core/tv/LiveLogoPosterArt.kt	${sha256(source.toString())}.png
+1	file-path	core/src/main/java/tv/own/owntv/core/tv/LiveLogoPosterArt.kt	${key(source, aspectRatio)}.png
 1	technical	core/src/main/java/tv/own/owntv/core/tv/LiveLogoPosterArt.kt	%02x
+1	technical	core/src/main/java/tv/own/owntv/core/tv/LiveLogoPosterArt.kt	.owntv-live-logo-art
+1	file-path	core/src/main/java/tv/own/owntv/core/tv/LiveLogoPosterArt.kt	.png
 1	technical	core/src/main/java/tv/own/owntv/core/tv/LiveLogoPosterArt.kt	SHA-256
-1	uri	core/src/main/java/tv/own/owntv/core/tv/LiveLogoPosterArt.kt	content://${context.packageName}.owntv-live-logo-art/${file.name}
-1	url	core/src/main/java/tv/own/owntv/core/tv/LiveLogoPosterArt.kt	http
-1	url	core/src/main/java/tv/own/owntv/core/tv/LiveLogoPosterArt.kt	https
+1	uri	core/src/main/java/tv/own/owntv/core/tv/LiveLogoPosterArt.kt	content://${context.packageName}$AUTHORITY_SUFFIX/${file.name}
 1	file-path	core/src/main/java/tv/own/owntv/core/tv/LiveLogoPosterArt.kt	tv-live-logo-art
 1	empty	core/src/main/java/tv/own/owntv/core/tv/TvHomeRepository.kt	\0
 1	log	core/src/main/java/tv/own/owntv/core/tv/TvHomeRepository.kt	$profileId|${mediaType.name}|$stableKey

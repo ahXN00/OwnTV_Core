@@ -174,12 +174,12 @@ class TvHomeRepository(
         }
     }
 
-    private suspend fun refreshRecentLiveLocked(profileId: Long, allowBrowsableRequest: Boolean) {
+    private suspend fun refreshRecentLiveLocked(profileId: Long, allowBrowsableRequest: Boolean, force: Boolean = false) {
         val customizations = customize.observe(profileId, MediaType.LIVE).first()
         val channelRow = ensureRecentLiveChannel(profileId, allowBrowsableRequest)
         val channelId = channelRow.providerProgramId ?: return
         val now = System.currentTimeMillis()
-        if (now - channelRow.lastPublishedAt < RECENT_LIVE_REFRESH_INTERVAL_MS) return
+        if (!force && now - channelRow.lastPublishedAt < RECENT_LIVE_REFRESH_INTERVAL_MS) return
 
         val liveSourceIds = sourceDao.observeForProfile(profileId).first()
             .filter { it.syncLive }
@@ -222,6 +222,15 @@ class TvHomeRepository(
 
         tvProviderProgramDao.upsert(channelRow.copy(lastPublishedAt = now, lastEngagementAt = now))
         logD("refreshRecentLive profile=$profileId updated channel bookkeeping")
+
+        // Logos not fitted yet were published with their own URL; fit them in the background and
+        // publish the row once more when they are ready. Never while the row above was being written.
+        val arts = recentChannels.mapNotNull { safeLiveArtUri(it.displayLogoUrl) }
+        liveLogoPosterArt.prepare(arts, TvContractCompat.PreviewProgramColumns.ASPECT_RATIO_16_9) {
+            if (settings.androidTvHomeEnabled.first()) {
+                mutex.withLock { refreshRecentLiveLocked(profileId, allowBrowsableRequest = false, force = true) }
+            }
+        }
     }
 
     private suspend fun syncMovie(profileId: Long, movieId: Long, positionMs: Long, durationMs: Long, force: Boolean = false) {
@@ -539,7 +548,7 @@ class TvHomeRepository(
     ) {
         val label = customizations.itemNames[CustomizeKeys.channel(channel)] ?: channel.name
         val art = safeLiveArtUri(channel.displayLogoUrl)
-        val fittedArt = art?.let { liveLogoPosterArt.fitInside(it, TvContractCompat.PreviewProgramColumns.ASPECT_RATIO_16_9) } ?: art
+        val fittedArt = art?.let { liveLogoPosterArt.cached(it, TvContractCompat.PreviewProgramColumns.ASPECT_RATIO_16_9) } ?: art
         val stableKey = launcherPlanner.liveStableKey(channel)
         val stableKeyString = launcherPlanner.liveStableKeyString(channel)
         val program = PreviewProgram.Builder()

@@ -209,6 +209,10 @@ interface EpgDao {
     @Query("SELECT epgChannelId, iconUrl FROM epg_channels WHERE sourceId IN (:sourceIds) AND iconUrl IS NOT NULL AND iconUrl != ''")
     fun observeChannelIcons(sourceIds: List<Long>): Flow<List<EpgChannelIcon>>
 
+    /** The EPG sources that carry an icon for any of [epgChannelIds] (normalized ids). */
+    @Query("SELECT DISTINCT sourceId FROM epg_channels WHERE epgChannelId IN (:epgChannelIds) AND iconUrl IS NOT NULL AND iconUrl != ''")
+    suspend fun sourcesWithIconsFor(epgChannelIds: List<String>): List<Long>
+
     @Query("SELECT epgChannelId FROM epg_channels WHERE sourceId = :sourceId")
     suspend fun epgChannelIdsForSource(sourceId: Long): List<String>
 

@@ -27,9 +27,8 @@ sealed interface MediaRoot {
      * Make — or find, if a previous download already made it — the file at
      * `<root>/<relativeDir>/<fileName>`, e.g. `Movies/Interstellar.mp4`.
      *
-     * Null when the destination cannot be created at all: the volume is unmounted, or the SAF grant
-     * has been revoked. The caller turns that into a failure the user can read, rather than writing
-     * somewhere the user did not choose.
+     * Null when the destination cannot be created at all — the volume went away between [of] choosing
+     * this root and the file being made. The caller turns that into a failure the user can read.
      */
     fun child(relativeDir: String, fileName: String): MediaTarget?
 
@@ -62,6 +61,10 @@ sealed interface MediaRoot {
         override val stored: String get() = treeUri.toString()
 
         private fun root(): DocumentFile? = DocumentFile.fromTreeUri(context, treeUri)
+
+        /** The grant still stands and the folder behind it is there — its volume is mounted. */
+        fun isAvailable(): Boolean = StorageAccess.hasTree(context, stored) &&
+            runCatching { root()?.let { it.exists() && it.canWrite() } == true }.getOrDefault(false)
 
         override fun child(relativeDir: String, fileName: String): MediaTarget? {
             var dir = root() ?: return null
@@ -116,17 +119,27 @@ sealed interface MediaRoot {
     companion object {
         /**
          * The download root as configured, or the app's own folder when the setting is unset or
-         * names somewhere that no longer exists.
+         * names somewhere that is not there right now — a USB stick or card that has been removed,
+         * or a folder whose permission was withdrawn.
          *
-         * A revoked or unmounted SAF tree deliberately does **not** fall back here: a grant that has
-         * been withdrawn is a thing to tell the user about, not to paper over by quietly writing
-         * gigabytes somewhere they did not choose. [child] returns null and the transfer fails with
-         * a reason.
+         * The chosen folder always comes first and the setting is never changed: the moment the
+         * stick is back, the next download goes to it again. Only while it is missing do downloads
+         * and recordings fall back, rather than failing one after another (see [isFallback]).
          */
         fun of(context: Context, configured: String?): MediaRoot {
             val value = configured?.takeIf { it.isNotBlank() }
-            if (MediaTarget.isDocument(value)) return Tree(context, Uri.parse(value))
+            if (MediaTarget.isDocument(value)) {
+                val tree = Tree(context, Uri.parse(value))
+                return if (tree.isAvailable()) tree else Path(StorageAccess.defaultRoot(context))
+            }
             return Path(StorageAccess.resolveRoot(context, value))
+        }
+
+        /** True when a folder was chosen but [of] is using the app's own folder because it is missing. */
+        fun isFallback(context: Context, configured: String?): Boolean {
+            val value = configured?.takeIf { it.isNotBlank() } ?: return false
+            if (MediaTarget.isDocument(value)) return !Tree(context, Uri.parse(value)).isAvailable()
+            return !StorageAccess.isUsableDir(java.io.File(value))
         }
 
         /** Best-effort MIME from the file's extension — SAF wants one to create a document. */

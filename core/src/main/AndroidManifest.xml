@@ -54,10 +54,12 @@
 
         <!-- Google TV Home runs outside OwnTV, so it needs a public read-only URI for the
              generated logo files. LiveLogoArtProvider accepts only hash-named PNGs below its
-             dedicated cache directory; it cannot expose any other app-private file. -->
+             dedicated cache directory; it cannot expose any other app-private file. Disabled until
+             LiveLogoPosterArt writes its first file, so an app with no launcher rows never exposes it. -->
         <provider
             android:name="tv.own.owntv.core.tv.LiveLogoArtProvider"
             android:authorities="${applicationId}.owntv-live-logo-art"
+            android:enabled="false"
             android:exported="true" />
 
         <!-- WorkManager's foreground-service host. Both types, because both workers run in it: the

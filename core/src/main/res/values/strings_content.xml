@@ -409,6 +409,8 @@
     <string name="content_storage_chosen_folder">Chosen folder</string>
     <!-- Translators: Shown when the folder the user had chosen for downloads can no longer be written to, because the permission was withdrawn or the storage was removed. -->
     <string name="content_storage_folder_lost">That folder is no longer available. Choose it again, or pick another.</string>
+    <!-- Translators: Shown on the Downloads screen while the folder the user chose for downloads is missing (a USB stick removed, or its permission withdrawn). Downloads go to the app's own folder until it is back; the choice itself is kept. -->
+    <string name="content_storage_folder_fallback">Your download folder isn\'t available right now, so downloads are being saved to OwnTV\'s own folder until it\'s back.</string>
     <!-- Translators: Download status showing completed size. "size" is the formatted file size. -->
     <string name="content_downloads_completed"><xliff:g id="size">%1$s</xliff:g> downloaded</string>
     <!-- Translators: Error message on a failed download item. Directs the user to tap Retry. -->
@@ -537,6 +539,10 @@
     <string name="content_epg_runtime"><xliff:g id="minutes">%1$d</xliff:g>m</string>
     <!-- Translators: EPG review-dialog heading. -->
     <string name="content_epg_review_matches">Review EPG matches</string>
+    <!-- Translators: A switch in the Review EPG matches window. When on, the channels matched there also show the logo of the guide channel they were matched to. -->
+    <string name="content_epg_include_logos">Include guide logos</string>
+    <!-- Translators: The same setting as "Include guide logos", as a short check-box label for the narrow TV review window. Keep it to one short word. -->
+    <string name="content_epg_include_logos_short">Logos</string>
     <!-- Translators: Description in the EPG review dialog explaining what to do with uncertain matches. -->
     <string name="content_epg_review_description">These channels were matched by name but weren\'t a confident fit. Accept the right ones; skip the rest.</string>
     <!-- Translators: Button to accept an EPG match in the review dialog. -->

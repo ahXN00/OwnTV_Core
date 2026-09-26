@@ -20,7 +20,12 @@ import tv.own.owntv.core.storage.StorageAccess
 import tv.own.owntv.core.settings.SettingsRepository
 
 /** Free/total bytes of the volume backing the download root. */
-data class DownloadStorageInfo(val freeBytes: Long, val totalBytes: Long) {
+data class DownloadStorageInfo(
+    val freeBytes: Long,
+    val totalBytes: Long,
+    /** The chosen folder is missing (USB removed, permission withdrawn), so the app's own folder is in use. */
+    val usingFallback: Boolean = false,
+) {
     val usedBytes: Long get() = (totalBytes - freeBytes).coerceAtLeast(0L)
     val usedFraction: Float get() = if (totalBytes > 0) (usedBytes.toFloat() / totalBytes).coerceIn(0f, 1f) else 0f
 }
@@ -64,9 +69,14 @@ class DownloadManager(
 
     /** Free/total space of the volume holding the current download root (for the Downloads storage bar). */
     suspend fun storageInfo(): DownloadStorageInfo = withContext(Dispatchers.IO) {
-        val space = runCatching { MediaRoot.of(context, settings.downloadRoot.first()).space() }
+        val configured = settings.downloadRoot.first()
+        val space = runCatching { MediaRoot.of(context, configured).space() }
             .getOrNull() ?: MediaRoot.Path(StorageAccess.defaultRoot(context)).space()
-        DownloadStorageInfo(freeBytes = space.freeBytes, totalBytes = space.totalBytes)
+        DownloadStorageInfo(
+            freeBytes = space.freeBytes,
+            totalBytes = space.totalBytes,
+            usingFallback = runCatching { MediaRoot.isFallback(context, configured) }.getOrDefault(false),
+        )
     }
 
     /**
@@ -76,8 +86,8 @@ class DownloadManager(
      * the row's `filePath` has to name something real — a SAF document has to be created before it
      * has a URI at all, where a path could simply be written down.
      *
-     * A root that cannot produce one — an unmounted card, a folder grant the user has withdrawn —
-     * still gets a row, with no path. The engine then fails it in the ordinary way and the user sees
+     * A chosen folder that is missing right now falls back to the app's own folder ([MediaRoot.of]).
+     * A root that still cannot produce a file — the volume went away mid-way — still gets a row, with no path. The engine then fails it in the ordinary way and the user sees
      * a failed download saying so, which is what happened before this could fail at all. Queuing
      * nothing would leave the Download button looking broken.
      */
