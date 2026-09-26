@@ -39,6 +39,18 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application>
+        <!-- "Restart now" after an icon change (AppRestartActivity). Its own process, so it outlives
+             the app process it ends, and its own task, so the reopened app is never put back into the
+             task of the icon just disabled; invisible, never in recents. Both apps' Application.onCreate
+             return at once in this process (AppIconSwitcher.isRestartProcess). -->
+        <activity
+            android:name="tv.own.owntv.core.brand.AppRestartActivity"
+            android:process=":restart"
+            android:taskAffinity=":restart"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:theme="@android:style/Theme.NoDisplay" />
         <!-- WorkManager's foreground-service host. Both types, because both workers run in it: the
              download queue is a data sync, a recording is media playback. Each worker picks its own
              via the ForegroundInfo it returns. -->

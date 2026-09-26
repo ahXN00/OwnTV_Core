@@ -179,7 +179,7 @@ resolves the published artifact instead, which is what CI does.
 
 ### Hooks an app must supply
 
-Core deliberately knows nothing about the app hosting it. Four hooks are assigned in the
+Core deliberately knows nothing about the app hosting it. Five hooks are assigned in the
 application's `onCreate`, **before Koin starts** — `CrashRecorder` reads the version before the
 container exists:
 
@@ -189,6 +189,13 @@ container exists:
 | `CrashRecorder.diagnostics` | the live diagnostics log |
 | `LiveSessionLimit.report` | per-provider stream quirks |
 | `SubtitleFontAssets.resourceOf` | the app's bundled subtitle fonts |
+| `AppIconSwitcher.mainActivityClass` | the app's `MainActivity`; the icon colours are it + `AppIcon.activitySuffix` |
+
+`onCreate` also **returns at once when `AppIconSwitcher.isRestartProcess(this)`** — the few
+milliseconds core's `AppRestartActivity` runs in its own process to reopen the app after an icon
+change, where nothing may start. After Koin it calls `AppIconSwitcher.start()` and
+`PlaybackStartup.start(...)`. The two engines are built with player-core's `ownTVPlayer()` and
+`livePreviewEngine()` inside the app's own Koin module (player-core ships none).
 
 One more is supplied from the playback screen rather than `onCreate`, because it is a live signal
 rather than a value:

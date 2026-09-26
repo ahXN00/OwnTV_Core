@@ -32,10 +32,7 @@ interface PlaybackQuirkDao {
     @Query("UPDATE playback_quirks SET audioDelayMs = :audioDelayMs, updatedAt = :now WHERE contentKey = :contentKey")
     suspend fun updateAudioDelay(contentKey: String, audioDelayMs: Int?, now: Long)
 
-    @Query(
-        "DELETE FROM playback_quirks WHERE enginePin IS NULL AND audioOnly IS NULL " +
-            "AND audioDelayMs IS NULL AND softwareDecode IS NULL",
-    )
+    @Query("DELETE FROM playback_quirks WHERE enginePin IS NULL AND audioOnly IS NULL AND audioDelayMs IS NULL")
     suspend fun dropEmptyRows()
 
     /** [pin] "MPV" / "EXO", or null to forget it. */

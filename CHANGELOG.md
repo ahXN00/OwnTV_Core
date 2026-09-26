@@ -19,11 +19,103 @@ Core is versioned independently of the apps. A core version never lines up with 
 
 ---
 
-## core-1.0.58 — unreleased
+## core-1.0.58 — 2026-09-26
 
-**API · Strings.** A new icon and logo for both apps, the "flip card", in eight colours the user picks.
-No database or backup-format change: the choice is one new setting, `app_icon`, and it rides in the
-settings backup.
+**DB v44 · DB v45 · DB v46 · Backup v23 · Backup v24 · API · Breaking · Strings.** The playback
+upgrade: a live tuner shared by both apps, pause and rewind on channels without catch-up, OwnTV's own
+mpv engine, sound and picture settings, per-playlist and per-stream memory, safer restores, and a new
+icon and logo in eight colours. New text is in every packaged locale.
+
+**A consuming app must:**
+- in `Application.onCreate`, return at once when `AppIconSwitcher.isRestartProcess(this)`; assign
+  `AppIconSwitcher.mainActivityClass` before Koin; call `AppIconSwitcher.start()` and
+  `PlaybackStartup.start(context, …)` after it (Breaking);
+- build its engines with player-core's `ownTVPlayer()` / `livePreviewEngine()` (the `OwnTVPlayer`
+  constructor gained `originalLanguage`);
+- tune live channels through `LiveTuneController`, and forward `onTrimMemory` to `PlaybackEngines`;
+- never declare libmpv itself — it arrives through `:player-core` (`tv.own.owntv:libmpv:2026.09.2`).
+
+### Database v44 → v46
+
+- **v44:** `playback_quirks` — engine pins, sound-only marks and audio delays, shared by every profile
+  (the old DataStore files are copied in once and left on disk for one release);
+  `playback_prefs.sourceId/audioLang/subtitleLang`; five per-playlist columns on `sources` (catch-up
+  time zone and offset, Movies & Series player, Give up after, HTTP Referer). Deleting a playlist
+  deletes what was remembered for its items.
+- **v45:** `metadata_cache.originalLanguage`, for the "Original language" audio choice.
+- **v46:** the never-written `playback_quirks.softwareDecode` is dropped.
+- Every migration is `CREATE`/`ADD`/`DROP COLUMN` only, with no transaction statement, and has a
+  `BundledSQLiteDriver` migration test.
+
+### Backups (v23, v24)
+
+- **v23:** a `playbackQuirks` block, the new playlist columns, and remembered track languages.
+- **v24:** preferred audio / subtitle language per profile.
+- A restore skips profiles and playlists that are not on this device instead of landing on whoever has
+  the same number, and never leaves a channel pinned to both engines.
+- One bad setting no longer aborts a restore; out-of-range values are skipped or clamped.
+- Backups record which device wrote them (a hashed id). Restoring or syncing from another device
+  keeps this device's hardware settings unless "Hardware settings from the other device" is ticked.
+- Backups now carry Multiview, the recording settings, pause-and-rewind and every new setting below.
+  `SettingsBackupCoverageTest` fails for any key with no backup decision.
+
+### Live TV
+
+- **`LiveTuneController`** (API): live routing, the fallback ladder and its give-up alarm, ExoPlayer ⇄
+  mpv handovers, the Prefer-HLS rung, HLS-redirect learning, the Stalker reconnect link, the TV
+  preview pane and Multiview tiles — one copy for both apps. A newer tune cancels an older one, so two
+  quick picks can no longer finish in the wrong order.
+- **Pause and rewind** on channels without catch-up (off by default; 15 / 30 / 45 / 60 min): the
+  channel is saved on the device while watched full screen and both engines play that copy, with the
+  existing rewind bar, gaps drawn. It is the only provider connection and always leaves ≥ 1 GB free.
+  The copy is kept 5 min after leaving ("Resume / Go live"), deleted after 2 min on another channel,
+  and wiped at every start. Not buffered: encrypted HLS, separate audio, two-track DASH, DRM, WebM.
+  Background catalogue paging and connection measurement step aside while a copy downloads.
+- **Previous channel** (`ChannelRecall`): a player button, a remote-shortcut action, and headset /
+  notification "previous" on live.
+- A live channel on mpv that keeps dying ends on "Lost connection" after its reconnect budget; the
+  budget comes back only after 60 s of unbroken playback. Retry keeps the channel's declared container
+  and its Xtream `direct_source` fallback.
+- Catch-up: time zone per playlist and in quarter hours; a finished programme continues to the next
+  one or to live on both apps (`CatchupContinue` moved to core); the software-decode lesson expires
+  after 14 days.
+- "Reset saved live TV player choices" and "Forget learned stream fixes".
+
+### Playback engines
+
+- **OwnTV's own mpv build**, `tv.own.owntv:libmpv:2026.09.2` (was `dev.jdtech.mpv:libmpv:1.0.0`): mpv
+  master, FFmpeg 9.0.2, FFmpeg filters (so mpv's automatic deinterlacing runs), and the reason a file
+  ended — logged, and an app-issued stop is never treated as a failure. Same Java API.
+- **One settings snapshot** (`PlaybackSettings`), awaited before the first tune after a cold start,
+  replaces ~30 per-setting subscriptions.
+- **Sound:** one volume scale on every engine (150 % ≈ +10 dB; the audio-focus duck is −12 dB);
+  audio sync on ExoPlayer too (live, Multiview tiles, films; per channel or film, shared by profiles);
+  night mode and volume levelling (off by default, both engines); "Dolby / DTS to the TV or receiver".
+- **Picture:** mpv hardware-decodes MPEG-2 and MPEG-4 Part 2; maximum video quality and a phone
+  mobile-data limit, plus a per-item Quality button; tunneled playback (experimental, off, ExoPlayer
+  live only, switches itself off after the first failure); the Deinterlacing setting is gone (mpv
+  deinterlaces by itself); HDR is labelled "mpv only"; auto frame rate on the phone (seamless only)
+  and TV extras (pause during the switch, match resolution).
+- **Languages:** preferred audio / subtitle language per profile, 50 languages, and "Original
+  language" from TMDB; the audio and subtitle choice is remembered per channel, film and series.
+- **Films:** buffer, network timeout and reconnect attempts settings; an ExoPlayer film reopens in
+  place before handing to mpv; step seeks snap to keyframes.
+- **Sleep timer** (`SleepTimer`): 15–90 min, end of programme / film / episode, optionally switching
+  the screen off (`ScreenOff`, a device-admin `force-lock` grant).
+- **`PlaybackEngines`**: memory pressure, Home and the screensaver reach every engine, Multiview tiles
+  included. On 2 GB TVs the preview pane plays at most 720p, measured stream stats default off and the
+  live buffer's byte ceiling is 2×.
+
+### Settings, network and startup
+
+- Four per-playlist settings, with a Referer field in the playlist form.
+- Proxy and custom DNS are in force from the first stream after a cold start. Custom DNS answers are
+  read correctly (plain DNS had silently fallen back to the system resolver); DNS-over-HTTPS uses the
+  binary form, so the Google and Quad9 presets work; A and AAAA are asked together and cached.
+- Startup work runs in core for both apps (`PlaybackStartup`): the diagnostics switch, catch-up decode
+  memory and the one-shot settings migrations.
+- Last channel / category live in their own small store; Live TV and the Guide share one guide cache.
+- Diagnostics log writes are thread-safe and off the calling thread.
 
 ### Eight app icons and logos, one switcher
 
@@ -35,6 +127,11 @@ settings backup.
   pending choice when the app goes to the background. **A consuming app must** assign
   `mainActivityClass` before Koin, call `start()` after it, and declare one launcher activity per colour
   (`MainActivity` + `AppIcon.activitySuffix`, only `MainActivity` enabled).
+- **"Restart now" reopens the app.** `restartWith` hands over to `AppRestartActivity`, which runs in
+  a `:restart` process and task of its own, ends the old process and opens the new icon's activity in a
+  new task. Before this, the app was killed together with its own reopen request, and a reopen inside
+  the old task was closed by Android as soon as the switch applied (`disabled-package`). **API:**
+  `AppIconSwitcher.isRestartProcess(context)`.
 - **`SettingsRepository.appIcon` / `setAppIcon`** (key `app_icon`), included in the settings backup.
 - **Resources**, generated from the pass-6 mockup by `tools/brand/render_brand.py`:
   - launcher foregrounds (all densities, with the mockup's shadow) and adaptive icons with a shared monochrome layer;

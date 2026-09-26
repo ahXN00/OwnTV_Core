@@ -72,20 +72,36 @@ object AppIconSwitcher {
     }
 
     /**
-     * "Restart now": applies [icon], opens the app again through its new launcher activity and ends this
-     * process. The caller must have finished saving the choice first.
+     * "Restart now": applies [icon] and hands the rest to [AppRestartActivity], which ends this process
+     * and opens the app again through its new launcher activity. The caller must have finished saving
+     * the choice first.
      */
     fun restartWith(activity: Activity, icon: AppIcon) {
         apply(activity, icon)
         activity.startActivity(
-            Intent(Intent.ACTION_MAIN)
-                .addCategory(Intent.CATEGORY_LAUNCHER)
-                .setComponent(component(activity, icon))
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK),
+            Intent(activity, AppRestartActivity::class.java)
+                .putExtra(AppRestartActivity.EXTRA_PID, Process.myPid())
+                .putExtra(AppRestartActivity.EXTRA_COMPONENT, component(activity, icon).flattenToString())
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
         )
         activity.finishAffinity()
-        Process.killProcess(Process.myPid())
     }
+
+    /**
+     * True inside [AppRestartActivity]'s own process. The app's `Application.onCreate` returns straight
+     * away there: that process lives a few milliseconds and must not start Koin, workers or playback.
+     */
+    fun isRestartProcess(context: Context): Boolean {
+        val name = if (android.os.Build.VERSION.SDK_INT >= 28) {
+            Application.getProcessName()
+        } else {
+            runCatching { java.io.File("/proc/self/cmdline").readText().trimEnd('\u0000') }.getOrDefault("")
+        }
+        return name == context.packageName + RESTART_PROCESS
+    }
+
+    /** Must match `android:process` of [AppRestartActivity] in core's manifest. */
+    private const val RESTART_PROCESS = ":restart"
 
     /**
      * Applies a pending choice each time the last visible activity stops ("Later", the first-run pick, a

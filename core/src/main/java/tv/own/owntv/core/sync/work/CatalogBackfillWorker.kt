@@ -9,6 +9,7 @@ import tv.own.owntv.core.live.WatchSession
 import tv.own.owntv.core.sync.ImportFinalizer
 import tv.own.owntv.core.sync.SyncActivityTracker
 import tv.own.owntv.core.sync.SyncManager
+import tv.own.owntv.core.timeshift.TimeshiftManager
 
 /**
  * Finishes a Stalker catalogue that setup deliberately left incomplete (plan N1d).
@@ -40,6 +41,7 @@ class CatalogBackfillWorker(
     private val scheduler: CatalogSyncScheduler,
     private val importFinalizer: ImportFinalizer,
     private val watchSession: WatchSession,
+    private val timeshift: TimeshiftManager,
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
@@ -102,14 +104,16 @@ class CatalogBackfillWorker(
      * True while the user (or a recording) is using this playlist's connections, or while an
      * ordinary sync of it is running — a drain must never be the reason a stream fails to open.
      *
-     * All three clauses are needed and none is redundant. [WatchSession] is fullscreen playback,
+     * All four clauses are needed and none is redundant. [WatchSession] is fullscreen playback,
      * which never claims a connection; [OpenStreamRegistry] is Multiview and recordings, which do;
+     * [TimeshiftManager] is a live channel's saved copy, whose download can outlive the player screen;
      * [SyncActivityTracker] is an ordinary sync of the same source. The watch clause exists because
      * the registry alone silently covered none of the common case — see N1f-3.
      */
     private fun shouldYield(sourceId: Long): Boolean =
         watchSession.isWatching(sourceId) ||
             openStreams.openOn(sourceId).total > 0 ||
+            timeshift.isSaving(sourceId) ||
             syncActivity.active.value.containsKey(sourceId)
 
     companion object {

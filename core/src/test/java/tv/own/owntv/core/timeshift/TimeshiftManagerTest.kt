@@ -59,11 +59,12 @@ class TimeshiftManagerTest {
 
     private val manager = TimeshiftManager(OkHttpClient(), { dir }, idleParkMs = 300)
 
-    private fun target() = TimeshiftDownloader.Target(
+    private fun target(sourceId: Long = -1) = TimeshiftDownloader.Target(
         url = { "http://127.0.0.1:${provider.localPort}/live.ts" },
         userAgent = "test",
         headers = emptyMap(),
         maxVideoHeight = null,
+        sourceId = sourceId,
     )
 
     @After
@@ -130,6 +131,15 @@ class TimeshiftManagerTest {
         assertEquals(1_234L, back.resumeAtWallMs)
         Thread.sleep(200)
         assertTrue("the channel left in between is kept parked", !second.isClosed)
+    }
+
+    @Test
+    fun `saving is reported for the playlist being downloaded, and not once parked`() = runBlocking {
+        manager.open("7:1", target(sourceId = 7), 15, 5_000)!!
+        assertTrue(manager.isSaving(7))
+        assertTrue(!manager.isSaving(8))
+        Thread.sleep(1_000) // nobody reading: parked, the connection closed
+        assertTrue(!manager.isSaving(7))
     }
 
     @Test

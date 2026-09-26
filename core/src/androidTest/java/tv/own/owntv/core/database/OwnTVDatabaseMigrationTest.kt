@@ -581,8 +581,8 @@ class OwnTVDatabaseMigrationTest {
 
             assertCount(sqlite, "playback_quirks", 0)
             sqlite.execSQL(
-                "INSERT INTO playback_quirks (contentKey, sourceId, mediaType, enginePin, audioOnly, audioDelayMs, softwareDecode, updatedAt) " +
-                    "VALUES ('10:LIVE:bbc-one', 10, 'LIVE', 'MPV', NULL, 250, NULL, 6)",
+                "INSERT INTO playback_quirks (contentKey, sourceId, mediaType, enginePin, audioOnly, audioDelayMs, updatedAt) " +
+                    "VALUES ('10:LIVE:bbc-one', 10, 'LIVE', 'MPV', NULL, 250, 6)",
             )
             assertCount(sqlite, "playback_quirks", 1)
         } finally {
@@ -616,6 +616,38 @@ class OwnTVDatabaseMigrationTest {
                 assertTrue(it.step())
                 assertEquals("Parasite", it.getText(0))
                 assertTrue(it.isNull(1))
+            }
+        } finally {
+            db.close()
+        }
+    }
+
+    @Test
+    fun migrateVersion45To46_dropsSoftwareDecode_keepingQuirkRows() {
+        context.deleteDatabase(DB_NAME)
+        val db45 = context.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null)
+        try {
+            executeSchemaQueries(db45, "tv.own.owntv.core.database.OwnTVDatabase/45.json")
+            db45.execSQL(
+                "INSERT INTO playback_quirks (contentKey, sourceId, mediaType, enginePin, audioOnly, audioDelayMs, softwareDecode, updatedAt) " +
+                    "VALUES ('10:LIVE:bbc-one', 10, 'LIVE', 'MPV', 1, 250, NULL, 6)",
+            )
+            db45.version = 45
+        } finally {
+            db45.close()
+        }
+
+        val db = openWithAllMigrations()
+        try {
+            val sqlite = openForAssertions(db)
+            assertEquals(0L, countRows(sqlite, "SELECT COUNT(*) FROM pragma_table_info('playback_quirks') WHERE name = 'softwareDecode'"))
+            assertIndexExists(sqlite, "index_playback_quirks_sourceId")
+            // The pin, the sound-only mark and the delay came through untouched.
+            sqlite.prepare("SELECT enginePin, audioOnly, audioDelayMs FROM playback_quirks WHERE contentKey = '10:LIVE:bbc-one'").use {
+                assertTrue(it.step())
+                assertEquals("MPV", it.getText(0))
+                assertEquals(1L, it.getLong(1))
+                assertEquals(250L, it.getLong(2))
             }
         } finally {
             db.close()

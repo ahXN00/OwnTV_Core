@@ -436,6 +436,7 @@ class LiveTuneController(
                 ?: HttpClient.DEFAULT_USER_AGENT,
             headers = headers,
             maxVideoHeight = host.maxVideoHeight(),
+            sourceId = channel.sourceId,
         )
         val opened = manager.open(key, target, window, TIMESHIFT_FIRST_PIECE_MS, leavingWallMs)
         if (opened == null) {

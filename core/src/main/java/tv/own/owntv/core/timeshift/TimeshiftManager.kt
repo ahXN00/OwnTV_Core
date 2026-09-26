@@ -149,6 +149,16 @@ class TimeshiftManager(
         active?.takeIf { it.session === session }?.let { parkLocked(it, leftAtWallMs) }
     }
 
+    /**
+     * True while a copy of a [sourceId] channel is downloading. That download is the user's own picture,
+     * but it can run with no player screen open (the TV's preview pane, phone PiP), so background work
+     * that asks `WatchSession` alone would not see it. Deliberately not an `OpenStreamRegistry` claim:
+     * that is the Multiview/recording budget, which fullscreen playback never spends from.
+     */
+    fun isSaving(sourceId: Long): Boolean = synchronized(lock) {
+        active?.let { it.download != null && it.target.sourceId == sourceId } == true
+    }
+
     /** Everything stops and is deleted — timeshift was switched off. */
     fun closeAll() {
         val all = synchronized(lock) {

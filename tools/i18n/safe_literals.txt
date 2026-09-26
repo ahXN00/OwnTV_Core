@@ -239,7 +239,11 @@
 1	technical	core/src/main/java/tv/own/owntv/core/brand/AppIcon.kt	Petrol
 1	technical	core/src/main/java/tv/own/owntv/core/brand/AppIcon.kt	Sunflower
 1	technical	core/src/main/java/tv/own/owntv/core/brand/AppIcon.kt	Tomato
-1	empty	core/src/main/java/tv/own/owntv/core/brand/AppIconSwitcher.kt	\0
+2	empty	core/src/main/java/tv/own/owntv/core/brand/AppIconSwitcher.kt	\0
+1	technical	core/src/main/java/tv/own/owntv/core/brand/AppIconSwitcher.kt	/proc/self/cmdline
+1	technical	core/src/main/java/tv/own/owntv/core/brand/AppIconSwitcher.kt	:restart
+1	technical	core/src/main/java/tv/own/owntv/core/brand/AppRestartActivity.kt	component
+1	technical	core/src/main/java/tv/own/owntv/core/brand/AppRestartActivity.kt	pid
 7	empty	core/src/main/java/tv/own/owntv/core/catalog/ProviderCatalogMetadata.kt	\0
 1	regex	core/src/main/java/tv/own/owntv/core/catalog/ProviderCatalogMetadata.kt	(?i)(?:\\b5[._ ]1\\b|\\bDDP?\\s*5[._ ]1\\b|\\bAC-?3\\s*5[._ ]1\\b)
 1	regex	core/src/main/java/tv/own/owntv/core/catalog/ProviderCatalogMetadata.kt	(?i)(?:\\b7[._ ]1\\b|\\bDDP?\\s*7[._ ]1\\b)
@@ -533,6 +537,7 @@
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `playback_prefs` ADD COLUMN `audioLang` TEXT
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `playback_prefs` ADD COLUMN `sourceId` INTEGER NOT NULL DEFAULT -1
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `playback_prefs` ADD COLUMN `subtitleLang` TEXT
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `playback_quirks` DROP COLUMN `softwareDecode`
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `profiles` ADD COLUMN `avatarPath` TEXT
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `series` ADD COLUMN `addedAt` INTEGER
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `series` ADD COLUMN `contentHash` INTEGER NOT NULL DEFAULT 0
@@ -1205,8 +1210,7 @@
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackPrefsDao.kt	UPDATE playback_prefs SET volumeBoost = NULL
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackPrefsDao.kt	UPDATE playback_prefs SET zoomMode = NULL
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackPrefsDao.kt	WHERE sourceId = -1 AND contentKey GLOB '[0-9]*:*'
-1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	AND audioDelayMs IS NULL AND softwareDecode IS NULL
-1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	DELETE FROM playback_quirks WHERE enginePin IS NULL AND audioOnly IS NULL
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	DELETE FROM playback_quirks WHERE enginePin IS NULL AND audioOnly IS NULL AND audioDelayMs IS NULL
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	DELETE FROM playback_quirks WHERE sourceId = :sourceId
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	SELECT * FROM playback_quirks
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/PlaybackQuirkDao.kt	SELECT * FROM playback_quirks WHERE contentKey = :contentKey LIMIT 1
@@ -4433,7 +4437,9 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	CC track selected but software decode not viable (height=${load.currentHeightPx}px, gl=${!glUnsupported}) — captions may stay empty
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	Could not prepare subtitle fonts: ${it.message}
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	Decode guard TRIPPED: ${h}px on software decoder
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	END_FILE STOP with no credit left — app-caused, not a failure
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	END_FILE before FILE_LOADED — demuxer rejected file, hard-resetting
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	END_FILE reason=${endFileReasonName(reason)} error=$error live=$isLiveContent
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	EXO
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	Emulator
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	Exo codec gate: audio codec='$codec' mime=$mime deviceDecoder=$ok
@@ -4556,7 +4562,9 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	emb:${sub.typeIndex}:${sub.lang ?: ""}
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	emb:${t.typeIndex}:${t.lang ?: ""}
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	emulator
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	eof
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	err_detect=ignore_err
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	error
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	est-vf-fps=${getPropertyString("estimated-vf-fps")}
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	estimated-display-fps
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	estimated-display-fps=${getPropertyString("estimated-display-fps")}
@@ -4681,8 +4689,10 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	pq
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	profile
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	queue item resolve failed: ${e.message}
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	quit
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	ranchu
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	reconnect=1,reconnect_streamed=1,reconnect_delay_max=8,reconnect_on_http_error=5xx
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	redirect
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	relative
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	replacement loadfile
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	rgba8
@@ -4700,7 +4710,7 @@
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	slang
 3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	speed
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	stereo
-2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	stop
+3	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	stop
 3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	stream-lavf-o
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	streamLavfO="${streamLavfOptionsFor(url, isLiveContent, effectiveHls)}"
 5	protocol	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	sub
@@ -4734,6 +4744,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	truehd
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	ua=${if (currentUserAgent.isNullOrBlank()) "default" else "custom"}
 3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	unknown
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	unknown($reason)
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	unsupported|connection|reset|4\\d\\d|5\\d\\d
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	user-agent
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vc-1

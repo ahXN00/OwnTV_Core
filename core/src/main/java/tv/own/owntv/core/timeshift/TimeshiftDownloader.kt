@@ -50,6 +50,8 @@ class TimeshiftDownloader(
         val headers: Map<String, String>,
         /** Settings → Maximum video quality, for an HLS master; null for none. */
         val maxVideoHeight: Int?,
+        /** The playlist the channel belongs to, so background work on it can step aside; -1 = unknown. */
+        val sourceId: Long = -1,
     )
 
     sealed interface Result {

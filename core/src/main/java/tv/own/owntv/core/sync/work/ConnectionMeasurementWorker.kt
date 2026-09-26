@@ -8,6 +8,7 @@ import tv.own.owntv.core.database.dao.SourceDao
 import tv.own.owntv.core.live.ConnectionLimits
 import tv.own.owntv.core.live.OpenStreamRegistry
 import tv.own.owntv.core.live.WatchSession
+import tv.own.owntv.core.timeshift.TimeshiftManager
 
 /**
  * Measures how many streams a provider allows, off the setup path (plan N3b).
@@ -43,6 +44,7 @@ class ConnectionMeasurementWorker(
     private val connectionLimits: ConnectionLimits,
     private val watchSession: WatchSession,
     private val openStreams: OpenStreamRegistry,
+    private val timeshift: TimeshiftManager,
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
@@ -57,7 +59,7 @@ class ConnectionMeasurementWorker(
             return Result.success()
         }
 
-        if (watchSession.isWatching(sourceId) || openStreams.openOn(sourceId).total > 0) {
+        if (watchSession.isWatching(sourceId) || openStreams.openOn(sourceId).total > 0 || timeshift.isSaving(sourceId)) {
             // Opening a probe stream now is what would cut the picture off. Come back later.
             Log.i(TAG, "measurement deferred sourceId=$sourceId — this playlist is in use")
             return Result.retry()

@@ -54,10 +54,12 @@ class KoinWorkerFactory : WorkerFactory() {
                 koin.get(),
                 koin.get(),
                 koin.get(),
+                koin.get(),
             )
             ConnectionMeasurementWorker::class.java.name -> ConnectionMeasurementWorker(
                 appContext,
                 workerParameters,
+                koin.get(),
                 koin.get(),
                 koin.get(),
                 koin.get(),

@@ -204,6 +204,16 @@ class OwnTVPlayer(
     companion object {
         const val TAG = "OwnTVPlayer"
 
+        /** mpv's end-of-file reason as a log word; -1 = the library did not say. */
+        internal fun endFileReasonName(reason: Int): String = when (reason) {
+            MPVLib.MpvEndFileReason.EOF -> "eof"
+            MPVLib.MpvEndFileReason.STOP -> "stop"
+            MPVLib.MpvEndFileReason.QUIT -> "quit"
+            MPVLib.MpvEndFileReason.ERROR -> "error"
+            MPVLib.MpvEndFileReason.REDIRECT -> "redirect"
+            else -> "unknown($reason)"
+        }
+
         // The decoder list is fixed for the life of the process, and building it is an IPC to the
         // media service that the Exo codec gate and the rescue ladder used to repeat on every load.
         // Only a successful answer is kept, so a query that threw once is simply asked again.
@@ -4476,6 +4486,17 @@ class OwnTVPlayer(
         if (property == "demuxer-cache-duration") _bufferedMs.value = _position.value + (value * 1000).toLong()
     }
 
+    /**
+     * libmpv `2026.09.2`+: the reason of the END_FILE that [event] is about to receive, on the same event
+     * thread. Read once there and reset, so an END_FILE from an older library reads "unknown" (-1).
+     */
+    @Volatile private var endFileReason = -1
+
+    override fun endFile(reason: Int, error: Int) {
+        endFileReason = reason
+        android.util.Log.i(TAG, "END_FILE reason=${endFileReasonName(reason)} error=$error live=$isLiveContent")
+    }
+
     override fun event(eventId: Int) {
         when (eventId) {
             MPVLib.MpvEvent.MPV_EVENT_FILE_LOADED -> {
@@ -4776,11 +4797,18 @@ class OwnTVPlayer(
                     }
                 }
             }
-            // mpv's Kotlin wrapper does not expose mpv_event_end_file.reason, so classify the cases we
-            // know the app caused (replacement loadfile, manual stop, decode guard) before treating an
-            // END_FILE as a possible playback failure.
+            // Classify the cases the app caused (replacement loadfile, manual stop, decode guard) before
+            // treating an END_FILE as a possible playback failure. The credits come first, unchanged: an
+            // old file's END_FILE can arrive after the next loadfile, and only a credit absorbs it. With
+            // none left, mpv's own reason still identifies a command of ours (STOP), which is never a
+            // failure — the case the capped credit count used to misread.
             MPVLib.MpvEvent.MPV_EVENT_END_FILE -> {
+                val reason = endFileReason.also { endFileReason = -1 }
                 if (consumePendingStopEndFile()) return
+                if (reason == MPVLib.MpvEndFileReason.STOP) {
+                    android.util.Log.i(TAG, "END_FILE STOP with no credit left — app-caused, not a failure")
+                    return
+                }
                 // Dev 2/3 instant-catch: if the file ended before FILE_LOADED ever fired, the demuxer
                 // rejected it outright (malformed MP4) — hard-reset immediately. VOD only: for a live
                 // stream the same symptom is routine (a provider 5xx on zap, a stalled edge, a `.ts`
