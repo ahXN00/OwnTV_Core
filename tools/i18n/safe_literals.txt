@@ -1041,12 +1041,12 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT COUNT(*) FROM epg_programmes WHERE sourceId IN (:sourceIds)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT COUNT(DISTINCT epgChannelId) FROM epg_programmes WHERE sourceId IN (:sourceIds)
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT DISTINCT epgChannelId FROM epg_programmes LIMIT :limit
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT DISTINCT sourceId FROM epg_channels WHERE epgChannelId IN (:epgChannelIds) AND iconUrl IS NOT NULL AND iconUrl != ''
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT a.id FROM epg_programmes a JOIN epg_programmes b
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT description FROM epg_programmes WHERE id = :programmeId LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT epgChannelId FROM epg_channels WHERE sourceId = :sourceId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT epgChannelId, displayName, normName, normId FROM epg_channels LIMIT :limit
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT epgChannelId, iconUrl FROM epg_channels WHERE sourceId IN (:sourceIds) AND iconUrl IS NOT NULL AND iconUrl != ''
-1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT DISTINCT sourceId FROM epg_channels WHERE epgChannelId IN (:epgChannelIds) AND iconUrl IS NOT NULL AND iconUrl != ''
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT id, epgChannelId, startMs, contentHash FROM epg_programmes WHERE sourceId = :sourceId AND epgChannelId = :epgChannelId
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, 0 AS contentHash
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	(:type = 'LIVE' AND itemId NOT IN (SELECT id FROM channels)) OR
@@ -2138,6 +2138,8 @@
 1	log	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	dns
 1	technical	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	owntv-dns
 1	json	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	type
+1	protocol	core/src/main/java/tv/own/owntv/core/network/ExtraTrustAnchors.kt	TLS
+1	protocol	core/src/main/java/tv/own/owntv/core/network/ExtraTrustAnchors.kt	X.509
 1	log	core/src/main/java/tv/own/owntv/core/network/FirstRead.kt	$name setting not read after ${timeoutMs}ms; going on without it
 1	log	core/src/main/java/tv/own/owntv/core/network/FirstRead.kt	OwnTV-Network
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	\0

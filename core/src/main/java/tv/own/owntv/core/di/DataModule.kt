@@ -40,6 +40,9 @@ val dataModule = module {
     single {
         val proxyHolder = get<tv.own.owntv.core.network.ProxyConfigHolder>()
         val dnsHolder = get<tv.own.owntv.core.network.DnsConfigHolder>()
+        val trust = tv.own.owntv.core.network.ExtraTrustAnchors(
+            androidContext().resources.openRawResource(tv.own.owntv.core.R.raw.isrg_extra_roots),
+        )
         OkHttpClient.Builder()
             .connectTimeout(15, TimeUnit.SECONDS)  // fast fail on dead host
             .readTimeout(20, TimeUnit.SECONDS)    // detect mid-sync disconnect quickly
@@ -53,6 +56,9 @@ val dataModule = module {
             // Global custom DNS: a Dns that reads the live snapshot so the DNS server can be changed
             // at runtime without rebuilding this singleton client. Off = system DNS = exact prior behavior.
             .dns(dnsHolder.dns)
+            // Platform trust plus the Let's Encrypt roots older/current devices lack (#208). Clients
+            // derived with newBuilder() (streaming, players) inherit it.
+            .sslSocketFactory(trust.sslSocketFactory, trust.trustManager)
             // Force HTTP/1.1. Several IPTV panels / EPG hosts (and their CDNs) have flaky HTTP/2 stacks
             // that send RST_STREAM(PROTOCOL_ERROR) on large/slow responses — e.g. big EPG XML downloads
             // (#17) — which OkHttp surfaces as "stream was reset: PROTOCOL_ERROR". HTTP/1.1 sidesteps it

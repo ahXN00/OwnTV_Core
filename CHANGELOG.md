@@ -9,7 +9,13 @@
 > in one bolded line of its own (e.g. **Database v46 · Backup v24 · Breaking**). The detail — what,
 > why, files and verification — belongs in the commit message, never here.
 
-## core-1.0.59 — unreleased
+## core-1.0.60 — 2026-09-26
+
+### 🐛 Fixes
+
+- **🔒 Playlists on servers with the newest Let's Encrypt certificates import again (#208)**
+
+## core-1.0.59 — 2026-09-26
 
 **Breaking**
 
