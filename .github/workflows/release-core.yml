@@ -1,0 +1,48 @@
+name: Release core
+
+# A button in the Actions tab that does the one manual step of a core release: pushing the
+# core-<version> tag. The version is read from `coreVersion` in build.gradle.kts on main, so bump it
+# and write its CHANGELOG.md section first, exactly as before. Everything after the tag is unchanged:
+# publish.yml gates, publishes and makes the release; bump-consumers.yml opens the app PRs.
+#
+# The tag is pushed with CONSUMER_BUMP_TOKEN, not GITHUB_TOKEN: a tag pushed with GITHUB_TOKEN never
+# starts another workflow, so publish.yml would not run.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-core
+  cancel-in-progress: false
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.CONSUMER_BUMP_TOKEN }}
+
+      - name: Push the core-<version> tag
+        run: |
+          set -euo pipefail
+          VERSION=$(sed -n 's/^extra\["coreVersion"\] *= *"\(.*\)"$/\1/p' build.gradle.kts)
+          [ -n "$VERSION" ] || { echo "::error::Could not read coreVersion from build.gradle.kts."; exit 1; }
+          TAG="core-$VERSION"
+
+          if git ls-remote --exit-code --tags origin "refs/tags/$TAG" >/dev/null; then
+            echo "::error::$TAG already exists. Bump coreVersion in build.gradle.kts first."
+            exit 1
+          fi
+          if ! grep -q "^## $TAG\([[:space:]]\|$\)" CHANGELOG.md; then
+            echo "::error::CHANGELOG.md has no '## $TAG' section. Write the release notes first."
+            exit 1
+          fi
+
+          git tag "$TAG"
+          git push origin "$TAG"
+          echo "Pushed $TAG — the Publish core workflow takes it from here."

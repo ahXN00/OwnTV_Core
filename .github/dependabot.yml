@@ -1,0 +1,13 @@
+# Keeps the GitHub Actions used by the workflows current (checkout, setup-java, upload-artifact…),
+# so a version GitHub retires never breaks a build by surprise. One grouped PR a month, CI-checked
+# like any other; nothing here merges on its own. Gradle and app dependencies are deliberately
+# not covered — those are updated by hand.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]

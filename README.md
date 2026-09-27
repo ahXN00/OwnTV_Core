@@ -234,7 +234,9 @@ python tools/i18n/check_text_overflow.py
 ## 🔢 Versioning
 
 Core versions are **independent of the TV app's `v4.x` releases** and must never be confused with
-them. Tags are prefixed — `core-1.0.0` — and pushing one publishes both modules from CI.
+them. Tags are prefixed — `core-1.0.0` — and pushing one publishes both modules from CI. The
+**Release core** workflow (Actions tab → Run workflow) pushes that tag for you: it reads `coreVersion`
+from `main` and refuses if the tag already exists or `CHANGELOG.md` has no section for it.
 
 Every published version also gets a [**GitHub Release**](https://github.com/ahXN00/OwnTV_Core/releases),
 and the order is deliberate: CI runs the full gate, publishes both artifacts to the Maven repository, waits

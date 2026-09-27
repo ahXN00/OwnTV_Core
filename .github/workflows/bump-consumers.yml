@@ -112,7 +112,8 @@ jobs:
 
           if [ -z "${GH_TOKEN:-}" ]; then
             echo "::error::CONSUMER_BUMP_TOKEN is not set on this repository."
-            echo "Add a PAT with 'repo' scope: Settings -> Secrets and variables -> Actions."
+            echo "Add a fine-grained PAT for OwnTV, OwnTV_Core and OwnTV_Mobile with Contents and Pull"
+            echo "requests read/write: Settings -> Secrets and variables -> Actions."
             exit 1
           fi
 
@@ -166,8 +167,8 @@ jobs:
           Merge once the checks are green. See the core changelog for what \`${VERSION}\` contains.
           EOF
 
-          git config user.name  "OwnTV"
-          git config user.email "xiannero@yahoo.com"
+          git config user.name  "Ashiq Hasan"
+          git config user.email "ashiq.hasan@hotmail.com"
           git commit -a --file ../commit-message.txt
 
           git push --force-with-lease origin "$BRANCH"
