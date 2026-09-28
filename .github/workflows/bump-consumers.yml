@@ -76,7 +76,7 @@ jobs:
       # is copied from here into the consumer, and it must be the catalogue that belongs to the
       # version being pinned — main may already carry a locale that is not in this release.
       - name: Checkout core
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: ${{ github.event.release.tag_name || github.ref }}
 

@@ -37,23 +37,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: '21'   # matches gradle/gradle-daemon-jvm.properties (toolchainVersion=21)
 
       - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
         with:
           # 'tools' is obsolete and Google removed it from the SDK repository; the
           # action still asks for it by default, which fails the whole setup step.
           packages: 'platform-tools'
 
       - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v6
 
       - name: Unit tests
         run: |
@@ -84,7 +84,7 @@ jobs:
 
       - name: Upload test and lint reports
         if: always()   # the reports matter most when a step above failed
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: check-reports
           path: |
