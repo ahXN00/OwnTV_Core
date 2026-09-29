@@ -1,13 +1,14 @@
 package tv.own.owntv.core.theme
 
-/** The five font families users can independently apply to the main UI and popup chrome. */
+/** The font families users can independently apply to the main UI and popup chrome. */
 enum class AppFontFamily {
     LORA,
     SYSTEM_SANS,
     MONOSPACE,
     PLAYFAIR_DISPLAY,
     DANCING_SCRIPT,
-    POPPINS;
+    POPPINS,
+    PLUS_JAKARTA_SANS;
 
     companion object {
         fun fromStored(value: String?, fallback: AppFontFamily): AppFontFamily =
@@ -50,8 +51,8 @@ object PopupSizeScale {
 
 data class FontCustomization(
     val sizePercent: Int = UiFontScale.DEFAULT,
-    val mainFamily: AppFontFamily = AppFontFamily.SYSTEM_SANS,
-    val popupFamily: AppFontFamily = AppFontFamily.LORA,
+    val mainFamily: AppFontFamily = AppFontFamily.PLUS_JAKARTA_SANS,
+    val popupFamily: AppFontFamily = AppFontFamily.PLUS_JAKARTA_SANS,
     val popupFontSizePercent: Int = PopupFontScale.DEFAULT,
     val popupSizePercent: Int = PopupSizeScale.DEFAULT,
 )

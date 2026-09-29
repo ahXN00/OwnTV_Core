@@ -2421,11 +2421,11 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             sizePercent = UiFontScale.clamp(prefs[Keys.FONT_SIZE_PCT] ?: UiFontScale.DEFAULT),
             mainFamily = AppFontFamily.fromStored(
                 prefs[Keys.MAIN_FONT_FAMILY],
-                AppFontFamily.SYSTEM_SANS,
+                AppFontFamily.PLUS_JAKARTA_SANS,
             ),
             popupFamily = AppFontFamily.fromStored(
                 prefs[Keys.POPUP_FONT_FAMILY],
-                AppFontFamily.LORA,
+                AppFontFamily.PLUS_JAKARTA_SANS,
             ),
             popupFontSizePercent = PopupFontScale.clamp(
                 prefs[Keys.POPUP_FONT_SIZE_PCT] ?: PopupFontScale.DEFAULT,
