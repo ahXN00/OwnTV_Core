@@ -99,14 +99,6 @@
     <string name="search_channel_number">#<xliff:g id="number">%1$s</xliff:g></string>
 
     <!-- Home -->
-    <!-- Translators: Section header for the "Keep Watching" row on the Home screen. -->
-    <string name="home_keep_watching">Keep Watching</string>
-    <!-- Translators: Hero-card action button to play the next episode. -->
-    <string name="home_play_next">Play Next</string>
-    <!-- Translators: Hero-card action button to tune in to live content. -->
-    <string name="home_tune_in">Tune In</string>
-    <!-- Translators: Subtitle beneath an expanded live hero card. -->
-    <string name="home_recent_live">Recently watched live</string>
     <!-- Translators: Default profile name placeholder in the profile editor. -->
     <string name="profiles_default_name">Profile</string>
     <!-- Translators: Title for the Android TV home screen "Recent Live" row. -->
@@ -129,10 +121,6 @@
     <string name="home_continue_empty">Your continue-watching items will appear here once playback history is available.</string>
     <!-- Translators: Timestamp text for very recent activity (within the last minute). -->
     <string name="home_last_watched_now">Last watched just now</string>
-    <!-- Translators: Estimated finish time for content being watched. "time" is the estimated finish time. -->
-    <string name="home_finish_by">Finish by <xliff:g id="time">%1$s</xliff:g></string>
-    <!-- Translators: Imperative hero-card action button to resume playback. -->
-    <string name="home_resume">Resume</string>
     <!-- Translators: Plural "last watched" timestamp for minutes. "count" is the number of minutes. -->
     <plurals name="home_last_watched_minutes">
         <item quantity="one">Last watched <xliff:g id="count">%1$d</xliff:g> minute ago</item>
@@ -148,27 +136,21 @@
         <item quantity="one">Last watched <xliff:g id="count">%1$d</xliff:g> day ago</item>
         <item quantity="other">Last watched <xliff:g id="count">%1$d</xliff:g> days ago</item>
     </plurals>
-    <!-- Translators: Season/episode display format with zero-padded numbers. S and E are conventional abbreviations. -->
-    <string name="home_season_episode">S<xliff:g id="season">%1$02d</xliff:g> E<xliff:g id="episode">%2$02d</xliff:g></string>
-    <!-- Translators: Season number display with zero-padded number. "season" is the season number. -->
-    <string name="home_season">S<xliff:g id="season">%1$02d</xliff:g></string>
-    <!-- Translators: Episode number display with zero-padded number. "episode" is the episode number. -->
-    <string name="home_episode">E<xliff:g id="episode">%1$02d</xliff:g></string>
     <!-- Translators: Home row type label for the card-style row. -->
     <string name="home_row_cards">Cards</string>
-    <string name="home_row_now_trending">Now Trending</string>
+    <string name="home_row_now_trending">Now trending</string>
     <!-- Translators: Home row name in Settings for the "Keep Watching" row. -->
-    <string name="home_row_keep_watching">Keep Watching</string>
+    <string name="home_row_keep_watching">Keep watching</string>
     <!-- Translators: Home row name in Settings for the "Continue Watching Movies" row. -->
-    <string name="home_row_continue_movies">Continue Watching Movies</string>
+    <string name="home_row_continue_movies">Continue watching movies</string>
     <!-- Translators: Home row name in Settings for the "Continue Watching Series" row. -->
-    <string name="home_row_continue_series">Continue Watching Series</string>
+    <string name="home_row_continue_series">Continue watching series</string>
     <!-- Translators: Home row name in Settings for the "Recent Channels" row. -->
-    <string name="home_row_recent_channels">Recent Channels</string>
+    <string name="home_row_recent_channels">Recent channels</string>
     <!-- Translators: Home row name in Settings for the "Favorite Channels" row. -->
-    <string name="home_row_favorite_channels">Favorite Channels</string>
+    <string name="home_row_favorite_channels">Favorite channels</string>
     <!-- Translators: Home row name in Settings for the "On Now" row. -->
-    <string name="home_row_on_now">On Now</string>
+    <string name="home_row_on_now">On now</string>
     <!-- Translators: Home row description in Settings for the hero row. -->
     <string name="home_row_hero_description">The large preview row at the top</string>
     <string name="home_row_trending_description">Shows 4–10 items only when TMDB trending titles match movies or series in your provider catalog.</string>
@@ -178,6 +160,16 @@
     <string name="home_trending_style_hero">Detailed card</string>
     <!-- Translators: Now Trending layout option: a plain row of posters with titles. -->
     <string name="home_trending_style_posters">Posters only</string>
+    <!-- Translators: Eyebrow above the Trending title on Home. "rank" is its trending position; "section" is Movies or Series. -->
+    <string name="home_trending_rank">#<xliff:g id="rank">%1$d</xliff:g> in Trending · <xliff:g id="section">%2$s</xliff:g></string>
+    <!-- Translators: Small tag beside that eyebrow: this trending title exists in the user's own playlist. Written in capitals. -->
+    <string name="home_trending_in_playlist">IN YOUR PLAYLIST</string>
+    <!-- Translators: Settings choice for the Trending layout on Home: artwork across the whole screen behind the title. -->
+    <string name="home_trending_style_full_bleed">Full-bleed</string>
+    <!-- Translators: A running time or time left in hours and minutes, abbreviated, e.g. "1 h 05 min". -->
+    <string name="home_duration_hours_minutes"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$02d</xliff:g> min</string>
+    <!-- Translators: Time remaining, e.g. "31 min left". "duration" is a formatted duration. -->
+    <string name="home_time_left"><xliff:g id="duration">%1$s</xliff:g> left</string>
     <string name="settings_trending_status_off">Now Trending is turned off.</string>
     <string name="settings_trending_status_building">Now Trending is being prepared after provider sync.</string>
     <string name="settings_trending_status_metadata_disabled">Now Trending needs TMDB metadata. Choose TMDB only or Provider + TMDB.</string>
@@ -219,7 +211,7 @@
     <string name="home_trending_open_episodes">Open episodes</string>
     <string name="home_trending_trailer">Trailer</string>
     <string name="home_trending_more_details">More Details</string>
-    <string name="home_trending_all_versions">All Versions</string>
+    <string name="home_trending_all_versions">All versions</string>
     <string name="home_trending_previous">Previous</string>
     <string name="home_trending_pause">Pause</string>
     <string name="home_trending_resume">Resume</string>
@@ -233,33 +225,6 @@
     <string name="home_row_recent_description">Live channels you tuned recently</string>
     <!-- Translators: Home row description in Settings for "Favorite Channels". -->
     <string name="home_row_favorite_description">Your favorited live channels</string>
-    <!-- Translators: "On Now" title with content name. "title" is the programme title. All caps "ON NOW" is intentional. -->
-    <string name="home_on_now_title"><xliff:g id="title">%1$s</xliff:g> \u00b7 ON NOW</string>
-    <!-- Translators: Instructional text on the Home screen for OK button behavior. -->
-    <string name="home_ok_to_watch">OK to watch</string>
-    <!-- Translators: Instructional text on the Home screen for OK button behavior when browsing. -->
-    <string name="home_ok_to_browse">OK to browse</string>
-    <!-- Translators: Status text when no program details are available. -->
-    <string name="home_no_programme_details">No program details</string>
-    <!-- Translators: Status text when guide data is unavailable. -->
-    <string name="home_guide_unavailable">Guide data unavailable</string>
-    <!-- Translators: Label for the next item in a list. -->
-    <string name="home_next">Next</string>
-    <!-- Translators: Channel number and name display on the Home screen. "number" is the channel number, "name" is the channel name. -->
-    <string name="home_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
-    <!-- Translators: Time range display on the Home screen programme card. "start" and "end" are times. The hyphen is a range indicator. -->
-    <string name="home_time_range"><xliff:g id="start">%1$s</xliff:g>-<xliff:g id="end">%2$s</xliff:g></string>
-    <!-- Translators: "Now" label with time on the Home screen programme card. "time" is the current time. All caps "NOW" is intentional. -->
-    <string name="home_now_time">NOW \u00b7 <xliff:g id="time">%1$s</xliff:g></string>
-    <!-- Translators: "Up Next" label with time on the Home screen. "time" is the start time. All caps is intentional. -->
-    <string name="home_up_next_time">UP NEXT \u00b7 <xliff:g id="time">%1$s</xliff:g></string>
-    <!-- Translators: Upcoming item display with time and title. "time" is the start time, "title" is the programme title. -->
-    <string name="home_upcoming_item"><xliff:g id="time">%1$s</xliff:g> <xliff:g id="title">%2$s</xliff:g></string>
-    <!-- Translators: Plural channel count in the Home "Tune In" row. "count" is the number of channels. -->
-    <plurals name="home_channel_count">
-        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> channel</item>
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> channels</item>
-    </plurals>
 
 
     <!-- Translators: Screen title for the app update dialog. -->

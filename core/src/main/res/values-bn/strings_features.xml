@@ -47,10 +47,6 @@
     <string name="search_series">সিরিজ</string>
     <string name="search_channels">চ্যানেলগুলো</string>
     <string name="search_channel_number">#<xliff:g id="number">%1$s</xliff:g></string>
-    <string name="home_keep_watching">দেখা চালিয়ে যান</string>
-    <string name="home_play_next">পরের পর্ব চালান</string>
-    <string name="home_tune_in">লাইভ দেখুন</string>
-    <string name="home_recent_live">সম্প্রতি দেখা লাইভ</string>
     <string name="profiles_default_name">প্রোফাইল</string>
     <string name="launcher_recent_live_title">সাম্প্রতিক লাইভ</string>
     <string name="launcher_recent_live_description">সম্প্রতি দেখা লাইভ চ্যানেলগুলো</string>
@@ -62,8 +58,6 @@
     <string name="home_start_watching">এখানে আপনার কার্যকলাপ দেখতে কিছু দেখা শুরু করুন।</string>
     <string name="home_continue_empty">প্লেব্যাকের ইতিহাস পাওয়া গেলে দেখা চালিয়ে যাওয়ার আইটেমগুলো এখানে দেখা যাবে।</string>
     <string name="home_last_watched_now">শেষ দেখা: এইমাত্র</string>
-    <string name="home_finish_by">শেষ হবে <xliff:g id="time">%1$s</xliff:g> নাগাদ</string>
-    <string name="home_resume">চালিয়ে যান</string>
     <plurals name="home_last_watched_minutes">
         <item quantity="one">শেষ দেখা: <xliff:g id="count">%1$d</xliff:g> মিনিট আগে</item>
         <item quantity="other">শেষ দেখা: <xliff:g id="count">%1$d</xliff:g> মিনিট আগে</item>
@@ -76,9 +70,6 @@
         <item quantity="one">শেষ দেখা: <xliff:g id="count">%1$d</xliff:g> দিন আগে</item>
         <item quantity="other">শেষ দেখা: <xliff:g id="count">%1$d</xliff:g> দিন আগে</item>
     </plurals>
-    <string name="home_season_episode">S<xliff:g id="season">%1$02d</xliff:g> E<xliff:g id="episode">%2$02d</xliff:g></string>
-    <string name="home_season">S<xliff:g id="season">%1$02d</xliff:g></string>
-    <string name="home_episode">E<xliff:g id="episode">%1$02d</xliff:g></string>
     <string name="home_row_cards">কার্ড</string>
     <string name="home_row_keep_watching">দেখা চালিয়ে যান</string>
     <string name="home_row_continue_movies">সিনেমা দেখা চালিয়ে যান</string>
@@ -91,21 +82,6 @@
     <string name="home_row_continue_series_description">চালিয়ে যাওয়ার বা পরেরটি চালানোর পর্বগুলো</string>
     <string name="home_row_recent_description">আপনি সম্প্রতি টিউন করেছেন এমন লাইভ চ্যানেলগুলো</string>
     <string name="home_row_favorite_description">আপনার পছন্দের লাইভ চ্যানেলগুলো</string>
-    <string name="home_on_now_title"><xliff:g id="title">%1$s</xliff:g> · এখন চলছে</string>
-    <string name="home_ok_to_watch">দেখতে OK চাপুন</string>
-    <string name="home_ok_to_browse">ব্রাউজ করতে OK চাপুন</string>
-    <string name="home_no_programme_details">অনুষ্ঠানের কোনো বিবরণ নেই</string>
-    <string name="home_guide_unavailable">অনুষ্ঠান নির্দেশিকার ডেটা পাওয়া যাচ্ছে না</string>
-    <string name="home_next">পরবর্তী</string>
-    <string name="home_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
-    <string name="home_time_range"><xliff:g id="start">%1$s</xliff:g>-<xliff:g id="end">%2$s</xliff:g></string>
-    <string name="home_now_time">এখন · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_up_next_time">এরপর · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_upcoming_item"><xliff:g id="time">%1$s</xliff:g> <xliff:g id="title">%2$s</xliff:g></string>
-    <plurals name="home_channel_count">
-        <item quantity="one"><xliff:g id="count">%1$d</xliff:g>টি চ্যানেল</item>
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g>টি চ্যানেল</item>
-    </plurals>
     <string name="update_title">অ্যাপ আপডেট</string>
     <string name="update_checking">আপডেট পরীক্ষা করা হচ্ছে…</string>
     <string name="update_whats_new">নতুন কী আছে</string>
@@ -140,6 +116,11 @@
     <string name="home_trending_style">ট্রেন্ডিং লেআউট</string>
     <string name="home_trending_style_hero">বিস্তারিত কার্ড</string>
     <string name="home_trending_style_posters">শুধু পোস্টার</string>
+    <string name="home_trending_rank">ট্রেন্ডিংয়ে #<xliff:g id="rank">%1$d</xliff:g> · <xliff:g id="section">%2$s</xliff:g></string>
+    <string name="home_trending_in_playlist">আপনার প্লেলিস্টে আছে</string>
+    <string name="home_trending_style_full_bleed">পূর্ণ-প্রস্থ</string>
+    <string name="home_duration_hours_minutes"><xliff:g id="hours">%1$d</xliff:g> ঘ <xliff:g id="minutes">%2$02d</xliff:g> মি</string>
+    <string name="home_time_left"><xliff:g id="duration">%1$s</xliff:g> বাকি</string>
     <string name="settings_trending_status_off">এখন ট্রেন্ডিং বন্ধ আছে।</string>
     <string name="settings_trending_status_building">প্রোভাইডার সিঙ্কের পর এখন ট্রেন্ডিং প্রস্তুত করা হচ্ছে।</string>
     <string name="settings_trending_status_metadata_disabled">এখন ট্রেন্ডিংয়ের জন্য TMDB মেটাডেটা প্রয়োজন। শুধু TMDB অথবা প্রোভাইডার + TMDB বেছে নিন।</string>

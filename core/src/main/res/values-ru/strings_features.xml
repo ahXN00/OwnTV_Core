@@ -47,10 +47,6 @@
     <string name="search_series">Сериал</string>
     <string name="search_channels">Каналы</string>
     <string name="search_channel_number">#<xliff:g id="number">%1$s</xliff:g></string>
-    <string name="home_keep_watching">Продолжить просмотр</string>
-    <string name="home_play_next">Смотреть следующую серию</string>
-    <string name="home_tune_in">Смотреть в прямом эфире</string>
-    <string name="home_recent_live">Недавно просмотрено в прямом эфире</string>
     <string name="profiles_default_name">Профиль</string>
     <string name="launcher_recent_live_title">Недавние эфиры</string>
     <string name="launcher_recent_live_description">Каналы, недавно просмотренные в прямом эфире</string>
@@ -62,8 +58,6 @@
     <string name="home_start_watching">Начните смотреть, и здесь появится ваша активность.</string>
     <string name="home_continue_empty">Контент для продолжения просмотра появится здесь, когда будет доступна история воспроизведения.</string>
     <string name="home_last_watched_now">Последний просмотр: только что</string>
-    <string name="home_finish_by">Завершение к <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_resume">Продолжить</string>
     <plurals name="home_last_watched_minutes">
         <item quantity="one">Последний просмотр: <xliff:g id="count">%1$d</xliff:g> минуту назад</item>
         <item quantity="few">Последний просмотр: <xliff:g id="count">%1$d</xliff:g> минуты назад</item>
@@ -82,9 +76,6 @@
         <item quantity="many">Последний просмотр: <xliff:g id="count">%1$d</xliff:g> дней назад</item>
         <item quantity="other">Последний просмотр: <xliff:g id="count">%1$d</xliff:g> дня назад</item>
     </plurals>
-    <string name="home_season_episode">S<xliff:g id="season">%1$02d</xliff:g> E<xliff:g id="episode">%2$02d</xliff:g></string>
-    <string name="home_season">S<xliff:g id="season">%1$02d</xliff:g></string>
-    <string name="home_episode">E<xliff:g id="episode">%1$02d</xliff:g></string>
     <string name="home_row_cards">Карточки</string>
     <string name="home_row_keep_watching">Продолжить просмотр</string>
     <string name="home_row_continue_movies">Продолжить просмотр фильмов</string>
@@ -97,23 +88,6 @@
     <string name="home_row_continue_series_description">Серии, просмотр которых можно продолжить, или следующие серии</string>
     <string name="home_row_recent_description">Каналы прямого эфира, которые вы недавно смотрели</string>
     <string name="home_row_favorite_description">Ваши избранные каналы прямого эфира</string>
-    <string name="home_on_now_title"><xliff:g id="title">%1$s</xliff:g> · СЕЙЧАС В ЭФИРЕ</string>
-    <string name="home_ok_to_watch">OK — смотреть</string>
-    <string name="home_ok_to_browse">OK — перейти к выбору</string>
-    <string name="home_no_programme_details">Нет сведений о телепередаче</string>
-    <string name="home_guide_unavailable">Данные программы передач недоступны</string>
-    <string name="home_next">Далее</string>
-    <string name="home_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
-    <string name="home_time_range"><xliff:g id="start">%1$s</xliff:g>-<xliff:g id="end">%2$s</xliff:g></string>
-    <string name="home_now_time">СЕЙЧАС · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_up_next_time">ДАЛЕЕ · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_upcoming_item"><xliff:g id="time">%1$s</xliff:g> <xliff:g id="title">%2$s</xliff:g></string>
-    <plurals name="home_channel_count">
-        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> канал</item>
-        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> канала</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> каналов</item>
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> канала</item>
-    </plurals>
     <string name="update_title">Обновление приложения</string>
     <string name="update_checking">Проверка обновлений…</string>
     <string name="update_whats_new">Что нового</string>
@@ -148,6 +122,11 @@
     <string name="home_trending_style">Оформление трендов</string>
     <string name="home_trending_style_hero">Подробная карточка</string>
     <string name="home_trending_style_posters">Только постеры</string>
+    <string name="home_trending_rank">№<xliff:g id="rank">%1$d</xliff:g> в трендах · <xliff:g id="section">%2$s</xliff:g></string>
+    <string name="home_trending_in_playlist">В ВАШЕМ ПЛЕЙЛИСТЕ</string>
+    <string name="home_trending_style_full_bleed">Во весь экран</string>
+    <string name="home_duration_hours_minutes"><xliff:g id="hours">%1$d</xliff:g> ч <xliff:g id="minutes">%2$02d</xliff:g> мин</string>
+    <string name="home_time_left">осталось <xliff:g id="duration">%1$s</xliff:g></string>
     <string name="settings_trending_status_off">Раздел «Сейчас в тренде» отключён.</string>
     <string name="settings_trending_status_building">Раздел «Сейчас в тренде» формируется после синхронизации с провайдером.</string>
     <string name="settings_trending_status_metadata_disabled">Для раздела «Сейчас в тренде» нужны метаданные TMDB. Выберите «Только TMDB» или «Провайдер + TMDB».</string>

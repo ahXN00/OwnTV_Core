@@ -47,10 +47,6 @@
     <string name="search_series">影集</string>
     <string name="search_channels">頻道</string>
     <string name="search_channel_number">#<xliff:g id="number">%1$s</xliff:g></string>
-    <string name="home_keep_watching">繼續觀看</string>
-    <string name="home_play_next">播放下一集</string>
-    <string name="home_tune_in">收看</string>
-    <string name="home_recent_live">最近觀看的直播</string>
     <string name="profiles_default_name">使用者檔案</string>
     <string name="launcher_recent_live_title">最近觀看的直播</string>
     <string name="launcher_recent_live_description">最近觀看的直播頻道</string>
@@ -62,8 +58,6 @@
     <string name="home_start_watching">開始觀看後，即可在這裡查看您的活動記錄。</string>
     <string name="home_continue_empty">有播放記錄後，可繼續觀看的內容就會顯示在這裡。</string>
     <string name="home_last_watched_now">剛剛觀看</string>
-    <string name="home_finish_by">預計在 <xliff:g id="time">%1$s</xliff:g> 前看完</string>
-    <string name="home_resume">繼續播放</string>
     <plurals name="home_last_watched_minutes">
         <item quantity="other">上次觀看：<xliff:g id="count">%1$d</xliff:g> 分鐘前</item>
     </plurals>
@@ -73,9 +67,6 @@
     <plurals name="home_last_watched_days">
         <item quantity="other">上次觀看：<xliff:g id="count">%1$d</xliff:g> 天前</item>
     </plurals>
-    <string name="home_season_episode">第<xliff:g id="season">%1$02d</xliff:g>季 第<xliff:g id="episode">%2$02d</xliff:g>集</string>
-    <string name="home_season">第<xliff:g id="season">%1$02d</xliff:g>季</string>
-    <string name="home_episode">第<xliff:g id="episode">%1$02d</xliff:g>集</string>
     <string name="home_row_cards">卡片式</string>
     <string name="home_row_keep_watching">繼續觀看</string>
     <string name="home_row_continue_movies">繼續觀看電影</string>
@@ -88,20 +79,6 @@
     <string name="home_row_continue_series_description">可繼續播放或播放下一集的內容</string>
     <string name="home_row_recent_description">您最近收看的直播頻道</string>
     <string name="home_row_favorite_description">已加入我的最愛的直播頻道</string>
-    <string name="home_on_now_title"><xliff:g id="title">%1$s</xliff:g> · 現正播出</string>
-    <string name="home_ok_to_watch">按下 OK 即可觀看</string>
-    <string name="home_ok_to_browse">按下 OK 即可瀏覽</string>
-    <string name="home_no_programme_details">沒有節目詳細資訊</string>
-    <string name="home_guide_unavailable">節目表資料無法使用</string>
-    <string name="home_next">下一個</string>
-    <string name="home_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
-    <string name="home_time_range"><xliff:g id="start">%1$s</xliff:g>-<xliff:g id="end">%2$s</xliff:g></string>
-    <string name="home_now_time">現在 · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_up_next_time">接下來 · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_upcoming_item"><xliff:g id="time">%1$s</xliff:g> <xliff:g id="title">%2$s</xliff:g></string>
-    <plurals name="home_channel_count">
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 個頻道</item>
-    </plurals>
     <string name="update_title">應用程式更新</string>
     <string name="update_checking">正在檢查更新…</string>
     <string name="update_whats_new">更新內容</string>
@@ -136,6 +113,11 @@
     <string name="home_trending_style">熱門版面</string>
     <string name="home_trending_style_hero">詳細卡片</string>
     <string name="home_trending_style_posters">僅海報</string>
+    <string name="home_trending_rank">熱門第 <xliff:g id="rank">%1$d</xliff:g> 名 · <xliff:g id="section">%2$s</xliff:g></string>
+    <string name="home_trending_in_playlist">在你的播放清單中</string>
+    <string name="home_trending_style_full_bleed">全幅</string>
+    <string name="home_duration_hours_minutes"><xliff:g id="hours">%1$d</xliff:g> 小時 <xliff:g id="minutes">%2$02d</xliff:g> 分鐘</string>
+    <string name="home_time_left">剩餘 <xliff:g id="duration">%1$s</xliff:g></string>
     <string name="settings_trending_status_off">「現正熱門」已關閉。</string>
     <string name="settings_trending_status_building">供應商同步後，正在準備「現正熱門」。</string>
     <string name="settings_trending_status_metadata_disabled">「現正熱門」需要 TMDB 中繼資料。請選擇「僅 TMDB」或「供應商 + TMDB」。</string>

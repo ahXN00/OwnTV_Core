@@ -47,10 +47,6 @@
     <string name="search_series">Serier</string>
     <string name="search_channels">Kanaler</string>
     <string name="search_channel_number">#<xliff:g id="number">%1$s</xliff:g></string>
-    <string name="home_keep_watching">Fortsätt titta</string>
-    <string name="home_play_next">Spela nästa</string>
-    <string name="home_tune_in">Titta live</string>
-    <string name="home_recent_live">Nyligen tittat på live-tv</string>
     <string name="profiles_default_name">Profil</string>
     <string name="launcher_recent_live_title">Senaste live-tv</string>
     <string name="launcher_recent_live_description">Livekanaler du nyligen tittat på</string>
@@ -62,8 +58,6 @@
     <string name="home_start_watching">Börja titta för att se din aktivitet här.</string>
     <string name="home_continue_empty">Det du fortsätter titta på visas här när det finns uppspelningshistorik.</string>
     <string name="home_last_watched_now">Tittade senast alldeles nyss</string>
-    <string name="home_finish_by">Klart <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_resume">Återuppta</string>
     <plurals name="home_last_watched_minutes">
         <item quantity="one">Tittade senast för <xliff:g id="count">%1$d</xliff:g> minut sedan</item>
         <item quantity="other">Tittade senast för <xliff:g id="count">%1$d</xliff:g> minuter sedan</item>
@@ -76,9 +70,6 @@
         <item quantity="one">Tittade senast för <xliff:g id="count">%1$d</xliff:g> dag sedan</item>
         <item quantity="other">Tittade senast för <xliff:g id="count">%1$d</xliff:g> dagar sedan</item>
     </plurals>
-    <string name="home_season_episode">S<xliff:g id="season">%1$02d</xliff:g> E<xliff:g id="episode">%2$02d</xliff:g></string>
-    <string name="home_season">S<xliff:g id="season">%1$02d</xliff:g></string>
-    <string name="home_episode">E<xliff:g id="episode">%1$02d</xliff:g></string>
     <string name="home_row_cards">Kort</string>
     <string name="home_row_keep_watching">Fortsätt titta</string>
     <string name="home_row_continue_movies">Fortsätt titta på filmer</string>
@@ -91,21 +82,6 @@
     <string name="home_row_continue_series_description">Avsnitt att återuppta eller spela härnäst</string>
     <string name="home_row_recent_description">Livekanaler du nyligen tittat på</string>
     <string name="home_row_favorite_description">Dina favoritkanaler på live-tv</string>
-    <string name="home_on_now_title"><xliff:g id="title">%1$s</xliff:g> · SÄNDS NU</string>
-    <string name="home_ok_to_watch">OK för att titta</string>
-    <string name="home_ok_to_browse">OK för att bläddra</string>
-    <string name="home_no_programme_details">Ingen programinformation</string>
-    <string name="home_guide_unavailable">Programguidedata är inte tillgängliga</string>
-    <string name="home_next">Nästa</string>
-    <string name="home_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
-    <string name="home_time_range"><xliff:g id="start">%1$s</xliff:g>-<xliff:g id="end">%2$s</xliff:g></string>
-    <string name="home_now_time">NU · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_up_next_time">HÄRNÄST · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_upcoming_item"><xliff:g id="time">%1$s</xliff:g> <xliff:g id="title">%2$s</xliff:g></string>
-    <plurals name="home_channel_count">
-        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> kanal</item>
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> kanaler</item>
-    </plurals>
     <string name="update_title">Appuppdatering</string>
     <string name="update_checking">Söker efter uppdateringar…</string>
     <string name="update_whats_new">Nyheter</string>
@@ -140,6 +116,11 @@
     <string name="home_trending_style">Layout för trender</string>
     <string name="home_trending_style_hero">Detaljerat kort</string>
     <string name="home_trending_style_posters">Endast affischer</string>
+    <string name="home_trending_rank">#<xliff:g id="rank">%1$d</xliff:g> i Trendar · <xliff:g id="section">%2$s</xliff:g></string>
+    <string name="home_trending_in_playlist">I DIN SPELLISTA</string>
+    <string name="home_trending_style_full_bleed">Helbild</string>
+    <string name="home_duration_hours_minutes"><xliff:g id="hours">%1$d</xliff:g> tim <xliff:g id="minutes">%2$02d</xliff:g> min</string>
+    <string name="home_time_left"><xliff:g id="duration">%1$s</xliff:g> kvar</string>
     <string name="settings_trending_status_off">Trendar just nu är inaktiverat.</string>
     <string name="settings_trending_status_building">Trendar just nu förbereds efter synkronisering med leverantören.</string>
     <string name="settings_trending_status_metadata_disabled">Trendar just nu kräver metadata från TMDB. Välj Endast TMDB eller Leverantör + TMDB.</string>

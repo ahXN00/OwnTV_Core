@@ -47,10 +47,6 @@
     <string name="search_series">시리즈</string>
     <string name="search_channels">채널</string>
     <string name="search_channel_number">#<xliff:g id="number">%1$s</xliff:g></string>
-    <string name="home_keep_watching">이어서 보기</string>
-    <string name="home_play_next">다음 에피소드 재생</string>
-    <string name="home_tune_in">실시간 시청</string>
-    <string name="home_recent_live">최근 시청한 실시간 콘텐츠</string>
     <string name="profiles_default_name">프로필</string>
     <string name="launcher_recent_live_title">최근 실시간 방송</string>
     <string name="launcher_recent_live_description">최근 시청한 실시간 채널</string>
@@ -62,8 +58,6 @@
     <string name="home_start_watching">시청을 시작하면 여기에 시청 활동이 표시됩니다.</string>
     <string name="home_continue_empty">재생 기록이 생기면 이어서 볼 항목이 여기에 표시됩니다.</string>
     <string name="home_last_watched_now">마지막 시청: 방금 전</string>
-    <string name="home_finish_by"><xliff:g id="time">%1$s</xliff:g>에 시청 완료 예정</string>
-    <string name="home_resume">이어보기</string>
     <plurals name="home_last_watched_minutes">
         <item quantity="other">마지막 시청: <xliff:g id="count">%1$d</xliff:g>분 전</item>
     </plurals>
@@ -73,9 +67,6 @@
     <plurals name="home_last_watched_days">
         <item quantity="other">마지막 시청: <xliff:g id="count">%1$d</xliff:g>일 전</item>
     </plurals>
-    <string name="home_season_episode">S<xliff:g id="season">%1$02d</xliff:g> E<xliff:g id="episode">%2$02d</xliff:g></string>
-    <string name="home_season">S<xliff:g id="season">%1$02d</xliff:g></string>
-    <string name="home_episode">E<xliff:g id="episode">%1$02d</xliff:g></string>
     <string name="home_row_cards">카드</string>
     <string name="home_row_keep_watching">이어서 보기</string>
     <string name="home_row_continue_movies">이어서 볼 영화</string>
@@ -88,20 +79,6 @@
     <string name="home_row_continue_series_description">이어서 보거나 다음 에피소드를 재생할 수 있는 항목</string>
     <string name="home_row_recent_description">최근 시청한 실시간 채널</string>
     <string name="home_row_favorite_description">즐겨찾기에 추가한 실시간 채널</string>
-    <string name="home_on_now_title"><xliff:g id="title">%1$s</xliff:g> · 현재 방송 중</string>
-    <string name="home_ok_to_watch">확인 버튼을 눌러 시청</string>
-    <string name="home_ok_to_browse">확인 버튼을 눌러 탐색</string>
-    <string name="home_no_programme_details">프로그램 상세 정보 없음</string>
-    <string name="home_guide_unavailable">편성표 데이터를 사용할 수 없음</string>
-    <string name="home_next">다음</string>
-    <string name="home_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
-    <string name="home_time_range"><xliff:g id="start">%1$s</xliff:g>-<xliff:g id="end">%2$s</xliff:g></string>
-    <string name="home_now_time">현재 · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_up_next_time">다음 · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_upcoming_item"><xliff:g id="time">%1$s</xliff:g> <xliff:g id="title">%2$s</xliff:g></string>
-    <plurals name="home_channel_count">
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g>개 채널</item>
-    </plurals>
     <string name="update_title">앱 업데이트</string>
     <string name="update_checking">업데이트 확인 중…</string>
     <string name="update_whats_new">새로운 기능</string>
@@ -136,6 +113,11 @@
     <string name="home_trending_style">인기 레이아웃</string>
     <string name="home_trending_style_hero">상세 카드</string>
     <string name="home_trending_style_posters">포스터만</string>
+    <string name="home_trending_rank">트렌드 #<xliff:g id="rank">%1$d</xliff:g> · <xliff:g id="section">%2$s</xliff:g></string>
+    <string name="home_trending_in_playlist">내 재생목록에 있음</string>
+    <string name="home_trending_style_full_bleed">전체 화면</string>
+    <string name="home_duration_hours_minutes"><xliff:g id="hours">%1$d</xliff:g>시간 <xliff:g id="minutes">%2$02d</xliff:g>분</string>
+    <string name="home_time_left"><xliff:g id="duration">%1$s</xliff:g> 남음</string>
     <string name="settings_trending_status_off">지금 인기 급상승이 꺼져 있습니다.</string>
     <string name="settings_trending_status_building">제공업체 동기화 후 지금 인기 급상승을 준비하고 있습니다.</string>
     <string name="settings_trending_status_metadata_disabled">지금 인기 급상승에는 TMDB 메타데이터가 필요합니다. TMDB만 또는 제공업체 + TMDB를 선택하세요.</string>

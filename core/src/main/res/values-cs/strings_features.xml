@@ -47,10 +47,6 @@
     <string name="search_series">Seriál</string>
     <string name="search_channels">Kanály</string>
     <string name="search_channel_number">#<xliff:g id="number">%1$s</xliff:g></string>
-    <string name="home_keep_watching">Pokračovat ve sledování</string>
-    <string name="home_play_next">Přehrát další</string>
-    <string name="home_tune_in">Sledovat živě</string>
-    <string name="home_recent_live">Nedávno sledované živé vysílání</string>
     <string name="profiles_default_name">Profil</string>
     <string name="launcher_recent_live_title">Nedávno sledované živé vysílání</string>
     <string name="launcher_recent_live_description">Nedávno sledované kanály živého vysílání</string>
@@ -62,8 +58,6 @@
     <string name="home_start_watching">Začněte něco sledovat a zde se zobrazí vaše aktivita.</string>
     <string name="home_continue_empty">Položky k pokračování ve sledování se zde zobrazí, jakmile bude k dispozici historie přehrávání.</string>
     <string name="home_last_watched_now">Naposledy sledováno před chvílí</string>
-    <string name="home_finish_by">Dokoukáte do <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_resume">Pokračovat</string>
     <plurals name="home_last_watched_minutes">
         <item quantity="one">Naposledy sledováno před <xliff:g id="count">%1$d</xliff:g> minutou</item>
         <item quantity="few">Naposledy sledováno před <xliff:g id="count">%1$d</xliff:g> minutami</item>
@@ -82,9 +76,6 @@
         <item quantity="many">Naposledy sledováno před <xliff:g id="count">%1$d</xliff:g> dne</item>
         <item quantity="other">Naposledy sledováno před <xliff:g id="count">%1$d</xliff:g> dny</item>
     </plurals>
-    <string name="home_season_episode">S<xliff:g id="season">%1$02d</xliff:g> E<xliff:g id="episode">%2$02d</xliff:g></string>
-    <string name="home_season">S<xliff:g id="season">%1$02d</xliff:g></string>
-    <string name="home_episode">E<xliff:g id="episode">%1$02d</xliff:g></string>
     <string name="home_row_cards">Karty</string>
     <string name="home_row_keep_watching">Pokračovat ve sledování</string>
     <string name="home_row_continue_movies">Pokračovat ve sledování filmů</string>
@@ -97,23 +88,6 @@
     <string name="home_row_continue_series_description">Epizody, v jejichž přehrávání lze pokračovat, nebo přehrát další</string>
     <string name="home_row_recent_description">Kanály živého vysílání, které jste nedávno sledovali</string>
     <string name="home_row_favorite_description">Vaše oblíbené kanály živého vysílání</string>
-    <string name="home_on_now_title"><xliff:g id="title">%1$s</xliff:g> · PRÁVĚ VYSÍLÁME</string>
-    <string name="home_ok_to_watch">OK – sledovat</string>
-    <string name="home_ok_to_browse">OK – procházet</string>
-    <string name="home_no_programme_details">Podrobnosti o pořadu nejsou k dispozici</string>
-    <string name="home_guide_unavailable">Data TV programu nejsou k dispozici</string>
-    <string name="home_next">Další</string>
-    <string name="home_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
-    <string name="home_time_range"><xliff:g id="start">%1$s</xliff:g>-<xliff:g id="end">%2$s</xliff:g></string>
-    <string name="home_now_time">NYNÍ · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_up_next_time">NÁSLEDUJE · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_upcoming_item"><xliff:g id="time">%1$s</xliff:g> <xliff:g id="title">%2$s</xliff:g></string>
-    <plurals name="home_channel_count">
-        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> kanál</item>
-        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> kanály</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> kanálu</item>
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> kanálů</item>
-    </plurals>
     <string name="update_title">Aktualizace aplikace</string>
     <string name="update_checking">Kontrola aktualizací…</string>
     <string name="update_whats_new">Co je nového</string>
@@ -148,6 +122,11 @@
     <string name="home_trending_style">Rozvržení trendů</string>
     <string name="home_trending_style_hero">Podrobná karta</string>
     <string name="home_trending_style_posters">Pouze plakáty</string>
+    <string name="home_trending_rank">#<xliff:g id="rank">%1$d</xliff:g> v trendech · <xliff:g id="section">%2$s</xliff:g></string>
+    <string name="home_trending_in_playlist">VE VAŠEM PLAYLISTU</string>
+    <string name="home_trending_style_full_bleed">Přes celou plochu</string>
+    <string name="home_duration_hours_minutes"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$02d</xliff:g> min</string>
+    <string name="home_time_left">zbývá <xliff:g id="duration">%1$s</xliff:g></string>
     <string name="settings_trending_status_off">Funkce Právě populární je vypnutá.</string>
     <string name="settings_trending_status_building">Funkce Právě populární se připravuje po synchronizaci poskytovatele.</string>
     <string name="settings_trending_status_metadata_disabled">Funkce Právě populární vyžaduje metadata TMDB. Vyberte Pouze TMDB nebo Poskytovatel + TMDB.</string>

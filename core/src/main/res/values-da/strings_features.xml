@@ -47,10 +47,6 @@
     <string name="search_series">Serie</string>
     <string name="search_channels">Kanaler</string>
     <string name="search_channel_number">#<xliff:g id="number">%1$s</xliff:g></string>
-    <string name="home_keep_watching">Se videre</string>
-    <string name="home_play_next">Afspil næste</string>
-    <string name="home_tune_in">Se med</string>
-    <string name="home_recent_live">Senest set live</string>
     <string name="profiles_default_name">Profil</string>
     <string name="launcher_recent_live_title">Seneste livekanaler</string>
     <string name="launcher_recent_live_description">Senest sete livekanaler</string>
@@ -62,8 +58,6 @@
     <string name="home_start_watching">Begynd at se noget for at få vist din aktivitet her.</string>
     <string name="home_continue_empty">Indhold, du kan se videre på, vises her, når der er en afspilningshistorik.</string>
     <string name="home_last_watched_now">Sidst set for et øjeblik siden</string>
-    <string name="home_finish_by">Færdig kl. <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_resume">Fortsæt</string>
     <plurals name="home_last_watched_minutes">
         <item quantity="one">Sidst set for <xliff:g id="count">%1$d</xliff:g> minut siden</item>
         <item quantity="other">Sidst set for <xliff:g id="count">%1$d</xliff:g> minutter siden</item>
@@ -76,9 +70,6 @@
         <item quantity="one">Sidst set for <xliff:g id="count">%1$d</xliff:g> dag siden</item>
         <item quantity="other">Sidst set for <xliff:g id="count">%1$d</xliff:g> dage siden</item>
     </plurals>
-    <string name="home_season_episode">S<xliff:g id="season">%1$02d</xliff:g> E<xliff:g id="episode">%2$02d</xliff:g></string>
-    <string name="home_season">S<xliff:g id="season">%1$02d</xliff:g></string>
-    <string name="home_episode">E<xliff:g id="episode">%1$02d</xliff:g></string>
     <string name="home_row_cards">Kort</string>
     <string name="home_row_keep_watching">Se videre</string>
     <string name="home_row_continue_movies">Se videre med film</string>
@@ -91,21 +82,6 @@
     <string name="home_row_continue_series_description">Afsnit, der kan fortsættes eller afspilles som næste</string>
     <string name="home_row_recent_description">Livekanaler, du har set for nylig</string>
     <string name="home_row_favorite_description">Livekanaler, du har markeret som favoritter</string>
-    <string name="home_on_now_title"><xliff:g id="title">%1$s</xliff:g> · LIGE NU</string>
-    <string name="home_ok_to_watch">OK for at se</string>
-    <string name="home_ok_to_browse">OK for at udforske</string>
-    <string name="home_no_programme_details">Ingen programoplysninger</string>
-    <string name="home_guide_unavailable">Programguidedata er ikke tilgængelige</string>
-    <string name="home_next">Næste</string>
-    <string name="home_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
-    <string name="home_time_range"><xliff:g id="start">%1$s</xliff:g>-<xliff:g id="end">%2$s</xliff:g></string>
-    <string name="home_now_time">NU · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_up_next_time">NÆSTE · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_upcoming_item"><xliff:g id="time">%1$s</xliff:g> <xliff:g id="title">%2$s</xliff:g></string>
-    <plurals name="home_channel_count">
-        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> kanal</item>
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> kanaler</item>
-    </plurals>
     <string name="update_title">Appopdatering</string>
     <string name="update_checking">Søger efter opdateringer…</string>
     <string name="update_whats_new">Nyheder</string>
@@ -140,6 +116,11 @@
     <string name="home_trending_style">Layout for tendenser</string>
     <string name="home_trending_style_hero">Detaljeret kort</string>
     <string name="home_trending_style_posters">Kun plakater</string>
+    <string name="home_trending_rank">#<xliff:g id="rank">%1$d</xliff:g> i Trending · <xliff:g id="section">%2$s</xliff:g></string>
+    <string name="home_trending_in_playlist">I DIN PLAYLISTE</string>
+    <string name="home_trending_style_full_bleed">Fuld bredde</string>
+    <string name="home_duration_hours_minutes"><xliff:g id="hours">%1$d</xliff:g> t. <xliff:g id="minutes">%2$02d</xliff:g> min.</string>
+    <string name="home_time_left"><xliff:g id="duration">%1$s</xliff:g> tilbage</string>
     <string name="settings_trending_status_off">Populært lige nu er slået fra.</string>
     <string name="settings_trending_status_building">Populært lige nu klargøres efter synkronisering med udbyderen.</string>
     <string name="settings_trending_status_metadata_disabled">Populært lige nu kræver metadata fra TMDB. Vælg Kun TMDB eller Udbyder + TMDB.</string>

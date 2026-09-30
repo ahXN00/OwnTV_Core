@@ -47,10 +47,6 @@
     <string name="search_series">Dizi</string>
     <string name="search_channels">Kanallar</string>
     <string name="search_channel_number">#<xliff:g id="number">%1$s</xliff:g></string>
-    <string name="home_keep_watching">İzlemeye devam et</string>
-    <string name="home_play_next">Sonrakini oynat</string>
-    <string name="home_tune_in">Yayını aç</string>
-    <string name="home_recent_live">Son izlenen canlı yayın</string>
     <string name="profiles_default_name">Profil</string>
     <string name="launcher_recent_live_title">Son canlı yayınlar</string>
     <string name="launcher_recent_live_description">Son izlenen canlı kanallar</string>
@@ -62,8 +58,6 @@
     <string name="home_start_watching">Etkinliğinizi burada görmek için izlemeye başlayın.</string>
     <string name="home_continue_empty">Oynatma geçmişi kullanılabilir olduğunda izlemeye devam edeceğiniz içerikler burada gösterilecek.</string>
     <string name="home_last_watched_now">Son izleme: az önce</string>
-    <string name="home_finish_by">Tahmini bitiş: <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_resume">Devam et</string>
     <plurals name="home_last_watched_minutes">
         <item quantity="one">Son izleme: <xliff:g id="count">%1$d</xliff:g> dakika önce</item>
         <item quantity="other">Son izleme: <xliff:g id="count">%1$d</xliff:g> dakika önce</item>
@@ -76,9 +70,6 @@
         <item quantity="one">Son izleme: <xliff:g id="count">%1$d</xliff:g> gün önce</item>
         <item quantity="other">Son izleme: <xliff:g id="count">%1$d</xliff:g> gün önce</item>
     </plurals>
-    <string name="home_season_episode">S<xliff:g id="season">%1$02d</xliff:g> B<xliff:g id="episode">%2$02d</xliff:g></string>
-    <string name="home_season">S<xliff:g id="season">%1$02d</xliff:g></string>
-    <string name="home_episode">B<xliff:g id="episode">%1$02d</xliff:g></string>
     <string name="home_row_cards">Kartlar</string>
     <string name="home_row_keep_watching">İzlemeye devam et</string>
     <string name="home_row_continue_movies">Filmleri izlemeye devam et</string>
@@ -91,21 +82,6 @@
     <string name="home_row_continue_series_description">Devam edilecek veya sıradaki bölümü oynatılacak diziler</string>
     <string name="home_row_recent_description">Yakın zamanda açtığınız canlı kanallar</string>
     <string name="home_row_favorite_description">Favorilere eklediğiniz canlı kanallar</string>
-    <string name="home_on_now_title"><xliff:g id="title">%1$s</xliff:g> · ŞİMDİ YAYINDA</string>
-    <string name="home_ok_to_watch">İzlemek için OK\'e basın</string>
-    <string name="home_ok_to_browse">Göz atmak için OK\'e basın</string>
-    <string name="home_no_programme_details">Program ayrıntıları yok</string>
-    <string name="home_guide_unavailable">Program rehberi verileri kullanılamıyor</string>
-    <string name="home_next">Sonraki</string>
-    <string name="home_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
-    <string name="home_time_range"><xliff:g id="start">%1$s</xliff:g>-<xliff:g id="end">%2$s</xliff:g></string>
-    <string name="home_now_time">ŞİMDİ · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_up_next_time">SIRADA · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_upcoming_item"><xliff:g id="time">%1$s</xliff:g> <xliff:g id="title">%2$s</xliff:g></string>
-    <plurals name="home_channel_count">
-        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> kanal</item>
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> kanal</item>
-    </plurals>
     <string name="update_title">Uygulama güncellemesi</string>
     <string name="update_checking">Güncellemeler denetleniyor…</string>
     <string name="update_whats_new">Yenilikler</string>
@@ -140,6 +116,11 @@
     <string name="home_trending_style">Trend düzeni</string>
     <string name="home_trending_style_hero">Ayrıntılı kart</string>
     <string name="home_trending_style_posters">Yalnızca posterler</string>
+    <string name="home_trending_rank">Trendlerde #<xliff:g id="rank">%1$d</xliff:g> · <xliff:g id="section">%2$s</xliff:g></string>
+    <string name="home_trending_in_playlist">OYNATMA LİSTENDE</string>
+    <string name="home_trending_style_full_bleed">Tam ekran</string>
+    <string name="home_duration_hours_minutes"><xliff:g id="hours">%1$d</xliff:g> sa <xliff:g id="minutes">%2$02d</xliff:g> dk</string>
+    <string name="home_time_left"><xliff:g id="duration">%1$s</xliff:g> kaldı</string>
     <string name="settings_trending_status_off">Şu Anda Popüler kapalı.</string>
     <string name="settings_trending_status_building">Şu Anda Popüler, sağlayıcı eşitlemesinden sonra hazırlanıyor.</string>
     <string name="settings_trending_status_metadata_disabled">Şu Anda Popüler için TMDB meta verisi gereklidir. Yalnızca TMDB veya Sağlayıcı + TMDB seçeneğini belirleyin.</string>

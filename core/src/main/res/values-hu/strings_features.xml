@@ -47,10 +47,6 @@
     <string name="search_series">Sorozatok</string>
     <string name="search_channels">Csatornák</string>
     <string name="search_channel_number">#<xliff:g id="number">%1$s</xliff:g></string>
-    <string name="home_keep_watching">Folytatás</string>
-    <string name="home_play_next">Következő rész lejátszása</string>
-    <string name="home_tune_in">Megnézem</string>
-    <string name="home_recent_live">Legutóbb nézett élő adások</string>
     <string name="profiles_default_name">Profil</string>
     <string name="launcher_recent_live_title">Legutóbb nézett élő adások</string>
     <string name="launcher_recent_live_description">Legutóbb nézett élő csatornák</string>
@@ -62,8 +58,6 @@
     <string name="home_start_watching">Nézz meg valamit, hogy itt megjelenjen a tevékenységed.</string>
     <string name="home_continue_empty">A folytatható tételek itt jelennek meg, amint van lejátszási előzményed.</string>
     <string name="home_last_watched_now">Utoljára megtekintve: az imént</string>
-    <string name="home_finish_by">Vége ekkor: <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_resume">Folytatás</string>
     <plurals name="home_last_watched_minutes">
         <item quantity="one">Utoljára <xliff:g id="count">%1$d</xliff:g> perce megtekintve</item>
         <item quantity="other">Utoljára <xliff:g id="count">%1$d</xliff:g> perce megtekintve</item>
@@ -76,9 +70,6 @@
         <item quantity="one">Utoljára <xliff:g id="count">%1$d</xliff:g> napja megtekintve</item>
         <item quantity="other">Utoljára <xliff:g id="count">%1$d</xliff:g> napja megtekintve</item>
     </plurals>
-    <string name="home_season_episode"><xliff:g id="season">%1$02d</xliff:g>. évad <xliff:g id="episode">%2$02d</xliff:g>. rész</string>
-    <string name="home_season"><xliff:g id="season">%1$02d</xliff:g>. évad</string>
-    <string name="home_episode"><xliff:g id="episode">%1$02d</xliff:g>. rész</string>
     <string name="home_row_cards">Kártyák</string>
     <string name="home_row_keep_watching">Folytatás</string>
     <string name="home_row_continue_movies">Filmek folytatása</string>
@@ -91,21 +82,6 @@
     <string name="home_row_continue_series_description">Folytatható vagy következő epizódok</string>
     <string name="home_row_recent_description">Nemrég nézett élő csatornák</string>
     <string name="home_row_favorite_description">A kedvencekhez adott élő csatornáid</string>
-    <string name="home_on_now_title"><xliff:g id="title">%1$s</xliff:g> · MOST MEGY</string>
-    <string name="home_ok_to_watch">OK a megtekintéshez</string>
-    <string name="home_ok_to_browse">OK a böngészéshez</string>
-    <string name="home_no_programme_details">Nincsenek műsoradatok</string>
-    <string name="home_guide_unavailable">A műsorújság adatai nem érhetők el</string>
-    <string name="home_next">Következik</string>
-    <string name="home_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
-    <string name="home_time_range"><xliff:g id="start">%1$s</xliff:g>-<xliff:g id="end">%2$s</xliff:g></string>
-    <string name="home_now_time">MOST · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_up_next_time">KÖVETKEZIK · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_upcoming_item"><xliff:g id="time">%1$s</xliff:g> <xliff:g id="title">%2$s</xliff:g></string>
-    <plurals name="home_channel_count">
-        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> csatorna</item>
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> csatorna</item>
-    </plurals>
     <string name="update_title">Alkalmazásfrissítés</string>
     <string name="update_checking">Frissítések keresése…</string>
     <string name="update_whats_new">Újdonságok</string>
@@ -140,6 +116,11 @@
     <string name="home_trending_style">Népszerűek elrendezése</string>
     <string name="home_trending_style_hero">Részletes kártya</string>
     <string name="home_trending_style_posters">Csak plakátok</string>
+    <string name="home_trending_rank">#<xliff:g id="rank">%1$d</xliff:g> a trendekben · <xliff:g id="section">%2$s</xliff:g></string>
+    <string name="home_trending_in_playlist">A LEJÁTSZÁSI LISTÁDBAN</string>
+    <string name="home_trending_style_full_bleed">Teljes szélességű</string>
+    <string name="home_duration_hours_minutes"><xliff:g id="hours">%1$d</xliff:g> ó <xliff:g id="minutes">%2$02d</xliff:g> p</string>
+    <string name="home_time_left">még <xliff:g id="duration">%1$s</xliff:g></string>
     <string name="settings_trending_status_off">A „Most felkapott” ki van kapcsolva.</string>
     <string name="settings_trending_status_building">A „Most felkapott” a szolgáltatóval való szinkronizálás után készül el.</string>
     <string name="settings_trending_status_metadata_disabled">A „Most felkapott” TMDB-metaadatokat igényel. Válaszd a „Csak TMDB” vagy a „Szolgáltató + TMDB” lehetőséget.</string>

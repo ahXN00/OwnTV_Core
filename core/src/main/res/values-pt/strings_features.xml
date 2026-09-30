@@ -47,10 +47,6 @@
     <string name="search_series">Série</string>
     <string name="search_channels">Canais</string>
     <string name="search_channel_number">#<xliff:g id="number">%1$s</xliff:g></string>
-    <string name="home_keep_watching">Continue assistindo</string>
-    <string name="home_play_next">Reproduzir próximo</string>
-    <string name="home_tune_in">Sintonizar</string>
-    <string name="home_recent_live">Canal ao vivo assistido recentemente</string>
     <string name="profiles_default_name">Perfil</string>
     <string name="launcher_recent_live_title">Canais ao vivo assistidos recentemente</string>
     <string name="launcher_recent_live_description">Canais ao vivo assistidos recentemente</string>
@@ -62,8 +58,6 @@
     <string name="home_start_watching">Comece a assistir para ver sua atividade aqui.</string>
     <string name="home_continue_empty">Seus itens para continuar assistindo aparecerão aqui quando o histórico de reprodução estiver disponível.</string>
     <string name="home_last_watched_now">Assistido pela última vez agora mesmo</string>
-    <string name="home_finish_by">Termina às <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_resume">Continuar</string>
     <plurals name="home_last_watched_minutes">
         <item quantity="one">Assistido pela última vez há <xliff:g id="count">%1$d</xliff:g> minuto</item>
         <item quantity="many">Assistido pela última vez há <xliff:g id="count">%1$d</xliff:g> minutos</item>
@@ -79,9 +73,6 @@
         <item quantity="many">Assistido pela última vez há <xliff:g id="count">%1$d</xliff:g> dias</item>
         <item quantity="other">Assistido pela última vez há <xliff:g id="count">%1$d</xliff:g> dias</item>
     </plurals>
-    <string name="home_season_episode">T<xliff:g id="season">%1$02d</xliff:g> E<xliff:g id="episode">%2$02d</xliff:g></string>
-    <string name="home_season">T<xliff:g id="season">%1$02d</xliff:g></string>
-    <string name="home_episode">E<xliff:g id="episode">%1$02d</xliff:g></string>
     <string name="home_row_cards">Cartões</string>
     <string name="home_row_keep_watching">Continue assistindo</string>
     <string name="home_row_continue_movies">Continuar assistindo a filmes</string>
@@ -94,22 +85,6 @@
     <string name="home_row_continue_series_description">Episódios para continuar ou reproduzir o próximo</string>
     <string name="home_row_recent_description">Canais ao vivo sintonizados recentemente</string>
     <string name="home_row_favorite_description">Seus canais ao vivo favoritos</string>
-    <string name="home_on_now_title"><xliff:g id="title">%1$s</xliff:g> · NO AR AGORA</string>
-    <string name="home_ok_to_watch">OK para assistir</string>
-    <string name="home_ok_to_browse">OK para navegar</string>
-    <string name="home_no_programme_details">Nenhum detalhe do programa</string>
-    <string name="home_guide_unavailable">Dados do guia indisponíveis</string>
-    <string name="home_next">Próximo</string>
-    <string name="home_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
-    <string name="home_time_range"><xliff:g id="start">%1$s</xliff:g>-<xliff:g id="end">%2$s</xliff:g></string>
-    <string name="home_now_time">AGORA · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_up_next_time">A SEGUIR · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_upcoming_item"><xliff:g id="time">%1$s</xliff:g> <xliff:g id="title">%2$s</xliff:g></string>
-    <plurals name="home_channel_count">
-        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> canal</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> canais</item>
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> canais</item>
-    </plurals>
     <string name="update_title">Atualização do aplicativo</string>
     <string name="update_checking">Verificando atualizações…</string>
     <string name="update_whats_new">Novidades</string>
@@ -144,6 +119,11 @@
     <string name="home_trending_style">Layout das tendências</string>
     <string name="home_trending_style_hero">Cartão detalhado</string>
     <string name="home_trending_style_posters">Somente pôsteres</string>
+    <string name="home_trending_rank">#<xliff:g id="rank">%1$d</xliff:g> em Em alta · <xliff:g id="section">%2$s</xliff:g></string>
+    <string name="home_trending_in_playlist">NA SUA PLAYLIST</string>
+    <string name="home_trending_style_full_bleed">Tela cheia</string>
+    <string name="home_duration_hours_minutes"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$02d</xliff:g> min</string>
+    <string name="home_time_left"><xliff:g id="duration">%1$s</xliff:g> restantes</string>
     <string name="settings_trending_status_off">Em alta agora está desativado.</string>
     <string name="settings_trending_status_building">Em alta agora está sendo preparado após a sincronização do provedor.</string>
     <string name="settings_trending_status_metadata_disabled">Em alta agora precisa dos metadados do TMDB. Escolha Somente TMDB ou Provedor + TMDB.</string>

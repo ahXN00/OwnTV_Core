@@ -47,10 +47,6 @@
     <string name="search_series">シリーズ</string>
     <string name="search_channels">チャンネル</string>
     <string name="search_channel_number">#<xliff:g id="number">%1$s</xliff:g></string>
-    <string name="home_keep_watching">視聴を続ける</string>
-    <string name="home_play_next">次を再生</string>
-    <string name="home_tune_in">今すぐ視聴</string>
-    <string name="home_recent_live">最近視聴したライブTV</string>
     <string name="profiles_default_name">プロフィール</string>
     <string name="launcher_recent_live_title">最近視聴したライブTV</string>
     <string name="launcher_recent_live_description">最近視聴したライブチャンネル</string>
@@ -62,8 +58,6 @@
     <string name="home_start_watching">視聴を開始すると、ここにアクティビティが表示されます。</string>
     <string name="home_continue_empty">再生履歴が記録されると、視聴を続けるコンテンツがここに表示されます。</string>
     <string name="home_last_watched_now">たった今視聴しました</string>
-    <string name="home_finish_by">視聴終了予定：<xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_resume">再生を再開</string>
     <plurals name="home_last_watched_minutes">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g>分前に視聴</item>
     </plurals>
@@ -73,9 +67,6 @@
     <plurals name="home_last_watched_days">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g>日前に視聴</item>
     </plurals>
-    <string name="home_season_episode">S<xliff:g id="season">%1$02d</xliff:g> E<xliff:g id="episode">%2$02d</xliff:g></string>
-    <string name="home_season">S<xliff:g id="season">%1$02d</xliff:g></string>
-    <string name="home_episode">E<xliff:g id="episode">%1$02d</xliff:g></string>
     <string name="home_row_cards">カード</string>
     <string name="home_row_keep_watching">視聴を続ける</string>
     <string name="home_row_continue_movies">映画の視聴を続ける</string>
@@ -88,20 +79,6 @@
     <string name="home_row_continue_series_description">再生を再開する、または次に再生するエピソード</string>
     <string name="home_row_recent_description">最近視聴したライブチャンネル</string>
     <string name="home_row_favorite_description">お気に入りに追加したライブチャンネル</string>
-    <string name="home_on_now_title"><xliff:g id="title">%1$s</xliff:g> · 放送中</string>
-    <string name="home_ok_to_watch">OKで視聴</string>
-    <string name="home_ok_to_browse">OKで閲覧</string>
-    <string name="home_no_programme_details">番組の詳細情報はありません</string>
-    <string name="home_guide_unavailable">番組表データを利用できません</string>
-    <string name="home_next">次へ</string>
-    <string name="home_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
-    <string name="home_time_range"><xliff:g id="start">%1$s</xliff:g>-<xliff:g id="end">%2$s</xliff:g></string>
-    <string name="home_now_time">放送中 · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_up_next_time">次の番組 · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_upcoming_item"><xliff:g id="time">%1$s</xliff:g> <xliff:g id="title">%2$s</xliff:g></string>
-    <plurals name="home_channel_count">
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g>チャンネル</item>
-    </plurals>
     <string name="update_title">アプリの更新</string>
     <string name="update_checking">更新を確認しています…</string>
     <string name="update_whats_new">新機能</string>
@@ -136,6 +113,11 @@
     <string name="home_trending_style">トレンドのレイアウト</string>
     <string name="home_trending_style_hero">詳細カード</string>
     <string name="home_trending_style_posters">ポスターのみ</string>
+    <string name="home_trending_rank">トレンド #<xliff:g id="rank">%1$d</xliff:g> · <xliff:g id="section">%2$s</xliff:g></string>
+    <string name="home_trending_in_playlist">プレイリストにあり</string>
+    <string name="home_trending_style_full_bleed">全面表示</string>
+    <string name="home_duration_hours_minutes"><xliff:g id="hours">%1$d</xliff:g>時間<xliff:g id="minutes">%2$02d</xliff:g>分</string>
+    <string name="home_time_left">残り<xliff:g id="duration">%1$s</xliff:g></string>
     <string name="settings_trending_status_off">現在のトレンドはオフになっています。</string>
     <string name="settings_trending_status_building">プロバイダーの同期後に現在のトレンドを準備しています。</string>
     <string name="settings_trending_status_metadata_disabled">現在のトレンドにはTMDBのメタデータが必要です。「TMDBのみ」または「プロバイダー + TMDB」を選択してください。</string>

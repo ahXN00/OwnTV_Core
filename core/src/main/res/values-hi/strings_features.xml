@@ -47,10 +47,6 @@
     <string name="search_series">सीरीज़</string>
     <string name="search_channels">चैनल</string>
     <string name="search_channel_number">#<xliff:g id="number">%1$s</xliff:g></string>
-    <string name="home_keep_watching">देखना जारी रखें</string>
-    <string name="home_play_next">अगला चलाएँ</string>
-    <string name="home_tune_in">लाइव देखें</string>
-    <string name="home_recent_live">हाल में देखा गया लाइव टीवी</string>
     <string name="profiles_default_name">प्रोफ़ाइल</string>
     <string name="launcher_recent_live_title">हाल का लाइव टीवी</string>
     <string name="launcher_recent_live_description">हाल में देखे गए लाइव चैनल</string>
@@ -62,8 +58,6 @@
     <string name="home_start_watching">अपनी गतिविधि यहाँ देखने के लिए देखना शुरू करें।</string>
     <string name="home_continue_empty">प्लेबैक इतिहास उपलब्ध होने पर वे आइटम यहाँ दिखाई देंगे जिन्हें आप देखना जारी रख सकते हैं।</string>
     <string name="home_last_watched_now">आख़िरी बार अभी-अभी देखा गया</string>
-    <string name="home_finish_by"><xliff:g id="time">%1$s</xliff:g> तक पूरा होगा</string>
-    <string name="home_resume">जारी रखें</string>
     <plurals name="home_last_watched_minutes">
         <item quantity="one">आख़िरी बार <xliff:g id="count">%1$d</xliff:g> मिनट पहले देखा गया</item>
         <item quantity="other">आख़िरी बार <xliff:g id="count">%1$d</xliff:g> मिनट पहले देखा गया</item>
@@ -76,9 +70,6 @@
         <item quantity="one">आख़िरी बार <xliff:g id="count">%1$d</xliff:g> दिन पहले देखा गया</item>
         <item quantity="other">आख़िरी बार <xliff:g id="count">%1$d</xliff:g> दिन पहले देखा गया</item>
     </plurals>
-    <string name="home_season_episode">S<xliff:g id="season">%1$02d</xliff:g> E<xliff:g id="episode">%2$02d</xliff:g></string>
-    <string name="home_season">S<xliff:g id="season">%1$02d</xliff:g></string>
-    <string name="home_episode">E<xliff:g id="episode">%1$02d</xliff:g></string>
     <string name="home_row_cards">कार्ड</string>
     <string name="home_row_keep_watching">देखना जारी रखें</string>
     <string name="home_row_continue_movies">फ़िल्में देखना जारी रखें</string>
@@ -91,21 +82,6 @@
     <string name="home_row_continue_series_description">जारी रखने या अगला चलाने वाले एपिसोड</string>
     <string name="home_row_recent_description">वे लाइव चैनल जिन्हें आपने हाल में देखा</string>
     <string name="home_row_favorite_description">आपके पसंदीदा लाइव चैनल</string>
-    <string name="home_on_now_title"><xliff:g id="title">%1$s</xliff:g> · अभी प्रसारित</string>
-    <string name="home_ok_to_watch">देखने के लिए OK दबाएँ</string>
-    <string name="home_ok_to_browse">ब्राउज़ करने के लिए OK दबाएँ</string>
-    <string name="home_no_programme_details">कार्यक्रम का विवरण उपलब्ध नहीं है</string>
-    <string name="home_guide_unavailable">कार्यक्रम गाइड का डेटा उपलब्ध नहीं है</string>
-    <string name="home_next">अगला</string>
-    <string name="home_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
-    <string name="home_time_range"><xliff:g id="start">%1$s</xliff:g>-<xliff:g id="end">%2$s</xliff:g></string>
-    <string name="home_now_time">अभी · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_up_next_time">इसके बाद · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="home_upcoming_item"><xliff:g id="time">%1$s</xliff:g> <xliff:g id="title">%2$s</xliff:g></string>
-    <plurals name="home_channel_count">
-        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> चैनल</item>
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> चैनल</item>
-    </plurals>
     <string name="update_title">ऐप अपडेट</string>
     <string name="update_checking">अपडेट की जाँच की जा रही है…</string>
     <string name="update_whats_new">नया क्या है</string>
@@ -140,6 +116,11 @@
     <string name="home_trending_style">ट्रेंडिंग लेआउट</string>
     <string name="home_trending_style_hero">विस्तृत कार्ड</string>
     <string name="home_trending_style_posters">केवल पोस्टर</string>
+    <string name="home_trending_rank">ट्रेंडिंग में #<xliff:g id="rank">%1$d</xliff:g> · <xliff:g id="section">%2$s</xliff:g></string>
+    <string name="home_trending_in_playlist">आपकी प्लेलिस्ट में</string>
+    <string name="home_trending_style_full_bleed">पूरी चौड़ाई</string>
+    <string name="home_duration_hours_minutes"><xliff:g id="hours">%1$d</xliff:g> घं <xliff:g id="minutes">%2$02d</xliff:g> मि</string>
+    <string name="home_time_left"><xliff:g id="duration">%1$s</xliff:g> शेष</string>
     <string name="settings_trending_status_off">अभी ट्रेंड में बंद है।</string>
     <string name="settings_trending_status_building">प्रदाता सिंक के बाद अभी ट्रेंड में को तैयार किया जा रहा है।</string>
     <string name="settings_trending_status_metadata_disabled">अभी ट्रेंड में के लिए TMDB मेटाडेटा आवश्यक है। केवल TMDB या प्रदाता + TMDB चुनें।</string>
