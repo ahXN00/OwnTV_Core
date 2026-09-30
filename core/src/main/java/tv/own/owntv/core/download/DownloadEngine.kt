@@ -25,7 +25,7 @@ import java.util.Collections
 import java.util.concurrent.ConcurrentHashMap
 
 /** What the foreground notification shows about the transfer currently running. */
-data class DownloadProgress(val title: String, val downloadedBytes: Long, val totalBytes: Long)
+data class DownloadProgress(val id: Long, val title: String, val downloadedBytes: Long, val totalBytes: Long)
 
 /**
  * The transfer half of downloads, split out of [DownloadManager] so it can run inside
@@ -174,7 +174,7 @@ class DownloadEngine(
             val total = DownloadResume.expectedTotal(append, existing, body.contentLength())
             var done = if (append) existing else 0L
             downloadDao.updateProgress(id, DownloadStatus.RUNNING, done, total, System.currentTimeMillis())
-            onProgress(DownloadProgress(d.title, done, total))
+            onProgress(DownloadProgress(id, d.title, done, total))
             body.byteStream().use { input ->
                 target.openOutput(append).use { out ->
                     val buf = ByteArray(128 * 1024)
@@ -188,7 +188,7 @@ class DownloadEngine(
                         val t = System.currentTimeMillis()
                         if (t - lastTick > 500) {
                             downloadDao.updateProgress(id, DownloadStatus.RUNNING, done, total, t)
-                            onProgress(DownloadProgress(d.title, done, total))
+                            onProgress(DownloadProgress(id, d.title, done, total))
                             lastTick = t
                         }
                     }

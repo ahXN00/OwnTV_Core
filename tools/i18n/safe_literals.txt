@@ -504,7 +504,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/BulkInsertHelper.kt	movies_fts
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/BulkInsertHelper.kt	room_fts_content_sync_${it}_AFTER_INSERT
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/BulkInsertHelper.kt	series_fts
-17	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	)
+18	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	?
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `$table` ADD COLUMN `advertisedCapabilities` TEXT
@@ -525,7 +525,12 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `epg_channels` ADD COLUMN `iconUrl` TEXT
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `epg_channels` ADD COLUMN `normId` TEXT
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `epg_channels` ADD COLUMN `normName` TEXT
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `epg_programmes` ADD COLUMN `categories` TEXT
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `epg_programmes` ADD COLUMN `contentHash` INTEGER NOT NULL DEFAULT 0
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `epg_programmes` ADD COLUMN `episode` TEXT
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `epg_programmes` ADD COLUMN `lengthMin` INTEGER
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `epg_programmes` ADD COLUMN `rating` TEXT
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `epg_programmes` ADD COLUMN `year` INTEGER
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `episodes` ADD COLUMN `airDateMs` INTEGER
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `episodes` ADD COLUMN `httpHeaders` TEXT
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `metadata_cache` ADD COLUMN `airDate` TEXT
@@ -598,6 +603,8 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_playback_prefs_profileId` ON `playback_prefs` (`profileId`)
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_playback_prefs_sourceId` ON `playback_prefs` (`sourceId`)
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_playback_quirks_sourceId` ON `playback_quirks` (`sourceId`)
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_programme_reminders_profileId` ON `programme_reminders` (`profileId`)
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_programme_reminders_startMs` ON `programme_reminders` (`startMs`)
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_recording_rules_profileId` ON `recording_rules` (`profileId`)
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_recordings_profileId` ON `recordings` (`profileId`)
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE INDEX IF NOT EXISTS `index_recordings_ruleId` ON `recordings` (`ruleId`)
@@ -637,6 +644,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `metadata_match` (
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `playback_prefs` (
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `playback_quirks` (
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `programme_reminders` (
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `recording_rules` (
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `recordings` (
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE TABLE IF NOT EXISTS `series_sort_order` (
@@ -652,6 +660,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE UNIQUE INDEX IF NOT EXISTS `index_epg_channels_sourceId_epgChannelId` ON `epg_channels` (`sourceId`, `epgChannelId`)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE UNIQUE INDEX IF NOT EXISTS `index_epg_programmes_natural_key`
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE UNIQUE INDEX IF NOT EXISTS `index_movies_sourceId_remoteId` ON `movies` (`sourceId`, `remoteId`)
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE UNIQUE INDEX IF NOT EXISTS `index_programme_reminders_profileId_channelId_startMs`
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE UNIQUE INDEX IF NOT EXISTS `index_recording_rules_profileId_channelId_titleKey`
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE UNIQUE INDEX IF NOT EXISTS `index_recordings_profileId_channelId_programmeStartMs`
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	CREATE UNIQUE INDEX IF NOT EXISTS `index_series_sort_order_profileId_seriesId` ON `series_sort_order` (`profileId`, `seriesId`)
@@ -670,6 +679,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	FOREIGN KEY(`cacheId`) REFERENCES `subtitle_cache`(`id`) ON DELETE SET NULL
 9	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	FOREIGN KEY(`profileId`) REFERENCES `profiles`(`id`) ON DELETE CASCADE
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	FOREIGN KEY(`profileId`) REFERENCES `profiles`(`id`) ON DELETE CASCADE,
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	FOREIGN KEY(`profileId`) REFERENCES `profiles`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	FOREIGN KEY(`profileId`) REFERENCES `profiles`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	FOREIGN KEY(`sourceId`) REFERENCES `sources`(`id`)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	FOREIGN KEY(`sourceId`) REFERENCES `sources`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE
@@ -681,6 +691,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ON `$table` (`sourceId`, `titleSignature`, `parsedYear`)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ON `catalog_backfill` (`sourceId`, `mediaType`, `done`)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ON `epg_programmes` (`sourceId`, `epgChannelId`, `startMs`)
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ON `programme_reminders` (`profileId`, `channelId`, `startMs`)
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ON `recording_rules` (`profileId`, `channelId`, `titleKey`)
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ON `recordings` (`profileId`, `channelId`, `programmeStartMs`)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ON `trending_items` (`mediaType`, `tmdbId`)
@@ -721,13 +732,13 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`categoryDbId` INTEGER,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`categoryRemoteId` TEXT NOT NULL,
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`channelIconUrl` TEXT,
-2	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`channelId` INTEGER NOT NULL,
-2	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`channelName` TEXT NOT NULL,
+3	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`channelId` INTEGER NOT NULL,
+3	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`channelName` TEXT NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`confidence` REAL NOT NULL,
 5	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`contentKey` TEXT NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`contentTitle` TEXT NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`contextKey` TEXT NOT NULL,
-2	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`createdAt` INTEGER NOT NULL,
+3	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`createdAt` INTEGER NOT NULL,
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`deletedAt` INTEGER NOT NULL,
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`description` TEXT,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`done` INTEGER NOT NULL,
@@ -735,7 +746,7 @@
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`enabled` INTEGER NOT NULL,
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`endedAt` INTEGER,
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`enginePin` TEXT,
-2	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`epgChannelId` TEXT,
+3	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`epgChannelId` TEXT,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`episodesDescending` INTEGER NOT NULL,
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`failure` TEXT NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`fileName` TEXT NOT NULL,
@@ -746,7 +757,7 @@
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`groupId` INTEGER NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`hearingImpaired` INTEGER NOT NULL DEFAULT 0,
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`httpHeaders` TEXT,
-9	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+10	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`identity` TEXT NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`imdbId` TEXT,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`itemCount` INTEGER NOT NULL,
@@ -760,6 +771,7 @@
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`lastPositionMs` INTEGER NOT NULL,
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`lastPublishedAt` INTEGER NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`lastUsedAt` INTEGER NOT NULL
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`leadMinutes` INTEGER NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`localKey` TEXT NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`localizedTitle` TEXT NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`maxPageItems` INTEGER NOT NULL,
@@ -773,7 +785,7 @@
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`overview` TEXT,
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`position` INTEGER NOT NULL,
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`posterPath` TEXT,
-12	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`profileId` INTEGER NOT NULL,
+13	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`profileId` INTEGER NOT NULL,
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`programmeStartMs` INTEGER NOT NULL,
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`programmeStopMs` INTEGER NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`providerItemId` INTEGER NOT NULL,
@@ -792,16 +804,16 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`sortBase` INTEGER NOT NULL,
 6	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`sourceId` INTEGER NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`source` TEXT NOT NULL,
-1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`startMs` INTEGER NOT NULL,
+2	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`startMs` INTEGER NOT NULL,
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`startedAt` INTEGER,
 2	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`status` TEXT NOT NULL,
-1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`stopMs` INTEGER NOT NULL,
+2	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`stopMs` INTEGER NOT NULL,
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`streamUrl` TEXT NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`subtitleKey` TEXT NOT NULL,
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`surface` TEXT NOT NULL,
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`targetItemId` INTEGER NOT NULL,
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`titleKey` TEXT NOT NULL,
-3	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`title` TEXT NOT NULL,
+4	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`title` TEXT NOT NULL,
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`tmdbId` INTEGER NOT NULL,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`tmdbId` INTEGER,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`totalItems` INTEGER NOT NULL,
@@ -1013,24 +1025,18 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/DownloadDao.kt	SELECT d.* FROM downloads d INNER JOIN episodes e ON e.id = d.itemId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/DownloadDao.kt	UPDATE downloads SET status = :status, downloadedBytes = :downloaded, totalBytes = :total, updatedAt = :timestamp WHERE id = :id
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/DownloadDao.kt	WHERE d.mediaType = 'EPISODE' AND e.seriesId = :seriesId
-1	log	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	)
-1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	AND ((b.stopMs - b.startMs) > (a.stopMs - a.startMs)
-1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	AND a.startMs < b.stopMs AND b.startMs < a.stopMs
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	AND startMs > :from - 86400000 AND stopMs > :from AND startMs < :to ORDER BY epgChannelId ASC, startMs ASC
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	AND startMs > :from - 86400000 AND stopMs > :from AND startMs < :to ORDER BY startMs ASC
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_channels WHERE sourceId = :sourceId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_channels WHERE sourceId = :sourceId AND epgChannelId IN (:epgChannelIds)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE epgChannelId = :epgChannelId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE epgChannelId = :epgChannelId AND sourceId IN (:sourceIds)
-1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE id IN (
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE id IN (:ids)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE sourceId = :sourceId
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE sourceId = :sourceId AND (stopMs <= :from OR startMs >= :to)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE sourceId = :sourceId AND epgChannelId IN (:epgChannelIds)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE startMs > :after
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE stopMs < :before
-1	log	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	ON a.epgChannelId = b.epgChannelId AND a.id <> b.id AND a.title = b.title
-1	log	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	OR ((b.stopMs - b.startMs) = (a.stopMs - a.startMs) AND b.id < a.id))
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT (MAX(stopMs) - MIN(startMs)) / 86400000 FROM epg_programmes WHERE epgChannelId = :epgChannelId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT * FROM epg_programmes WHERE epgChannelId = :epgChannelId AND startMs <= :now AND stopMs > :now ORDER BY startMs DESC LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT * FROM epg_programmes WHERE epgChannelId = :epgChannelId AND stopMs <= :now ORDER BY stopMs DESC LIMIT 1
@@ -1042,7 +1048,6 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT COUNT(DISTINCT epgChannelId) FROM epg_programmes WHERE sourceId IN (:sourceIds)
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT DISTINCT epgChannelId FROM epg_programmes LIMIT :limit
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT DISTINCT sourceId FROM epg_channels WHERE epgChannelId IN (:epgChannelIds) AND iconUrl IS NOT NULL AND iconUrl != ''
-1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT a.id FROM epg_programmes a JOIN epg_programmes b
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT description FROM epg_programmes WHERE id = :programmeId LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT epgChannelId FROM epg_channels WHERE sourceId = :sourceId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT epgChannelId, displayName, normName, normId FROM epg_channels LIMIT :limit
@@ -1293,6 +1298,11 @@
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/RecordingDao.kt	SELECT COUNT(*) FROM recordings WHERE sourceId = :sourceId AND status = 'RECORDING'
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/RecordingDao.kt	UPDATE recordings SET status = :status, failure = :failure, bytes = :bytes,
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/RecordingDao.kt	filePath = :filePath, startedAt = :startedAt, endedAt = :endedAt, updatedAt = :timestamp WHERE id = :id
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ReminderDao.kt	DELETE FROM programme_reminders WHERE id = :id
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ReminderDao.kt	DELETE FROM programme_reminders WHERE stopMs <= :now
+2	sql	core/src/main/java/tv/own/owntv/core/database/dao/ReminderDao.kt	SELECT * FROM programme_reminders ORDER BY startMs ASC
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ReminderDao.kt	SELECT * FROM programme_reminders WHERE id = :id
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ReminderDao.kt	SELECT * FROM programme_reminders WHERE profileId = :profileId ORDER BY startMs ASC
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	(SELECT rowid FROM series_fts WHERE series_fts MATCH :ftsQuery)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	AND (categoryId IS NULL OR categoryId NOT IN (:excludedCategoryIds))
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	AND id IN (SELECT rowid FROM series_fts WHERE series_fts MATCH :ftsQuery) ORDER BY name ASC LIMIT :limit
@@ -1526,6 +1536,11 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/RecordingEntities.kt	status
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/RecordingEntities.kt	stopMs
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/RecordingEntities.kt	titleKey
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/ReminderEntity.kt	channelId
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/ReminderEntity.kt	id
+3	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/ReminderEntity.kt	profileId
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/ReminderEntity.kt	programme_reminders
+2	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/ReminderEntity.kt	startMs
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/SubtitleEntities.kt	0
 5	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/SubtitleEntities.kt	cacheId
 3	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/SubtitleEntities.kt	contentKey
@@ -2238,22 +2253,34 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/M3uParser.kt	url-tvg
 2	protocol	core/src/main/java/tv/own/owntv/core/parser/M3uParser.kt	vod
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/M3uParser.kt	x-tvg-url
+1	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvDetails.kt	$s $v
+1	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvDetails.kt	E${episode + 1}
+1	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvDetails.kt	S${season + 1}
+1	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvDetails.kt	S${season + 1} E${episode + 1}
+1	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvDetails.kt	hours
+1	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvDetails.kt	onscreen
+1	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvDetails.kt	seconds
+1	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvDetails.kt	xmltv_ns
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	\0
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	Skipping malformed <channel> element
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	Skipping malformed <programme> element
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	XmltvParser
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	callbackMs=${metrics.callbackMs} totalMs=${SystemClock.elapsedRealtime() - startedAt}
+1	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	category
 3	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	channel
 2	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	channelFilterHit=${metrics.channelFilterHit} channelFilterMiss=${metrics.channelFilterMiss}
+1	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	date
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	deltaMs=${now - lastLogAt}
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	desc
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	display-name
 2	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	duplicateChannelsSkipped=${metrics.duplicateChannelsSkipped}
+1	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	episode-num
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	http://
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	http://xmlpull.org/v1/doc/features.html#relaxed
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	https://
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	icon
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	id
+1	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	length
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	parse end channels=$channels programmes=$programmes skipped=${metrics.skippedProgrammes}
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	parse progress items=$items channels=$channels programmes=$programmes skipped=${metrics.skippedProgrammes}
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	parse start channelFilterSize=${normalizedFilter?.size ?: 0}
@@ -2261,12 +2288,17 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	parseOrReadMs=${metrics.parseOrReadMs}
 2	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	programme
 2	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	programmeFilterHit=${metrics.programmeFilterHit} programmeFilterMiss=${metrics.programmeFilterMiss}
+2	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	rating
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	src
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	start
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	stop
+2	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	system
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	title
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	totalMs=${now - startedAt}
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	totalParseOrReadMs=${metrics.parseOrReadMs} totalCallbackMs=${metrics.callbackMs}
+1	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	units
+1	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	value
+1	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	xmltv_ns
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	—
 2	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvTime.kt	\0
 7	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	\0
@@ -2607,6 +2639,11 @@
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingScheduler.kt	could not arm recording alarm id=$id: ${it.message}
 1	protocol	core/src/main/java/tv/own/owntv/core/recording/RecordingScheduler.kt	owntv://recording/$id
 1	technical	core/src/main/java/tv/own/owntv/core/recording/RecordingWorker.kt	owntv-recordings
+1	protocol	core/src/main/java/tv/own/owntv/core/reminder/ReminderReceivers.kt	android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED
+1	protocol	core/src/main/java/tv/own/owntv/core/reminder/ReminderReceivers.kt	tv.own.owntv.core.action.REMINDER_DUE
+1	log	core/src/main/java/tv/own/owntv/core/reminder/ReminderScheduler.kt	ReminderScheduler
+1	log	core/src/main/java/tv/own/owntv/core/reminder/ReminderScheduler.kt	could not arm reminder alarm id=$id: ${it.message}
+1	uri	core/src/main/java/tv/own/owntv/core/reminder/ReminderScheduler.kt	owntv://reminder/$id
 1	compiler	core/src/main/java/tv/own/owntv/core/repository/ActiveSources.kt	OPT_IN_USAGE
 1	technical	core/src/main/java/tv/own/owntv/core/repository/EpgCacheFiles.kt	.xmltv
 1	technical	core/src/main/java/tv/own/owntv/core/repository/EpgCacheFiles.kt	.xmltv.tmp
@@ -2633,12 +2670,11 @@
 1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	EPG programme prune sourceId=$sourceId stale=${staleIds.size} overflowed=${tracker.overflowed} ms=${SystemClock.elapsedRealtime() - startedAt}
 1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	EPG prune sourceId=$storeId ms=${SystemClock.elapsedRealtime() - pruneStartedAt}
 1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	EPG sync incomplete — keeping partial (written=$writtenCount accepted=$processedCount inserted=$inserted updated=$updated skipped=$skipped)
-29	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	EpgRepository
+28	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	EpgRepository
 1	protocol	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	Guide has no programmes in the guide window
 1	room-schema	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	INSERT OR IGNORE INTO `epg_keep_history` VALUES (?)
 1	protocol	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	Portal guide source $portalSourceId no longer exists
 2	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	Unable to analyze EPG tables
-1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	Unable to collapse duplicate programmes
 1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	Unable to create EPG guide index
 1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	Unable to prune beyond the guide horizon
 1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	Unable to read EPG matches — keeping all history this run
@@ -2653,7 +2689,6 @@
 1	file-path	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	epg_$storeId$EPG_CACHE_SUFFIX
 1	file-path	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	epg_$storeId$EPG_CACHE_TEMP_SUFFIX
 2	sql	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	epg_channels
-1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	epg_dedupe removed=$collapsed ms=${SystemClock.elapsedRealtime() - dedupeStartedAt}
 6	sql	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	epg_programmes
 1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	epg_retention catchupIds=${keep.size} recentPastH=${RECENT_PAST_MS / 3_600_000} archiveH=${WINDOW_BACK_MS / 3_600_000}
 1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	epg_retention catchupIds=0 recentPastH=${RECENT_PAST_MS / 3_600_000}
@@ -2811,6 +2846,7 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	last_live_channel
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	last_movies_category
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	last_series_category
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	last_update_check_at
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_engine
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_latency_custom_secs
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_latency_mode

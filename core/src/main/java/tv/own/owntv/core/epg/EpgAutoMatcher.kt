@@ -78,9 +78,7 @@ class EpgAutoMatcher(
         val channels = channelDao.allForSources(playlistIds, maxChannels)
 
         return withContext(Dispatchers.Default) {
-            val prepared = EpgMatcher.prepare(
-                candidates.map { EpgMatcher.Candidate(it.epgChannelId, it.displayName) },
-            )
+            val prepared = prepareWithProgrammesFirst(candidates)
             // Narrow before scoring: the scan is channels × candidates, which is millions of
             // comparisons on a full lineup and minutes of spinner on TV silicon if it runs unfiltered.
             val unmatched = channels.filter { needsMatch(it, cust, idsWithProgrammes) }
@@ -130,10 +128,7 @@ class EpgAutoMatcher(
         if (candidates.isEmpty()) return null
         val hasProgrammesById = candidates.associate { it.epgChannelId to it.hasProgrammes }
         return withContext(Dispatchers.Default) {
-            val best = EpgMatcher.bestEpgMatchPrepared(
-                channel.name,
-                EpgMatcher.prepare(candidates.map { EpgMatcher.Candidate(it.epgChannelId, it.displayName) }),
-            )
+            val best = EpgMatcher.bestEpgMatchPrepared(channel.name, prepareWithProgrammesFirst(candidates))
             best?.toSuggestion(channel, hasProgrammesById[best.epgChannelId] == true)
         }
     }
@@ -151,6 +146,15 @@ class EpgAutoMatcher(
         val tvg = channel.epgChannelId?.trim()?.lowercase()
         return tvg.isNullOrEmpty() || tvg !in idsWithProgrammes
     }
+
+    /**
+     * Candidates that carry programmes go first. The scorer keeps the first of equal scores, and feeds
+     * often list one channel twice under the same name — once empty — so an empty entry seen first
+     * won the tie, was then withheld for having no programmes, and the channel stayed unmatched.
+     */
+    private fun prepareWithProgrammesFirst(candidates: List<GuideCandidate>) = EpgMatcher.prepare(
+        candidates.sortedByDescending { it.hasProgrammes }.map { EpgMatcher.Candidate(it.epgChannelId, it.displayName) },
+    )
 
     private fun EpgMatcher.Result.toSuggestion(channel: ChannelEntity, hasProgrammes: Boolean) =
         AutoMatchSuggestion(

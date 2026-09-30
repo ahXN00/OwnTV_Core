@@ -13,6 +13,8 @@ import org.junit.runner.RunWith
 import tv.own.owntv.core.database.OwnTVDatabase
 import tv.own.owntv.core.database.entity.ChannelEntity
 import tv.own.owntv.core.database.entity.EpgProgrammeEntity
+import tv.own.owntv.core.model.SourceType
+import tv.own.owntv.core.database.entity.SourceEntity
 
 /**
  * Which finished programmes survive a sync.
@@ -37,6 +39,8 @@ class EpgRetentionTest {
     @Before
     fun setUp() {
         db = ownTVTestDatabase()
+        // Channels must belong to a real playlist row (channels.sourceId is a foreign key).
+        runBlocking { db.sourceDao().insert(SourceEntity(id = 1, name = "Playlist", type = SourceType.M3U, url = "http://example.invalid")) }
     }
 
     @After

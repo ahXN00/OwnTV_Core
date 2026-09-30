@@ -34,6 +34,7 @@ import java.io.IOException
 class UpdateManager(
     private val context: Context,
     private val client: OkHttpClient,
+    private val settings: tv.own.owntv.core.settings.SettingsRepository,
 ) {
     data class UpdateInfo(val version: String, val notes: String, val apkUrl: String)
 
@@ -128,6 +129,7 @@ class UpdateManager(
                         .firstOrNull()
                         ?: throw NoCompatibleApkException()
                     val info = UpdateInfo(version, notes, apkUrl)
+                    settings.recordUpdateCheck(System.currentTimeMillis())
                     if (isNewer(version, currentVersion)) _state.value = State.Available(info)
                     else _state.value = State.UpToDate
                 }

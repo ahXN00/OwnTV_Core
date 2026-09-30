@@ -16,6 +16,8 @@ import tv.own.owntv.core.database.OwnTVDatabase
 import tv.own.owntv.core.database.entity.ChannelEntity
 import tv.own.owntv.core.database.entity.EpgChannelEntity
 import tv.own.owntv.core.database.entity.EpgProgrammeEntity
+import tv.own.owntv.core.model.SourceType
+import tv.own.owntv.core.database.entity.SourceEntity
 
 /**
  * Auto-match, held to the two promises it used to break: it does not skip a channel whose guide is
@@ -32,6 +34,8 @@ class EpgAutoMatcherTest {
     @Before
     fun setUp() {
         db = ownTVTestDatabase()
+        // Channels must belong to a real playlist row (channels.sourceId is a foreign key).
+        runBlocking { db.sourceDao().insert(SourceEntity(id = playlist, name = "Playlist", type = SourceType.M3U, url = "http://example.invalid")) }
         matcher = EpgAutoMatcher(db.channelDao(), GuideCandidates(db.epgDao()))
     }
 

@@ -25,6 +25,8 @@ class SettingsBackupCoverageTest {
         // A fact about this device's decoders (tunneled playback failed here, N19), not a choice.
         "tunneling_failed",
         "last_backup_at", "last_backup_bytes", "last_backup_encrypted", "last_backup_path",
+        // When this device last asked for an update: restoring it elsewhere would claim a check that never ran.
+        "last_update_check_at",
         // A Room channel id — meaningless after the next sync.
         "last_live_channel",
         // Backed up in their own BackupManager blocks, remapped to this device's playlists / EPG sources.

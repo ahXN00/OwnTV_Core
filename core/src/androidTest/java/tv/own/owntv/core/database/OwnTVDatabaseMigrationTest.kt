@@ -654,6 +654,57 @@ class OwnTVDatabaseMigrationTest {
         }
     }
 
+    /** v46 is the public baseline (v5.0.4, core 1.0.61): its guide and user data must come through. */
+    @Test
+    fun migrateVersion46To47_addsEpgDetailsAndReminders_keepingGuideAndUserData() {
+        context.deleteDatabase(DB_NAME)
+        val db46 = context.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null)
+        try {
+            executeSchemaQueries(db46, "tv.own.owntv.core.database.OwnTVDatabase/46.json")
+            db46.execSQL("INSERT INTO profiles (id, name, avatarColor, avatarId, isKids, pinHash, createdAt) VALUES (1, 'Primary', 1122867, 7, 0, NULL, 1)")
+            db46.execSQL("INSERT INTO content_order (profileId, mediaType, contextKey, itemId, position) VALUES (1, '${MediaType.LIVE.name}', '10:cat-live', 30, 0)")
+            db46.execSQL(
+                "INSERT INTO epg_programmes (sourceId, epgChannelId, startMs, stopMs, title, description, contentHash) " +
+                    "VALUES (10, 'sky.cinema.family', 1000, 2000, 'Toy Story 4', 'Woody and friends', 42)",
+            )
+            db46.version = 46
+        } finally {
+            db46.close()
+        }
+
+        val db = openWithAllMigrations()
+        try {
+            val sqlite = openForAssertions(db)
+            listOf("categories", "year", "rating", "lengthMin", "episode").forEach { assertColumnExists(sqlite, "epg_programmes", it) }
+            // The guide row came through as it was; its details stay empty until the next sync fills them.
+            sqlite.prepare("SELECT title, description, contentHash, categories, year, rating, lengthMin, episode FROM epg_programmes").use {
+                assertTrue(it.step())
+                assertEquals("Toy Story 4", it.getText(0))
+                assertEquals("Woody and friends", it.getText(1))
+                assertEquals(42L, it.getLong(2))
+                (3..7).forEach { col -> assertTrue(it.isNull(col)) }
+            }
+            assertCount(sqlite, "profiles", 1)
+            assertCount(sqlite, "content_order", 1)
+
+            assertTableExists(sqlite, "programme_reminders")
+            assertIndexExists(sqlite, "index_programme_reminders_profileId")
+            assertIndexExists(sqlite, "index_programme_reminders_startMs")
+            assertIndexExists(sqlite, "index_programme_reminders_profileId_channelId_startMs")
+            sqlite.execSQL("PRAGMA foreign_keys = ON")
+            sqlite.execSQL(
+                "INSERT INTO programme_reminders (profileId, channelId, channelName, epgChannelId, title, startMs, stopMs, leadMinutes, createdAt) " +
+                    "VALUES (1, 259, 'Sky Cinema Family', 'sky.cinema.family', 'Toy Story 4', 1000, 2000, 5, 1)",
+            )
+            assertCount(sqlite, "programme_reminders", 1)
+            // A deleted profile takes its reminders with it.
+            sqlite.execSQL("DELETE FROM profiles WHERE id = 1")
+            assertCount(sqlite, "programme_reminders", 0)
+        } finally {
+            db.close()
+        }
+    }
+
     private fun normNameOf(db: SQLiteConnection, epgChannelId: String): String? =
         db.prepare("SELECT normName FROM epg_channels WHERE epgChannelId = ?").use {
             it.bindText(1, epgChannelId)

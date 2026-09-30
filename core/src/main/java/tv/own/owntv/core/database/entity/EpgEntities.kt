@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import tv.own.owntv.core.parser.EpgDetails
 import java.util.Objects
 
 /**
@@ -73,6 +74,24 @@ data class EpgProgrammeEntity(
     val title: String,
     val description: String? = null,
     @ColumnInfo(defaultValue = "0") val contentHash: Int = 0,
+    // The details line (v47, Stage G1), from XMLTV only; null when the feed does not carry it.
+    // See tv.own.owntv.core.parser.EpgDetails — [categories] is joined by its separator.
+    val categories: String? = null,
+    val year: Int? = null,
+    val rating: String? = null,
+    val lengthMin: Int? = null,
+    val episode: String? = null,
+) {
+    val details: EpgDetails get() = EpgDetails(categories, year, rating, lengthMin, episode)
+}
+
+/** A programme row carrying the feed's [details]. */
+fun EpgProgrammeEntity.withDetails(details: EpgDetails): EpgProgrammeEntity = if (details == EpgDetails.NONE) this else copy(
+    categories = details.categories,
+    year = details.year,
+    rating = details.rating,
+    lengthMin = details.lengthMin,
+    episode = details.episode,
 )
 
 /** Projection for the "Prefer EPG logos" override: one EPG channel id → its feed icon. */
@@ -105,4 +124,7 @@ data class EpgProgrammeKey(
     val startMs: Long,
 )
 
-fun EpgProgrammeEntity.computeContentHash(): Int = Objects.hash(title, description, stopMs)
+// The details are part of the hash, so a feed that starts sending them (or the first sync after v47)
+// rewrites the rows instead of skipping them as unchanged.
+fun EpgProgrammeEntity.computeContentHash(): Int =
+    Objects.hash(title, description, stopMs, categories, year, rating, lengthMin, episode)

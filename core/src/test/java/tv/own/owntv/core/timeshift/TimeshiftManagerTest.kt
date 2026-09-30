@@ -117,8 +117,7 @@ class TimeshiftManagerTest {
         val first = manager.open("ch1", target(), 15, 5_000)!!.session
         val second = manager.open("ch2", target(), 15, 5_000)!!.session
         manager.open("ch3", target(), 15, 5_000)!!.session
-        Thread.sleep(300)
-        assertTrue("the oldest parked buffer is gone", first.isClosed)
+        assertTrue("the oldest parked buffer is gone", eventually { first.isClosed })
         assertTrue(!second.isClosed)
     }
 
@@ -138,8 +137,8 @@ class TimeshiftManagerTest {
         manager.open("7:1", target(sourceId = 7), 15, 5_000)!!
         assertTrue(manager.isSaving(7))
         assertTrue(!manager.isSaving(8))
-        Thread.sleep(1_000) // nobody reading: parked, the connection closed
-        assertTrue(!manager.isSaving(7))
+        // Nobody reading: parked after about a second, the connection closed.
+        assertTrue(eventually { !manager.isSaving(7) })
     }
 
     @Test
@@ -157,5 +156,18 @@ class TimeshiftManagerTest {
         val garbage = TimeshiftDownloader.Target({ "http://127.0.0.1:${notTs.localPort}/x" }, "t", emptyMap(), null)
         assertNull(manager.open("ch9", garbage, 15, 5_000))
         notTs.close()
+    }
+
+    /**
+     * Polls [condition] until it holds or [timeoutMs] passes. The manager closes and parks on its own
+     * threads, so a fixed sleep made these tests fail whenever the machine was busy.
+     */
+    private fun eventually(timeoutMs: Long = 5_000, condition: () -> Boolean): Boolean {
+        val deadline = System.currentTimeMillis() + timeoutMs
+        while (System.currentTimeMillis() < deadline) {
+            if (condition()) return true
+            Thread.sleep(20)
+        }
+        return condition()
     }
 }

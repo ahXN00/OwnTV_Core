@@ -41,34 +41,6 @@ interface EpgDao {
     @Query("DELETE FROM epg_programmes WHERE startMs > :after")
     suspend fun pruneFuture(after: Long)
 
-    /**
-     * Collapse a programme that two feeds both carry, at write time instead of on every read.
-     *
-     * Guide rows are keyed by `epgChannelId` across every feed, so when two of them cover one channel
-     * the same programme is stored twice — the unique key is `(sourceId, epgChannelId, startMs)`, so
-     * it cannot prevent it. [tv.own.owntv.core.epg.EpgDedupe] has always hidden that on read; this
-     * stops it being stored in the first place.
-     *
-     * The test and the tie-break are **[tv.own.owntv.core.epg.EpgDedupe]'s, exactly**: same title and
-     * overlapping time (both halves — overlapping alone is two feeds disagreeing, and a repeated
-     * title without overlap is a real repeat), keeping the longest span so the grid draws no gap, and
-     * the lowest id where the spans are equal. If the two ever disagreed, a row would vanish from
-     * storage that the read path would have kept.
-     *
-     * The read-side collapse stays as the safety net: a feed can still be re-synced under a second
-     * store id between writes, and that is what makes the gap invisible until this runs again.
-     */
-    @Query(
-        "DELETE FROM epg_programmes WHERE id IN (" +
-            "SELECT a.id FROM epg_programmes a JOIN epg_programmes b " +
-            "ON a.epgChannelId = b.epgChannelId AND a.id <> b.id AND a.title = b.title " +
-            "AND a.startMs < b.stopMs AND b.startMs < a.stopMs " +
-            "AND ((b.stopMs - b.startMs) > (a.stopMs - a.startMs) " +
-            "OR ((b.stopMs - b.startMs) = (a.stopMs - a.startMs) AND b.id < a.id))" +
-            ")",
-    )
-    suspend fun collapseDuplicateProgrammes(): Int
-
     /** Rows of one store outside the window a full re-crawl just served — i.e. ones it did not replace.
      *  Used by the Stalker portal guide, where the portal's answer is the whole truth for that store. */
     @Query("DELETE FROM epg_programmes WHERE sourceId = :sourceId AND (stopMs <= :from OR startMs >= :to)")

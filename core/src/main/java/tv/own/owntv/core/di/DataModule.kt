@@ -285,6 +285,10 @@ val dataModule = module {
             androidContext(), get(), get(), get(), get(), get(), get(), get(), get(),
         )
     }
+    // Programme reminders (Stage G2): context, reminderDao — then reminderDao, scheduler. Eager for the
+    // same reason as RecordingManager: every launch re-arms, whether or not BOOT_COMPLETED arrived.
+    single { tv.own.owntv.core.reminder.ReminderScheduler(androidContext(), get()) }
+    single(createdAtStart = true) { tv.own.owntv.core.reminder.ReminderManager(get(), get()) }
     // profileDao, sourceDao, settings, customizationStore, userDataResolver, epgSourceStore,
     // forceMpvStore, vodEngineStore, db, metadataOverrideStore, metadataDao, openSubtitlesAuthStore,
     // backgroundsDir (same folder ingestBackgroundImage writes to — the .own container carries the wallpaper),
@@ -302,7 +306,7 @@ val dataModule = module {
     single { tv.own.owntv.core.profile.ProfileAvatarStore(androidContext()) }
     single { tv.own.owntv.core.profile.ProfileManager(get(), get(), get(), get(), get(), get()) }
     // context, okHttpClient — in-app updates from GitHub Releases
-    single { UpdateManager(androidContext(), get()) }
+    single { UpdateManager(androidContext(), get(), get()) }
     single { CatalogSyncScheduler(androidContext()) }
     single { EpgSyncScheduler(androidContext()) }
     // profileDao, sourceDao, sourceRepository, backup, settings, connectivity, importFinalizer,

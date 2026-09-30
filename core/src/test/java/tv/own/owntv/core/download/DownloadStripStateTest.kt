@@ -114,7 +114,7 @@ class DownloadStripStateTest {
     fun `the tracker turns bytes into a fraction and clears when the transfer ends`() {
         val tracker = DownloadActivityTracker()
         assertNull(tracker.active.value)
-        tracker.progress(DownloadProgress("A Film", 40, 200))
+        tracker.progress(DownloadProgress(7, "A Film", 40, 200))
         val active = tracker.active.value!!
         assertEquals("A Film", active.title)
         assertEquals(0.2f, active.progress!!, 0.0001f)
@@ -125,7 +125,7 @@ class DownloadStripStateTest {
     @Test
     fun `the tracker has no fraction until the size is known`() {
         val tracker = DownloadActivityTracker()
-        tracker.progress(DownloadProgress("A Film", 40, 0))
+        tracker.progress(DownloadProgress(7, "A Film", 40, 0))
         assertNull(tracker.active.value!!.progress)
     }
 }

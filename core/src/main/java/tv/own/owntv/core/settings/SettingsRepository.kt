@@ -638,6 +638,9 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val LAST_BACKUP_BYTES = longPreferencesKey("last_backup_bytes")
         val LAST_BACKUP_ENCRYPTED = booleanPreferencesKey("last_backup_encrypted")
         val LAST_BACKUP_PATH = stringPreferencesKey("last_backup_path")
+
+        // When an update check last got an answer from GitHub (About's "Checked today, 20:12", G13).
+        val LAST_UPDATE_CHECK_AT = longPreferencesKey("last_update_check_at")
     }
 
     /**
@@ -669,6 +672,14 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             it[Keys.LAST_BACKUP_ENCRYPTED] = encrypted
             it[Keys.LAST_BACKUP_PATH] = path
         }
+    }
+
+    /** The last update check that got an answer (up to date or a new version); `null` until one has. */
+    val lastUpdateCheckAt: Flow<Long?> = prefsFlow { it[Keys.LAST_UPDATE_CHECK_AT]?.takeIf { at -> at > 0 } }
+
+    /** Called by [tv.own.owntv.core.update.UpdateManager] only when a check succeeded. */
+    suspend fun recordUpdateCheck(at: Long) {
+        context.dataStore.edit { it[Keys.LAST_UPDATE_CHECK_AT] = at }
     }
 
     // --- Live TV: remember the last focused channel so reopening lands focus back on it ---
