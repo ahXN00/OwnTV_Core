@@ -1513,22 +1513,26 @@
     <string name="app_icon_restart_now">Перезапустить сейчас</string>
     <string name="settings_navigation">Навигация</string>
     <string name="settings_navigation_description">Как ведёт себя меню слева</string>
-    <string name="settings_nav_floating_auto">Плавающее, скрывается само</string>
-    <string name="settings_nav_floating_auto_desc">Уходит в сторону, пока вы просматриваете; нажмите ◀ у края, чтобы вернуть его</string>
-    <string name="settings_nav_floating">Плавающее, всегда видно</string>
-    <string name="settings_nav_floating_desc">Капсула со значками остаётся на экране</string>
-    <string name="settings_nav_docked">Закреплённая панель значков</string>
-    <string name="settings_nav_docked_desc">Нынешняя закреплённая панель без изменений</string>
-    <string name="settings_nav_docked_labels">Закреплённая с подписями</string>
-    <string name="settings_nav_docked_labels_desc">Значки и названия, всегда открыто</string>
+    <string name="settings_nav_floating">Плавающая</string>
+    <string name="settings_nav_floating_desc">Поверх содержимого; скрывается при просмотре, ◀ у края возвращает её</string>
+    <string name="settings_nav_docked">Закреплённая</string>
+    <string name="settings_nav_docked_desc">Всегда на экране; содержимое сдвигается</string>
     <string name="settings_nav_hide_after">Скрывать через</string>
-    <string name="settings_nav_hide_after_desc">Сколько панель ждёт после того, как фокус уйдёт с неё</string>
-    <string name="settings_nav_show_counts">Показывать количество</string>
-    <string name="settings_nav_show_counts_desc">Количество каналов и названий рядом с каждым пунктом</string>
+    <string name="settings_nav_hide_after_desc">Только плавающая: сколько панель ждёт после ухода фокуса</string>
     <string name="settings_nav_menu_items">Пункты меню</string>
     <string name="settings_nav_menu_items_desc"><xliff:g id="screen">%1$s</xliff:g>: динамически или на ваш выбор</string>
-    <string name="settings_search_keywords_navigation">панель, боковая панель, меню, навигация, скрыть, плавающее, закреплённое, подписи, количество</string>
+    <string name="settings_search_keywords_navigation">панель, боковая панель, меню, навигация, скрыть, плавающая, закреплённая, размер, компактная, широкая, длина, вся высота</string>
     <string name="settings_breadcrumb_eyebrow"><xliff:g id="section">%1$s</xliff:g> · <xliff:g id="group">%2$s</xliff:g></string>
+    <string name="settings_nav_size_desc">Компактная: значки · Обычная: названия · Широкая: названия и числа · Очень широкая: с подробностями</string>
+    <string name="settings_nav_size_compact">Компактная</string>
+    <string name="settings_nav_size_normal">Обычная</string>
+    <string name="settings_nav_size_wide">Широкая</string>
+    <string name="settings_nav_size_extra_wide">Очень широкая</string>
+    <string name="settings_nav_length">Длина</string>
+    <string name="settings_nav_length_desc">По пунктам или на всю высоту экрана</string>
+    <string name="settings_nav_length_fit">По пунктам</string>
+    <string name="settings_nav_length_full">Вся высота</string>
+    <string name="settings_nav_hide_after_half">0,5 секунды</string>
     <plurals name="settings_nav_hide_after_seconds">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> секунда</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> секунды</item>

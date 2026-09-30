@@ -1444,22 +1444,26 @@
     <string name="app_icon_restart_now">今すぐ再起動</string>
     <string name="settings_navigation">ナビゲーション</string>
     <string name="settings_navigation_description">左側のメニューの動作</string>
-    <string name="settings_nav_floating_auto">フローティング（自動で隠れる）</string>
-    <string name="settings_nav_floating_auto_desc">閲覧中は隠れます。端で ◀ を押すと戻ります</string>
-    <string name="settings_nav_floating">フローティング（常に表示）</string>
-    <string name="settings_nav_floating_desc">アイコンのカプセルが画面に残ります</string>
-    <string name="settings_nav_docked">固定アイコンレール</string>
-    <string name="settings_nav_docked_desc">現在の固定レール（変更なし）</string>
-    <string name="settings_nav_docked_labels">ラベル付きで固定</string>
-    <string name="settings_nav_docked_labels_desc">アイコンと名前、常に展開</string>
+    <string name="settings_nav_floating">フローティング</string>
+    <string name="settings_nav_floating_desc">コンテンツの上に表示。閲覧中は隠れ、端で ◀ を押すと戻ります</string>
+    <string name="settings_nav_docked">固定</string>
+    <string name="settings_nav_docked_desc">常に表示。コンテンツが場所を空けます</string>
     <string name="settings_nav_hide_after">非表示までの時間</string>
-    <string name="settings_nav_hide_after_desc">フォーカスが離れてからレールが待つ時間</string>
-    <string name="settings_nav_show_counts">件数を表示</string>
-    <string name="settings_nav_show_counts_desc">各名前の横にチャンネル数とタイトル数</string>
+    <string name="settings_nav_hide_after_desc">フローティングのみ：フォーカスが離れてから隠れるまでの時間</string>
     <string name="settings_nav_menu_items">メニュー項目</string>
     <string name="settings_nav_menu_items_desc"><xliff:g id="screen">%1$s</xliff:g>：動的、または自分で選択</string>
-    <string name="settings_search_keywords_navigation">レール, サイドバー, メニュー, ナビゲーション, 非表示, フローティング, 固定, ラベル, 件数</string>
+    <string name="settings_search_keywords_navigation">レール, サイドバー, メニュー, ナビゲーション, 隠す, フローティング, 固定, サイズ, コンパクト, ワイド, 長さ, 全高</string>
     <string name="settings_breadcrumb_eyebrow"><xliff:g id="section">%1$s</xliff:g> · <xliff:g id="group">%2$s</xliff:g></string>
+    <string name="settings_nav_size_desc">コンパクト：アイコン · 標準：名前 · ワイド：名前と件数 · エクストラワイド：詳細付き</string>
+    <string name="settings_nav_size_compact">コンパクト</string>
+    <string name="settings_nav_size_normal">標準</string>
+    <string name="settings_nav_size_wide">ワイド</string>
+    <string name="settings_nav_size_extra_wide">エクストラワイド</string>
+    <string name="settings_nav_length">長さ</string>
+    <string name="settings_nav_length_desc">項目に合わせる、または画面の高さいっぱい</string>
+    <string name="settings_nav_length_fit">項目に合わせる</string>
+    <string name="settings_nav_length_full">全高</string>
+    <string name="settings_nav_hide_after_half">0.5秒</string>
     <plurals name="settings_nav_hide_after_seconds">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 秒</item>
     </plurals>

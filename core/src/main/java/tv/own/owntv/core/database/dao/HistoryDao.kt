@@ -73,6 +73,10 @@ interface HistoryDao {
     @Query("SELECT * FROM watch_history WHERE profileId = :profileId ORDER BY watchedAt DESC LIMIT 1")
     fun observeMostRecent(profileId: Long): Flow<WatchHistoryEntity?>
 
+    /** The most-recently-watched item of one type — the TV rail's details line (Last channel, Resume …). */
+    @Query("SELECT * FROM watch_history WHERE profileId = :profileId AND mediaType = :type ORDER BY watchedAt DESC LIMIT 1")
+    fun observeMostRecentOfType(profileId: Long, type: MediaType): Flow<WatchHistoryEntity?>
+
     /** One profile's history rows, so a "clear" can record each deletion before it happens. */
     @Query("SELECT * FROM watch_history WHERE profileId = :profileId")
     suspend fun getForProfile(profileId: Long): List<WatchHistoryEntity>

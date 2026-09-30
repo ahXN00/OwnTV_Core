@@ -1107,6 +1107,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/HistoryDao.kt	SELECT * FROM watch_history
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/HistoryDao.kt	SELECT * FROM watch_history WHERE profileId = :profileId
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/HistoryDao.kt	SELECT * FROM watch_history WHERE profileId = :profileId AND mediaType = :type
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/HistoryDao.kt	SELECT * FROM watch_history WHERE profileId = :profileId AND mediaType = :type ORDER BY watchedAt DESC LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/HistoryDao.kt	SELECT * FROM watch_history WHERE profileId = :profileId ORDER BY watchedAt DESC LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/HistoryDao.kt	SELECT COUNT(*) FROM watch_history WHERE profileId = :profileId AND mediaType = :type
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/HistoryDao.kt	SELECT EXISTS(SELECT 1 FROM watch_history WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId)
@@ -2836,10 +2837,11 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	multiview_tiles
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	multiview_warning_accepted
 2	json	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	name
-1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	nav_hide_after_secs
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	nav_hide_after_ms
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	nav_length
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	nav_menu_hidden
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	nav_menu_mode
-1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	nav_show_counts
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	nav_size
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	nav_style
 1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	night_mode
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	open_subtitles_api_key

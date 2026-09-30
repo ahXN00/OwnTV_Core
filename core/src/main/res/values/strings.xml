@@ -287,6 +287,21 @@
     <!-- Display-only brand fragments. They intentionally live in donottranslate.xml instead. -->
     <!-- Translators: Under the profile name in the open navigation menu: the playlist being shown, then an invitation to switch profile. "playlist" is e.g. All playlists. -->
     <string name="shell_rail_profile_line"><xliff:g id="playlist">%1$s</xliff:g> · switch</string>
+    <!-- Translators: Line under Live TV in the widest menu: the last channel watched. -->
+    <string name="shell_rail_detail_last">Last: <xliff:g id="title">%1$s</xliff:g></string>
+    <!-- Translators: Line under Movies or Series in the widest menu: a title to resume. -->
+    <string name="shell_rail_detail_resume">Resume: <xliff:g id="title">%1$s</xliff:g></string>
+    <!-- Translators: Line under Series in the widest menu: the next episode, e.g. "Solo Leveling S1 · E3". -->
+    <string name="shell_rail_detail_next">Next: <xliff:g id="title">%1$s</xliff:g></string>
+    <!-- Translators: The series and its episode code together in that line, e.g. "Solo Leveling" and "S1 · E3". -->
+    <string name="shell_rail_detail_episode"><xliff:g id="series">%1$s</xliff:g> <xliff:g id="episode">%2$s</xliff:g></string>
+    <!-- Translators: Line under More in the widest menu: what More holds. -->
+    <string name="shell_rail_detail_more">Settings, favorites, backup</string>
+    <!-- Translators: Line under Downloads in the widest menu: how many are downloading, then the progress, e.g. "1 downloading · 64%". -->
+    <plurals name="shell_rail_detail_downloads">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> downloading · <xliff:g id="progress">%2$s</xliff:g></item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> downloading · <xliff:g id="progress">%2$s</xliff:g></item>
+    </plurals>
     <!-- Translators: Small tag after Now playing in the navigation menu while only the sound of a stream is playing (Audio mode). -->
     <string name="shell_now_playing_audio">Audio</string>
     <!-- Translators: Weather under the clock: the temperature as a bare number with the degree sign (the unit is the one chosen in Settings), then the city, e.g. 26° Düsseldorf. -->

@@ -2681,39 +2681,47 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <string name="settings_navigation">Navigation</string>
     <!-- Translators: Description of the Navigation settings row. -->
     <string name="settings_navigation_description">How the menu on the left behaves</string>
-    <!-- Translators: Navigation style option: a floating rail that slides away on its own. -->
-    <string name="settings_nav_floating_auto">Floating, hides itself</string>
+    <!-- Translators: Navigation style option: a rail that floats over the content and hides itself. -->
+    <string name="settings_nav_floating">Floating</string>
     <!-- Translators: Explains the option above. The arrow is the remote's Left key; use the key that points to the side the menu is on. -->
-    <string name="settings_nav_floating_auto_desc">Slides away while you browse; press ◀ at the edge to call it back</string>
-    <!-- Translators: Navigation style option: a floating rail that never hides. -->
-    <string name="settings_nav_floating">Floating, always visible</string>
-    <!-- Translators: Explains the option above. The capsule is the rounded bar of icons. -->
-    <string name="settings_nav_floating_desc">Icon capsule stays on screen</string>
-    <!-- Translators: Navigation style option: the fixed rail of icons along the left edge. -->
-    <string name="settings_nav_docked">Docked icon rail</string>
-    <!-- Translators: Explains the option above: the rail as it looked before this redesign. -->
-    <string name="settings_nav_docked_desc">Today’s fixed rail, unchanged</string>
-    <!-- Translators: Navigation style option: a fixed rail that shows names next to the icons. -->
-    <string name="settings_nav_docked_labels">Docked with labels</string>
+    <string name="settings_nav_floating_desc">Over the content; hides itself while you browse, ◀ at the edge calls it back</string>
+    <!-- Translators: Navigation style option: a rail that always stays on screen, beside the content. -->
+    <string name="settings_nav_docked">Docked</string>
     <!-- Translators: Explains the option above. -->
-    <string name="settings_nav_docked_labels_desc">Icons and names, always open</string>
+    <string name="settings_nav_docked_desc">Always on screen; the content makes room</string>
     <!-- Translators: Setting: how long the floating rail waits before it hides. -->
     <string name="settings_nav_hide_after">Hide after</string>
-    <!-- Translators: Explains the Hide after setting. -->
-    <string name="settings_nav_hide_after_desc">How long the rail waits once focus leaves it</string>
-    <!-- Translators: Setting: show the number of channels or titles next to each menu item. -->
-    <string name="settings_nav_show_counts">Show counts</string>
-    <!-- Translators: Explains the Show counts setting. -->
-    <string name="settings_nav_show_counts_desc">Channel and title counts next to each name</string>
+    <!-- Translators: Explains the Hide after setting; it only applies to the Floating style. -->
+    <string name="settings_nav_hide_after_desc">Floating only: how long the rail waits once focus leaves it</string>
     <!-- Translators: Setting: which items the navigation menu shows. -->
     <string name="settings_nav_menu_items">Menu items</string>
     <!-- Translators: Explains the Menu items setting. "screen" is the name of the settings screen it opens (Sidebar Menu Customization). -->
     <string name="settings_nav_menu_items_desc"><xliff:g id="screen">%1$s</xliff:g>: Dynamic or pick your own</string>
     <!-- Translators: Hidden keyword bag for the Navigation settings. Translate as individual search terms. -->
-    <string name="settings_search_keywords_navigation">rail, sidebar, menu, navigation, hide, floating, docked, labels, counts</string>
+    <string name="settings_search_keywords_navigation">rail, sidebar, menu, navigation, hide, floating, docked, size, compact, wide, length, full height</string>
     <!-- Translators: Small heading above a settings popup title: where the setting lives, e.g. "SETTINGS · LAYOUT". Keep the separator unless your language uses another one. -->
     <string name="settings_breadcrumb_eyebrow"><xliff:g id="section">%1$s</xliff:g> · <xliff:g id="group">%2$s</xliff:g></string>
-    <!-- Translators: How long the rail waits before hiding, e.g. 4 seconds. -->
+    <!-- Translators: Explains the rail Size setting: what each of its four sizes shows. -->
+    <string name="settings_nav_size_desc">Compact: icons · Normal: names · Wide: names and counts · Extra wide: with details</string>
+    <!-- Translators: Rail size: icons only. -->
+    <string name="settings_nav_size_compact">Compact</string>
+    <!-- Translators: Rail size: icons and names. -->
+    <string name="settings_nav_size_normal">Normal</string>
+    <!-- Translators: Rail size: icons, names and counts. -->
+    <string name="settings_nav_size_wide">Wide</string>
+    <!-- Translators: Rail size: icons, names, counts and a details line. -->
+    <string name="settings_nav_size_extra_wide">Extra wide</string>
+    <!-- Translators: Setting: how tall the navigation rail is. -->
+    <string name="settings_nav_length">Length</string>
+    <!-- Translators: Explains the Length setting. -->
+    <string name="settings_nav_length_desc">Fit to its items, or the full height of the screen</string>
+    <!-- Translators: Length option: as tall as its items. -->
+    <string name="settings_nav_length_fit">Fit to items</string>
+    <!-- Translators: Length option: the full height of the screen. -->
+    <string name="settings_nav_length_full">Full height</string>
+    <!-- Translators: Hide after option: half a second. Use your language's decimal separator. -->
+    <string name="settings_nav_hide_after_half">0.5 seconds</string>
+    <!-- Translators: How long the rail waits before hiding, e.g. 2 seconds. -->
     <plurals name="settings_nav_hide_after_seconds">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> second</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> seconds</item>
