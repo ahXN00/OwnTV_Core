@@ -500,6 +500,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val VOD_GRID_COLUMNS = intPreferencesKey("vod_grid_columns")
         val VOD_VIEW_MODE = stringPreferencesKey("vod_view_mode")
         val VOD_LAYOUT = stringPreferencesKey("vod_layout")
+        val LIVE_LAYOUT = stringPreferencesKey("live_layout")
         val GUIDE_VIEW = stringPreferencesKey("guide_view")
         val GUIDE_DENSITY_PCT = intPreferencesKey("guide_density_pct")
         val EPISODE_VIEW_MODE = stringPreferencesKey("episode_view_mode")
@@ -579,6 +580,9 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val PANEL_W_LIVE_CAT = intPreferencesKey("panel_w_live_cat")
         val PANEL_W_LIVE_LIST = intPreferencesKey("panel_w_live_list")
         val PANEL_W_LIVE_PREVIEW = intPreferencesKey("panel_w_live_preview")
+        val LIVE_STAGE_SHEET = intPreferencesKey("live_stage_sheet")
+        val LIVE_STAGE_LIST = intPreferencesKey("live_stage_list")
+        val LIVE_STAGE_PREVIEW = intPreferencesKey("live_stage_preview")
         val PANEL_W_MOVIES_ON = booleanPreferencesKey("panel_w_movies_on")
         val PANEL_W_MOVIES_CAT = intPreferencesKey("panel_w_movies_cat")
         val PANEL_W_MOVIES_LIST = intPreferencesKey("panel_w_movies_list")
@@ -1261,6 +1265,18 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     }
 
     /**
+     * Live TV layout. STAGE (default for everyone, updates included) opens the categories as a sheet
+     * with Left; SEPARATE keeps a category column on screen beside the channel list and preview.
+     */
+    enum class LiveLayout { STAGE, SEPARATE }
+    val liveLayout: Flow<LiveLayout> = prefsFlow { prefs ->
+        prefs[Keys.LIVE_LAYOUT]?.let { runCatching { LiveLayout.valueOf(it) }.getOrNull() } ?: LiveLayout.STAGE
+    }
+    suspend fun setLiveLayout(layout: LiveLayout) {
+        context.dataStore.edit { it[Keys.LIVE_LAYOUT] = layout.name }
+    }
+
+    /**
      * How many posters a row of the Movies/Series grid holds. 0 means "decide from the screen", which
      * is what a device that has never been pinched reports — a phone in portrait, the same phone in
      * landscape and a tablet all want a different number, and one stored count cannot serve all three.
@@ -1927,6 +1943,31 @@ class SettingsRepository(private val context: Context, private val localeStore: 
 
     suspend fun setCinematicDetailsHeight(s: PanelSection, percent: Int) {
         context.dataStore.edit { it[cinematicDetailsKey(s)] = percent.coerceIn(0, CINEMATIC_DETAILS_MAX) }
+    }
+
+    /**
+     * Live TV's Stage-layout widths ([LiveStageWidths]), or null when never saved. They share the
+     * section's on/off toggle with [panelShares], which stays the Separate-panels layout's row.
+     */
+    val liveStageWidths: Flow<LiveStageWidths?> = prefsFlow { p ->
+        val sheet = p[Keys.LIVE_STAGE_SHEET]
+        val list = p[Keys.LIVE_STAGE_LIST]
+        val preview = p[Keys.LIVE_STAGE_PREVIEW]
+        if (sheet == null || list == null || preview == null) null
+        else LiveStageWidths(sheet, list, preview).takeIf { it.isValid }
+    }
+
+    /** "Okay" in the Live TV panel-width dialog while the layout is Stage. An invalid set is ignored. */
+    suspend fun setLiveStageWidths(enabled: Boolean, widths: LiveStageWidths) {
+        if (!widths.isValid) return
+        context.dataStore.edit {
+            it[Keys.PANEL_W_LIVE_ON] = enabled
+            it[Keys.LIVE_STAGE_SHEET] = widths.sheet
+            it[Keys.LIVE_STAGE_LIST] = widths.list
+            it[Keys.LIVE_STAGE_PREVIEW] = widths.preview
+            // As for the Separate row: a hidden preview pane means no preview playback either.
+            if (enabled && widths.preview == 0) it[Keys.LIVE_PREVIEW] = false
+        }
     }
 
     private fun cinematicDetailsKey(s: PanelSection) =
@@ -2813,7 +2854,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             Keys.MAIN_FONT_FAMILY, Keys.POPUP_FONT_FAMILY,
             Keys.PREF_AUDIO_LANG, Keys.PREF_SUB_LANG, Keys.SUB_SEARCH_LANGS, Keys.SORT_LIVE, Keys.SORT_GUIDE, Keys.SORT_MOVIES,
             Keys.SORT_SERIES, Keys.RESUME_MODE, Keys.CATCHUP_TZ, Keys.CATCHUP_PLAYER, Keys.ANIMATION_LEVEL, Keys.VOD_VIEW_MODE, Keys.GUIDE_VIEW,
-            Keys.EPISODE_VIEW_MODE, Keys.VOD_LAYOUT,
+            Keys.EPISODE_VIEW_MODE, Keys.VOD_LAYOUT, Keys.LIVE_LAYOUT,
             Keys.WEATHER_LOCATION, Keys.RECENT_SEARCHES,
             // Global proxy — non-secret fields only. The proxy password (Keys.PROXY_PASS) is NEVER part of
             // this whitelist; it is handled separately by BackupManager (encrypted or omitted).
@@ -2865,6 +2906,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         )
         val ints = listOf(Keys.GUIDE_DAYS_TO_KEEP, Keys.FOCUS_HIGHLIGHT_WIDTH, Keys.DEFAULT_VOLUME, Keys.SEEK_STEP_SEC, Keys.LIVE_REWIND_STEP_SEC, Keys.UI_ZOOM_PCT, Keys.FONT_SIZE_PCT, Keys.AUDIO_DELAY_MS, Keys.CATCHUP_OFFSET_MIN, Keys.EPG_OFFSET_MIN, Keys.PROXY_PORT, Keys.DNS_PORT, Keys.CH_NAV_UP_SKIP, Keys.CH_NAV_DOWN_SKIP, Keys.MINI_PLAYER_SIZE_PCT, Keys.LIVE_LATENCY_CUSTOM_SECS, Keys.LIVE_PREROLL_SECS, Keys.LIVE_TUNE_TIMEOUT_SECS, Keys.GLASS_SCOPE, Keys.GLASS_ALPHA, Keys.GLASS_BLUR, Keys.GLASS_HIGHLIGHT, Keys.SUB_BG_OPACITY,
             Keys.PANEL_W_LIVE_CAT, Keys.PANEL_W_LIVE_LIST, Keys.PANEL_W_LIVE_PREVIEW,
+            Keys.LIVE_STAGE_SHEET, Keys.LIVE_STAGE_LIST, Keys.LIVE_STAGE_PREVIEW,
             Keys.PANEL_W_MOVIES_CAT, Keys.PANEL_W_MOVIES_LIST, Keys.PANEL_W_MOVIES_PREVIEW,
                 Keys.PANEL_W_SERIES_CAT, Keys.PANEL_W_SERIES_LIST, Keys.PANEL_W_SERIES_PREVIEW,
             Keys.CINEMATIC_DETAILS_MOVIES, Keys.CINEMATIC_DETAILS_SERIES,

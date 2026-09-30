@@ -26,4 +26,23 @@ class PanelWidthsTest {
         assertFalse(PanelShares(90, 10, 0).isValid)
         assertEquals(PanelShares(80, 20, 0), balanceToTotal(PanelShares(90, 10, 0)))
     }
+
+    @Test
+    fun `stage sheet takes no part in the row, list and preview make 100`() {
+        assertTrue(LiveStageWidths(30, 45, 55).isValid)
+        assertTrue(LiveStageWidths.DEFAULT.isValid)
+        assertFalse(LiveStageWidths(30, 45, 45).isValid)
+    }
+
+    @Test
+    fun `stage preview 0 gives the list the whole row`() {
+        assertTrue(LiveStageWidths(25, 100, 0).isValid)
+        assertFalse(LiveStageWidths(25, 95, 5).isValid)
+    }
+
+    @Test
+    fun `stage sheet stays within its own range`() {
+        assertFalse(LiveStageWidths(LiveStageWidths.LIVE_SHEET_MIN - 5, 50, 50).isValid)
+        assertFalse(LiveStageWidths(LiveStageWidths.LIVE_SHEET_MAX + 5, 50, 50).isValid)
+    }
 }

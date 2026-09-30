@@ -306,6 +306,13 @@ interface ChannelDao {
     @Query("SELECT COUNT(*) FROM channels WHERE categoryId = :categoryId")
     fun countByCategory(categoryId: Long): Flow<Int>
 
+    /** [countByCategory] for every category of [sourceIds] at once — the counts beside each Live TV group. */
+    @Query(
+        "SELECT categoryId, COUNT(*) AS itemCount FROM channels " +
+            "WHERE sourceId IN (:sourceIds) AND categoryId IS NOT NULL GROUP BY categoryId",
+    )
+    fun observeCountsByCategory(sourceIds: List<Long>): Flow<List<CategoryItemCount>>
+
     @Query("SELECT COUNT(*) FROM channels WHERE sourceId IN (:sourceIds)")
     fun countAll(sourceIds: List<Long>): Flow<Int>
 

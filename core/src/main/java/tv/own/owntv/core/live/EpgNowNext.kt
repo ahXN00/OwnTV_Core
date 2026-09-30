@@ -13,4 +13,7 @@ data class EpgNowNext(
     /** Whole days of stored guide coverage for this channel (latest stop − earliest start).
      *  Null when unknown/short-EPG only. Drives the "EPG · Nd" hint in the preview metadata. */
     val coverageDays: Int? = null,
+    /** The airing programme's XMLTV details (categories, year, rating, length) — stored guide only;
+     *  null on the short-EPG path, which carries none. */
+    val nowDetails: tv.own.owntv.core.parser.EpgDetails? = null,
 )

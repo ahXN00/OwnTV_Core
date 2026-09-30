@@ -117,7 +117,7 @@ class LiveEpgReader(
                     // leaves this null, since its ~8 entries only span a few hours).
                     val days = runCatching { epgDao.coverageDays(epgKey) }.getOrNull()?.takeIf { it > 0 }
                     fun EpgProgrammeEntity.shifted() = EpgShift.apply(this, shift).toXt()
-                    val result = EpgNowNext(nowProg?.shifted(), nextProg?.shifted(), future.drop(1).take(4).map { it.shifted() }, previous = prevProg?.shifted(), coverageDays = days)
+                    val result = EpgNowNext(nowProg?.shifted(), nextProg?.shifted(), future.drop(1).take(4).map { it.shifted() }, previous = prevProg?.shifted(), coverageDays = days, nowDetails = nowProg?.details)
                     cache[ch.id] = CachedEpg(now, result)
                     return@withContext result
                 }
@@ -236,7 +236,18 @@ class LiveEpgReader(
         channels: List<ChannelEntity>,
         cust: SectionCustomizations,
         globalShiftMinutes: Int,
-    ): Map<Long, String> = withContext(Dispatchers.IO) {
+    ): Map<Long, String> = nowProgrammesFor(channels, cust, globalShiftMinutes).mapValues { it.value.title }
+
+    /**
+     * [nowPlayingFor] with the programme's start and stop as well, in display time (the channel's
+     * guide offset applied), for the rows that show "1 h 23 min left" and a progress bar. Same two
+     * passes, same no-network rule; the description is always null.
+     */
+    suspend fun nowProgrammesFor(
+        channels: List<ChannelEntity>,
+        cust: SectionCustomizations,
+        globalShiftMinutes: Int,
+    ): Map<Long, XtEpgEntry> = withContext(Dispatchers.IO) {
         if (channels.isEmpty()) return@withContext emptyMap()
         val now = System.currentTimeMillis()
         // Every playlist plus every EPG feed — NOT just the sources the visible page happens to come
@@ -259,8 +270,9 @@ class LiveEpgReader(
         if (channelKeys.isEmpty()) return@withContext emptyMap()
         val startedAt = android.os.SystemClock.elapsedRealtime()
         var chunks = 0
-        val result = HashMap<Long, String>()
+        val result = HashMap<Long, XtEpgEntry>()
         for ((shift, group) in channelKeys.groupBy { it.third }) {
+            val delta = shift * 60_000L
             val at = EpgShift.toStored(now, shift)
             val rowsByKey = group
                 .map { it.second }.distinct()
@@ -273,7 +285,7 @@ class LiveEpgReader(
             for ((channelId, epgKey, _) in group) {
                 rowsByKey[epgKey]
                     ?.firstOrNull { at in it.startMs until it.stopMs }
-                    ?.let { result[channelId] = it.title }
+                    ?.let { result[channelId] = XtEpgEntry(it.title, null, it.startMs + delta, it.stopMs + delta) }
             }
         }
         // Second pass: whatever the preview pane has already resolved for a channel the stored guide
@@ -292,7 +304,7 @@ class LiveEpgReader(
         val fromStored = result.size
         for (ch in channels) {
             if (ch.id in result) continue
-            cachedNowTitle(ch.id, now)?.let { result[ch.id] = it }
+            cachedNow(ch.id, now)?.let { result[ch.id] = it }
         }
         CorePerf.log {
             "live_nowplaying channels=${channels.size} keyed=${channelKeys.size} " +
@@ -309,13 +321,14 @@ class LiveEpgReader(
      *
      * Deliberately never fetches. See the note in [nowPlayingFor] for what happened when it did.
      */
-    private fun cachedNowTitle(channelId: Long, now: Long): String? {
-        cache[channelId]?.takeIf { now - it.at < CACHE_TTL_MS }?.data?.now?.title
-            ?.takeIf { it.isNotBlank() }?.let { return it }
+    private fun cachedNow(channelId: Long, now: Long): XtEpgEntry? {
+        cache[channelId]?.takeIf { now - it.at < CACHE_TTL_MS }?.data?.now
+            ?.takeIf { it.title.isNotBlank() }?.let { return it.copy(description = null) }
         return providerRows[channelId]
             ?.takeIf { now - it.at < CACHE_TTL_MS }
             ?.rows?.firstOrNull { it.startMs <= now && it.stopMs > now }
-            ?.title?.takeIf { it.isNotBlank() }
+            ?.takeIf { it.title.isNotBlank() }
+            ?.let { XtEpgEntry(it.title, null, it.startMs, it.stopMs) }
     }
 
     /**

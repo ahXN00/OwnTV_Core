@@ -45,6 +45,26 @@ object PanelWidthLimits {
 const val CINEMATIC_DETAILS_MAX = 60
 const val CINEMATIC_DETAILS_DEFAULT = 35
 
+/**
+ * Live TV in the Stage layout: the categories are a sheet that slides OVER the list, so its width is
+ * its own value ([sheet], % of the screen) and takes no part in the row. The row is only the list and
+ * the preview, which total exactly 100; preview 0 hides it and the list takes the full width.
+ */
+data class LiveStageWidths(val sheet: Int, val list: Int, val preview: Int) {
+    val isValid: Boolean get() =
+        sheet in LIVE_SHEET_MIN..LIVE_SHEET_MAX &&
+            list >= PanelWidthLimits.MIN &&
+            (preview == 0 || preview >= PanelWidthLimits.MIN) &&
+            list + preview == PanelWidthLimits.TOTAL
+
+    companion object {
+        const val LIVE_SHEET_MIN = 15
+        const val LIVE_SHEET_MAX = 40
+        /** The mockup's 450 of 1920, and its 846 : 912 list and stage, snapped to the 5% step. */
+        val DEFAULT = LiveStageWidths(sheet = 25, list = 50, preview = 50)
+    }
+}
+
 /** One section's three shares, in percent of the row. */
 data class PanelShares(val category: Int, val list: Int, val preview: Int) {
     val total: Int get() = category + list + preview

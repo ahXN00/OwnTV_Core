@@ -300,7 +300,7 @@
     <!-- Translators: Predefined category name for the History list. -->
     <string name="content_category_history">History</string>
     <!-- Translators: Predefined category name for the "All Channels" view. -->
-    <string name="content_category_all_channels">All Channels</string>
+    <string name="content_category_all_channels">All channels</string>
     <!-- Translators: Predefined category name for United Kingdom channels. -->
     <string name="content_category_united_kingdom">United Kingdom</string>
     <!-- Translators: Predefined category name for United States channels. -->
@@ -616,4 +616,43 @@
     <string name="content_playlist_picker_subtitle">Applies everywhere and is remembered</string>
     <!-- Translators: Small label in the top-right Continue button when the next episode of a series is ready to play. -->
     <string name="content_action_next_episode">Next episode</string>
+    <!-- Translators: Placeholder of a search field that searches inside one category. "name" is the category name, e.g. Search Sky Cinema. -->
+    <string name="content_search_in">Search <xliff:g id="name">%1$s</xliff:g></string>
+    <!-- Translators: Live TV sort button: channels in the provider's channel-number order. Pressing it switches to A–Z. -->
+    <string name="content_sort_number">Number</string>
+    <!-- Translators: Live TV button that shows the channels as a TV guide grid. -->
+    <string name="content_live_guide_view">Guide view</string>
+    <!-- Translators: Remote-key hint: pressing OK watches the channel. Short verb. -->
+    <string name="content_key_watch">Watch</string>
+    <!-- Translators: Remote-key hint: pressing Right shows the channel's upcoming programmes. Short noun. -->
+    <string name="content_key_schedule">Schedule</string>
+    <!-- Translators: Remote-key hint: pressing Menu opens the options menu. Short noun. -->
+    <string name="content_key_options">Options</string>
+    <!-- Translators: Heading above the provider's channel groups in the Live TV category list. Shown in capitals by the style. -->
+    <string name="content_live_groups">Groups</string>
+    <!-- Translators: Group label in a channel's options menu, above the ways to watch it. Shown in capitals by the style. -->
+    <string name="content_menu_group_watch">Watch</string>
+    <!-- Translators: Group label in a channel's options menu, above actions on the channel itself. Shown in capitals by the style. -->
+    <string name="content_menu_group_channel">Channel</string>
+    <!-- Translators: Group label in a channel's options menu, above the TV-guide matching actions. Shown in capitals by the style. -->
+    <string name="content_menu_group_guide_data">Guide data</string>
+    <!-- Translators: Group label in an options menu, above Move and Move to category. Shown in capitals by the style. -->
+    <string name="content_menu_group_organise">Organize</string>
+    <!-- Translators: Value beside EPG time offset in a channel's menu: the channel follows the app-wide offset. One short word. -->
+    <string name="content_epg_offset_global_short">Global</string>
+    <!-- Translators: Heading above the provider's channel groups, with the country code the groups share, e.g. GROUPS · DE. Shown in capitals by the style. -->
+    <string name="content_live_groups_country">Groups · <xliff:g id="country">%1$s</xliff:g></string>
+    <!-- Translators: Channel count beside the category name in the Live TV header, e.g. 9 channels. -->
+    <plurals name="content_live_channel_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> channel</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> channels</item>
+    </plurals>
+    <!-- Translators: Live TV category holding the channels the user watched last. -->
+    <string name="content_category_recently_watched">Recently watched</string>
+    <!-- Translators: Programme menu action: get a prompt when this programme starts. -->
+    <string name="content_remind_me">Remind me</string>
+    <!-- Translators: Value beside Remind me: how long before the start the prompt comes. "duration" is e.g. 5 min. -->
+    <string name="content_remind_before"><xliff:g id="duration">%1$s</xliff:g> before</string>
+    <!-- Translators: Remote-key cap in a key hint: hold the OK button. Keep it very short. -->
+    <string name="content_key_hold_ok">Hold OK</string>
 </resources>

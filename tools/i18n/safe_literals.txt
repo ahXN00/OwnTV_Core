@@ -955,6 +955,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT c.* FROM channels c INNER JOIN watch_history h ON h.itemId = c.id AND h.mediaType = 'LIVE'
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT c.*, cat.name AS categoryName FROM channels c
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT c.*, h.watchedAt FROM channels c
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT categoryId, COUNT(*) AS itemCount FROM channels
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT remoteId FROM channels WHERE sourceId = :sourceId AND categoryId IN (:categoryIds) AND remoteId IS NOT NULL
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT remoteId FROM channels WHERE sourceId = :sourceId AND remoteId IS NOT NULL
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT remoteId FROM channels WHERE sourceId = :sourceId AND remoteId IS NOT NULL LIMIT 1
@@ -976,6 +977,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	WHERE h.profileId = :profileId AND h.mediaType = 'LIVE' AND c.sourceId IN (:sourceIds)
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	WHERE h.profileId = :profileId ORDER BY h.watchedAt DESC LIMIT :limit
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	WHERE sourceId = :sourceId AND epgChannelId IS NOT NULL AND TRIM(epgChannelId) != ''
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	WHERE sourceId IN (:sourceIds) AND categoryId IS NOT NULL GROUP BY categoryId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	(:type = 'LIVE' AND itemId NOT IN (SELECT id FROM channels)) OR
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	(:type = 'MOVIE' AND itemId NOT IN (SELECT id FROM movies)) OR
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	(:type = 'SERIES' AND itemId NOT IN (SELECT id FROM series))
@@ -2850,11 +2852,15 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_engine
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_latency_custom_secs
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_latency_mode
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_layout
 1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_left_right_rewinds
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_preroll_secs
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_preview
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_preview_audio
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_rewind_step_sec
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_stage_list
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_stage_preview
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_stage_sheet
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_tune_timeout_secs
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	main_font_family
 1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	max_video_height
