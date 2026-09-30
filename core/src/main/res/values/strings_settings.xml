@@ -2677,4 +2677,45 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <string name="app_icon_restart_message">You chose a new icon and logo. They take effect after OwnTV restarts.</string>
     <!-- Translators: Button in that window: restart the app now. The other button reuses "Later". -->
     <string name="app_icon_restart_now">Restart now</string>
+    <!-- Translators: Settings row and popup title: how the navigation rail on the left behaves. -->
+    <string name="settings_navigation">Navigation</string>
+    <!-- Translators: Description of the Navigation settings row. -->
+    <string name="settings_navigation_description">How the menu on the left behaves</string>
+    <!-- Translators: Navigation style option: a floating rail that slides away on its own. -->
+    <string name="settings_nav_floating_auto">Floating, hides itself</string>
+    <!-- Translators: Explains the option above. The arrow is the remote's Left key; use the key that points to the side the menu is on. -->
+    <string name="settings_nav_floating_auto_desc">Slides away while you browse; press ◀ at the edge to call it back</string>
+    <!-- Translators: Navigation style option: a floating rail that never hides. -->
+    <string name="settings_nav_floating">Floating, always visible</string>
+    <!-- Translators: Explains the option above. The capsule is the rounded bar of icons. -->
+    <string name="settings_nav_floating_desc">Icon capsule stays on screen</string>
+    <!-- Translators: Navigation style option: the fixed rail of icons along the left edge. -->
+    <string name="settings_nav_docked">Docked icon rail</string>
+    <!-- Translators: Explains the option above: the rail as it looked before this redesign. -->
+    <string name="settings_nav_docked_desc">Today’s fixed rail, unchanged</string>
+    <!-- Translators: Navigation style option: a fixed rail that shows names next to the icons. -->
+    <string name="settings_nav_docked_labels">Docked with labels</string>
+    <!-- Translators: Explains the option above. -->
+    <string name="settings_nav_docked_labels_desc">Icons and names, always open</string>
+    <!-- Translators: Setting: how long the floating rail waits before it hides. -->
+    <string name="settings_nav_hide_after">Hide after</string>
+    <!-- Translators: Explains the Hide after setting. -->
+    <string name="settings_nav_hide_after_desc">How long the rail waits once focus leaves it</string>
+    <!-- Translators: Setting: show the number of channels or titles next to each menu item. -->
+    <string name="settings_nav_show_counts">Show counts</string>
+    <!-- Translators: Explains the Show counts setting. -->
+    <string name="settings_nav_show_counts_desc">Channel and title counts next to each name</string>
+    <!-- Translators: Setting: which items the navigation menu shows. -->
+    <string name="settings_nav_menu_items">Menu items</string>
+    <!-- Translators: Explains the Menu items setting. "screen" is the name of the settings screen it opens (Sidebar Menu Customization). -->
+    <string name="settings_nav_menu_items_desc"><xliff:g id="screen">%1$s</xliff:g>: Dynamic or pick your own</string>
+    <!-- Translators: Hidden keyword bag for the Navigation settings. Translate as individual search terms. -->
+    <string name="settings_search_keywords_navigation">rail, sidebar, menu, navigation, hide, floating, docked, labels, counts</string>
+    <!-- Translators: Small heading above a settings popup title: where the setting lives, e.g. "SETTINGS · LAYOUT". Keep the separator unless your language uses another one. -->
+    <string name="settings_breadcrumb_eyebrow"><xliff:g id="section">%1$s</xliff:g> · <xliff:g id="group">%2$s</xliff:g></string>
+    <!-- Translators: How long the rail waits before hiding, e.g. 4 seconds. -->
+    <plurals name="settings_nav_hide_after_seconds">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> second</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> seconds</item>
+    </plurals>
 </resources>

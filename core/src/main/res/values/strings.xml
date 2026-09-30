@@ -68,7 +68,7 @@
     <!-- Translators: Navigation label for the Downloads screen in the sidebar. Also used in download notifications. -->
     <string name="common_nav_downloads">Downloads</string>
     <!-- Translators: Navigation label for the TV Guide screen in the sidebar. -->
-    <string name="common_nav_guide">Guide</string>
+    <string name="common_nav_guide">TV Guide</string>
     <!-- Translators: Navigation label for the Library tab (Movies and Series together) on phones. -->
     <string name="common_nav_library">Library</string>
     <!-- Translators: Navigation label for the More tab on phones, which holds the items that do not fit the bottom bar. -->
@@ -80,7 +80,7 @@
     <!-- Translators: Status text when no content source is configured. -->
     <string name="shell_no_source">No source</string>
     <!-- Translators: Label of the sidebar item that jumps to the docked mini player or the audio session. -->
-    <string name="shell_now_playing">Now Playing</string>
+    <string name="shell_now_playing">Now playing</string>
     <!-- Translators: Generic error message for unexpected failures. -->
     <string name="common_something_went_wrong">Something went wrong</string>
     <!-- Translators: Instructional text shown during reorder mode. The arrows are visual direction indicators. -->
@@ -285,4 +285,10 @@
     <string name="common_qr_code_companion_url">QR code for the companion URL</string>
 
     <!-- Display-only brand fragments. They intentionally live in donottranslate.xml instead. -->
+    <!-- Translators: Under the profile name in the open navigation menu: the playlist being shown, then an invitation to switch profile. "playlist" is e.g. All playlists. -->
+    <string name="shell_rail_profile_line"><xliff:g id="playlist">%1$s</xliff:g> · switch</string>
+    <!-- Translators: Small tag after Now playing in the navigation menu while only the sound of a stream is playing (Audio mode). -->
+    <string name="shell_now_playing_audio">Audio</string>
+    <!-- Translators: Weather under the clock: the temperature as a bare number with the degree sign (the unit is the one chosen in Settings), then the city, e.g. 26° Düsseldorf. -->
+    <string name="common_weather_degrees_city"><xliff:g id="temperature">%1$d</xliff:g>° <xliff:g id="city">%2$s</xliff:g></string>
 </resources>

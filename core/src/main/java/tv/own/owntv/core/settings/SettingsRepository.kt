@@ -394,6 +394,8 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         // v4.1.6 one-shot: reset live latency to the safe Balanced preset. Subsequent user changes are
         // preserved across every later update.
         val LIVE_LATENCY_RESET_416 = booleanPreferencesKey("live_latency_reset_416")
+        // Stage (2026-09-30): moved a saved System Sans to Plus Jakarta Sans once. Device-local, never backed up.
+        val FONT_JAKARTA_MIGRATED = booleanPreferencesKey("font_jakarta_migrated")
         val HDR_ENABLED = booleanPreferencesKey("hdr_enabled")
         val AUTO_FRAME_RATE = booleanPreferencesKey("auto_frame_rate")
         val AFR_PAUSE_SECS = intPreferencesKey("afr_pause_secs")
@@ -557,6 +559,11 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         // Chosen flip-card icon colour (AppIcon.name). What the launcher shows is AppIconSwitcher.applied.
         val APP_ICON = stringPreferencesKey("app_icon")
         val NAV_MENU_HIDDEN = stringSetPreferencesKey("nav_menu_hidden")
+        // Stage navigation (TV): how the rail behaves (NavStyle.name), how long it waits before hiding,
+        // and whether the open rail shows each section's count.
+        val NAV_STYLE = stringPreferencesKey("nav_style")
+        val NAV_HIDE_AFTER_SECS = intPreferencesKey("nav_hide_after_secs")
+        val NAV_SHOW_COUNTS = booleanPreferencesKey("nav_show_counts")
         // CH+- key paging for browse panels (Live/Movies/Series: category rail + item list/grid).
         // Master toggle + a per-direction skip count (CH+ toward first, CH− toward last). Counts are
         // clamped to [1, CH_NAV_HARD_MAX] on write; the UI warns above CH_NAV_WARN_THRESHOLD.
@@ -1113,6 +1120,44 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         context.dataStore.edit { prefs ->
             if (hidden.isEmpty()) prefs.remove(Keys.NAV_MENU_HIDDEN) else prefs[Keys.NAV_MENU_HIDDEN] = hidden
         }
+    }
+
+    /**
+     * How the navigation rail behaves. FLOATING_AUTO_HIDE is the default for everyone, existing users
+     * included (Stage decision D2): a glass capsule that slides away while focus is in the content.
+     * FLOATING keeps the capsule on screen; DOCKED_ICONS is the fixed icon rail; DOCKED_LABELS keeps
+     * the rail open with names.
+     */
+    enum class NavStyle { FLOATING_AUTO_HIDE, FLOATING, DOCKED_ICONS, DOCKED_LABELS }
+
+    /** The rail's hide delays, in seconds, as the Navigation popup offers them. */
+    object NavHideAfter {
+        val CHOICES = listOf(2, 4, 8)
+        const val DEFAULT = 4
+    }
+
+    val navStyle: Flow<NavStyle> = prefsFlow { prefs ->
+        prefs[Keys.NAV_STYLE]?.let { runCatching { NavStyle.valueOf(it) }.getOrNull() } ?: NavStyle.FLOATING_AUTO_HIDE
+    }
+
+    suspend fun setNavStyle(style: NavStyle) {
+        context.dataStore.edit { it[Keys.NAV_STYLE] = style.name }
+    }
+
+    /** Seconds the floating rail waits after focus leaves it before it hides; one of [NavHideAfter.CHOICES]. */
+    val navHideAfterSecs: Flow<Int> = prefsFlow { prefs ->
+        prefs[Keys.NAV_HIDE_AFTER_SECS]?.takeIf { it in NavHideAfter.CHOICES } ?: NavHideAfter.DEFAULT
+    }
+
+    suspend fun setNavHideAfterSecs(secs: Int) {
+        if (secs in NavHideAfter.CHOICES) context.dataStore.edit { it[Keys.NAV_HIDE_AFTER_SECS] = secs }
+    }
+
+    /** Whether the open rail shows each section's count (Live TV 2,006, Movies 4,812 …). */
+    val navShowCounts: Flow<Boolean> = prefsFlow { it[Keys.NAV_SHOW_COUNTS] ?: true }
+
+    suspend fun setNavShowCounts(show: Boolean) {
+        context.dataStore.edit { it[Keys.NAV_SHOW_COUNTS] = show }
     }
 
     // --- List sorting (per browse section) ---
@@ -2494,6 +2539,23 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         runCatching { migrateAutoFrameRate416() }
         runCatching { migrateAutoFrameRatePre12() }
         runCatching { migrateLiveLatency416() }
+        runCatching { migrateSystemSansToJakarta() }
+    }
+
+    /**
+     * Plus Jakarta Sans became the default main and popup font, but the font dialog stores every field
+     * when it is saved, so anyone who ever pressed Apply there kept System Sans — the old default — and
+     * never got the new one. Owner's decision (2026-09-30): move them once. Only System Sans is moved;
+     * any other font was a real choice and stays. A System Sans picked after this has run is kept too.
+     */
+    suspend fun migrateSystemSansToJakarta() {
+        context.dataStore.edit { prefs ->
+            if (prefs[Keys.FONT_JAKARTA_MIGRATED] == true) return@edit
+            for (key in listOf(Keys.MAIN_FONT_FAMILY, Keys.POPUP_FONT_FAMILY)) {
+                if (prefs[key] == AppFontFamily.SYSTEM_SANS.name) prefs[key] = AppFontFamily.PLUS_JAKARTA_SANS.name
+            }
+            prefs[Keys.FONT_JAKARTA_MIGRATED] = true
+        }
     }
 
     /** v4.1.6 only: force live latency to Balanced exactly once, including existing custom choices. */
@@ -2741,6 +2803,8 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             Keys.DOWNLOAD_ROOT,
             // Nav menu mode rides with settings backup so a reinstall keeps the user's DYNAMIC/STATIC choice.
             Keys.NAV_MENU_MODE,
+            // Stage navigation style (hide delay is an int key, show counts a bool key).
+            Keys.NAV_STYLE,
             // The chosen icon colour. After a restore the app compares it with the applied icon and offers a restart.
             Keys.APP_ICON,
             // Docked mini-player position rides with settings backup (size is an int key, see backupIntKeys).
@@ -2782,6 +2846,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             Keys.GUIDE_WIDTH_CHANNELS, Keys.GUIDE_WIDTH_EPG,
             Keys.POPUP_FONT_SIZE_PCT, Keys.POPUP_SIZE_PCT, Keys.VOD_GRID_COLUMNS, Keys.GUIDE_DENSITY_PCT,
             Keys.GESTURE_SENSITIVITY_PCT,
+            Keys.NAV_HIDE_AFTER_SECS,
             // Multiview's tile count and recording's start-early / finish-late minutes (readers clamp them).
             Keys.MULTIVIEW_TILES, Keys.RECORDING_PRE_ROLL_MINUTES, Keys.RECORDING_POST_ROLL_MINUTES,
             // Auto frame rate's pause (N7) and films' buffer / timeout / reconnects (N18); the readers
@@ -2797,6 +2862,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             Keys.EXTERNAL_PLAYER_LIVE, Keys.EXTERNAL_PLAYER_MOVIES, Keys.EXTERNAL_PLAYER_SERIES, Keys.UPDATE_CHECK_ON_START, Keys.SURROUND_SOUND, Keys.AUTO_PLAY_NEXT, Keys.PROXY_ENABLED,
             Keys.WEATHER_ENABLED, Keys.WEATHER_FAHRENHEIT, Keys.RESUME_LAST_CHANNEL, Keys.METADATA_ENABLED, Keys.CH_NAV_ENABLED,
             Keys.DNS_ENABLED,
+            Keys.NAV_SHOW_COUNTS,
             Keys.REMEMBER_LAST_LIVE, Keys.REMEMBER_LAST_MOVIES, Keys.REMEMBER_LAST_SERIES,
             Keys.REMEMBER_CAT_LIVE, Keys.REMEMBER_CAT_MOVIES, Keys.REMEMBER_CAT_SERIES,
             Keys.SUB_STYLE_ENABLED, Keys.SUB_SEARCH_FILTER,
