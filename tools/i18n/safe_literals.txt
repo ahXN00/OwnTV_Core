@@ -896,6 +896,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CategoryDao.kt	WHERE categories.sourceId IN (:sourceIds) AND categories.mediaType = :type
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	) ORDER BY number ASC, name ASC LIMIT :limit
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	AND (:query = '' OR name LIKE '%' || :query || '%')
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	AND (:query = '' OR name LIKE '%' || :query || '%') ORDER BY number ASC, name ASC LIMIT :limit
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	AND (categoryId IS NULL OR categoryId NOT IN (:excludedCategoryIds))
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	AND LOWER(TRIM(epgChannelId)) IN (
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	AND LOWER(TRIM(epgChannelId)) NOT IN (SELECT DISTINCT epgChannelId FROM epg_programmes)
@@ -928,7 +929,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId = :sourceId AND name = :name LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId = :sourceId AND remoteId = :remoteId LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId = :sourceId AND remoteId IN (:remoteIds)
-1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds)
+2	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1 AND name LIKE '%' || :query || '%' ORDER BY name ASC
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1 ORDER BY name ASC
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1 ORDER BY sourceId ASC, sortOrder ASC, name ASC
@@ -1044,6 +1045,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT * FROM epg_programmes WHERE epgChannelId = :epgChannelId AND stopMs <= :now ORDER BY stopMs DESC LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT * FROM epg_programmes WHERE epgChannelId = :epgChannelId AND stopMs > :now ORDER BY startMs ASC LIMIT :limit
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT * FROM epg_programmes WHERE epgChannelId = :epgKey
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT * FROM epg_programmes WHERE id = :programmeId LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT COUNT(*) FROM epg_programmes WHERE epgChannelId = :epgChannelId AND stopMs > :now
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT COUNT(*) FROM epg_programmes WHERE sourceId = :sourceId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT COUNT(*) FROM epg_programmes WHERE sourceId IN (:sourceIds)
@@ -2218,6 +2220,10 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/network/StreamHeaders.kt	transfer-encoding
 1	protocol	core/src/main/java/tv/own/owntv/core/network/StreamHeaders.kt	user-agent
 1	protocol	core/src/main/java/tv/own/owntv/core/network/StreamHeaders.kt	x-forwarded-for
+4	empty	core/src/main/java/tv/own/owntv/core/parser/EpgText.kt	\0
+1	regex	core/src/main/java/tv/own/owntv/core/parser/EpgText.kt	(\\\\r\\\\n|\\\\n|\\\\r)+
+1	regex	core/src/main/java/tv/own/owntv/core/parser/EpgText.kt	[ \\t]{2,}
+1	technical	core/src/main/java/tv/own/owntv/core/parser/EpgText.kt	\\t
 1	empty	core/src/main/java/tv/own/owntv/core/parser/M3uParser.kt	\0
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/M3uParser.kt	#
 1	technical	core/src/main/java/tv/own/owntv/core/parser/M3uParser.kt	#EXTHTTP:
@@ -2827,6 +2833,7 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	glass_scope
 1	log	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	guide_days_to_keep
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	guide_density_pct
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	guide_show_empty
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	guide_view
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	guide_width_channels
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	guide_width_epg
@@ -2862,6 +2869,7 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_stage_preview
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_stage_sheet
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_tune_timeout_secs
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_view
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	main_font_family
 1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	max_video_height
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	measured_stream_stats
@@ -2939,6 +2947,8 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	remember_last_live
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	remember_last_movies
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	remember_last_series
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	reminder_lead_min
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	reminder_mode
 2	json	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	remoteId
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	remote_shortcut_bindings
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	restore_in_progress

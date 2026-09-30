@@ -220,7 +220,7 @@ object XmltvParser {
                 when (parser.next()) {
                     XmlPullParser.START_TAG -> when (parser.name) {
                         "title" -> if (title.isBlank()) title = readText(parser).trim()
-                        "desc" -> if (desc == null) desc = readText(parser).trim().takeIf { it.isNotBlank() }
+                        "desc" -> if (desc == null) desc = EpgText.clean(readText(parser))
                         else -> (details ?: DetailReader().also { details = it }).start(parser)
                     }
                     XmlPullParser.END_TAG -> when (parser.name) {

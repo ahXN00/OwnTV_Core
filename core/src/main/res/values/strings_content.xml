@@ -618,8 +618,6 @@
     <string name="content_action_next_episode">Next episode</string>
     <!-- Translators: Placeholder of a search field that searches inside one category. "name" is the category name, e.g. Search Sky Cinema. -->
     <string name="content_search_in">Search <xliff:g id="name">%1$s</xliff:g></string>
-    <!-- Translators: Live TV sort button: channels in the provider's channel-number order. Pressing it switches to A–Z. -->
-    <string name="content_sort_number">Number</string>
     <!-- Translators: Live TV button that shows the channels as a TV guide grid. -->
     <string name="content_live_guide_view">Guide view</string>
     <!-- Translators: Remote-key hint: pressing OK watches the channel. Short verb. -->
@@ -655,4 +653,56 @@
     <string name="content_remind_before"><xliff:g id="duration">%1$s</xliff:g> before</string>
     <!-- Translators: Remote-key cap in a key hint: hold the OK button. Keep it very short. -->
     <string name="content_key_hold_ok">Hold OK</string>
+    <!-- Translators: TV Guide: how soon the focused programme starts. "duration" is e.g. 58 min or 1 h 12 min. -->
+    <string name="content_epg_starts_in">Starts in <xliff:g id="duration">%1$s</xliff:g></string>
+    <!-- Translators: TV Guide day picker: the current day. -->
+    <string name="content_epg_today">Today</string>
+    <!-- Translators: TV Guide day picker: the day after today. -->
+    <string name="content_epg_tomorrow">Tomorrow</string>
+    <!-- Translators: TV Guide day picker: the day before today (catch-up days). -->
+    <string name="content_epg_yesterday">Yesterday</string>
+    <!-- Translators: TV Guide button that scrolls the grid back to the current time. One short word. -->
+    <string name="content_epg_now_short">Now</string>
+    <!-- Translators: TV Guide channel order: channels with catch-up at the top. -->
+    <string name="content_epg_sort_catchup_first">Catch-up first</string>
+    <!-- Translators: TV Guide channel order: favourite channels at the top. -->
+    <string name="content_epg_sort_favorites_first">Favorites first</string>
+    <!-- Translators: Title of the TV Guide menu that picks the channel order. -->
+    <string name="content_epg_order_title">Order channels by</string>
+    <!-- Translators: Line under the channel-order menu title: the choice is remembered. -->
+    <string name="content_epg_order_hint">Opens this way next time</string>
+    <!-- Translators: Line beside the TV Guide category list title: it is the same list Live TV shows. -->
+    <string name="content_epg_category_hint">Same list as Live TV</string>
+    <!-- Translators: Group label in the programme menu above features that are new, e.g. Remind me. Shown in capitals by the style. -->
+    <string name="content_menu_group_new">New</string>
+    <!-- Translators: Group label in the programme menu above the recording actions. Shown in capitals by the style. -->
+    <string name="content_menu_group_record">Record</string>
+    <!-- Translators: Value beside a disabled menu action: it becomes available from this time on. "time" is e.g. 20:05. -->
+    <string name="content_epg_after_time">after <xliff:g id="time">%1$s</xliff:g></string>
+    <!-- Translators: Button label once a reminder is set for the programme; pressing it again removes the reminder. -->
+    <string name="content_reminder_set">Reminder set</string>
+    <!-- Translators: Live TV button that switches from the guide grid back to the channel list. -->
+    <string name="content_live_list_view">List view</string>
+    <!-- Translators: After Auto-match EPG: how many channels were matched on their own. Shown after "Auto-match EPG ·". -->
+    <plurals name="content_epg_channels_matched">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> channel matched</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> channels matched</item>
+    </plurals>
+    <!-- Translators: Title of the Auto-match EPG review: how many unsure matches wait for Accept or Skip. -->
+    <plurals name="content_epg_review_count">
+        <item quantity="one">Review <xliff:g id="count">%1$d</xliff:g> match</item>
+        <item quantity="other">Review <xliff:g id="count">%1$d</xliff:g> matches</item>
+    </plurals>
+    <!-- Translators: Remote-key hint in the TV Guide: OK steps into a channel row to go through its programmes. Short verb. -->
+    <string name="content_key_browse">Browse</string>
+    <!-- Translators: Remote-key hint in the TV Guide: the key moves between channels. Short noun. -->
+    <string name="content_key_channels">Channels</string>
+    <!-- Translators: Remote-key hint in the TV Guide: the key moves between programmes in a row. Short noun. -->
+    <string name="content_key_programmes">Programs</string>
+    <!-- Translators: Remote-key hint: the key opens the app menu (the navigation rail). Short noun. -->
+    <string name="content_key_menu">Menu</string>
+    <!-- Translators: Group label in a menu above what the list shows, e.g. the TV Guide order menu. Shown in capitals by the style. -->
+    <string name="content_menu_group_show">Show</string>
+    <!-- Translators: TV Guide order menu: also list the channels that have no guide data (On / Off), so they can be matched. -->
+    <string name="content_epg_show_empty">Channels without guide</string>
 </resources>

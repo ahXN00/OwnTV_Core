@@ -389,7 +389,7 @@ class XtreamClient(private val http: HttpClient) {
                 if (reader.peek() == JsonToken.NULL) { reader.nextNull(); continue }
                 when (name) {
                     "title" -> title = decodeBase64(reader.nextString())
-                    "description" -> desc = decodeBase64(reader.nextString()).takeIf { it.isNotBlank() }
+                    "description" -> desc = EpgText.clean(decodeBase64(reader.nextString()))
                     "start_timestamp" -> startTs = reader.nextString().toLongOrNull() ?: 0
                     "stop_timestamp" -> stopTs = reader.nextString().toLongOrNull() ?: 0
                     else -> reader.skipValue()

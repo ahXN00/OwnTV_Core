@@ -107,6 +107,10 @@ interface EpgDao {
     @Query("SELECT description FROM epg_programmes WHERE id = :programmeId LIMIT 1")
     suspend fun programmeDescription(programmeId: Long): String?
 
+    /** One whole programme — synopsis and XMLTV details — for the TV Guide's programme block. */
+    @Query("SELECT * FROM epg_programmes WHERE id = :programmeId LIMIT 1")
+    suspend fun programmeById(programmeId: Long): EpgProgrammeEntity?
+
     /**
      * One guide row's programmes, loaded lazily when the row scrolls into view. [epgKey] must be the
      * normalized (trim+lowercase) id — programmes are stored normalized, so this hits the

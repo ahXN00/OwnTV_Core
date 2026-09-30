@@ -11,6 +11,9 @@ object ReminderSchedule {
     /** The mockup's "Remind me (5 min before)". */
     const val DEFAULT_LEAD_MINUTES = 5
 
+    /** The *Reminder time* setting's choices: at the start, 1 or 5 minutes before. */
+    val LEAD_CHOICES = listOf(0, 1, 5)
+
     /** When the alarm for [reminder] should fire, or null once its programme has ended. */
     fun wakeAtFor(reminder: ReminderEntity, now: Long): Long? = when {
         reminder.stopMs <= now -> null

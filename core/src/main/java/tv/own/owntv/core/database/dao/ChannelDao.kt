@@ -130,6 +130,13 @@ interface ChannelDao {
     )
     suspend fun channelsWithGuide(sourceIds: List<Long>, query: String, limit: Int): List<ChannelEntity>
 
+    /** Every channel with or without guide data, same order — the TV Guide with Show › Channels without guide on. */
+    @Query(
+        "SELECT * FROM channels WHERE sourceId IN (:sourceIds) " +
+            "AND (:query = '' OR name LIKE '%' || :query || '%') ORDER BY number ASC, name ASC LIMIT :limit",
+    )
+    suspend fun channelsForGuide(sourceIds: List<Long>, query: String, limit: Int): List<ChannelEntity>
+
     /** Channels matching these remoteIds (Xtream stream ids) — to resolve smart-matched channels in bulk
      *  without loading the whole channel table. */
     @Query("SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND remoteId IN (:remoteIds)")

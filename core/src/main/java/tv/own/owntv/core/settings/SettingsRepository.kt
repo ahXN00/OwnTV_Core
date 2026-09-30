@@ -481,6 +481,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         // Per-section list sorting ("PLAYLIST" or "ALPHA")
         val SORT_LIVE = stringPreferencesKey("sort_live")
         val SORT_GUIDE = stringPreferencesKey("sort_guide")
+        val GUIDE_SHOW_EMPTY = booleanPreferencesKey("guide_show_empty")
         val SORT_MOVIES = stringPreferencesKey("sort_movies")
         val SORT_SERIES = stringPreferencesKey("sort_series")
         val RESUME_MODE = stringPreferencesKey("resume_mode")
@@ -501,6 +502,9 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val VOD_VIEW_MODE = stringPreferencesKey("vod_view_mode")
         val VOD_LAYOUT = stringPreferencesKey("vod_layout")
         val LIVE_LAYOUT = stringPreferencesKey("live_layout")
+        val LIVE_VIEW = stringPreferencesKey("live_view")
+        val REMINDER_MODE = stringPreferencesKey("reminder_mode")
+        val REMINDER_LEAD_MIN = intPreferencesKey("reminder_lead_min")
         val GUIDE_VIEW = stringPreferencesKey("guide_view")
         val GUIDE_DENSITY_PCT = intPreferencesKey("guide_density_pct")
         val EPISODE_VIEW_MODE = stringPreferencesKey("episode_view_mode")
@@ -1276,6 +1280,33 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         context.dataStore.edit { it[Keys.LIVE_LAYOUT] = layout.name }
     }
 
+    /** What Live TV opens in: the channel list, or the guide grid (Stage G14). Remembered from its toggle. */
+    enum class LiveView { LIST, GUIDE }
+    val liveView: Flow<LiveView> = prefsFlow { prefs ->
+        prefs[Keys.LIVE_VIEW]?.let { runCatching { LiveView.valueOf(it) }.getOrNull() } ?: LiveView.LIST
+    }
+    suspend fun setLiveView(view: LiveView) {
+        context.dataStore.edit { it[Keys.LIVE_VIEW] = view.name }
+    }
+
+    /**
+     * What a programme reminder does when its moment comes (Stage G2): ask whether to switch, switch
+     * straight away, or only say so. [reminderLeadMinutes] is how early that moment is.
+     */
+    enum class ReminderMode { ASK, SWITCH, NOTIFY }
+    val reminderMode: Flow<ReminderMode> = prefsFlow { prefs ->
+        prefs[Keys.REMINDER_MODE]?.let { runCatching { ReminderMode.valueOf(it) }.getOrNull() } ?: ReminderMode.ASK
+    }
+    suspend fun setReminderMode(mode: ReminderMode) {
+        context.dataStore.edit { it[Keys.REMINDER_MODE] = mode.name }
+    }
+    val reminderLeadMinutes: Flow<Int> = prefsFlow { prefs ->
+        prefs[Keys.REMINDER_LEAD_MIN]?.takeIf { it in tv.own.owntv.core.reminder.ReminderSchedule.LEAD_CHOICES } ?: tv.own.owntv.core.reminder.ReminderSchedule.DEFAULT_LEAD_MINUTES
+    }
+    suspend fun setReminderLeadMinutes(minutes: Int) {
+        if (minutes in tv.own.owntv.core.reminder.ReminderSchedule.LEAD_CHOICES) context.dataStore.edit { it[Keys.REMINDER_LEAD_MIN] = minutes }
+    }
+
     /**
      * How many posters a row of the Movies/Series grid holds. 0 means "decide from the screen", which
      * is what a device that has never been pinched reports — a phone in portrait, the same phone in
@@ -1412,6 +1443,12 @@ class SettingsRepository(private val context: Context, private val localeStore: 
 
     suspend fun setSortGuide(mode: GuideSort) {
         context.dataStore.edit { it[Keys.SORT_GUIDE] = mode.name }
+    }
+
+    /** The TV Guide also lists channels with no guide data (Order ▾ › Show), so they can be matched from there. */
+    val guideShowEmpty: Flow<Boolean> = prefsFlow { it[Keys.GUIDE_SHOW_EMPTY] ?: false }
+    suspend fun setGuideShowEmpty(show: Boolean) {
+        context.dataStore.edit { it[Keys.GUIDE_SHOW_EMPTY] = show }
     }
 
     // --- Video Player Settings ---
@@ -2854,7 +2891,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             Keys.MAIN_FONT_FAMILY, Keys.POPUP_FONT_FAMILY,
             Keys.PREF_AUDIO_LANG, Keys.PREF_SUB_LANG, Keys.SUB_SEARCH_LANGS, Keys.SORT_LIVE, Keys.SORT_GUIDE, Keys.SORT_MOVIES,
             Keys.SORT_SERIES, Keys.RESUME_MODE, Keys.CATCHUP_TZ, Keys.CATCHUP_PLAYER, Keys.ANIMATION_LEVEL, Keys.VOD_VIEW_MODE, Keys.GUIDE_VIEW,
-            Keys.EPISODE_VIEW_MODE, Keys.VOD_LAYOUT, Keys.LIVE_LAYOUT,
+            Keys.EPISODE_VIEW_MODE, Keys.VOD_LAYOUT, Keys.LIVE_LAYOUT, Keys.LIVE_VIEW, Keys.REMINDER_MODE,
             Keys.WEATHER_LOCATION, Keys.RECENT_SEARCHES,
             // Global proxy — non-secret fields only. The proxy password (Keys.PROXY_PASS) is NEVER part of
             // this whitelist; it is handled separately by BackupManager (encrypted or omitted).
@@ -2913,7 +2950,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             Keys.GUIDE_WIDTH_CHANNELS, Keys.GUIDE_WIDTH_EPG,
             Keys.POPUP_FONT_SIZE_PCT, Keys.POPUP_SIZE_PCT, Keys.VOD_GRID_COLUMNS, Keys.GUIDE_DENSITY_PCT,
             Keys.GESTURE_SENSITIVITY_PCT,
-            Keys.NAV_HIDE_AFTER_MS,
+            Keys.NAV_HIDE_AFTER_MS, Keys.REMINDER_LEAD_MIN,
             // Multiview's tile count and recording's start-early / finish-late minutes (readers clamp them).
             Keys.MULTIVIEW_TILES, Keys.RECORDING_PRE_ROLL_MINUTES, Keys.RECORDING_POST_ROLL_MINUTES,
             // Auto frame rate's pause (N7) and films' buffer / timeout / reconnects (N18); the readers
@@ -2924,6 +2961,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             // N4's saved-copy length; the reader accepts only its own choices.
             Keys.TIMESHIFT_WINDOW_MINUTES)
         val bools = listOf(
+            Keys.GUIDE_SHOW_EMPTY,
             Keys.LIVE_PREVIEW, Keys.LIVE_PREVIEW_AUDIO, Keys.HERO_PREVIEW, Keys.HDR_ENABLED, Keys.AUTO_FRAME_RATE, Keys.AFR_MATCH_RESOLUTION, Keys.AUTO_FRAME_RATE_PROMPTED, Keys.ANDROID_TV_HOME, Keys.HW_DECODING,
             Keys.VOD_PREFER_EXO, Keys.MEASURED_STREAM_STATS, Keys.DETAILED_DIAGNOSTICS, Keys.DIRECT_TUNE, Keys.LIVE_LEFT_RIGHT_REWINDS, Keys.EXTERNAL_PLAYER,
             Keys.EXTERNAL_PLAYER_LIVE, Keys.EXTERNAL_PLAYER_MOVIES, Keys.EXTERNAL_PLAYER_SERIES, Keys.UPDATE_CHECK_ON_START, Keys.SURROUND_SOUND, Keys.AUTO_PLAY_NEXT, Keys.PROXY_ENABLED,
