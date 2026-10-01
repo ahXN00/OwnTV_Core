@@ -477,16 +477,9 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
             id = id,
             name = fields["name"]?.takeIf { it.isNotBlank() },
             cmd = fields["cmd"]?.takeIf { it.isNotBlank() },
-            seasonNumber = parseSeasonNumber(id, fields["name"]),
+            seasonNumber = seasonNumberOf(id, fields["name"]),
             episodes = episodes.distinct().sorted(),
         )
-    }
-
-    private fun parseSeasonNumber(id: String, name: String?): Int? {
-        // "280:2" — the suffix after ':' is the season on classic portals.
-        id.substringAfterLast(':', "").toIntOrNull()?.let { return it }
-        // Else a trailing number in the name ("Season 2", "S02").
-        return name?.let { Regex("(\\d+)\\s*$").find(it.trim())?.value?.toIntOrNull() }
     }
 
     private fun readGenreArray(reader: JsonReader): List<Genre> {
@@ -852,6 +845,21 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
 
     companion object {
         private const val TAG = "StalkerClient"
+
+        /** A season row's number: the id suffix ("280:2"), 0 for Specials, else a trailing number in its name. */
+        internal fun seasonNumberOf(id: String, name: String?): Int? {
+            // "280:2" — the suffix after ':' is the season on classic portals.
+            id.substringAfterLast(':', "").toIntOrNull()?.let { return it }
+            // A "Specials" season is season 0 (#228). Without this it had no number, took its list position,
+            // and — listed first — merged into Season 1.
+            if (name != null && SPECIALS.containsMatchIn(name)) return 0
+            // Else a trailing number in the name ("Season 2", "S02").
+            return name?.let { Regex("(\\d+)\\s*$").find(it.trim())?.value?.toIntOrNull() }
+        }
+
+        /** "Specials", "Special", "Season 0 - Specials": the provider's season 0. */
+        private val SPECIALS = Regex("""\bspecials?\b""", RegexOption.IGNORE_CASE)
+
 
         /** Ministra states an archive length in hours; the app stores and shows days. */
         private const val HOURS_PER_DAY = 24

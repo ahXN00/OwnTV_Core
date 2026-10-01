@@ -80,6 +80,7 @@ private val SERIES_ACTIONS = listOf(
 )
 
 private val EPISODE_ACTIONS = listOf(
+    MenuActionRef("play_start", R.string.content_play_from_start),
     MenuActionRef("download", R.string.content_download),
     MenuActionRef("play_external", R.string.content_play_external),
     MenuActionRef("mark_watched", R.string.content_mark_watched),

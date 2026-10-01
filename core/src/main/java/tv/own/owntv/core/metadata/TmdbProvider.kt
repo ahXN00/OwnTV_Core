@@ -108,6 +108,15 @@ class TmdbProvider(
         return "&include_image_language=" + (if (base != null) "$base,en,null" else "en,null")
     }
 
+    /**
+     * Trailers in the user's language AND English / no language: with only the user's language TMDB
+     * often has one video, and when its owner blocks embedding there is nothing to fall back to.
+     */
+    private fun Endpoint.videoLangParam(): String {
+        val base = language.substringBefore('-').takeIf { it.isNotBlank() && it != "en" }
+        return "&include_video_language=" + (if (base != null) "$base,en,null" else "en,null")
+    }
+
     override suspend fun trendingPage(type: MetadataType, page: Int): TrendingFeedPage? {
         require(type == MetadataType.MOVIE || type == MetadataType.TV)
         require(page > 0)
@@ -157,6 +166,7 @@ class TmdbProvider(
             append(ep.baseUrl).append("/3/movie/").append(tmdbId)
             append("?append_to_response=credits,external_ids,videos,images")
             append(ep.imageLangParam())
+            append(ep.videoLangParam())
             append(ep.langParam())
             ep.apiKey?.takeIf { it.isNotBlank() }?.let { append("&api_key=").append(enc(it)) }
         }
@@ -171,6 +181,7 @@ class TmdbProvider(
             append(ep.baseUrl).append("/3/tv/").append(tmdbId)
             append("?append_to_response=credits,external_ids,videos,images")
             append(ep.imageLangParam())
+            append(ep.videoLangParam())
             append(ep.langParam())
             ep.apiKey?.takeIf { it.isNotBlank() }?.let { append("&api_key=").append(enc(it)) }
         }
@@ -240,7 +251,7 @@ class TmdbProvider(
             rating = o.optDouble("vote_average", 0.0).takeIf { it > 0.0 },
             genres = genres,
             cast = cast,
-            trailerKey = parseTrailerKey(o),
+            trailerKey = parseTrailerKey(o, preferredLang),
             logoPath = parseLogoPath(o, preferredLang),
             originalLanguage = o.optString("original_language").takeIf { it.isNotBlank() && it != "null" },
         )
@@ -267,35 +278,34 @@ class TmdbProvider(
             rating = o.optDouble("vote_average", 0.0).takeIf { it > 0.0 },
             genres = genres,
             cast = cast,
-            trailerKey = parseTrailerKey(o),
+            trailerKey = parseTrailerKey(o, preferredLang),
             logoPath = parseLogoPath(o, preferredLang),
             originalLanguage = o.optString("original_language").takeIf { it.isNotBlank() && it != "null" },
         )
     }
 
     /**
-     * Best YouTube trailer key from an `append_to_response=videos` payload (plan §7.3):
-     * official Trailer > any Trailer > Teaser. Only `site == "YouTube"` entries qualify
-     * (the in-app player is a YouTube IFrame wrapper). Null when the title has no usable video.
+     * YouTube trailer keys from an `append_to_response=videos` payload (plan §7.3), best first: official
+     * Trailers, other Trailers, Teasers; each tier in the user's language before others. Several are kept
+     * because an owner can block a video from embedded players — the in-app player then tries the next
+     * one. Stored joined (see [TrailerKeys]). Null when the title has no usable video.
      */
-    private fun parseTrailerKey(details: JSONObject): String? {
+    private fun parseTrailerKey(details: JSONObject, preferredLang: String): String? {
         val arr = details.optJSONObject("videos")?.optJSONArray("results") ?: return null
-        var trailer: String? = null
-        var officialTrailer: String? = null
-        var teaser: String? = null
+        data class Video(val key: String, val tier: Int, val otherLang: Int)
+        val videos = ArrayList<Video>()
         for (i in 0 until arr.length()) {
             val v = arr.optJSONObject(i) ?: continue
             if (!v.optString("site").equals("YouTube", ignoreCase = true)) continue
             val key = v.optString("key").takeIf { it.isNotBlank() } ?: continue
-            when (v.optString("type")) {
-                "Trailer" -> {
-                    if (v.optBoolean("official") && officialTrailer == null) officialTrailer = key
-                    if (trailer == null) trailer = key
-                }
-                "Teaser" -> if (teaser == null) teaser = key
+            val tier = when (v.optString("type")) {
+                "Trailer" -> if (v.optBoolean("official")) 0 else 1
+                "Teaser" -> 2
+                else -> continue
             }
+            videos += Video(key, tier, if (v.optString("iso_639_1") == preferredLang) 0 else 1)
         }
-        return officialTrailer ?: trailer ?: teaser
+        return TrailerKeys.join(videos.sortedWith(compareBy({ it.tier }, { it.otherLang })).map { it.key })
     }
 
     /**
