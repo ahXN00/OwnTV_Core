@@ -212,7 +212,6 @@
     <string name="settings_search_keywords_language">لغة إعدادات محلية ترجمة دولي i18n</string>
     <string name="settings_language_coverage"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="settings_profile_group">الملف الشخصي</string>
-    <string name="settings_profiles_description">إدارة المشاهدين ووضع الأطفال وأقفال PIN</string>
     <string name="settings_playlists">قوائم التشغيل</string>
     <string name="settings_playlists_description">إضافة قوائم تشغيل M3U / Xtream أو إعادة مزامنتها أو إزالتها</string>
     <string name="settings_epg_sources">مصادر دليل البرامج الإلكتروني</string>
@@ -336,7 +335,6 @@
     <string name="settings_cannot_undo">لا يمكن التراجع عن هذا الإجراء.</string>
     <string name="settings_no">لا</string>
     <string name="settings_yes_clear">نعم، امسح</string>
-    <string name="settings_accent_dialog">اللون المميّز</string>
     <string name="settings_presets">إعدادات مسبقة</string>
     <string name="settings_hex_code">الرمز السداسي العشري</string>
     <string name="settings_hex">سداسي عشري</string>
@@ -382,7 +380,6 @@
     <string name="settings_group_layout">التخطيط</string>
     <string name="settings_group_content_metadata">المحتوى والبيانات الوصفية</string>
     <string name="settings_group_appearance">المظهر</string>
-    <string name="settings_group_playback">التشغيل</string>
     <string name="settings_group_network">الشبكة</string>
     <string name="settings_dns">DNS</string>
     <string name="settings_group_app">التطبيق</string>
@@ -412,7 +409,6 @@
     <string name="settings_vp_cat_controls">التحكم</string>
     <string name="settings_vp_cat_controls_summary">خطوات التخطي والترجيع</string>
     <string name="settings_vp_cat_multiview">العرض المتعدد والمشغّل المصغّر</string>
-    <string name="settings_vp_cat_multiview_summary">عدة قنوات، المشغّل الصغير</string>
     <string name="settings_vp_cat_multiview_summary_mobile">عدة قنوات مباشرة في وقت واحد</string>
     <string name="settings_vp_cat_sound_summary">الصوت، المحيطي، الوضع الليلي، المزامنة</string>
     <string name="settings_vp_cat_languages">اللغات والترجمات</string>
@@ -505,7 +501,6 @@
     <string name="settings_language_original">اللغة الأصلية</string>
     <string name="settings_language_ukrainian">الأوكرانية</string>
     <string name="settings_language_vietnamese">الفيتنامية</string>
-    <string name="settings_video_player_title">مشغّل الفيديو</string>
     <string name="settings_decoding">فك الترميز</string>
     <string name="settings_hardware_decoding">فك الترميز بالأجهزة</string>
     <string name="settings_hardware_decoding_description">استخدام وحدة فك الترميز بالأجهزة في التلفزيون. عطّل هذا الخيار إذا تقطعت بعض عمليات البث أو ظهرت بها عيوب مرئية.</string>
@@ -1357,11 +1352,6 @@
     <string name="settings_glass_full_transparency_description">يعطّل الحد التلقائي للوضوح للحصول على أكثر زجاج شفافية.</string>
     <string name="settings_glass_depth_title">العمق والظلال</string>
     <string name="settings_glass_depth_description">يفعّل إضاءة انتقال التركيز والمنظور الخفيف وحركة العمق.</string>
-    <string name="settings_header_hint">يسارًا: المجموعات · يمينًا: إعداداتها · اضغط مطولاً على صف لتثبيته في سريع</string>
-    <string name="settings_spine_eyebrow">كل المجموعات</string>
-    <string name="settings_spine_title">تصفح الإعدادات</string>
-    <string name="settings_spine_hint">تبقى سريع مثبتة في الأعلى؛ والمؤشر يتبع المجموعة التي أنت فيها.</string>
-    <string name="settings_spine_foot">اللون المميز يتبع تركيزك</string>
     <string name="settings_row_menu_pin">تثبيت في سريع</string>
     <string name="settings_row_menu_unpin">إزالة من سريع</string>
     <string name="settings_row_menu_move_up">نقل لأعلى</string>
@@ -1651,4 +1641,178 @@
     <string name="settings_search_keywords_live_opens_in">بث مباشر فتح بدء قائمة دليل شبكة عرض</string>
     <string name="settings_panel_width_summary_cinematic">لوحة الفئات <xliff:g id="sheet">%1$d</xliff:g>%% · ارتفاع التفاصيل <xliff:g id="height">%2$d</xliff:g>%%</string>
     <string name="settings_panel_width_cinematic_sheet_hint">مدى اتساع الفئات عند فتحها فوق العناوين بزر اليسار.</string>
+    <string name="settings_key_change">تغيير</string>
+    <string name="settings_key_switch">تبديل</string>
+    <string name="settings_key_open">فتح</string>
+    <string name="settings_key_unpin">إلغاء التثبيت</string>
+    <string name="settings_panel_choices">الخيارات</string>
+    <string name="settings_panel_recommended">موصى به</string>
+    <string name="settings_part_guide_catchup">الدليل والمشاهدة الاستدراكية</string>
+    <string name="settings_vp_cat_controls_resume">عناصر التحكم والاستئناف</string>
+    <string name="settings_pinned_from">مثبَّت من <xliff:g id="group">%1$s</xliff:g></string>
+    <string name="settings_forget">نسيان</string>
+    <string name="settings_check_now">تحقق الآن</string>
+    <string name="settings_line_epg_offset">إزاحة الدليل كله عندما تكون أوقات المصدر خاطئة</string>
+    <string name="settings_line_reminders">ما يحدث عند حلول موعد التذكير</string>
+    <string name="settings_line_reminder_lead">متى يصل التذكير مسبقًا</string>
+    <string name="settings_line_guide_days">عدد الأيام المقبلة التي يحتفظ بها الدليل</string>
+    <string name="settings_line_catchup">المنطقة الزمنية لأرشيفات المشاهدة الاستدراكية</string>
+    <string name="settings_line_catchup_sources">تجاوز المنطقة الزمنية لقائمة تشغيل واحدة</string>
+    <string name="settings_line_override_playlist">تجاوز لقائمة تشغيل واحدة</string>
+    <string name="settings_line_accent">يلوّن الأزرار والتركيز والتمييزات في كل مكان</string>
+    <string name="settings_line_glass">أسطح زجاجية، صورة خلفية، شفافية</string>
+    <string name="settings_line_fonts">خط واحد للواجهة الرئيسية والنوافذ المنبثقة</string>
+    <string name="settings_line_popup_size">تغيير حجم النوافذ والقوائم دون تغيير نصها</string>
+    <string name="settings_line_animations">الإيقاف يجعل أجهزة التلفاز الضعيفة أسرع استجابة</string>
+    <string name="settings_line_weather">الطقس أعلى اليمين: الموقع و°م / °ف</string>
+    <string name="settings_line_live_opens_in">قائمة القنوات أو شبكة الدليل</string>
+    <string name="settings_line_vod_layout">لوحات منفصلة أو عرض سينمائي واحد</string>
+    <string name="settings_line_panel_width">عرض الفئات والقائمة والمعاينة</string>
+    <string name="settings_line_guide_width">قائمة القنوات والخط الزمني</string>
+    <string name="settings_line_browsing">تذكُّر آخر فئة وآخر عنصر</string>
+    <string name="settings_line_home">اختيار الصفوف وترتيبها وتصفيتها</string>
+    <string name="settings_line_content_menus">إعادة ترتيب الإجراءات في كل قائمة</string>
+    <string name="settings_line_remote_shortcuts">تعيين أزرار الريموت غير المستخدمة</string>
+    <string name="settings_line_customize">الإخفاء والإظهار وإعادة التسمية والترتيب</string>
+    <string name="settings_line_metadata">الملصقات والقصص وطاقم التمثيل والتقييمات للأفلام والمسلسلات</string>
+    <string name="settings_line_open_subtitles">البحث عن الترجمات وتنزيلها</string>
+    <string name="settings_line_app_icon">أيقونة المشغّل</string>
+    <string name="settings_line_check_updates">الحصول على أحدث إصدار من GitHub</string>
+    <string name="settings_line_when_app_opens">عند فتح التطبيق</string>
+    <string name="settings_line_proxy">كل حركة المرور عبر وكيل HTTP</string>
+    <string name="settings_line_dns">خادم DNS مخصص</string>
+    <string name="settings_line_quick_live_preview">تشغيل القناة المحددة في البث المباشر</string>
+    <string name="settings_line_preview_sound">الصوت في معاينة البث المباشر</string>
+    <string name="settings_line_quick_channel_numbers">اكتب رقمًا على الريموت للانتقال إلى القناة</string>
+    <string name="settings_line_hdr">نطاق ديناميكي عالٍ على mpv</string>
+    <string name="settings_line_quick_autoplay">بدء الحلقة التالية تلقائيًا</string>
+    <string name="settings_line_live_engine">أي مشغّل يفتح القنوات، والبديل</string>
+    <string name="settings_line_saved_live_choices">القنوات التي غيّرت مشغّلها يدويًا</string>
+    <string name="settings_line_vod_engine">أي مشغّل يفتح الأفلام والحلقات</string>
+    <string name="settings_line_saved_choices">الأفلام والحلقات التي غيّرت مشغّلها يدويًا</string>
+    <string name="settings_line_learned_fixes">ما تعلّمه المشغّل عن كل مزوّد</string>
+    <string name="settings_line_external">VLC وMX Player… لكل قسم</string>
+    <string name="settings_line_vod_buffer">مدى التحميل المسبق للأفلام</string>
+    <string name="settings_line_vod_timeout">مدة انتظار خادم لا يستجيب</string>
+    <string name="settings_line_vod_reconnects">إعادة الفتح من حيث توقف</string>
+    <string name="settings_line_hw">استخدام وحدة فك الترميز في التلفاز</string>
+    <string name="settings_line_max_quality">أعلى جودة صورة عند توفر عدة جودات</string>
+    <string name="settings_line_tunneled">تجريبي · البث المباشر على ExoPlayer</string>
+    <string name="settings_line_zoom">الأبعاد والتكبير عند بدء التشغيل</string>
+    <string name="settings_line_saved_zoom">التكبير الذي غيّرته في المشغّل</string>
+    <string name="settings_line_films_only">للأفلام فقط</string>
+    <string name="settings_line_volume">فوق ‎100%%‎ تُضخَّم البثوث الهادئة</string>
+    <string name="settings_line_saved_volume">مستوى الصوت الذي غيّرته في المشغّل</string>
+    <string name="settings_line_surround">‏5.1 و7.1 كما يستقبلها التلفاز</string>
+    <string name="settings_line_passthrough">دون فك ترميز إلى التلفاز أو مكبر الصوت</string>
+    <string name="settings_line_night_mode">خفض المشاهد الصاخبة ورفع الحوار</string>
+    <string name="settings_line_leveling">كل القنوات بنفس الارتفاع</string>
+    <string name="settings_line_audio_sync">تقديم الصوت أو تأخيره</string>
+    <string name="settings_line_saved_audio_sync">التأخيرات التي حفظتها في المشغّل</string>
+    <string name="settings_line_audio_lang">يشغّل هذا المسار إذا توفر في البث</string>
+    <string name="settings_line_sub_lang">تشغيل الترجمة بهذه اللغة</string>
+    <string name="settings_line_sub_style">الحجم واللون والموضع والخلفية</string>
+    <string name="settings_title_fonts">الخطوط وحجم النص</string>
+    <string name="settings_title_saved_live_choices">خيارات مشغّل البث المباشر المحفوظة</string>
+    <string name="settings_title_saved_choices">خيارات المشغّل المحفوظة</string>
+    <string name="settings_title_learned_fixes">إصلاحات البث المكتسبة</string>
+    <string name="settings_title_tunneled">التشغيل النفقي</string>
+    <string name="settings_title_saved_zoom">التكبير المحفوظ</string>
+    <string name="settings_title_saved_volume">مستوى الصوت المحفوظ</string>
+    <string name="settings_title_saved_audio_sync">مزامنة الصوت المحفوظة</string>
+    <string name="settings_line_channel_numbers">رقم المزوّد بجانب الاسم</string>
+    <string name="settings_line_live_preview">تشغيل القناة المحددة</string>
+    <string name="settings_line_timeshift">قنوات بلا مشاهدة استدراكية تُحفظ أثناء المشاهدة</string>
+    <string name="settings_line_timeshift_window">إلى أي مدى يمكنك الرجوع</string>
+    <string name="settings_line_left_right">عندما تكون أدوات التحكم مخفية</string>
+    <string name="settings_line_latency">مدى قرب التشغيل من البث الحي</string>
+    <string name="settings_line_preroll">الفيديو الذي يُجمع قبل بدء القناة</string>
+    <string name="settings_line_tune_timeout">التوقف عن المحاولة والإخبار بذلك</string>
+    <string name="settings_line_seek_step">مقدار القفز للخلف والأمام في الفيلم</string>
+    <string name="settings_line_rewind_step">مقدار القفز في القناة المباشرة</string>
+    <string name="settings_line_resume">عندما يكون للفيلم موضع محفوظ</string>
+    <string name="settings_line_autoplay">وإلى الموسم التالي</string>
+    <string name="settings_line_tiles">كل خانة بث إضافي</string>
+    <string name="settings_line_mini">الحجم والموضع</string>
+    <string name="settings_line_rec_reserve">عدم التسجيل على كل الاتصالات</string>
+    <string name="settings_line_rec_watching">ليس بثًا ثانيًا</string>
+    <string name="settings_line_rec_pre_roll">قبل بدء البرنامج</string>
+    <string name="settings_line_rec_post_roll">للبرامج التي تتجاوز وقتها</string>
+    <string name="settings_line_measured_stats">معدل الإطارات ومعدل البت والإطارات المفقودة مباشرة</string>
+    <string name="settings_line_logging">سجل كامل لتقارير الأخطاء</string>
+    <string name="settings_help_quick">المفاتيح التي تستخدمها أكثر في مكان واحد. اضغط مطولًا على OK فوق أي صف في الإعدادات لتثبيته هنا، واضغط مطولًا على صف هنا لإلغاء تثبيته. يبقى كل صف مثبَّت مُشيرًا إلى مكانه الأصلي.</string>
+    <string name="settings_help_profiles">لكل مشاهد مفضلاته وسجل مشاهدته ونقاط الاستئناف وصفوف الصفحة الرئيسية الخاصة به. يعرض وضع الأطفال الفئات التي تسمح بها فقط، ويمنع رمز PIN أي شخص آخر من فتح الملف الشخصي.</string>
+    <string name="settings_help_playlists">أضف قائمة تشغيل من رابط أو تسجيل دخول Xtream أو بوابة Stalker أو ملف، أو أعد مزامنة إحداها، أو احذفها.</string>
+    <string name="settings_help_epg_sources">أضف مصدر دليل XMLTV عبر رابطه، أو حدّثه، أو احذفه. تملأ المصادر دليل التلفاز وسطور البرامج في البث المباشر.</string>
+    <string name="settings_help_guide_days">عدد أيام البرامج التي يخزنها الدليل مسبقًا. أيام أقل تعني تحديثًا أسرع للدليل وقاعدة بيانات أصغر.</string>
+    <string name="settings_help_catchup">تشغّل المشاهدة الاستدراكية البرامج من أرشيف مزوّدك. يعتمد معظم المزوّدين على ساعة التلفاز نفسها؛ اختر إزاحة UTC ثابتة إذا بدأت المشاهدة في وقت خاطئ. ومن هنا أيضًا تختار المشغّل الذي تستخدمه.</string>
+    <string name="settings_help_theme">صُمّم OwnTV للوضع الداكن. يتبع خيار النظام إعداد التلفاز إن وُجد، ويناسب الوضع الفاتح الغرف المضيئة.</string>
+    <string name="settings_help_accent">يلوّن الأزرار وتوهج التركيز وأشرطة التقدم والتمييزات في كل مكان. اختر لونًا جاهزًا، أو اضغط OK لفتح لوحة الألوان وإدخال أي رمز سداسي.</string>
+    <string name="settings_help_focus">الحلقة المرسومة حول العنصر المحدد. اختر لونها وسُمكها لتبقى سهلة التتبع من الأريكة.</string>
+    <string name="settings_help_glass">يجعل تأثير الزجاج القوائم واللوحات شفافة ومصنفرة فوق صورة خلفية من اختيارك. عند إيقافه تُرسم لوحات مصمتة، وهذا أخف على أجهزة التلفاز الضعيفة.</string>
+    <string name="settings_help_fonts">الخط المستخدم في كل OwnTV وحجم النص. تستخدم النوافذ المنبثقة الخط نفسه.</string>
+    <string name="settings_help_popup_size">يكبّر النوافذ المنبثقة والقوائم ومربعات الحوار أو يصغّرها كاملة. استخدمه عندما تبدو النوافذ ضيقة أو تغطي جزءًا كبيرًا من الشاشة.</string>
+    <string name="settings_help_zoom">يغيّر حجم كل شيء على الشاشة. الأكبر أسهل للقراءة من بعيد، والأصغر يعرض محتوى أكثر. تحت ‎85%%‎ قد تنفد ذاكرة أجهزة التلفاز ذات الذاكرة القليلة.</string>
+    <string name="settings_help_animations">عند التشغيل تتحرك الألواح والقوائم والتركيز بسلاسة. عند الإيقاف يصبح كل تغيير فوريًا.</string>
+    <string name="settings_help_weather">يعرض درجة الحرارة ومدينتك بجانب الساعة. حدّد الموقع يدويًا إذا كان الموقع التلقائي خاطئًا — عند استخدام VPN مثلًا — واختر مئوية أو فهرنهايت.</string>
+    <string name="settings_help_navigation">عائم: تستقر القائمة ككبسولة صغيرة فوق المحتوى وتنفتح عند التحرك يسارًا. مثبَّت: تأخذ دائمًا مساحتها الخاصة. يحدد الحجم ما تعرضه، من الأيقونات فقط إلى الأعداد والتفاصيل.</string>
+    <string name="settings_help_live_layout">يعرض Stage الفئات كلوح ينزلق بالضغط على ◀، لتحصل قائمة القنوات والمعاينة على المساحة. أما المنفصل فيُبقي الفئات ظاهرة بجانب القائمة.</string>
+    <string name="settings_help_vod_layout">يعرض السينمائي صورة العنوان المحدد خلف شبكة من الملصقات. أما المنفصل فيعرض الفئات والعناوين والتفاصيل جنبًا إلى جنب.</string>
+    <string name="settings_help_home">اختر الصفوف التي تعرضها الصفحة الرئيسية وترتيبها، وشكل صف الأكثر رواجًا الآن.</string>
+    <string name="settings_help_customize">أخفِ الفئات والعناصر التي لا تشاهدها أبدًا، وامنح الفئات أسماءك الخاصة ورتّبها كما تريد. ما تخفيه يعود من هنا، ولا يضيع أبدًا.</string>
+    <string name="settings_help_app_icon">أيقونة OwnTV على الشاشة الرئيسية للتلفاز. قد يحتاج المشغّل لحظة لإظهار التغيير.</string>
+    <string name="settings_help_startup">ما يعرضه OwnTV عند بدء تشغيله: الصفحة الرئيسية، أو آخر قناة شاهدتها، أو مفضلاتك، أو قناة تختارها.</string>
+    <string name="settings_help_check_updates">يبحث الآن في GitHub عن إصدار أحدث من OwnTV ويعرض تثبيته. تبقى قوائم التشغيل والمفضلات والإعدادات كما هي.</string>
+    <string name="settings_help_update_startup">يبحث عن إصدار جديد في كل مرة يبدأ فيها OwnTV ويخبرك عند توفره. لا يُثبَّت أي شيء دون سؤالك.</string>
+    <string name="settings_help_dns">يبحث عن عناوين مزوّدك عبر خادم DNS تختاره بدلًا من خادم شبكتك — مفيد عندما تحظرها شبكتك أو تعيد توجيهها.</string>
+    <string name="settings_help_live_engine">يفتح ExoPlayer القنوات أسرع بكثير وهو الوحيد الذي يدعم الترجمة المباشرة. يشغّل mpv قنوات لا يستطيع ExoPlayer تشغيلها، ومنها بعض الصوت غير المعتاد. تجرّب الخيارات المركّبة المشغّل الآخر عند فشل الأول.</string>
+    <string name="settings_help_hw">يستخدم وحدة فك الترميز في عتاد التلفاز: 4K سلس وحرارة أقل. أوقفه فقط إذا تقطّعت بعض البثوث أو ظهرت فيها مربعات؛ عندها يتولى فك الترميز البرمجي العمل.</string>
+    <string name="settings_help_volume">مستوى الصوت الذي تبدأ به كل قناة وفيلم وحلقة. فوق ‎100%%‎ تُضخَّم البثوث الهادئة. يُحفظ المستوى الذي تغيّره في المشغّل لذلك العنوان حتى تعيد ضبطه.</string>
+    <string name="settings_help_channel_numbers">يعرض رقم القناة من مزوّدك بجانب الاسم في قائمة البث المباشر وقائمة القنوات المنبثقة والمشغّل، ويتيح كتابة رقم على الريموت في وضع ملء الشاشة للانتقال إلى تلك القناة.</string>
+    <string name="settings_help_seek_step">مقدار قفزة الرجوع والتقديم في الفيلم أو الحلقة بضغطة واحدة. الاستمرار في الضغط يواصل القفز.</string>
+    <string name="settings_help_zoom_mode">كيف تملأ الصورة الشاشة عند بدء التشغيل. ملاءمة تعرض الصورة كاملة، والخيارات الأخرى تملأ أو تمدّ أو تفرض شكلًا. يُحفظ التكبير الذي تغيّره في المشغّل لذلك العنوان.</string>
+    <string name="settings_help_sub_lang">تُشغَّل الترجمة بهذه اللغة تلقائيًا عندما يحتويها البث. وإلا تبقى الترجمة متوقفة حتى تختار مسارًا في المشغّل.</string>
+    <string name="settings_help_live_preview">تُشغَّل القناة المحددة في المعاينة بجانب قائمة البث المباشر، فترى ما يُعرض قبل فتحها. يحتاج إلى تخطيط فيه مساحة للمعاينة.</string>
+    <string name="settings_help_preview_audio">يشغّل صوت المعاينة مع صورتها. عند الإيقاف يبقى التصفح صامتًا.</string>
+    <string name="settings_help_timeshift_window">إلى أي مدى يمكن لميزة الإيقاف المؤقت والترجيع الرجوع في قناة بلا مشاهدة استدراكية. المدة الأطول تحفظ جزءًا أكبر من القناة في تخزين هذا الجهاز.</string>
+    <string name="settings_help_resume">يعرض السؤال عن الاستئناف خيارَي استئناف أو البدء من جديد عندما يكون للفيلم أو الحلقة موضع محفوظ. الاستئناف دائمًا يكمل من حيث توقفت، وعدم الاستئناف يبدأ من البداية.</string>
+    <string name="settings_help_mini">المشغّل الصغير الذي يُبقي القناة تعمل في زاوية أثناء التصفح. اختر حجمه والزاوية التي يظهر فيها.</string>
+    <string name="settings_key_palette">لوحة الألوان</string>
+    <string name="settings_live_preview_note">تظهر التغييرات هنا أثناء التنقل، قبل أن تغادر الصف.</string>
+    <string name="settings_synced_at">المزامنة: <xliff:g id="when">%1$s</xliff:g></string>
+    <string name="settings_profile_in_use">قيد الاستخدام</string>
+    <string name="settings_profile_kids">وضع الأطفال</string>
+    <string name="settings_profile_pin_lock">قفل PIN</string>
+    <string name="settings_profile_no_lock">بلا قفل</string>
+    <string name="settings_profile_add">إضافة ملف شخصي</string>
+    <string name="settings_profile_add_line">مشاهد له مفضلاته وسجله وإعداداته الخاصة</string>
+    <plurals name="settings_help_language">
+        <item quantity="zero">لغة كل القوائم والرسائل في OwnTV. <xliff:g id="count">%1$d</xliff:g> لغة؛ تتبع لغة التلفاز حتى تختار لغة.</item>
+        <item quantity="one">لغة كل القوائم والرسائل في OwnTV. <xliff:g id="count">%1$d</xliff:g> لغة؛ تتبع لغة التلفاز حتى تختار لغة.</item>
+        <item quantity="two">لغة كل القوائم والرسائل في OwnTV. <xliff:g id="count">%1$d</xliff:g> لغة؛ تتبع لغة التلفاز حتى تختار لغة.</item>
+        <item quantity="few">لغة كل القوائم والرسائل في OwnTV. <xliff:g id="count">%1$d</xliff:g> لغات؛ تتبع لغة التلفاز حتى تختار لغة.</item>
+        <item quantity="many">لغة كل القوائم والرسائل في OwnTV. <xliff:g id="count">%1$d</xliff:g> لغة؛ تتبع لغة التلفاز حتى تختار لغة.</item>
+        <item quantity="other">لغة كل القوائم والرسائل في OwnTV. <xliff:g id="count">%1$d</xliff:g> لغة؛ تتبع لغة التلفاز حتى تختار لغة.</item>
+    </plurals>
+    <plurals name="settings_profile_count">
+        <item quantity="zero"><xliff:g id="count">%1$d</xliff:g> ملف شخصي</item>
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> ملف شخصي</item>
+        <item quantity="two"><xliff:g id="count">%1$d</xliff:g> ملف شخصي</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> ملفات شخصية</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> ملفًا شخصيًا</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> ملف شخصي</item>
+    </plurals>
+    <string name="settings_seg_separate">منفصل</string>
+    <string name="settings_seg_guide">الدليل</string>
+    <string name="settings_accent_yours">لونك</string>
+    <string name="settings_accent_picker_hint">‏◀ ▶ يغيّر درجة اللون، و▲ ▼ يحرّك النقطة. يتغير لون التطبيق كله خلف هذه النافذة أثناء التنقل.</string>
+    <string name="settings_signed_out">تم تسجيل الخروج</string>
+    <plurals name="settings_epg_feed_count">
+        <item quantity="zero"><xliff:g id="count">%1$d</xliff:g> مصدر</item>
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> مصدر</item>
+        <item quantity="two"><xliff:g id="count">%1$d</xliff:g> مصدر</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> مصادر</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> مصدرًا</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> مصدر</item>
+    </plurals>
 </resources>
