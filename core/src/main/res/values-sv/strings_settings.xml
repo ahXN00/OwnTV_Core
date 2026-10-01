@@ -344,7 +344,6 @@
     <string name="settings_telegram_qr">QR-kod till Telegram-gruppen</string>
     <string name="settings_telegram_scan">Skanna QR-koden för att gå med från telefonen eller öppna länken ovan.</string>
     <string name="settings_contributions">Bidrag, felrapporter och stjärnor välkomnas på GitHub.</string>
-    <string name="settings_playback_error_title">Fellogg</string>
     <string name="settings_playback_error_description_full">Den senaste kraschen och de senaste uppspelningsfelen (nyaste först). Inkludera den här informationen när du rapporterar ett problem.</string>
     <string name="settings_loading">Läser in…</string>
     <string name="settings_no_playback_errors">Inga uppspelningsfel har registrerats.</string>
@@ -374,7 +373,6 @@
     <string name="settings_group_sources">Källor och guide</string>
     <string name="settings_group_layout">Layout</string>
     <string name="settings_group_content_metadata">Innehåll och metadata</string>
-    <string name="settings_group_data">Data</string>
     <string name="settings_group_appearance">Utseende</string>
     <string name="settings_group_playback">Uppspelning</string>
     <string name="settings_group_network">Nätverk</string>
@@ -417,6 +415,8 @@
     <string name="settings_group_summary_app">Språk, start, uppdateringar och appinfo</string>
     <string name="settings_group_quick">Snabbval</string>
     <string name="settings_group_summary_quick">Reglagen du använder mest</string>
+    <string name="settings_group_sound_subtitles">Ljud och undertexter</string>
+    <string name="settings_group_watching_recording">Uppspelning och inspelning</string>
     <string name="settings_search_guide_logos">Kanallogotyper i programguiden</string>
     <string name="settings_search_keywords_profiles">tittare barnläge PIN-lås konto</string>
     <string name="settings_search_keywords_playlists">m3u xtream källa synkronisering lägg till ta bort</string>
@@ -921,7 +921,6 @@
     <string name="settings_backup_encrypt_title">Kryptera den här säkerhetskopian?</string>
     <string name="settings_backup_encrypt_message">Med ett lösenord för säkerhetskopian krypteras hela filen – inklusive spellistor, profiler och sparade lösenord – och ingenting i den kan läsas utan lösenordet. Förvara det säkert: om du förlorar det går säkerhetskopian inte att öppna alls. Utan lösenord krypteras inte filen och sparade lösenord och PIN-koder utelämnas.</string>
     <string name="settings_backup_export_title">Exportera en säkerhetskopia</string>
-    <string name="settings_backup_export_message">Skicka säkerhetskopian till en annan enhet (telefon eller bärbar dator) på samma Wi-Fi eller spara den som en fil på den här enheten.</string>
     <string name="settings_backup_restore_title">Återställ en säkerhetskopia</string>
     <string name="settings_backup_restore_message">Skicka säkerhetskopian från en annan enhet (telefon eller bärbar dator) på samma Wi-Fi eller välj en säkerhetskopia som redan finns på den här enheten.</string>
     <string name="settings_backup_password">Lösenord för säkerhetskopia</string>
@@ -988,7 +987,6 @@
     <string name="settings_backup_which_profiles">Vilka profiler som ska säkerhetskopieras</string>
     <string name="settings_backup_selected_profiles">Säkerhetskopian kommer endast att innehålla de valda profilerna och deras data. Låsta profiler kräver sin PIN.</string>
     <string name="settings_backup_profile_pin_description">Det här är inte din aktuella profil. Ange profilens PIN för att ta med den i säkerhetskopian – utan PIN säkerhetskopieras inte dess data.</string>
-    <string name="settings_backup_save_description">Spara dina profiler, källor, anpassningar, favoriter, historik och uppspelningspositioner i en fil – eller återställ dem på en ny enhet. Du väljer vad som ska ingå varje gång.</string>
     <string name="settings_metadata_optional">valfritt</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">Massändring av namn</string>
@@ -1416,24 +1414,59 @@
     <string name="local_sync_last_synced">Senast synkroniserad: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Redan parkopplad</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
-    <string name="more_spine_header_summary">Allt som varken är en kanal eller en inställning</string>
-    <string name="more_spine_settings_summary">Spellistor, uppspelning, nätverk</string>
-    <string name="more_spine_favorites_summary">Kanaler, filmer, serier</string>
-    <string name="more_spine_history_summary">Med återupptagningspunkter</string>
-    <string name="more_spine_backup_summary">Exportera eller återställ</string>
-    <string name="more_spine_local_sync_summary">Byt med din telefon</string>
-    <string name="more_spine_error_log_summary">Krascher och fel</string>
-    <string name="more_spine_about_summary">Version och licens</string>
-    <string name="more_pane_groups">Grupper</string>
-    <string name="more_pane_backup_contents">En säkerhetskopia innehåller</string>
     <string name="more_pane_last_backup">Senaste säkerhetskopian</string>
-    <string name="more_pane_favorites_summary">Allt du har markerat, på ett ställe</string>
-    <string name="more_pane_history_summary">Allt du har sett, nyaste först</string>
-    <string name="more_pane_hint_open">öppna <xliff:g id="destination">%1$s</xliff:g></string>
-    <string name="more_pane_sync_listening">Synkroniseringsläge — den här enheten lyssnar</string>
-    <string name="more_pane_sync_not_listening">Synkroniseringsläge — den här enheten lyssnar inte</string>
-    <string name="more_pane_about_languages">Språk</string>
     <string name="more_pane_encrypted">Krypterad</string>
+    <string name="more_group_your_things">Dina saker</string>
+    <string name="more_group_keep_safe">Håll det säkert</string>
+    <string name="more_profile_switch">Byt</string>
+    <string name="more_fav_movies_series">Filmer och serier</string>
+    <string name="more_fav_empty_title">Inga favoriter än</string>
+    <string name="more_fav_empty_body">Håll in OK på en kanal, film eller serie och välj ”Lägg till som favorit”.</string>
+    <string name="more_history_empty">Inget sett än</string>
+    <string name="more_backup_never_title">Aldrig säkerhetskopierad</string>
+    <string name="more_backup_never_body"><xliff:g id="playlists">%1$s</xliff:g>, <xliff:g id="favorites">%2$s</xliff:g>, <xliff:g id="history">%3$s</xliff:g> och alla anpassningar finns bara på den här tv:n.</string>
+    <string name="more_backup_now">Säkerhetskopiera nu</string>
+    <string name="more_backup_now_body">Spara en fil på den här tv:n eller skicka den till din telefon eller bärbara dator</string>
+    <string name="more_backup_file_tv">Fil på den här tv:n</string>
+    <string name="more_restore_body">Från en fil på den här tv:n, eller på distans från en annan enhet</string>
+    <string name="more_backup_included">Vad som ingår</string>
+    <string name="more_about_up_to_date">Uppdaterad</string>
+    <string name="more_about_checked">Kontrollerad <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="more_settings_pin_hint">Håll in OK på en rad för att fästa den i Snabbval</string>
+    <string name="more_settings_search">Sök i alla inställningar</string>
+    <string name="settings_card_profile">Tittare, barnläge, PIN-lås</string>
+    <string name="settings_card_sources">Spellistor, EPG, påminnelser, catch-up</string>
+    <string name="settings_card_appearance">Tema, accent, glas, text</string>
+    <string name="settings_card_layout">Navigering, paneler, Hem, menyer</string>
+    <string name="settings_card_content">Kategorier, TMDB, undertexter</string>
+    <string name="settings_card_player">Vilken spelare, strömning</string>
+    <string name="settings_card_picture">Avkodare, HDR, zoom, bildfrekvens</string>
+    <string name="settings_card_sound">Volym, surround, språk</string>
+    <string name="settings_card_live">Förhandsvisning, spola, fördröjning, start</string>
+    <string name="settings_card_watching">Hoppa, återuppta, multiview, inspelning</string>
+    <string name="settings_card_app">Språk, uppdateringar, nätverk, diagnostik</string>
+    <string name="more_sync_description">Dela dina data med din andra enhet via wifi. Inget lämnar ditt hemnätverk.</string>
+    <string name="more_sync_mode_description">Låter dina andra enheter hitta den här. Förblir på medan den här sidan är öppen.</string>
+    <string name="more_sync_unpair">Ta bort parkoppling</string>
+    <string name="more_about_license">GPLv3 · gratis och öppen källkod</string>
+    <string name="more_about_description">Din egen IPTV-spelare för Android TV. Den tillhandahåller inga kanaler eller något innehåll; du lägger till dina egna lagliga källor.</string>
+    <string name="more_about_scan">Skanna med telefonen.</string>
+    <plurals name="more_playlist_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> spellista</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> spellistor</item>
+    </plurals>
+    <plurals name="more_count_favorites">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> favorit</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> favoriter</item>
+    </plurals>
+    <plurals name="more_count_history">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> historikobjekt</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> historikobjekt</item>
+    </plurals>
+    <plurals name="more_about_languages">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> språk</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> språk</item>
+    </plurals>
     <string name="settings_backup_location">Plats</string>
     <string name="settings_multiview">Multivy</string>
     <string name="settings_multiview_description">Titta på flera direktkanaler samtidigt. Du väljer hur många varje gång, upp till den här gränsen – varje ruta använder en av leverantörens anslutningar.</string>

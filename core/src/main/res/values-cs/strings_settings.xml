@@ -348,7 +348,6 @@
     <string name="settings_telegram_qr">QR kód skupiny na Telegramu</string>
     <string name="settings_telegram_scan">Naskenujte QR kód a připojte se z telefonu nebo otevřete odkaz výše.</string>
     <string name="settings_contributions">Příspěvky, hlášení chyb a hvězdičky jsou na GitHubu vítány.</string>
-    <string name="settings_playback_error_title">Protokol chyb</string>
     <string name="settings_playback_error_description_full">Poslední pád aplikace a nejnovější chyby přehrávání (od nejnovějších). Při hlášení problému přiložte tyto podrobnosti.</string>
     <string name="settings_loading">Načítání…</string>
     <string name="settings_no_playback_errors">Nebyly zaznamenány žádné chyby přehrávání.</string>
@@ -378,7 +377,6 @@
     <string name="settings_group_sources">Zdroje a program</string>
     <string name="settings_group_layout">Rozvržení</string>
     <string name="settings_group_content_metadata">Obsah a metadata</string>
-    <string name="settings_group_data">Data</string>
     <string name="settings_group_appearance">Vzhled</string>
     <string name="settings_group_playback">Přehrávání</string>
     <string name="settings_group_network">Síť</string>
@@ -421,6 +419,8 @@
     <string name="settings_group_summary_app">Jazyk, spuštění, aktualizace a informace o aplikaci</string>
     <string name="settings_group_quick">Rychlé</string>
     <string name="settings_group_summary_quick">Přepínače, které používáte nejčastěji</string>
+    <string name="settings_group_sound_subtitles">Zvuk a titulky</string>
+    <string name="settings_group_watching_recording">Sledování a nahrávání</string>
     <string name="settings_search_guide_logos">Loga kanálů v TV programu</string>
     <string name="settings_search_keywords_profiles">diváci děti dětský režim PIN zámek účet</string>
     <string name="settings_search_keywords_playlists">M3U Xtream zdroj synchronizace přidat odebrat</string>
@@ -943,7 +943,6 @@
     <string name="settings_backup_encrypt_title">Zašifrovat tuto zálohu?</string>
     <string name="settings_backup_encrypt_message">Pokud nastavíte heslo zálohy, bude zašifrován celý soubor — včetně playlistů, profilů a uložených hesel — a bez tohoto hesla z něj nebude možné nic přečíst. Heslo bezpečně uschovejte: pokud jej ztratíte, zálohu nebude možné vůbec otevřít. Bez hesla nebude soubor zašifrován a uložená hesla ani PINy v něm nebudou zahrnuty.</string>
     <string name="settings_backup_export_title">Exportovat zálohu</string>
-    <string name="settings_backup_export_message">Odešlete zálohu do jiného zařízení (telefonu nebo notebooku) připojeného ke stejné síti Wi-Fi nebo ji uložte do souboru v tomto zařízení.</string>
     <string name="settings_backup_restore_title">Obnovit zálohu</string>
     <string name="settings_backup_restore_message">Odešlete zálohu z jiného zařízení (telefonu nebo notebooku) připojeného ke stejné síti Wi-Fi nebo vyberte soubor zálohy, který už je v tomto zařízení.</string>
     <string name="settings_backup_password">Heslo zálohy</string>
@@ -1014,7 +1013,6 @@
     <string name="settings_backup_which_profiles">Které profily zálohovat</string>
     <string name="settings_backup_selected_profiles">Záloha bude obsahovat pouze vybrané profily a jejich data. Uzamčené profily vyžadují svůj PIN.</string>
     <string name="settings_backup_profile_pin_description">Toto není váš aktuální profil. Chcete-li jej zahrnout do zálohy, zadejte jeho PIN — bez PIN nebudou jeho data zálohována.</string>
-    <string name="settings_backup_save_description">Uložte své profily, zdroje, přizpůsobení, oblíbené, historii a pozice pro pokračování do souboru — nebo je obnovte v novém zařízení. Pokaždé si zvolíte, co chcete zahrnout.</string>
     <string name="settings_metadata_optional">volitelné</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">Hromadné přejmenování</string>
@@ -1462,24 +1460,67 @@
     <string name="local_sync_last_synced">Naposledy synchronizováno: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Již spárováno</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
-    <string name="more_spine_header_summary">Vše, co není kanál ani nastavení</string>
-    <string name="more_spine_settings_summary">Playlisty, přehrávání, síť</string>
-    <string name="more_spine_favorites_summary">Kanály, filmy, seriály</string>
-    <string name="more_spine_history_summary">Včetně míst pro pokračování</string>
-    <string name="more_spine_backup_summary">Export nebo obnovení</string>
-    <string name="more_spine_local_sync_summary">Výměna s telefonem</string>
-    <string name="more_spine_error_log_summary">Pády a chyby</string>
-    <string name="more_spine_about_summary">Verze a licence</string>
-    <string name="more_pane_groups">Skupiny</string>
-    <string name="more_pane_backup_contents">Záloha obsahuje</string>
     <string name="more_pane_last_backup">Poslední záloha</string>
-    <string name="more_pane_favorites_summary">Vše, co jste si oblíbili, na jednom místě</string>
-    <string name="more_pane_history_summary">Vše, co jste sledovali, od nejnovějšího</string>
-    <string name="more_pane_hint_open">otevřít <xliff:g id="destination">%1$s</xliff:g></string>
-    <string name="more_pane_sync_listening">Režim synchronizace — toto zařízení naslouchá</string>
-    <string name="more_pane_sync_not_listening">Režim synchronizace — toto zařízení nenaslouchá</string>
-    <string name="more_pane_about_languages">Jazyky</string>
     <string name="more_pane_encrypted">Zašifrováno</string>
+    <string name="more_group_your_things">Vaše věci</string>
+    <string name="more_group_keep_safe">Zálohování</string>
+    <string name="more_profile_switch">Přepnout</string>
+    <string name="more_fav_movies_series">Filmy a seriály</string>
+    <string name="more_fav_empty_title">Zatím žádné oblíbené</string>
+    <string name="more_fav_empty_body">Podržte OK na kanálu, filmu nebo seriálu a zvolte „Přidat k oblíbeným“.</string>
+    <string name="more_history_empty">Zatím nic zhlédnuto</string>
+    <string name="more_backup_never_title">Nikdy nezálohováno</string>
+    <string name="more_backup_never_body"><xliff:g id="playlists">%1$s</xliff:g>, <xliff:g id="favorites">%2$s</xliff:g>, <xliff:g id="history">%3$s</xliff:g> a všechna přizpůsobení jsou jen v této televizi.</string>
+    <string name="more_backup_now">Zálohovat nyní</string>
+    <string name="more_backup_now_body">Uložte soubor do této televize, nebo ho pošlete do telefonu či notebooku</string>
+    <string name="more_backup_file_tv">Soubor v této televizi</string>
+    <string name="more_restore_body">Ze souboru v této televizi, nebo na dálku z jiného zařízení</string>
+    <string name="more_backup_included">Co obsahuje</string>
+    <string name="more_about_up_to_date">Aktuální</string>
+    <string name="more_about_checked">Zkontrolováno <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="more_settings_pin_hint">Podržením OK řádek připnete do Rychlé</string>
+    <string name="more_settings_search">Hledat ve všech nastaveních</string>
+    <string name="settings_card_profile">Diváci, dětský režim, zámky PIN</string>
+    <string name="settings_card_sources">Playlisty, EPG, připomínky, catch-up</string>
+    <string name="settings_card_appearance">Motiv, akcent, sklo, text</string>
+    <string name="settings_card_layout">Navigace, panely, Domů, nabídky</string>
+    <string name="settings_card_content">Kategorie, TMDB, titulky</string>
+    <string name="settings_card_player">Který přehrávač, streamování</string>
+    <string name="settings_card_picture">Dekodér, HDR, přiblížení, snímková frekvence</string>
+    <string name="settings_card_sound">Hlasitost, prostorový zvuk, jazyky</string>
+    <string name="settings_card_live">Náhled, přetáčení, zpoždění, spouštění</string>
+    <string name="settings_card_watching">Přeskakování, pokračování, multiview, nahrávání</string>
+    <string name="settings_card_app">Jazyk, aktualizace, síť, diagnostika</string>
+    <string name="more_sync_description">Sdílejte data s dalším zařízením přes Wi-Fi. Nic neopustí vaši domácí síť.</string>
+    <string name="more_sync_mode_description">Umožní ostatním zařízením toto najít. Zůstane zapnuto, dokud je tato stránka otevřená.</string>
+    <string name="more_sync_unpair">Zrušit párování</string>
+    <string name="more_about_license">GPLv3 · zdarma a open source</string>
+    <string name="more_about_description">Váš vlastní přehrávač IPTV pro Android TV. Neposkytuje žádné kanály ani obsah; přidáváte vlastní legálně dostupné zdroje.</string>
+    <string name="more_about_scan">Naskenujte telefonem.</string>
+    <plurals name="more_playlist_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> playlist</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> playlisty</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> playlistu</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> playlistů</item>
+    </plurals>
+    <plurals name="more_count_favorites">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> oblíbená položka</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> oblíbené položky</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> oblíbené položky</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> oblíbených položek</item>
+    </plurals>
+    <plurals name="more_count_history">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> položka historie</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> položky historie</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> položky historie</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> položek historie</item>
+    </plurals>
+    <plurals name="more_about_languages">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> jazyk</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> jazyky</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> jazyka</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> jazyků</item>
+    </plurals>
     <string name="settings_backup_location">Umístění</string>
     <string name="settings_multiview">Multiview</string>
     <string name="settings_multiview_description">Sledujte několik živých kanálů najednou. Kolik jich bude, určujete pokaždé sami, nejvýše však tolik — každá dlaždice využívá jedno připojení poskytovatele.</string>

@@ -348,7 +348,6 @@
     <string name="settings_telegram_qr">QR-код группы Telegram</string>
     <string name="settings_telegram_scan">Отсканируйте QR-код, чтобы присоединиться с телефона, или откройте ссылку выше.</string>
     <string name="settings_contributions">Мы приветствуем вклад в проект, сообщения об ошибках и звёзды на GitHub.</string>
-    <string name="settings_playback_error_title">Журнал ошибок</string>
     <string name="settings_playback_error_description_full">Последний сбой приложения и последние ошибки воспроизведения (сначала самые новые). Приложите эти сведения при сообщении о проблеме.</string>
     <string name="settings_loading">Загрузка…</string>
     <string name="settings_no_playback_errors">Ошибки воспроизведения не зарегистрированы.</string>
@@ -378,7 +377,6 @@
     <string name="settings_group_sources">Источники и телепрограмма</string>
     <string name="settings_group_layout">Расположение</string>
     <string name="settings_group_content_metadata">Контент и метаданные</string>
-    <string name="settings_group_data">Данные</string>
     <string name="settings_group_appearance">Внешний вид</string>
     <string name="settings_group_playback">Воспроизведение</string>
     <string name="settings_group_network">Сеть</string>
@@ -421,6 +419,8 @@
     <string name="settings_group_summary_app">Язык, запуск, обновления и сведения о приложении</string>
     <string name="settings_group_quick">Быстрые</string>
     <string name="settings_group_summary_quick">Переключатели, которые нужны чаще всего</string>
+    <string name="settings_group_sound_subtitles">Звук и субтитры</string>
+    <string name="settings_group_watching_recording">Просмотр и запись</string>
     <string name="settings_search_guide_logos">Логотипы каналов в программе передач</string>
     <string name="settings_search_keywords_profiles">зрители дети детский режим PIN блокировка учётная запись</string>
     <string name="settings_search_keywords_playlists">M3U Xtream источник синхронизация добавить удалить</string>
@@ -943,7 +943,6 @@
     <string name="settings_backup_encrypt_title">Зашифровать эту резервную копию?</string>
     <string name="settings_backup_encrypt_message">Если установить пароль резервной копии, весь файл будет зашифрован — включая плейлисты, профили и сохранённые пароли — и без этого пароля прочитать его содержимое будет невозможно. Храните пароль в надёжном месте: если вы его потеряете, резервную копию нельзя будет открыть. Без пароля файл не шифруется, а сохранённые пароли и PIN-коды в него не включаются.</string>
     <string name="settings_backup_export_title">Экспорт резервной копии</string>
-    <string name="settings_backup_export_message">Отправьте резервную копию на другое устройство (телефон или ноутбук) в той же сети Wi-Fi либо сохраните её в файл на этом устройстве.</string>
     <string name="settings_backup_restore_title">Восстановление резервной копии</string>
     <string name="settings_backup_restore_message">Отправьте резервную копию с другого устройства (телефона или ноутбука) в той же сети Wi-Fi либо выберите файл резервной копии, уже сохранённый на этом устройстве.</string>
     <string name="settings_backup_password">Пароль резервной копии</string>
@@ -1014,7 +1013,6 @@
     <string name="settings_backup_which_profiles">Какие профили включить в резервную копию</string>
     <string name="settings_backup_selected_profiles">Резервная копия будет содержать только выбранные профили и их данные. Для заблокированных профилей требуется PIN.</string>
     <string name="settings_backup_profile_pin_description">Это не ваш текущий профиль. Введите его PIN, чтобы включить профиль в резервную копию — без PIN его данные не будут сохранены.</string>
-    <string name="settings_backup_save_description">Сохраните профили, источники, настройки персонализации, избранное, историю и позиции продолжения просмотра в файл — или восстановите их на новом устройстве. Каждый раз вы сами выбираете, что включить.</string>
     <string name="settings_metadata_optional">необязательно</string>
     <string name="settings_metadata_test_title">Оппенгеймер</string>
     <string name="settings_bulk_rename_title">Массовое переименование</string>
@@ -1462,24 +1460,67 @@
     <string name="local_sync_last_synced">Последняя синхронизация: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Уже сопряжено</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
-    <string name="more_spine_header_summary">Всё, что не канал и не настройка</string>
-    <string name="more_spine_settings_summary">Плейлисты, воспроизведение, сеть</string>
-    <string name="more_spine_favorites_summary">Каналы, фильмы, сериалы</string>
-    <string name="more_spine_history_summary">С точками возобновления</string>
-    <string name="more_spine_backup_summary">Экспорт или восстановление</string>
-    <string name="more_spine_local_sync_summary">Обмен с телефоном</string>
-    <string name="more_spine_error_log_summary">Сбои и ошибки</string>
-    <string name="more_spine_about_summary">Версия и лицензия</string>
-    <string name="more_pane_groups">Группы</string>
-    <string name="more_pane_backup_contents">Резервная копия включает</string>
     <string name="more_pane_last_backup">Последняя копия</string>
-    <string name="more_pane_favorites_summary">Всё, что вы добавили в избранное, в одном месте</string>
-    <string name="more_pane_history_summary">Всё, что вы смотрели, сначала новое</string>
-    <string name="more_pane_hint_open">открыть <xliff:g id="destination">%1$s</xliff:g></string>
-    <string name="more_pane_sync_listening">Режим синхронизации — это устройство слушает</string>
-    <string name="more_pane_sync_not_listening">Режим синхронизации — это устройство не слушает</string>
-    <string name="more_pane_about_languages">Языки</string>
     <string name="more_pane_encrypted">Зашифрована</string>
+    <string name="more_group_your_things">Ваше</string>
+    <string name="more_group_keep_safe">Сохранность</string>
+    <string name="more_profile_switch">Сменить</string>
+    <string name="more_fav_movies_series">Фильмы и сериалы</string>
+    <string name="more_fav_empty_title">Избранного пока нет</string>
+    <string name="more_fav_empty_body">Удерживайте OK на канале, фильме или сериале и выберите «Добавить в избранное».</string>
+    <string name="more_history_empty">Вы ещё ничего не смотрели</string>
+    <string name="more_backup_never_title">Резервной копии ещё нет</string>
+    <string name="more_backup_never_body"><xliff:g id="playlists">%1$s</xliff:g>, <xliff:g id="favorites">%2$s</xliff:g>, <xliff:g id="history">%3$s</xliff:g> и все настройки хранятся только на этом телевизоре.</string>
+    <string name="more_backup_now">Создать копию</string>
+    <string name="more_backup_now_body">Сохраните файл на этом телевизоре или отправьте его на телефон или ноутбук</string>
+    <string name="more_backup_file_tv">Файл на этом ТВ</string>
+    <string name="more_restore_body">Из файла на этом телевизоре или удалённо с другого устройства</string>
+    <string name="more_backup_included">Что входит</string>
+    <string name="more_about_up_to_date">Актуальная версия</string>
+    <string name="more_about_checked">Проверено <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="more_settings_pin_hint">Удерживайте OK на строке, чтобы закрепить её в «Быстрые»</string>
+    <string name="more_settings_search">Поиск по всем настройкам</string>
+    <string name="settings_card_profile">Зрители, детский режим, PIN-коды</string>
+    <string name="settings_card_sources">Плейлисты, EPG, напоминания, архив</string>
+    <string name="settings_card_appearance">Тема, акцент, стекло, текст</string>
+    <string name="settings_card_layout">Навигация, панели, Главная, меню</string>
+    <string name="settings_card_content">Категории, TMDB, субтитры</string>
+    <string name="settings_card_player">Какой плеер, потоки</string>
+    <string name="settings_card_picture">Декодер, HDR, масштаб, частота кадров</string>
+    <string name="settings_card_sound">Громкость, объёмный звук, языки</string>
+    <string name="settings_card_live">Предпросмотр, перемотка, задержка, запуск</string>
+    <string name="settings_card_watching">Перемотка, продолжение, мультиэкран, запись</string>
+    <string name="settings_card_app">Язык, обновления, сеть, диагностика</string>
+    <string name="more_sync_description">Обменивайтесь данными с другим устройством по Wi-Fi. Ничего не покидает вашу домашнюю сеть.</string>
+    <string name="more_sync_mode_description">Позволяет другим вашим устройствам найти это. Работает, пока открыта эта страница.</string>
+    <string name="more_sync_unpair">Отвязать</string>
+    <string name="more_about_license">GPLv3 · бесплатно и с открытым кодом</string>
+    <string name="more_about_description">Ваш собственный IPTV-плеер для Android TV. Он не предоставляет каналов или контента; вы добавляете собственные легальные источники.</string>
+    <string name="more_about_scan">Отсканируйте телефоном.</string>
+    <plurals name="more_playlist_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> плейлист</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> плейлиста</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> плейлистов</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> плейлиста</item>
+    </plurals>
+    <plurals name="more_count_favorites">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> в избранном</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> в избранном</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> в избранном</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> в избранном</item>
+    </plurals>
+    <plurals name="more_count_history">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> запись в истории</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> записи в истории</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> записей в истории</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> записи в истории</item>
+    </plurals>
+    <plurals name="more_about_languages">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> язык</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> языка</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> языков</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> языка</item>
+    </plurals>
     <string name="settings_backup_location">Расположение</string>
     <string name="settings_multiview">Мультиэкран</string>
     <string name="settings_multiview_description">Смотрите несколько прямых эфиров одновременно. Сколько именно — вы решаете каждый раз, но не больше этого числа: каждое окно занимает одно подключение провайдера.</string>

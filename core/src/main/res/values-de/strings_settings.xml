@@ -344,7 +344,6 @@
     <string name="settings_telegram_qr">QR-Code der Telegram-Gruppe</string>
     <string name="settings_telegram_scan">Scannen Sie den QR-Code, um der Gruppe über Ihr Smartphone beizutreten, oder öffnen Sie den Link oben.</string>
     <string name="settings_contributions">Beiträge, Fehlerberichte und Sterne sind auf GitHub willkommen.</string>
-    <string name="settings_playback_error_title">Fehlerprotokoll</string>
     <string name="settings_playback_error_description_full">Der letzte Absturz und die neuesten Wiedergabefehler (neueste zuerst). Geben Sie diese Details an, wenn Sie ein Problem melden.</string>
     <string name="settings_loading">Wird geladen…</string>
     <string name="settings_no_playback_errors">Keine Wiedergabefehler aufgezeichnet.</string>
@@ -374,7 +373,6 @@
     <string name="settings_group_sources">Quellen und Programm</string>
     <string name="settings_group_layout">Layout</string>
     <string name="settings_group_content_metadata">Inhalte und Metadaten</string>
-    <string name="settings_group_data">Daten</string>
     <string name="settings_group_appearance">Darstellung</string>
     <string name="settings_group_playback">Wiedergabe</string>
     <string name="settings_group_network">Netzwerk</string>
@@ -417,6 +415,8 @@
     <string name="settings_group_summary_app">Sprache, Start, Updates und App-Infos</string>
     <string name="settings_group_quick">Schnellzugriff</string>
     <string name="settings_group_summary_quick">Die Schalter, die Sie am häufigsten brauchen</string>
+    <string name="settings_group_sound_subtitles">Ton und Untertitel</string>
+    <string name="settings_group_watching_recording">Wiedergabe und Aufnahme</string>
     <string name="settings_search_guide_logos">Senderlogos der Programmübersicht</string>
     <string name="settings_search_keywords_profiles">Zuschauer Kinder Modus PIN Sperre Konto</string>
     <string name="settings_search_keywords_playlists">m3u xtream Quelle synchronisieren hinzufügen entfernen</string>
@@ -921,7 +921,6 @@
     <string name="settings_backup_encrypt_title">Diese Sicherung verschlüsseln?</string>
     <string name="settings_backup_encrypt_message">Mit einem Sicherungskennwort wird die gesamte Datei verschlüsselt – einschließlich Wiedergabelisten, Profilen und gespeicherten Kennwörtern – und ohne dieses Kennwort kann nichts darin gelesen werden. Bewahre es sicher auf: Wenn du es verlierst, kann die Sicherung überhaupt nicht mehr geöffnet werden. Ohne Kennwort wird die Datei nicht verschlüsselt, und gespeicherte Kennwörter und PINs werden nicht aufgenommen.</string>
     <string name="settings_backup_export_title">Sicherung exportieren</string>
-    <string name="settings_backup_export_message">Sende die Sicherung an ein anderes Gerät (Smartphone oder Laptop) im selben Wi-Fi oder speichere sie als Datei auf diesem Gerät.</string>
     <string name="settings_backup_restore_title">Sicherung wiederherstellen</string>
     <string name="settings_backup_restore_message">Sende die Sicherung von einem anderen Gerät (Smartphone oder Laptop) im selben Wi-Fi oder wähle eine bereits auf diesem Gerät vorhandene Sicherungsdatei aus.</string>
     <string name="settings_backup_password">Sicherungskennwort</string>
@@ -988,7 +987,6 @@
     <string name="settings_backup_which_profiles">Zu sichernde Profile</string>
     <string name="settings_backup_selected_profiles">Die Sicherung enthält nur die ausgewählten Profile und deren Daten. Für gesperrte Profile ist die jeweilige PIN erforderlich.</string>
     <string name="settings_backup_profile_pin_description">Dies ist nicht dein aktuelles Profil. Gib seine PIN ein, um es in die Sicherung aufzunehmen – ohne die PIN werden seine Daten nicht gesichert.</string>
-    <string name="settings_backup_save_description">Speichern Sie Ihre Profile, Quellen, Anpassungen, Favoriten, Ihren Wiedergabeverlauf und Ihre Fortsetzungspositionen in einer Datei — oder stellen Sie sie auf einem neuen Gerät wieder her. Sie wählen jedes Mal aus, was enthalten sein soll.</string>
     <string name="settings_metadata_optional">optional</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">Mehrere umbenennen</string>
@@ -1416,24 +1414,59 @@
     <string name="local_sync_last_synced">Zuletzt synchronisiert: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Bereits gekoppelt</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
-    <string name="more_spine_header_summary">Alles, was kein Kanal und keine Einstellung ist</string>
-    <string name="more_spine_settings_summary">Playlists, Wiedergabe, Netzwerk</string>
-    <string name="more_spine_favorites_summary">Kanäle, Filme, Serien</string>
-    <string name="more_spine_history_summary">Mit Fortsetzungspunkten</string>
-    <string name="more_spine_backup_summary">Exportieren oder wiederherstellen</string>
-    <string name="more_spine_local_sync_summary">Mit dem Telefon austauschen</string>
-    <string name="more_spine_error_log_summary">Abstürze und Fehler</string>
-    <string name="more_spine_about_summary">Version und Lizenz</string>
-    <string name="more_pane_groups">Gruppen</string>
-    <string name="more_pane_backup_contents">Ein Backup enthält</string>
     <string name="more_pane_last_backup">Letztes Backup</string>
-    <string name="more_pane_favorites_summary">Alles, was Sie markiert haben, an einem Ort</string>
-    <string name="more_pane_history_summary">Alles, was Sie gesehen haben, neueste zuerst</string>
-    <string name="more_pane_hint_open"><xliff:g id="destination">%1$s</xliff:g> öffnen</string>
-    <string name="more_pane_sync_listening">Synchronisierungsmodus — dieses Gerät ist empfangsbereit</string>
-    <string name="more_pane_sync_not_listening">Synchronisierungsmodus — dieses Gerät ist nicht empfangsbereit</string>
-    <string name="more_pane_about_languages">Sprachen</string>
     <string name="more_pane_encrypted">Verschlüsselt</string>
+    <string name="more_group_your_things">Deine Sachen</string>
+    <string name="more_group_keep_safe">Sicher aufbewahren</string>
+    <string name="more_profile_switch">Wechseln</string>
+    <string name="more_fav_movies_series">Filme und Serien</string>
+    <string name="more_fav_empty_title">Noch keine Favoriten</string>
+    <string name="more_fav_empty_body">Halte OK auf einem Sender, Film oder einer Serie gedrückt und wähle „Zu Favoriten hinzufügen“.</string>
+    <string name="more_history_empty">Noch nichts angesehen</string>
+    <string name="more_backup_never_title">Noch nie gesichert</string>
+    <string name="more_backup_never_body"><xliff:g id="playlists">%1$s</xliff:g>, <xliff:g id="favorites">%2$s</xliff:g>, <xliff:g id="history">%3$s</xliff:g> und alle Anpassungen gibt es nur auf diesem Fernseher.</string>
+    <string name="more_backup_now">Jetzt sichern</string>
+    <string name="more_backup_now_body">Speichere eine Datei auf diesem Fernseher oder sende sie an dein Handy oder Notebook</string>
+    <string name="more_backup_file_tv">Datei auf diesem Fernseher</string>
+    <string name="more_restore_body">Aus einer Datei auf diesem Fernseher oder per Fernzugriff von einem anderen Gerät</string>
+    <string name="more_backup_included">Was enthalten ist</string>
+    <string name="more_about_up_to_date">Aktuell</string>
+    <string name="more_about_checked">Geprüft <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="more_settings_pin_hint">OK auf einer Zeile halten, um sie an Schnellzugriff anzuheften</string>
+    <string name="more_settings_search">Alle Einstellungen durchsuchen</string>
+    <string name="settings_card_profile">Zuschauer, Kindermodus, PIN-Sperren</string>
+    <string name="settings_card_sources">Playlists, EPG, Erinnerungen, Catch-up</string>
+    <string name="settings_card_appearance">Design, Akzent, Glas, Text</string>
+    <string name="settings_card_layout">Navigation, Bereiche, Start, Menüs</string>
+    <string name="settings_card_content">Kategorien, TMDB, Untertitel</string>
+    <string name="settings_card_player">Welcher Player, Streaming</string>
+    <string name="settings_card_picture">Decoder, HDR, Zoom, Bildrate</string>
+    <string name="settings_card_sound">Lautstärke, Surround, Sprachen</string>
+    <string name="settings_card_live">Vorschau, Zurückspulen, Latenz, Start</string>
+    <string name="settings_card_watching">Springen, Fortsetzen, Multiview, Aufnahme</string>
+    <string name="settings_card_app">Sprache, Updates, Netzwerk, Diagnose</string>
+    <string name="more_sync_description">Teile deine Daten per WLAN mit deinem anderen Gerät. Nichts verlässt dein Heimnetz.</string>
+    <string name="more_sync_mode_description">Damit deine anderen Geräte dieses finden. Bleibt an, solange diese Seite offen ist.</string>
+    <string name="more_sync_unpair">Entkoppeln</string>
+    <string name="more_about_license">GPLv3 · kostenlos und quelloffen</string>
+    <string name="more_about_description">Dein eigener IPTV-Player für Android TV. Er liefert keine Sender oder Inhalte; du bringst deine eigenen legal zugänglichen Quellen mit.</string>
+    <string name="more_about_scan">Mit dem Handy scannen.</string>
+    <plurals name="more_playlist_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> Playlist</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> Playlists</item>
+    </plurals>
+    <plurals name="more_count_favorites">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> Favorit</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> Favoriten</item>
+    </plurals>
+    <plurals name="more_count_history">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> Verlaufseintrag</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> Verlaufseinträge</item>
+    </plurals>
+    <plurals name="more_about_languages">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> Sprache</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> Sprachen</item>
+    </plurals>
     <string name="settings_backup_location">Speicherort</string>
     <string name="settings_multiview">Multiview</string>
     <string name="settings_multiview_description">Mehrere Livekanäle gleichzeitig ansehen. Wie viele es sind, entscheiden Sie jedes Mal selbst, höchstens jedoch so viele — jede Kachel belegt eine Verbindung Ihres Anbieters.</string>

@@ -352,7 +352,6 @@
     <string name="settings_telegram_qr">رمز QR لمجموعة Telegram</string>
     <string name="settings_telegram_scan">امسح رمز QR للانضمام من هاتفك، أو افتح الرابط أعلاه.</string>
     <string name="settings_contributions">نرحب بالمساهمات وتقارير الأخطاء والنجوم على GitHub.</string>
-    <string name="settings_playback_error_title">سجل الأخطاء</string>
     <string name="settings_playback_error_description_full">آخر عُطل وأحدث حالات فشل التشغيل (الأحدث أولًا). أرفق هذه التفاصيل عند الإبلاغ عن مشكلة.</string>
     <string name="settings_loading">جارٍ التحميل…</string>
     <string name="settings_no_playback_errors">لم تُسجّل أي أخطاء تشغيل.</string>
@@ -382,7 +381,6 @@
     <string name="settings_group_sources">المصادر ودليل البرامج</string>
     <string name="settings_group_layout">التخطيط</string>
     <string name="settings_group_content_metadata">المحتوى والبيانات الوصفية</string>
-    <string name="settings_group_data">البيانات</string>
     <string name="settings_group_appearance">المظهر</string>
     <string name="settings_group_playback">التشغيل</string>
     <string name="settings_group_network">الشبكة</string>
@@ -425,6 +423,8 @@
     <string name="settings_group_summary_app">اللغة وبدء التشغيل والتحديثات ومعلومات التطبيق</string>
     <string name="settings_group_quick">سريع</string>
     <string name="settings_group_summary_quick">المفاتيح التي تستخدمها أكثر</string>
+    <string name="settings_group_sound_subtitles">الصوت والترجمة</string>
+    <string name="settings_group_watching_recording">المشاهدة والتسجيل</string>
     <string name="settings_search_guide_logos">شعارات القنوات في الدليل</string>
     <string name="settings_search_keywords_profiles">مشاهدون أطفال وضع قفل PIN حساب</string>
     <string name="settings_search_keywords_playlists">M3U Xtream مصدر مزامنة إضافة إزالة</string>
@@ -965,7 +965,6 @@
     <string name="settings_backup_encrypt_title">هل تريد تشفير هذه النسخة الاحتياطية؟</string>
     <string name="settings_backup_encrypt_message">عند استخدام كلمة مرور للنسخة الاحتياطية، يُشفّر الملف بالكامل — بما في ذلك قوائم التشغيل والملفات الشخصية وكلمات المرور المحفوظة — ولا يمكن قراءة أي شيء فيه دون كلمة المرور تلك. احتفظ بها في مكان آمن: إذا فقدتها، فلن يمكن فتح النسخة الاحتياطية مطلقًا. ودون كلمة مرور، لا يكون الملف مشفّرًا وتُستبعد منه كلمات المرور المحفوظة ورموز PIN.</string>
     <string name="settings_backup_export_title">تصدير نسخة احتياطية</string>
-    <string name="settings_backup_export_message">أرسل النسخة الاحتياطية إلى جهاز آخر (هاتف أو حاسوب محمول) على شبكة Wi-Fi نفسها، أو احفظها في ملف على هذا الجهاز.</string>
     <string name="settings_backup_restore_title">استعادة نسخة احتياطية</string>
     <string name="settings_backup_restore_message">أرسل النسخة الاحتياطية من جهاز آخر (هاتف أو حاسوب محمول) على شبكة Wi-Fi نفسها، أو اختر ملف نسخة احتياطية موجودًا بالفعل على هذا الجهاز.</string>
     <string name="settings_backup_password">كلمة مرور النسخة الاحتياطية</string>
@@ -1040,7 +1039,6 @@
     <string name="settings_backup_which_profiles">الملفات الشخصية المراد نسخها احتياطيًا</string>
     <string name="settings_backup_selected_profiles">ستحتوي النسخة الاحتياطية فقط على الملفات الشخصية المحددة وبياناتها. تحتاج الملفات الشخصية المقفلة إلى رمز PIN الخاص بها.</string>
     <string name="settings_backup_profile_pin_description">هذا ليس ملفك الشخصي الحالي. أدخل رمز PIN الخاص به لتضمينه في النسخة الاحتياطية — ودون رمز PIN، لن تُنسخ بياناته احتياطيًا.</string>
-    <string name="settings_backup_save_description">احفظ ملفاتك الشخصية ومصادرك وتخصيصاتك والمفضّلة والسجل ومواضع الاستئناف في ملف — أو استعدها على جهاز جديد. وتختار ما تريد تضمينه في كل مرة.</string>
     <string name="settings_metadata_optional">اختياري</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">إعادة التسمية المجمّعة</string>
@@ -1508,24 +1506,75 @@
     <string name="local_sync_last_synced">آخر مزامنة: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">مقترن بالفعل</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
-    <string name="more_spine_header_summary">كل ما ليس قناة وليس إعدادًا</string>
-    <string name="more_spine_settings_summary">قوائم التشغيل والتشغيل والشبكة</string>
-    <string name="more_spine_favorites_summary">القنوات والأفلام والمسلسلات</string>
-    <string name="more_spine_history_summary">مع نقاط المتابعة</string>
-    <string name="more_spine_backup_summary">التصدير أو الاستعادة</string>
-    <string name="more_spine_local_sync_summary">التبادل مع هاتفك</string>
-    <string name="more_spine_error_log_summary">الأعطال والإخفاقات</string>
-    <string name="more_spine_about_summary">الإصدار والترخيص</string>
-    <string name="more_pane_groups">المجموعات</string>
-    <string name="more_pane_backup_contents">تحتوي النسخة الاحتياطية على</string>
     <string name="more_pane_last_backup">آخر نسخة احتياطية</string>
-    <string name="more_pane_favorites_summary">كل ما أضفته للمفضّلة في مكان واحد</string>
-    <string name="more_pane_history_summary">كل ما شاهدته، الأحدث أولاً</string>
-    <string name="more_pane_hint_open">افتح <xliff:g id="destination">%1$s</xliff:g></string>
-    <string name="more_pane_sync_listening">وضع المزامنة — هذا الجهاز يستمع</string>
-    <string name="more_pane_sync_not_listening">وضع المزامنة — هذا الجهاز لا يستمع</string>
-    <string name="more_pane_about_languages">اللغات</string>
     <string name="more_pane_encrypted">مشفّرة</string>
+    <string name="more_group_your_things">أشياؤك</string>
+    <string name="more_group_keep_safe">حافظ عليها</string>
+    <string name="more_profile_switch">تبديل</string>
+    <string name="more_fav_movies_series">الأفلام والمسلسلات</string>
+    <string name="more_fav_empty_title">لا توجد مفضلات بعد</string>
+    <string name="more_fav_empty_body">اضغط مطولًا على OK فوق قناة أو فيلم أو مسلسل، ثم اختر «إضافة إلى المفضّلة».</string>
+    <string name="more_history_empty">لم تشاهد شيئًا بعد</string>
+    <string name="more_backup_never_title">لم يُنسخ احتياطيًا قط</string>
+    <string name="more_backup_never_body"><xliff:g id="playlists">%1$s</xliff:g> و<xliff:g id="favorites">%2$s</xliff:g> و<xliff:g id="history">%3$s</xliff:g> وكل التخصيصات موجودة على هذا التلفزيون فقط.</string>
+    <string name="more_backup_now">نسخ احتياطي الآن</string>
+    <string name="more_backup_now_body">احفظ ملفًا على هذا التلفزيون، أو أرسله إلى هاتفك أو حاسوبك المحمول</string>
+    <string name="more_backup_file_tv">ملف على هذا التلفزيون</string>
+    <string name="more_restore_body">من ملف على هذا التلفزيون، أو عن بُعد من جهاز آخر</string>
+    <string name="more_backup_included">ما الذي يتضمنه</string>
+    <string name="more_about_up_to_date">محدّث</string>
+    <string name="more_about_checked">تم التحقق <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="more_settings_pin_hint">اضغط مطولاً على صف لتثبيته في سريع</string>
+    <string name="more_settings_search">البحث في كل الإعدادات</string>
+    <string name="settings_card_profile">المشاهدون ووضع الأطفال وأقفال PIN</string>
+    <string name="settings_card_sources">قوائم التشغيل وEPG والتذكيرات والإعادة</string>
+    <string name="settings_card_appearance">السمة واللون المميز والزجاج والنص</string>
+    <string name="settings_card_layout">التنقل واللوحات والرئيسية والقوائم</string>
+    <string name="settings_card_content">الفئات وTMDB والترجمة</string>
+    <string name="settings_card_player">أي مشغل، والبث</string>
+    <string name="settings_card_picture">وحدة فك الترميز وHDR والتكبير ومعدل الإطارات</string>
+    <string name="settings_card_sound">مستوى الصوت والصوت المحيطي واللغات</string>
+    <string name="settings_card_live">المعاينة والإرجاع والتأخير والبدء</string>
+    <string name="settings_card_watching">التخطي والاستئناف والعرض المتعدد والتسجيل</string>
+    <string name="settings_card_app">اللغة والتحديثات والشبكة والتشخيص</string>
+    <string name="more_sync_description">شارك بياناتك مع جهازك الآخر عبر Wi-Fi. لا يغادر أي شيء شبكتك المنزلية.</string>
+    <string name="more_sync_mode_description">يسمح لأجهزتك الأخرى بالعثور على هذا الجهاز. يبقى مفعّلًا ما دامت هذه الصفحة مفتوحة.</string>
+    <string name="more_sync_unpair">إلغاء الاقتران</string>
+    <string name="more_about_license">GPLv3 · مجاني ومفتوح المصدر</string>
+    <string name="more_about_description">مشغل IPTV الخاص بك لـ Android TV. لا يوفر أي قنوات أو محتوى؛ أنت تضيف مصادرك المتاحة قانونيًا.</string>
+    <string name="more_about_scan">امسح الرمز بهاتفك.</string>
+    <plurals name="more_playlist_count">
+        <item quantity="zero"><xliff:g id="count">%1$d</xliff:g> قائمة تشغيل</item>
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> قائمة تشغيل</item>
+        <item quantity="two"><xliff:g id="count">%1$d</xliff:g> قائمتا تشغيل</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> قوائم تشغيل</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> قائمة تشغيل</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> قائمة تشغيل</item>
+    </plurals>
+    <plurals name="more_count_favorites">
+        <item quantity="zero"><xliff:g id="count">%1$d</xliff:g> مفضلة</item>
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> مفضلة</item>
+        <item quantity="two"><xliff:g id="count">%1$d</xliff:g> مفضلتان</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> مفضلات</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> مفضلة</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> مفضلة</item>
+    </plurals>
+    <plurals name="more_count_history">
+        <item quantity="zero"><xliff:g id="count">%1$d</xliff:g> عنصر في السجل</item>
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> عنصر في السجل</item>
+        <item quantity="two"><xliff:g id="count">%1$d</xliff:g> عنصران في السجل</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> عناصر في السجل</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> عنصرًا في السجل</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> عنصر في السجل</item>
+    </plurals>
+    <plurals name="more_about_languages">
+        <item quantity="zero"><xliff:g id="count">%1$d</xliff:g> لغة</item>
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> لغة</item>
+        <item quantity="two"><xliff:g id="count">%1$d</xliff:g> لغتان</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> لغات</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> لغة</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> لغة</item>
+    </plurals>
     <string name="settings_backup_location">الموقع</string>
     <string name="settings_multiview">العرض المتعدد</string>
     <string name="settings_multiview_description">شاهد عدة قنوات مباشرة في وقت واحد. أنت تحدد العدد في كل مرة، بحد أقصى هذا الحد — ويستخدم كل مربع أحد اتصالات المزوّد.</string>

@@ -86,6 +86,11 @@ class BackupManager(
         backupPassword: String? = null,
         /** Profiles to include (PIN-authorized by the caller). Null = all (legacy callers/tests). */
         profileIds: Set<Long>? = null,
+        /**
+         * False for a Local sync transfer: that file is a sealed hand-over in the cache, deleted after the
+         * session, not a backup the user can restore from — counting it hid "Never backed up".
+         */
+        recordAsBackup: Boolean = true,
     ): Result<String> = withContext(Dispatchers.IO) {
         runCatching {
             // Profile scoping: only the ticked profiles' rows and per-profile data enter the file.
@@ -290,7 +295,7 @@ class BackupManager(
             )
             // Recorded here and nowhere else: after the atomic rename, so a throw anywhere above
             // leaves the previous date standing rather than claiming a backup that does not exist.
-            settings.recordBackup(
+            if (recordAsBackup) settings.recordBackup(
                 at = System.currentTimeMillis(),
                 bytes = target.length(),
                 encrypted = pass != null,

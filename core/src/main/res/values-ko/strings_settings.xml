@@ -342,7 +342,6 @@
     <string name="settings_telegram_qr">Telegram 그룹 QR 코드</string>
     <string name="settings_telegram_scan">휴대전화로 QR 코드를 스캔하여 참여하거나 위 링크를 여세요.</string>
     <string name="settings_contributions">GitHub에서 기여, 버그 신고 및 별표를 환영합니다.</string>
-    <string name="settings_playback_error_title">오류 로그</string>
     <string name="settings_playback_error_description_full">가장 최근의 비정상 종료와 재생 실패 내역입니다(최신순). 문제를 신고할 때 이 상세 정보를 포함하세요.</string>
     <string name="settings_loading">불러오는 중…</string>
     <string name="settings_no_playback_errors">기록된 재생 오류가 없습니다.</string>
@@ -372,7 +371,6 @@
     <string name="settings_group_sources">소스 및 편성표</string>
     <string name="settings_group_layout">레이아웃</string>
     <string name="settings_group_content_metadata">콘텐츠 및 메타데이터</string>
-    <string name="settings_group_data">데이터</string>
     <string name="settings_group_appearance">화면 스타일</string>
     <string name="settings_group_playback">재생</string>
     <string name="settings_group_network">네트워크</string>
@@ -415,6 +413,8 @@
     <string name="settings_group_summary_app">언어, 시작, 업데이트, 앱 정보</string>
     <string name="settings_group_quick">빠른 설정</string>
     <string name="settings_group_summary_quick">가장 자주 쓰는 전환 항목</string>
+    <string name="settings_group_sound_subtitles">사운드 및 자막</string>
+    <string name="settings_group_watching_recording">시청 및 녹화</string>
     <string name="settings_search_guide_logos">편성표 채널 로고</string>
     <string name="settings_search_keywords_profiles">시청자 어린이 모드 PIN 잠금 계정</string>
     <string name="settings_search_keywords_playlists">M3U Xtream 소스 동기화 추가 삭제</string>
@@ -910,7 +910,6 @@
     <string name="settings_backup_encrypt_title">이 백업을 암호화하시겠습니까?</string>
     <string name="settings_backup_encrypt_message">백업 암호를 사용하면 플레이리스트, 프로필 및 저장된 암호를 포함한 전체 파일이 암호화되며 해당 암호 없이는 어떤 내용도 읽을 수 없습니다. 암호를 안전하게 보관하세요. 암호를 분실하면 백업을 전혀 열 수 없습니다. 암호를 사용하지 않으면 파일이 암호화되지 않고 저장된 암호와 PIN도 포함되지 않습니다.</string>
     <string name="settings_backup_export_title">백업 내보내기</string>
-    <string name="settings_backup_export_message">동일한 Wi-Fi에 연결된 다른 기기(휴대전화 또는 노트북)로 백업을 보내거나 이 기기에 파일로 저장합니다.</string>
     <string name="settings_backup_restore_title">백업 복원</string>
     <string name="settings_backup_restore_message">동일한 Wi-Fi에 연결된 다른 기기(휴대전화 또는 노트북)에서 백업을 보내거나 이 기기에 이미 있는 백업 파일을 선택합니다.</string>
     <string name="settings_backup_password">백업 암호</string>
@@ -975,7 +974,6 @@
     <string name="settings_backup_which_profiles">백업할 프로필</string>
     <string name="settings_backup_selected_profiles">백업에는 선택한 프로필과 해당 데이터만 포함됩니다. 잠긴 프로필에는 PIN이 필요합니다.</string>
     <string name="settings_backup_profile_pin_description">현재 프로필이 아닙니다. 백업에 포함하려면 해당 프로필의 PIN을 입력하세요. PIN이 없으면 해당 데이터가 백업되지 않습니다.</string>
-    <string name="settings_backup_save_description">프로필, 소스, 맞춤 설정, 즐겨찾기, 시청 기록 및 이어보기 위치를 파일에 저장하거나 새 기기에서 복원합니다. 매번 포함할 항목을 선택할 수 있습니다.</string>
     <string name="settings_metadata_optional">선택 사항</string>
     <string name="settings_metadata_test_title">오펜하이머</string>
     <string name="settings_bulk_rename_title">일괄 이름 변경</string>
@@ -1393,24 +1391,55 @@
     <string name="local_sync_last_synced">마지막 동기화: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">이미 페어링됨</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
-    <string name="more_spine_header_summary">채널도 설정도 아닌 모든 것</string>
-    <string name="more_spine_settings_summary">재생목록, 재생, 네트워크</string>
-    <string name="more_spine_favorites_summary">채널, 영화, 시리즈</string>
-    <string name="more_spine_history_summary">이어보기 지점 포함</string>
-    <string name="more_spine_backup_summary">내보내기 또는 복원</string>
-    <string name="more_spine_local_sync_summary">휴대폰과 데이터 교환</string>
-    <string name="more_spine_error_log_summary">비정상 종료 및 오류</string>
-    <string name="more_spine_about_summary">버전 및 라이선스</string>
-    <string name="more_pane_groups">그룹</string>
-    <string name="more_pane_backup_contents">백업에 포함되는 항목</string>
     <string name="more_pane_last_backup">마지막 백업</string>
-    <string name="more_pane_favorites_summary">즐겨찾기에 추가한 모든 것을 한곳에</string>
-    <string name="more_pane_history_summary">시청한 모든 것을 최신순으로</string>
-    <string name="more_pane_hint_open"><xliff:g id="destination">%1$s</xliff:g> 열기</string>
-    <string name="more_pane_sync_listening">동기화 모드 — 이 기기가 수신 중입니다</string>
-    <string name="more_pane_sync_not_listening">동기화 모드 — 이 기기가 수신 중이 아닙니다</string>
-    <string name="more_pane_about_languages">언어</string>
     <string name="more_pane_encrypted">암호화됨</string>
+    <string name="more_group_your_things">내 항목</string>
+    <string name="more_group_keep_safe">안전하게 보관</string>
+    <string name="more_profile_switch">전환</string>
+    <string name="more_fav_movies_series">영화 및 시리즈</string>
+    <string name="more_fav_empty_title">아직 즐겨찾기가 없습니다</string>
+    <string name="more_fav_empty_body">채널, 영화 또는 시리즈에서 OK를 길게 누르고 “즐겨찾기에 추가”을(를) 선택하세요.</string>
+    <string name="more_history_empty">아직 시청한 항목이 없습니다</string>
+    <string name="more_backup_never_title">백업한 적 없음</string>
+    <string name="more_backup_never_body"><xliff:g id="playlists">%1$s</xliff:g>, <xliff:g id="favorites">%2$s</xliff:g>, <xliff:g id="history">%3$s</xliff:g> 및 모든 사용자 설정이 이 TV에만 있습니다.</string>
+    <string name="more_backup_now">지금 백업</string>
+    <string name="more_backup_now_body">이 TV에 파일로 저장하거나 휴대폰 또는 노트북으로 보냅니다</string>
+    <string name="more_backup_file_tv">이 TV에 파일로</string>
+    <string name="more_restore_body">이 TV의 파일에서, 또는 다른 기기에서 원격으로</string>
+    <string name="more_backup_included">포함 항목</string>
+    <string name="more_about_up_to_date">최신 버전</string>
+    <string name="more_about_checked">확인함: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="more_settings_pin_hint">행에서 OK를 길게 눌러 빠른 설정에 고정</string>
+    <string name="more_settings_search">모든 설정 검색</string>
+    <string name="settings_card_profile">시청자, 키즈 모드, PIN 잠금</string>
+    <string name="settings_card_sources">재생목록, EPG, 알림, 다시보기</string>
+    <string name="settings_card_appearance">테마, 강조색, 글래스, 텍스트</string>
+    <string name="settings_card_layout">탐색, 패널, 홈, 메뉴</string>
+    <string name="settings_card_content">카테고리, TMDB, 자막</string>
+    <string name="settings_card_player">플레이어, 스트리밍</string>
+    <string name="settings_card_picture">디코더, HDR, 확대/축소, 프레임 속도</string>
+    <string name="settings_card_sound">볼륨, 서라운드, 언어</string>
+    <string name="settings_card_live">미리보기, 되감기, 지연, 시작</string>
+    <string name="settings_card_watching">건너뛰기, 이어보기, 멀티뷰, 녹화</string>
+    <string name="settings_card_app">언어, 업데이트, 네트워크, 진단</string>
+    <string name="more_sync_description">Wi-Fi로 다른 기기와 데이터를 공유합니다. 홈 네트워크 밖으로는 아무것도 나가지 않습니다.</string>
+    <string name="more_sync_mode_description">다른 기기에서 이 기기를 찾을 수 있습니다. 이 페이지가 열려 있는 동안 켜져 있습니다.</string>
+    <string name="more_sync_unpair">페어링 해제</string>
+    <string name="more_about_license">GPLv3 · 무료 오픈 소스</string>
+    <string name="more_about_description">Android TV용 나만의 IPTV 플레이어입니다. 채널이나 콘텐츠는 제공하지 않으며, 합법적으로 이용 가능한 소스를 직접 추가합니다.</string>
+    <string name="more_about_scan">휴대폰으로 스캔하세요.</string>
+    <plurals name="more_playlist_count">
+        <item quantity="other">재생목록 <xliff:g id="count">%1$d</xliff:g>개</item>
+    </plurals>
+    <plurals name="more_count_favorites">
+        <item quantity="other">즐겨찾기 <xliff:g id="count">%1$d</xliff:g>개</item>
+    </plurals>
+    <plurals name="more_count_history">
+        <item quantity="other">기록 <xliff:g id="count">%1$d</xliff:g>개</item>
+    </plurals>
+    <plurals name="more_about_languages">
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g>개 언어</item>
+    </plurals>
     <string name="settings_backup_location">위치</string>
     <string name="settings_multiview">멀티뷰</string>
     <string name="settings_multiview_description">여러 라이브 채널을 동시에 시청합니다. 몇 개를 볼지는 매번 직접 정하며, 이 한도까지 가능합니다. 각 화면은 공급자의 연결을 하나씩 사용합니다.</string>

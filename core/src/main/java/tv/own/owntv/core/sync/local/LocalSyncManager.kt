@@ -169,7 +169,7 @@ class LocalSyncManager(
         // for why it stays a local until the container it opens has actually been written.
         val password = PairedDeviceStore.newSecret()
         selfId = paired.selfId()
-        val exported = backups.export(folder, sections, password, profileIds)
+        val exported = backups.export(folder, sections, password, profileIds, recordAsBackup = false)
             .getOrElse { return@withContext Result.failure(it) }
         // Read once, here, rather than per request: the server asks for these while answering, and a
         // device unpaired mid-session simply stops working on the next session, which is soon enough.
@@ -373,7 +373,7 @@ class LocalSyncManager(
             mkdirs()
             listFiles()?.forEach { it.delete() }
         }
-        backups.export(folder, sections, password, profileIds)
+        backups.export(folder, sections, password, profileIds, recordAsBackup = false)
             .mapCatching { path ->
                 _progress.value = SyncProgress.Transferring
                 client.send(device.address, device.port, device.secret, File(path)).getOrThrow()

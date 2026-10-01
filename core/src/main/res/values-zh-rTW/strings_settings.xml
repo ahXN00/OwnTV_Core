@@ -342,7 +342,6 @@
     <string name="settings_telegram_qr">Telegram 群組 QR 圖碼</string>
     <string name="settings_telegram_scan">使用手機掃描 QR 圖碼即可加入，或開啟上方連結。</string>
     <string name="settings_contributions">歡迎在 GitHub 貢獻程式碼、回報錯誤或給予星號。</string>
-    <string name="settings_playback_error_title">錯誤記錄</string>
     <string name="settings_playback_error_description_full">最近一次當機與最近的播放失敗記錄（最新的列在最前面）。回報問題時請附上這些詳細資料。</string>
     <string name="settings_loading">載入中…</string>
     <string name="settings_no_playback_errors">沒有已記錄的播放錯誤。</string>
@@ -372,7 +371,6 @@
     <string name="settings_group_sources">來源與節目表</string>
     <string name="settings_group_layout">版面配置</string>
     <string name="settings_group_content_metadata">內容與中繼資料</string>
-    <string name="settings_group_data">資料</string>
     <string name="settings_group_appearance">外觀</string>
     <string name="settings_group_playback">播放</string>
     <string name="settings_group_network">網路</string>
@@ -415,6 +413,8 @@
     <string name="settings_group_summary_app">語言、啟動、更新和應用程式資訊</string>
     <string name="settings_group_quick">快捷</string>
     <string name="settings_group_summary_quick">最常用的開關</string>
+    <string name="settings_group_sound_subtitles">聲音和字幕</string>
+    <string name="settings_group_watching_recording">觀看與錄影</string>
     <string name="settings_search_guide_logos">節目表頻道標誌</string>
     <string name="settings_search_keywords_profiles">觀看者 兒童模式 PIN 鎖定 帳戶</string>
     <string name="settings_search_keywords_playlists">M3U Xtream 來源 同步 新增 移除</string>
@@ -910,7 +910,6 @@
     <string name="settings_backup_encrypt_title">要加密此備份嗎？</string>
     <string name="settings_backup_encrypt_message">使用備份密碼後，整個檔案都會加密，包括播放清單、使用者檔案及已儲存的密碼；沒有該密碼就無法讀取其中任何內容。請妥善保管：若遺失密碼，將完全無法開啟備份。若不使用密碼，檔案不會加密，且不會包含已儲存的密碼與 PIN 碼。</string>
     <string name="settings_backup_export_title">匯出備份</string>
-    <string name="settings_backup_export_message">將備份傳送至連接相同 Wi-Fi 的其他裝置（手機或筆記型電腦），或將其儲存為此裝置上的檔案。</string>
     <string name="settings_backup_restore_title">還原備份</string>
     <string name="settings_backup_restore_message">從連接相同 Wi-Fi 的其他裝置（手機或筆記型電腦）傳送備份，或選擇此裝置上已有的備份檔案。</string>
     <string name="settings_backup_password">備份密碼</string>
@@ -975,7 +974,6 @@
     <string name="settings_backup_which_profiles">要備份哪些使用者檔案</string>
     <string name="settings_backup_selected_profiles">備份只會包含已選取的使用者檔案及其資料。鎖定的使用者檔案需要輸入 PIN。</string>
     <string name="settings_backup_profile_pin_description">這不是您目前的使用者檔案。請輸入其 PIN 以將它納入備份；若沒有 PIN，將不會備份其資料。</string>
-    <string name="settings_backup_save_description">將您的使用者檔案、來源、自訂內容、我的最愛、觀看記錄和繼續播放位置儲存至檔案，或在新裝置上還原。您每次都可以選擇要包含的內容。</string>
     <string name="settings_metadata_optional">選填</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">批次重新命名</string>
@@ -1393,24 +1391,55 @@
     <string name="local_sync_last_synced">上次同步：<xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">已配對</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
-    <string name="more_spine_header_summary">不是頻道、也不是設定的一切</string>
-    <string name="more_spine_settings_summary">播放清單、播放、網路</string>
-    <string name="more_spine_favorites_summary">頻道、電影、影集</string>
-    <string name="more_spine_history_summary">含續播位置</string>
-    <string name="more_spine_backup_summary">匯出或還原</string>
-    <string name="more_spine_local_sync_summary">與手機互換資料</string>
-    <string name="more_spine_error_log_summary">崩潰與失敗</string>
-    <string name="more_spine_about_summary">版本與授權</string>
-    <string name="more_pane_groups">群組</string>
-    <string name="more_pane_backup_contents">備份包含</string>
     <string name="more_pane_last_backup">上次備份</string>
-    <string name="more_pane_favorites_summary">你收藏的一切，集中在此</string>
-    <string name="more_pane_history_summary">你看過的一切，最新在前</string>
-    <string name="more_pane_hint_open">開啟<xliff:g id="destination">%1$s</xliff:g></string>
-    <string name="more_pane_sync_listening">同步模式 — 此裝置正在接聽</string>
-    <string name="more_pane_sync_not_listening">同步模式 — 此裝置未在接聽</string>
-    <string name="more_pane_about_languages">語言</string>
     <string name="more_pane_encrypted">已加密</string>
+    <string name="more_group_your_things">我的內容</string>
+    <string name="more_group_keep_safe">安全備份</string>
+    <string name="more_profile_switch">切換</string>
+    <string name="more_fav_movies_series">電影與影集</string>
+    <string name="more_fav_empty_title">尚無收藏</string>
+    <string name="more_fav_empty_body">在頻道、電影或影集上長按 OK，然後選擇「加入我的最愛」。</string>
+    <string name="more_history_empty">尚無觀看紀錄</string>
+    <string name="more_backup_never_title">從未備份</string>
+    <string name="more_backup_never_body"><xliff:g id="playlists">%1$s</xliff:g>、<xliff:g id="favorites">%2$s</xliff:g>、<xliff:g id="history">%3$s</xliff:g>以及所有自訂設定都只存在這台電視上。</string>
+    <string name="more_backup_now">立即備份</string>
+    <string name="more_backup_now_body">將檔案儲存到這台電視，或傳送到手機或筆電</string>
+    <string name="more_backup_file_tv">儲存到這台電視</string>
+    <string name="more_restore_body">從這台電視上的檔案，或從另一台裝置遠端還原</string>
+    <string name="more_backup_included">包含的內容</string>
+    <string name="more_about_up_to_date">已是最新</string>
+    <string name="more_about_checked">檢查於 <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="more_settings_pin_hint">長按 OK 可將一列釘選至快捷</string>
+    <string name="more_settings_search">搜尋所有設定</string>
+    <string name="settings_card_profile">觀眾、兒童模式、PIN 鎖</string>
+    <string name="settings_card_sources">播放清單、EPG、提醒、回看</string>
+    <string name="settings_card_appearance">主題、強調色、玻璃、文字</string>
+    <string name="settings_card_layout">導覽、面板、首頁、選單</string>
+    <string name="settings_card_content">分類、TMDB、字幕</string>
+    <string name="settings_card_player">播放器、串流</string>
+    <string name="settings_card_picture">解碼器、HDR、縮放、影格率</string>
+    <string name="settings_card_sound">音量、環繞音效、語言</string>
+    <string name="settings_card_live">預覽、倒轉、延遲、啟動</string>
+    <string name="settings_card_watching">跳轉、續播、多畫面、錄影</string>
+    <string name="settings_card_app">語言、更新、網路、診斷</string>
+    <string name="more_sync_description">透過 Wi-Fi 與你的另一台裝置分享資料。所有內容都不會離開你的家用網路。</string>
+    <string name="more_sync_mode_description">讓你的其他裝置找到這台裝置。此頁面開啟期間保持開啟。</string>
+    <string name="more_sync_unpair">取消配對</string>
+    <string name="more_about_license">GPLv3 · 免費開源</string>
+    <string name="more_about_description">你自己的 Android TV IPTV 播放器。它不提供任何頻道或內容；你需要加入自己合法可用的來源。</string>
+    <string name="more_about_scan">用手機掃描。</string>
+    <plurals name="more_playlist_count">
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 個播放清單</item>
+    </plurals>
+    <plurals name="more_count_favorites">
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 個收藏</item>
+    </plurals>
+    <plurals name="more_count_history">
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 筆觀看紀錄</item>
+    </plurals>
+    <plurals name="more_about_languages">
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 種語言</item>
+    </plurals>
     <string name="settings_backup_location">位置</string>
     <string name="settings_multiview">多畫面</string>
     <string name="settings_multiview_description">同時觀看多個直播頻道。每次由你決定幾個，最多不超過此上限——每個畫面佔用供應商的一個連線。</string>

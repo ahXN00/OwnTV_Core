@@ -407,7 +407,6 @@
     <string name="settings_telegram_qr">A Telegram-csoport QR-kódja</string>
     <string name="settings_telegram_scan">Olvasd be a QR-kódot a telefonoddal a csatlakozáshoz, vagy nyisd meg a fenti hivatkozást.</string>
     <string name="settings_contributions">A hozzájárulásokat, hibabejelentéseket és csillagokat szívesen fogadjuk a GitHubon.</string>
-    <string name="settings_playback_error_title">Hibanapló</string>
     <string name="settings_playback_error_description_full">A legutóbbi összeomlás és a legfrissebb lejátszási hibák (a legújabbal kezdve). Csatold ezeket a részleteket, amikor problémát jelentesz.</string>
     <string name="settings_loading">Betöltés…</string>
     <string name="settings_no_playback_errors">Nincs rögzített lejátszási hiba.</string>
@@ -437,7 +436,6 @@
     <string name="settings_group_sources">Források és műsorújság</string>
     <string name="settings_group_layout">Elrendezés</string>
     <string name="settings_group_content_metadata">Tartalom és metaadatok</string>
-    <string name="settings_group_data">Adatok</string>
     <string name="settings_group_appearance">Megjelenés</string>
     <string name="settings_group_playback">Lejátszás</string>
     <string name="settings_group_network">Hálózat</string>
@@ -477,6 +475,8 @@
     <string name="settings_group_summary_app">Nyelv, indulás, frissítések és alkalmazásinformációk</string>
     <string name="settings_group_quick">Gyors</string>
     <string name="settings_group_summary_quick">A leggyakrabban használt kapcsolóid</string>
+    <string name="settings_group_sound_subtitles">Hang és felirat</string>
+    <string name="settings_group_watching_recording">Nézés és felvétel</string>
     <string name="settings_search_guide_logos">Műsorújság csatornalogói</string>
     <string name="settings_search_keywords_profiles">nézők gyerekmód pin zár fiók</string>
     <string name="settings_search_keywords_playlists">m3u xtream forrás szinkronizálás hozzáadás eltávolítás</string>
@@ -963,7 +963,6 @@ Az Újraszinkronizálás és a hiányzó címek eltávolítása azt is lehetőv�
     <string name="settings_backup_encrypt_title">Titkosítod ezt a mentést?</string>
     <string name="settings_backup_encrypt_message">Mentésjelszóval az egész fájl titkosítva lesz — a lejátszási listákkal, profilokkal és mentett jelszavakkal együtt —, és semmi sem olvasható belőle a jelszó nélkül. Őrizd meg jól: ha elveszíted, a mentés egyáltalán nem nyitható meg. Jelszó nélkül a fájl nincs titkosítva, és a mentett jelszavak és PIN-kódok kimaradnak belőle.</string>
     <string name="settings_backup_export_title">Mentés exportálása</string>
-    <string name="settings_backup_export_message">Küldd el a mentést egy másik eszközre (telefonra vagy laptopra) ugyanazon a Wi-Fi-n, vagy mentsd fájlba ezen az eszközön.</string>
     <string name="settings_backup_restore_title">Mentés visszaállítása</string>
     <string name="settings_backup_restore_message">Küldd el a mentést egy másik eszközről (telefonról vagy laptopról) ugyanazon a Wi-Fi-n, vagy válassz egy már ezen az eszközön lévő mentésfájlt.</string>
     <string name="settings_backup_password">Mentésjelszó</string>
@@ -1030,7 +1029,6 @@ Az Újraszinkronizálás és a hiányzó címek eltávolítása azt is lehetőv�
     <string name="settings_backup_which_profiles">Mely profilokat mentse</string>
     <string name="settings_backup_selected_profiles">A mentés csak a kijelölt profilokat és azok adatait fogja tartalmazni. A zárolt profilokhoz szükséges a PIN-kódjuk.</string>
     <string name="settings_backup_profile_pin_description">Ez nem a jelenlegi profilod. Add meg a PIN-kódját, hogy bekerüljön a mentésbe — PIN nélkül az adatai nem lesznek elmentve.</string>
-    <string name="settings_backup_save_description">Mentsd fájlba a profiljaidat, forrásaidat, testreszabásaidat, kedvenceidet, előzményeidet és folytatási pozícióidat — vagy állítsd vissza őket egy új eszközön. Minden alkalommal te választod meg, mi kerüljön bele.</string>
 
     <string name="settings_metadata_optional">nem kötelező</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
@@ -1401,24 +1399,59 @@ Az Újraszinkronizálás és a hiányzó címek eltávolítása azt is lehetőv�
     <string name="local_sync_last_synced">Utolsó szinkronizálás: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Már párosítva</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
-    <string name="more_spine_header_summary">Minden, ami nem csatorna és nem beállítás</string>
-    <string name="more_spine_settings_summary">Lejátszási listák, lejátszás, hálózat</string>
-    <string name="more_spine_favorites_summary">Csatornák, filmek, sorozatok</string>
-    <string name="more_spine_history_summary">Folytatási pontokkal</string>
-    <string name="more_spine_backup_summary">Exportálás vagy visszaállítás</string>
-    <string name="more_spine_local_sync_summary">Csere a telefonjával</string>
-    <string name="more_spine_error_log_summary">Összeomlások és hibák</string>
-    <string name="more_spine_about_summary">Verzió és licenc</string>
-    <string name="more_pane_groups">Csoportok</string>
-    <string name="more_pane_backup_contents">A biztonsági mentés tartalma</string>
     <string name="more_pane_last_backup">Legutóbbi mentés</string>
-    <string name="more_pane_favorites_summary">Minden, amit megjelölt, egy helyen</string>
-    <string name="more_pane_history_summary">Minden, amit megnézett, a legújabbal kezdve</string>
-    <string name="more_pane_hint_open"><xliff:g id="destination">%1$s</xliff:g> megnyitása</string>
-    <string name="more_pane_sync_listening">Szinkronizálási mód — ez az eszköz figyel</string>
-    <string name="more_pane_sync_not_listening">Szinkronizálási mód — ez az eszköz nem figyel</string>
-    <string name="more_pane_about_languages">Nyelvek</string>
     <string name="more_pane_encrypted">Titkosítva</string>
+    <string name="more_group_your_things">Saját dolgaid</string>
+    <string name="more_group_keep_safe">Biztonságban</string>
+    <string name="more_profile_switch">Váltás</string>
+    <string name="more_fav_movies_series">Filmek és sorozatok</string>
+    <string name="more_fav_empty_title">Még nincsenek kedvencek</string>
+    <string name="more_fav_empty_body">Tartsd lenyomva az OK gombot egy csatornán, filmen vagy sorozaton, és válaszd ezt: „Hozzáadás a kedvencekhez”.</string>
+    <string name="more_history_empty">Még nem néztél semmit</string>
+    <string name="more_backup_never_title">Még soha nem készült mentés</string>
+    <string name="more_backup_never_body"><xliff:g id="playlists">%1$s</xliff:g>, <xliff:g id="favorites">%2$s</xliff:g>, <xliff:g id="history">%3$s</xliff:g> és minden testreszabás csak ezen a tévén van meg.</string>
+    <string name="more_backup_now">Mentés most</string>
+    <string name="more_backup_now_body">Ments fájlt erre a tévére, vagy küldd el a telefonodra vagy laptopodra</string>
+    <string name="more_backup_file_tv">Fájl ezen a tévén</string>
+    <string name="more_restore_body">Fájlból ezen a tévén, vagy távolról egy másik eszközről</string>
+    <string name="more_backup_included">Mit tartalmaz</string>
+    <string name="more_about_up_to_date">Naprakész</string>
+    <string name="more_about_checked">Ellenőrizve: <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="more_settings_pin_hint">Tartsd lenyomva az OK-t egy soron a Gyors közé tűzéshez</string>
+    <string name="more_settings_search">Keresés az összes beállításban</string>
+    <string name="settings_card_profile">Nézők, gyerekmód, PIN-zárak</string>
+    <string name="settings_card_sources">Lejátszási listák, EPG, emlékeztetők, visszanézés</string>
+    <string name="settings_card_appearance">Téma, kiemelőszín, üveg, szöveg</string>
+    <string name="settings_card_layout">Navigáció, panelek, Kezdőlap, menük</string>
+    <string name="settings_card_content">Kategóriák, TMDB, feliratok</string>
+    <string name="settings_card_player">Melyik lejátszó, streamelés</string>
+    <string name="settings_card_picture">Dekóder, HDR, nagyítás, képkocka</string>
+    <string name="settings_card_sound">Hangerő, térhatás, nyelvek</string>
+    <string name="settings_card_live">Előnézet, visszatekerés, késleltetés, indulás</string>
+    <string name="settings_card_watching">Ugrás, folytatás, multiview, felvétel</string>
+    <string name="settings_card_app">Nyelv, frissítések, hálózat, diagnosztika</string>
+    <string name="more_sync_description">Oszd meg az adataidat a másik eszközöddel Wi-Fi-n. Semmi sem hagyja el az otthoni hálózatot.</string>
+    <string name="more_sync_mode_description">A többi eszközöd megtalálhatja ezt. Bekapcsolva marad, amíg ez az oldal nyitva van.</string>
+    <string name="more_sync_unpair">Párosítás bontása</string>
+    <string name="more_about_license">GPLv3 · ingyenes és nyílt forráskódú</string>
+    <string name="more_about_description">Saját IPTV-lejátszód Android TV-re. Nem ad csatornákat vagy tartalmat; a saját, jogszerűen elérhető forrásaidat használod.</string>
+    <string name="more_about_scan">Olvasd be a telefonoddal.</string>
+    <plurals name="more_playlist_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> lejátszási lista</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> lejátszási lista</item>
+    </plurals>
+    <plurals name="more_count_favorites">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> kedvenc</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> kedvenc</item>
+    </plurals>
+    <plurals name="more_count_history">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> előzményelem</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> előzményelem</item>
+    </plurals>
+    <plurals name="more_about_languages">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> nyelv</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> nyelv</item>
+    </plurals>
     <string name="settings_backup_location">Hely</string>
     <string name="settings_multiview">Többnézet</string>
     <string name="settings_multiview_description">Nézzen több élő csatornát egyszerre. Hogy hányat, azt minden alkalommal Ön dönti el, legfeljebb eddig a határig – minden mező a szolgáltató egy kapcsolatát használja.</string>

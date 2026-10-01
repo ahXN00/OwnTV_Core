@@ -344,7 +344,6 @@
     <string name="settings_telegram_qr">QR-code van Telegram-groep</string>
     <string name="settings_telegram_scan">Scan de QR-code om via je telefoon deel te nemen, of open de bovenstaande link.</string>
     <string name="settings_contributions">Bijdragen, bugrapporten en sterren zijn welkom op GitHub.</string>
-    <string name="settings_playback_error_title">Foutenlogboek</string>
     <string name="settings_playback_error_description_full">De laatste crash en de meest recente afspeelfouten (nieuwste eerst). Voeg deze details toe wanneer je een probleem meldt.</string>
     <string name="settings_loading">Laden…</string>
     <string name="settings_no_playback_errors">Geen afspeelfouten vastgelegd.</string>
@@ -374,7 +373,6 @@
     <string name="settings_group_sources">Bronnen en gids</string>
     <string name="settings_group_layout">Indeling</string>
     <string name="settings_group_content_metadata">Inhoud en metagegevens</string>
-    <string name="settings_group_data">Gegevens</string>
     <string name="settings_group_appearance">Weergave</string>
     <string name="settings_group_playback">Afspelen</string>
     <string name="settings_group_network">Netwerk</string>
@@ -417,6 +415,8 @@
     <string name="settings_group_summary_app">Taal, opstarten, updates en app-informatie</string>
     <string name="settings_group_quick">Snel</string>
     <string name="settings_group_summary_quick">De schakelaars die je het vaakst gebruikt</string>
+    <string name="settings_group_sound_subtitles">Geluid en ondertitels</string>
+    <string name="settings_group_watching_recording">Kijken en opnemen</string>
     <string name="settings_search_guide_logos">Zenderlogo\'s in de gids</string>
     <string name="settings_search_keywords_profiles">kijkers kinderen kindermodus PIN-vergrendeling account</string>
     <string name="settings_search_keywords_playlists">M3U Xtream bron synchroniseren toevoegen verwijderen</string>
@@ -921,7 +921,6 @@
     <string name="settings_backup_encrypt_title">Deze back-up versleutelen?</string>
     <string name="settings_backup_encrypt_message">Met een back-upwachtwoord wordt het hele bestand versleuteld — inclusief afspeellijsten, profielen en opgeslagen wachtwoorden — en kan niets erin zonder dat wachtwoord worden gelezen. Bewaar het goed: als u het kwijtraakt, kan de back-up helemaal niet meer worden geopend. Zonder wachtwoord wordt het bestand niet versleuteld en worden opgeslagen wachtwoorden en pincodes niet opgenomen.</string>
     <string name="settings_backup_export_title">Een back-up exporteren</string>
-    <string name="settings_backup_export_message">Stuur de back-up naar een ander apparaat (telefoon of laptop) dat met dezelfde Wi-Fi is verbonden, of sla deze op als bestand op dit apparaat.</string>
     <string name="settings_backup_restore_title">Een back-up herstellen</string>
     <string name="settings_backup_restore_message">Stuur de back-up vanaf een ander apparaat (telefoon of laptop) dat met dezelfde Wi-Fi is verbonden, of kies een back-upbestand dat al op dit apparaat staat.</string>
     <string name="settings_backup_password">Back-upwachtwoord</string>
@@ -988,7 +987,6 @@
     <string name="settings_backup_which_profiles">Van welke profielen een back-up maken</string>
     <string name="settings_backup_selected_profiles">De back-up bevat alleen de geselecteerde profielen en hun gegevens. Voor vergrendelde profielen is de PIN vereist.</string>
     <string name="settings_backup_profile_pin_description">Dit is niet uw huidige profiel. Voer de PIN ervan in om het in de back-up op te nemen — zonder de PIN wordt geen back-up van de gegevens gemaakt.</string>
-    <string name="settings_backup_save_description">Sla uw profielen, bronnen, aanpassingen, favorieten, geschiedenis en hervatposities op in een bestand — of herstel ze op een nieuw apparaat. U kiest elke keer wat u wilt opnemen.</string>
     <string name="settings_metadata_optional">optioneel</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">Namen in bulk wijzigen</string>
@@ -1416,24 +1414,59 @@
     <string name="local_sync_last_synced">Laatst gesynchroniseerd: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Al gekoppeld</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
-    <string name="more_spine_header_summary">Alles wat geen kanaal en geen voorkeur is</string>
-    <string name="more_spine_settings_summary">Playlists, weergave, netwerk</string>
-    <string name="more_spine_favorites_summary">Kanalen, films, series</string>
-    <string name="more_spine_history_summary">Met hervattingspunten</string>
-    <string name="more_spine_backup_summary">Exporteren of herstellen</string>
-    <string name="more_spine_local_sync_summary">Uitwisselen met je telefoon</string>
-    <string name="more_spine_error_log_summary">Crashes en fouten</string>
-    <string name="more_spine_about_summary">Versie en licentie</string>
-    <string name="more_pane_groups">Groepen</string>
-    <string name="more_pane_backup_contents">Een back-up bevat</string>
     <string name="more_pane_last_backup">Laatste back-up</string>
-    <string name="more_pane_favorites_summary">Alles wat je hebt gemarkeerd, op één plek</string>
-    <string name="more_pane_history_summary">Alles wat je hebt bekeken, nieuwste eerst</string>
-    <string name="more_pane_hint_open"><xliff:g id="destination">%1$s</xliff:g> openen</string>
-    <string name="more_pane_sync_listening">Synchronisatiemodus — dit apparaat luistert</string>
-    <string name="more_pane_sync_not_listening">Synchronisatiemodus — dit apparaat luistert niet</string>
-    <string name="more_pane_about_languages">Talen</string>
     <string name="more_pane_encrypted">Versleuteld</string>
+    <string name="more_group_your_things">Jouw dingen</string>
+    <string name="more_group_keep_safe">Veilig bewaren</string>
+    <string name="more_profile_switch">Wisselen</string>
+    <string name="more_fav_movies_series">Films en series</string>
+    <string name="more_fav_empty_title">Nog geen favorieten</string>
+    <string name="more_fav_empty_body">Houd OK ingedrukt op een zender, film of serie en kies ‘Toevoegen aan favorieten’.</string>
+    <string name="more_history_empty">Nog niets bekeken</string>
+    <string name="more_backup_never_title">Nog nooit een back-up gemaakt</string>
+    <string name="more_backup_never_body"><xliff:g id="playlists">%1$s</xliff:g>, <xliff:g id="favorites">%2$s</xliff:g>, <xliff:g id="history">%3$s</xliff:g> en alle aanpassingen staan alleen op deze tv.</string>
+    <string name="more_backup_now">Nu back-up maken</string>
+    <string name="more_backup_now_body">Sla een bestand op deze tv op of stuur het naar je telefoon of laptop</string>
+    <string name="more_backup_file_tv">Bestand op deze tv</string>
+    <string name="more_restore_body">Uit een bestand op deze tv, of op afstand vanaf een ander apparaat</string>
+    <string name="more_backup_included">Wat erin zit</string>
+    <string name="more_about_up_to_date">Up-to-date</string>
+    <string name="more_about_checked">Gecontroleerd <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="more_settings_pin_hint">Houd OK op een rij ingedrukt om die in Snel te zetten</string>
+    <string name="more_settings_search">Alle instellingen doorzoeken</string>
+    <string name="settings_card_profile">Kijkers, kindermodus, pincodes</string>
+    <string name="settings_card_sources">Playlists, EPG, herinneringen, terugkijken</string>
+    <string name="settings_card_appearance">Thema, accent, glas, tekst</string>
+    <string name="settings_card_layout">Navigatie, panelen, Home, menu\'s</string>
+    <string name="settings_card_content">Categorieën, TMDB, ondertitels</string>
+    <string name="settings_card_player">Welke speler, streaming</string>
+    <string name="settings_card_picture">Decoder, HDR, zoom, framerate</string>
+    <string name="settings_card_sound">Volume, surround, talen</string>
+    <string name="settings_card_live">Voorbeeld, terugspoelen, vertraging, opstarten</string>
+    <string name="settings_card_watching">Spoelen, hervatten, multiview, opnemen</string>
+    <string name="settings_card_app">Taal, updates, netwerk, diagnose</string>
+    <string name="more_sync_description">Deel je gegevens via wifi met je andere apparaat. Niets verlaat je thuisnetwerk.</string>
+    <string name="more_sync_mode_description">Laat je andere apparaten dit apparaat vinden. Blijft aan zolang deze pagina open is.</string>
+    <string name="more_sync_unpair">Ontkoppelen</string>
+    <string name="more_about_license">GPLv3 · gratis en open source</string>
+    <string name="more_about_description">Je eigen IPTV-speler voor Android TV. Hij levert geen zenders of inhoud; je gebruikt je eigen legaal toegankelijke bronnen.</string>
+    <string name="more_about_scan">Scan met je telefoon.</string>
+    <plurals name="more_playlist_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> playlist</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> playlists</item>
+    </plurals>
+    <plurals name="more_count_favorites">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> favoriet</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> favorieten</item>
+    </plurals>
+    <plurals name="more_count_history">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> geschiedenisitem</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> geschiedenisitems</item>
+    </plurals>
+    <plurals name="more_about_languages">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> taal</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> talen</item>
+    </plurals>
     <string name="settings_backup_location">Locatie</string>
     <string name="settings_multiview">Multiview</string>
     <string name="settings_multiview_description">Kijk naar meerdere livekanalen tegelijk. Je bepaalt elke keer hoeveel, tot deze limiet — elke tegel gebruikt een verbinding van je provider.</string>

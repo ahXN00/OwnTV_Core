@@ -344,7 +344,6 @@
     <string name="settings_telegram_qr">Telegram समूह का QR कोड</string>
     <string name="settings_telegram_scan">फ़ोन से जुड़ने के लिए QR स्कैन करें या ऊपर दिया गया लिंक खोलें।</string>
     <string name="settings_contributions">GitHub पर योगदान, बग रिपोर्ट और स्टार का स्वागत है।</string>
-    <string name="settings_playback_error_title">त्रुटि लॉग</string>
     <string name="settings_playback_error_description_full">पिछला ऐप क्रैश और प्लेबैक की सबसे हाल की विफलताएँ (सबसे नई पहले)। समस्या की रिपोर्ट करते समय ये विवरण शामिल करें।</string>
     <string name="settings_loading">लोड हो रहा है…</string>
     <string name="settings_no_playback_errors">कोई प्लेबैक त्रुटि दर्ज नहीं है।</string>
@@ -374,7 +373,6 @@
     <string name="settings_group_sources">स्रोत और गाइड</string>
     <string name="settings_group_layout">लेआउट</string>
     <string name="settings_group_content_metadata">सामग्री और मेटाडेटा</string>
-    <string name="settings_group_data">डेटा</string>
     <string name="settings_group_appearance">दिखावट</string>
     <string name="settings_group_playback">प्लेबैक</string>
     <string name="settings_group_network">नेटवर्क</string>
@@ -417,6 +415,8 @@
     <string name="settings_group_summary_app">भाषा, स्टार्टअप, अपडेट और ऐप जानकारी</string>
     <string name="settings_group_quick">त्वरित</string>
     <string name="settings_group_summary_quick">वे टॉगल जिन्हें आप सबसे ज़्यादा इस्तेमाल करते हैं</string>
+    <string name="settings_group_sound_subtitles">साउंड और सबटाइटल</string>
+    <string name="settings_group_watching_recording">देखना और रिकॉर्डिंग</string>
     <string name="settings_search_guide_logos">गाइड के चैनल लोगो</string>
     <string name="settings_search_keywords_profiles">दर्शक बच्चे मोड PIN लॉक खाता</string>
     <string name="settings_search_keywords_playlists">M3U Xtream स्रोत सिंक जोड़ें हटाएँ</string>
@@ -921,7 +921,6 @@
     <string name="settings_backup_encrypt_title">इस बैकअप को एन्क्रिप्ट करें?</string>
     <string name="settings_backup_encrypt_message">बैकअप पासवर्ड के साथ पूरी फ़ाइल एन्क्रिप्ट हो जाती है—प्लेलिस्ट, प्रोफ़ाइलें और सहेजे गए पासवर्ड भी—और उस पासवर्ड के बिना इसमें कुछ भी पढ़ा नहीं जा सकता। इसे सुरक्षित रखें: यदि आप इसे खो देते हैं, तो बैकअप बिल्कुल नहीं खोला जा सकेगा। पासवर्ड के बिना फ़ाइल एन्क्रिप्ट नहीं होती और सहेजे गए पासवर्ड व पिन इसमें शामिल नहीं किए जाते।</string>
     <string name="settings_backup_export_title">बैकअप एक्सपोर्ट करें</string>
-    <string name="settings_backup_export_message">बैकअप को उसी Wi-Fi से जुड़े दूसरे डिवाइस (फ़ोन या लैपटॉप) पर भेजें या इस डिवाइस पर फ़ाइल के रूप में सहेजें।</string>
     <string name="settings_backup_restore_title">बैकअप रीस्टोर करें</string>
     <string name="settings_backup_restore_message">बैकअप को उसी Wi-Fi से जुड़े दूसरे डिवाइस (फ़ोन या लैपटॉप) से भेजें या इस डिवाइस पर पहले से मौजूद बैकअप फ़ाइल चुनें।</string>
     <string name="settings_backup_password">बैकअप पासवर्ड</string>
@@ -988,7 +987,6 @@
     <string name="settings_backup_which_profiles">किन प्रोफ़ाइलों का बैकअप लेना है</string>
     <string name="settings_backup_selected_profiles">बैकअप में केवल चुनी गई प्रोफ़ाइलें और उनका डेटा शामिल होगा। लॉक की गई प्रोफ़ाइलों के लिए उनका PIN आवश्यक है।</string>
     <string name="settings_backup_profile_pin_description">यह आपकी वर्तमान प्रोफ़ाइल नहीं है। इसे बैकअप में शामिल करने के लिए इसका PIN दर्ज करें—PIN के बिना इसके डेटा का बैकअप नहीं लिया जाएगा।</string>
-    <string name="settings_backup_save_description">अपनी प्रोफ़ाइलें, स्रोत, कस्टमाइज़ेशन, पसंदीदा, इतिहास और जारी रखने की स्थितियाँ किसी फ़ाइल में सहेजें—या उन्हें नए डिवाइस पर रीस्टोर करें। हर बार आप चुनते हैं कि क्या शामिल करना है।</string>
     <string name="settings_metadata_optional">वैकल्पिक</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">एक साथ नाम बदलें</string>
@@ -1416,24 +1414,59 @@
     <string name="local_sync_last_synced">पिछला सिंक: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">पहले से युग्मित</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
-    <string name="more_spine_header_summary">वह सब जो न चैनल है और न सेटिंग</string>
-    <string name="more_spine_settings_summary">प्लेलिस्ट, प्लेबैक, नेटवर्क</string>
-    <string name="more_spine_favorites_summary">चैनल, फ़िल्में, सीरीज़</string>
-    <string name="more_spine_history_summary">फिर से शुरू करने के बिंदुओं के साथ</string>
-    <string name="more_spine_backup_summary">एक्सपोर्ट या रिस्टोर</string>
-    <string name="more_spine_local_sync_summary">अपने फ़ोन से डेटा बदलें</string>
-    <string name="more_spine_error_log_summary">क्रैश और गड़बड़ियाँ</string>
-    <string name="more_spine_about_summary">वर्शन और लाइसेंस</string>
-    <string name="more_pane_groups">समूह</string>
-    <string name="more_pane_backup_contents">बैकअप में शामिल है</string>
     <string name="more_pane_last_backup">पिछला बैकअप</string>
-    <string name="more_pane_favorites_summary">आपने जो भी पसंदीदा बनाया, एक ही जगह</string>
-    <string name="more_pane_history_summary">आपने जो देखा, सबसे नया पहले</string>
-    <string name="more_pane_hint_open"><xliff:g id="destination">%1$s</xliff:g> खोलें</string>
-    <string name="more_pane_sync_listening">सिंक मोड — यह डिवाइस सुन रहा है</string>
-    <string name="more_pane_sync_not_listening">सिंक मोड — यह डिवाइस नहीं सुन रहा है</string>
-    <string name="more_pane_about_languages">भाषाएँ</string>
     <string name="more_pane_encrypted">एन्क्रिप्टेड</string>
+    <string name="more_group_your_things">आपकी चीज़ें</string>
+    <string name="more_group_keep_safe">सुरक्षित रखें</string>
+    <string name="more_profile_switch">बदलें</string>
+    <string name="more_fav_movies_series">फ़िल्में और सीरीज़</string>
+    <string name="more_fav_empty_title">अभी कोई पसंदीदा नहीं</string>
+    <string name="more_fav_empty_body">किसी चैनल, फ़िल्म या शो पर OK दबाकर रखें और “पसंदीदा में जोड़ें” चुनें।</string>
+    <string name="more_history_empty">अभी तक कुछ नहीं देखा</string>
+    <string name="more_backup_never_title">कभी बैकअप नहीं लिया गया</string>
+    <string name="more_backup_never_body"><xliff:g id="playlists">%1$s</xliff:g>, <xliff:g id="favorites">%2$s</xliff:g>, <xliff:g id="history">%3$s</xliff:g> और हर कस्टमाइज़ेशन सिर्फ़ इसी टीवी पर हैं।</string>
+    <string name="more_backup_now">अभी बैकअप लें</string>
+    <string name="more_backup_now_body">इस टीवी पर फ़ाइल सेव करें, या उसे अपने फ़ोन या लैपटॉप पर भेजें</string>
+    <string name="more_backup_file_tv">इस टीवी पर फ़ाइल</string>
+    <string name="more_restore_body">इस टीवी की फ़ाइल से, या किसी दूसरे डिवाइस से रिमोट से</string>
+    <string name="more_backup_included">क्या शामिल है</string>
+    <string name="more_about_up_to_date">अप-टू-डेट</string>
+    <string name="more_about_checked">जाँचा गया <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="more_settings_pin_hint">किसी पंक्ति को त्वरित में पिन करने के लिए OK दबाए रखें</string>
+    <string name="more_settings_search">सभी सेटिंग्स में खोजें</string>
+    <string name="settings_card_profile">दर्शक, किड्स मोड, PIN लॉक</string>
+    <string name="settings_card_sources">प्लेलिस्ट, EPG, रिमाइंडर, कैच-अप</string>
+    <string name="settings_card_appearance">थीम, एक्सेंट, ग्लास, टेक्स्ट</string>
+    <string name="settings_card_layout">नेविगेशन, पैनल, होम, मेनू</string>
+    <string name="settings_card_content">कैटेगरी, TMDB, सबटाइटल</string>
+    <string name="settings_card_player">कौन-सा प्लेयर, स्ट्रीमिंग</string>
+    <string name="settings_card_picture">डिकोडर, HDR, ज़ूम, फ़्रेम रेट</string>
+    <string name="settings_card_sound">वॉल्यूम, सराउंड, भाषाएँ</string>
+    <string name="settings_card_live">प्रीव्यू, रिवाइंड, लेटेंसी, शुरुआत</string>
+    <string name="settings_card_watching">स्किप, फिर से शुरू, मल्टीव्यू, रिकॉर्डिंग</string>
+    <string name="settings_card_app">भाषा, अपडेट, नेटवर्क, डायग्नोस्टिक्स</string>
+    <string name="more_sync_description">Wi-Fi से अपने दूसरे डिवाइस के साथ डेटा शेयर करें। कुछ भी आपके होम नेटवर्क से बाहर नहीं जाता।</string>
+    <string name="more_sync_mode_description">आपके दूसरे डिवाइस इसे ढूँढ सकते हैं। यह पेज खुला रहने तक चालू रहता है।</string>
+    <string name="more_sync_unpair">अनपेयर करें</string>
+    <string name="more_about_license">GPLv3 · मुफ़्त और ओपन सोर्स</string>
+    <string name="more_about_description">Android TV के लिए आपका अपना IPTV प्लेयर। इसमें कोई चैनल या कंटेंट नहीं है; आप अपने कानूनी रूप से उपलब्ध सोर्स जोड़ते हैं।</string>
+    <string name="more_about_scan">अपने फ़ोन से स्कैन करें।</string>
+    <plurals name="more_playlist_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> प्लेलिस्ट</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> प्लेलिस्ट</item>
+    </plurals>
+    <plurals name="more_count_favorites">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> पसंदीदा</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> पसंदीदा</item>
+    </plurals>
+    <plurals name="more_count_history">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> हिस्ट्री आइटम</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> हिस्ट्री आइटम</item>
+    </plurals>
+    <plurals name="more_about_languages">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> भाषा</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> भाषाएँ</item>
+    </plurals>
     <string name="settings_backup_location">स्थान</string>
     <string name="settings_multiview">मल्टीव्यू</string>
     <string name="settings_multiview_description">एक साथ कई लाइव चैनल देखें। हर बार आप तय करते हैं कि कितने, इस सीमा तक — हर टाइल आपके प्रदाता का एक कनेक्शन इस्तेमाल करती है।</string>
