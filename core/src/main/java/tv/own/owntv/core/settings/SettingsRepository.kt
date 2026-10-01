@@ -600,6 +600,8 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         // height has no business competing with two widths for the same budget.
         val CINEMATIC_DETAILS_MOVIES = intPreferencesKey("cinematic_details_movies")
         val CINEMATIC_DETAILS_SERIES = intPreferencesKey("cinematic_details_series")
+        val CINEMATIC_SHEET_MOVIES = intPreferencesKey("cinematic_sheet_movies")
+        val CINEMATIC_SHEET_SERIES = intPreferencesKey("cinematic_sheet_series")
         // Guide's two-column split (pinned channels · scrollable EPG timeline).
         val GUIDE_WIDTH_ON = booleanPreferencesKey("guide_width_on")
         val GUIDE_WIDTH_CHANNELS = intPreferencesKey("guide_width_channels")
@@ -1983,6 +1985,18 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     }
 
     /**
+     * The Cinematic categories sheet's width, % of the screen — the sheet slides over the titles, so,
+     * like Live TV's Stage sheet, it is its own value on its own scale and leaves the Separate
+     * layout's [panelShares] untouched.
+     */
+    fun cinematicSheetWidth(s: PanelSection): Flow<Int> =
+        prefsFlow { it[cinematicSheetKey(s)]?.coerceIn(LiveStageWidths.LIVE_SHEET_MIN, LiveStageWidths.LIVE_SHEET_MAX) ?: LiveStageWidths.DEFAULT.sheet }
+
+    suspend fun setCinematicSheetWidth(s: PanelSection, percent: Int) {
+        context.dataStore.edit { it[cinematicSheetKey(s)] = percent.coerceIn(LiveStageWidths.LIVE_SHEET_MIN, LiveStageWidths.LIVE_SHEET_MAX) }
+    }
+
+    /**
      * Live TV's Stage-layout widths ([LiveStageWidths]), or null when never saved. They share the
      * section's on/off toggle with [panelShares], which stays the Separate-panels layout's row.
      */
@@ -2009,6 +2023,9 @@ class SettingsRepository(private val context: Context, private val localeStore: 
 
     private fun cinematicDetailsKey(s: PanelSection) =
         if (s == PanelSection.MOVIES) Keys.CINEMATIC_DETAILS_MOVIES else Keys.CINEMATIC_DETAILS_SERIES
+
+    private fun cinematicSheetKey(s: PanelSection) =
+        if (s == PanelSection.MOVIES) Keys.CINEMATIC_SHEET_MOVIES else Keys.CINEMATIC_SHEET_SERIES
 
     // --- Guide column widths: toggle + two percentages that must total exactly 100 ---
     val guideWidthEnabled: Flow<Boolean> = prefsFlow { it[Keys.GUIDE_WIDTH_ON] ?: false }
@@ -2947,6 +2964,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             Keys.PANEL_W_MOVIES_CAT, Keys.PANEL_W_MOVIES_LIST, Keys.PANEL_W_MOVIES_PREVIEW,
                 Keys.PANEL_W_SERIES_CAT, Keys.PANEL_W_SERIES_LIST, Keys.PANEL_W_SERIES_PREVIEW,
             Keys.CINEMATIC_DETAILS_MOVIES, Keys.CINEMATIC_DETAILS_SERIES,
+            Keys.CINEMATIC_SHEET_MOVIES, Keys.CINEMATIC_SHEET_SERIES,
             Keys.GUIDE_WIDTH_CHANNELS, Keys.GUIDE_WIDTH_EPG,
             Keys.POPUP_FONT_SIZE_PCT, Keys.POPUP_SIZE_PCT, Keys.VOD_GRID_COLUMNS, Keys.GUIDE_DENSITY_PCT,
             Keys.GESTURE_SENSITIVITY_PCT,

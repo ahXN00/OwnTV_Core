@@ -140,13 +140,13 @@
     <!-- Translators: Context-menu option to play content in an external player app. -->
     <string name="content_play_external">Play with external player</string>
     <!-- Translators: Context-menu option to delete downloaded OpenSubtitles subtitles. "OpenSub" is an abbreviation of OpenSubtitles. -->
-    <string name="content_delete_subtitles">Delete OpenSub subtitles</string>
+    <string name="content_delete_subtitles">Delete OpenSubtitles subtitles</string>
     <!-- Translators: Context-menu option to view TMDB details for a movie/series. "TMDB" is a brand name. -->
     <string name="content_tmdb_details">TMDB Details</string>
     <!-- Translators: Context-menu option to play the trailer for a movie or series. -->
-    <string name="content_play_trailer">Play Trailer</string>
+    <string name="content_play_trailer">Play trailer</string>
     <!-- Translators: Context-menu option to re-fetch TMDB metadata. "TMDB" is a brand name. -->
-    <string name="content_refetch_tmdb">Refetch TMDB details</string>
+    <string name="content_refetch_tmdb">Update details</string>
     <!-- Translators: Context-menu option to set a custom TMDB search title. -->
     <string name="content_set_tmdb_name">Set TMDB name</string>
     <!-- Translators: Button to close a dialog or overlay. -->
@@ -310,7 +310,7 @@
     <!-- Translators: Predefined category name for Sports content. -->
     <string name="content_category_sports">Sports</string>
     <!-- Translators: Predefined category name for the "All Movies" view. -->
-    <string name="content_category_all_movies">All Movies</string>
+    <string name="content_category_all_movies">All movies</string>
     <!-- Translators: Default category name for Action content (movies and series). -->
     <string name="content_category_action">Action</string>
     <!-- Translators: Predefined category name for Drama content. -->
@@ -320,7 +320,7 @@
     <!-- Translators: Predefined category name for Horror content. -->
     <string name="content_category_horror">Horror</string>
     <!-- Translators: Predefined category name for the "All Series" view. -->
-    <string name="content_category_all_series">All Series</string>
+    <string name="content_category_all_series">All series</string>
     <!-- Translators: Predefined category name for Animation content. -->
     <string name="content_category_animation">Animation</string>
     <!-- Translators: Predefined category name for Documentary content. -->
@@ -705,4 +705,38 @@
     <string name="content_menu_group_show">Show</string>
     <!-- Translators: TV Guide order menu: also list the channels that have no guide data (On / Off), so they can be matched. -->
     <string name="content_epg_show_empty">Channels without guide</string>
+    <!-- Translators: Heading above the provider categories in the Movies / Series category list. Shown in capitals by the style. -->
+    <string name="content_vod_providers">Providers</string>
+    <!-- Translators: Title of the Movies sort menu. -->
+    <string name="content_sort_movies_title">Sort movies</string>
+    <!-- Translators: Title of the Series sort menu. -->
+    <string name="content_sort_series_title">Sort series</string>
+    <!-- Translators: Line under the sort menu title: the chosen order applies to all categories of Movies (or Series). -->
+    <string name="content_sort_applies_hint">Applies to every category in this section</string>
+    <!-- Translators: Sort choice: keep the order the playlist provider uses. -->
+    <string name="content_sort_provider_order">Provider order</string>
+    <!-- Translators: Explanation beside the Provider order sort choice. -->
+    <string name="content_sort_provider_order_hint">The order your playlist uses</string>
+    <!-- Translators: Explanation beside the Rating sort choice. -->
+    <string name="content_sort_rating_hint">Highest first</string>
+    <!-- Translators: Explanation beside the Date added sort choice. -->
+    <string name="content_sort_date_added_hint">Newest first</string>
+    <!-- Translators: Group label in a movie / series options menu above favourite, watched, download and history actions. Shown in capitals by the style. -->
+    <string name="content_menu_group_library">Library</string>
+    <!-- Translators: Group label in a movie / series options menu above the details actions. Shown in capitals by the style. -->
+    <string name="content_menu_group_details">Details</string>
+    <!-- Translators: Options menu item: open the details window of a movie. -->
+    <string name="content_movie_details">Movie details</string>
+    <!-- Translators: Options menu item: open the details window of a series. -->
+    <string name="content_series_details">Series details</string>
+    <!-- Translators: How many movies the open category holds, after its name: "Disney+ Kids Movies · 136 titles". -->
+    <plurals name="content_vod_title_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> title</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> titles</item>
+    </plurals>
+    <!-- Translators: How many series the open category holds, after its name: "Crunchyroll · 32 series". -->
+    <plurals name="content_vod_series_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> series</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> series</item>
+    </plurals>
 </resources>
