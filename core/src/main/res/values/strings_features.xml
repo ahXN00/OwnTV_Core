@@ -365,6 +365,17 @@
     <string name="recording_failed_drm">This channel is DRM-protected, so it can be watched but not recorded. The protection comes from your provider, not from OwnTV.</string>
     <!-- Translators: Shown on a recording that was skipped because the device was on a metered (mobile data) connection and the user has turned off recording over mobile data. -->
     <string name="recording_failed_metered">Not recorded on mobile data</string>
+    <!-- Translators: Downloads screen, Recordings card: nothing has been recorded so far. -->
+    <string name="recording_card_empty_title">Nothing recorded yet</string>
+    <!-- Translators: Downloads screen, Recordings card: how to record a programme. -->
+    <string name="recording_card_body">Pick any programme in the TV Guide and choose Record. It lands here, even while you watch something else.</string>
+    <!-- Translators: Downloads screen, Recordings card: button that opens the TV Guide. -->
+    <string name="recording_open_guide">Open TV Guide</string>
+    <!-- Translators: Downloads screen, Recordings card: how many recordings are stored. -->
+    <plurals name="recording_card_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> recording</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> recordings</item>
+    </plurals>
     <!-- Translators: Settings toggle on a phone: may a recording run when the device is on mobile data rather than Wi-Fi. -->
     <string name="settings_recording_mobile_data">Record on mobile data</string>
     <!-- Translators: Description under the "record on mobile data" toggle. Explains that, unlike a download, a recording is skipped rather than postponed, because a live broadcast does not come round again. -->
