@@ -1227,12 +1227,10 @@
     <string name="settings_glass_screen_description">반투명 불투명 유리 패널, 배경 이미지 및 투명도</string>
     <string name="settings_glass_master_description">배경 사진이나 앱 자체 배경 위에 반투명한 불투명 유리 패널을 표시합니다.</string>
     <string name="settings_glass_background_image">배경 이미지 선택</string>
-    <string name="settings_glass_surface_transparency_title">투명도</string>
     <string name="settings_glass_background_blur_title">흐림 / 불투명 효과</string>
     <string name="settings_glass_section_appearance">화면 스타일</string>
     <string name="settings_glass_section_fine_tuning">고급 옵션</string>
     <string name="settings_glass_section_behavior">동작</string>
-    <string name="settings_glass_apply_to">글래스 표면</string>
     <string name="settings_glass_surface_all">전체</string>
     <string name="settings_glass_background_action_description">배경 이미지 선택</string>
     <string name="settings_glass_transparency_short_description">20–100 · 5</string>
@@ -1517,7 +1515,6 @@
     <string name="settings_line_catchup_sources">한 재생목록의 시간대 재정의</string>
     <string name="settings_line_override_playlist">한 재생목록에 대해 재정의</string>
     <string name="settings_line_accent">버튼, 포커스, 강조 표시에 모두 적용</string>
-    <string name="settings_line_glass">반투명 표면, 배경 이미지, 투명도</string>
     <string name="settings_line_fonts">기본 화면과 팝업에 쓰는 하나의 글꼴</string>
     <string name="settings_line_popup_size">글자 크기는 그대로 두고 대화상자와 메뉴 크기 조절</string>
     <string name="settings_line_animations">끄면 저사양 TV 박스에서 더 빠르게 느껴짐</string>
@@ -1606,7 +1603,6 @@
     <string name="settings_help_theme">OwnTV는 다크 테마에 맞춰 디자인되었습니다. 시스템은 TV 자체 설정이 있으면 그것을 따르고, 라이트는 밝은 방에 어울립니다.</string>
     <string name="settings_help_accent">버튼, 포커스 빛, 진행 표시줄, 강조 표시에 모두 적용됩니다. 프리셋을 고르거나 OK를 눌러 팔레트와 원하는 16진수 코드를 지정하세요.</string>
     <string name="settings_help_focus">포커스된 항목을 둘러싼 테두리입니다. 소파에서도 잘 보이도록 색상과 두께를 고르세요.</string>
-    <string name="settings_help_glass">글래스 효과는 원하는 배경 이미지 위에서 메뉴와 패널을 반투명 젖빛으로 만듭니다. 끄면 불투명한 패널이 그려져 저사양 TV 박스에서 더 가볍습니다.</string>
     <string name="settings_help_fonts">OwnTV 전체에서 쓰는 글꼴과 글자 크기입니다. 팝업도 같은 글꼴을 씁니다.</string>
     <string name="settings_help_popup_size">팝업, 메뉴, 대화상자 전체를 크게 또는 작게 합니다. 팝업이 비좁거나 화면을 너무 많이 가릴 때 사용하세요.</string>
     <string name="settings_help_zoom">화면의 모든 것을 확대·축소합니다. 크게 하면 멀리서 읽기 쉽고, 작게 하면 더 많이 표시됩니다. 85%% 미만에서는 메모리가 적은 TV 박스의 메모리가 부족해질 수 있습니다.</string>
@@ -1689,10 +1685,6 @@
     <string name="settings_line_os_filter">선택한 언어만</string>
     <string name="settings_line_os_search_language">검색 결과에 표시</string>
     <string name="settings_subtitle_delete_help">삭제하면 공간이 확보되며, 플레이어에서 다시 다운로드할 수 있습니다.</string>
-    <string name="settings_glass_style">스타일</string>
-    <string name="settings_line_glass_style">프리셋 또는 사용자 지정</string>
-    <string name="settings_line_glass_apply">반투명 처리할 표면</string>
-    <string name="settings_glass_preview_help">변경 사항이 여기에 바로 보입니다.</string>
     <plurals name="settings_home_row_count">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g>개 행</item>
     </plurals>
@@ -1726,4 +1718,38 @@
     <string name="settings_line_epg_auto_refresh">가이드를 최신 상태로 유지</string>
     <string name="settings_line_epg_logos">재생목록 로고 대신</string>
     <string name="settings_help_epg_name">가이드 목록과 EPG 수동 선택에 표시됩니다.</string>
+    <string name="settings_glass_bg_title">유리 및 배경</string>
+    <string name="settings_line_glass_bg">배경, 사진 모습, 유리</string>
+    <string name="settings_bg_background">배경</string>
+    <string name="settings_line_bg_background">모든 화면 뒤에 있는 것</string>
+    <string name="settings_help_bg_background">Stage는 OwnTV의 부드러운 색을 보여 줍니다. 사진은 모든 화면 뒤에 내 사진을 보여 줍니다. 단색은 평평한 어두운 채우기입니다.</string>
+    <string name="settings_bg_stage">Stage</string>
+    <string name="settings_bg_picture">사진</string>
+    <string name="settings_bg_plain">단색</string>
+    <string name="settings_line_bg_picture_none">이 TV에서 또는 Remote로 사진 선택</string>
+    <string name="settings_bg_change">변경</string>
+    <string name="settings_bg_none">없음</string>
+    <string name="settings_bg_look">사진 모습</string>
+    <string name="settings_line_bg_look">선명, 부드럽게 또는 어둡게</string>
+    <string name="settings_bg_sharp">선명</string>
+    <string name="settings_bg_soft">부드럽게</string>
+    <string name="settings_bg_dark">어둡게</string>
+    <string name="settings_bg_sharp_desc">사진 그대로, 살짝만 어둡게</string>
+    <string name="settings_bg_soft_desc">흐리고 어둡게; 글자가 항상 잘 보임</string>
+    <string name="settings_bg_dark_desc">거의 검은색에 사진이 살짝 보임</string>
+    <string name="settings_help_bg_look">사진이 화면 뒤에 어떻게 놓이는지 정합니다. 행과 글자가 사진 위에 바로 그려지므로 밝은 사진에는 부드럽게나 어둡게가 필요합니다.</string>
+    <string name="settings_bg_picture_only">사진일 때만</string>
+    <string name="settings_bg_darken">어둡게 하기</string>
+    <string name="settings_line_bg_darken">사진을 얼마나 어둡게 할지</string>
+    <string name="settings_bg_blur">흐림</string>
+    <string name="settings_line_bg_blur">사진이 얼마나 부드러운지</string>
+    <string name="settings_bg_accent_light">강조색 조명</string>
+    <string name="settings_line_bg_accent_light">강조색이 모서리에서 빛납니다</string>
+    <string name="settings_glass_section">유리</string>
+    <string name="settings_line_glass_switch">메뉴 바, 시트, 메뉴, 팝업이 반투명 유리가 됩니다</string>
+    <string name="settings_help_glass_chrome">떠 있는 부분을 반투명 유리로 만듭니다: 메뉴 바, 카테고리 시트, 메뉴, 팝업, 위쪽 버튼. 목록과 포스터는 평평하게 유지됩니다.</string>
+    <string name="settings_glass_opacity">유리 불투명도</string>
+    <string name="settings_line_glass_opacity">낮을수록 배경이 더 많이 보입니다</string>
+    <string name="settings_line_glass_reset">Stage 색상, 유리 켜짐, <xliff:g id="percent" example="56%">%1$s</xliff:g></string>
+    <string name="settings_bg_preview_note">이 배경의 실시간 TV. 움직이면 바로 변경이 보입니다.</string>
 </resources>

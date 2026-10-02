@@ -1287,12 +1287,10 @@
     <string name="settings_glass_screen_description">Полупрозрачные матовые панели, фоновое изображение и прозрачность</string>
     <string name="settings_glass_master_description">Полупрозрачные матовые панели поверх фоновой фотографии или собственного фона приложения.</string>
     <string name="settings_glass_background_image">Выберите фоновое изображение</string>
-    <string name="settings_glass_surface_transparency_title">Прозрачность</string>
     <string name="settings_glass_background_blur_title">Размытие / матовость</string>
     <string name="settings_glass_section_appearance">Внешний вид</string>
     <string name="settings_glass_section_fine_tuning">Дополнительные параметры</string>
     <string name="settings_glass_section_behavior">Поведение</string>
-    <string name="settings_glass_apply_to">Стеклянные поверхности</string>
     <string name="settings_glass_surface_all">Все</string>
     <string name="settings_glass_background_action_description">Выберите фоновое изображение</string>
     <string name="settings_glass_transparency_short_description">20–100 · 5</string>
@@ -1601,7 +1599,6 @@
     <string name="settings_line_catchup_sources">Свой часовой пояс для одного плейлиста</string>
     <string name="settings_line_override_playlist">Своё значение для одного плейлиста</string>
     <string name="settings_line_accent">Окрашивает кнопки, выделение и акценты везде</string>
-    <string name="settings_line_glass">Матовые панели, фоновое изображение, прозрачность</string>
     <string name="settings_line_fonts">Один шрифт для интерфейса и окон</string>
     <string name="settings_line_popup_size">Масштаб окон и меню без изменения текста</string>
     <string name="settings_line_animations">Без анимации быстрее на слабых ТВ-приставках</string>
@@ -1690,7 +1687,6 @@
     <string name="settings_help_theme">OwnTV создан для тёмной темы. Системная следует настройке телевизора, если она есть; светлая подходит для яркой комнаты.</string>
     <string name="settings_help_accent">Окрашивает кнопки, свечение выделения, полосы прогресса и акценты везде. Выберите готовый цвет или нажмите OK, чтобы открыть палитру и ввести любой HEX-код.</string>
     <string name="settings_help_focus">Рамка вокруг выделенного элемента. Выберите её цвет и толщину, чтобы она была хорошо видна с дивана.</string>
-    <string name="settings_help_glass">Эффект стекла делает меню и панели полупрозрачными и матовыми поверх выбранного фона. Если выключить, панели будут сплошными — это легче для слабых ТВ-приставок.</string>
     <string name="settings_help_fonts">Шрифт во всём OwnTV и размер текста. Всплывающие окна используют тот же шрифт.</string>
     <string name="settings_help_popup_size">Увеличивает или уменьшает окна, меню и диалоги целиком. Пригодится, если они тесные или закрывают слишком много экрана.</string>
     <string name="settings_help_zoom">Масштабирует всё на экране. Крупнее — легче читать издалека, мельче — больше помещается. Ниже 85 %% приставкам с малым объёмом памяти может её не хватить.</string>
@@ -1782,10 +1778,6 @@
     <string name="settings_line_os_filter">Только выбранный язык</string>
     <string name="settings_line_os_search_language">Показывается в результатах поиска</string>
     <string name="settings_subtitle_delete_help">Удаление освобождает место; скачать снова можно из плеера.</string>
-    <string name="settings_glass_style">Стиль</string>
-    <string name="settings_line_glass_style">Готовый стиль или Своё</string>
-    <string name="settings_line_glass_apply">Какие поверхности матовые</string>
-    <string name="settings_glass_preview_help">Каждое изменение сразу видно здесь.</string>
     <plurals name="settings_home_row_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> строка</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> строки</item>
@@ -1828,4 +1820,38 @@
     <string name="settings_line_epg_auto_refresh">Поддерживать гид в актуальном виде</string>
     <string name="settings_line_epg_logos">Вместо логотипов плейлиста</string>
     <string name="settings_help_epg_name">Показывается в списке гидов и в «Выбрать EPG вручную».</string>
+    <string name="settings_glass_bg_title">Стекло и фон</string>
+    <string name="settings_line_glass_bg">Фон, вид картинки, стекло</string>
+    <string name="settings_bg_background">Фон</string>
+    <string name="settings_line_bg_background">Что находится за каждым экраном</string>
+    <string name="settings_help_bg_background">Stage показывает собственные мягкие цвета OwnTV. Картинка показывает вашу картинку за каждым экраном. Простой — ровная тёмная заливка.</string>
+    <string name="settings_bg_stage">Stage</string>
+    <string name="settings_bg_picture">Картинка</string>
+    <string name="settings_bg_plain">Простой</string>
+    <string name="settings_line_bg_picture_none">Выберите картинку с этого телевизора или через Remote</string>
+    <string name="settings_bg_change">Изменить</string>
+    <string name="settings_bg_none">Нет</string>
+    <string name="settings_bg_look">Вид картинки</string>
+    <string name="settings_line_bg_look">Чёткий, Мягкий или Тёмный</string>
+    <string name="settings_bg_sharp">Чёткий</string>
+    <string name="settings_bg_soft">Мягкий</string>
+    <string name="settings_bg_dark">Тёмный</string>
+    <string name="settings_bg_sharp_desc">Картинка как есть, лишь слегка затемнённая</string>
+    <string name="settings_bg_soft_desc">Размытая и затемнённая; текст всегда читается</string>
+    <string name="settings_bg_dark_desc">Почти чёрный с намёком на картинку</string>
+    <string name="settings_help_bg_look">Как ваша картинка лежит за экранами. Строки и текст рисуются прямо поверх неё, поэтому яркой картинке нужен Мягкий или Тёмный вид.</string>
+    <string name="settings_bg_picture_only">Только для картинки</string>
+    <string name="settings_bg_darken">Затемнение</string>
+    <string name="settings_line_bg_darken">Насколько затемнена картинка</string>
+    <string name="settings_bg_blur">Размытие</string>
+    <string name="settings_line_bg_blur">Насколько мягкая картинка</string>
+    <string name="settings_bg_accent_light">Акцентный свет</string>
+    <string name="settings_line_bg_accent_light">Ваш акцентный цвет светится в углу</string>
+    <string name="settings_glass_section">Стекло</string>
+    <string name="settings_line_glass_switch">Панель меню, шторки, меню и окна матовые</string>
+    <string name="settings_help_glass_chrome">Делает матовыми плавающие части: панель меню, шторки категорий, меню, окна и кнопки вверху. Списки и постеры остаются плоскими.</string>
+    <string name="settings_glass_opacity">Плотность стекла</string>
+    <string name="settings_line_glass_opacity">Чем меньше, тем больше видно фон</string>
+    <string name="settings_line_glass_reset">Цвета Stage, стекло включено, <xliff:g id="percent" example="56%">%1$s</xliff:g></string>
+    <string name="settings_bg_preview_note">Прямой эфир с этим фоном. Изменения видны по ходу перемещения.</string>
 </resources>

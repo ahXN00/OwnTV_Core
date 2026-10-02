@@ -1227,12 +1227,10 @@
     <string name="settings_glass_screen_description">半透明のすりガラス風パネル、背景画像、透明度</string>
     <string name="settings_glass_master_description">背景写真またはアプリ標準の背景の上に、半透明のすりガラス風パネルを表示します。</string>
     <string name="settings_glass_background_image">背景画像を選択</string>
-    <string name="settings_glass_surface_transparency_title">透明度</string>
     <string name="settings_glass_background_blur_title">ぼかし／すりガラス</string>
     <string name="settings_glass_section_appearance">外観</string>
     <string name="settings_glass_section_fine_tuning">詳細オプション</string>
     <string name="settings_glass_section_behavior">動作</string>
-    <string name="settings_glass_apply_to">ガラス効果の適用領域</string>
     <string name="settings_glass_surface_all">すべて</string>
     <string name="settings_glass_background_action_description">背景画像を選択</string>
     <string name="settings_glass_transparency_short_description">20–100 · 5</string>
@@ -1517,7 +1515,6 @@
     <string name="settings_line_catchup_sources">1つのプレイリストだけタイムゾーンを変更</string>
     <string name="settings_line_override_playlist">1つのプレイリストだけ変更</string>
     <string name="settings_line_accent">ボタン、フォーカス、ハイライトをすべて色付け</string>
-    <string name="settings_line_glass">すりガラスの面、背景画像、透明度</string>
     <string name="settings_line_fonts">メイン画面とポップアップで共通のフォント</string>
     <string name="settings_line_popup_size">文字はそのままでダイアログとメニューの大きさを変更</string>
     <string name="settings_line_animations">オフにすると低性能のTVボックスで軽快に</string>
@@ -1606,7 +1603,6 @@
     <string name="settings_help_theme">OwnTV はダーク向けに設計されています。システムはテレビ本体の設定があればそれに従い、ライトは明るい部屋に向いています。</string>
     <string name="settings_help_accent">ボタン、フォーカスの光、進行バー、ハイライトをすべて色付けします。プリセットを選ぶか、OK でパレットを開いて任意の 16 進コードを入力できます。</string>
     <string name="settings_help_focus">フォーカス中の項目を囲むリング。ソファからでも追いやすいよう、色と太さを選べます。</string>
-    <string name="settings_help_glass">ガラス効果は、選んだ背景画像の上でメニューやパネルを半透明のすりガラスにします。オフにすると不透明なパネルになり、低性能のTVボックスでも軽くなります。</string>
     <string name="settings_help_fonts">OwnTV 全体で使うフォントと文字の大きさです。ポップアップも同じフォントを使います。</string>
     <string name="settings_help_popup_size">ポップアップ、メニュー、ダイアログ全体を大きく、または小さくします。窮屈に感じるときや画面を覆いすぎるときに使います。</string>
     <string name="settings_help_zoom">画面のすべてを拡大・縮小します。大きいほど離れても読みやすく、小さいほど多く表示できます。85%% 未満ではメモリの少ない TV ボックスでメモリ不足になることがあります。</string>
@@ -1689,10 +1685,6 @@
     <string name="settings_line_os_filter">選んだ言語のみ</string>
     <string name="settings_line_os_search_language">検索結果に表示</string>
     <string name="settings_subtitle_delete_help">削除すると容量が空きます。プレーヤーから再度ダウンロードできます。</string>
-    <string name="settings_glass_style">スタイル</string>
-    <string name="settings_line_glass_style">プリセットまたはカスタム</string>
-    <string name="settings_line_glass_apply">すりガラスにする面</string>
-    <string name="settings_glass_preview_help">変更はすぐにここに表示されます。</string>
     <plurals name="settings_home_row_count">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 行</item>
     </plurals>
@@ -1726,4 +1718,38 @@
     <string name="settings_line_epg_auto_refresh">ガイドを最新に保つ</string>
     <string name="settings_line_epg_logos">プレイリストのロゴの代わりに</string>
     <string name="settings_help_epg_name">ガイド一覧と「EPG を手動で選ぶ」に表示されます。</string>
+    <string name="settings_glass_bg_title">ガラスと背景</string>
+    <string name="settings_line_glass_bg">背景、画像の見え方、ガラス</string>
+    <string name="settings_bg_background">背景</string>
+    <string name="settings_line_bg_background">すべての画面の後ろにあるもの</string>
+    <string name="settings_help_bg_background">Stage は OwnTV 独自のやわらかな色を表示します。画像はすべての画面の後ろに自分の画像を表示します。無地は平らな暗い塗りです。</string>
+    <string name="settings_bg_stage">Stage</string>
+    <string name="settings_bg_picture">画像</string>
+    <string name="settings_bg_plain">無地</string>
+    <string name="settings_line_bg_picture_none">このテレビまたは Remote で画像を選択</string>
+    <string name="settings_bg_change">変更</string>
+    <string name="settings_bg_none">なし</string>
+    <string name="settings_bg_look">画像の見え方</string>
+    <string name="settings_line_bg_look">くっきり・ソフト・ダーク</string>
+    <string name="settings_bg_sharp">くっきり</string>
+    <string name="settings_bg_soft">ソフト</string>
+    <string name="settings_bg_dark">ダーク</string>
+    <string name="settings_bg_sharp_desc">画像そのまま、少しだけ暗く</string>
+    <string name="settings_bg_soft_desc">ぼかして暗く。文字が常に読みやすい</string>
+    <string name="settings_bg_dark_desc">ほぼ黒で、画像がほんのり見える</string>
+    <string name="settings_help_bg_look">画像が画面の後ろでどう見えるか。行や文字は画像の上に直接描かれるので、明るい画像にはソフトかダークが必要です。</string>
+    <string name="settings_bg_picture_only">画像のみ</string>
+    <string name="settings_bg_darken">暗さ</string>
+    <string name="settings_line_bg_darken">画像をどれだけ暗くするか</string>
+    <string name="settings_bg_blur">ぼかし</string>
+    <string name="settings_line_bg_blur">画像をどれだけやわらかくするか</string>
+    <string name="settings_bg_accent_light">アクセントライト</string>
+    <string name="settings_line_bg_accent_light">アクセントカラーが隅で光ります</string>
+    <string name="settings_glass_section">ガラス</string>
+    <string name="settings_line_glass_switch">メニューバー、シート、メニュー、ポップアップがすりガラスになります</string>
+    <string name="settings_help_glass_chrome">浮いている部分をすりガラスにします：メニューバー、カテゴリーシート、メニュー、ポップアップ、上部のボタン。リストとポスターはフラットのままです。</string>
+    <string name="settings_glass_opacity">ガラスの不透明度</string>
+    <string name="settings_line_glass_opacity">低いほど背景がよく見えます</string>
+    <string name="settings_line_glass_reset">Stage の色、ガラスオン、<xliff:g id="percent" example="56%">%1$s</xliff:g></string>
+    <string name="settings_bg_preview_note">この背景のライブ TV。動かすと変更がすぐ表示されます。</string>
 </resources>

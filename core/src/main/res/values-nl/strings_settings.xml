@@ -1247,12 +1247,10 @@
     <string name="settings_glass_screen_description">Doorschijnende panelen met matglaseffect, achtergrondafbeelding en transparantie</string>
     <string name="settings_glass_master_description">Doorschijnende, gematteerde panelen over een achtergrondfoto of over de eigen achtergrond van de app.</string>
     <string name="settings_glass_background_image">Achtergrondafbeelding kiezen</string>
-    <string name="settings_glass_surface_transparency_title">Transparantie</string>
     <string name="settings_glass_background_blur_title">Vervaging / matglas</string>
     <string name="settings_glass_section_appearance">Weergave</string>
     <string name="settings_glass_section_fine_tuning">Geavanceerde opties</string>
     <string name="settings_glass_section_behavior">Gedrag</string>
-    <string name="settings_glass_apply_to">Glasoppervlakken</string>
     <string name="settings_glass_surface_all">Alles</string>
     <string name="settings_glass_background_action_description">Achtergrondafbeelding kiezen</string>
     <string name="settings_glass_transparency_short_description">20–100 · 5</string>
@@ -1545,7 +1543,6 @@
     <string name="settings_line_catchup_sources">Tijdzone voor één afspeellijst overschrijven</string>
     <string name="settings_line_override_playlist">Overschrijven voor één afspeellijst</string>
     <string name="settings_line_accent">Kleurt knoppen, focus en accenten overal</string>
-    <string name="settings_line_glass">Matte vlakken, achtergrondafbeelding, transparantie</string>
     <string name="settings_line_fonts">Eén lettertype voor de interface en pop-ups</string>
     <string name="settings_line_popup_size">Dialogen en menu’s schalen zonder de tekst te veranderen</string>
     <string name="settings_line_animations">Uit voelt vlotter op eenvoudigere tv-boxen</string>
@@ -1634,7 +1631,6 @@
     <string name="settings_help_theme">OwnTV is ontworpen voor donker. Systeem volgt de instelling van de tv, als die er is; licht past bij een lichte kamer.</string>
     <string name="settings_help_accent">Kleurt knoppen, de focusgloed, voortgangsbalken en accenten overal. Kies een voorinstelling of druk op OK voor het palet en elke hexcode.</string>
     <string name="settings_help_focus">De rand rond wat de focus heeft. Kies kleur en dikte zodat je hem vanaf de bank goed kunt volgen.</string>
-    <string name="settings_help_glass">Glaseffect maakt menu’s en panelen doorschijnend en mat boven een achtergrondafbeelding naar keuze. Uit tekent dichte panelen, wat lichter is voor eenvoudigere tv-boxen.</string>
     <string name="settings_help_fonts">Het lettertype in heel OwnTV en hoe groot tekst is. Pop-ups gebruiken hetzelfde lettertype.</string>
     <string name="settings_help_popup_size">Maakt pop-ups, menu’s en dialogen als geheel groter of kleiner. Handig als ze krap aanvoelen of te veel van het scherm bedekken.</string>
     <string name="settings_help_zoom">Schaalt alles op het scherm. Groter leest makkelijker op afstand; kleiner past meer. Onder 85%% kunnen tv-boxen met weinig geheugen zonder geheugen raken.</string>
@@ -1720,10 +1716,6 @@
     <string name="settings_line_os_filter">Alleen je gekozen taal</string>
     <string name="settings_line_os_search_language">Getoond in zoekresultaten</string>
     <string name="settings_subtitle_delete_help">Verwijderen maakt ruimte vrij; je kunt hem opnieuw downloaden vanuit de speler.</string>
-    <string name="settings_glass_style">Stijl</string>
-    <string name="settings_line_glass_style">Een voorinstelling, of Aangepast</string>
-    <string name="settings_line_glass_apply">Welke vlakken matglas krijgen</string>
-    <string name="settings_glass_preview_help">Elke wijziging zie je hier meteen.</string>
     <plurals name="settings_home_row_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> rij</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> rijen</item>
@@ -1760,4 +1752,38 @@
     <string name="settings_line_epg_auto_refresh">Houd de gids actueel</string>
     <string name="settings_line_epg_logos">In plaats van die van de playlist</string>
     <string name="settings_help_epg_name">Getoond in de gidsenlijst en bij EPG handmatig kiezen.</string>
+    <string name="settings_glass_bg_title">Glas &amp; achtergrond</string>
+    <string name="settings_line_glass_bg">Achtergrond, beeldstijl, glas</string>
+    <string name="settings_bg_background">Achtergrond</string>
+    <string name="settings_line_bg_background">Wat er achter elk scherm staat</string>
+    <string name="settings_help_bg_background">Stage toont de eigen zachte kleuren van OwnTV. Afbeelding toont een eigen afbeelding achter elk scherm. Effen is een vlakke donkere vulling.</string>
+    <string name="settings_bg_stage">Stage</string>
+    <string name="settings_bg_picture">Afbeelding</string>
+    <string name="settings_bg_plain">Effen</string>
+    <string name="settings_line_bg_picture_none">Kies een afbeelding van deze tv of via Remote</string>
+    <string name="settings_bg_change">Wijzigen</string>
+    <string name="settings_bg_none">Geen</string>
+    <string name="settings_bg_look">Beeldstijl</string>
+    <string name="settings_line_bg_look">Scherp, Zacht of Donker</string>
+    <string name="settings_bg_sharp">Scherp</string>
+    <string name="settings_bg_soft">Zacht</string>
+    <string name="settings_bg_dark">Donker</string>
+    <string name="settings_bg_sharp_desc">De afbeelding zoals ze is, licht verdonkerd</string>
+    <string name="settings_bg_soft_desc">Vervaagd en verdonkerd; tekst blijft altijd leesbaar</string>
+    <string name="settings_bg_dark_desc">Bijna zwart met een vleugje van de afbeelding</string>
+    <string name="settings_help_bg_look">Hoe je afbeelding achter de schermen staat. Rijen en tekst staan er direct op, dus een lichte afbeelding vraagt om Zacht of Donker.</string>
+    <string name="settings_bg_picture_only">Alleen bij afbeelding</string>
+    <string name="settings_bg_darken">Verdonkeren</string>
+    <string name="settings_line_bg_darken">Hoeveel de afbeelding wordt verdonkerd</string>
+    <string name="settings_bg_blur">Vervaging</string>
+    <string name="settings_line_bg_blur">Hoe zacht de afbeelding is</string>
+    <string name="settings_bg_accent_light">Accentlicht</string>
+    <string name="settings_line_bg_accent_light">Je accentkleur gloeit in de hoek</string>
+    <string name="settings_glass_section">Glas</string>
+    <string name="settings_line_glass_switch">Balk, panelen, menu’s en pop-ups zijn mat</string>
+    <string name="settings_help_glass_chrome">Maakt de zwevende delen mat: de balk, de categoriepanelen, menu’s, pop-ups en de knoppen bovenaan. Lijsten en posters blijven vlak.</string>
+    <string name="settings_glass_opacity">Glasdekking</string>
+    <string name="settings_line_glass_opacity">Lager toont meer van de achtergrond</string>
+    <string name="settings_line_glass_reset">Stage-kleuren, glas aan, <xliff:g id="percent" example="56%">%1$s</xliff:g></string>
+    <string name="settings_bg_preview_note">Live tv met deze achtergrond. Wijzigingen zie je terwijl je beweegt.</string>
 </resources>

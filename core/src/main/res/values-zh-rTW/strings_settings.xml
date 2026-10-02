@@ -1227,12 +1227,10 @@
     <string name="settings_glass_screen_description">半透明毛玻璃面板、背景圖片和透明度</string>
     <string name="settings_glass_master_description">在背景相片或應用程式本身的背景上顯示半透明霧面面板。</string>
     <string name="settings_glass_background_image">選擇背景圖片</string>
-    <string name="settings_glass_surface_transparency_title">透明度</string>
     <string name="settings_glass_background_blur_title">模糊／霧面</string>
     <string name="settings_glass_section_appearance">外觀</string>
     <string name="settings_glass_section_fine_tuning">進階選項</string>
     <string name="settings_glass_section_behavior">行為</string>
-    <string name="settings_glass_apply_to">玻璃效果介面</string>
     <string name="settings_glass_surface_all">全部</string>
     <string name="settings_glass_background_action_description">選擇背景圖片</string>
     <string name="settings_glass_transparency_short_description">20–100 · 5</string>
@@ -1517,7 +1515,6 @@
     <string name="settings_line_catchup_sources">為單一播放清單改用其他時區</string>
     <string name="settings_line_override_playlist">為單一播放清單單獨設定</string>
     <string name="settings_line_accent">為按鈕、焦點和醒目提示統一上色</string>
-    <string name="settings_line_glass">霧面表面、背景圖片、透明度</string>
     <string name="settings_line_fonts">主介面和彈出視窗使用同一字型</string>
     <string name="settings_line_popup_size">縮放對話框和選單，文字大小不變</string>
     <string name="settings_line_animations">關閉後在低階電視盒上更流暢</string>
@@ -1606,7 +1603,6 @@
     <string name="settings_help_theme">OwnTV 是為深色主題設計的。「系統」在電視有相應設定時跟隨電視；淺色適合明亮的房間。</string>
     <string name="settings_help_accent">為按鈕、焦點光暈、進度列和醒目提示統一上色。選擇一個預設，或按 OK 開啟調色盤並輸入任意十六進位代碼。</string>
     <string name="settings_help_focus">焦點項目周圍的外框。選擇它的顏色和粗細，讓你坐在沙發上也能看清楚。</string>
-    <string name="settings_help_glass">玻璃效果讓選單和面板在你選擇的背景圖片上呈現半透明霧面效果。關閉後繪製實心面板，對低階電視盒更輕量。</string>
     <string name="settings_help_fonts">OwnTV 全域使用的字型，以及文字顯示的大小。彈出視窗也使用同一字型。</string>
     <string name="settings_help_popup_size">整體放大或縮小彈出視窗、選單和對話框。彈出視窗顯得擁擠或遮住太多畫面時可以調整。</string>
     <string name="settings_help_zoom">縮放畫面上的所有內容。放大後遠處更易閱讀；縮小後能顯示更多。低於 85%% 時，記憶體較小的電視盒可能記憶體不足。</string>
@@ -1689,10 +1685,6 @@
     <string name="settings_line_os_filter">僅所選語言</string>
     <string name="settings_line_os_search_language">顯示在搜尋結果中</string>
     <string name="settings_subtitle_delete_help">刪除可釋放空間；之後可在播放器中重新下載。</string>
-    <string name="settings_glass_style">樣式</string>
-    <string name="settings_line_glass_style">預設或自訂</string>
-    <string name="settings_line_glass_apply">哪些表面使用霧面效果</string>
-    <string name="settings_glass_preview_help">每項變更都會立即顯示在這裡。</string>
     <plurals name="settings_home_row_count">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 列</item>
     </plurals>
@@ -1726,4 +1718,38 @@
     <string name="settings_line_epg_auto_refresh">讓節目表保持最新</string>
     <string name="settings_line_epg_logos">取代播放清單的台標</string>
     <string name="settings_help_epg_name">顯示在節目表清單和「手動選擇 EPG」中。</string>
+    <string name="settings_glass_bg_title">玻璃與背景</string>
+    <string name="settings_line_glass_bg">背景、圖片效果、玻璃</string>
+    <string name="settings_bg_background">背景</string>
+    <string name="settings_line_bg_background">每個畫面後方的內容</string>
+    <string name="settings_help_bg_background">Stage 顯示 OwnTV 自帶的柔和色彩。圖片會在每個畫面後方顯示你自己的圖片。純色是平整的深色填滿。</string>
+    <string name="settings_bg_stage">Stage</string>
+    <string name="settings_bg_picture">圖片</string>
+    <string name="settings_bg_plain">純色</string>
+    <string name="settings_line_bg_picture_none">從這台電視或透過 Remote 選擇圖片</string>
+    <string name="settings_bg_change">變更</string>
+    <string name="settings_bg_none">無</string>
+    <string name="settings_bg_look">圖片效果</string>
+    <string name="settings_line_bg_look">清晰、柔和或暗色</string>
+    <string name="settings_bg_sharp">清晰</string>
+    <string name="settings_bg_soft">柔和</string>
+    <string name="settings_bg_dark">暗色</string>
+    <string name="settings_bg_sharp_desc">圖片原樣，只稍微調暗</string>
+    <string name="settings_bg_soft_desc">模糊並調暗；文字永遠清楚易讀</string>
+    <string name="settings_bg_dark_desc">幾乎全黑，隱約可見圖片</string>
+    <string name="settings_help_bg_look">你的圖片在畫面後方的樣子。列和文字直接畫在圖片上，所以明亮的圖片需要柔和或暗色。</string>
+    <string name="settings_bg_picture_only">僅限圖片</string>
+    <string name="settings_bg_darken">調暗</string>
+    <string name="settings_line_bg_darken">圖片調暗的程度</string>
+    <string name="settings_bg_blur">模糊</string>
+    <string name="settings_line_bg_blur">圖片的柔和程度</string>
+    <string name="settings_bg_accent_light">強調色光暈</string>
+    <string name="settings_line_bg_accent_light">你的強調色在角落發光</string>
+    <string name="settings_glass_section">玻璃</string>
+    <string name="settings_line_glass_switch">導覽列、面板、選單和彈出視窗為霧面效果</string>
+    <string name="settings_help_glass_chrome">讓浮動部分呈現霧面效果：導覽列、分類面板、選單、彈出視窗和頂端按鈕。清單和海報保持平面。</string>
+    <string name="settings_glass_opacity">玻璃不透明度</string>
+    <string name="settings_line_glass_opacity">越低越能看到背景</string>
+    <string name="settings_line_glass_reset">Stage 顏色，玻璃開啟，<xliff:g id="percent" example="56%">%1$s</xliff:g></string>
+    <string name="settings_bg_preview_note">使用此背景的直播電視。移動時就能看到變化。</string>
 </resources>

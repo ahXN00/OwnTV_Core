@@ -1267,12 +1267,10 @@
     <string name="settings_glass_screen_description">Paneles translúcidos esmerilados, imagen de fondo y transparencia</string>
     <string name="settings_glass_master_description">Paneles translúcidos de cristal esmerilado sobre una foto de fondo o sobre el fondo propio de la aplicación.</string>
     <string name="settings_glass_background_image">Elige una imagen de fondo</string>
-    <string name="settings_glass_surface_transparency_title">Transparencia</string>
     <string name="settings_glass_background_blur_title">Desenfoque / Esmerilado</string>
     <string name="settings_glass_section_appearance">Apariencia</string>
     <string name="settings_glass_section_fine_tuning">Opciones avanzadas</string>
     <string name="settings_glass_section_behavior">Comportamiento</string>
-    <string name="settings_glass_apply_to">Superficies de cristal</string>
     <string name="settings_glass_surface_all">Todos</string>
     <string name="settings_glass_background_action_description">Elige una imagen de fondo</string>
     <string name="settings_glass_transparency_short_description">20–100 · 5</string>
@@ -1573,7 +1571,6 @@
     <string name="settings_line_catchup_sources">Cambia la zona horaria de una lista</string>
     <string name="settings_line_override_playlist">Cambia el valor para una lista</string>
     <string name="settings_line_accent">Tiñe botones, foco y resaltados en toda la app</string>
-    <string name="settings_line_glass">Superficies esmeriladas, imagen de fondo, transparencia</string>
     <string name="settings_line_fonts">Una sola fuente para la interfaz y las ventanas</string>
     <string name="settings_line_popup_size">Escala diálogos y menús sin cambiar su texto</string>
     <string name="settings_line_animations">Desactivadas, va más ágil en reproductores modestos</string>
@@ -1662,7 +1659,6 @@
     <string name="settings_help_theme">OwnTV está pensado para el modo oscuro. Sistema sigue el ajuste del propio televisor si lo tiene; Claro va bien en una habitación luminosa.</string>
     <string name="settings_help_accent">Tiñe los botones, el brillo del foco, las barras de progreso y los resaltados en toda la app. Elige un color predefinido o pulsa OK para la paleta y cualquier código hexadecimal.</string>
     <string name="settings_help_focus">El anillo alrededor de lo que tiene el foco. Elige su color y grosor para seguirlo bien desde el sofá.</string>
-    <string name="settings_help_glass">El efecto cristal hace que menús y paneles sean translúcidos y esmerilados sobre una imagen de fondo a tu elección. Desactivado dibuja paneles sólidos, más ligeros para reproductores modestos.</string>
     <string name="settings_help_fonts">La fuente que usa OwnTV en todas partes y el tamaño del texto. Las ventanas emergentes usan la misma fuente.</string>
     <string name="settings_help_popup_size">Hace más grandes o más pequeños los menús, diálogos y ventanas emergentes en conjunto. Úsalo si se ven apretados o tapan demasiada pantalla.</string>
     <string name="settings_help_zoom">Cambia la escala de todo lo que hay en pantalla. Más grande se lee mejor de lejos; más pequeño cabe más. Por debajo del 85 %% los reproductores con poca memoria pueden quedarse sin ella.</string>
@@ -1751,10 +1747,6 @@
     <string name="settings_line_os_filter">Solo el idioma elegido</string>
     <string name="settings_line_os_search_language">Se muestra en los resultados</string>
     <string name="settings_subtitle_delete_help">Al borrarlo se libera espacio; puedes volver a descargarlo desde el reproductor.</string>
-    <string name="settings_glass_style">Estilo</string>
-    <string name="settings_line_glass_style">Un ajuste predefinido o Personalizado</string>
-    <string name="settings_line_glass_apply">Qué superficies son esmeriladas</string>
-    <string name="settings_glass_preview_help">Cada cambio se ve aquí al instante.</string>
     <plurals name="settings_home_row_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> fila</item>
         <item quantity="many"><xliff:g id="count">%1$d</xliff:g> filas</item>
@@ -1794,4 +1786,38 @@
     <string name="settings_line_epg_auto_refresh">Mantener la guía al día</string>
     <string name="settings_line_epg_logos">En lugar de los de la lista</string>
     <string name="settings_help_epg_name">Se muestra en la lista de guías y en Elegir EPG manualmente.</string>
+    <string name="settings_glass_bg_title">Cristal y fondo</string>
+    <string name="settings_line_glass_bg">Fondo, aspecto de la imagen, cristal</string>
+    <string name="settings_bg_background">Fondo</string>
+    <string name="settings_line_bg_background">Lo que hay detrás de cada pantalla</string>
+    <string name="settings_help_bg_background">Stage muestra los colores suaves de OwnTV. Imagen muestra una imagen tuya detrás de cada pantalla. Liso es un fondo oscuro y plano.</string>
+    <string name="settings_bg_stage">Stage</string>
+    <string name="settings_bg_picture">Imagen</string>
+    <string name="settings_bg_plain">Liso</string>
+    <string name="settings_line_bg_picture_none">Elige una imagen de este televisor o por Remote</string>
+    <string name="settings_bg_change">Cambiar</string>
+    <string name="settings_bg_none">Ninguna</string>
+    <string name="settings_bg_look">Aspecto de la imagen</string>
+    <string name="settings_line_bg_look">Nítida, Suave u Oscura</string>
+    <string name="settings_bg_sharp">Nítida</string>
+    <string name="settings_bg_soft">Suave</string>
+    <string name="settings_bg_dark">Oscura</string>
+    <string name="settings_bg_sharp_desc">La imagen tal cual, solo un poco oscurecida</string>
+    <string name="settings_bg_soft_desc">Desenfocada y oscurecida; el texto siempre se lee bien</string>
+    <string name="settings_bg_dark_desc">Casi negra, con un toque de la imagen</string>
+    <string name="settings_help_bg_look">Cómo queda tu imagen detrás de las pantallas. Las filas y el texto se dibujan encima, así que una imagen clara necesita Suave u Oscura.</string>
+    <string name="settings_bg_picture_only">Solo con imagen</string>
+    <string name="settings_bg_darken">Oscurecer</string>
+    <string name="settings_line_bg_darken">Cuánto se oscurece la imagen</string>
+    <string name="settings_bg_blur">Desenfoque</string>
+    <string name="settings_line_bg_blur">Qué tan suave es la imagen</string>
+    <string name="settings_bg_accent_light">Luz de acento</string>
+    <string name="settings_line_bg_accent_light">Tu color de acento brilla en la esquina</string>
+    <string name="settings_glass_section">Cristal</string>
+    <string name="settings_line_glass_switch">La barra, los paneles, los menús y las ventanas son esmerilados</string>
+    <string name="settings_help_glass_chrome">Esmerila las partes flotantes: la barra, los paneles de categorías, los menús, las ventanas y los botones de arriba. Las listas y los pósteres quedan planos.</string>
+    <string name="settings_glass_opacity">Opacidad del cristal</string>
+    <string name="settings_line_glass_opacity">Menos deja ver más el fondo</string>
+    <string name="settings_line_glass_reset">Colores Stage, cristal activado, <xliff:g id="percent" example="56%">%1$s</xliff:g></string>
+    <string name="settings_bg_preview_note">TV en directo con este fondo. Los cambios se ven al moverte.</string>
 </resources>

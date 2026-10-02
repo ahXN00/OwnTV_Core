@@ -1247,12 +1247,10 @@
     <string name="settings_glass_screen_description">Gennemsigtige, matterede paneler, baggrundsbillede og gennemsigtighed</string>
     <string name="settings_glass_master_description">Gennemsigtige, matterede paneler over et baggrundsfoto eller over appens egen baggrund.</string>
     <string name="settings_glass_background_image">Vælg et baggrundsbillede</string>
-    <string name="settings_glass_surface_transparency_title">Gennemsigtighed</string>
     <string name="settings_glass_background_blur_title">Sløring / mattering</string>
     <string name="settings_glass_section_appearance">Udseende</string>
     <string name="settings_glass_section_fine_tuning">Avancerede indstillinger</string>
     <string name="settings_glass_section_behavior">Funktionsmåde</string>
-    <string name="settings_glass_apply_to">Glasoverflader</string>
     <string name="settings_glass_surface_all">Alle</string>
     <string name="settings_glass_background_action_description">Vælg et baggrundsbillede</string>
     <string name="settings_glass_transparency_short_description">20–100 · 5</string>
@@ -1545,7 +1543,6 @@
     <string name="settings_line_catchup_sources">Tilsidesæt tidszonen for én playliste</string>
     <string name="settings_line_override_playlist">Tilsidesæt for én playliste</string>
     <string name="settings_line_accent">Farver knapper, fokus og fremhævninger overalt</string>
-    <string name="settings_line_glass">Frostede flader, baggrundsbillede, gennemsigtighed</string>
     <string name="settings_line_fonts">Én skrifttype til brugerfladen og pop op-vinduer</string>
     <string name="settings_line_popup_size">Skalér dialoger og menuer uden at ændre teksten</string>
     <string name="settings_line_animations">Fra føles hurtigere på svagere tv-bokse</string>
@@ -1634,7 +1631,6 @@
     <string name="settings_help_theme">OwnTV er designet til mørk. System følger tv’ets egen indstilling, hvis den findes; lys passer til et lyst rum.</string>
     <string name="settings_help_accent">Farver knapper, fokusskæret, statuslinjer og fremhævninger overalt. Vælg en forudindstilling, eller tryk på OK for paletten og en vilkårlig hex-kode.</string>
     <string name="settings_help_focus">Ringen om det, der har fokus. Vælg farve og tykkelse, så den er nem at følge fra sofaen.</string>
-    <string name="settings_help_glass">Glaseffekt gør menuer og paneler gennemsigtige og frostede over et baggrundsbillede efter eget valg. Fra tegner massive paneler, hvilket er lettere for svagere tv-bokse.</string>
     <string name="settings_help_fonts">Skrifttypen i hele OwnTV og tekstens størrelse. Pop op-vinduer bruger samme skrifttype.</string>
     <string name="settings_help_popup_size">Gør pop op-vinduer, menuer og dialoger større eller mindre som helhed. Brug det, når de føles trange eller dækker for meget af skærmen.</string>
     <string name="settings_help_zoom">Skalerer alt på skærmen. Større er nemmere at læse på afstand; mindre får mere med. Under 85 %% kan tv-bokse med lidt hukommelse løbe tør.</string>
@@ -1720,10 +1716,6 @@
     <string name="settings_line_os_filter">Kun dit valgte sprog</string>
     <string name="settings_line_os_search_language">Vises i søgeresultaterne</string>
     <string name="settings_subtitle_delete_help">Sletning frigør pladsen; du kan downloade den igen fra afspilleren.</string>
-    <string name="settings_glass_style">Stil</string>
-    <string name="settings_line_glass_style">En forudindstilling eller Brugerdefineret</string>
-    <string name="settings_line_glass_apply">Hvilke flader der er matte</string>
-    <string name="settings_glass_preview_help">Hver ændring vises her med det samme.</string>
     <plurals name="settings_home_row_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> række</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> rækker</item>
@@ -1760,4 +1752,38 @@
     <string name="settings_line_epg_auto_refresh">Hold guiden opdateret</string>
     <string name="settings_line_epg_logos">I stedet for playlistens</string>
     <string name="settings_help_epg_name">Vises i guidelisten og i Vælg EPG manuelt.</string>
+    <string name="settings_glass_bg_title">Glas og baggrund</string>
+    <string name="settings_line_glass_bg">Baggrund, billedudseende, glas</string>
+    <string name="settings_bg_background">Baggrund</string>
+    <string name="settings_line_bg_background">Det, der ligger bag hver skærm</string>
+    <string name="settings_help_bg_background">Stage viser OwnTVs egne bløde farver. Billede viser dit eget billede bag hver skærm. Ensfarvet er en flad mørk flade.</string>
+    <string name="settings_bg_stage">Stage</string>
+    <string name="settings_bg_picture">Billede</string>
+    <string name="settings_bg_plain">Ensfarvet</string>
+    <string name="settings_line_bg_picture_none">Vælg et billede fra dette tv eller via Remote</string>
+    <string name="settings_bg_change">Skift</string>
+    <string name="settings_bg_none">Intet</string>
+    <string name="settings_bg_look">Billedudseende</string>
+    <string name="settings_line_bg_look">Skarp, Blød eller Mørk</string>
+    <string name="settings_bg_sharp">Skarp</string>
+    <string name="settings_bg_soft">Blød</string>
+    <string name="settings_bg_dark">Mørk</string>
+    <string name="settings_bg_sharp_desc">Billedet som det er, kun let dæmpet</string>
+    <string name="settings_bg_soft_desc">Sløret og dæmpet; tekst er altid læselig</string>
+    <string name="settings_bg_dark_desc">Næsten sort med et strejf af billedet</string>
+    <string name="settings_help_bg_look">Sådan ligger dit billede bag skærmene. Rækker og tekst tegnes direkte ovenpå, så et lyst billede kræver Blød eller Mørk.</string>
+    <string name="settings_bg_picture_only">Kun ved billede</string>
+    <string name="settings_bg_darken">Dæmp</string>
+    <string name="settings_line_bg_darken">Hvor meget billedet dæmpes</string>
+    <string name="settings_bg_blur">Sløring</string>
+    <string name="settings_line_bg_blur">Hvor blødt billedet er</string>
+    <string name="settings_bg_accent_light">Accentlys</string>
+    <string name="settings_line_bg_accent_light">Din accentfarve lyser i hjørnet</string>
+    <string name="settings_glass_section">Glas</string>
+    <string name="settings_line_glass_switch">Bjælke, paneler, menuer og pop op-vinduer er matterede</string>
+    <string name="settings_help_glass_chrome">Matterer de svævende dele: bjælken, kategoripanelerne, menuer, pop op-vinduer og knapperne øverst. Lister og plakater forbliver flade.</string>
+    <string name="settings_glass_opacity">Glassets dækkevne</string>
+    <string name="settings_line_glass_opacity">Lavere viser mere af baggrunden</string>
+    <string name="settings_line_glass_reset">Stage-farver, glas til, <xliff:g id="percent" example="56%">%1$s</xliff:g></string>
+    <string name="settings_bg_preview_note">Live-tv med denne baggrund. Ændringer vises, mens du bevæger dig.</string>
 </resources>

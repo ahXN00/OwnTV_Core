@@ -1327,12 +1327,10 @@
     <string name="settings_glass_screen_description">لوحات شفافة ضبابية وصورة خلفية ومستوى الشفافية</string>
     <string name="settings_glass_master_description">ألواح شفافة ضبابية فوق صورة خلفية، أو فوق خلفية التطبيق نفسه.</string>
     <string name="settings_glass_background_image">اختيار صورة خلفية</string>
-    <string name="settings_glass_surface_transparency_title">الشفافية</string>
     <string name="settings_glass_background_blur_title">التمويه / الضبابية</string>
     <string name="settings_glass_section_appearance">المظهر</string>
     <string name="settings_glass_section_fine_tuning">خيارات متقدمة</string>
     <string name="settings_glass_section_behavior">السلوك</string>
-    <string name="settings_glass_apply_to">الأسطح الزجاجية</string>
     <string name="settings_glass_surface_all">الكل</string>
     <string name="settings_glass_background_action_description">اختيار صورة خلفية</string>
     <string name="settings_glass_transparency_short_description">20–100 · 5</string>
@@ -1657,7 +1655,6 @@
     <string name="settings_line_catchup_sources">تجاوز المنطقة الزمنية لقائمة تشغيل واحدة</string>
     <string name="settings_line_override_playlist">تجاوز لقائمة تشغيل واحدة</string>
     <string name="settings_line_accent">يلوّن الأزرار والتركيز والتمييزات في كل مكان</string>
-    <string name="settings_line_glass">أسطح زجاجية، صورة خلفية، شفافية</string>
     <string name="settings_line_fonts">خط واحد للواجهة الرئيسية والنوافذ المنبثقة</string>
     <string name="settings_line_popup_size">تغيير حجم النوافذ والقوائم دون تغيير نصها</string>
     <string name="settings_line_animations">الإيقاف يجعل أجهزة التلفاز الضعيفة أسرع استجابة</string>
@@ -1746,7 +1743,6 @@
     <string name="settings_help_theme">صُمّم OwnTV للوضع الداكن. يتبع خيار النظام إعداد التلفاز إن وُجد، ويناسب الوضع الفاتح الغرف المضيئة.</string>
     <string name="settings_help_accent">يلوّن الأزرار وتوهج التركيز وأشرطة التقدم والتمييزات في كل مكان. اختر لونًا جاهزًا، أو اضغط OK لفتح لوحة الألوان وإدخال أي رمز سداسي.</string>
     <string name="settings_help_focus">الحلقة المرسومة حول العنصر المحدد. اختر لونها وسُمكها لتبقى سهلة التتبع من الأريكة.</string>
-    <string name="settings_help_glass">يجعل تأثير الزجاج القوائم واللوحات شفافة ومصنفرة فوق صورة خلفية من اختيارك. عند إيقافه تُرسم لوحات مصمتة، وهذا أخف على أجهزة التلفاز الضعيفة.</string>
     <string name="settings_help_fonts">الخط المستخدم في كل OwnTV وحجم النص. تستخدم النوافذ المنبثقة الخط نفسه.</string>
     <string name="settings_help_popup_size">يكبّر النوافذ المنبثقة والقوائم ومربعات الحوار أو يصغّرها كاملة. استخدمه عندما تبدو النوافذ ضيقة أو تغطي جزءًا كبيرًا من الشاشة.</string>
     <string name="settings_help_zoom">يغيّر حجم كل شيء على الشاشة. الأكبر أسهل للقراءة من بعيد، والأصغر يعرض محتوى أكثر. تحت ‎85%%‎ قد تنفد ذاكرة أجهزة التلفاز ذات الذاكرة القليلة.</string>
@@ -1844,10 +1840,6 @@
     <string name="settings_line_os_filter">لغتك المختارة فقط</string>
     <string name="settings_line_os_search_language">يظهر في نتائج البحث</string>
     <string name="settings_subtitle_delete_help">الحذف يحرر المساحة؛ ويمكنك تنزيله مجددًا من المشغّل.</string>
-    <string name="settings_glass_style">النمط</string>
-    <string name="settings_line_glass_style">إعداد جاهز أو مخصص</string>
-    <string name="settings_line_glass_apply">الأسطح التي تصبح زجاجية</string>
-    <string name="settings_glass_preview_help">يظهر كل تغيير هنا فورًا.</string>
     <plurals name="settings_home_row_count">
         <item quantity="zero"><xliff:g id="count">%1$d</xliff:g> صف</item>
         <item quantity="one">صف واحد (<xliff:g id="count">%1$d</xliff:g>)</item>
@@ -1896,4 +1888,38 @@
     <string name="settings_line_epg_auto_refresh">إبقاء الدليل محدّثًا</string>
     <string name="settings_line_epg_logos">بدلًا من شعارات القائمة</string>
     <string name="settings_help_epg_name">يظهر في قائمة الأدلة وفي اختيار EPG يدويًا.</string>
+    <string name="settings_glass_bg_title">الزجاج والخلفية</string>
+    <string name="settings_line_glass_bg">الخلفية، مظهر الصورة، الزجاج</string>
+    <string name="settings_bg_background">الخلفية</string>
+    <string name="settings_line_bg_background">ما يظهر خلف كل شاشة</string>
+    <string name="settings_help_bg_background">يعرض Stage ألوان OwnTV الهادئة الخاصة. تعرض صورة صورتك الخاصة خلف كل شاشة. سادة تعبئة داكنة مسطحة.</string>
+    <string name="settings_bg_stage">Stage</string>
+    <string name="settings_bg_picture">صورة</string>
+    <string name="settings_bg_plain">سادة</string>
+    <string name="settings_line_bg_picture_none">اختر صورة من هذا التلفاز أو عبر Remote</string>
+    <string name="settings_bg_change">تغيير</string>
+    <string name="settings_bg_none">لا شيء</string>
+    <string name="settings_bg_look">مظهر الصورة</string>
+    <string name="settings_line_bg_look">حاد أو ناعم أو داكن</string>
+    <string name="settings_bg_sharp">حاد</string>
+    <string name="settings_bg_soft">ناعم</string>
+    <string name="settings_bg_dark">داكن</string>
+    <string name="settings_bg_sharp_desc">الصورة كما هي، مع تعتيم خفيف فقط</string>
+    <string name="settings_bg_soft_desc">مموّهة ومعتّمة؛ النص مقروء دائمًا</string>
+    <string name="settings_bg_dark_desc">سوداء تقريبًا مع لمحة من الصورة</string>
+    <string name="settings_help_bg_look">كيف تظهر صورتك خلف الشاشات. تُرسم الصفوف والنصوص فوقها مباشرة، لذا تحتاج الصورة الساطعة إلى ناعم أو داكن.</string>
+    <string name="settings_bg_picture_only">للصورة فقط</string>
+    <string name="settings_bg_darken">تعتيم</string>
+    <string name="settings_line_bg_darken">مقدار تعتيم الصورة</string>
+    <string name="settings_bg_blur">تمويه</string>
+    <string name="settings_line_bg_blur">مدى نعومة الصورة</string>
+    <string name="settings_bg_accent_light">ضوء التمييز</string>
+    <string name="settings_line_bg_accent_light">يتوهج لون التمييز في الزاوية</string>
+    <string name="settings_glass_section">الزجاج</string>
+    <string name="settings_line_glass_switch">الشريط واللوحات والقوائم والنوافذ المنبثقة مصنفرة</string>
+    <string name="settings_help_glass_chrome">يجعل الأجزاء العائمة مصنفرة: الشريط ولوحات الفئات والقوائم والنوافذ المنبثقة والأزرار في الأعلى. تبقى القوائم والملصقات مسطحة.</string>
+    <string name="settings_glass_opacity">عتامة الزجاج</string>
+    <string name="settings_line_glass_opacity">القيمة الأقل تُظهر المزيد من الخلفية</string>
+    <string name="settings_line_glass_reset">ألوان Stage، الزجاج مفعّل، <xliff:g id="percent" example="56%">%1$s</xliff:g></string>
+    <string name="settings_bg_preview_note">البث المباشر بهذه الخلفية. تظهر التغييرات أثناء تنقلك.</string>
 </resources>

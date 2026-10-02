@@ -1247,12 +1247,10 @@
     <string name="settings_glass_screen_description">Yarı saydam buzlu paneller, arka plan görseli ve şeffaflık</string>
     <string name="settings_glass_master_description">Bir arka plan fotoğrafının veya uygulamanın kendi arka planının üzerinde yarı saydam buzlu paneller.</string>
     <string name="settings_glass_background_image">Bir arka plan görseli seçin</string>
-    <string name="settings_glass_surface_transparency_title">Saydamlık</string>
     <string name="settings_glass_background_blur_title">Bulanıklık / Buzlanma</string>
     <string name="settings_glass_section_appearance">Görünüm</string>
     <string name="settings_glass_section_fine_tuning">Gelişmiş seçenekler</string>
     <string name="settings_glass_section_behavior">Davranış</string>
-    <string name="settings_glass_apply_to">Cam yüzeyler</string>
     <string name="settings_glass_surface_all">Tümü</string>
     <string name="settings_glass_background_action_description">Bir arka plan görseli seçin</string>
     <string name="settings_glass_transparency_short_description">20–100 · 5</string>
@@ -1545,7 +1543,6 @@
     <string name="settings_line_catchup_sources">Bir oynatma listesi için saat dilimini değiştirin</string>
     <string name="settings_line_override_playlist">Bir oynatma listesi için değiştirin</string>
     <string name="settings_line_accent">Düğmeleri, odağı ve vurguları her yerde renklendirir</string>
-    <string name="settings_line_glass">Buzlu yüzeyler, arka plan resmi, saydamlık</string>
     <string name="settings_line_fonts">Arayüz ve açılır pencereler için tek yazı tipi</string>
     <string name="settings_line_popup_size">Metni değiştirmeden iletişim kutularını ve menüleri ölçekleyin</string>
     <string name="settings_line_animations">Kapalıyken düşük güçlü TV kutularında daha akıcı</string>
@@ -1634,7 +1631,6 @@
     <string name="settings_help_theme">OwnTV koyu tema için tasarlandı. Sistem, varsa TV’nin kendi ayarını izler; açık tema aydınlık bir oda için uygundur.</string>
     <string name="settings_help_accent">Düğmeleri, odak parıltısını, ilerleme çubuklarını ve vurguları her yerde renklendirir. Hazır bir renk seçin veya palet ve istediğiniz onaltılık kod için OK’ye basın.</string>
     <string name="settings_help_focus">Odaktaki öğenin çevresindeki halka. Kanepeden kolayca izlenebilmesi için rengini ve kalınlığını seçin.</string>
-    <string name="settings_help_glass">Cam efekti, menüleri ve panelleri seçtiğiniz arka plan resminin üzerinde yarı saydam ve buzlu yapar. Kapalıyken düz paneller çizilir; bu, düşük güçlü TV kutularını daha az yorar.</string>
     <string name="settings_help_fonts">OwnTV’nin her yerinde kullanılan yazı tipi ve metin boyutu. Açılır pencereler de aynı yazı tipini kullanır.</string>
     <string name="settings_help_popup_size">Açılır pencereleri, menüleri ve iletişim kutularını bir bütün olarak büyütür veya küçültür. Sıkışık göründüklerinde ya da ekranın çok fazlasını kapladıklarında kullanın.</string>
     <string name="settings_help_zoom">Ekrandaki her şeyi ölçekler. Büyük boyut uzaktan daha kolay okunur, küçük boyut daha fazlasını sığdırır. %%85’in altında az belleğe sahip TV kutularında bellek tükenebilir.</string>
@@ -1720,10 +1716,6 @@
     <string name="settings_line_os_filter">Yalnızca seçtiğiniz dil</string>
     <string name="settings_line_os_search_language">Arama sonuçlarında gösterilir</string>
     <string name="settings_subtitle_delete_help">Silmek yer açar; oynatıcıdan yeniden indirebilirsiniz.</string>
-    <string name="settings_glass_style">Stil</string>
-    <string name="settings_line_glass_style">Hazır ayar veya Özel</string>
-    <string name="settings_line_glass_apply">Hangi yüzeylerin buzlu olduğu</string>
-    <string name="settings_glass_preview_help">Her değişiklik burada hemen görünür.</string>
     <plurals name="settings_home_row_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> satır</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> satır</item>
@@ -1760,4 +1752,38 @@
     <string name="settings_line_epg_auto_refresh">Rehberi güncel tut</string>
     <string name="settings_line_epg_logos">Listedekilerin yerine</string>
     <string name="settings_help_epg_name">Rehber listesinde ve EPG’yi elle seç bölümünde görünür.</string>
+    <string name="settings_glass_bg_title">Cam ve arka plan</string>
+    <string name="settings_line_glass_bg">Arka plan, resim görünümü, cam</string>
+    <string name="settings_bg_background">Arka plan</string>
+    <string name="settings_line_bg_background">Her ekranın arkasında ne olduğu</string>
+    <string name="settings_help_bg_background">Stage, OwnTV’nin kendi yumuşak renklerini gösterir. Resim, kendi resminizi her ekranın arkasında gösterir. Düz, koyu ve düz bir dolgudur.</string>
+    <string name="settings_bg_stage">Stage</string>
+    <string name="settings_bg_picture">Resim</string>
+    <string name="settings_bg_plain">Düz</string>
+    <string name="settings_line_bg_picture_none">Bu TV’den veya Remote ile bir resim seçin</string>
+    <string name="settings_bg_change">Değiştir</string>
+    <string name="settings_bg_none">Yok</string>
+    <string name="settings_bg_look">Resim görünümü</string>
+    <string name="settings_line_bg_look">Net, Yumuşak veya Koyu</string>
+    <string name="settings_bg_sharp">Net</string>
+    <string name="settings_bg_soft">Yumuşak</string>
+    <string name="settings_bg_dark">Koyu</string>
+    <string name="settings_bg_sharp_desc">Resim olduğu gibi, yalnızca biraz karartılmış</string>
+    <string name="settings_bg_soft_desc">Bulanık ve karartılmış; yazı her zaman okunur</string>
+    <string name="settings_bg_dark_desc">Neredeyse siyah, resimden bir iz</string>
+    <string name="settings_help_bg_look">Resminizin ekranların arkasında nasıl durduğu. Satırlar ve yazı doğrudan üstüne çizilir, bu yüzden parlak bir resim Yumuşak veya Koyu ister.</string>
+    <string name="settings_bg_picture_only">Yalnızca resimde</string>
+    <string name="settings_bg_darken">Karart</string>
+    <string name="settings_line_bg_darken">Resmin ne kadar karartılacağı</string>
+    <string name="settings_bg_blur">Bulanıklık</string>
+    <string name="settings_line_bg_blur">Resmin ne kadar yumuşak olduğu</string>
+    <string name="settings_bg_accent_light">Vurgu ışığı</string>
+    <string name="settings_line_bg_accent_light">Vurgu renginiz köşede parlar</string>
+    <string name="settings_glass_section">Cam</string>
+    <string name="settings_line_glass_switch">Çubuk, paneller, menüler ve açılır pencereler buzlu</string>
+    <string name="settings_help_glass_chrome">Yüzen parçaları buzlu yapar: çubuk, kategori panelleri, menüler, açılır pencereler ve üstteki düğmeler. Listeler ve afişler düz kalır.</string>
+    <string name="settings_glass_opacity">Cam opaklığı</string>
+    <string name="settings_line_glass_opacity">Düşük değer arka planı daha çok gösterir</string>
+    <string name="settings_line_glass_reset">Stage renkleri, cam açık, <xliff:g id="percent" example="56%">%1$s</xliff:g></string>
+    <string name="settings_bg_preview_note">Bu arka planla Canlı TV. Değişiklikler siz gezindikçe görünür.</string>
 </resources>

@@ -1287,12 +1287,10 @@
     <string name="settings_glass_screen_description">Průsvitné matné panely, obrázek na pozadí a průhlednost</string>
     <string name="settings_glass_master_description">Průsvitné matné panely přes fotografii na pozadí nebo přes vlastní pozadí aplikace.</string>
     <string name="settings_glass_background_image">Vyberte obrázek na pozadí</string>
-    <string name="settings_glass_surface_transparency_title">Průhlednost</string>
     <string name="settings_glass_background_blur_title">Rozostření / Matnost</string>
     <string name="settings_glass_section_appearance">Vzhled</string>
     <string name="settings_glass_section_fine_tuning">Pokročilé možnosti</string>
     <string name="settings_glass_section_behavior">Chování</string>
-    <string name="settings_glass_apply_to">Skleněné plochy</string>
     <string name="settings_glass_surface_all">Vše</string>
     <string name="settings_glass_background_action_description">Vyberte obrázek na pozadí</string>
     <string name="settings_glass_transparency_short_description">20–100 · 5</string>
@@ -1601,7 +1599,6 @@
     <string name="settings_line_catchup_sources">Jiné časové pásmo pro jeden playlist</string>
     <string name="settings_line_override_playlist">Výjimka pro jeden playlist</string>
     <string name="settings_line_accent">Obarví tlačítka, výběr a zvýraznění všude</string>
-    <string name="settings_line_glass">Matné plochy, obrázek na pozadí, průhlednost</string>
     <string name="settings_line_fonts">Jedno písmo pro rozhraní i vyskakovací okna</string>
     <string name="settings_line_popup_size">Velikost dialogů a nabídek beze změny textu</string>
     <string name="settings_line_animations">Vypnuto působí svižněji na slabších TV boxech</string>
@@ -1690,7 +1687,6 @@
     <string name="settings_help_theme">OwnTV je navržen pro tmavý motiv. Systém se řídí nastavením televize, pokud ho má; světlý se hodí do světlé místnosti.</string>
     <string name="settings_help_accent">Obarví tlačítka, záři výběru, ukazatele průběhu a zvýraznění všude. Vyberte předvolbu, nebo stiskněte OK pro paletu a libovolný hex kód.</string>
     <string name="settings_help_focus">Rámeček kolem prvku, který je vybraný. Zvolte jeho barvu a tloušťku, aby byl z gauče dobře vidět.</string>
-    <string name="settings_help_glass">Efekt skla udělá nabídky a panely průsvitné a matné nad obrázkem na pozadí podle vašeho výběru. Vypnuto kreslí plné panely, což méně zatěžuje slabší TV boxy.</string>
     <string name="settings_help_fonts">Písmo používané v celém OwnTV a velikost textu. Vyskakovací okna používají stejné písmo.</string>
     <string name="settings_help_popup_size">Zvětší nebo zmenší vyskakovací okna, nabídky a dialogy jako celek. Použijte, když jsou okna stísněná nebo zakrývají příliš mnoho obrazovky.</string>
     <string name="settings_help_zoom">Změní velikost všeho na obrazovce. Větší se lépe čte z dálky, menší pojme víc obsahu. Pod 85 %% může TV boxům s malou pamětí dojít paměť.</string>
@@ -1782,10 +1778,6 @@
     <string name="settings_line_os_filter">Jen zvolený jazyk</string>
     <string name="settings_line_os_search_language">Zobrazuje se ve výsledcích hledání</string>
     <string name="settings_subtitle_delete_help">Smazáním uvolníte místo; z přehrávače je můžete stáhnout znovu.</string>
-    <string name="settings_glass_style">Styl</string>
-    <string name="settings_line_glass_style">Předvolba, nebo Vlastní</string>
-    <string name="settings_line_glass_apply">Které plochy jsou matné</string>
-    <string name="settings_glass_preview_help">Každá změna se tu projeví hned.</string>
     <plurals name="settings_home_row_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> řádek</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> řádky</item>
@@ -1828,4 +1820,38 @@
     <string name="settings_line_epg_auto_refresh">Udržovat průvodce aktuální</string>
     <string name="settings_line_epg_logos">Místo log z playlistu</string>
     <string name="settings_help_epg_name">Zobrazí se v seznamu průvodců a v Vybrat EPG ručně.</string>
+    <string name="settings_glass_bg_title">Sklo a pozadí</string>
+    <string name="settings_line_glass_bg">Pozadí, vzhled obrázku, sklo</string>
+    <string name="settings_bg_background">Pozadí</string>
+    <string name="settings_line_bg_background">Co je za každou obrazovkou</string>
+    <string name="settings_help_bg_background">Stage ukazuje vlastní jemné barvy OwnTV. Obrázek ukazuje váš obrázek za každou obrazovkou. Prosté je plochá tmavá výplň.</string>
+    <string name="settings_bg_stage">Stage</string>
+    <string name="settings_bg_picture">Obrázek</string>
+    <string name="settings_bg_plain">Prosté</string>
+    <string name="settings_line_bg_picture_none">Vyberte obrázek z této televize nebo přes Remote</string>
+    <string name="settings_bg_change">Změnit</string>
+    <string name="settings_bg_none">Žádný</string>
+    <string name="settings_bg_look">Vzhled obrázku</string>
+    <string name="settings_line_bg_look">Ostrý, Měkký nebo Tmavý</string>
+    <string name="settings_bg_sharp">Ostrý</string>
+    <string name="settings_bg_soft">Měkký</string>
+    <string name="settings_bg_dark">Tmavý</string>
+    <string name="settings_bg_sharp_desc">Obrázek, jak je, jen lehce ztmavený</string>
+    <string name="settings_bg_soft_desc">Rozmazaný a ztmavený; text je vždy čitelný</string>
+    <string name="settings_bg_dark_desc">Skoro černý s náznakem obrázku</string>
+    <string name="settings_help_bg_look">Jak váš obrázek leží za obrazovkami. Řádky a text se kreslí přímo na něj, takže světlý obrázek potřebuje Měkký nebo Tmavý.</string>
+    <string name="settings_bg_picture_only">Jen u obrázku</string>
+    <string name="settings_bg_darken">Ztmavení</string>
+    <string name="settings_line_bg_darken">Jak moc je obrázek ztmavený</string>
+    <string name="settings_bg_blur">Rozmazání</string>
+    <string name="settings_line_bg_blur">Jak měkký je obrázek</string>
+    <string name="settings_bg_accent_light">Akcentní světlo</string>
+    <string name="settings_line_bg_accent_light">Vaše akcentní barva září v rohu</string>
+    <string name="settings_glass_section">Sklo</string>
+    <string name="settings_line_glass_switch">Lišta, panely, nabídky a okna jsou matná</string>
+    <string name="settings_help_glass_chrome">Zmatní plovoucí části: lištu, panely kategorií, nabídky, okna a tlačítka nahoře. Seznamy a plakáty zůstávají ploché.</string>
+    <string name="settings_glass_opacity">Krytí skla</string>
+    <string name="settings_line_glass_opacity">Méně ukáže více pozadí</string>
+    <string name="settings_line_glass_reset">Barvy Stage, sklo zapnuto, <xliff:g id="percent" example="56%">%1$s</xliff:g></string>
+    <string name="settings_bg_preview_note">Živá TV s tímto pozadím. Změny se ukazují, jak se pohybujete.</string>
 </resources>

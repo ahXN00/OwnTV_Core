@@ -1247,12 +1247,10 @@
     <string name="settings_glass_screen_description">पारदर्शी फ़्रॉस्टेड पैनल, पृष्ठभूमि चित्र और पारदर्शिता</string>
     <string name="settings_glass_master_description">पृष्ठभूमि फ़ोटो या ऐप की अपनी पृष्ठभूमि के ऊपर पारभासी फ़्रॉस्टेड पैनल।</string>
     <string name="settings_glass_background_image">पृष्ठभूमि चित्र चुनें</string>
-    <string name="settings_glass_surface_transparency_title">पारदर्शिता</string>
     <string name="settings_glass_background_blur_title">धुंधलापन / फ़्रॉस्ट</string>
     <string name="settings_glass_section_appearance">दिखावट</string>
     <string name="settings_glass_section_fine_tuning">उन्नत विकल्प</string>
     <string name="settings_glass_section_behavior">व्यवहार</string>
-    <string name="settings_glass_apply_to">ग्लास सतहें</string>
     <string name="settings_glass_surface_all">सभी</string>
     <string name="settings_glass_background_action_description">पृष्ठभूमि चित्र चुनें</string>
     <string name="settings_glass_transparency_short_description">20–100 · 5</string>
@@ -1545,7 +1543,6 @@
     <string name="settings_line_catchup_sources">एक प्लेलिस्ट के लिए टाइम ज़ोन बदलें</string>
     <string name="settings_line_override_playlist">एक प्लेलिस्ट के लिए अलग</string>
     <string name="settings_line_accent">हर जगह बटन, फ़ोकस और हाइलाइट को रंगता है</string>
-    <string name="settings_line_glass">धुंधली सतहें, पृष्ठभूमि छवि, पारदर्शिता</string>
     <string name="settings_line_fonts">मुख्य इंटरफ़ेस और पॉपअप के लिए एक ही फ़ॉन्ट</string>
     <string name="settings_line_popup_size">टेक्स्ट बदले बिना डायलॉग और मेनू का आकार बदलें</string>
     <string name="settings_line_animations">बंद करने पर कमज़ोर टीवी बॉक्स पर तेज़ लगता है</string>
@@ -1634,7 +1631,6 @@
     <string name="settings_help_theme">OwnTV डार्क थीम के लिए बना है। सिस्टम टीवी की अपनी सेटिंग मानता है, अगर हो; लाइट रोशन कमरे के लिए ठीक है।</string>
     <string name="settings_help_accent">हर जगह बटन, फ़ोकस की चमक, प्रोग्रेस बार और हाइलाइट रंगता है। कोई प्रीसेट चुनें, या पैलेट और कोई भी हेक्स कोड पाने के लिए OK दबाएँ।</string>
     <string name="settings_help_focus">फ़ोकस वाली चीज़ के चारों ओर का घेरा। उसका रंग और मोटाई चुनें ताकि सोफ़े से आसानी से दिखे।</string>
-    <string name="settings_help_glass">ग्लास इफ़ेक्ट मेनू और पैनल को आपकी चुनी पृष्ठभूमि छवि के ऊपर पारदर्शी और धुंधला बनाता है। बंद होने पर ठोस पैनल बनते हैं, जो कमज़ोर टीवी बॉक्स पर हल्के हैं।</string>
     <string name="settings_help_fonts">पूरे OwnTV में इस्तेमाल होने वाला फ़ॉन्ट और टेक्स्ट का आकार। पॉपअप भी यही फ़ॉन्ट इस्तेमाल करते हैं।</string>
     <string name="settings_help_popup_size">पॉपअप, मेनू और डायलॉग को पूरा बड़ा या छोटा करता है। जब पॉपअप तंग लगें या स्क्रीन का बहुत हिस्सा ढक दें, तब इस्तेमाल करें।</string>
     <string name="settings_help_zoom">स्क्रीन पर हर चीज़ का आकार बदलता है। बड़ा दूर से पढ़ने में आसान है; छोटा ज़्यादा जगह देता है। 85%% से नीचे कम मेमोरी वाले टीवी बॉक्स की मेमोरी खत्म हो सकती है।</string>
@@ -1720,10 +1716,6 @@
     <string name="settings_line_os_filter">सिर्फ़ आपकी चुनी हुई भाषा</string>
     <string name="settings_line_os_search_language">खोज नतीजों में दिखती है</string>
     <string name="settings_subtitle_delete_help">हटाने से जगह खाली होती है; प्लेयर से इसे फिर डाउनलोड कर सकते हैं।</string>
-    <string name="settings_glass_style">स्टाइल</string>
-    <string name="settings_line_glass_style">प्रीसेट या कस्टम</string>
-    <string name="settings_line_glass_apply">किन सतहों पर फ़्रॉस्टेड असर हो</string>
-    <string name="settings_glass_preview_help">हर बदलाव यहाँ तुरंत दिखता है।</string>
     <plurals name="settings_home_row_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> पंक्ति</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> पंक्तियाँ</item>
@@ -1760,4 +1752,38 @@
     <string name="settings_line_epg_auto_refresh">गाइड को अप-टू-डेट रखें</string>
     <string name="settings_line_epg_logos">प्लेलिस्ट के लोगो की जगह</string>
     <string name="settings_help_epg_name">गाइड सूची और EPG खुद चुनें में दिखता है।</string>
+    <string name="settings_glass_bg_title">ग्लास और बैकग्राउंड</string>
+    <string name="settings_line_glass_bg">बैकग्राउंड, तस्वीर का रूप, ग्लास</string>
+    <string name="settings_bg_background">बैकग्राउंड</string>
+    <string name="settings_line_bg_background">हर स्क्रीन के पीछे क्या है</string>
+    <string name="settings_help_bg_background">Stage OwnTV के अपने हल्के रंग दिखाता है। तस्वीर हर स्क्रीन के पीछे आपकी अपनी तस्वीर दिखाती है। सादा एक सपाट गहरा रंग है।</string>
+    <string name="settings_bg_stage">Stage</string>
+    <string name="settings_bg_picture">तस्वीर</string>
+    <string name="settings_bg_plain">सादा</string>
+    <string name="settings_line_bg_picture_none">इस टीवी से या Remote से तस्वीर चुनें</string>
+    <string name="settings_bg_change">बदलें</string>
+    <string name="settings_bg_none">कोई नहीं</string>
+    <string name="settings_bg_look">तस्वीर का रूप</string>
+    <string name="settings_line_bg_look">तीखा, नरम या गहरा</string>
+    <string name="settings_bg_sharp">तीखा</string>
+    <string name="settings_bg_soft">नरम</string>
+    <string name="settings_bg_dark">गहरा</string>
+    <string name="settings_bg_sharp_desc">तस्वीर जैसी है, बस थोड़ी गहरी</string>
+    <string name="settings_bg_soft_desc">धुंधली और गहरी; टेक्स्ट हमेशा पढ़ने में आसान</string>
+    <string name="settings_bg_dark_desc">लगभग काली, तस्वीर की हल्की झलक के साथ</string>
+    <string name="settings_help_bg_look">आपकी तस्वीर स्क्रीन के पीछे कैसी दिखती है। पंक्तियाँ और टेक्स्ट सीधे उस पर बनते हैं, इसलिए चमकदार तस्वीर के लिए नरम या गहरा चाहिए।</string>
+    <string name="settings_bg_picture_only">सिर्फ़ तस्वीर पर</string>
+    <string name="settings_bg_darken">गहरा करें</string>
+    <string name="settings_line_bg_darken">तस्वीर कितनी गहरी हो</string>
+    <string name="settings_bg_blur">धुंधलापन</string>
+    <string name="settings_line_bg_blur">तस्वीर कितनी नरम हो</string>
+    <string name="settings_bg_accent_light">एक्सेंट रोशनी</string>
+    <string name="settings_line_bg_accent_light">आपका एक्सेंट रंग कोने में चमकता है</string>
+    <string name="settings_glass_section">ग्लास</string>
+    <string name="settings_line_glass_switch">बार, पैनल, मेन्यू और पॉप-अप पाले जैसे धुंधले हैं</string>
+    <string name="settings_help_glass_chrome">तैरते हिस्सों को पाले जैसा धुंधला करता है: बार, कैटेगरी पैनल, मेन्यू, पॉप-अप और ऊपर के बटन। सूचियाँ और पोस्टर सपाट रहते हैं।</string>
+    <string name="settings_glass_opacity">ग्लास की अपारदर्शिता</string>
+    <string name="settings_line_glass_opacity">कम करने पर बैकग्राउंड ज़्यादा दिखता है</string>
+    <string name="settings_line_glass_reset">Stage रंग, ग्लास चालू, <xliff:g id="percent" example="56%">%1$s</xliff:g></string>
+    <string name="settings_bg_preview_note">इस बैकग्राउंड के साथ लाइव टीवी। बदलाव चलते-चलते दिखते हैं।</string>
 </resources>

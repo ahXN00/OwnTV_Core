@@ -1260,12 +1260,10 @@ Az Újraszinkronizálás és a hiányzó címek eltávolítása azt is lehetőv�
     <string name="settings_glass_screen_description">Hangold az áttetsző felületeket, és lásd azonnal minden változást.</string>
     <string name="settings_glass_master_description">Áttetsző, mattított felületek használata az egész OwnTV-ben.</string>
     <string name="settings_glass_background_image">Háttérkép</string>
-    <string name="settings_glass_surface_transparency_title">Felület átlátszósága</string>
     <string name="settings_glass_background_blur_title">Háttér elmosása</string>
     <string name="settings_glass_section_appearance">Megjelenés</string>
     <string name="settings_glass_section_fine_tuning">Finomhangolás</string>
     <string name="settings_glass_section_behavior">Viselkedés</string>
-    <string name="settings_glass_apply_to">Üveg alkalmazása erre</string>
     <string name="settings_glass_surface_all">Mind</string>
     <string name="settings_glass_background_action_description">Válassz helyit, távolit, vagy töröld</string>
     <string name="settings_glass_transparency_short_description">20–100 százalék, 5-ös lépésekben</string>
@@ -1530,7 +1528,6 @@ Az Újraszinkronizálás és a hiányzó címek eltávolítása azt is lehetőv�
     <string name="settings_line_catchup_sources">Időzóna felülírása egy lejátszási listánál</string>
     <string name="settings_line_override_playlist">Felülírás egy lejátszási listánál</string>
     <string name="settings_line_accent">Mindenhol színezi a gombokat, a kijelölést és a kiemeléseket</string>
-    <string name="settings_line_glass">Matt felületek, háttérkép, átlátszóság</string>
     <string name="settings_line_fonts">Egy betűcsalád a felülethez és az ablakokhoz</string>
     <string name="settings_line_popup_size">Párbeszédablakok és menük méretezése a szöveg módosítása nélkül</string>
     <string name="settings_line_animations">Kikapcsolva gyengébb tévéboxokon fürgébb</string>
@@ -1619,7 +1616,6 @@ Az Újraszinkronizálás és a hiányzó címek eltávolítása azt is lehetőv�
     <string name="settings_help_theme">Az OwnTV sötét témára készült. A Rendszer a tévé saját beállítását követi, ha van ilyen; a Világos világos szobába való.</string>
     <string name="settings_help_accent">Mindenhol színezi a gombokat, a kijelölés fényét, a folyamatjelzőket és a kiemeléseket. Válasszon előre beállított színt, vagy nyomja meg az OK gombot a palettához és bármilyen hexakódhoz.</string>
     <string name="settings_help_focus">A kijelölt elem körüli keret. Válassza ki a színét és vastagságát, hogy a kanapéról is könnyen követhető legyen.</string>
-    <string name="settings_help_glass">Az üveghatás áttetszővé és mattá teszi a menüket és paneleket egy választott háttérkép fölött. Kikapcsolva tömör paneleket rajzol, ami kíméli a gyengébb tévéboxokat.</string>
     <string name="settings_help_fonts">Az OwnTV-ben mindenhol használt betűtípus és a szöveg mérete. Az ablakok is ugyanezt a betűtípust használják.</string>
     <string name="settings_help_popup_size">Egészében nagyobbra vagy kisebbre veszi az ablakokat, menüket és párbeszédablakokat. Akkor hasznos, ha zsúfoltnak tűnnek, vagy túl sokat takarnak a képernyőből.</string>
     <string name="settings_help_zoom">Mindent átméretez a képernyőn. A nagyobb messziről jobban olvasható, a kisebben több fér el. 85%% alatt a kevés memóriájú tévéboxok kifuthatnak a memóriából.</string>
@@ -1705,10 +1701,6 @@ Az Újraszinkronizálás és a hiányzó címek eltávolítása azt is lehetőv�
     <string name="settings_line_os_filter">Csak a választott nyelv</string>
     <string name="settings_line_os_search_language">A keresési találatokban jelenik meg</string>
     <string name="settings_subtitle_delete_help">A törlés helyet szabadít fel; a lejátszóból újra letöltheted.</string>
-    <string name="settings_glass_style">Stílus</string>
-    <string name="settings_line_glass_style">Előbeállítás vagy Egyéni</string>
-    <string name="settings_line_glass_apply">Mely felületek legyenek mattüvegesek</string>
-    <string name="settings_glass_preview_help">Minden változás azonnal látszik itt.</string>
     <plurals name="settings_home_row_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> sor</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> sor</item>
@@ -1745,4 +1737,38 @@ Az Újraszinkronizálás és a hiányzó címek eltávolítása azt is lehetőv�
     <string name="settings_line_epg_auto_refresh">Naprakészen tartja a műsorújságot</string>
     <string name="settings_line_epg_logos">A lejátszási lista logói helyett</string>
     <string name="settings_help_epg_name">Megjelenik a műsorújság-listában és az EPG kézi választásánál.</string>
+    <string name="settings_glass_bg_title">Üveg és háttér</string>
+    <string name="settings_line_glass_bg">Háttér, képhatás, üveg</string>
+    <string name="settings_bg_background">Háttér</string>
+    <string name="settings_line_bg_background">Ami minden képernyő mögött van</string>
+    <string name="settings_help_bg_background">A Stage az OwnTV saját lágy színeit mutatja. A Kép a saját képedet mutatja minden képernyő mögött. Az Egyszerű sima sötét kitöltés.</string>
+    <string name="settings_bg_stage">Stage</string>
+    <string name="settings_bg_picture">Kép</string>
+    <string name="settings_bg_plain">Egyszerű</string>
+    <string name="settings_line_bg_picture_none">Válassz képet erről a tévéről vagy a Remote-tal</string>
+    <string name="settings_bg_change">Módosítás</string>
+    <string name="settings_bg_none">Nincs</string>
+    <string name="settings_bg_look">Képhatás</string>
+    <string name="settings_line_bg_look">Éles, Lágy vagy Sötét</string>
+    <string name="settings_bg_sharp">Éles</string>
+    <string name="settings_bg_soft">Lágy</string>
+    <string name="settings_bg_dark">Sötét</string>
+    <string name="settings_bg_sharp_desc">A kép, ahogy van, csak kissé sötétítve</string>
+    <string name="settings_bg_soft_desc">Elmosva és sötétítve; a szöveg mindig olvasható</string>
+    <string name="settings_bg_dark_desc">Szinte fekete, a kép egy leheletével</string>
+    <string name="settings_help_bg_look">Így áll a képed a képernyők mögött. A sorok és a szöveg közvetlenül rá kerülnek, ezért egy világos képhez Lágy vagy Sötét kell.</string>
+    <string name="settings_bg_picture_only">Csak képnél</string>
+    <string name="settings_bg_darken">Sötétítés</string>
+    <string name="settings_line_bg_darken">Mennyire sötétül a kép</string>
+    <string name="settings_bg_blur">Elmosás</string>
+    <string name="settings_line_bg_blur">Mennyire lágy a kép</string>
+    <string name="settings_bg_accent_light">Kiemelő fény</string>
+    <string name="settings_line_bg_accent_light">A kiemelő színed világít a sarokban</string>
+    <string name="settings_glass_section">Üveg</string>
+    <string name="settings_line_glass_switch">A sáv, a panelek, a menük és a felugrók matt üvegből vannak</string>
+    <string name="settings_help_glass_chrome">Mattá teszi a lebegő részeket: a sávot, a kategóriapaneleket, a menüket, a felugrókat és a fenti gombokat. A listák és a plakátok laposak maradnak.</string>
+    <string name="settings_glass_opacity">Üveg fedettsége</string>
+    <string name="settings_line_glass_opacity">Kisebb érték többet mutat a háttérből</string>
+    <string name="settings_line_glass_reset">Stage-színek, üveg be, <xliff:g id="percent" example="56%">%1$s</xliff:g></string>
+    <string name="settings_bg_preview_note">Élő tévé ezzel a háttérrel. A változások mozgás közben látszanak.</string>
 </resources>

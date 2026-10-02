@@ -1287,12 +1287,10 @@
     <string name="settings_glass_screen_description">Półprzezroczyste, matowe panele, obraz tła i przezroczystość</string>
     <string name="settings_glass_master_description">Półprzezroczyste, matowe panele na zdjęciu w tle lub na własnym tle aplikacji.</string>
     <string name="settings_glass_background_image">Wybierz obraz tła</string>
-    <string name="settings_glass_surface_transparency_title">Przezroczystość</string>
     <string name="settings_glass_background_blur_title">Rozmycie / zmatowienie</string>
     <string name="settings_glass_section_appearance">Wygląd</string>
     <string name="settings_glass_section_fine_tuning">Opcje zaawansowane</string>
     <string name="settings_glass_section_behavior">Działanie</string>
-    <string name="settings_glass_apply_to">Powierzchnie szklane</string>
     <string name="settings_glass_surface_all">Wszystkie</string>
     <string name="settings_glass_background_action_description">Wybierz obraz tła</string>
     <string name="settings_glass_transparency_short_description">20–100 · 5</string>
@@ -1601,7 +1599,6 @@
     <string name="settings_line_catchup_sources">Zastąp strefę czasową dla jednej playlisty</string>
     <string name="settings_line_override_playlist">Zastąp dla jednej playlisty</string>
     <string name="settings_line_accent">Barwi przyciski, zaznaczenie i wyróżnienia wszędzie</string>
-    <string name="settings_line_glass">Matowe powierzchnie, obraz tła, przezroczystość</string>
     <string name="settings_line_fonts">Jedna czcionka dla interfejsu i okienek</string>
     <string name="settings_line_popup_size">Skaluj okna i menu bez zmiany tekstu</string>
     <string name="settings_line_animations">Wyłączone działają żwawiej na słabszych przystawkach</string>
@@ -1690,7 +1687,6 @@
     <string name="settings_help_theme">OwnTV jest zaprojektowany z myślą o ciemnym motywie. Systemowy wybiera ustawienie telewizora, jeśli je ma; jasny pasuje do jasnego pokoju.</string>
     <string name="settings_help_accent">Barwi przyciski, poświatę zaznaczenia, paski postępu i wyróżnienia wszędzie. Wybierz gotowy kolor albo naciśnij OK, aby otworzyć paletę i wpisać dowolny kod szesnastkowy.</string>
     <string name="settings_help_focus">Obwódka wokół zaznaczonego elementu. Wybierz jej kolor i grubość, aby łatwo było ją śledzić z kanapy.</string>
-    <string name="settings_help_glass">Efekt szkła sprawia, że menu i panele są półprzezroczyste i matowe na wybranym obrazie tła. Wyłączony rysuje pełne panele, co odciąża słabsze przystawki.</string>
     <string name="settings_help_fonts">Czcionka używana w całym OwnTV i rozmiar tekstu. Okienka używają tej samej czcionki.</string>
     <string name="settings_help_popup_size">Powiększa lub pomniejsza okienka, menu i okna dialogowe w całości. Przydaje się, gdy wydają się ciasne lub zasłaniają za dużo ekranu.</string>
     <string name="settings_help_zoom">Skaluje wszystko na ekranie. Większe łatwiej czytać z daleka, mniejsze mieści więcej. Poniżej 85%% przystawkom z małą pamięcią może jej zabraknąć.</string>
@@ -1782,10 +1778,6 @@
     <string name="settings_line_os_filter">Tylko wybrany język</string>
     <string name="settings_line_os_search_language">Widoczny w wynikach wyszukiwania</string>
     <string name="settings_subtitle_delete_help">Usunięcie zwalnia miejsce; możesz pobrać plik ponownie w odtwarzaczu.</string>
-    <string name="settings_glass_style">Styl</string>
-    <string name="settings_line_glass_style">Gotowy styl lub Własny</string>
-    <string name="settings_line_glass_apply">Które powierzchnie są matowe</string>
-    <string name="settings_glass_preview_help">Każda zmiana jest tu widoczna od razu.</string>
     <plurals name="settings_home_row_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> wiersz</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> wiersze</item>
@@ -1828,4 +1820,38 @@
     <string name="settings_line_epg_auto_refresh">Utrzymuj przewodnik na bieżąco</string>
     <string name="settings_line_epg_logos">Zamiast logo z playlisty</string>
     <string name="settings_help_epg_name">Widoczna na liście przewodników i w Wybierz EPG ręcznie.</string>
+    <string name="settings_glass_bg_title">Szkło i tło</string>
+    <string name="settings_line_glass_bg">Tło, wygląd obrazu, szkło</string>
+    <string name="settings_bg_background">Tło</string>
+    <string name="settings_line_bg_background">Co jest za każdym ekranem</string>
+    <string name="settings_help_bg_background">Stage pokazuje własne łagodne kolory OwnTV. Obraz pokazuje Twój obraz za każdym ekranem. Gładkie to płaskie ciemne tło.</string>
+    <string name="settings_bg_stage">Stage</string>
+    <string name="settings_bg_picture">Obraz</string>
+    <string name="settings_bg_plain">Gładkie</string>
+    <string name="settings_line_bg_picture_none">Wybierz obraz z tego telewizora lub przez Remote</string>
+    <string name="settings_bg_change">Zmień</string>
+    <string name="settings_bg_none">Brak</string>
+    <string name="settings_bg_look">Wygląd obrazu</string>
+    <string name="settings_line_bg_look">Ostry, Miękki lub Ciemny</string>
+    <string name="settings_bg_sharp">Ostry</string>
+    <string name="settings_bg_soft">Miękki</string>
+    <string name="settings_bg_dark">Ciemny</string>
+    <string name="settings_bg_sharp_desc">Obraz taki, jaki jest, lekko przyciemniony</string>
+    <string name="settings_bg_soft_desc">Rozmyty i przyciemniony; tekst zawsze jest czytelny</string>
+    <string name="settings_bg_dark_desc">Prawie czarny, z odrobiną obrazu</string>
+    <string name="settings_help_bg_look">Jak Twój obraz leży za ekranami. Wiersze i tekst są rysowane bezpośrednio na nim, więc jasny obraz wymaga Miękkiego lub Ciemnego.</string>
+    <string name="settings_bg_picture_only">Tylko dla obrazu</string>
+    <string name="settings_bg_darken">Przyciemnienie</string>
+    <string name="settings_line_bg_darken">Jak mocno obraz jest przyciemniony</string>
+    <string name="settings_bg_blur">Rozmycie</string>
+    <string name="settings_line_bg_blur">Jak miękki jest obraz</string>
+    <string name="settings_bg_accent_light">Światło akcentu</string>
+    <string name="settings_line_bg_accent_light">Twój kolor akcentu świeci w rogu</string>
+    <string name="settings_glass_section">Szkło</string>
+    <string name="settings_line_glass_switch">Pasek, panele, menu i okna są matowe</string>
+    <string name="settings_help_glass_chrome">Matowi elementy pływające: pasek, panele kategorii, menu, okna i przyciski u góry. Listy i plakaty pozostają płaskie.</string>
+    <string name="settings_glass_opacity">Krycie szkła</string>
+    <string name="settings_line_glass_opacity">Mniej pokazuje więcej tła</string>
+    <string name="settings_line_glass_reset">Kolory Stage, szkło włączone, <xliff:g id="percent" example="56%">%1$s</xliff:g></string>
+    <string name="settings_bg_preview_note">Telewizja na żywo z tym tłem. Zmiany widać podczas poruszania się.</string>
 </resources>

@@ -2335,12 +2335,10 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <string name="settings_glass_screen_description">Tune translucent surfaces and see every change immediately.</string>
     <string name="settings_glass_master_description">Use translucent, frosted surfaces throughout OwnTV.</string>
     <string name="settings_glass_background_image">Background image</string>
-    <string name="settings_glass_surface_transparency_title">Surface transparency</string>
     <string name="settings_glass_background_blur_title">Background blur</string>
     <string name="settings_glass_section_appearance">Appearance</string>
     <string name="settings_glass_section_fine_tuning">Fine tuning</string>
     <string name="settings_glass_section_behavior">Behavior</string>
-    <string name="settings_glass_apply_to">Apply glass to</string>
     <string name="settings_glass_surface_all">All</string>
     <string name="settings_glass_background_action_description">Choose local, remote, or clear</string>
     <string name="settings_glass_transparency_short_description">20–100 percent, in steps of 5</string>
@@ -2824,8 +2822,6 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <!-- Translators: One-line description under a setting's name on a Settings page (P10); keep it short, it is cut to one line. -->
     <string name="settings_line_accent">Tints buttons, focus and highlights everywhere</string>
     <!-- Translators: One-line description under a setting's name on a Settings page (P10); keep it short, it is cut to one line. -->
-    <string name="settings_line_glass">Frosted surfaces, background image, transparency</string>
-    <!-- Translators: One-line description under a setting's name on a Settings page (P10); keep it short, it is cut to one line. -->
     <string name="settings_line_fonts">One family for the main interface and popups</string>
     <!-- Translators: One-line description under a setting's name on a Settings page (P10); keep it short, it is cut to one line. -->
     <string name="settings_line_popup_size">Scale dialogs and menus without changing their text</string>
@@ -3002,8 +2998,6 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <!-- Translators: Explanation shown in the panel beside the Settings rows (P10) while this setting has focus. -->
     <string name="settings_help_focus">The ring drawn around whatever has focus. Pick its color and thickness so it stays easy to follow from the sofa.</string>
     <!-- Translators: Explanation shown in the panel beside the Settings rows (P10) while this setting has focus. -->
-    <string name="settings_help_glass">Glass Effect makes menus and panels translucent and frosted over a background picture of your choice. Off draws solid panels, which is lighter on low-end TV boxes.</string>
-    <!-- Translators: Explanation shown in the panel beside the Settings rows (P10) while this setting has focus. -->
     <string name="settings_help_fonts">The font used across OwnTV, and how large text is drawn. Popups use the same font.</string>
     <!-- Translators: Explanation shown in the panel beside the Settings rows (P10) while this setting has focus. -->
     <string name="settings_help_popup_size">Makes popups, menus and dialogs larger or smaller as a whole. Use it when popups feel cramped or cover too much of the screen.</string>
@@ -3164,14 +3158,6 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <string name="settings_line_os_search_language">Shown in search results</string>
     <!-- Translators: Panel text for a downloaded subtitle on the Delete subtitles page. -->
     <string name="settings_subtitle_delete_help">Deleting frees the space; you can download it again from the player.</string>
-    <!-- Translators: Row on the Glass Effect page: the glass preset. -->
-    <string name="settings_glass_style">Style</string>
-    <!-- Translators: Short line under Style on the Glass Effect page. -->
-    <string name="settings_line_glass_style">A preset, or Custom</string>
-    <!-- Translators: Short line under Apply glass to. -->
-    <string name="settings_line_glass_apply">Which surfaces are frosted</string>
-    <!-- Translators: Panel text above the Glass Effect live preview. -->
-    <string name="settings_glass_preview_help">Every change shows here straight away.</string>
     <!-- Translators: Count beside the Home screen page title: how many rows it lists. -->
     <plurals name="settings_home_row_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> row</item>
@@ -3235,4 +3221,72 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <string name="settings_line_epg_logos">Instead of the playlist’s</string>
     <!-- Translators: Panel text for the guide's Name field (followed by the field help). -->
     <string name="settings_help_epg_name">Shown in the guide list and in Pick EPG manually.</string>
+    <!-- Translators: Title of the Glass & background page and its Appearance row. -->
+    <string name="settings_glass_bg_title">Glass &amp; background</string>
+    <!-- Translators: Line under Glass & background in Appearance. -->
+    <string name="settings_line_glass_bg">Background, picture look, glass</string>
+    <!-- Translators: Row title and section heading: what sits behind every screen. -->
+    <string name="settings_bg_background">Background</string>
+    <!-- Translators: Line under Background. -->
+    <string name="settings_line_bg_background">What sits behind every screen</string>
+    <!-- Translators: Panel text for Background. -->
+    <string name="settings_help_bg_background">Stage draws OwnTV’s own soft colors. Picture shows a picture of yours behind every screen. Plain is a flat dark fill.</string>
+    <!-- Translators: Background choice: OwnTV's own soft colours. -->
+    <string name="settings_bg_stage">Stage</string>
+    <!-- Translators: Background choice and row title: the user's own picture. -->
+    <string name="settings_bg_picture">Picture</string>
+    <!-- Translators: Background choice: a flat dark fill. -->
+    <string name="settings_bg_plain">Plain</string>
+    <!-- Translators: Line under Picture when none is chosen. -->
+    <string name="settings_line_bg_picture_none">Choose a picture from this TV or by Remote</string>
+    <!-- Translators: Value of the Picture row when one is set: OK opens the picker. -->
+    <string name="settings_bg_change">Change</string>
+    <!-- Translators: Value of the Picture row when none is set. -->
+    <string name="settings_bg_none">None</string>
+    <!-- Translators: Row title: how the picture is drawn. -->
+    <string name="settings_bg_look">Picture look</string>
+    <!-- Translators: Line under Picture look. -->
+    <string name="settings_line_bg_look">Sharp, Soft or Dark</string>
+    <!-- Translators: Picture look: the picture as it is. -->
+    <string name="settings_bg_sharp">Sharp</string>
+    <!-- Translators: Picture look: blurred and dimmed. -->
+    <string name="settings_bg_soft">Soft</string>
+    <!-- Translators: Picture look: mostly black. -->
+    <string name="settings_bg_dark">Dark</string>
+    <!-- Translators: Choice description for Sharp. -->
+    <string name="settings_bg_sharp_desc">The picture as it is, only lightly dimmed</string>
+    <!-- Translators: Choice description for Soft. -->
+    <string name="settings_bg_soft_desc">Blurred and dimmed; text is always readable</string>
+    <!-- Translators: Choice description for Dark. -->
+    <string name="settings_bg_dark_desc">Mostly black with a hint of the picture</string>
+    <!-- Translators: Panel text for Picture look. -->
+    <string name="settings_help_bg_look">How your picture sits behind the screens. Rows and text are drawn straight on it, so a bright picture needs Soft or Dark.</string>
+    <!-- Translators: Value of picture-only rows when the background is not a picture. -->
+    <string name="settings_bg_picture_only">Picture only</string>
+    <!-- Translators: Row title: how much the picture is dimmed. -->
+    <string name="settings_bg_darken">Darken</string>
+    <!-- Translators: Line under Darken. -->
+    <string name="settings_line_bg_darken">How much the picture is dimmed</string>
+    <!-- Translators: Row title: how blurred the picture is. -->
+    <string name="settings_bg_blur">Blur</string>
+    <!-- Translators: Line under Blur. -->
+    <string name="settings_line_bg_blur">How soft the picture is</string>
+    <!-- Translators: Row title: the accent-coloured glow in the corner. -->
+    <string name="settings_bg_accent_light">Accent light</string>
+    <!-- Translators: Line under Accent light. -->
+    <string name="settings_line_bg_accent_light">Your accent color glows in the corner</string>
+    <!-- Translators: Section heading and row title: the frosted glass switch. -->
+    <string name="settings_glass_section">Glass</string>
+    <!-- Translators: Line under Glass. -->
+    <string name="settings_line_glass_switch">Rail, sheets, menus and popups are frosted</string>
+    <!-- Translators: Panel text for Glass and Glass opacity. -->
+    <string name="settings_help_glass_chrome">Frosts the floating parts: the rail, the category sheets, menus, popups and the pills at the top. Lists and posters stay flat.</string>
+    <!-- Translators: Row title: how solid the glass is. -->
+    <string name="settings_glass_opacity">Glass opacity</string>
+    <!-- Translators: Line under Glass opacity. -->
+    <string name="settings_line_glass_opacity">Lower shows more of the background</string>
+    <!-- Translators: Line under Reset. %1$s is a percentage such as 56%. -->
+    <string name="settings_line_glass_reset">Stage colors, glass on, <xliff:g id="percent" example="56%">%1$s</xliff:g></string>
+    <!-- Translators: Note under the live preview of Live TV. -->
+    <string name="settings_bg_preview_note">Live TV with this background. Changes show as you move.</string>
 </resources>
