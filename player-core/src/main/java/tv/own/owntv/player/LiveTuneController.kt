@@ -69,6 +69,30 @@ class LiveTuneController(
         fun meta(channel: ChannelEntity): MediaMeta
         /** Mirror a ladder decision into the user-visible playback error log. */
         fun recordLadderEvent(onExo: Boolean, reason: PlayerFailureReason, detail: String)
+
+        /**
+         * Smart Provider (phase 4) — the next playlist that may carry [anchor], for a tune that has run
+         * out of engines and formats on the playlist it is on, or null when there is nothing left to try.
+         *
+         * [triedSourceIds] is every provider this attempt has already spent, the anchor's own first, so an
+         * implementation only has to skip them; the controller keeps that set itself. The channel handed
+         * back is the candidate's own row on its own playlist, because what follows is a whole new tune —
+         * that playlist's URL, headers and engine preference — and not another rung of this one.
+         *
+         * Both apps default to "no candidates", which is exactly the behaviour before this existed.
+         */
+        suspend fun nextProviderCandidate(anchor: ChannelEntity, triedSourceIds: Set<Long>): ChannelEntity? = null
+
+        /** A tune on [channel] — [anchor] itself, or a substitute standing in for it — has a picture. */
+        fun onProviderOpened(anchor: ChannelEntity, channel: ChannelEntity) {}
+
+        /**
+         * A provider attempt on [channel] ran out of engines and formats, with [detail] the player's own
+         * text for why. The attempt is over whatever happens next; whether the reason is worth remembering
+         * against the provider is the app's judgement — see `ProviderFailureReason` — not the controller's.
+         */
+        fun onProviderFailed(anchor: ChannelEntity, channel: ChannelEntity, detail: String) {}
+
         fun nowMs(): Long = android.os.SystemClock.elapsedRealtime()
         /** An engine has just taken the stream (the phone publishes its media session here). */
         fun onEngineStarted() {}
@@ -82,6 +106,31 @@ class LiveTuneController(
         suspend fun timeshiftResumeMode(): SettingsRepository.ResumeMode = SettingsRepository.ResumeMode.ASK
         /** N11 — Settings → Maximum video quality, for the variant a buffer saves; null for none. */
         suspend fun maxVideoHeight(): Int? = null
+    }
+
+    /**
+     * Smart Provider (phase 4) — one app's answer to the three questions the walk across providers asks:
+     * which playlist may carry the channel next, whether a playlist produced a picture, and whether one
+     * ran out of engines and formats.
+     *
+     * The three belong together and to one screen, which is why they are one seam rather than three
+     * lambdas: [Host.nextProviderCandidate] finds a substitute, and the two verdicts are what makes the
+     * *next* attempt better informed than the last. An app that supplies none of them — [CoreHost] takes
+     * an implementation or nothing at all — behaves exactly as it did before this existed.
+     *
+     * The controller owns the walk: how many playlists a tune may try, the deadline they share, and when
+     * the channel is declared lost. A [ProviderFallback] only answers the three questions, from whatever
+     * the app keeps — here, the cross-provider memory the discovery pass writes.
+     */
+    interface ProviderFallback {
+        /** As [Host.nextProviderCandidate]: the next playlist's own row for the channel, or null. */
+        suspend fun nextCandidate(anchor: ChannelEntity, triedSourceIds: Set<Long>): ChannelEntity?
+
+        /** As [Host.onProviderOpened]: a playlist put a picture on the screen. */
+        fun onOpened(anchor: ChannelEntity, channel: ChannelEntity)
+
+        /** As [Host.onProviderFailed]: a playlist ran out of engines and formats, with the player's text. */
+        fun onFailed(anchor: ChannelEntity, channel: ChannelEntity, detail: String)
     }
 
     /**
@@ -163,6 +212,15 @@ class LiveTuneController(
     private var mpvHandoffJob: Job? = null
     private var deadlineJob: Job? = null
 
+    /** Smart Provider (phase 4) — the substitute tune in flight, if any. A substitute is a tune of its
+     *  own, never a rung, so it gets a job of its own: the failing watcher that asked for it is cancelled
+     *  as it starts. */
+    private var providerJob: Job? = null
+
+    /** Smart Provider (phase 4) — the channel's walk across providers while it is being tuned, or null
+     *  outside a tune. Created by [start], ended when a picture opens or the channel changes. */
+    private var attempt: ProviderAttempt? = null
+
     // --- Entry points -----------------------------------------------------------------------------
 
     /**
@@ -172,6 +230,9 @@ class LiveTuneController(
      */
     fun launch(block: suspend LiveTuneController.() -> Unit): Job {
         tuneJob?.cancel()
+        // Whatever this is — a channel, a catch-up, a replay — it supersedes a substitute still being
+        // tried for the channel before it. A Smart Provider attempt never outlives its own screen.
+        providerJob?.cancel()
         return scope.launch { block() }.also { tuneJob = it }
     }
 
@@ -188,9 +249,32 @@ class LiveTuneController(
     suspend fun start(channel: ChannelEntity, source: SourceEntity?, resolved: String? = null) {
         previewJob?.cancel()
         cancelLadderJobs()
+        // Smart Provider (phase 4) — this is the anchor: the channel the user picked, on the playlist
+        // they picked it from. Everything else this attempt may end up trying is another provider's copy
+        // of the same channel, after that one first, once each. A tune that replaces a tune abandons the
+        // previous walk rather than inheriting its spent providers.
+        providerJob?.cancel()
         current = channel
         recall.onWatched(channel)
         _previewBlocked.value = false
+        attempt = ProviderAttempt(channel)
+        beginTune(channel, source, resolved, replacing = false)
+    }
+
+    /**
+     * One provider's turn in a tune: route it, arm the ladder against it and start an engine.
+     *
+     * Split out of [start] for Smart Provider, whose substitutes are whole tunes like this one — the
+     * same routing, the same ladder, the same kind of budget — differing only in [replacing]: the engine
+     * has to be handed over from the previous provider's stream rather than assumed clear, and the
+     * saved copy stays parked with the channel the user actually picked.
+     */
+    private suspend fun beginTune(
+        channel: ChannelEntity,
+        source: SourceEntity?,
+        resolved: String?,
+        replacing: Boolean,
+    ) {
         val setting = source?.liveEnginePreference
             ?.let { name -> EnginePreference.entries.firstOrNull { it.name == name } }
             ?: host.globalPreference()
@@ -201,10 +285,31 @@ class LiveTuneController(
             panelRefusesSegments = panelRefusesSegments(channel, source),
         )
         engineLog("tune '${channel.name}' -> ${route.why} [${route.preference.name}]")
-        openTimeshift(channel, source, resolved)
+        if (replacing) {
+            // The saved copy belongs to the channel the user picked, and a second download is a second
+            // connection to a provider already under suspicion: the substitute takes the screen, the
+            // copy is parked for the anchor's return.
+            parkTimeshift()
+        } else {
+            openTimeshift(channel, source, resolved)
+        }
         arm(channel, source, route.preference)
-        if (route.onMpv) startOnMpv(channel, source, route.why, resolved = resolved)
-        else startOnExo(channel, source, resolved)
+        // A pinned substitute starts on ExoPlayer anyway: mpv is one shared player, so the safest handover
+        // is the one the ladder already uses — ExoPlayer claims the surface, mpv lets go of it first. The
+        // ladder is armed as usual, so a substitute that ExoPlayer cannot play still reaches mpv.
+        if (route.onMpv && !replacing) startOnMpv(channel, source, route.why, resolved = resolved)
+        else switchOrStartOnExo(channel, source, resolved, replacing)
+    }
+
+    /** The ExoPlayer start a tune needs: an ordinary first open, or a handover from the previous
+     *  provider's engine when this is a substitute. */
+    private suspend fun switchOrStartOnExo(
+        channel: ChannelEntity,
+        source: SourceEntity?,
+        resolved: String?,
+        replacing: Boolean,
+    ) {
+        if (replacing) switchToExo(channel, source) else startOnExo(channel, source, resolved)
     }
 
     /**
@@ -303,6 +408,9 @@ class LiveTuneController(
      */
     fun detach() {
         tuneJob?.cancel()
+        // A substitute is a tune: with the screen gone there is nothing for it to open on.
+        providerJob?.cancel()
+        attempt = null
         cancelLadderJobs()
         current = null
         _liveOnExo.value = false
@@ -321,6 +429,10 @@ class LiveTuneController(
     /** Cancel the tune in flight, from outside [launch]. */
     fun cancelTune() {
         tuneJob?.cancel()
+        // Whatever was being tried next belongs to the tune being cancelled — a lapsed licence must not
+        // leave a substitute to open on top of whatever takes the screen.
+        providerJob?.cancel()
+        attempt = null
     }
 
     /**
@@ -335,6 +447,9 @@ class LiveTuneController(
      */
     fun releaseForArchive() {
         parkTimeshift()
+        // The ladder goes, and the walk across providers with it.
+        providerJob?.cancel()
+        attempt = null
         cancelLadderJobs()
         current = null
         _liveOnExo.value = false
@@ -682,7 +797,7 @@ class LiveTuneController(
                 stillOurs = { isStillExo(channel) },
                 // Into the ladder rather than straight to mpv: the ladder decides what "next" means.
                 handOver = { reason -> advance(channel, source, reason) },
-                onOpened = ::standDownAlarm,
+                onOpened = { onChannelOpened(channel) },
                 // A provider back-off is a wait OwnTV agreed to; it is not charged to the budget.
                 postponeDeadline = { ladder.postponeDeadline(it) },
                 log = ::engineLog,
@@ -700,7 +815,7 @@ class LiveTuneController(
                 outcome == null -> "mpv never opened it (${MPV_OPEN_TIMEOUT_MS / 1000}s, no picture and no error)"
                 outcome.opened -> {
                     engineLog("'${channel.name}' opened on mpv")
-                    standDownAlarm()
+                    onChannelOpened(channel)
                     return@launch
                 }
                 else -> "mpv couldn't play it: ${outcome.error}"
@@ -714,8 +829,16 @@ class LiveTuneController(
     private suspend fun arm(channel: ChannelEntity, source: SourceEntity?, preference: EnginePreference) {
         forceTsFor = null
         val secs = SourceOverrides.liveTuneTimeoutSecsOf(source) ?: host.globalBudgetSecs()
-        armedBudgetMs = if (secs <= 0) LiveLadder.NO_BUDGET else secs * 1000L
-        ladder.arm(channel.streamUrl, preference, budgetMs = armedBudgetMs, nowMs = host.nowMs()) {
+        val ownMs = if (secs <= 0) LiveLadder.NO_BUDGET else secs * 1000L
+        val nowMs = host.nowMs()
+        // Smart Provider (phase 4): the channel's whole walk — this provider first, then the candidates —
+        // is bounded by one deadline, so a chain of providers can never hold the screen black longer than
+        // the user agreed to wait. It belongs to the anchor: that is the channel, and the playlist, whose
+        // "Give up after" the user set. A substitute inherits it rather than getting a fresh allowance.
+        attempt?.openBudget(ownMs, nowMs)
+        // Inside that deadline each provider gets its own window — the anchor's, or what is left of it.
+        armedBudgetMs = attempt?.budgetFor(ownMs, nowMs) ?: ownMs
+        ladder.arm(channel.streamUrl, preference, budgetMs = armedBudgetMs, nowMs = nowMs) {
             // A saved copy is one address; the ladder is only the two engines.
             ts == null && hasHlsAlternative(channel, source)
         }
@@ -741,6 +864,10 @@ class LiveTuneController(
             if (!ladder.owns(channel.streamUrl)) return@launch
             if (!isStillExo(channel) && !isStillMpv(channel)) return@launch
             val detail = "no picture within ${armedBudgetMs / 1000}s of tuning"
+            // Smart Provider (phase 4): the provider on screen has had the window the user's setting gave
+            // it. If the channel has another provider and the walk's deadline still has room, the picture
+            // is worth chasing there before this tune is called lost.
+            if (failOverToNextProvider(channel, detail, outOfTime = false) != ProviderStep.REFUSED) return@launch
             engineLog("'${channel.name}' — giving up: $detail")
             host.recordLadderEvent(_liveOnExo.value, PlayerFailureReason.LIVE_NO_FALLBACK, "'${channel.name}': $detail")
             exoWatchJob?.cancel()
@@ -768,9 +895,17 @@ class LiveTuneController(
         // A panel refusing the *request* (a busy 458, a 403, a rate limit) says nothing about the format,
         // so nothing may be learned from it.
         val next = ladder.advance(failureWasAboutFormat = !isRequestRefusal(reason), nowMs = nowMs) ?: run {
+            // Smart Provider (phase 4): out of engines and formats on THIS provider. The channel itself is
+            // not out of options — another playlist may carry it, and the walk's deadline may still have
+            // room — so before this tune is declared dead it is worth one whole try elsewhere, serially.
+            if (failOverToNextProvider(channel, reason, outOfTime) != ProviderStep.REFUSED) return
             val detail = if (outOfTime) "$reason — gave up after ${armedBudgetMs / 1000}s" else reason
             engineLog("'${channel.name}' — no fallback left ($detail)")
             host.recordLadderEvent(_liveOnExo.value, PlayerFailureReason.LIVE_NO_FALLBACK, "'${channel.name}': $detail")
+            // The tune is over, and nothing may act on it again. The alarm outlives this failure — this
+            // provider failed before its window expired — and a late one would report the same provider twice
+            // and ask for a substitute for a channel the app has already called lost.
+            cancelLadderJobs()
             abandon(channel, detail)
             return
         }
@@ -803,6 +938,138 @@ class LiveTuneController(
         mpvOutcomeJob?.cancel()
         mpvHandoffJob?.cancel()
         deadlineJob?.cancel()
+    }
+
+    // --- Smart Provider: the walk across providers (phase 4) --------------------------------------
+
+    /**
+     * A tune has a picture — the only thing that counts as a success, and the only thing that ends the
+     * walk across providers. What the ladder does after this (a mid-session stall, a reconnect) stays
+     * the engines' and the watchdogs' business, exactly as it was before.
+     */
+    private fun onChannelOpened(channel: ChannelEntity) {
+        // A watcher that outlives its tune can still report an open for a stream nobody is showing, and
+        // the channel on screen is the only one whose picture counts.
+        if (!isCurrent(channel)) return
+        val walk = attempt
+        if (walk == null || (walk.anchor.id != channel.id && channel.sourceId !in walk.triedSourceIds)) {
+            standDownAlarm()
+            return
+        }
+        // A picture: the walk is over. No provider is tried after one has played.
+        attempt = null
+        standDownAlarm()
+        host.onProviderOpened(walk.anchor, channel)
+    }
+
+    /**
+     * Try the channel on another provider's copy of it, and say what became of the walk.
+     *
+     * Called from the only two ways a provider can end without a picture: the ladder running out of engines
+     * and formats ([advance]), and the provider's own window expiring ([startAlarm]). The failed provider is
+     * reported either way, the next is asked for with everything already spent, and one candidate becomes
+     * one whole tune of its own — never a rung of this one. [ProviderStep.REFUSED] means there is nowhere
+     * left to go, and the caller's ordinary give-up follows unchanged.
+     */
+    private suspend fun failOverToNextProvider(
+        channel: ChannelEntity,
+        reason: String,
+        outOfTime: Boolean,
+    ): ProviderStep {
+        val walk = attempt ?: return ProviderStep.REFUSED
+        // A substitute is another playlist for the channel the user picked, never a different channel:
+        // only that channel's own rows may hand the walk on — the anchor's, or a substitute whose
+        // playlist this walk already spent.
+        if (channel.id != walk.anchor.id && channel.sourceId !in walk.triedSourceIds) return ProviderStep.REFUSED
+        // One ask at a time. A watchdog landing on an ask that is already in flight must leave the tune to
+        // it: putting "no fallback left" on screen for a substitute already on its way would be a lie, and
+        // the caller that asked owns what happens next.
+        if (walk.asking) return ProviderStep.DECIDING
+        // The provider on screen has just failed, whatever happens next, so it is reported before any gate
+        // can end the call — the last provider's verdict matters as much as the first one's.
+        host.onProviderFailed(walk.anchor, channel, reason)
+        if (walk.triedSourceIds.size >= MAX_PROVIDER_TRIES) return ProviderStep.REFUSED
+        val nowMs = host.nowMs()
+        // A provider with less than a rung's worth of the deadline left is not worth the seconds it needs
+        // to open: the walk is over as soon as one cannot be given a fair try.
+        if (walk.leftMs(nowMs) < MIN_PROVIDER_BUDGET_MS) return ProviderStep.REFUSED
+        walk.asking = true
+        val next = try {
+            host.nextProviderCandidate(walk.anchor, walk.triedSourceIds.toSet())
+        } finally {
+            walk.asking = false
+        } ?: return ProviderStep.REFUSED
+        // The host is expected to skip what it was told had been spent; the controller does not rely on it.
+        // A candidate on a provider already tried — the anchor's own included — would be a second tune of a
+        // stream already known not to work, so it is refused and the tune gives up rather than loops.
+        if (next.sourceId in walk.triedSourceIds) return ProviderStep.REFUSED
+        walk.triedSourceIds += next.sourceId
+        val label = "playlist ${next.sourceId}"
+        val why = if (outOfTime) "out of time" else reason
+        engineLog("'${channel.name}' — $label gave nothing ($why); trying '${next.name}' on it")
+        // Before the switch, so the record still names the engine that failed.
+        host.recordLadderEvent(
+            _liveOnExo.value,
+            PlayerFailureReason.LIVE_FALLBACK,
+            "'${walk.anchor.name}': $label — $reason",
+        )
+        // A tune of its own, and a job of its own: [beginTune] cancels the watchers and the alarm the failed
+        // provider left behind, and the watcher that called this is one of them — run inline it would cancel
+        // itself at its first suspension point.
+        providerJob?.cancel()
+        providerJob = scope.launch {
+            current = next
+            _previewBlocked.value = false
+            cancelLadderJobs()
+            beginTune(next, host.sourceOf(next.sourceId), resolved = null, replacing = true)
+        }
+        return ProviderStep.SUBSTITUTE
+    }
+
+    /**
+     * What one provider's failure did to the walk: [SUBSTITUTE] a substitute is on its way, [DECIDING] an
+     * earlier ask is still in flight and owns this tune's fate, [REFUSED] there is nowhere left to go and
+     * the caller's ordinary give-up stands.
+     */
+    private enum class ProviderStep { SUBSTITUTE, DECIDING, REFUSED }
+
+    /**
+     * One channel's walk across providers, from the tune that started it until a picture opens.
+     *
+     * [anchor] is the channel as the user picked it — the only channel this walk is about, and the one
+     * whose playlist's "Give up after" bounds the whole thing. [triedSourceIds] is every provider spent
+     * so far, the anchor's included; [deadlineAtMs] is the instant the whole walk must be over by, or
+     * [LiveLadder.NO_BUDGET] when the user chose Never.
+     */
+    private class ProviderAttempt(val anchor: ChannelEntity) {
+        val triedSourceIds = mutableSetOf(anchor.sourceId)
+        var budgetKnown = false
+        var deadlineAtMs = LiveLadder.NO_BUDGET
+
+        /** One ask at a time: a watchdog can fire while the host is being asked what comes next. */
+        var asking = false
+
+        /** Fix the walk's deadline from the anchor's own budget — once, on the tune that started it. */
+        fun openBudget(ownMs: Long, nowMs: Long) {
+            if (budgetKnown) return
+            budgetKnown = true
+            deadlineAtMs =
+                if (ownMs == LiveLadder.NO_BUDGET) LiveLadder.NO_BUDGET
+                else nowMs + ownMs * MAX_PROVIDER_TRIES
+        }
+
+        fun leftMs(nowMs: Long): Long =
+            if (deadlineAtMs == LiveLadder.NO_BUDGET) Long.MAX_VALUE else deadlineAtMs - nowMs
+
+        /** This provider's own window, capped by what the walk has left. */
+        fun budgetFor(ownMs: Long, nowMs: Long): Long {
+            val left = leftMs(nowMs)
+            if (left == Long.MAX_VALUE) return ownMs
+            // Never below the floor: a window of zero or less would read as [LiveLadder.NO_BUDGET] and
+            // hand a provider the whole screen back with no "Give up after" at all.
+            return minOf(if (ownMs == LiveLadder.NO_BUDGET) left else ownMs, left)
+                .coerceAtLeast(MIN_PROVIDER_BUDGET_MS)
+        }
     }
 
     // --- Small helpers ----------------------------------------------------------------------------
@@ -893,6 +1160,12 @@ class LiveTuneController(
         private val sourceLookup: (suspend (Long) -> SourceEntity?)? = null,
         private val engineStarted: () -> Unit = {},
         private val backToLiveEdge: () -> Unit = {},
+        /**
+         * Smart Provider (phase 4) — the app's cross-provider memory, or null for an app that keeps none.
+         * Nothing here knows how a candidate is found or what a verdict is worth: this only hands the three
+         * questions to the one object that does.
+         */
+        private val providerFallback: ProviderFallback? = null,
     ) : Host {
         override suspend fun sourceOf(sourceId: Long): SourceEntity? =
             sourceLookup?.invoke(sourceId) ?: sourceDao.getById(sourceId)
@@ -940,6 +1213,19 @@ class LiveTuneController(
         override fun onEngineStarted() = engineStarted()
         override fun onBackToLiveEdge() = backToLiveEdge()
 
+        override suspend fun nextProviderCandidate(
+            anchor: ChannelEntity,
+            triedSourceIds: Set<Long>,
+        ): ChannelEntity? = providerFallback?.nextCandidate(anchor, triedSourceIds)
+
+        override fun onProviderOpened(anchor: ChannelEntity, channel: ChannelEntity) {
+            providerFallback?.onOpened(anchor, channel)
+        }
+
+        override fun onProviderFailed(anchor: ChannelEntity, channel: ChannelEntity, detail: String) {
+            providerFallback?.onFailed(anchor, channel, detail)
+        }
+
         override val timeshift: TimeshiftManager? by lazy {
             org.koin.core.context.GlobalContext.getOrNull()?.getOrNull<TimeshiftManager>()
         }
@@ -971,5 +1257,18 @@ class LiveTuneController(
 
         /** Behind the copy's edge by more than this is not live any more (the rewind counter's own slack). */
         const val LIVE_SLACK_MS = 8_000L
+
+        /**
+         * Smart Provider (phase 4) — how many providers one tune may try, the anchor's own playlist
+         * included. Three playlists is a channel given every reasonable show of hands; beyond that the
+         * seconds spent are the user's, and the only honest thing left is the give-up on screen.
+         */
+        const val MAX_PROVIDER_TRIES = 3
+
+        /**
+         * A provider with less than this of the walk's deadline left is not started: a tune needs seconds
+         * to get a picture, and beginning one at the wire is spending them to no purpose.
+         */
+        const val MIN_PROVIDER_BUDGET_MS = 5_000L
     }
 }
