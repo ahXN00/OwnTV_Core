@@ -1437,6 +1437,7 @@
     <string name="settings_multiview_use_anyway">仍要使用</string>
     <string name="settings_app_icon">應用程式圖示</string>
     <string name="settings_app_icon_summary">OwnTV 圖示和標誌的顏色</string>
+    <string name="settings_brand_accent">強調色標誌</string>
     <string name="app_icon_petrol">石油藍</string>
     <string name="app_icon_sunflower">向日葵</string>
     <string name="app_icon_cobalt">鈷藍</string>
@@ -1445,6 +1446,7 @@
     <string name="app_icon_eggshell">蛋殼白</string>
     <string name="app_icon_olive">橄欖綠</string>
     <string name="app_icon_olive_cream">奶油橄欖綠</string>
+    <string name="app_icon_pixel">Pixel</string>
     <string name="app_icon_restart_title">要重新啟動 OwnTV 嗎？</string>
     <string name="app_icon_restart_message">你選擇了新的圖示和標誌，重新啟動 OwnTV 後生效。</string>
     <string name="app_icon_restart_now">立即重新啟動</string>
@@ -1456,6 +1458,8 @@
     <string name="settings_nav_docked_desc">一律顯示；內容會讓出空間</string>
     <string name="settings_nav_hide_after">隱藏時間</string>
     <string name="settings_nav_hide_after_desc">僅限懸浮：焦點離開後導覽列等待多久再隱藏</string>
+    <string name="settings_nav_widen">取得焦點時展開</string>
+    <string name="settings_nav_widen_desc">固定且精簡：導覽列取得焦點時在內容上方顯示名稱</string>
     <string name="settings_nav_menu_items">選單項目</string>
     <string name="settings_nav_menu_items_desc">動態：依播放清單內容 · 靜態：自行選擇</string>
     <string name="settings_search_keywords_navigation">導覽列, 側邊欄, 選單, 導覽, 隱藏, 懸浮, 固定, 大小, 精簡, 寬, 長度, 全高</string>
@@ -1531,6 +1535,7 @@
     <string name="settings_line_metadata">電影和影集的海報、劇情、演員和評分</string>
     <string name="settings_line_open_subtitles">搜尋和下載字幕</string>
     <string name="settings_line_app_icon">啟動器圖示</string>
+    <string name="settings_line_brand_accent">標誌中的播放三角形使用你的強調色</string>
     <string name="settings_line_check_updates">從 GitHub 取得最新版本</string>
     <string name="settings_line_when_app_opens">開啟應用程式時</string>
     <string name="settings_line_proxy">所有流量都經過 HTTP Proxy</string>
@@ -1614,6 +1619,7 @@
     <string name="settings_help_home">選擇首頁顯示哪些列、依什麼順序，以及「熱門趨勢」列的樣式。</string>
     <string name="settings_help_customize">隱藏你從不看的分類和項目，為分類取自己的名稱並依你的順序排列。隱藏的內容可在這裡還原，不會遺失。</string>
     <string name="settings_help_app_icon">電視主畫面上的 OwnTV 圖示。啟動器可能需要片刻才會顯示變更。</string>
+    <string name="settings_help_brand_accent">選單、關於和設定精靈中的 OwnTV 標誌會以你的強調色顯示播放三角形。主畫面上的圖示保持原有顏色。</string>
     <string name="settings_help_startup">OwnTV 啟動時顯示的內容：首頁、上次觀看的頻道、你的收藏，或你指定的頻道。</string>
     <string name="settings_help_check_updates">立即在 GitHub 上尋找較新的 OwnTV 並提示安裝。你的播放清單、收藏和設定都會保留。</string>
     <string name="settings_help_update_startup">每次啟動 OwnTV 時尋找新版本，有新版本時會告訴你。未經詢問不會安裝任何內容。</string>
@@ -1648,7 +1654,7 @@
     <string name="settings_seg_separate">分欄</string>
     <string name="settings_seg_guide">指南</string>
     <string name="settings_accent_yours">你的</string>
-    <string name="settings_accent_picker_hint">◀ ▶ 調整色相，▲ ▼ 移動取色點。彈出視窗後面的整個應用程式會隨之即時變色。</string>
+    <string name="settings_accent_picker_hint">在色域或色相條上按 OK，然後用方向鍵移動；按 OK 或返回結束。彈出視窗後面的整個應用程式會隨之即時變色。</string>
     <string name="settings_signed_out">未登入</string>
     <plurals name="settings_epg_feed_count">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 個來源</item>

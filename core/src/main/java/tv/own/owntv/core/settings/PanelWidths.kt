@@ -43,7 +43,7 @@ object PanelWidthLimits {
  * ceiling only stops the posters being squeezed off the screen entirely.
  */
 const val CINEMATIC_DETAILS_MAX = 60
-const val CINEMATIC_DETAILS_DEFAULT = 35
+const val CINEMATIC_DETAILS_DEFAULT = 40
 
 /**
  * Live TV in the Stage layout: the categories are a sheet that slides OVER the list, so its width is

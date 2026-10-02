@@ -21,7 +21,7 @@ class SettingsBackupCoverageTest {
         // Internal state and one-shot migration flags.
         "avatar_id", "active_profile_id", "default_source_id", "refresh_migration_done", "epg_refill_checked",
         "restore_in_progress", "font_jakarta_migrated", "live_latency_reset_416", "auto_frame_rate_reset_416",
-        "auto_frame_rate_reset_pre12", "metadata_match_heal_version",
+        "auto_frame_rate_reset_pre12", "metadata_match_heal_version", "stage_defaults_applied",
         // A fact about this device's decoders (tunneled playback failed here, N19), not a choice.
         "tunneling_failed",
         "last_backup_at", "last_backup_bytes", "last_backup_encrypted", "last_backup_path",

@@ -2,6 +2,7 @@ package tv.own.owntv.core.settings
 
 import android.content.Context
 import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
@@ -343,9 +344,9 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     // unchanged until the user enables it in Settings → Glass Effect. Alpha/blur defaults are the
     // "nice preset" applied once glass is turned on.
     private val GLASS_SCOPE_DEFAULT_BITS: Int = 0
-    private val GLASS_ALPHA_DEFAULT_PCT: Int = 56
     private val GLASS_BLUR_DEFAULT_PCT: Int = 78
     private val GLASS_HIGHLIGHT_DEFAULT_PCT: Int = 55
+    private val NAV_WIDEN_OFF = "OFF"
 
     // Internal (not private) only so SettingsBackupCoverageTest can check every key has a backup decision.
     internal object Keys {
@@ -396,6 +397,8 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val LIVE_LATENCY_RESET_416 = booleanPreferencesKey("live_latency_reset_416")
         // Stage (2026-09-30): moved a saved System Sans to Plus Jakarta Sans once. Device-local, never backed up.
         val FONT_JAKARTA_MIGRATED = booleanPreferencesKey("font_jakarta_migrated")
+        // Stage (2026-10-02): the TV app's new-UI defaults written once (applyStageDefaults). Device-local.
+        val STAGE_DEFAULTS_APPLIED = booleanPreferencesKey("stage_defaults_applied")
         val HDR_ENABLED = booleanPreferencesKey("hdr_enabled")
         val AUTO_FRAME_RATE = booleanPreferencesKey("auto_frame_rate")
         val AFR_PAUSE_SECS = intPreferencesKey("afr_pause_secs")
@@ -573,6 +576,10 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val NAV_SIZE = stringPreferencesKey("nav_size")
         val NAV_LENGTH = stringPreferencesKey("nav_length")
         val NAV_HIDE_AFTER_MS = intPreferencesKey("nav_hide_after_ms")
+        // Docked + Compact: the size the rail opens to while it holds focus (NavSize.name), or "OFF".
+        val NAV_WIDEN = stringPreferencesKey("nav_widen")
+        // In-app logos: the play triangle in the user's accent instead of the icon's own colour.
+        val BRAND_ACCENT_TRIANGLE = booleanPreferencesKey("brand_accent_triangle")
         // CH+- key paging for browse panels (Live/Movies/Series: category rail + item list/grid).
         // Master toggle + a per-direction skip count (CH+ toward first, CH− toward last). Counts are
         // clamped to [1, CH_NAV_HARD_MAX] on write; the UI warns above CH_NAV_WARN_THRESHOLD.
@@ -1173,8 +1180,8 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     }
 
     /**
-     * Where the navigation rail sits. FLOATING (the default for everyone, Stage decision D2) floats over
-     * the content and always hides itself; DOCKED stays on screen and the content makes room for it.
+     * Where the navigation rail sits. FLOATING floats over the content and always hides itself; DOCKED
+     * (the default, owner 2026-10-02: Docked · Compact · Fit) stays on screen and the content makes room for it.
      */
     enum class NavStyle { FLOATING, DOCKED }
 
@@ -1191,7 +1198,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     }
 
     val navStyle: Flow<NavStyle> = prefsFlow { prefs ->
-        prefs[Keys.NAV_STYLE]?.let { runCatching { NavStyle.valueOf(it) }.getOrNull() } ?: NavStyle.FLOATING
+        prefs[Keys.NAV_STYLE]?.let { runCatching { NavStyle.valueOf(it) }.getOrNull() } ?: NavStyle.DOCKED
     }
 
     suspend fun setNavStyle(style: NavStyle) {
@@ -1199,11 +1206,33 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     }
 
     val navSize: Flow<NavSize> = prefsFlow { prefs ->
-        prefs[Keys.NAV_SIZE]?.let { runCatching { NavSize.valueOf(it) }.getOrNull() } ?: NavSize.NORMAL
+        prefs[Keys.NAV_SIZE]?.let { runCatching { NavSize.valueOf(it) }.getOrNull() } ?: NavSize.COMPACT
     }
 
     suspend fun setNavSize(size: NavSize) {
         context.dataStore.edit { it[Keys.NAV_SIZE] = size.name }
+    }
+
+    /**
+     * Docked + Compact only: the size the rail opens to over the content while it holds focus, so the
+     * names show without the content giving up room. null = Off (it stays icons only). Default Normal.
+     */
+    val navWiden: Flow<NavSize?> = prefsFlow { prefs ->
+        when (val v = prefs[Keys.NAV_WIDEN]) {
+            NAV_WIDEN_OFF -> null
+            else -> v?.let { runCatching { NavSize.valueOf(it) }.getOrNull() }?.takeIf { it != NavSize.COMPACT } ?: NavSize.NORMAL
+        }
+    }
+
+    suspend fun setNavWiden(size: NavSize?) {
+        context.dataStore.edit { it[Keys.NAV_WIDEN] = size?.name ?: NAV_WIDEN_OFF }
+    }
+
+    /** In-app logos: the play triangle in the accent (default) or in the chosen icon's own colour. */
+    val brandAccentTriangle: Flow<Boolean> = prefsFlow { it[Keys.BRAND_ACCENT_TRIANGLE] ?: true }
+
+    suspend fun setBrandAccentTriangle(on: Boolean) {
+        context.dataStore.edit { it[Keys.BRAND_ACCENT_TRIANGLE] = on }
     }
 
     val navLength: Flow<NavLength> = prefsFlow { prefs ->
@@ -1285,14 +1314,15 @@ class SettingsRepository(private val context: Context, private val localeStore: 
 
     /**
      * How the Movies & Series screens are framed. SEPARATE is the long-standing three-panel layout
-     * (categories, list/grid, preview) and stays the default so nobody's layout changes on update.
+     * (categories, list/grid, preview). CINEMATIC is the default of a fresh install (owner 2026-10-02);
+     * an update keeps its layout, because [applyStageDefaults] writes SEPARATE where none was stored.
      * CINEMATIC draws the focused title's backdrop behind everything and is grid-only — [vodViewMode]
      * is left untouched while it is on, so switching back restores the user's List choice.
      * One setting for both sections: a layout preference is about how the user likes to browse.
      */
     enum class VodLayout { SEPARATE, CINEMATIC }
     val vodLayout: Flow<VodLayout> = prefsFlow { prefs ->
-        prefs[Keys.VOD_LAYOUT]?.let { runCatching { VodLayout.valueOf(it) }.getOrNull() } ?: VodLayout.SEPARATE
+        prefs[Keys.VOD_LAYOUT]?.let { runCatching { VodLayout.valueOf(it) }.getOrNull() } ?: VodLayout.CINEMATIC
     }
     suspend fun setVodLayout(layout: VodLayout) {
         context.dataStore.edit { it[Keys.VOD_LAYOUT] = layout.name }
@@ -2706,6 +2736,24 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         }
     }
 
+    /**
+     * The TV app's Stage UI starts everyone on its own defaults, once (owner, 2026-10-02): the rail
+     * Docked · Compact · Fit (the old UI's navigation choices mean nothing in the new one), glass on
+     * every surface at 50%, and the Stage background — a stored picture is removed. Movies & Series keep
+     * the layout an update had (SEPARATE, the old default, where none was stored); a fresh install —
+     * no active profile yet — gets the CINEMATIC default. TV only: the phone has its own look.
+     */
+    suspend fun applyStageDefaults(allSurfacesBits: Int) {
+        var oldPicture: String? = null
+        context.dataStore.edit { prefs ->
+            if (prefs[Keys.STAGE_DEFAULTS_APPLIED] == true) return@edit
+            stageDefaults(prefs, allSurfacesBits)
+            oldPicture = prefs[Keys.BG_IMAGE_PATH]
+            prefs.remove(Keys.BG_IMAGE_PATH)
+        }
+        oldPicture?.takeIf { it.isNotBlank() }?.let { runCatching { java.io.File(it).delete() } }
+    }
+
     /** v4.1.6 only: force live latency to Balanced exactly once, including existing custom choices. */
     suspend fun migrateLiveLatency416() {
         context.dataStore.edit { prefs ->
@@ -2883,7 +2931,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     }
 
     /**
-     * Reset (Glass & background): Stage colours, glass on every surface, opacity 56%. The picture file
+     * Reset (Glass & background): Stage colours, glass on every surface, opacity 50%. The picture file
      * is kept so Background › Picture can return to it.
      */
     suspend fun resetGlassAndBackground(allSurfacesBits: Int) {
@@ -3024,7 +3072,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             // Nav menu mode rides with settings backup so a reinstall keeps the user's DYNAMIC/STATIC choice.
             Keys.NAV_MENU_MODE,
             // Stage navigation style, size and length (the hide delay is an int key).
-            Keys.NAV_STYLE, Keys.NAV_SIZE, Keys.NAV_LENGTH,
+            Keys.NAV_STYLE, Keys.NAV_SIZE, Keys.NAV_LENGTH, Keys.NAV_WIDEN,
             // The chosen icon colour. After a restore the app compares it with the applied icon and offers a restart.
             Keys.APP_ICON,
             // Docked mini-player position rides with settings backup (size is an int key, see backupIntKeys).
@@ -3092,7 +3140,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             Keys.SUB_STYLE_ENABLED, Keys.SUB_SEARCH_FILTER,
                 Keys.PANEL_W_LIVE_ON, Keys.PANEL_W_MOVIES_ON, Keys.PANEL_W_SERIES_ON, Keys.GUIDE_WIDTH_ON,
             Keys.AMBIENT_GLOW_ENABLED, Keys.AMBIENT_GLOW_PULSE,
-            Keys.GLASS_ALLOW_FULL_TRANSPARENCY, Keys.GLASS_DEPTH_EFFECTS, Keys.GLASS_GLINT, Keys.BG_ACCENT_LIGHT,
+            Keys.GLASS_ALLOW_FULL_TRANSPARENCY, Keys.GLASS_DEPTH_EFFECTS, Keys.GLASS_GLINT, Keys.BG_ACCENT_LIGHT, Keys.BRAND_ACCENT_TRIANGLE,
             // Touch-host settings. They travel even though a television has no row for them: a phone
             // restored from a phone must keep them, and a television simply ignores what it never reads.
             Keys.BACKGROUND_PLAYBACK, Keys.PIP_ENABLED, Keys.DATA_SAVER, Keys.DOWNLOADS_WIFI_ONLY,
@@ -3277,15 +3325,33 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         return if (CUSTOMIZE_PIN_HASH_REGEX.matches(trimmed)) trimmed else Pin.hash(trimmed)
     }
 
-    private companion object {
-        val CUSTOMIZE_PIN_HASH_REGEX = Regex("^[0-9a-fA-F]{16}:[0-9a-fA-F]{64}$")
+    companion object {
+        /** Glass opacity when glass is on: the Stage default and Reset (owner, 2026-10-02: 50%). */
+        const val GLASS_ALPHA_DEFAULT_PCT = 50
+
+        /** The writes of [applyStageDefaults] (except the picture file), apart so a unit test can check them. */
+        internal fun stageDefaults(prefs: MutablePreferences, allSurfacesBits: Int) {
+            val update = prefs[Keys.ACTIVE_PROFILE] != null
+            prefs[Keys.NAV_STYLE] = NavStyle.DOCKED.name
+            prefs[Keys.NAV_SIZE] = NavSize.COMPACT.name
+            prefs[Keys.NAV_LENGTH] = NavLength.FIT.name
+            prefs[Keys.GLASS_SCOPE] = allSurfacesBits
+            prefs[Keys.GLASS_ALPHA] = GLASS_ALPHA_DEFAULT_PCT
+            prefs[Keys.GLASS_PRESET] = tv.own.owntv.core.theme.GlassPreset.CUSTOM.name
+            prefs[Keys.BG_STYLE] = tv.own.owntv.core.theme.BackgroundStyle.STAGE.name
+            prefs.remove(Keys.BG_LOOK); prefs.remove(Keys.BG_DIM); prefs.remove(Keys.BG_BLUR); prefs.remove(Keys.BG_ACCENT_LIGHT)
+            if (update && prefs[Keys.VOD_LAYOUT] == null) prefs[Keys.VOD_LAYOUT] = VodLayout.SEPARATE.name
+            prefs[Keys.STAGE_DEFAULTS_APPLIED] = true
+        }
+
+        private val CUSTOMIZE_PIN_HASH_REGEX = Regex("^[0-9a-fA-F]{16}:[0-9a-fA-F]{64}$")
 
         /** Backup payload field name for the UI locale tag (read from / written to [LocaleStore]). */
-        const val UI_LANGUAGE_KEY = "ui_language"
+        private const val UI_LANGUAGE_KEY = "ui_language"
 
 
         /** The six toggles Quick started life with, kept as the out-of-the-box pin list. */
-        val DEFAULT_QUICK_PINNED = listOf(
+        private val DEFAULT_QUICK_PINNED = listOf(
             "quick_live_preview", "quick_preview_sound", "quick_channel_numbers",
             "quick_hdr", "quick_autoplay", "quick_check_update",
         )

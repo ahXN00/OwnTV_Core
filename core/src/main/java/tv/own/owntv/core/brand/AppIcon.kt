@@ -32,7 +32,17 @@ enum class AppIcon(
     BOARD("Board", R.string.app_icon_board, R.drawable.owntv_mark_board, R.drawable.owntv_mark_small_board, R.drawable.owntv_banner_board, 0xFF52DBC8, 0xFF13806F),
     EGGSHELL("", R.string.app_icon_eggshell, R.drawable.owntv_mark_eggshell, R.drawable.owntv_mark_small_eggshell, R.drawable.owntv_banner_eggshell, 0xFF86D3DB, 0xFF17616C),
     OLIVE("Olive", R.string.app_icon_olive, R.drawable.owntv_mark_olive, R.drawable.owntv_mark_small_olive, R.drawable.owntv_banner_olive, 0xFFA5CC4E, 0xFF5E7F1B),
-    OLIVE_CREAM("OliveCream", R.string.app_icon_olive_cream, R.drawable.owntv_mark_olive_cream, R.drawable.owntv_mark_small_olive_cream, R.drawable.owntv_banner_olive_cream, 0xFFA5CC4E, 0xFF5E7F1B);
+    OLIVE_CREAM("OliveCream", R.string.app_icon_olive_cream, R.drawable.owntv_mark_olive_cream, R.drawable.owntv_mark_small_olive_cream, R.drawable.owntv_banner_olive_cream, 0xFFA5CC4E, 0xFF5E7F1B),
+
+    // Stage (P11), drawn by `render_brand.py stage`: the TV set as a dot matrix.
+    PIXEL("Pixel", R.string.app_icon_pixel, R.drawable.owntv_mark_pixel, R.drawable.owntv_mark_small_pixel, R.drawable.owntv_banner_pixel, 0xFF52DBC8, 0xFF006B5E);
+
+    /**
+     * Whether the drawing at this size is the flip card, whose play triangle sits exactly where
+     * `owntv_mark_play` / `owntv_mark_play_small` draw it, so an app can tint it with the accent. Pixel's
+     * large mark is dots (an app draws its triangle itself); its small mark is the card.
+     */
+    fun isCard(small: Boolean): Boolean = small || this != PIXEL
 
     companion object {
         val DEFAULT = EGGSHELL

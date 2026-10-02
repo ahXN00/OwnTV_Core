@@ -2666,6 +2666,8 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <string name="settings_app_icon">App icon</string>
     <!-- Translators: Subtitle under the App icon setting. -->
     <string name="settings_app_icon_summary">Color of the OwnTV icon and logo</string>
+    <!-- Translators: Settings, App group row: the app logo play triangle follows the accent color. -->
+    <string name="settings_brand_accent">Accent-colored logo</string>
     <!-- Translators: Colour name of an app icon: a dark blue-green, like petrol. -->
     <string name="app_icon_petrol">Petrol</string>
     <!-- Translators: Colour name of an app icon: a bright yellow, like the flower. -->
@@ -2682,6 +2684,8 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <string name="app_icon_olive">Olive</string>
     <!-- Translators: Colour name of an app icon: a cream card with an olive-green play button. -->
     <string name="app_icon_olive_cream">Olive on Cream</string>
+    <!-- Translators: App icon name: the OwnTV TV set drawn as a dot matrix. A brand name, keep it short. -->
+    <string name="app_icon_pixel">Pixel</string>
     <!-- Translators: Title of the window shown after the user picks a different app icon. -->
     <string name="app_icon_restart_title">Restart OwnTV?</string>
     <!-- Translators: Body of that window. The new icon and logo only appear after the app restarts. -->
@@ -2704,6 +2708,10 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <string name="settings_nav_hide_after">Hide after</string>
     <!-- Translators: Explains the Hide after setting; it only applies to the Floating style. -->
     <string name="settings_nav_hide_after_desc">Floating only: how long the rail waits once focus leaves it</string>
+    <!-- Translators: Navigation popup row, Docked + Compact only: the size the icon-only rail opens to while it has focus. -->
+    <string name="settings_nav_widen">Widen on focus</string>
+    <!-- Translators: Line under "Widen on focus". -->
+    <string name="settings_nav_widen_desc">Docked and Compact: shows the names over the content while the rail has focus</string>
     <!-- Translators: Setting: which items the navigation menu shows. -->
     <string name="settings_nav_menu_items">Menu items</string>
     <!-- Translators: Explains the Menu items setting: Dynamic and Static are its two choices (settings_dynamic, settings_static); keep the same words. -->
@@ -2853,6 +2861,8 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <string name="settings_line_open_subtitles">Search and download subtitles</string>
     <!-- Translators: One-line description under a setting's name on a Settings page (P10); keep it short, it is cut to one line. -->
     <string name="settings_line_app_icon">The launcher icon</string>
+    <!-- Translators: Line under "Accent-colored logo". -->
+    <string name="settings_line_brand_accent">The logo\'s play triangle in your accent color</string>
     <!-- Translators: One-line description under a setting's name on a Settings page (P10); keep it short, it is cut to one line. -->
     <string name="settings_line_check_updates">Get the latest version from GitHub</string>
     <!-- Translators: One-line description under a setting's name on a Settings page (P10); keep it short, it is cut to one line. -->
@@ -3019,6 +3029,8 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <string name="settings_help_customize">Hide categories and items you never watch, give categories your own names and put them in your order. Hidden things come back here, never lost.</string>
     <!-- Translators: Explanation shown in the panel beside the Settings rows (P10) while this setting has focus. -->
     <string name="settings_help_app_icon">The OwnTV icon on your TV’s home screen. The launcher may take a moment to show the change.</string>
+    <!-- Translators: Side panel text for "Accent-colored logo". -->
+    <string name="settings_help_brand_accent">The OwnTV logo in the menu, About and setup shows its play triangle in your accent color. The icon on the home screen keeps its own colors.</string>
     <!-- Translators: Explanation shown in the panel beside the Settings rows (P10) while this setting has focus. -->
     <string name="settings_help_startup">What OwnTV shows when it starts: Home, the channel you watched last, your favorites, or a channel you pick.</string>
     <!-- Translators: Explanation shown in the panel beside the Settings rows (P10) while this setting has focus. -->
@@ -3086,7 +3098,7 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <!-- Translators: Name under the last swatch in the Accent color popup: the user's own color. -->
     <string name="settings_accent_yours">Yours</string>
     <!-- Translators: Hint under the color picker in the Accent color popup. The arrows are the remote's keys. -->
-    <string name="settings_accent_picker_hint">◀ ▶ moves hue, ▲ ▼ moves the point. The whole app behind this popup re-tints as you go.</string>
+    <string name="settings_accent_picker_hint">OK on the field or the hue bar, then the arrows move it; OK or Back to finish. The whole app behind this popup re-tints as you go.</string>
     <!-- Translators: Value on the OpenSubtitles settings row when no account is signed in. -->
     <string name="settings_signed_out">Signed out</string>
     <!-- Translators: Value on the EPG Sources settings row: how many guide feeds are added, e.g. “2 feeds”. -->

@@ -411,12 +411,320 @@ def extras(root, font_path):
         banner(p, 1920, 384, font_path).convert('RGB').save(os.path.join(d, f'banner_{key}.png'))
 
 
+# ==== Stage (P11): the "Pixel" icon and the #227 wordmark ==========================================
+# Pixel is the Stage mockup's dot-matrix mark (screens.js markSignal()): today's TV-set silhouette as a
+# dot grid in a 100-unit box, the play triangle in the default accent. Its banner and launch-screen name
+# use the #227 wordmark by @m3th0d93 (tools/brand/pixel/wordmark.json), so `stage` needs no font file:
+#
+#     python tools/brand/render_brand.py stage --out core/src/main/res
+
+import json
+import math
+import re
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+WORD_OWN = '#FFF6EE'
+PIXEL = dict(body='#F5EDDA', side='#CBB795', tri='#52DBC8', power='#E24B36', bg='#0E1618')
+# Its small card (32 dp and below): Eggshell's card with Pixel's triangle.
+PAL_PIXEL_CARD = dict(PAL['eggshell'], pt=PIXEL['tri'], pb=PIXEL['tri'])
+
+
+# ---- a small SVG path rasteriser (M L H V C A Z, absolute and relative) for the wordmark ------------
+
+def _tokens(d):
+    return re.findall(r'[MmLlHhVvCcAaZz]|-?(?:\d+\.?\d*|\.\d+)(?:e-?\d+)?', d)
+
+
+def path_polys(d, steps=24):
+    """Flattens an SVG path into closed polygons (one per subpath)."""
+    tk, i = _tokens(d), 0
+    polys, cur, x, y, sx, sy, cmd = [], [], 0.0, 0.0, 0.0, 0.0, None
+
+    def num():
+        nonlocal i
+        i += 1
+        return float(tk[i - 1])
+    while i < len(tk):
+        if re.match(r'[A-Za-z]', tk[i]):
+            cmd = tk[i]
+            i += 1
+        rel = cmd.islower()
+        c = cmd.upper()
+        if c == 'Z':
+            if cur:
+                polys.append(cur)
+            cur, x, y = [], sx, sy
+            continue
+        if c == 'M':
+            nx, ny = num(), num()
+            x, y = (x + nx, y + ny) if rel else (nx, ny)
+            if cur:
+                polys.append(cur)
+            cur, sx, sy = [(x, y)], x, y
+            cmd = 'l' if rel else 'L'
+        elif c == 'L':
+            nx, ny = num(), num()
+            x, y = (x + nx, y + ny) if rel else (nx, ny)
+            cur.append((x, y))
+        elif c == 'H':
+            nx = num()
+            x = x + nx if rel else nx
+            cur.append((x, y))
+        elif c == 'V':
+            ny = num()
+            y = y + ny if rel else ny
+            cur.append((x, y))
+        elif c == 'C':
+            p = [num() for _ in range(6)]
+            if rel:
+                p = [p[0] + x, p[1] + y, p[2] + x, p[3] + y, p[4] + x, p[5] + y]
+            for s in range(1, steps + 1):
+                t = s / steps
+                mt = 1 - t
+                cur.append((mt ** 3 * x + 3 * mt * mt * t * p[0] + 3 * mt * t * t * p[2] + t ** 3 * p[4],
+                            mt ** 3 * y + 3 * mt * mt * t * p[1] + 3 * mt * t * t * p[3] + t ** 3 * p[5]))
+            x, y = p[4], p[5]
+        elif c == 'A':
+            rx, ry, rot, large, sweep, nx, ny = [num() for _ in range(7)]
+            if rel:
+                nx, ny = nx + x, ny + y
+            cur += _arc(x, y, rx, ry, rot, int(large), int(sweep), nx, ny, steps)
+            x, y = nx, ny
+    if cur:
+        polys.append(cur)
+    return polys
+
+
+def _arc(x1, y1, rx, ry, rot, large, sweep, x2, y2, steps):
+    """SVG endpoint arc to points (the spec's F.6.5 centre parameterisation)."""
+    phi = math.radians(rot)
+    cp, sp = math.cos(phi), math.sin(phi)
+    dx, dy = (x1 - x2) / 2, (y1 - y2) / 2
+    x1p, y1p = cp * dx + sp * dy, -sp * dx + cp * dy
+    rx, ry = abs(rx), abs(ry)
+    lam = x1p ** 2 / rx ** 2 + y1p ** 2 / ry ** 2
+    if lam > 1:
+        rx, ry = rx * math.sqrt(lam), ry * math.sqrt(lam)
+    num_ = rx * rx * ry * ry - rx * rx * y1p * y1p - ry * ry * x1p * x1p
+    co = math.sqrt(max(0, num_ / (rx * rx * y1p * y1p + ry * ry * x1p * x1p)))
+    if large == sweep:
+        co = -co
+    cxp, cyp = co * rx * y1p / ry, -co * ry * x1p / rx
+    cx, cy = cp * cxp - sp * cyp + (x1 + x2) / 2, sp * cxp + cp * cyp + (y1 + y2) / 2
+    ang = lambda ux, uy, vx, vy: math.atan2(ux * vy - uy * vx, ux * vx + uy * vy)
+    th1 = ang(1, 0, (x1p - cxp) / rx, (y1p - cyp) / ry)
+    dth = ang((x1p - cxp) / rx, (y1p - cyp) / ry, (-x1p - cxp) / rx, (-y1p - cyp) / ry)
+    if not sweep and dth > 0:
+        dth -= 2 * math.pi
+    elif sweep and dth < 0:
+        dth += 2 * math.pi
+    out = []
+    for s in range(1, steps + 1):
+        t = th1 + dth * s / steps
+        out.append((cx + rx * math.cos(t) * cp - ry * math.sin(t) * sp, cy + rx * math.cos(t) * sp + ry * math.sin(t) * cp))
+    return out
+
+
+def fill_evenodd(img, polys, colour, tx):
+    """Fills polygons with the even-odd rule (the wordmark's "o" is a ring); tx maps a point to pixels."""
+    w, h = img.size
+    acc = Image.new('1', (w, h), 0)
+    for poly in polys:
+        m = Image.new('1', (w, h), 0)
+        ImageDraw.Draw(m).polygon([tx(p) for p in poly], fill=1)
+        acc = Image.frombytes('1', (w, h), bytes(a ^ b for a, b in zip(acc.tobytes(), m.tobytes())))
+    img.paste(colour, (0, 0), acc.convert('L'))
+
+
+def wordmark_227(width_px, tv_colour, own=WORD_OWN):
+    """The #227 wordmark (viewBox 988x182) at width_px, transparent, supersampled."""
+    wm = json.load(open(os.path.join(HERE, 'pixel', 'wordmark.json'), encoding='utf-8'))
+    w = width_px * SS
+    k = w / 988
+    h = int(round(182 * k))
+    img = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    tx = lambda p: ((p[0] - 270.5) * k, (p[1] - 389) * k)
+    for part in ('o', 'w', 'n'):
+        fill_evenodd(img, path_polys(wm[part]), rgb(own), tx)
+    fill_evenodd(img, path_polys(wm['tv']), rgb(tv_colour), tx)
+    return img.resize((width_px, max(1, int(round(182 * width_px / 988)))), Image.LANCZOS)
+
+
+# ---- Pixel: the dot-matrix TV set ------------------------------------------------------------------
+
+def pixel_dots_grid():
+    """(x, y, kind) in the 100 box; kind 'body' / 'tri' / 'side'. The same loop as the mockup."""
+    def in_rr(x, y, x0, y0, x1, y1, r):
+        if x < x0 or x > x1 or y < y0 or y > y1:
+            return False
+        cx, cy = min(max(x, x0 + r), x1 - r), min(max(y, y0 + r), y1 - r)
+        return (x - cx) ** 2 + (y - cy) ** 2 <= r * r
+
+    def in_tri(x, y):
+        ax, ay, bx, by, cx, cy = 38, 30, 38, 70, 72, 50
+        s = lambda px, py, qx, qy, rx, ry: (px - rx) * (qy - ry) - (qx - rx) * (py - ry)
+        d1, d2, d3 = s(x, y, ax, ay, bx, by), s(x, y, bx, by, cx, cy), s(x, y, cx, cy, ax, ay)
+        return not ((d1 < 0 or d2 < 0 or d3 < 0) and (d1 > 0 or d2 > 0 or d3 > 0))
+    out = []
+    y = 14.0
+    while y <= 86:
+        x = 14.0
+        while x <= 86:
+            if in_rr(x, y, 10, 12, 90, 88, 18) and (x - 76) ** 2 + (y - 24) ** 2 >= 40:
+                out.append((x, y, 'tri' if in_tri(x, y) else 'body'))
+            x += 4.5
+        y += 4.5
+    out += [(x, y, 'side') for x in (5, 95) for y in (45.5, 50, 54.5)]
+    return out
+
+
+DOT_R, POWER = 2.1, (76, 24, 4.2)
+PIXEL_IN_CANVAS = (21, 0.66)   # the 100 box inside the 108 launcher canvas: inside the 66-unit safe zone
+COLOUR = {'body': PIXEL['body'], 'tri': PIXEL['tri'], 'side': PIXEL['side']}
+
+
+def pixel_image(px, box=(0, 0, 100)):
+    """The dots on a transparent px square; box = (x0, y0, size) of the 100 box in a 100-unit canvas."""
+    w = px * SS
+    img = Image.new('RGBA', (w, w), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    x0, y0, size = box
+    k = w / 100 * size / 100
+
+    def dot(x, y, r, col):
+        cx, cy = (x0 + x * size / 100) * w / 100, (y0 + y * size / 100) * w / 100
+        d.ellipse((cx - r * k, cy - r * k, cx + r * k, cy + r * k), fill=rgb(col))
+    for x, y, kind in pixel_dots_grid():
+        dot(x, y, DOT_R, COLOUR[kind])
+    dot(*POWER, PIXEL['power'])
+    return img.resize((px, px), Image.LANCZOS)
+
+
+def dots_path(dots, r=DOT_R):
+    return ''.join(circle_path(x, y, r) for x, y in dots)
+
+
+def vector_pixel(size_dp=56, translate=None, scale=None, vp=100):
+    """The dot mark as a VectorDrawable: one path per colour."""
+    ds = pixel_dots_grid()
+    g = lambda k: [(x, y) for x, y, kk in ds if kk == k]
+    body = ''.join(_p(dots_path(g(k)), COLOUR[k], ind=8) for k in ('body', 'tri', 'side')) + _p(circle_path(*POWER), PIXEL['power'], ind=8)
+    group = ''
+    if translate is not None:
+        group = f' android:translateX="{f(translate)}" android:translateY="{f(translate)}" android:scaleX="{f(scale)}" android:scaleY="{f(scale)}"'
+    return (f'<vector xmlns:android="http://schemas.android.com/apk/res/android"\n'
+            f'    android:width="{size_dp}dp" android:height="{size_dp}dp"\n'
+            f'    android:viewportWidth="{vp}" android:viewportHeight="{vp}">\n'
+            f'    <group{group}>\n{body}    </group>\n</vector>\n')
+
+
+def vector_splash_pixel():
+    """Launch animation: the dots light up in a sweep from the top left, the triangle glows, under
+    600 ms. Dots are grouped into 40 ms bands of the mockup's delay (y*9 + x*3 ms, here x0.4)."""
+    t0, sc = PIXEL_IN_CANVAS
+    bands = {}
+    for x, y, kind in pixel_dots_grid():
+        if kind != 'side':
+            bands.setdefault((int((y * 9 + x * 3) * 0.4 // 40), kind), []).append((x, y))
+    ind = 12
+    anim = lambda prop, frm, to, dur, off=0, interp='@android:interpolator/decelerate_quad': (
+        f'<objectAnimator android:propertyName="{prop}" android:valueFrom="{frm}" android:valueTo="{to}" '
+        f'android:valueType="floatType" android:duration="{dur}" android:startOffset="{off}" android:interpolator="{interp}"/>')
+
+    def target(name, anims):
+        return (f'    <target android:name="{name}">\n        <aapt:attr name="android:animation">\n'
+                f'            <set>{"".join(anims)}</set>\n        </aapt:attr>\n    </target>\n')
+    sides = [(x, y) for x, y, k in pixel_dots_grid() if k == 'side']
+    paths = _p(dots_path(sides), PIXEL['side'], alpha='0', name='side', ind=ind)
+    targets = target('side', [anim('fillAlpha', 0, 1, 160)])
+    tri_paths = ''
+    for (b, kind), pts in sorted(bands.items()):
+        n = f'{kind}{b}'
+        p_ = _p(dots_path(pts), COLOUR[kind], alpha='0.08', name=n, ind=ind + (4 if kind == 'tri' else 0))
+        if kind == 'tri':
+            tri_paths += p_
+        else:
+            paths += p_
+        targets += target(n, [anim('fillAlpha', 0.08, 1, 160, b * 40)])
+    paths += f'{" " * ind}<group android:name="tri" android:pivotX="52" android:pivotY="50">\n{tri_paths}{" " * ind}</group>\n'
+    targets += target('tri', [anim('scaleX', 1, 1.08, 80, 420), anim('scaleY', 1, 1.08, 80, 420),
+                              anim('scaleX', 1.08, 1, 80, 500), anim('scaleY', 1.08, 1, 80, 500)])
+    paths += _p(circle_path(*POWER), PIXEL['power'], alpha='0', name='power', ind=ind)
+    targets += target('power', [anim('fillAlpha', 0, 1, 120, 440)])
+    drawable = (f'<vector android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">\n'
+                f'        <group android:translateX="{t0}" android:translateY="{t0}" android:scaleX="{sc}" android:scaleY="{sc}">\n'
+                f'{paths}        </group>\n    </vector>')
+    return ('<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"\n'
+            '    xmlns:aapt="http://schemas.android.com/aapt">\n'
+            f'    <aapt:attr name="android:drawable">\n    {drawable}\n    </aapt:attr>\n{targets}</animated-vector>\n')
+
+
+def stage_banner(w=320, h=180):
+    """Mark left, #227 wordmark right, on the icon's dark field, as the other banners are laid out."""
+    s = h / 180
+    img = Image.new('RGBA', (w, h), rgb(PIXEL['bg']))
+    x0 = round(26 * s)
+    img.alpha_composite(pixel_image(round(108 * s)), (x0, round(36 * s)))
+    word = wordmark_227(round(150 * s), PIXEL['tri'])
+    img.alpha_composite(word, (x0 + round(124 * s), round(90 * s - word.height / 2)))
+    return img.convert('RGB')
+
+
+def stage_splash_name(w, h):
+    img = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    word = wordmark_227(round(w * .62), PIXEL['tri'])
+    img.alpha_composite(word, ((w - word.width) // 2, (h - word.height) // 2))
+    return img
+
+
+def stage(res):
+    """Writes only the Pixel and wordmark files; the eight flip-card colours are left as they are."""
+    t0, sc = PIXEL_IN_CANVAS
+    for dens, k in DENSITIES.items():
+        n = round(108 * k)
+        pixel_image(n, box=(t0 / 108 * 100, t0 / 108 * 100, sc * 100 / 108 * 100)).save(os.path.join(res, f'mipmap-{dens}', 'owntv_icon_pixel_foreground.png'))
+        stage_splash_name(round(200 * k), round(80 * k)).save(os.path.join(res, f'drawable-{dens}', 'owntv_splash_name_pixel.png'))
+    write(os.path.join(res, 'mipmap-anydpi-v26', 'owntv_icon_pixel.xml'),
+          '<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">\n'
+          '    <background android:drawable="@color/owntv_icon_bg_pixel"/>\n'
+          '    <foreground android:drawable="@mipmap/owntv_icon_pixel_foreground"/>\n'
+          '    <monochrome android:drawable="@drawable/owntv_icon_monochrome"/>\n</adaptive-icon>\n')
+    write(os.path.join(res, 'values', 'owntv_icon_colors_stage.xml'),
+          f'<resources>\n    <color name="owntv_icon_bg_pixel">{PIXEL["bg"]}</color>\n</resources>\n')
+    # In-app marks: the dots as a vector; at 32 dp and below the card with Pixel's triangle.
+    write(os.path.join(res, 'drawable', 'owntv_mark_pixel.xml'), vector_pixel())
+    write(os.path.join(res, 'drawable', 'owntv_mark_small_pixel.xml'), vector_mark(PAL_PIXEL_CARD, small=True, size_dp=32))
+    # Launch screen: the sweep, and its still frame for Animations Off.
+    write(os.path.join(res, 'drawable', 'owntv_splash_pixel.xml'), vector_splash_pixel())
+    write(os.path.join(res, 'drawable', 'owntv_splash_static_pixel.xml'), vector_pixel(108, t0, sc, 108))
+    stage_banner().save(os.path.join(res, 'drawable-xhdpi', 'owntv_banner_pixel.png'))
+    # The #227 wordmark as two white vectors on the same 988x182 viewport, "own" and "tv", for the apps to
+    # stack and tint (the lockup's "tv" follows the accent).
+    wm = json.load(open(os.path.join(HERE, 'pixel', 'wordmark.json'), encoding='utf-8'))
+    for name, parts in (('owntv_wordmark_own', ('o', 'w', 'n')), ('owntv_wordmark_tv', ('tv',))):
+        body = ''.join(f'        <path android:pathData="{wm[p]}" android:fillColor="#FFFFFFFF" android:fillType="evenOdd"/>\n' for p in parts)
+        write(os.path.join(res, 'drawable', f'{name}.xml'),
+              '<vector xmlns:android="http://schemas.android.com/apk/res/android"\n'
+              '    android:width="988dp" android:height="182dp" android:viewportWidth="988" android:viewportHeight="182">\n'
+              f'    <group android:translateX="-270.5" android:translateY="-389">\n{body}    </group>\n</vector>\n')
+    # One shared play triangle, white, a touch wider than the cards' own (4 and 6): drawn over a card
+    # and tinted, it covers the card's triangle and its anti-aliased edge (triangle follows the accent).
+    for name, sw, size in (('owntv_mark_play', 4.6, 56), ('owntv_mark_play_small', 6.6, 32)):
+        body = f'        <group android:translateY="2">\n' + _p(PLAY_PATH, '#FFFFFFFF', stroke='#FFFFFFFF', sw=sw, ind=12) + '        </group>\n'
+        write(os.path.join(res, 'drawable', f'{name}.xml'), _vec(body, VB_TIGHT, size))
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('what', choices=['extras', 'android'])
-    ap.add_argument('--font', required=True)
+    ap.add_argument('what', choices=['extras', 'android', 'stage'])
+    ap.add_argument('--font')
     ap.add_argument('--out', required=True)
     a = ap.parse_args()
+    if a.what == 'stage':
+        stage(a.out)
+        return
+    if not a.font:
+        ap.error('--font is required for extras / android')
     if a.what == 'android':
         android(a.out, a.font)
         return
