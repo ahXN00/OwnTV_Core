@@ -73,7 +73,6 @@
     <string name="content_oldest_first">오래된 항목부터</string>
     <string name="content_newest_first">최신 항목부터</string>
     <string name="content_last_watched">최근 시청일</string>
-    <string name="content_press_ok_episodes">에피소드를 보려면 포스터에서 OK 버튼을 누르세요.</string>
     <string name="content_play_external">외부 플레이어로 재생</string>
     <string name="content_delete_subtitles">OpenSub 자막 삭제</string>
     <string name="content_tmdb_details">TMDB 상세 정보</string>
@@ -81,12 +80,7 @@
     <string name="content_refetch_tmdb">TMDB 상세 정보 다시 가져오기</string>
     <string name="content_set_tmdb_name">TMDB 이름 설정</string>
     <string name="content_close">닫기</string>
-    <string name="content_focus_movie">영화에 포커스를 맞추면 상세 정보를 볼 수 있습니다.</string>
-    <string name="content_focus_channel">채널에 포커스를 맞추면 여기에 표시됩니다.</string>
-    <string name="content_press_ok_fullscreen">전체 화면으로 시청하려면 OK 버튼 누르기 · 옵션을 보려면 길게 누르기</string>
     <string name="content_rename_hint">이 프로필에만 적용됩니다. 원래 이름을 복원하려면 비워 두세요.</string>
-    <string name="content_focus_series">시리즈에 포커스를 맞춘 후 OK 버튼을 누르면 에피소드를 볼 수 있습니다.</string>
-    <string name="content_focus_episode">에피소드에 포커스를 맞추면 상세 정보를 볼 수 있습니다.</string>
     <string name="content_no_movies_here">여기에 영화가 없습니다.</string>
     <string name="content_no_series_here">여기에 시리즈가 없습니다.</string>
     <string name="content_no_episodes">이용 가능한 에피소드가 없습니다.</string>
@@ -100,14 +94,11 @@
     <string name="content_provider">제공업체</string>
     <string name="content_provider_name">제공업체: %1$s</string>
     <string name="content_no_series_found">“<xliff:g id="query">%1$s</xliff:g>”에 대한 시리즈를 찾지 못했습니다</string>
-    <string name="content_search_movies"><xliff:g id="category">%1$s</xliff:g>…</string>
-    <string name="content_search_series"><xliff:g id="category">%1$s</xliff:g>…</string>
     <string name="content_reorder_movie">영화 순서 변경</string>
     <string name="content_reorder_series">시리즈 순서 변경</string>
     <string name="content_already_downloaded">이미 다운로드되었습니다. 다운로드 메뉴에서 확인하세요.</string>
     <string name="content_refetching_tmdb">TMDB 상세 정보를 다시 가져오는 중…</string>
     <string name="content_researching_tmdb">TMDB에서 다시 검색하는 중…</string>
-    <string name="content_ok_play_options">재생하려면 OK 버튼 누르기 · 옵션을 보려면 길게 누르기</string>
     <string name="content_resume_at"><xliff:g id="position">%1$s</xliff:g>부터 이어보기</string>
     <string name="content_duration_hours"><xliff:g id="hours">%1$d</xliff:g>시간 <xliff:g id="minutes">%2$d</xliff:g>분</string>
     <string name="content_duration_minutes"><xliff:g id="minutes">%1$d</xliff:g>분</string>
@@ -121,9 +112,7 @@
     <string name="content_no_epg">EPG 없음</string>
     <string name="content_epg">EPG</string>
     <string name="content_live_day_time_range"><xliff:g id="day">%1$s</xliff:g> <xliff:g id="start">%2$s</xliff:g> – <xliff:g id="stop">%3$s</xliff:g></string>
-    <string name="content_epg_days">EPG · <xliff:g id="days">%1$d</xliff:g>일</string>
     <string name="content_catchup">다시보기</string>
-    <string name="content_catchup_days">다시보기 · <xliff:g id="days">%1$d</xliff:g>일</string>
     <string name="content_play_external_short">외부 플레이어에서 재생</string>
     <string name="content_rename">이름 변경</string>
     <string name="content_rename_channel">채널 이름 변경</string>
@@ -132,10 +121,6 @@
     <string name="content_remove_history">시청 기록에서 삭제</string>
     <string name="content_no_channels_here">여기에 채널이 없습니다.</string>
     <string name="content_no_channels_found">“<xliff:g id="query">%1$s</xliff:g>”에 대한 채널을 찾지 못했습니다</string>
-    <plurals name="content_count_channels">
-        <item quantity="other"><xliff:g id="category">%1$s</xliff:g>(채널 <xliff:g id="count">%2$d</xliff:g>개)</item>
-    </plurals>
-    <string name="content_search_channels"><xliff:g id="category">%1$s</xliff:g>…</string>
     <string name="content_match_epg">EPG 연결</string>
     <string name="content_catchup_title">다시보기 · <xliff:g id="channel">%1$s</xliff:g></string>
     <string name="content_rewind_at">되감기 · <xliff:g id="time">%1$s</xliff:g></string>
@@ -157,7 +142,6 @@
     <string name="content_clear_match">연결 해제</string>
     <string name="content_live_now_label">현재</string>
     <string name="content_live_next_label">다음 · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="content_live_later_label">나중</string>
     <string name="content_live_time_range_plain"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="stop">%2$s</xliff:g></string>
     <string name="content_category_favorites">즐겨찾기</string>
     <string name="content_category_history">시청 기록</string>
@@ -195,16 +179,13 @@
     <string name="content_action_play">재생</string>
     <string name="content_action_next_up">다음 콘텐츠</string>
     <string name="content_action_last_channel">마지막 채널</string>
-    <string name="content_continue_label"><xliff:g id="action">%1$s</xliff:g> · <xliff:g id="name">%2$s</xliff:g></string>
     <string name="content_empty_section"><xliff:g id="section">%1$s</xliff:g> 기능은 추후 제공됩니다. 이 목록을 채우려면 M3U 또는 Xtream 소스를 추가하세요.</string>
     <string name="content_progress_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="content_section_category"><xliff:g id="section">%1$s</xliff:g> / <xliff:g id="category">%2$s</xliff:g></string>
     <string name="content_preview_player">나만의 IPTV 플레이어.</string>
     <string name="content_live_time_range"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="end">%2$s</xliff:g></string>
     <string name="content_live_time_remaining"><xliff:g id="end">%1$s</xliff:g> · <xliff:g id="minutes">%2$d</xliff:g>분 남음</string>
-    <string name="common_browse">둘러보기</string>
     <string name="content_downloads_title">다운로드</string>
-    <string name="content_downloads_description">오프라인 재생을 위해 저장된 영화 및 에피소드입니다.</string>
     <string name="content_downloads_empty">아직 다운로드가 없습니다. 영화 또는 에피소드를 열고 다운로드를 누르세요.</string>
     <string name="content_downloads_storage">저장 공간</string>
     <string name="content_downloads_options">다운로드 옵션</string>
@@ -221,7 +202,6 @@
     <string name="content_downloads_queued">대기열에 추가됨…</string>
     <string name="content_downloads_count"><xliff:g id="count">%1$d</xliff:g></string>
     <string name="content_downloads_active">진행 중</string>
-    <string name="content_downloads_waiting">대기 중</string>
     <string name="content_downloads_completed_group">완료됨</string>
     <string name="content_downloads_failed_group">실패</string>
     <string name="content_downloads_progress"><xliff:g id="percent">%1$d</xliff:g>%% · <xliff:g id="downloaded">%2$s</xliff:g> / <xliff:g id="total">%3$s</xliff:g></string>
@@ -255,11 +235,7 @@
         <item quantity="other">편성표에 프로그램 <xliff:g id="programmes">%1$d</xliff:g>개가 있습니다.</item>
     </plurals>
     <string name="content_epg_stats_loaded"><xliff:g id="channels">%1$s</xliff:g> <xliff:g id="programmes">%2$s</xliff:g> <xliff:g id="catchup">%3$s</xliff:g></string>
-    <string name="content_epg_no_catchup_channels">다시보기를 지원하는 채널이 없습니다.</string>
     <string name="content_epg_stats_no_catchup">이용 가능한 다시보기 채널이 없습니다.</string>
-    <plurals name="content_epg_catchup_count">
-        <item quantity="other">채널 <xliff:g id="count">%1$d</xliff:g>개에서 다시보기를 사용할 수 있습니다.</item>
-    </plurals>
     <plurals name="content_epg_stats_catchup_available">
         <item quantity="other">채널 <xliff:g id="count">%1$d</xliff:g>개에서 다시보기를 사용할 수 있습니다.</item>
     </plurals>
@@ -279,7 +255,6 @@
     <string name="content_epg_no_guide">편성표가 없습니다.</string>
     <string name="content_epg_no_programme">현재 시간에 편성된 프로그램이 없습니다.</string>
     <string name="content_epg_add_description">EPG(XMLTV) 소스를 추가하여 편성표에 프로그램을 표시하세요.</string>
-    <string name="content_epg_favourite_description">이 채널을 즐겨찾기에 추가하거나 편성표 데이터를 설정하세요.</string>
     <string name="content_epg_guide_category">편성표 카테고리</string>
     <string name="content_epg_all_categories">모든 카테고리</string>
     <string name="content_epg_search_hint">편성표 채널 검색…</string>
@@ -287,18 +262,14 @@
     <string name="content_epg_add_favourite">즐겨찾기에 추가</string>
     <string name="content_epg_remove_favourite">즐겨찾기에서 삭제</string>
     <string name="content_epg_jump_now">현재 시간으로 이동</string>
-    <string name="content_epg_runtime"><xliff:g id="minutes">%1$d</xliff:g>분</string>
     <string name="content_epg_review_matches">EPG 연결 검토</string>
     <string name="content_epg_include_logos">가이드 로고 포함</string>
-    <string name="content_epg_include_logos_short">로고</string>
     <string name="content_epg_review_description">이 채널들은 이름을 기준으로 연결되었지만 일치 확률이 높지 않습니다. 올바른 항목은 수락하고 나머지는 건너뛰세요.</string>
     <string name="content_epg_accept">수락</string>
     <string name="content_epg_accept_all">모두 수락</string>
     <string name="content_epg_skip">건너뛰기</string>
     <string name="content_epg_skip_all">모두 건너뛰기</string>
     <string name="content_epg_pick_manually">EPG 직접 선택</string>
-    <string name="content_epg_move_hint">오른쪽으로 이동해 행에 들어간 다음 ◀ ▶ 버튼으로 탐색하여 프로그램을 미리 보세요.</string>
-    <string name="content_epg_catchup">↻ 다시보기</string>
     <string name="content_epg_time_range"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="end">%2$s</xliff:g></string>
     <string name="content_epg_all">전체</string>
     <string name="content_epg_sort_alpha">가나다순</string>
@@ -306,13 +277,10 @@
     <string name="content_epg_sort_live">실시간 TV</string>
     <string name="content_epg_sort_catchup">다시보기</string>
     <string name="content_epg_sort_favorites">즐겨찾기</string>
-    <string name="content_epg_category_button">카테고리: <xliff:g id="label">%1$s</xliff:g></string>
     <string name="content_epg_sort_button">정렬: <xliff:g id="label">%1$s</xliff:g></string>
     <string name="content_epg_match_button">EPG 자동 연결</string>
     <string name="content_epg_channel_score">→ <xliff:g id="name">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
-    <string name="content_epg_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
     <string name="content_epg_bits_separator">" · "</string>
-    <string name="content_epg_now">현재 · <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_watch_start">처음부터 보기</string>
     <string name="content_epg_watch_channel">채널 시청</string>
     <string name="content_epg_favourite">즐겨찾기에 추가</string>

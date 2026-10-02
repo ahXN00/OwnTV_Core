@@ -19,7 +19,6 @@
     <string name="common_start_over">Ver desde el inicio</string>
     <string name="common_name">Nombre</string>
     <string name="common_own_tv_user">Usuario de OwnTV</string>
-    <string name="common_switch_profile">Cambiar de perfil</string>
     <string name="common_proxy">Proxy</string>
     <string name="common_title">Título</string>
     <string name="common_search_hint">Buscar…</string>
@@ -43,7 +42,6 @@
     <string name="common_something_went_wrong">Algo salió mal</string>
     <string name="common_move_instructions">▲/▼ para mover · Aceptar para guardar · Atrás para cancelar</string>
     <string name="common_number_grouped"><xliff:g id="count">%1$,d</xliff:g></string>
-    <string name="common_rating"><xliff:g id="rating">%1$.1f</xliff:g></string>
     <string name="common_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="common_timestamp_minutes"><xliff:g id="minutes">%1$d</xliff:g>:<xliff:g id="seconds">%2$02d</xliff:g></string>
     <string name="common_timestamp_hours"><xliff:g id="hours">%1$d</xliff:g>:<xliff:g id="minutes">%2$02d</xliff:g>:<xliff:g id="seconds">%3$02d</xliff:g></string>
@@ -135,7 +133,6 @@
     <string name="sync_error_secure">Falló la conexión segura — es posible que el certificado del servidor no sea válido.</string>
     <string name="sync_error_malformed_guide">Los datos de la guía provenientes del servidor tenían un formato incorrecto. Es posible que algunos se hayan cargado de todos modos — inténtalo de nuevo o revisa la URL del EPG.</string>
     <string name="sync_error_guide_empty">Esta guía está vacía por ahora. Es posible que el proveedor todavía no la haya publicado — inténtalo de nuevo más tarde.</string>
-    <string name="common_items_per_skip">Elementos por salto</string>
     <string name="common_minutes">Minutos</string>
     <string name="common_size_mb"><xliff:g id="size">%1$s</xliff:g> MB</string>
     <string name="common_size_gb"><xliff:g id="size">%1$s</xliff:g> GB</string>
@@ -145,7 +142,6 @@
     <string name="common_show">Mostrar</string>
     <string name="common_qr_code_companion_url">Código QR para la URL complementaria</string>
     <string name="sync_status_trending_starting">Sincronización completada · <xliff:g id="source">%1$s</xliff:g> · Creando Tendencias del momento</string>
-    <string name="sync_status_trending_matching">Buscando coincidencias entre los elementos en tendencia y tu lista de reproducción</string>
     <string name="sync_status_trending_detail_waiting">Esperando la respuesta de candidatos de TMDB</string>
     <string name="sync_status_trending_detail_received">Candidatos de TMDB · Películas: <xliff:g id="movies">%1$d</xliff:g> · Series: <xliff:g id="series">%2$d</xliff:g></string>
     <string name="sync_status_trending_detail_preparing">Índice de títulos del proveedor · <xliff:g id="processed">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g></string>
@@ -163,11 +159,6 @@
         <item quantity="one">Se recibió el último elemento en tendencia · <xliff:g id="count">%1$d</xliff:g></item>
         <item quantity="many">Se recibieron los últimos elementos en tendencia · <xliff:g id="count">%1$d</xliff:g></item>
         <item quantity="other">Se recibieron los últimos elementos en tendencia · <xliff:g id="count">%1$d</xliff:g></item>
-    </plurals>
-    <plurals name="sync_status_trending_matched">
-        <item quantity="one">Coincidencia encontrada · <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="many">Coincidencias encontradas · <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="other">Coincidencias encontradas · <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
     </plurals>
     <plurals name="sync_status_trending_building">
         <item quantity="one">Creando Tendencias del momento · <xliff:g id="count">%1$d</xliff:g> coincidencia</item>

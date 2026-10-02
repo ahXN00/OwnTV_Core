@@ -7,11 +7,7 @@
     <string name="settings_mini_player">迷你播放器</string>
     <string name="settings_mini_player_description">浏览时将频道停靠为画中画（PiP）后，会显示这个小型悬浮播放器。你可以在此处更改这些设置，也可以使用迷你播放器上的调整大小/移动按钮随时更改。</string>
     <string name="settings_size">大小</string>
-    <string name="settings_mini_player_size_description">迷你播放器占屏幕宽度的比例（<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%）。</string>
     <string name="settings_position">位置</string>
-    <string name="settings_mini_player_position_description">迷你播放器停靠到哪个角落或边缘。</string>
-    <string name="settings_mini_player_size">迷你播放器大小</string>
-    <string name="settings_mini_player_position">迷你播放器位置</string>
     <string name="settings_home_screen">主屏幕</string>
     <string name="settings_sections">版块</string>
     <string name="settings_hidden_sections">隐藏的版块仍会列出，以便你重新将其开启。</string>
@@ -58,16 +54,11 @@
     <string name="settings_proxy_connection_failed">无法连接到代理（请检查主机/端口）。</string>
     <string name="settings_proxy_http">代理返回了 HTTP <xliff:g id="code">%1$d</xliff:g></string>
     <string name="settings_proxy_failed">代理测试失败。</string>
-    <string name="settings_ch_nav_title">CH+/RW · CH−/FF 按键翻页</string>
-    <string name="settings_ch_nav_description">使用遥控器的 CH+/RW · CH−/FF 按键翻动分类或项目列表。</string>
-    <string name="settings_ch_nav_enabled">使用 CH+/RW · CH−/FF 按键翻动列表</string>
-    <string name="settings_ch_nav_enabled_description">开启后，CH+/RW 和 CH−/FF 会在已聚焦的面板内跳转（分类栏或项目列表，以及“自定义”中的分类列表）。关闭后，这些按键在上述界面中不起作用。</string>
     <string name="settings_ch_nav_up">CH+ / 快退跳过数量（朝向第一项）</string>
     <string name="settings_ch_nav_up_description">每按一次 CH+/RW 向上跳过的项目数。长按始终跳到第一项。</string>
     <string name="settings_ch_nav_down">CH− / 快进跳过数量（朝向最后一项）</string>
     <string name="settings_ch_nav_down_description">每按一次 CH−/FF 向下跳过的项目数。长按始终跳到最后一项。</string>
     <string name="settings_skip_counts">跳过数量</string>
-    <string name="settings_ch_nav_help">• 跳转会限制在列表两端，因此短列表只需按一次即可到达末端。\n• 长按 CH+/RW = 第一项，长按 CH−/FF = 最后一项。\n• 在“全部”列表（所有频道/电影/剧集）中会禁用长按功能 — 短按跳转仍然有效。\n• 作用于当前具有焦点的面板 — 分类栏或项目列表/网格。\n• 也可翻动“设置 → 自定义分类和项目”中的分类列表。</string>
     <string name="settings_remote_shortcuts">遥控器快捷键</string>
     <string name="settings_remote_shortcuts_description">将遥控器的空闲按键分配给导航、播放和浏览操作。必要的导航按键会保持受保护。</string>
     <string name="settings_remote_shortcuts_enabled">使用遥控器快捷键</string>
@@ -112,7 +103,6 @@
     <string name="settings_remote_action_jump_first">跳到第一项</string>
     <string name="settings_remote_action_jump_last">跳到最后一项</string>
     <string name="settings_large_skips_warning">较大的跳过数量会越过短列表中的项目，并且在低端电视上可能显得卡顿突兀。</string>
-    <string name="settings_ch_nav_picker">CH+/RW · CH−/FF 按键翻页</string>
     <string name="settings_weather">天气</string>
     <string name="settings_show_weather">显示天气</string>
     <string name="settings_show_weather_description">在顶部栏中显示当前天气。</string>
@@ -131,7 +121,6 @@
     <string name="settings_metadata_provider_description">仅使用播放列表提供的信息。不查询 TMDB。</string>
     <string name="settings_metadata_provider_tmdb_description">优先使用播放列表的信息；TMDB 会填补缺失信息，并添加演职人员、类型和背景图。</string>
     <string name="settings_metadata_tmdb_only_description">所有字段优先使用 TMDB；仅当 TMDB 没有信息时才回退到播放列表。</string>
-    <string name="settings_selected">已选择</string>
     <string name="settings_metadata_allowance">每日额度</string>
     <string name="settings_metadata_reset_automatic">自动重置</string>
     <string name="settings_metadata_library_details">媒体库详情</string>
@@ -148,27 +137,19 @@
     <string name="settings_metadata_connection">连接</string>
     <string name="settings_metadata_remote_advanced">获取高级 TMDB 信息</string>
     <string name="settings_metadata_remote_advanced_description">使用你自己的 TMDB API 密钥或自建 Worker，而不是共享的默认服务。</string>
-    <string name="settings_metadata_usage_label">用量</string>
-    <string name="settings_metadata_usage_value"><xliff:g id="min_used">%1$d</xliff:g>/<xliff:g id="min_total">%2$d</xliff:g> 分钟 · <xliff:g id="hr_used">%3$d</xliff:g>/<xliff:g id="hr_total">%4$d</xliff:g> 小时 · <xliff:g id="day_used">%5$d</xliff:g>/<xliff:g id="day_total">%6$d</xliff:g> 天</string>
-    <string name="settings_metadata_source_label">来源</string>
     <string name="settings_metadata_key_label">密钥</string>
     <string name="settings_metadata_server_label">服务器</string>
-    <string name="settings_metadata_refills_label">恢复时间</string>
     <string name="settings_metadata_clear_advanced_title">不再使用你自己的密钥？</string>
     <string name="settings_metadata_clear_advanced_message">你的 TMDB API 密钥和自有服务器地址将从此设备删除，OwnTV 将回到带有每日额度的内置共享服务。</string>
     <string name="settings_metadata_fair_share">内置元数据服务由所有 OwnTV 用户共享，因此每台设备每天都有自己的额度。用完额度后，海报和简介会暂停显示，直到额度恢复；播放列表自带的信息不受影响。添加你自己的 TMDB API 密钥或服务器即可取消此限制：它是免费的，而且个人密钥几乎没有限制。</string>
     <string name="settings_metadata_limit_reached">今日元数据额度已用完 — 在“设置 → 元数据”中添加你自己的 TMDB 密钥即可取消此限制。</string>
     <string name="settings_metadata_language">元数据语言</string>
     <string name="settings_metadata_language_description">TMDB 提供的剧情、类型和标题的语言。TMDB 未翻译的字段将保持英文。详细信息按语言分别缓存，因此切换回来是即时的。</string>
-    <string name="settings_advanced_options">高级选项</string>
-    <string name="settings_advanced_metadata_description">使用你自己的 TMDB API 密钥或自托管服务器，而不是默认的共享服务。</string>
     <string name="settings_metadata_server_description">两项均留空即可使用内置共享服务器（无需初始设置）。输入你自己的 TMDB API 密钥可直接调用 TMDB，或输入自托管服务器 URL 以使用自己的代理/镜像。URL 的优先级高于密钥。</string>
     <string name="settings_metadata_key_from_phone">用其他设备获取密钥</string>
     <string name="settings_metadata_key_from_phone_desc">在任意设备（手机、电脑或另一台电视）的浏览器中打开地址，登录 TMDB 并发送密钥。无需用遥控器输入。</string>
     <string name="settings_metadata_key_received">已接收 TMDB 密钥</string>
     <string name="settings_tmdb_api_key">TMDB API 密钥（v3）</string>
-    <string name="settings_self_host_url">自托管服务器 URL</string>
-    <string name="settings_test">测试</string>
     <string name="settings_metadata_empty_title">请输入要查询的标题。</string>
     <string name="settings_metadata_server_unavailable">无法访问元数据服务器 — 请检查网络/密钥/URL。</string>
     <string name="settings_metadata_no_match">TMDB 中没有与“<xliff:g id="query">%1$s</xliff:g>”匹配的结果。</string>
@@ -192,7 +173,6 @@
     <string name="settings_quick_hdr">HDR（仅 mpv）</string>
     <string name="settings_quick_autoplay">自动播放</string>
     <string name="settings_quick_check_update">检查更新</string>
-    <string name="settings_search_label">搜索设置</string>
     <string name="settings_search_hint">搜索设置…</string>
     <string name="settings_language">语言</string>
     <string name="settings_language_description">应用显示语言</string>
@@ -223,7 +203,6 @@
     <string name="settings_home_root_description">选择、重新排序和筛选主屏幕上的内容行</string>
     <string name="settings_metadata_root_description">电影和剧集的海报、剧情简介、演职人员和评分</string>
     <string name="settings_download_folder">下载文件夹</string>
-    <string name="settings_app_storage">应用存储空间</string>
     <string name="settings_backup_restore">备份和恢复</string>
     <string name="settings_backup_restore_description">导出或恢复用户档案和源</string>
     <string name="settings_clear_history">清除观看记录</string>
@@ -265,7 +244,6 @@
     <string name="settings_afr_resolution">匹配分辨率</string>
     <string name="settings_afr_resolution_description">仅限电影。为电影切换显示模式时，电视也会切换到电影的分辨率（在 4K 电视上播放高清电影时为 1080p），但不会高于开始时的分辨率。关闭时保持分辨率不变，由电视放大画面，通常画质更好。</string>
     <string name="settings_surround_sound">环绕声</string>
-    <string name="settings_surround_description">为真正的 5.1/7.1 接收器将 Dolby/DTS 解码为环绕声（5.1/7.1）。使用电视扬声器或立体声音箱时请保持关闭 — 在部分电视/音箱上，多声道可能导致音频滞后于视频。如果出现不同步，请在播放器的“音频”菜单 →“音视频同步”中进行微调。</string>
     <string name="settings_surround_description_mobile">为连接到此设备的真正 5.1/7.1 接收器将 Dolby/DTS 解码为环绕声（5.1/7.1）。使用内置扬声器、耳机或立体声音箱时请保持关闭 — 多声道可能导致音频滞后于视频。如果出现不同步，请在播放器的“音频”菜单 →“音视频同步”中进行微调。</string>
     <string name="settings_audio_passthrough">Dolby/DTS 直通</string>
     <string name="settings_audio_passthrough_description">开启：当电视、回音壁或功放表示可以播放时，Dolby 和 DTS 不经解码直接发送（ExoPlayer）。关闭：由应用解码，在环绕声允许时仍为环绕声。mpv 始终解码。夜间模式或音量均衡开启时不使用。</string>
@@ -322,13 +300,11 @@
     <string name="settings_yes_clear">是，清除</string>
     <string name="settings_presets">预设</string>
     <string name="settings_hex_code">十六进制代码</string>
-    <string name="settings_hex">十六进制</string>
     <string name="settings_apply">应用</string>
     <string name="settings_hex_error">请输入 6 位十六进制数字，例如 52DBC8</string>
     <string name="settings_color_picker">颜色选择器</string>
     <string name="settings_use_color">使用此颜色</string>
     <string name="settings_about_version">版本 <xliff:g id="version">%1$s</xliff:g></string>
-    <string name="settings_about_description_full">你自己的 Android TV IPTV 播放器 — 一款免费、开源且仅提供播放器功能的应用。它不提供任何频道或内容；你需要自行添加具有合法访问权限的源。</string>
     <string name="settings_about_description_full_mobile">你自己的 Android IPTV 播放器 — 一款免费、开源且仅提供播放器功能的应用。它不提供任何频道或内容；你需要自行添加具有合法访问权限的源。</string>
     <string name="settings_about_license">© 2026 OwnTV · GPLv3 许可证</string>
     <string name="settings_join_telegram">加入我们的 Telegram 社群</string>
@@ -343,7 +319,6 @@
     <string name="settings_clear_log">清除日志</string>
     <string name="settings_browsing_title">浏览和列表</string>
     <string name="settings_browsing_description_full">返回直播电视、电影和剧集时要回到的位置。</string>
-    <string name="settings_section_toggle"><xliff:g id="section">%1$s</xliff:g>：<xliff:g id="state">%2$s</xliff:g></string>
     <string name="settings_glass_surfaces">玻璃效果区域</string>
     <string name="settings_glass_surfaces_description">选择应用中以玻璃效果呈现的部分。关闭所有区域会停用玻璃效果。</string>
     <string name="settings_all_surfaces_on">所有区域：开启</string>
@@ -486,7 +461,6 @@
     <string name="settings_language_original">原始语言</string>
     <string name="settings_language_ukrainian">乌克兰语</string>
     <string name="settings_language_vietnamese">越南语</string>
-    <string name="settings_decoding">解码</string>
     <string name="settings_hardware_decoding">硬件解码</string>
     <string name="settings_hardware_decoding_description">使用电视的硬件解码器。如果部分流媒体出现卡顿或画面伪影，请关闭此功能。</string>
     <string name="settings_hardware_decoding_description_mobile">使用设备的硬件解码器。如果部分流媒体出现卡顿或画面伪影，请关闭此功能。</string>
@@ -544,7 +518,6 @@
     <string name="settings_live_rewind_step_description">直播频道上快退和快进的幅度：在回看存档中，或在“暂停和倒回直播”保存的副本中。</string>
     <string name="settings_resume_playback">继续播放</string>
     <string name="settings_resume_playback_description">电影或剧集存在已保存的播放位置时要执行的操作。</string>
-    <string name="settings_subtitles">字幕</string>
     <string name="settings_subtitle_appearance">字幕外观</string>
     <string name="settings_subtitle_appearance_description">大小、文字颜色、屏幕位置和背景透明度。关闭后，字幕将保留其原始外观，包括服务提供商嵌入直播电视字幕中的样式。</string>
     <string name="settings_subtitle_size">字幕大小</string>
@@ -569,7 +542,6 @@
     <string name="settings_shared">共享</string>
     <string name="settings_open_subtitles_access_priority">两项都留空即使用 OwnTV 的共享 Worker。自定义 Worker 网址优先于直接填写的 API 密钥。账号登录状态仍按配置文件分别保存。</string>
     <string name="settings_remove_custom_access">移除自定义访问</string>
-    <string name="settings_audio">音频</string>
     <string name="settings_preferred_audio_language">首选音频语言</string>
     <string name="settings_audio_sync">音视频同步</string>
     <string name="settings_audio_sync_description">将音频提前或延后，使其与视频匹配。两个播放器（mpv 和 ExoPlayer）均可使用。</string>
@@ -592,7 +564,6 @@
     <string name="settings_none_auto">无/自动</string>
     <string name="settings_view_grid">网格</string>
     <string name="settings_view_list">列表</string>
-    <string name="settings_language_portuguese">葡萄牙语</string>
     <string name="settings_subtitle_small">小</string>
     <string name="settings_subtitle_normal">标准</string>
     <string name="settings_subtitle_large">大</string>
@@ -663,8 +634,6 @@
     <string name="settings_download_remote_title">在其他设备上下载</string>
     <string name="settings_download_remote_description">在同一 Wi-Fi 下任何带浏览器的设备（手机、电脑或另一台电视）上扫描二维码（或打开网址），输入此 PIN，下载你的备份文件并妥善保存。</string>
     <string name="settings_preparing_backup">正在准备备份…</string>
-    <string name="settings_glass_effect_on">玻璃效果：开</string>
-    <string name="settings_glass_effect_off">玻璃效果：关</string>
     <string name="settings_background_on">背景图：开</string>
     <string name="settings_background_off">背景图：关</string>
     <string name="settings_ui_zoom_range">缩放整个界面（<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%）。</string>
@@ -681,7 +650,6 @@
     <string name="settings_catchup_player_ask">总是询问</string>
     <string name="settings_catchup_player_internal">OwnTV 播放器</string>
     <string name="settings_catchup_player_external">外部播放器</string>
-    <string name="settings_soon">即将推出</string>
     <string name="settings_download_folder_title">选择下载文件夹</string>
     <string name="settings_pick_background_title">选择背景图</string>
     <string name="settings_theme_dialog">主题</string>
@@ -691,7 +659,6 @@
     <string name="settings_done">完成</string>
     <string name="settings_reset">重置</string>
     <string name="settings_device_details"><xliff:g id="model">%1$s</xliff:g> · <xliff:g id="android">%2$s</xliff:g></string>
-    <string name="settings_playback_entry"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="engine">%2$s</xliff:g> · <xliff:g id="kind">%3$s</xliff:g></string>
     <string name="settings_history_live">直播电视</string>
     <string name="settings_history_movies">电影</string>
     <string name="settings_history_series">剧集</string>
@@ -727,8 +694,6 @@
     <string name="settings_customize_remove_lock">移除锁定</string>
     <string name="settings_customize_description">为此用户档案隐藏或取消隐藏频道、电影和剧集，以及重命名或重新排序分类。重新同步后仍会保留。</string>
     <string name="settings_customize_new_category_behavior">新分类处理方式</string>
-    <string name="settings_customize_hide_new">隐藏 — 重新同步时新增的分类默认隐藏</string>
-    <string name="settings_customize_show_new">显示 — 重新同步时新增的分类默认显示</string>
     <string name="settings_customize_hide">隐藏</string>
     <string name="settings_customize_show">显示</string>
     <string name="settings_customize_behavior_hide">默认隐藏</string>
@@ -903,7 +868,6 @@
     <string name="settings_backup_encrypt_message">设置备份密码后，整个文件都会被加密，包括播放列表、用户档案和已保存的密码；没有该密码将无法读取其中任何内容。请妥善保管：如果丢失密码，将完全无法打开此备份。不设置密码时，文件不会加密，且不会包含已保存的密码和 PIN 码。</string>
     <string name="settings_backup_export_title">导出备份</string>
     <string name="settings_backup_restore_title">恢复备份</string>
-    <string name="settings_backup_restore_message">从同一 Wi-Fi 下任何带浏览器的设备远程发送备份，或选择此设备上已有的备份文件。</string>
     <string name="settings_backup_password">备份密码</string>
     <string name="settings_backup_enter_password">输入备份密码</string>
     <string name="settings_backup_wrong_password">备份密码错误</string>
@@ -914,7 +878,6 @@
     <string name="settings_backup_choose_folder">选择保存备份的文件夹</string>
     <string name="settings_backup_choose_folder_action">选择文件夹</string>
     <string name="settings_backup_pick_file">选择要恢复的备份文件</string>
-    <string name="settings_backup_local_file">本地文件</string>
     <string name="settings_backup_remote">远程设备</string>
     <string name="settings_backup_everything">全部内容</string>
     <string name="settings_backup_kids_profile">儿童用户档案</string>
@@ -1068,7 +1031,6 @@
     <string name="settings_subtitle_customize">自定义字幕</string>
     <string name="settings_subtitle_customize_off">关闭后，字幕将完全按照流和播放器的原始方式呈现。</string>
     <string name="settings_subtitle_preview_stock">预览——原始外观</string>
-    <string name="settings_subtitle_stock_description">原始外观，包括播出方嵌入直播电视字幕中的颜色和位置。</string>
     <string name="settings_subtitle_reset_all">全部重置</string>
     <string name="settings_subtitle_color">字幕颜色</string>
     <string name="settings_subtitle_color_default_description">使用默认值时，颜色由流和播放器决定。</string>
@@ -1151,7 +1113,6 @@
     <string name="settings_video_seconds"><xliff:g id="seconds">%1$d</xliff:g>秒的视频</string>
     <string name="settings_epg_offset_root_description">当数据源的时间与实际播出内容不符时，整体平移节目指南。单个频道可在电视直播或节目指南中通过长按菜单单独平移——这适用于共享同一节目指南的东/西版本频道。</string>
     <string name="settings_epg_offset_dialog_description">移动节目指南中的每一个节目。当整个数据源的时间都不对时使用；对于单个频道（共享同一指南的东/西版本），请在电视直播或节目指南中长按该频道，并在那里设置其自身的偏移。</string>
-    <string name="settings_panel_width_screen_description">设置每个面板占用屏幕的多少空间——分类、条目列表和预览。</string>
     <string name="settings_panel_width_summary">分类 <xliff:g id="category">%1$d</xliff:g>%% · 列表 <xliff:g id="list">%2$d</xliff:g>%% · <xliff:g id="preview_label">%3$s</xliff:g> <xliff:g id="preview">%4$d</xliff:g>%%</string>
     <string name="settings_panel_width_help">• 三个面板共用一行，因此它们的百分比加起来必须等于 100%%。\n• 加宽一个面板时，必须先从另一个面板减去相同的量，才能保存。\n• 重置会将某个分区恢复到本屏幕最初的标准宽度。\n• 关闭某个分区会恢复其标准布局，但不会丢失你的数值。\n• 电影和剧集海报会自动重新排列，因此更窄的列表只是每行显示更少。</string>
     <string name="settings_panel_width_preview">预览</string>
@@ -1259,9 +1220,6 @@
     <plurals name="settings_setting_count">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 项设置</item>
     </plurals>
-    <plurals name="settings_pinned_count">
-        <item quantity="other">已固定 <xliff:g id="count">%1$d</xliff:g> 项</item>
-    </plurals>
     <plurals name="settings_match_count">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 项匹配</item>
     </plurals>
@@ -1275,7 +1233,6 @@
     <string name="settings_selection_highlight">选中高亮</string>
     <string name="settings_selection_highlight_description">选中项目周围边框的颜色和粗细</string>
     <string name="settings_nav_bar_customization">自定义导航栏</string>
-    <string name="settings_nav_bar_description">让标签页适配你的播放列表，或隐藏不用的标签</string>
     <string name="settings_playback_mobile">手机</string>
     <string name="settings_playback_tv_only_note">实时预览和遥控器快捷键是电视端功能，手机上不提供。</string>
     <string name="settings_background_playback">后台播放</string>
@@ -1296,8 +1253,6 @@
     <string name="settings_mini_player_style_description">浏览列表时播放如何跟随你</string>
     <string name="settings_mini_player_style_floating">悬浮窗</string>
     <string name="settings_mini_player_style_docked">停靠栏</string>
-    <string name="settings_pip_on_back">按返回键进入画中画</string>
-    <string name="settings_pip_on_back_description">按返回键时也缩为悬浮窗</string>
     <string name="settings_pip_size">窗口大小</string>
     <string name="settings_pip_size_description">悬浮窗的初始大小。双指捏合可调整。</string>
     <string name="settings_pip_size_small">小</string>
@@ -1317,9 +1272,7 @@
     <string name="local_sync_qr_description">包含本机地址的二维码</string>
     <string name="local_sync_pin_is">PIN 码：<xliff:g id="pin">%1$s</xliff:g></string>
     <string name="local_sync_add_device">查找设备</string>
-    <string name="local_sync_add_device_description">搜索网络、扫描代码或输入地址</string>
     <string name="local_sync_paired_devices">已配对的设备</string>
-    <string name="local_sync_device_address">位于 <xliff:g id="address">%1$s</xliff:g></string>
     <string name="local_sync_working">处理中…</string>
     <string name="local_sync_find_hint">两台设备必须连接同一个 Wi-Fi，并且另一台需要开启同步模式。</string>
     <string name="local_sync_searching">正在搜索网络…</string>
@@ -1428,7 +1381,6 @@
     <string name="settings_backup_location">位置</string>
     <string name="settings_multiview">多画面</string>
     <string name="settings_multiview_description">同时观看多个直播频道。每次由你决定几个，最多不超过此上限——每个画面占用运营商的一个连接。</string>
-    <string name="settings_multiview_tiles">画面数</string>
     <string name="settings_multiview_tiles_max">最多画面数</string>
     <string name="settings_multiview_tiles_max_value">最多 <xliff:g id="count">%1$d</xliff:g></string>
     <string name="settings_multiview_warning_title">超过两个画面</string>
@@ -1599,7 +1551,6 @@
     <string name="settings_line_rec_post_roll">用于超时的节目</string>
     <string name="settings_line_measured_stats">实时帧率、码率和丢帧</string>
     <string name="settings_line_logging">供错误报告用的完整日志</string>
-    <string name="settings_help_quick">把最常用的开关放在一起。在设置的任意一行长按 OK 即可固定到这里；在这里的某行长按 OK 即可取消固定。每个已固定的行仍会显示它原本所在的位置。</string>
     <string name="settings_help_profiles">每位观众都有自己的收藏、观看记录、续播位置和主页行。儿童模式只显示你允许的分类；设置 PIN 后其他人无法打开该配置文件。</string>
     <string name="settings_help_playlists">通过链接、Xtream 登录、Stalker 门户或文件添加播放列表，也可重新同步或删除。</string>
     <string name="settings_help_epg_sources">通过链接添加 XMLTV 节目指南源，或刷新、删除它。这些源会填充节目指南和直播电视中的节目信息。</string>

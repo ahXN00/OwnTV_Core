@@ -85,7 +85,6 @@
     <string name="content_oldest_first">Сначала старые</string>
     <string name="content_newest_first">Сначала новые</string>
     <string name="content_last_watched">По последнему просмотру</string>
-    <string name="content_press_ok_episodes">Нажмите OK на постере, чтобы посмотреть серии.</string>
     <string name="content_play_external">Воспроизвести во внешнем плеере</string>
     <string name="content_delete_subtitles">Удалить субтитры OpenSub</string>
     <string name="content_tmdb_details">Сведения TMDB</string>
@@ -93,12 +92,7 @@
     <string name="content_refetch_tmdb">Повторно загрузить сведения TMDB</string>
     <string name="content_set_tmdb_name">Задать название для TMDB</string>
     <string name="content_close">Закрыть</string>
-    <string name="content_focus_movie">Переведите фокус на фильм, чтобы увидеть сведения.</string>
-    <string name="content_focus_channel">Переведите фокус на канал, чтобы увидеть его здесь.</string>
-    <string name="content_press_ok_fullscreen">Нажмите OK для просмотра в полноэкранном режиме · Удерживайте для доступа к параметрам</string>
     <string name="content_rename_hint">Только для этого профиля. Оставьте поле пустым, чтобы восстановить исходное название.</string>
-    <string name="content_focus_series">Переведите фокус на сериал и нажмите OK, чтобы посмотреть серии.</string>
-    <string name="content_focus_episode">Переведите фокус на серию, чтобы увидеть сведения.</string>
     <string name="content_no_movies_here">Здесь нет фильмов.</string>
     <string name="content_no_series_here">Здесь нет сериалов.</string>
     <string name="content_no_episodes">Нет доступных серий.</string>
@@ -118,14 +112,11 @@
     <string name="content_provider">Поставщик</string>
     <string name="content_provider_name">Поставщик: %1$s</string>
     <string name="content_no_series_found">По запросу «<xliff:g id="query">%1$s</xliff:g>» сериалы не найдены</string>
-    <string name="content_search_movies"><xliff:g id="category">%1$s</xliff:g>…</string>
-    <string name="content_search_series"><xliff:g id="category">%1$s</xliff:g>…</string>
     <string name="content_reorder_movie">Изменить порядок фильма</string>
     <string name="content_reorder_series">Изменить порядок сериала</string>
     <string name="content_already_downloaded">Уже скачано — проверьте меню «Загрузки».</string>
     <string name="content_refetching_tmdb">Повторная загрузка сведений TMDB…</string>
     <string name="content_researching_tmdb">Повторный поиск в TMDB…</string>
-    <string name="content_ok_play_options">OK — воспроизвести · удерживайте для доступа к параметрам</string>
     <string name="content_resume_at">Продолжить с <xliff:g id="position">%1$s</xliff:g></string>
     <string name="content_duration_hours"><xliff:g id="hours">%1$d</xliff:g> ч <xliff:g id="minutes">%2$d</xliff:g> мин</string>
     <string name="content_duration_minutes"><xliff:g id="minutes">%1$d</xliff:g> мин</string>
@@ -139,9 +130,7 @@
     <string name="content_no_epg">Нет данных EPG</string>
     <string name="content_epg">EPG</string>
     <string name="content_live_day_time_range"><xliff:g id="day">%1$s</xliff:g> <xliff:g id="start">%2$s</xliff:g> – <xliff:g id="stop">%3$s</xliff:g></string>
-    <string name="content_epg_days">EPG · <xliff:g id="days">%1$d</xliff:g> дн.</string>
     <string name="content_catchup">Архив</string>
-    <string name="content_catchup_days">Архив · <xliff:g id="days">%1$d</xliff:g> дн.</string>
     <string name="content_play_external_short">Воспроизвести во внешнем плеере</string>
     <string name="content_rename">Переименовать</string>
     <string name="content_rename_channel">Переименовать канал</string>
@@ -150,13 +139,6 @@
     <string name="content_remove_history">Удалить из истории</string>
     <string name="content_no_channels_here">Здесь нет каналов.</string>
     <string name="content_no_channels_found">По запросу «<xliff:g id="query">%1$s</xliff:g>» каналы не найдены</string>
-    <plurals name="content_count_channels">
-        <item quantity="one"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> канал)</item>
-        <item quantity="few"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> канала)</item>
-        <item quantity="many"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> каналов)</item>
-        <item quantity="other"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> канала)</item>
-    </plurals>
-    <string name="content_search_channels"><xliff:g id="category">%1$s</xliff:g>…</string>
     <string name="content_match_epg">Сопоставить EPG</string>
     <string name="content_catchup_title">Архив · <xliff:g id="channel">%1$s</xliff:g></string>
     <string name="content_rewind_at">Перемотка · <xliff:g id="time">%1$s</xliff:g></string>
@@ -178,7 +160,6 @@
     <string name="content_clear_match">Удалить сопоставление</string>
     <string name="content_live_now_label">СЕЙЧАС</string>
     <string name="content_live_next_label">ДАЛЕЕ · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="content_live_later_label">ПОЗЖЕ</string>
     <string name="content_live_time_range_plain"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="stop">%2$s</xliff:g></string>
     <string name="content_category_favorites">Избранное</string>
     <string name="content_category_history">История</string>
@@ -216,16 +197,13 @@
     <string name="content_action_play">Воспроизвести</string>
     <string name="content_action_next_up">Далее</string>
     <string name="content_action_last_channel">Последний канал</string>
-    <string name="content_continue_label"><xliff:g id="action">%1$s</xliff:g> · <xliff:g id="name">%2$s</xliff:g></string>
     <string name="content_empty_section"><xliff:g id="section">%1$s</xliff:g> появится на следующем этапе. Добавьте источник M3U или Xtream, чтобы заполнить этот список.</string>
     <string name="content_progress_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="content_section_category"><xliff:g id="section">%1$s</xliff:g> / <xliff:g id="category">%2$s</xliff:g></string>
     <string name="content_preview_player">Ваш собственный IPTV-плеер.</string>
     <string name="content_live_time_range"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="end">%2$s</xliff:g></string>
     <string name="content_live_time_remaining"><xliff:g id="end">%1$s</xliff:g> · осталось <xliff:g id="minutes">%2$d</xliff:g> мин</string>
-    <string name="common_browse">Обзор</string>
     <string name="content_downloads_title">Загрузки</string>
-    <string name="content_downloads_description">Фильмы и серии, сохранённые для просмотра не в сети.</string>
     <string name="content_downloads_empty">Загрузок пока нет. Откройте фильм или серию и нажмите «Скачать».</string>
     <string name="content_downloads_storage">Хранилище</string>
     <string name="content_downloads_options">Параметры загрузок</string>
@@ -242,7 +220,6 @@
     <string name="content_downloads_queued">В очереди…</string>
     <string name="content_downloads_count"><xliff:g id="count">%1$d</xliff:g></string>
     <string name="content_downloads_active">Активные</string>
-    <string name="content_downloads_waiting">Ожидающие</string>
     <string name="content_downloads_completed_group">Завершённые</string>
     <string name="content_downloads_failed_group">С ошибками</string>
     <string name="content_downloads_progress"><xliff:g id="percent">%1$d</xliff:g>%% · <xliff:g id="downloaded">%2$s</xliff:g> / <xliff:g id="total">%3$s</xliff:g></string>
@@ -282,14 +259,7 @@
         <item quantity="other">Программа передач содержит <xliff:g id="programmes">%1$d</xliff:g> телепередачи.</item>
     </plurals>
     <string name="content_epg_stats_loaded"><xliff:g id="channels">%1$s</xliff:g> <xliff:g id="programmes">%2$s</xliff:g> <xliff:g id="catchup">%3$s</xliff:g></string>
-    <string name="content_epg_no_catchup_channels">Ни один канал не поддерживает архив.</string>
     <string name="content_epg_stats_no_catchup">Каналы с архивом недоступны.</string>
-    <plurals name="content_epg_catchup_count">
-        <item quantity="one">Архив доступен на <xliff:g id="count">%1$d</xliff:g> канале.</item>
-        <item quantity="few">Архив доступен на <xliff:g id="count">%1$d</xliff:g> каналах.</item>
-        <item quantity="many">Архив доступен на <xliff:g id="count">%1$d</xliff:g> каналах.</item>
-        <item quantity="other">Архив доступен на <xliff:g id="count">%1$d</xliff:g> канала.</item>
-    </plurals>
     <plurals name="content_epg_stats_catchup_available">
         <item quantity="one">Архив доступен на <xliff:g id="count">%1$d</xliff:g> канале.</item>
         <item quantity="few">Архив доступен на <xliff:g id="count">%1$d</xliff:g> каналах.</item>
@@ -321,7 +291,6 @@
     <string name="content_epg_no_guide">Нет программы передач.</string>
     <string name="content_epg_no_programme">На это время телепередач нет.</string>
     <string name="content_epg_add_description">Добавьте источник EPG (XMLTV), чтобы заполнить программу передач.</string>
-    <string name="content_epg_favourite_description">Добавьте этот канал в избранное или настройте для него данные программы передач.</string>
     <string name="content_epg_guide_category">Категория программы передач</string>
     <string name="content_epg_all_categories">Все категории</string>
     <string name="content_epg_search_hint">Поиск каналов программы передач…</string>
@@ -329,18 +298,14 @@
     <string name="content_epg_add_favourite">Добавить в избранное</string>
     <string name="content_epg_remove_favourite">Удалить из избранного</string>
     <string name="content_epg_jump_now">К текущему времени</string>
-    <string name="content_epg_runtime"><xliff:g id="minutes">%1$d</xliff:g> мин</string>
     <string name="content_epg_review_matches">Проверка сопоставлений EPG</string>
     <string name="content_epg_include_logos">Использовать логотипы из гида</string>
-    <string name="content_epg_include_logos_short">Логотипы</string>
     <string name="content_epg_review_description">Эти каналы были сопоставлены по названию, но соответствие оказалось недостаточно точным. Примите правильные варианты, а остальные пропустите.</string>
     <string name="content_epg_accept">Принять</string>
     <string name="content_epg_accept_all">Принять все</string>
     <string name="content_epg_skip">Пропустить</string>
     <string name="content_epg_skip_all">Пропустить все</string>
     <string name="content_epg_pick_manually">Выбрать канал EPG вручную</string>
-    <string name="content_epg_move_hint">Перейдите вправо в ряд, затем используйте ◀ ▶, чтобы выбрать телепередачу для предпросмотра.</string>
-    <string name="content_epg_catchup">↻ архив</string>
     <string name="content_epg_time_range"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="end">%2$s</xliff:g></string>
     <string name="content_epg_all">Все</string>
     <string name="content_epg_sort_alpha">А–Я</string>
@@ -348,13 +313,10 @@
     <string name="content_epg_sort_live">Прямой эфир</string>
     <string name="content_epg_sort_catchup">Архив</string>
     <string name="content_epg_sort_favorites">Избранное</string>
-    <string name="content_epg_category_button">Категория: <xliff:g id="label">%1$s</xliff:g></string>
     <string name="content_epg_sort_button">Сортировка: <xliff:g id="label">%1$s</xliff:g></string>
     <string name="content_epg_match_button">Автосопоставление EPG</string>
     <string name="content_epg_channel_score">→ <xliff:g id="name">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
-    <string name="content_epg_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
     <string name="content_epg_bits_separator">" · "</string>
-    <string name="content_epg_now">СЕЙЧАС · <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_watch_start">Смотреть с начала</string>
     <string name="content_epg_watch_channel">Смотреть канал</string>
     <string name="content_epg_favourite">В избранное</string>

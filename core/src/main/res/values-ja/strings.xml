@@ -19,7 +19,6 @@
     <string name="common_start_over">最初から再生</string>
     <string name="common_name">名前</string>
     <string name="common_own_tv_user">OwnTV ユーザー</string>
-    <string name="common_switch_profile">プロフィールを切り替え</string>
     <string name="common_proxy">プロキシ</string>
     <string name="common_title">タイトル</string>
     <string name="common_search_hint">検索…</string>
@@ -43,7 +42,6 @@
     <string name="common_something_went_wrong">問題が発生しました</string>
     <string name="common_move_instructions">▲/▼で移動 · OKで保存 · 戻るでキャンセル</string>
     <string name="common_number_grouped"><xliff:g id="count">%1$,d</xliff:g></string>
-    <string name="common_rating"><xliff:g id="rating">%1$.1f</xliff:g></string>
     <string name="common_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="common_timestamp_minutes"><xliff:g id="minutes">%1$d</xliff:g>:<xliff:g id="seconds">%2$02d</xliff:g></string>
     <string name="common_timestamp_hours"><xliff:g id="hours">%1$d</xliff:g>:<xliff:g id="minutes">%2$02d</xliff:g>:<xliff:g id="seconds">%3$02d</xliff:g></string>
@@ -117,7 +115,6 @@
     <string name="sync_error_secure">安全な接続に失敗しました — サーバーの証明書が無効な可能性があります。</string>
     <string name="sync_error_malformed_guide">サーバーから取得した番組表データの形式が正しくありませんでした。一部は読み込まれている可能性があります — もう一度試すか、EPGのURLを確認してください。</string>
     <string name="sync_error_guide_empty">この番組表は現在空です。プロバイダーがまだ公開していない可能性があります — しばらくしてからもう一度お試しください。</string>
-    <string name="common_items_per_skip">スキップ1回あたりの項目数</string>
     <string name="common_minutes">分</string>
     <string name="common_size_mb"><xliff:g id="size">%1$s</xliff:g> MB</string>
     <string name="common_size_gb"><xliff:g id="size">%1$s</xliff:g> GB</string>
@@ -127,7 +124,6 @@
     <string name="common_show">表示する</string>
     <string name="common_qr_code_companion_url">コンパニオンURL用のQRコード</string>
     <string name="sync_status_trending_starting">同期完了 · <xliff:g id="source">%1$s</xliff:g> · 「現在のトレンド」を構築中</string>
-    <string name="sync_status_trending_matching">トレンド項目をプレイリストと照合中</string>
     <string name="sync_status_trending_detail_waiting">TMDBの候補応答を待機中</string>
     <string name="sync_status_trending_detail_received">TMDBの候補 · 映画: <xliff:g id="movies">%1$d</xliff:g> · シリーズ: <xliff:g id="series">%2$d</xliff:g></string>
     <string name="sync_status_trending_detail_preparing">プロバイダーのタイトルインデックス · <xliff:g id="processed">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g></string>
@@ -143,9 +139,6 @@
     <string name="sync_status_trending_preserved">トレンドを更新できません · 前回の結果を保持しました</string>
     <plurals name="sync_status_trending_received">
         <item quantity="other">最新のトレンド項目を<xliff:g id="count">%1$d</xliff:g>件受信しました</item>
-    </plurals>
-    <plurals name="sync_status_trending_matched">
-        <item quantity="other">照合済み <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
     </plurals>
     <plurals name="sync_status_trending_building">
         <item quantity="other">「現在のトレンド」を構築中 · <xliff:g id="count">%1$d</xliff:g>件一致</item>

@@ -19,7 +19,6 @@
     <string name="common_start_over">Смотреть с начала</string>
     <string name="common_name">Имя</string>
     <string name="common_own_tv_user">Пользователь OwnTV</string>
-    <string name="common_switch_profile">Сменить профиль</string>
     <string name="common_proxy">Прокси</string>
     <string name="common_title">Название</string>
     <string name="common_search_hint">Поиск…</string>
@@ -43,7 +42,6 @@
     <string name="common_something_went_wrong">Что-то пошло не так</string>
     <string name="common_move_instructions">▲/▼ — перемещение · OK — сохранить · Назад — отменить</string>
     <string name="common_number_grouped"><xliff:g id="count">%1$,d</xliff:g></string>
-    <string name="common_rating"><xliff:g id="rating">%1$.1f</xliff:g></string>
     <string name="common_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="common_timestamp_minutes"><xliff:g id="minutes">%1$d</xliff:g>:<xliff:g id="seconds">%2$02d</xliff:g></string>
     <string name="common_timestamp_hours"><xliff:g id="hours">%1$d</xliff:g>:<xliff:g id="minutes">%2$02d</xliff:g>:<xliff:g id="seconds">%3$02d</xliff:g></string>
@@ -144,7 +142,6 @@
     <string name="sync_error_secure">Не удалось установить защищённое соединение — возможно, сертификат сервера недействителен.</string>
     <string name="sync_error_malformed_guide">Данные программы передач, полученные от сервера, имеют неверный формат. Возможно, некоторые данные всё же загрузились — повторите попытку или проверьте URL EPG.</string>
     <string name="sync_error_guide_empty">Эта телепрограмма сейчас пуста. Возможно, поставщик ещё не опубликовал её — повторите попытку позже.</string>
-    <string name="common_items_per_skip">Элементов за переход</string>
     <string name="common_minutes">Минуты</string>
     <string name="common_size_mb"><xliff:g id="size">%1$s</xliff:g> МБ</string>
     <string name="common_size_gb"><xliff:g id="size">%1$s</xliff:g> ГБ</string>
@@ -154,7 +151,6 @@
     <string name="common_show">Показать</string>
     <string name="common_qr_code_companion_url">QR-код для URL страницы-компаньона</string>
     <string name="sync_status_trending_starting">Синхронизация завершена · <xliff:g id="source">%1$s</xliff:g> · Создание раздела «Сейчас в тренде»</string>
-    <string name="sync_status_trending_matching">Сопоставление позиций из раздела «В тренде» с вашим плейлистом</string>
     <string name="sync_status_trending_detail_waiting">Ожидание ответа со списком кандидатов от TMDB</string>
     <string name="sync_status_trending_detail_received">Кандидаты от TMDB · Фильмы: <xliff:g id="movies">%1$d</xliff:g> · Сериалы: <xliff:g id="series">%2$d</xliff:g></string>
     <string name="sync_status_trending_detail_preparing">Индекс названий провайдера · <xliff:g id="processed">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g></string>
@@ -173,12 +169,6 @@
         <item quantity="few">Получены <xliff:g id="count">%1$d</xliff:g> актуальные позиции из раздела «В тренде»</item>
         <item quantity="many">Получено <xliff:g id="count">%1$d</xliff:g> актуальных позиций из раздела «В тренде»</item>
         <item quantity="other">Получено <xliff:g id="count">%1$d</xliff:g> актуальной позиции из раздела «В тренде»</item>
-    </plurals>
-    <plurals name="sync_status_trending_matched">
-        <item quantity="one">Сопоставлено <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="few">Сопоставлено <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="many">Сопоставлено <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="other">Сопоставлено <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
     </plurals>
     <plurals name="sync_status_trending_building">
         <item quantity="one">Создание раздела «Сейчас в тренде» · <xliff:g id="count">%1$d</xliff:g> совпадение</item>

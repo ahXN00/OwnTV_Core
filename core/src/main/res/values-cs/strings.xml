@@ -19,7 +19,6 @@
     <string name="common_start_over">Přehrát od začátku</string>
     <string name="common_name">Jméno</string>
     <string name="common_own_tv_user">Uživatel OwnTV</string>
-    <string name="common_switch_profile">Přepnout profil</string>
     <string name="common_proxy">Proxy</string>
     <string name="common_title">Název</string>
     <string name="common_search_hint">Vyhledávání…</string>
@@ -43,7 +42,6 @@
     <string name="common_something_went_wrong">Něco se pokazilo</string>
     <string name="common_move_instructions">▲/▼ pro přesun · OK pro uložení · Zpět pro zrušení</string>
     <string name="common_number_grouped"><xliff:g id="count">%1$,d</xliff:g></string>
-    <string name="common_rating"><xliff:g id="rating">%1$.1f</xliff:g></string>
     <string name="common_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="common_timestamp_minutes"><xliff:g id="minutes">%1$d</xliff:g>:<xliff:g id="seconds">%2$02d</xliff:g></string>
     <string name="common_timestamp_hours"><xliff:g id="hours">%1$d</xliff:g>:<xliff:g id="minutes">%2$02d</xliff:g>:<xliff:g id="seconds">%3$02d</xliff:g></string>
@@ -144,7 +142,6 @@
     <string name="sync_error_secure">Zabezpečené připojení se nezdařilo — certifikát serveru může být neplatný.</string>
     <string name="sync_error_malformed_guide">Data TV programu ze serveru neměla platný formát. Některá se přesto mohla načíst — zkuste to znovu nebo zkontrolujte EPG URL.</string>
     <string name="sync_error_guide_empty">Tento průvodce je momentálně prázdný. Poskytovatel jej možná ještě nezveřejnil — zkuste to prosím později.</string>
-    <string name="common_items_per_skip">Počet položek na jeden skok</string>
     <string name="common_minutes">Minuty</string>
     <string name="common_size_mb"><xliff:g id="size">%1$s</xliff:g> MB</string>
     <string name="common_size_gb"><xliff:g id="size">%1$s</xliff:g> GB</string>
@@ -154,7 +151,6 @@
     <string name="common_show">Zobrazit</string>
     <string name="common_qr_code_companion_url">QR kód pro URL doprovodného nástroje</string>
     <string name="sync_status_trending_starting">Synchronizace dokončena · <xliff:g id="source">%1$s</xliff:g> · Vytváření sekce Právě populární</string>
-    <string name="sync_status_trending_matching">Porovnávání populárních položek s vaším seznamem skladeb</string>
     <string name="sync_status_trending_detail_waiting">Čekání na odpověď s kandidáty z TMDB</string>
     <string name="sync_status_trending_detail_received">Kandidáti z TMDB · Filmy: <xliff:g id="movies">%1$d</xliff:g> · Seriály: <xliff:g id="series">%2$d</xliff:g></string>
     <string name="sync_status_trending_detail_preparing">Rejstřík názvů poskytovatele · <xliff:g id="processed">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g></string>
@@ -173,12 +169,6 @@
         <item quantity="few">Přijaty nejnovější <xliff:g id="count">%1$d</xliff:g> populární položky</item>
         <item quantity="many">Přijato nejnovějších <xliff:g id="count">%1$d</xliff:g> populární položky</item>
         <item quantity="other">Přijato nejnovějších <xliff:g id="count">%1$d</xliff:g> populárních položek</item>
-    </plurals>
-    <plurals name="sync_status_trending_matched">
-        <item quantity="one">Nalezena shoda <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="few">Nalezeny shody <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="many">Nalezeno shod <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="other">Nalezeno shod <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
     </plurals>
     <plurals name="sync_status_trending_building">
         <item quantity="one">Vytváření sekce Právě populární · <xliff:g id="count">%1$d</xliff:g> shoda</item>

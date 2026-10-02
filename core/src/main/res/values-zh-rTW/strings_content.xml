@@ -73,7 +73,6 @@
     <string name="content_oldest_first">最舊優先</string>
     <string name="content_newest_first">最新優先</string>
     <string name="content_last_watched">上次觀看時間</string>
-    <string name="content_press_ok_episodes">在海報上按下 OK 即可查看各集。</string>
     <string name="content_play_external">使用外部播放器播放</string>
     <string name="content_delete_subtitles">刪除 OpenSub 字幕</string>
     <string name="content_tmdb_details">TMDB 詳細資料</string>
@@ -81,12 +80,7 @@
     <string name="content_refetch_tmdb">重新擷取 TMDB 詳細資料</string>
     <string name="content_set_tmdb_name">設定 TMDB 名稱</string>
     <string name="content_close">關閉</string>
-    <string name="content_focus_movie">將焦點移至電影以查看詳細資料。</string>
-    <string name="content_focus_channel">將焦點移至頻道，即可在此處查看。</string>
-    <string name="content_press_ok_fullscreen">按下 OK 以全螢幕觀看 · 長按以顯示選項</string>
     <string name="content_rename_hint">僅適用於此使用者檔案。留白即可還原原始名稱。</string>
-    <string name="content_focus_series">將焦點移至影集，按下 OK 即可查看各集。</string>
-    <string name="content_focus_episode">將焦點移至某一集以查看詳細資料。</string>
     <string name="content_no_movies_here">這裡沒有電影。</string>
     <string name="content_no_series_here">這裡沒有影集。</string>
     <string name="content_no_episodes">沒有可用的集數。</string>
@@ -100,14 +94,11 @@
     <string name="content_provider">供應商</string>
     <string name="content_provider_name">供應商：%1$s</string>
     <string name="content_no_series_found">找不到與「<xliff:g id="query">%1$s</xliff:g>」相關的影集</string>
-    <string name="content_search_movies"><xliff:g id="category">%1$s</xliff:g>…</string>
-    <string name="content_search_series"><xliff:g id="category">%1$s</xliff:g>…</string>
     <string name="content_reorder_movie">重新排序電影</string>
     <string name="content_reorder_series">重新排序影集</string>
     <string name="content_already_downloaded">已下載——請查看下載內容選單。</string>
     <string name="content_refetching_tmdb">正在重新擷取 TMDB 詳細資料…</string>
     <string name="content_researching_tmdb">正在重新搜尋 TMDB…</string>
-    <string name="content_ok_play_options">按下 OK 播放 · 長按顯示選項</string>
     <string name="content_resume_at">從 <xliff:g id="position">%1$s</xliff:g> 繼續</string>
     <string name="content_duration_hours"><xliff:g id="hours">%1$d</xliff:g> 小時 <xliff:g id="minutes">%2$d</xliff:g> 分鐘</string>
     <string name="content_duration_minutes"><xliff:g id="minutes">%1$d</xliff:g> 分鐘</string>
@@ -121,9 +112,7 @@
     <string name="content_no_epg">無電子節目表</string>
     <string name="content_epg">電子節目表</string>
     <string name="content_live_day_time_range"><xliff:g id="day">%1$s</xliff:g> <xliff:g id="start">%2$s</xliff:g> – <xliff:g id="stop">%3$s</xliff:g></string>
-    <string name="content_epg_days">電子節目表 · <xliff:g id="days">%1$d</xliff:g> 天</string>
     <string name="content_catchup">回看</string>
-    <string name="content_catchup_days">回看 · <xliff:g id="days">%1$d</xliff:g> 天</string>
     <string name="content_play_external_short">以外部播放器播放</string>
     <string name="content_rename">重新命名</string>
     <string name="content_rename_channel">重新命名頻道</string>
@@ -132,10 +121,6 @@
     <string name="content_remove_history">從觀看記錄中移除</string>
     <string name="content_no_channels_here">這裡沒有頻道。</string>
     <string name="content_no_channels_found">找不到與「<xliff:g id="query">%1$s</xliff:g>」相關的頻道</string>
-    <plurals name="content_count_channels">
-        <item quantity="other"><xliff:g id="category">%1$s</xliff:g>（<xliff:g id="count">%2$d</xliff:g> 個頻道）</item>
-    </plurals>
-    <string name="content_search_channels"><xliff:g id="category">%1$s</xliff:g>…</string>
     <string name="content_match_epg">配對電子節目表</string>
     <string name="content_catchup_title">回看 · <xliff:g id="channel">%1$s</xliff:g></string>
     <string name="content_rewind_at">倒轉 · <xliff:g id="time">%1$s</xliff:g></string>
@@ -157,7 +142,6 @@
     <string name="content_clear_match">清除配對</string>
     <string name="content_live_now_label">目前</string>
     <string name="content_live_next_label">接下來 · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="content_live_later_label">稍後</string>
     <string name="content_live_time_range_plain"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="stop">%2$s</xliff:g></string>
     <string name="content_category_favorites">我的最愛</string>
     <string name="content_category_history">觀看記錄</string>
@@ -195,16 +179,13 @@
     <string name="content_action_play">播放</string>
     <string name="content_action_next_up">接著播放</string>
     <string name="content_action_last_channel">上一個頻道</string>
-    <string name="content_continue_label"><xliff:g id="action">%1$s</xliff:g> · <xliff:g id="name">%2$s</xliff:g></string>
     <string name="content_empty_section"><xliff:g id="section">%1$s</xliff:g> 將於後續階段推出。新增 M3U 或 Xtream 來源，即可在此清單中顯示內容。</string>
     <string name="content_progress_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="content_section_category"><xliff:g id="section">%1$s</xliff:g> / <xliff:g id="category">%2$s</xliff:g></string>
     <string name="content_preview_player">專屬於您的 IPTV 播放器。</string>
     <string name="content_live_time_range"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="end">%2$s</xliff:g></string>
     <string name="content_live_time_remaining"><xliff:g id="end">%1$s</xliff:g> · 剩餘 <xliff:g id="minutes">%2$d</xliff:g> 分鐘</string>
-    <string name="common_browse">瀏覽</string>
     <string name="content_downloads_title">下載內容</string>
-    <string name="content_downloads_description">儲存供離線播放的電影與集數。</string>
     <string name="content_downloads_empty">尚無下載內容。開啟電影或某一集，然後按下「下載」。</string>
     <string name="content_downloads_storage">儲存空間</string>
     <string name="content_downloads_options">下載選項</string>
@@ -221,7 +202,6 @@
     <string name="content_downloads_queued">已排入佇列…</string>
     <string name="content_downloads_count"><xliff:g id="count">%1$d</xliff:g></string>
     <string name="content_downloads_active">進行中</string>
-    <string name="content_downloads_waiting">等待中</string>
     <string name="content_downloads_completed_group">已完成</string>
     <string name="content_downloads_failed_group">失敗</string>
     <string name="content_downloads_progress"><xliff:g id="percent">%1$d</xliff:g>%% · <xliff:g id="downloaded">%2$s</xliff:g> / <xliff:g id="total">%3$s</xliff:g></string>
@@ -255,11 +235,7 @@
         <item quantity="other">節目表包含 <xliff:g id="programmes">%1$d</xliff:g> 個節目。</item>
     </plurals>
     <string name="content_epg_stats_loaded"><xliff:g id="channels">%1$s</xliff:g> <xliff:g id="programmes">%2$s</xliff:g> <xliff:g id="catchup">%3$s</xliff:g></string>
-    <string name="content_epg_no_catchup_channels">沒有頻道支援回看。</string>
     <string name="content_epg_stats_no_catchup">沒有可回看的頻道。</string>
-    <plurals name="content_epg_catchup_count">
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 個頻道可使用回看。</item>
-    </plurals>
     <plurals name="content_epg_stats_catchup_available">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 個頻道可使用回看。</item>
     </plurals>
@@ -279,7 +255,6 @@
     <string name="content_epg_no_guide">無節目表資料。</string>
     <string name="content_epg_no_programme">此時段沒有節目。</string>
     <string name="content_epg_add_description">新增電子節目表（XMLTV）來源，以在節目表中顯示節目。</string>
-    <string name="content_epg_favourite_description">將此頻道加入最愛，或設定其節目表資料。</string>
     <string name="content_epg_guide_category">節目表分類</string>
     <string name="content_epg_all_categories">所有分類</string>
     <string name="content_epg_search_hint">搜尋節目表頻道…</string>
@@ -287,18 +262,14 @@
     <string name="content_epg_add_favourite">加入我的最愛</string>
     <string name="content_epg_remove_favourite">從我的最愛中移除</string>
     <string name="content_epg_jump_now">跳至目前時間</string>
-    <string name="content_epg_runtime"><xliff:g id="minutes">%1$d</xliff:g> 分鐘</string>
     <string name="content_epg_review_matches">檢視電子節目表配對</string>
     <string name="content_epg_include_logos">包含節目表台標</string>
-    <string name="content_epg_include_logos_short">台標</string>
     <string name="content_epg_review_description">這些頻道已依名稱配對，但相符程度不夠確定。接受正確的配對，並略過其餘項目。</string>
     <string name="content_epg_accept">接受</string>
     <string name="content_epg_accept_all">全部接受</string>
     <string name="content_epg_skip">略過</string>
     <string name="content_epg_skip_all">全部略過</string>
     <string name="content_epg_pick_manually">手動選擇電子節目表</string>
-    <string name="content_epg_move_hint">向右移入列中，再使用 ◀ ▶ 瀏覽以預覽節目。</string>
-    <string name="content_epg_catchup">↻ 回看</string>
     <string name="content_epg_time_range"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="end">%2$s</xliff:g></string>
     <string name="content_epg_all">全部</string>
     <string name="content_epg_sort_alpha">A–Z</string>
@@ -306,13 +277,10 @@
     <string name="content_epg_sort_live">電視直播</string>
     <string name="content_epg_sort_catchup">回看</string>
     <string name="content_epg_sort_favorites">我的最愛</string>
-    <string name="content_epg_category_button">分類：<xliff:g id="label">%1$s</xliff:g></string>
     <string name="content_epg_sort_button">排序：<xliff:g id="label">%1$s</xliff:g></string>
     <string name="content_epg_match_button">自動配對電子節目表</string>
     <string name="content_epg_channel_score">→ <xliff:g id="name">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
-    <string name="content_epg_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
     <string name="content_epg_bits_separator">" · "</string>
-    <string name="content_epg_now">目前 · <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_watch_start">從頭播放</string>
     <string name="content_epg_watch_channel">觀看頻道</string>
     <string name="content_epg_favourite">加入最愛</string>

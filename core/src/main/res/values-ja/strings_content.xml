@@ -73,7 +73,6 @@
     <string name="content_oldest_first">古い順</string>
     <string name="content_newest_first">新しい順</string>
     <string name="content_last_watched">最終視聴日時</string>
-    <string name="content_press_ok_episodes">ポスターでOKを押すとエピソードを表示します。</string>
     <string name="content_play_external">外部プレーヤーで再生</string>
     <string name="content_delete_subtitles">OpenSubの字幕を削除</string>
     <string name="content_tmdb_details">TMDBの詳細</string>
@@ -81,12 +80,7 @@
     <string name="content_refetch_tmdb">TMDBの詳細を再取得</string>
     <string name="content_set_tmdb_name">TMDB名を設定</string>
     <string name="content_close">閉じる</string>
-    <string name="content_focus_movie">映画にフォーカスすると詳細が表示されます。</string>
-    <string name="content_focus_channel">チャンネルにフォーカスするとここに表示されます。</string>
-    <string name="content_press_ok_fullscreen">OKで全画面表示 · 長押しでオプション</string>
     <string name="content_rename_hint">このプロフィールにのみ適用されます。空欄にすると元の名前に戻ります。</string>
-    <string name="content_focus_series">シリーズにフォーカスし、OKを押すとエピソードが表示されます。</string>
-    <string name="content_focus_episode">エピソードにフォーカスすると詳細が表示されます。</string>
     <string name="content_no_movies_here">ここに映画はありません。</string>
     <string name="content_no_series_here">ここにシリーズはありません。</string>
     <string name="content_no_episodes">利用可能なエピソードはありません。</string>
@@ -100,14 +94,11 @@
     <string name="content_provider">プロバイダー</string>
     <string name="content_provider_name">プロバイダー: %1$s</string>
     <string name="content_no_series_found">「<xliff:g id="query">%1$s</xliff:g>」に一致するシリーズは見つかりませんでした</string>
-    <string name="content_search_movies"><xliff:g id="category">%1$s</xliff:g>…</string>
-    <string name="content_search_series"><xliff:g id="category">%1$s</xliff:g>…</string>
     <string name="content_reorder_movie">映画を並べ替え</string>
     <string name="content_reorder_series">シリーズを並べ替え</string>
     <string name="content_already_downloaded">すでにダウンロード済みです — ダウンロードメニューを確認してください。</string>
     <string name="content_refetching_tmdb">TMDBの詳細を再取得中…</string>
     <string name="content_researching_tmdb">TMDBを再検索中…</string>
-    <string name="content_ok_play_options">OKで再生 · 長押しでオプション</string>
     <string name="content_resume_at"><xliff:g id="position">%1$s</xliff:g>から再開</string>
     <string name="content_duration_hours"><xliff:g id="hours">%1$d</xliff:g>時間<xliff:g id="minutes">%2$d</xliff:g>分</string>
     <string name="content_duration_minutes"><xliff:g id="minutes">%1$d</xliff:g>分</string>
@@ -121,9 +112,7 @@
     <string name="content_no_epg">EPGなし</string>
     <string name="content_epg">EPG</string>
     <string name="content_live_day_time_range"><xliff:g id="day">%1$s</xliff:g> <xliff:g id="start">%2$s</xliff:g> – <xliff:g id="stop">%3$s</xliff:g></string>
-    <string name="content_epg_days">EPG · <xliff:g id="days">%1$d</xliff:g>日</string>
     <string name="content_catchup">見逃し配信</string>
-    <string name="content_catchup_days">見逃し配信 · <xliff:g id="days">%1$d</xliff:g>日</string>
     <string name="content_play_external_short">外部プレーヤーで再生</string>
     <string name="content_rename">名前を変更</string>
     <string name="content_rename_channel">チャンネル名を変更</string>
@@ -132,10 +121,6 @@
     <string name="content_remove_history">視聴履歴から削除</string>
     <string name="content_no_channels_here">ここにチャンネルはありません。</string>
     <string name="content_no_channels_found">「<xliff:g id="query">%1$s</xliff:g>」に一致するチャンネルは見つかりませんでした</string>
-    <plurals name="content_count_channels">
-        <item quantity="other"><xliff:g id="category">%1$s</xliff:g>（チャンネル<xliff:g id="count">%2$d</xliff:g>件）</item>
-    </plurals>
-    <string name="content_search_channels"><xliff:g id="category">%1$s</xliff:g>…</string>
     <string name="content_match_epg">EPGを照合</string>
     <string name="content_catchup_title">見逃し配信 · <xliff:g id="channel">%1$s</xliff:g></string>
     <string name="content_rewind_at">巻き戻し · <xliff:g id="time">%1$s</xliff:g></string>
@@ -157,7 +142,6 @@
     <string name="content_clear_match">照合を解除</string>
     <string name="content_live_now_label">現在</string>
     <string name="content_live_next_label">次 · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="content_live_later_label">後ほど</string>
     <string name="content_live_time_range_plain"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="stop">%2$s</xliff:g></string>
     <string name="content_category_favorites">お気に入り</string>
     <string name="content_category_history">視聴履歴</string>
@@ -195,16 +179,13 @@
     <string name="content_action_play">再生</string>
     <string name="content_action_next_up">次に再生</string>
     <string name="content_action_last_channel">前回のチャンネル</string>
-    <string name="content_continue_label"><xliff:g id="action">%1$s</xliff:g> · <xliff:g id="name">%2$s</xliff:g></string>
     <string name="content_empty_section"><xliff:g id="section">%1$s</xliff:g>は今後の段階で追加されます。この一覧にコンテンツを表示するには、M3UまたはXtreamソースを追加してください。</string>
     <string name="content_progress_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="content_section_category"><xliff:g id="section">%1$s</xliff:g> / <xliff:g id="category">%2$s</xliff:g></string>
     <string name="content_preview_player">あなただけのIPTVプレーヤー。</string>
     <string name="content_live_time_range"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="end">%2$s</xliff:g></string>
     <string name="content_live_time_remaining"><xliff:g id="end">%1$s</xliff:g> · 残り<xliff:g id="minutes">%2$d</xliff:g>分</string>
-    <string name="common_browse">コンテンツを探す</string>
     <string name="content_downloads_title">ダウンロード</string>
-    <string name="content_downloads_description">オフライン再生用に保存した映画とエピソード。</string>
     <string name="content_downloads_empty">ダウンロードはまだありません。映画またはエピソードを開いて、「ダウンロード」を押してください。</string>
     <string name="content_downloads_storage">ストレージ</string>
     <string name="content_downloads_options">ダウンロードオプション</string>
@@ -221,7 +202,6 @@
     <string name="content_downloads_queued">キュー待ち…</string>
     <string name="content_downloads_count"><xliff:g id="count">%1$d</xliff:g></string>
     <string name="content_downloads_active">進行中</string>
-    <string name="content_downloads_waiting">待機中</string>
     <string name="content_downloads_completed_group">完了</string>
     <string name="content_downloads_failed_group">失敗</string>
     <string name="content_downloads_progress"><xliff:g id="percent">%1$d</xliff:g>%% · <xliff:g id="downloaded">%2$s</xliff:g> / <xliff:g id="total">%3$s</xliff:g></string>
@@ -255,11 +235,7 @@
         <item quantity="other">番組表には<xliff:g id="programmes">%1$d</xliff:g>件の番組があります。</item>
     </plurals>
     <string name="content_epg_stats_loaded"><xliff:g id="channels">%1$s</xliff:g> <xliff:g id="programmes">%2$s</xliff:g> <xliff:g id="catchup">%3$s</xliff:g></string>
-    <string name="content_epg_no_catchup_channels">見逃し配信に対応するチャンネルはありません。</string>
     <string name="content_epg_stats_no_catchup">見逃し配信を利用できるチャンネルはありません。</string>
-    <plurals name="content_epg_catchup_count">
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g>チャンネルで見逃し配信を利用できます。</item>
-    </plurals>
     <plurals name="content_epg_stats_catchup_available">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g>チャンネルで見逃し配信を利用できます。</item>
     </plurals>
@@ -279,7 +255,6 @@
     <string name="content_epg_no_guide">番組表がありません。</string>
     <string name="content_epg_no_programme">現在の時間帯に番組はありません。</string>
     <string name="content_epg_add_description">EPG（XMLTV）ソースを追加して、番組表に番組を表示します。</string>
-    <string name="content_epg_favourite_description">このチャンネルをお気に入りに追加するか、番組表データを設定します。</string>
     <string name="content_epg_guide_category">番組表カテゴリ</string>
     <string name="content_epg_all_categories">すべてのカテゴリ</string>
     <string name="content_epg_search_hint">番組表チャンネルを検索…</string>
@@ -287,18 +262,14 @@
     <string name="content_epg_add_favourite">お気に入りに追加</string>
     <string name="content_epg_remove_favourite">お気に入りから削除</string>
     <string name="content_epg_jump_now">現在時刻へ移動</string>
-    <string name="content_epg_runtime"><xliff:g id="minutes">%1$d</xliff:g>分</string>
     <string name="content_epg_review_matches">EPGの照合結果を確認</string>
     <string name="content_epg_include_logos">ガイドのロゴも使う</string>
-    <string name="content_epg_include_logos_short">ロゴ</string>
     <string name="content_epg_review_description">これらのチャンネルは名前で照合されましたが、確実な一致ではありません。正しいものを承認し、それ以外はスキップしてください。</string>
     <string name="content_epg_accept">承認</string>
     <string name="content_epg_accept_all">すべて承認</string>
     <string name="content_epg_skip">スキップ</string>
     <string name="content_epg_skip_all">すべてスキップ</string>
     <string name="content_epg_pick_manually">EPGを手動で選択</string>
-    <string name="content_epg_move_hint">右に移動して行に入り、◀ ▶で番組を選んでプレビューします。</string>
-    <string name="content_epg_catchup">↻ 見逃し配信</string>
     <string name="content_epg_time_range"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="end">%2$s</xliff:g></string>
     <string name="content_epg_all">すべて</string>
     <string name="content_epg_sort_alpha">あいうえお順</string>
@@ -306,13 +277,10 @@
     <string name="content_epg_sort_live">ライブTV</string>
     <string name="content_epg_sort_catchup">見逃し配信</string>
     <string name="content_epg_sort_favorites">お気に入り</string>
-    <string name="content_epg_category_button">カテゴリ：<xliff:g id="label">%1$s</xliff:g></string>
     <string name="content_epg_sort_button">並べ替え：<xliff:g id="label">%1$s</xliff:g></string>
     <string name="content_epg_match_button">EPGを自動照合</string>
     <string name="content_epg_channel_score">→ <xliff:g id="name">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
-    <string name="content_epg_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
     <string name="content_epg_bits_separator">" · "</string>
-    <string name="content_epg_now">現在 · <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_watch_start">最初から再生</string>
     <string name="content_epg_watch_channel">チャンネルを視聴</string>
     <string name="content_epg_favourite">お気に入りに追加</string>

@@ -7,11 +7,7 @@
     <string name="settings_mini_player">Minipřehrávač</string>
     <string name="settings_mini_player_description">Malý plovoucí přehrávač, který se zobrazí, když při procházení ukotvíte kanál v režimu PiP. Tato nastavení můžete změnit zde nebo za běhu pomocí tlačítek pro změnu velikosti a přesunutí přímo na minipřehrávači.</string>
     <string name="settings_size">Velikost</string>
-    <string name="settings_mini_player_size_description">Velikost minipřehrávače jako podíl šířky obrazovky (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
     <string name="settings_position">Umístění</string>
-    <string name="settings_mini_player_position_description">Ke kterému rohu nebo okraji se minipřehrávač ukotví.</string>
-    <string name="settings_mini_player_size">Velikost minipřehrávače</string>
-    <string name="settings_mini_player_position">Umístění minipřehrávače</string>
     <string name="settings_home_screen">Domovská obrazovka</string>
     <string name="settings_sections">Sekce</string>
     <string name="settings_hidden_sections">Skryté sekce zůstanou v seznamu, abyste je mohli znovu zapnout.</string>
@@ -58,16 +54,11 @@
     <string name="settings_proxy_connection_failed">K proxy se nepodařilo připojit (zkontrolujte hostitele a port).</string>
     <string name="settings_proxy_http">Proxy vrátila stav HTTP <xliff:g id="code">%1$d</xliff:g></string>
     <string name="settings_proxy_failed">Test proxy se nezdařil.</string>
-    <string name="settings_ch_nav_title">Stránkování tlačítky CH+/RW · CH−/FF</string>
-    <string name="settings_ch_nav_description">Procházejte seznam kategorií nebo položek po stránkách pomocí tlačítek CH+/RW / CH−/FF na dálkovém ovladači.</string>
-    <string name="settings_ch_nav_enabled">Používat tlačítka CH+/RW · CH−/FF ke stránkování seznamů</string>
-    <string name="settings_ch_nav_enabled_description">Je-li tato možnost zapnutá, tlačítka CH+/RW a CH−/FF přeskakují v zaměřeném panelu (lišta kategorií nebo seznam položek a seznam kategorií na obrazovce Přizpůsobit). Je-li vypnutá, nemají tato tlačítka na uvedených obrazovkách žádnou funkci.</string>
     <string name="settings_ch_nav_up">Přeskok CH+ / Převíjení zpět (směrem k první položce)</string>
     <string name="settings_ch_nav_up_description">O kolik položek se přeskočí nahoru při jednom stisknutí CH+/RW. Dlouhé stisknutí vždy přejde na první položku.</string>
     <string name="settings_ch_nav_down">Přeskok CH− / Převíjení vpřed (směrem k poslední položce)</string>
     <string name="settings_ch_nav_down_description">O kolik položek se přeskočí dolů při jednom stisknutí CH−/FF. Dlouhé stisknutí vždy přejde na poslední položku.</string>
     <string name="settings_skip_counts">Počty přeskakovaných položek</string>
-    <string name="settings_ch_nav_help">• Přeskoky jsou na koncích omezené, takže u krátkých seznamů stačí k dosažení konce jedno stisknutí.\n• Dlouhé stisknutí CH+/RW = první položka, dlouhé stisknutí CH−/FF = poslední položka.\n• Dlouhé stisknutí je vypnuté v seznamu „Vše“ (všechny kanály / filmy / seriály) — přeskakování krátkým stisknutím tam nadále funguje.\n• Funkce se použije v panelu, který je právě zaměřený — v liště kategorií nebo v seznamu či mřížce položek.\n• Po stránkách prochází také seznam kategorií v Nastavení → Přizpůsobit kategorie a položky.</string>
     <string name="settings_remote_shortcuts">Zkratky ovladače</string>
     <string name="settings_remote_shortcuts_description">Přiřaďte volná tlačítka ovladače k navigaci, přehrávání a procházení. Základní navigační tlačítka zůstanou chráněná.</string>
     <string name="settings_remote_shortcuts_enabled">Používat zkratky ovladače</string>
@@ -112,7 +103,6 @@
     <string name="settings_remote_action_jump_first">Přejít na první položku</string>
     <string name="settings_remote_action_jump_last">Přejít na poslední položku</string>
     <string name="settings_large_skips_warning">Velké přeskoky mohou přeskočit krátké seznamy a na méně výkonných televizorech působit trhaně.</string>
-    <string name="settings_ch_nav_picker">Stránkování tlačítky CH+/RW · CH−/FF</string>
     <string name="settings_weather">Počasí</string>
     <string name="settings_show_weather">Zobrazovat počasí</string>
     <string name="settings_show_weather_description">Zobrazit aktuální počasí v horní liště.</string>
@@ -131,7 +121,6 @@
     <string name="settings_metadata_provider_description">Používat pouze údaje z playlistu. Bez vyhledávání v TMDB.</string>
     <string name="settings_metadata_provider_tmdb_description">Údaje z playlistu mají přednost; TMDB doplní chybějící informace a přidá obsazení, žánry a obrázky na pozadí.</string>
     <string name="settings_metadata_tmdb_only_description">U všech polí upřednostnit TMDB; údaje z playlistu použít pouze v případě, že TMDB nic nenajde.</string>
-    <string name="settings_selected">Vybrané</string>
     <string name="settings_metadata_allowance">Váš denní podíl</string>
     <string name="settings_metadata_reset_automatic">Obnovuje se automaticky</string>
     <string name="settings_metadata_library_details">Podrobnosti knihovny</string>
@@ -151,27 +140,19 @@
     <string name="settings_metadata_connection">Připojení</string>
     <string name="settings_metadata_remote_advanced">Získat pokročilé údaje TMDB</string>
     <string name="settings_metadata_remote_advanced_description">Použijte vlastní klíč TMDB API nebo vlastní Worker místo společného výchozího.</string>
-    <string name="settings_metadata_usage_label">Využití</string>
-    <string name="settings_metadata_usage_value"><xliff:g id="min_used">%1$d</xliff:g>/<xliff:g id="min_total">%2$d</xliff:g> min · <xliff:g id="hr_used">%3$d</xliff:g>/<xliff:g id="hr_total">%4$d</xliff:g> hod. · <xliff:g id="day_used">%5$d</xliff:g>/<xliff:g id="day_total">%6$d</xliff:g> den</string>
-    <string name="settings_metadata_source_label">Zdroj</string>
     <string name="settings_metadata_key_label">Klíč</string>
     <string name="settings_metadata_server_label">Server</string>
-    <string name="settings_metadata_refills_label">Obnoví se v</string>
     <string name="settings_metadata_clear_advanced_title">Přestat používat vlastní klíč?</string>
     <string name="settings_metadata_clear_advanced_message">Váš klíč API TMDB a adresa vlastního serveru budou z tohoto zařízení smazány a OwnTV se vrátí k vestavěné sdílené službě s jejím denním podílem.</string>
     <string name="settings_metadata_fair_share">Vestavěnou službu metadat sdílejí všichni uživatelé OwnTV, takže každé zařízení dostává každý den vlastní podíl. Pokud svůj podíl vyčerpáte, plakáty a popisy se pozastaví, dokud se podíl neobnoví — informace z vaší vlastní playlistu fungují dál normálně. Přidání vlastního klíče API TMDB nebo serveru toto omezení odstraní: je zdarma a osobní klíč prakticky žádný limit nemá.</string>
     <string name="settings_metadata_limit_reached">Denní podíl metadat je vyčerpán — přidejte v Nastavení → Metadata vlastní klíč TMDB a toto omezení zmizí.</string>
     <string name="settings_metadata_language">Jazyk metadat</string>
     <string name="settings_metadata_language_description">Jazyk popisů, žánrů a názvů z TMDB. Pole, která TMDB nepřeložilo, zůstanou anglicky. Podrobnosti se ukládají do mezipaměti pro každý jazyk, takže přepnutí zpět je okamžité.</string>
-    <string name="settings_advanced_options">Pokročilé možnosti</string>
-    <string name="settings_advanced_metadata_description">Používejte místo výchozího sdíleného nastavení vlastní klíč API TMDB nebo vlastní server.</string>
     <string name="settings_metadata_server_description">Chcete-li použít integrovaný sdílený server bez dalšího nastavení, ponechte obě pole prázdná. Chcete-li volat TMDB přímo, zadejte vlastní klíč API TMDB. Případně zadejte URL vlastního serveru a používejte vlastní proxy či zrcadlo. URL má přednost před klíčem.</string>
     <string name="settings_metadata_key_from_phone">Získat klíč z jiného zařízení</string>
     <string name="settings_metadata_key_from_phone_desc">Otevřete adresu v prohlížeči libovolného zařízení — telefonu, počítače nebo jiné televize —, přihlaste se tam k TMDB a pošlete klíč. Nic se nepíše ovladačem.</string>
     <string name="settings_metadata_key_received">Klíč TMDB přijat</string>
     <string name="settings_tmdb_api_key">Klíč API TMDB (v3)</string>
-    <string name="settings_self_host_url">URL vlastního serveru</string>
-    <string name="settings_test">Test</string>
     <string name="settings_metadata_empty_title">Zadejte název, který chcete vyhledat.</string>
     <string name="settings_metadata_server_unavailable">K serveru metadat se nepodařilo připojit — zkontrolujte síť, klíč a URL.</string>
     <string name="settings_metadata_no_match">V TMDB nebyla pro „<xliff:g id="query">%1$s</xliff:g>“ nalezena shoda.</string>
@@ -195,7 +176,6 @@
     <string name="settings_quick_hdr">HDR (jen mpv)</string>
     <string name="settings_quick_autoplay">Automatické přehrávání</string>
     <string name="settings_quick_check_update">Zkontrolovat aktualizaci</string>
-    <string name="settings_search_label">Vyhledávání v nastavení</string>
     <string name="settings_search_hint">Vyhledávání v nastavení…</string>
     <string name="settings_language">Jazyk</string>
     <string name="settings_language_description">Jazyk rozhraní aplikace</string>
@@ -226,7 +206,6 @@
     <string name="settings_home_root_description">Vybírejte, řaďte a filtrujte řádky na domovské obrazovce</string>
     <string name="settings_metadata_root_description">Plakáty, popisy děje, obsazení a hodnocení filmů a seriálů</string>
     <string name="settings_download_folder">Složka pro stahování</string>
-    <string name="settings_app_storage">Úložiště aplikace</string>
     <string name="settings_backup_restore">Záloha a obnovení</string>
     <string name="settings_backup_restore_description">Export nebo obnovení profilů a zdrojů</string>
     <string name="settings_clear_history">Vymazat historii sledování</string>
@@ -268,7 +247,6 @@
     <string name="settings_afr_resolution">Přizpůsobit rozlišení</string>
     <string name="settings_afr_resolution_description">Jen filmy. Když se pro film mění režim obrazu, televizor přepne i na jeho rozlišení — 1080p pro HD film na 4K televizoru —, nikdy nad rozlišení, se kterým začínal. Vypnuto ponechá rozlišení beze změny a televizor obraz převzorkuje, obvykle s lepším výsledkem.</string>
     <string name="settings_surround_sound">Prostorový zvuk</string>
-    <string name="settings_surround_description">Dekódovat Dolby/DTS do prostorového zvuku (5.1/7.1) pro skutečný přijímač 5.1/7.1. U reproduktorů televizoru nebo stereofonního soundbaru ponechte VYPNUTO — na některých televizorech a soundbarech může vícekanálový zvuk zaostávat za obrazem. Pokud se rozchází, upravte v nabídce Zvuk přehrávače → Synchronizace A/V.</string>
     <string name="settings_surround_description_mobile">Dekódovat Dolby/DTS do prostorového zvuku (5.1/7.1) pro skutečný přijímač 5.1/7.1 připojený k tomuto zařízení. U vestavěného reproduktoru, sluchátek nebo stereofonního soundbaru ponechte VYPNUTO — vícekanálový zvuk může zaostávat za obrazem. Pokud se rozchází, upravte v nabídce Zvuk přehrávače → Synchronizace A/V.</string>
     <string name="settings_audio_passthrough">Passthrough Dolby a DTS</string>
     <string name="settings_audio_passthrough_description">Zapnuto: Dolby a DTS jdou nedekódované do televizoru, soundbaru nebo receiveru, pokud hlásí, že je umí přehrát (ExoPlayer). Vypnuto: aplikace je dekóduje, stále jako prostorový zvuk tam, kde to Prostorový zvuk dovoluje. mpv dekóduje vždy. Nepoužívá se, dokud běží Noční režim nebo Vyrovnání hlasitosti.</string>
@@ -328,13 +306,11 @@
     <string name="settings_yes_clear">Ano, vymazat</string>
     <string name="settings_presets">Předvolby</string>
     <string name="settings_hex_code">Hexadecimální kód</string>
-    <string name="settings_hex">Hex</string>
     <string name="settings_apply">Použít</string>
     <string name="settings_hex_error">Zadejte 6 hexadecimálních číslic, např. 52DBC8</string>
     <string name="settings_color_picker">Výběr barvy</string>
     <string name="settings_use_color">Použít tuto barvu</string>
     <string name="settings_about_version">Verze <xliff:g id="version">%1$s</xliff:g></string>
-    <string name="settings_about_description_full">Váš vlastní přehrávač IPTV pro Android TV — bezplatná aplikace s otevřeným zdrojovým kódem sloužící pouze jako přehrávač. Neposkytuje žádné kanály ani obsah; vlastní legálně dostupné zdroje si přidáte sami.</string>
     <string name="settings_about_description_full_mobile">Váš vlastní přehrávač IPTV pro Android — bezplatná aplikace s otevřeným zdrojovým kódem sloužící pouze jako přehrávač. Neposkytuje žádné kanály ani obsah; vlastní legálně dostupné zdroje si přidáte sami.</string>
     <string name="settings_about_license">© 2026 OwnTV · Licence GPLv3</string>
     <string name="settings_join_telegram">Přidejte se k nám na Telegramu</string>
@@ -349,7 +325,6 @@
     <string name="settings_clear_log">Vymazat protokol</string>
     <string name="settings_browsing_title">Procházení a seznamy</string>
     <string name="settings_browsing_description_full">Kam se po návratu vrátí živé vysílání, filmy a seriály.</string>
-    <string name="settings_section_toggle"><xliff:g id="section">%1$s</xliff:g>: <xliff:g id="state">%2$s</xliff:g></string>
     <string name="settings_glass_surfaces">Skleněné plochy</string>
     <string name="settings_glass_surfaces_description">Zvolte, které části aplikace se mají vykreslovat jako sklo. Vypnutím všech ploch vypnete efekt skla.</string>
     <string name="settings_all_surfaces_on">Všechny plochy: Zapnuto</string>
@@ -492,7 +467,6 @@
     <string name="settings_language_original">Původní jazyk</string>
     <string name="settings_language_ukrainian">Ukrajinština</string>
     <string name="settings_language_vietnamese">Vietnamština</string>
-    <string name="settings_decoding">Dekódování</string>
     <string name="settings_hardware_decoding">Hardwarové dekódování</string>
     <string name="settings_hardware_decoding_description">Používat hardwarový dekodér televizoru. Vypněte, pokud se některé streamy sekají nebo zobrazují obrazové vady.</string>
     <string name="settings_hardware_decoding_description_mobile">Používat hardwarový dekodér zařízení. Vypněte, pokud se některé streamy sekají nebo zobrazují obrazové vady.</string>
@@ -550,7 +524,6 @@
     <string name="settings_live_rewind_step_description">Jak daleko se přetáčí zpět a vpřed na živém kanálu: v archivu zpětného sledování, nebo v kopii uložené funkcí Pozastavit a přetáčet živé vysílání.</string>
     <string name="settings_resume_playback">Pokračovat v přehrávání</string>
     <string name="settings_resume_playback_description">Co udělat, když má film nebo epizoda uloženou pozici.</string>
-    <string name="settings_subtitles">Titulky</string>
     <string name="settings_subtitle_appearance">Vzhled titulků</string>
     <string name="settings_subtitle_appearance_description">Velikost, barva textu, umístění na obrazovce a průhlednost pozadí. Když je tato možnost vypnutá, titulky si zachovají výchozí vzhled — včetně stylů, které vysílatelé vkládají do titulků živého vysílání.</string>
     <string name="settings_subtitle_size">Velikost titulků</string>
@@ -575,7 +548,6 @@
     <string name="settings_shared">Společné</string>
     <string name="settings_open_subtitles_access_priority">Pro společný Worker OwnTV nechte obojí prázdné. Vlastní adresa Workeru má přednost před přímým klíčem API. Přihlášení k účtu zůstává specifické pro profil.</string>
     <string name="settings_remove_custom_access">Odebrat vlastní přístup</string>
-    <string name="settings_audio">Zvuk</string>
     <string name="settings_preferred_audio_language">Preferovaný jazyk zvuku</string>
     <string name="settings_audio_sync">Synchronizace zvuku</string>
     <string name="settings_audio_sync_description">Posuňte zvuk dopředu nebo dozadu, aby odpovídal obrazu. Funguje v obou přehrávačích (mpv i ExoPlayer).</string>
@@ -598,7 +570,6 @@
     <string name="settings_none_auto">Žádné / Automaticky</string>
     <string name="settings_view_grid">Mřížka</string>
     <string name="settings_view_list">Seznam</string>
-    <string name="settings_language_portuguese">Portugalština</string>
     <string name="settings_subtitle_small">Malé</string>
     <string name="settings_subtitle_normal">Normální</string>
     <string name="settings_subtitle_large">Velké</string>
@@ -672,8 +643,6 @@
     <string name="settings_download_remote_title">Stáhnout na jiném zařízení</string>
     <string name="settings_download_remote_description">Na libovolném zařízení s prohlížečem ve stejné Wi-Fi — telefonu, počítači nebo jiné televizi — naskenujte QR (nebo otevřete adresu), zadejte tento PIN a stáhněte si soubor zálohy, abyste ho měli v bezpečí.</string>
     <string name="settings_preparing_backup">Příprava zálohy…</string>
-    <string name="settings_glass_effect_on">Efekt skla: Zapnuto</string>
-    <string name="settings_glass_effect_off">Efekt skla: Vypnuto</string>
     <string name="settings_background_on">Obrázek na pozadí: Zapnuto</string>
     <string name="settings_background_off">Obrázek na pozadí: Vypnuto</string>
     <string name="settings_ui_zoom_range">Změnit měřítko celého rozhraní (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
@@ -693,7 +662,6 @@
     <string name="settings_catchup_player_ask">Vždy se zeptat</string>
     <string name="settings_catchup_player_internal">Přehrávač OwnTV</string>
     <string name="settings_catchup_player_external">Externí přehrávač</string>
-    <string name="settings_soon">JIŽ BRZY</string>
     <string name="settings_download_folder_title">Vyberte složku pro stahování</string>
     <string name="settings_pick_background_title">Vyberte obrázek na pozadí</string>
     <string name="settings_theme_dialog">Motiv</string>
@@ -703,7 +671,6 @@
     <string name="settings_done">Hotovo</string>
     <string name="settings_reset">Obnovit výchozí</string>
     <string name="settings_device_details"><xliff:g id="model">%1$s</xliff:g> · <xliff:g id="android">%2$s</xliff:g></string>
-    <string name="settings_playback_entry"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="engine">%2$s</xliff:g> · <xliff:g id="kind">%3$s</xliff:g></string>
     <string name="settings_history_live">Živé vysílání</string>
     <string name="settings_history_movies">Filmy</string>
     <string name="settings_history_series">Seriály</string>
@@ -739,8 +706,6 @@
     <string name="settings_customize_remove_lock">Odstranit zámek</string>
     <string name="settings_customize_description">Skrývejte a znovu zobrazujte kanály, filmy a seriály a přejmenovávejte nebo měňte pořadí kategorií pro tento profil. Změny se zachovají i po opětovné synchronizaci.</string>
     <string name="settings_customize_new_category_behavior">Chování nových kategorií</string>
-    <string name="settings_customize_hide_new">Skrývat — nové kategorie přidané při opětovné synchronizaci budou ve výchozím nastavení skryté</string>
-    <string name="settings_customize_show_new">Zobrazovat — nové kategorie přidané při opětovné synchronizaci budou ve výchozím nastavení zobrazené</string>
     <string name="settings_customize_hide">Skrýt</string>
     <string name="settings_customize_show">Zobrazit</string>
     <string name="settings_customize_behavior_hide">Skrývat</string>
@@ -936,7 +901,6 @@
     <string name="settings_backup_encrypt_message">Pokud nastavíte heslo zálohy, bude zašifrován celý soubor — včetně playlistů, profilů a uložených hesel — a bez tohoto hesla z něj nebude možné nic přečíst. Heslo bezpečně uschovejte: pokud jej ztratíte, zálohu nebude možné vůbec otevřít. Bez hesla nebude soubor zašifrován a uložená hesla ani PINy v něm nebudou zahrnuty.</string>
     <string name="settings_backup_export_title">Exportovat zálohu</string>
     <string name="settings_backup_restore_title">Obnovit zálohu</string>
-    <string name="settings_backup_restore_message">Pošlete zálohu vzdáleně z libovolného zařízení s prohlížečem ve stejné Wi-Fi, nebo vyberte soubor zálohy, který už je v tomto zařízení.</string>
     <string name="settings_backup_password">Heslo zálohy</string>
     <string name="settings_backup_enter_password">Zadejte heslo zálohy</string>
     <string name="settings_backup_wrong_password">Nesprávné heslo zálohy</string>
@@ -947,7 +911,6 @@
     <string name="settings_backup_choose_folder">Vyberte složku pro uložení zálohy</string>
     <string name="settings_backup_choose_folder_action">Vybrat složku</string>
     <string name="settings_backup_pick_file">Vyberte soubor zálohy k obnovení</string>
-    <string name="settings_backup_local_file">Místní soubor</string>
     <string name="settings_backup_remote">Vzdálené zařízení</string>
     <string name="settings_backup_everything">Vše</string>
     <string name="settings_backup_kids_profile">Dětský profil</string>
@@ -1125,7 +1088,6 @@
     <string name="settings_subtitle_customize">Přizpůsobit titulky</string>
     <string name="settings_subtitle_customize_off">Vypnutí ponechá titulky přesně v podobě, v jaké je vykreslují stream a přehrávač.</string>
     <string name="settings_subtitle_preview_stock">Náhled – výchozí vzhled</string>
-    <string name="settings_subtitle_stock_description">Výchozí vzhled včetně barev a umístění, které vysílatelé vkládají do titulků živého vysílání.</string>
     <string name="settings_subtitle_reset_all">Obnovit vše</string>
     <string name="settings_subtitle_color">Barva titulků</string>
     <string name="settings_subtitle_color_default_description">Při výchozím nastavení určují barvu stream a přehrávač.</string>
@@ -1211,7 +1173,6 @@
     <string name="settings_video_seconds"><xliff:g id="seconds">%1$d</xliff:g> s videa</string>
     <string name="settings_epg_offset_root_description">Posune celého průvodce, když časy zdroje neodpovídají tomu, co se skutečně vysílá. Jednotlivý kanál lze posunout samostatně z nabídky po dlouhém stisknutí (Živá TV nebo Průvodce) – to je určeno pro východní/západní verze sdílející jednoho průvodce.</string>
     <string name="settings_epg_offset_dialog_description">Posune každý pořad v průvodci. Použijte, když má celý zdroj špatně nastavený čas; pro jednotlivý kanál (východní/západní verze sdílející jednoho průvodce) podržte kanál v Živé TV nebo v Průvodci a nastavte mu tam vlastní posun.</string>
-    <string name="settings_panel_width_screen_description">Nastavte, jak velkou část obrazovky každý panel zabírá – kategorie, seznam položek a náhled.</string>
     <string name="settings_panel_width_summary">Kategorie <xliff:g id="category">%1$d</xliff:g>%% · Seznam <xliff:g id="list">%2$d</xliff:g>%% · <xliff:g id="preview_label">%3$s</xliff:g> <xliff:g id="preview">%4$d</xliff:g>%%</string>
     <string name="settings_panel_width_help">• Tři panely sdílejí jeden řádek, takže jejich procenta musí dohromady činit 100 %%.\n• Rozšíříte-li jeden panel, musíte před uložením stejnou část odebrat jinému panelu.\n• Reset vrátí sekci na standardní šířky, se kterými tato obrazovka začínala.\n• Vypnutí sekce obnoví její standardní rozložení, aniž byste přišli o své hodnoty.\n• Plakáty filmů a seriálů se automaticky přeskupí, takže užší seznam prostě zobrazí méně položek na řádek.</string>
     <string name="settings_panel_width_preview">Náhled</string>
@@ -1322,12 +1283,6 @@
         <item quantity="many"><xliff:g id="count">%1$d</xliff:g> nastavení</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> nastavení</item>
     </plurals>
-    <plurals name="settings_pinned_count">
-        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> připnuto</item>
-        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> připnuty</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> připnuto</item>
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> připnuto</item>
-    </plurals>
     <plurals name="settings_match_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> shoda</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> shody</item>
@@ -1344,7 +1299,6 @@
     <string name="settings_selection_highlight">Zvýraznění výběru</string>
     <string name="settings_selection_highlight_description">Barva a tloušťka rámečku kolem vybrané položky</string>
     <string name="settings_nav_bar_customization">Přizpůsobení navigačního panelu</string>
-    <string name="settings_nav_bar_description">Přizpůsob karty svému playlistu nebo skryj ty, které nepoužíváš</string>
     <string name="settings_playback_mobile">Mobil</string>
     <string name="settings_playback_tv_only_note">Živý náhled a zkratky dálkového ovladače jsou funkce televize – na telefonu nejsou k dispozici.</string>
     <string name="settings_background_playback">Přehrávání na pozadí</string>
@@ -1365,8 +1319,6 @@
     <string name="settings_mini_player_style_description">Jak vás přehrávání provází při prohlížení</string>
     <string name="settings_mini_player_style_floating">Plovoucí okno</string>
     <string name="settings_mini_player_style_docked">Ukotvená lišta</string>
-    <string name="settings_pip_on_back">Obraz v obraze při Zpět</string>
-    <string name="settings_pip_on_back_description">Přejít do plovoucího okna i po stisknutí Zpět</string>
     <string name="settings_pip_size">Velikost okna</string>
     <string name="settings_pip_size_description">Jak velké plovoucí okno začíná. Velikost změníte prsty.</string>
     <string name="settings_pip_size_small">Malé</string>
@@ -1386,9 +1338,7 @@
     <string name="local_sync_qr_description">QR kód s adresou tohoto zařízení</string>
     <string name="local_sync_pin_is">PIN: <xliff:g id="pin">%1$s</xliff:g></string>
     <string name="local_sync_add_device">Najít zařízení</string>
-    <string name="local_sync_add_device_description">Prohledejte síť, naskenujte kód nebo zadejte adresu</string>
     <string name="local_sync_paired_devices">Spárovaná zařízení</string>
-    <string name="local_sync_device_address">Na adrese <xliff:g id="address">%1$s</xliff:g></string>
     <string name="local_sync_working">Pracuji…</string>
     <string name="local_sync_find_hint">Obě zařízení musí být na stejné Wi-Fi a na druhém musí být zapnutý Režim synchronizace.</string>
     <string name="local_sync_searching">Prohledávání sítě…</string>
@@ -1509,7 +1459,6 @@
     <string name="settings_backup_location">Umístění</string>
     <string name="settings_multiview">Multiview</string>
     <string name="settings_multiview_description">Sledujte několik živých kanálů najednou. Kolik jich bude, určujete pokaždé sami, nejvýše však tolik — každá dlaždice využívá jedno připojení poskytovatele.</string>
-    <string name="settings_multiview_tiles">Dlaždice</string>
     <string name="settings_multiview_tiles_max">Nejvíce dlaždic</string>
     <string name="settings_multiview_tiles_max_value">Max. <xliff:g id="count">%1$d</xliff:g></string>
     <string name="settings_multiview_warning_title">Více než dvě dlaždice</string>
@@ -1683,7 +1632,6 @@
     <string name="settings_line_rec_post_roll">Pro pořady, které se protáhnou</string>
     <string name="settings_line_measured_stats">Aktuální fps, datový tok a zahozené snímky</string>
     <string name="settings_line_logging">Úplný záznam pro hlášení chyb</string>
-    <string name="settings_help_quick">Přepínače, které používáte nejčastěji, na jednom místě. Podržením OK na libovolném řádku v Nastavení ho sem připnete; podržením OK na řádku zde ho odepnete. Každý připnutý řádek dál ukazuje, kam patří.</string>
     <string name="settings_help_profiles">Každý divák má vlastní oblíbené, historii sledování, místa pro pokračování a řádky na Domů. Dětský režim zobrazí jen povolené kategorie; PIN zabrání ostatním profil otevřít.</string>
     <string name="settings_help_playlists">Přidejte playlist z odkazu, přihlášení Xtream, portálu Stalker nebo souboru, znovu ho synchronizujte nebo ho odeberte.</string>
     <string name="settings_help_epg_sources">Přidejte zdroj průvodce XMLTV podle odkazu, obnovte ho nebo ho odeberte. Zdroje plní TV průvodce a řádky pořadů v živé TV.</string>

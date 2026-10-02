@@ -40,7 +40,6 @@
     <!-- Translators: Default user display name placeholder. -->
     <string name="common_own_tv_user">OwnTV User</string>
     <!-- Translators: Button or action to switch to a different profile. -->
-    <string name="common_switch_profile">Switch Profile</string>
     <!-- Translators: Short label for proxy settings or status. -->
     <string name="common_proxy">Proxy</string>
     <!-- Translators: Text-field label for a title input. -->
@@ -88,7 +87,6 @@
     <!-- Translators: Formatted number with locale-specific grouping. "count" is the number to format. Used for large counts like channel or movie totals. -->
     <string name="common_number_grouped"><xliff:g id="count">%1$,d</xliff:g></string>
     <!-- Translators: Formatted rating display. "rating" is a decimal number such as 7.5. -->
-    <string name="common_rating"><xliff:g id="rating">%1$.1f</xliff:g></string>
     <!-- Translators: Formatted percentage display. The double percent (%%) is an XML escape for a literal %. -->
     <string name="common_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <!-- Translators: Time format for durations under one hour (mm:ss). "minutes" and "seconds" are integers. -->
@@ -171,7 +169,6 @@
     <!-- Translators: The same download line once a size is known. "percent" is 0-100; the double percent (%%) is an XML escape. -->
     <string name="sync_status_download_with_progress">Downloading <xliff:g id="title">%1$s</xliff:g> \u00b7 <xliff:g id="percent">%2$d</xliff:g>%%</string>
     <string name="sync_status_trending_starting">Sync complete \u00b7 <xliff:g id="source">%1$s</xliff:g> \u00b7 Building Now Trending</string>
-    <string name="sync_status_trending_matching">Matching Trending items with your playlist</string>
     <string name="sync_status_trending_detail_waiting">Waiting for TMDB candidate response</string>
     <string name="sync_status_trending_detail_received">TMDB candidates · Movies: <xliff:g id="movies">%1$d</xliff:g> · Series: <xliff:g id="series">%2$d</xliff:g></string>
     <string name="sync_status_trending_detail_preparing">Provider title index · <xliff:g id="processed">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g></string>
@@ -188,10 +185,6 @@
     <plurals name="sync_status_trending_received">
         <item quantity="one">Received latest <xliff:g id="count">%1$d</xliff:g> Trending item</item>
         <item quantity="other">Received latest <xliff:g id="count">%1$d</xliff:g> Trending items</item>
-    </plurals>
-    <plurals name="sync_status_trending_matched">
-        <item quantity="one">Matched <xliff:g id="total">%1$d</xliff:g> \u00b7 <xliff:g id="movies">%2$s</xliff:g> \u00b7 <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="other">Matched <xliff:g id="total">%1$d</xliff:g> \u00b7 <xliff:g id="movies">%2$s</xliff:g> \u00b7 <xliff:g id="series">%3$s</xliff:g></item>
     </plurals>
     <plurals name="sync_status_trending_building">
         <item quantity="one">Building Now Trending \u00b7 <xliff:g id="count">%1$d</xliff:g> match</item>
@@ -268,7 +261,6 @@
     <string name="sync_error_guide_empty">This guide is empty right now. The provider may not have published it yet \u2014 please try again later.</string>
 
     <!-- Translators: Label for the CH+ key skip count setting. "Items per skip" describes how many items one CH+ press jumps. -->
-    <string name="common_items_per_skip">Items per skip</string>
     <!-- Translators: Label above the number field in a minutes input dialog, e.g. the recording start-early and run-over times. -->
     <string name="common_minutes">Minutes</string>
     <!-- Translators: A size in megabytes, e.g. "120.5 MB". %1$s is the number, already formatted for the locale. Translate the unit if your language uses its own (French "Mo", Russian "МБ"); keep "MB" where it is the usual written form. -->

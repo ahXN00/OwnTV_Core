@@ -19,7 +19,6 @@
     <string name="common_start_over">처음부터 보기</string>
     <string name="common_name">이름</string>
     <string name="common_own_tv_user">OwnTV 사용자</string>
-    <string name="common_switch_profile">프로필 전환</string>
     <string name="common_proxy">프록시</string>
     <string name="common_title">제목</string>
     <string name="common_search_hint">검색…</string>
@@ -43,7 +42,6 @@
     <string name="common_something_went_wrong">문제가 발생했습니다</string>
     <string name="common_move_instructions">▲/▼로 이동 · 확인을 눌러 저장 · 뒤로를 눌러 취소</string>
     <string name="common_number_grouped"><xliff:g id="count">%1$,d</xliff:g></string>
-    <string name="common_rating"><xliff:g id="rating">%1$.1f</xliff:g></string>
     <string name="common_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="common_timestamp_minutes"><xliff:g id="minutes">%1$d</xliff:g>:<xliff:g id="seconds">%2$02d</xliff:g></string>
     <string name="common_timestamp_hours"><xliff:g id="hours">%1$d</xliff:g>:<xliff:g id="minutes">%2$02d</xliff:g>:<xliff:g id="seconds">%3$02d</xliff:g></string>
@@ -117,7 +115,6 @@
     <string name="sync_error_secure">보안 연결에 실패했습니다 — 서버 인증서가 유효하지 않을 수 있습니다.</string>
     <string name="sync_error_malformed_guide">서버에서 받은 편성표 데이터 형식이 잘못되었습니다. 일부는 이미 불러왔을 수 있습니다 — 다시 시도하거나 EPG URL을 확인하세요.</string>
     <string name="sync_error_guide_empty">이 편성표는 현재 비어 있습니다. 제공업체가 아직 게시하지 않았을 수 있습니다 — 나중에 다시 시도해 주세요.</string>
-    <string name="common_items_per_skip">한 번에 건너뛸 항목 수</string>
     <string name="common_minutes">분</string>
     <string name="common_size_mb"><xliff:g id="size">%1$s</xliff:g> MB</string>
     <string name="common_size_gb"><xliff:g id="size">%1$s</xliff:g>GB</string>
@@ -127,7 +124,6 @@
     <string name="common_show">표시</string>
     <string name="common_qr_code_companion_url">연동 URL의 QR 코드</string>
     <string name="sync_status_trending_starting">동기화 완료 · <xliff:g id="source">%1$s</xliff:g> · 지금 인기 급상승 항목 구성 중</string>
-    <string name="sync_status_trending_matching">인기 급상승 항목을 재생목록과 일치시키는 중</string>
     <string name="sync_status_trending_detail_waiting">TMDB 후보 응답을 기다리는 중</string>
     <string name="sync_status_trending_detail_received">TMDB 후보 · 영화: <xliff:g id="movies">%1$d</xliff:g> · 시리즈: <xliff:g id="series">%2$d</xliff:g></string>
     <string name="sync_status_trending_detail_preparing">제공업체 제목 인덱스 · <xliff:g id="processed">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g></string>
@@ -143,9 +139,6 @@
     <string name="sync_status_trending_preserved">인기 급상승 항목을 새로 고칠 수 없음 · 이전 결과 유지됨</string>
     <plurals name="sync_status_trending_received">
         <item quantity="other">최신 인기 급상승 항목 <xliff:g id="count">%1$d</xliff:g>개 수신됨</item>
-    </plurals>
-    <plurals name="sync_status_trending_matched">
-        <item quantity="other">일치 · <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
     </plurals>
     <plurals name="sync_status_trending_building">
         <item quantity="other">지금 인기 급상승 항목 구성 중 · <xliff:g id="count">%1$d</xliff:g>개 일치</item>

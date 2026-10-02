@@ -19,7 +19,6 @@
     <string name="common_start_over">Start forfra</string>
     <string name="common_name">Navn</string>
     <string name="common_own_tv_user">OwnTV-bruker</string>
-    <string name="common_switch_profile">Bytt profil</string>
     <string name="common_proxy">Proxy</string>
     <string name="common_title">Tittel</string>
     <string name="common_search_hint">Søk…</string>
@@ -43,7 +42,6 @@
     <string name="common_something_went_wrong">Noe gikk galt</string>
     <string name="common_move_instructions">▲/▼ for å flytte · OK for å lagre · Tilbake for å avbryte</string>
     <string name="common_number_grouped"><xliff:g id="count">%1$,d</xliff:g></string>
-    <string name="common_rating"><xliff:g id="rating">%1$.1f</xliff:g></string>
     <string name="common_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="common_timestamp_minutes"><xliff:g id="minutes">%1$d</xliff:g>:<xliff:g id="seconds">%2$02d</xliff:g></string>
     <string name="common_timestamp_hours"><xliff:g id="hours">%1$d</xliff:g>:<xliff:g id="minutes">%2$02d</xliff:g>:<xliff:g id="seconds">%3$02d</xliff:g></string>
@@ -126,7 +124,6 @@
     <string name="sync_error_secure">Den sikre tilkoblingen mislyktes – serverens sertifikat kan være ugyldig.</string>
     <string name="sync_error_malformed_guide">Programoversiktsdataene fra serveren var feil formatert. Noe kan likevel ha blitt lastet inn – prøv igjen, eller kontroller EPG-URL-en.</string>
     <string name="sync_error_guide_empty">Denne guiden er tom akkurat nå. Leverandøren har kanskje ikke publisert den ennå — prøv igjen senere.</string>
-    <string name="common_items_per_skip">Elementer per hopp</string>
     <string name="common_minutes">Minutter</string>
     <string name="common_size_mb"><xliff:g id="size">%1$s</xliff:g> MB</string>
     <string name="common_size_gb"><xliff:g id="size">%1$s</xliff:g> GB</string>
@@ -136,7 +133,6 @@
     <string name="common_show">Vis</string>
     <string name="common_qr_code_companion_url">QR-kode for nettadressen til tilleggstjenesten</string>
     <string name="sync_status_trending_starting">Synkronisering fullført · <xliff:g id="source">%1$s</xliff:g> · Bygger Populært nå</string>
-    <string name="sync_status_trending_matching">Sammenligner elementer i Populært nå med spillelisten din</string>
     <string name="sync_status_trending_detail_waiting">Venter på svar med kandidater fra TMDB</string>
     <string name="sync_status_trending_detail_received">TMDB-kandidater · Filmer: <xliff:g id="movies">%1$d</xliff:g> · Serier: <xliff:g id="series">%2$d</xliff:g></string>
     <string name="sync_status_trending_detail_preparing">Leverandørens tittelindeks · <xliff:g id="processed">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g></string>
@@ -153,10 +149,6 @@
     <plurals name="sync_status_trending_received">
         <item quantity="one">Mottok det nyeste <xliff:g id="count">%1$d</xliff:g> elementet i Populært nå</item>
         <item quantity="other">Mottok de nyeste <xliff:g id="count">%1$d</xliff:g> elementene i Populært nå</item>
-    </plurals>
-    <plurals name="sync_status_trending_matched">
-        <item quantity="one">Treff · <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="other">Treff · <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
     </plurals>
     <plurals name="sync_status_trending_building">
         <item quantity="one">Bygger Populært nå · <xliff:g id="count">%1$d</xliff:g> treff</item>

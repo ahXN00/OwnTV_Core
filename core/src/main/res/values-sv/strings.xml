@@ -19,7 +19,6 @@
     <string name="common_start_over">Starta om</string>
     <string name="common_name">Namn</string>
     <string name="common_own_tv_user">OwnTV-användare</string>
-    <string name="common_switch_profile">Byt profil</string>
     <string name="common_proxy">Proxy</string>
     <string name="common_title">Titel</string>
     <string name="common_search_hint">Sök…</string>
@@ -43,7 +42,6 @@
     <string name="common_something_went_wrong">Något gick fel</string>
     <string name="common_move_instructions">▲/▼ för att flytta · OK för att spara · Tillbaka för att avbryta</string>
     <string name="common_number_grouped"><xliff:g id="count">%1$,d</xliff:g></string>
-    <string name="common_rating"><xliff:g id="rating">%1$.1f</xliff:g></string>
     <string name="common_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="common_timestamp_minutes"><xliff:g id="minutes">%1$d</xliff:g>:<xliff:g id="seconds">%2$02d</xliff:g></string>
     <string name="common_timestamp_hours"><xliff:g id="hours">%1$d</xliff:g>:<xliff:g id="minutes">%2$02d</xliff:g>:<xliff:g id="seconds">%3$02d</xliff:g></string>
@@ -126,7 +124,6 @@
     <string name="sync_error_secure">Den säkra anslutningen misslyckades – serverns certifikat kan vara ogiltigt.</string>
     <string name="sync_error_malformed_guide">Data för programguiden från servern hade fel format. En del kan ändå ha lästs in – försök igen eller kontrollera EPG-URL:en.</string>
     <string name="sync_error_guide_empty">Den här guiden är tom just nu. Leverantören kanske inte har publicerat den ännu — försök igen senare.</string>
-    <string name="common_items_per_skip">Antal objekt per hopp</string>
     <string name="common_minutes">Minuter</string>
     <string name="common_size_mb"><xliff:g id="size">%1$s</xliff:g> MB</string>
     <string name="common_size_gb"><xliff:g id="size">%1$s</xliff:g> GB</string>
@@ -136,7 +133,6 @@
     <string name="common_show">Visa</string>
     <string name="common_qr_code_companion_url">QR-kod för URL:en till komplementet</string>
     <string name="sync_status_trending_starting">Synkroniseringen är klar · <xliff:g id="source">%1$s</xliff:g> · Skapar Trendigt just nu</string>
-    <string name="sync_status_trending_matching">Matchar trendande objekt mot din spellista</string>
     <string name="sync_status_trending_detail_waiting">Väntar på svar med kandidater från TMDB</string>
     <string name="sync_status_trending_detail_received">TMDB-kandidater · Filmer: <xliff:g id="movies">%1$d</xliff:g> · Serier: <xliff:g id="series">%2$d</xliff:g></string>
     <string name="sync_status_trending_detail_preparing">Index över leverantörens titlar · <xliff:g id="processed">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g></string>
@@ -153,10 +149,6 @@
     <plurals name="sync_status_trending_received">
         <item quantity="one">Tog emot det senaste trendande objektet <xliff:g id="count">%1$d</xliff:g></item>
         <item quantity="other">Tog emot de senaste <xliff:g id="count">%1$d</xliff:g> trendande objekten</item>
-    </plurals>
-    <plurals name="sync_status_trending_matched">
-        <item quantity="one">Matchade <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="other">Matchade <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
     </plurals>
     <plurals name="sync_status_trending_building">
         <item quantity="one">Skapar Trendigt just nu · <xliff:g id="count">%1$d</xliff:g> träff</item>

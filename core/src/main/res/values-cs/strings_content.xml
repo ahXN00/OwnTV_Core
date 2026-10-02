@@ -85,7 +85,6 @@
     <string name="content_oldest_first">Od nejstarších</string>
     <string name="content_newest_first">Od nejnovějších</string>
     <string name="content_last_watched">Naposledy sledované</string>
-    <string name="content_press_ok_episodes">Stisknutím OK na plakátu zobrazíte epizody.</string>
     <string name="content_play_external">Přehrát pomocí externího přehrávače</string>
     <string name="content_delete_subtitles">Smazat titulky OpenSub</string>
     <string name="content_tmdb_details">Podrobnosti z TMDB</string>
@@ -93,12 +92,7 @@
     <string name="content_refetch_tmdb">Znovu načíst podrobnosti z TMDB</string>
     <string name="content_set_tmdb_name">Nastavit název pro TMDB</string>
     <string name="content_close">Zavřít</string>
-    <string name="content_focus_movie">Zaměřte film a zobrazí se podrobnosti.</string>
-    <string name="content_focus_channel">Zaměřte kanál a zobrazí se zde.</string>
-    <string name="content_press_ok_fullscreen">Stisknutím OK spustíte sledování na celé obrazovce · Podržením zobrazíte možnosti</string>
     <string name="content_rename_hint">Pouze pro tento profil. Ponecháte-li pole prázdné, obnoví se původní název.</string>
-    <string name="content_focus_series">Zaměřte seriál a stisknutím OK zobrazte epizody.</string>
-    <string name="content_focus_episode">Zaměřte epizodu a zobrazí se podrobnosti.</string>
     <string name="content_no_movies_here">Nejsou zde žádné filmy.</string>
     <string name="content_no_series_here">Nejsou zde žádné seriály.</string>
     <string name="content_no_episodes">Nejsou k dispozici žádné epizody.</string>
@@ -118,14 +112,11 @@
     <string name="content_provider">Poskytovatel</string>
     <string name="content_provider_name">Poskytovatel: %1$s</string>
     <string name="content_no_series_found">Pro „<xliff:g id="query">%1$s</xliff:g>“ nebyly nalezeny žádné seriály</string>
-    <string name="content_search_movies"><xliff:g id="category">%1$s</xliff:g>…</string>
-    <string name="content_search_series"><xliff:g id="category">%1$s</xliff:g>…</string>
     <string name="content_reorder_movie">Změnit pořadí filmu</string>
     <string name="content_reorder_series">Změnit pořadí seriálu</string>
     <string name="content_already_downloaded">Již staženo — zkontrolujte nabídku Stahování.</string>
     <string name="content_refetching_tmdb">Opětovné načítání podrobností z TMDB…</string>
     <string name="content_researching_tmdb">Opětovné vyhledávání v TMDB…</string>
-    <string name="content_ok_play_options">OK: přehrát · podržením zobrazíte možnosti</string>
     <string name="content_resume_at">Pokračovat od <xliff:g id="position">%1$s</xliff:g></string>
     <string name="content_duration_hours"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$d</xliff:g> min</string>
     <string name="content_duration_minutes"><xliff:g id="minutes">%1$d</xliff:g> min</string>
@@ -139,9 +130,7 @@
     <string name="content_no_epg">Bez EPG</string>
     <string name="content_epg">EPG</string>
     <string name="content_live_day_time_range"><xliff:g id="day">%1$s</xliff:g> <xliff:g id="start">%2$s</xliff:g> – <xliff:g id="stop">%3$s</xliff:g></string>
-    <string name="content_epg_days">EPG · <xliff:g id="days">%1$d</xliff:g> d</string>
     <string name="content_catchup">TV archiv</string>
-    <string name="content_catchup_days">TV archiv · <xliff:g id="days">%1$d</xliff:g> d</string>
     <string name="content_play_external_short">Přehrát v externím přehrávači</string>
     <string name="content_rename">Přejmenovat</string>
     <string name="content_rename_channel">Přejmenovat kanál</string>
@@ -150,13 +139,6 @@
     <string name="content_remove_history">Odebrat z historie</string>
     <string name="content_no_channels_here">Nejsou zde žádné kanály.</string>
     <string name="content_no_channels_found">Pro „<xliff:g id="query">%1$s</xliff:g>“ nebyly nalezeny žádné kanály</string>
-    <plurals name="content_count_channels">
-        <item quantity="one"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> kanál)</item>
-        <item quantity="few"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> kanály)</item>
-        <item quantity="many"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> kanálu)</item>
-        <item quantity="other"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> kanálů)</item>
-    </plurals>
-    <string name="content_search_channels"><xliff:g id="category">%1$s</xliff:g>…</string>
     <string name="content_match_epg">Spárovat EPG</string>
     <string name="content_catchup_title">TV archiv · <xliff:g id="channel">%1$s</xliff:g></string>
     <string name="content_rewind_at">Přetočit zpět · <xliff:g id="time">%1$s</xliff:g></string>
@@ -178,7 +160,6 @@
     <string name="content_clear_match">Zrušit spárování</string>
     <string name="content_live_now_label">NYNÍ</string>
     <string name="content_live_next_label">DALŠÍ · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="content_live_later_label">POZDĚJI</string>
     <string name="content_live_time_range_plain"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="stop">%2$s</xliff:g></string>
     <string name="content_category_favorites">Oblíbené</string>
     <string name="content_category_history">Historie</string>
@@ -216,16 +197,13 @@
     <string name="content_action_play">Přehrát</string>
     <string name="content_action_next_up">Další na řadě</string>
     <string name="content_action_last_channel">Poslední kanál</string>
-    <string name="content_continue_label"><xliff:g id="action">%1$s</xliff:g> · <xliff:g id="name">%2$s</xliff:g></string>
     <string name="content_empty_section"><xliff:g id="section">%1$s</xliff:g> bude k dispozici v pozdější fázi. Přidejte zdroj M3U nebo Xtream, aby se tento seznam naplnil.</string>
     <string name="content_progress_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="content_section_category"><xliff:g id="section">%1$s</xliff:g> / <xliff:g id="category">%2$s</xliff:g></string>
     <string name="content_preview_player">Váš vlastní přehrávač IPTV.</string>
     <string name="content_live_time_range"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="end">%2$s</xliff:g></string>
     <string name="content_live_time_remaining"><xliff:g id="end">%1$s</xliff:g> · zbývá <xliff:g id="minutes">%2$d</xliff:g> min</string>
-    <string name="common_browse">Procházet</string>
     <string name="content_downloads_title">Stahování</string>
-    <string name="content_downloads_description">Filmy a epizody uložené pro přehrávání bez připojení.</string>
     <string name="content_downloads_empty">Zatím nejsou k dispozici žádná stahování. Otevřete film nebo epizodu a stiskněte Stáhnout.</string>
     <string name="content_downloads_storage">Úložiště</string>
     <string name="content_downloads_options">Možnosti stahování</string>
@@ -242,7 +220,6 @@
     <string name="content_downloads_queued">Ve frontě…</string>
     <string name="content_downloads_count"><xliff:g id="count">%1$d</xliff:g></string>
     <string name="content_downloads_active">Aktivní</string>
-    <string name="content_downloads_waiting">Čekající</string>
     <string name="content_downloads_completed_group">Dokončené</string>
     <string name="content_downloads_failed_group">Nezdařené</string>
     <string name="content_downloads_progress"><xliff:g id="percent">%1$d</xliff:g>%% · <xliff:g id="downloaded">%2$s</xliff:g> / <xliff:g id="total">%3$s</xliff:g></string>
@@ -282,14 +259,7 @@
         <item quantity="other">TV program obsahuje <xliff:g id="programmes">%1$d</xliff:g> pořadů.</item>
     </plurals>
     <string name="content_epg_stats_loaded"><xliff:g id="channels">%1$s</xliff:g> <xliff:g id="programmes">%2$s</xliff:g> <xliff:g id="catchup">%3$s</xliff:g></string>
-    <string name="content_epg_no_catchup_channels">TV archiv nepodporují žádné kanály.</string>
     <string name="content_epg_stats_no_catchup">Nejsou k dispozici žádné kanály s TV archivem.</string>
-    <plurals name="content_epg_catchup_count">
-        <item quantity="one">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálu.</item>
-        <item quantity="few">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálech.</item>
-        <item quantity="many">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálu.</item>
-        <item quantity="other">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálech.</item>
-    </plurals>
     <plurals name="content_epg_stats_catchup_available">
         <item quantity="one">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálu.</item>
         <item quantity="few">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálech.</item>
@@ -321,7 +291,6 @@
     <string name="content_epg_no_guide">TV program není k dispozici.</string>
     <string name="content_epg_no_programme">V tuto dobu není naplánován žádný pořad.</string>
     <string name="content_epg_add_description">Přidejte zdroj EPG (XMLTV), aby se TV program naplnil pořady.</string>
-    <string name="content_epg_favourite_description">Přidejte tento kanál k oblíbeným nebo nastavte jeho data EPG.</string>
     <string name="content_epg_guide_category">Kategorie TV programu</string>
     <string name="content_epg_all_categories">Všechny kategorie</string>
     <string name="content_epg_search_hint">Hledat kanály EPG…</string>
@@ -329,18 +298,14 @@
     <string name="content_epg_add_favourite">Přidat k oblíbeným</string>
     <string name="content_epg_remove_favourite">Odebrat z oblíbených</string>
     <string name="content_epg_jump_now">Přejít na aktuální čas</string>
-    <string name="content_epg_runtime"><xliff:g id="minutes">%1$d</xliff:g> min</string>
     <string name="content_epg_review_matches">Zkontrolovat shody EPG</string>
     <string name="content_epg_include_logos">Zahrnout loga z průvodce</string>
-    <string name="content_epg_include_logos_short">Loga</string>
     <string name="content_epg_review_description">Tyto kanály byly spárovány podle názvu, ale shoda nebyla dostatečně jistá. Přijměte správné shody a ostatní přeskočte.</string>
     <string name="content_epg_accept">Přijmout</string>
     <string name="content_epg_accept_all">Přijmout vše</string>
     <string name="content_epg_skip">Přeskočit</string>
     <string name="content_epg_skip_all">Přeskočit vše</string>
     <string name="content_epg_pick_manually">Vybrat EPG ručně</string>
-    <string name="content_epg_move_hint">Přejděte doprava na řádek a potom pomocí ◀ ▶ procházejte pořady a zobrazujte jejich náhled.</string>
-    <string name="content_epg_catchup">↻ TV archiv</string>
     <string name="content_epg_time_range"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="end">%2$s</xliff:g></string>
     <string name="content_epg_all">Vše</string>
     <string name="content_epg_sort_alpha">A–Z</string>
@@ -348,13 +313,10 @@
     <string name="content_epg_sort_live">Živé vysílání</string>
     <string name="content_epg_sort_catchup">TV archiv</string>
     <string name="content_epg_sort_favorites">Oblíbené</string>
-    <string name="content_epg_category_button">Kategorie: <xliff:g id="label">%1$s</xliff:g></string>
     <string name="content_epg_sort_button">Řazení: <xliff:g id="label">%1$s</xliff:g></string>
     <string name="content_epg_match_button">Automaticky spárovat EPG</string>
     <string name="content_epg_channel_score">→ <xliff:g id="name">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
-    <string name="content_epg_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
     <string name="content_epg_bits_separator">" · "</string>
-    <string name="content_epg_now">NYNÍ · <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_watch_start">Sledovat od začátku</string>
     <string name="content_epg_watch_channel">Sledovat kanál</string>
     <string name="content_epg_favourite">Přidat k oblíbeným</string>

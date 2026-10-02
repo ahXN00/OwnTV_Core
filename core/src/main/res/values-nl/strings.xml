@@ -19,7 +19,6 @@
     <string name="common_start_over">Opnieuw beginnen</string>
     <string name="common_name">Naam</string>
     <string name="common_own_tv_user">OwnTV-gebruiker</string>
-    <string name="common_switch_profile">Van profiel wisselen</string>
     <string name="common_proxy">Proxy</string>
     <string name="common_title">Titel</string>
     <string name="common_search_hint">Zoeken…</string>
@@ -43,7 +42,6 @@
     <string name="common_something_went_wrong">Er is iets misgegaan</string>
     <string name="common_move_instructions">▲/▼ om te verplaatsen · OK om op te slaan · Terug om te annuleren</string>
     <string name="common_number_grouped"><xliff:g id="count">%1$,d</xliff:g></string>
-    <string name="common_rating"><xliff:g id="rating">%1$.1f</xliff:g></string>
     <string name="common_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="common_timestamp_minutes"><xliff:g id="minutes">%1$d</xliff:g>:<xliff:g id="seconds">%2$02d</xliff:g></string>
     <string name="common_timestamp_hours"><xliff:g id="hours">%1$d</xliff:g>:<xliff:g id="minutes">%2$02d</xliff:g>:<xliff:g id="seconds">%3$02d</xliff:g></string>
@@ -126,7 +124,6 @@
     <string name="sync_error_secure">Beveiligde verbinding mislukt — het certificaat van de server is mogelijk ongeldig.</string>
     <string name="sync_error_malformed_guide">De gegevens van de programmagids van de server waren onjuist opgemaakt. Een deel is mogelijk toch geladen — probeer het opnieuw of controleer de EPG-URL.</string>
     <string name="sync_error_guide_empty">Deze gids is op dit moment leeg. Mogelijk heeft de provider hem nog niet gepubliceerd — probeer het later opnieuw.</string>
-    <string name="common_items_per_skip">Aantal items per sprong</string>
     <string name="common_minutes">Minuten</string>
     <string name="common_size_mb"><xliff:g id="size">%1$s</xliff:g> MB</string>
     <string name="common_size_gb"><xliff:g id="size">%1$s</xliff:g> GB</string>
@@ -136,7 +133,6 @@
     <string name="common_show">Tonen</string>
     <string name="common_qr_code_companion_url">QR-code voor de companion-URL</string>
     <string name="sync_status_trending_starting">Synchronisatie voltooid · <xliff:g id="source">%1$s</xliff:g> · Nu populair wordt samengesteld</string>
-    <string name="sync_status_trending_matching">Populaire items worden vergeleken met je afspeellijst</string>
     <string name="sync_status_trending_detail_waiting">Wachten op antwoord met TMDB-kandidaten</string>
     <string name="sync_status_trending_detail_received">TMDB-kandidaten · Films: <xliff:g id="movies">%1$d</xliff:g> · Series: <xliff:g id="series">%2$d</xliff:g></string>
     <string name="sync_status_trending_detail_preparing">Titelindex van aanbieder · <xliff:g id="processed">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g></string>
@@ -153,10 +149,6 @@
     <plurals name="sync_status_trending_received">
         <item quantity="one">Nieuwste <xliff:g id="count">%1$d</xliff:g> populaire item ontvangen</item>
         <item quantity="other">Nieuwste <xliff:g id="count">%1$d</xliff:g> populaire items ontvangen</item>
-    </plurals>
-    <plurals name="sync_status_trending_matched">
-        <item quantity="one">Gekoppeld: <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="other">Gekoppeld: <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
     </plurals>
     <plurals name="sync_status_trending_building">
         <item quantity="one">Nu populair wordt samengesteld · <xliff:g id="count">%1$d</xliff:g> overeenkomst</item>

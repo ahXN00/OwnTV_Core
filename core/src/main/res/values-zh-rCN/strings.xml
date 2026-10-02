@@ -19,7 +19,6 @@
     <string name="common_start_over">从头播放</string>
     <string name="common_name">名称</string>
     <string name="common_own_tv_user">OwnTV 用户</string>
-    <string name="common_switch_profile">切换用户档案</string>
     <string name="common_proxy">代理</string>
     <string name="common_title">标题</string>
     <string name="common_search_hint">搜索…</string>
@@ -43,7 +42,6 @@
     <string name="common_something_went_wrong">出了点问题</string>
     <string name="common_move_instructions">按 ▲/▼ 移动 · 按确定保存 · 按返回取消</string>
     <string name="common_number_grouped"><xliff:g id="count">%1$,d</xliff:g></string>
-    <string name="common_rating"><xliff:g id="rating">%1$.1f</xliff:g></string>
     <string name="common_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="common_timestamp_minutes"><xliff:g id="minutes">%1$d</xliff:g>:<xliff:g id="seconds">%2$02d</xliff:g></string>
     <string name="common_timestamp_hours"><xliff:g id="hours">%1$d</xliff:g>:<xliff:g id="minutes">%2$02d</xliff:g>:<xliff:g id="seconds">%3$02d</xliff:g></string>
@@ -117,7 +115,6 @@
     <string name="sync_error_secure">安全连接失败——服务器证书可能无效。</string>
     <string name="sync_error_malformed_guide">服务器返回的节目指南数据格式有误。部分数据可能仍已成功加载——请重试，或检查电子节目指南（EPG）URL。</string>
     <string name="sync_error_guide_empty">此节目单目前为空。提供商可能尚未发布 — 请稍后再试。</string>
-    <string name="common_items_per_skip">每次跳过的项目数</string>
     <string name="common_minutes">分钟</string>
     <string name="common_size_mb"><xliff:g id="size">%1$s</xliff:g> MB</string>
     <string name="common_size_gb"><xliff:g id="size">%1$s</xliff:g> GB</string>
@@ -127,7 +124,6 @@
     <string name="common_show">显示</string>
     <string name="common_qr_code_companion_url">配套服务 URL 的二维码</string>
     <string name="sync_status_trending_starting">同步完成 · <xliff:g id="source">%1$s</xliff:g> · 正在生成“当下热门”</string>
-    <string name="sync_status_trending_matching">正在将热门内容与您的播放列表进行匹配</string>
     <string name="sync_status_trending_detail_waiting">正在等待 TMDB 候选内容响应</string>
     <string name="sync_status_trending_detail_received">TMDB 候选内容 · 电影：<xliff:g id="movies">%1$d</xliff:g> · 剧集：<xliff:g id="series">%2$d</xliff:g></string>
     <string name="sync_status_trending_detail_preparing">服务提供商标题索引 · <xliff:g id="processed">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g></string>
@@ -143,9 +139,6 @@
     <string name="sync_status_trending_preserved">无法刷新热门内容 · 已保留先前结果</string>
     <plurals name="sync_status_trending_received">
         <item quantity="other">已收到最新的 <xliff:g id="count">%1$d</xliff:g> 个热门内容</item>
-    </plurals>
-    <plurals name="sync_status_trending_matched">
-        <item quantity="other">已匹配 <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
     </plurals>
     <plurals name="sync_status_trending_building">
         <item quantity="other">正在生成“当下热门” · <xliff:g id="count">%1$d</xliff:g> 个匹配项</item>

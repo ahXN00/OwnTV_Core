@@ -19,7 +19,6 @@
     <string name="common_start_over">Assistir do início</string>
     <string name="common_name">Nome</string>
     <string name="common_own_tv_user">Usuário do OwnTV</string>
-    <string name="common_switch_profile">Trocar perfil</string>
     <string name="common_proxy">Proxy</string>
     <string name="common_title">Título</string>
     <string name="common_search_hint">Pesquisar…</string>
@@ -43,7 +42,6 @@
     <string name="common_something_went_wrong">Algo deu errado</string>
     <string name="common_move_instructions">▲/▼ para mover · OK para salvar · Voltar para cancelar</string>
     <string name="common_number_grouped"><xliff:g id="count">%1$,d</xliff:g></string>
-    <string name="common_rating"><xliff:g id="rating">%1$.1f</xliff:g></string>
     <string name="common_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="common_timestamp_minutes"><xliff:g id="minutes">%1$d</xliff:g>:<xliff:g id="seconds">%2$02d</xliff:g></string>
     <string name="common_timestamp_hours"><xliff:g id="hours">%1$d</xliff:g>:<xliff:g id="minutes">%2$02d</xliff:g>:<xliff:g id="seconds">%3$02d</xliff:g></string>
@@ -135,7 +133,6 @@
     <string name="sync_error_secure">Falha na conexão segura — o certificado do servidor pode ser inválido.</string>
     <string name="sync_error_malformed_guide">Os dados do guia recebidos do servidor estavam em formato inválido. Parte deles pode ter sido carregada mesmo assim — tente novamente ou verifique a URL do EPG.</string>
     <string name="sync_error_guide_empty">Este guia está vazio no momento. O provedor pode ainda não tê-lo publicado — tente novamente mais tarde.</string>
-    <string name="common_items_per_skip">Itens por salto</string>
     <string name="common_minutes">Minutos</string>
     <string name="common_size_mb"><xliff:g id="size">%1$s</xliff:g> MB</string>
     <string name="common_size_gb"><xliff:g id="size">%1$s</xliff:g> GB</string>
@@ -145,7 +142,6 @@
     <string name="common_show">Mostrar</string>
     <string name="common_qr_code_companion_url">Código QR da URL complementar</string>
     <string name="sync_status_trending_starting">Sincronização concluída · <xliff:g id="source">%1$s</xliff:g> · Criando Em alta agora</string>
-    <string name="sync_status_trending_matching">Correspondendo itens de Em alta à sua lista de reprodução</string>
     <string name="sync_status_trending_detail_waiting">Aguardando a resposta de candidatos do TMDB</string>
     <string name="sync_status_trending_detail_received">Candidatos do TMDB · Filmes: <xliff:g id="movies">%1$d</xliff:g> · Séries: <xliff:g id="series">%2$d</xliff:g></string>
     <string name="sync_status_trending_detail_preparing">Índice de títulos do provedor · <xliff:g id="processed">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g></string>
@@ -163,11 +159,6 @@
         <item quantity="one">Recebido <xliff:g id="count">%1$d</xliff:g> item mais recente de Em alta</item>
         <item quantity="many">Recebidos <xliff:g id="count">%1$d</xliff:g> itens mais recentes de Em alta</item>
         <item quantity="other">Recebidos <xliff:g id="count">%1$d</xliff:g> itens mais recentes de Em alta</item>
-    </plurals>
-    <plurals name="sync_status_trending_matched">
-        <item quantity="one">Correspondência encontrada · <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="many">Correspondências encontradas · <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="other">Correspondências encontradas · <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
     </plurals>
     <plurals name="sync_status_trending_building">
         <item quantity="one">Criando Em alta agora · <xliff:g id="count">%1$d</xliff:g> correspondência</item>

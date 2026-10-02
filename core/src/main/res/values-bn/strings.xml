@@ -19,7 +19,6 @@
     <string name="common_start_over">শুরু থেকে দেখা</string>
     <string name="common_name">নাম</string>
     <string name="common_own_tv_user">OwnTV ব্যবহারকারী</string>
-    <string name="common_switch_profile">প্রোফাইল পরিবর্তন করুন</string>
     <string name="common_proxy">প্রক্সি</string>
     <string name="common_title">শিরোনাম</string>
     <string name="common_search_hint">অনুসন্ধান…</string>
@@ -43,7 +42,6 @@
     <string name="common_something_went_wrong">কিছু একটা সমস্যা হয়েছে</string>
     <string name="common_move_instructions">সরাতে ▲/▼ · সংরক্ষণ করতে OK · বাতিল করতে ফিরে যান</string>
     <string name="common_number_grouped"><xliff:g id="count">%1$,d</xliff:g></string>
-    <string name="common_rating"><xliff:g id="rating">%1$.1f</xliff:g></string>
     <string name="common_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="common_timestamp_minutes"><xliff:g id="minutes">%1$d</xliff:g>:<xliff:g id="seconds">%2$02d</xliff:g></string>
     <string name="common_timestamp_hours"><xliff:g id="hours">%1$d</xliff:g>:<xliff:g id="minutes">%2$02d</xliff:g>:<xliff:g id="seconds">%3$02d</xliff:g></string>
@@ -126,7 +124,6 @@
     <string name="sync_error_secure">নিরাপদ সংযোগ ব্যর্থ হয়েছে — সার্ভারের সার্টিফিকেটটি অবৈধ হতে পারে।</string>
     <string name="sync_error_malformed_guide">সার্ভার থেকে পাওয়া অনুষ্ঠান নির্দেশিকার ডেটা বিকৃত ছিল। এর কিছু অংশ তবুও লোড হয়ে থাকতে পারে — অনুগ্রহ করে আবার চেষ্টা করুন অথবা EPG URL পরীক্ষা করুন।</string>
     <string name="sync_error_guide_empty">এই গাইডটি এখন খালি। সরবরাহকারী হয়তো এটি এখনও প্রকাশ করেননি — অনুগ্রহ করে পরে আবার চেষ্টা করুন।</string>
-    <string name="common_items_per_skip">প্রতি স্কিপে আইটেমের সংখ্যা</string>
     <string name="common_minutes">মিনিট</string>
     <string name="common_size_mb"><xliff:g id="size">%1$s</xliff:g> MB</string>
     <string name="common_size_gb"><xliff:g id="size">%1$s</xliff:g> GB</string>
@@ -136,7 +133,6 @@
     <string name="common_show">দেখান</string>
     <string name="common_qr_code_companion_url">সহযোগী URL-এর QR কোড</string>
     <string name="sync_status_trending_starting">সিঙ্ক সম্পন্ন · <xliff:g id="source">%1$s</xliff:g> · এখন ট্রেন্ডিং তৈরি হচ্ছে</string>
-    <string name="sync_status_trending_matching">ট্রেন্ডিং আইটেম আপনার প্লেলিস্টের সঙ্গে মেলানো হচ্ছে</string>
     <string name="sync_status_trending_detail_waiting">TMDB প্রার্থীর উত্তরের অপেক্ষা করা হচ্ছে</string>
     <string name="sync_status_trending_detail_received">TMDB প্রার্থী · চলচ্চিত্র: <xliff:g id="movies">%1$d</xliff:g> · সিরিজ: <xliff:g id="series">%2$d</xliff:g></string>
     <string name="sync_status_trending_detail_preparing">প্রোভাইডার শিরোনাম সূচি · <xliff:g id="processed">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g></string>
@@ -153,10 +149,6 @@
     <plurals name="sync_status_trending_received">
         <item quantity="one">সর্বশেষ <xliff:g id="count">%1$d</xliff:g>টি ট্রেন্ডিং আইটেম পাওয়া গেছে</item>
         <item quantity="other">সর্বশেষ <xliff:g id="count">%1$d</xliff:g>টি ট্রেন্ডিং আইটেম পাওয়া গেছে</item>
-    </plurals>
-    <plurals name="sync_status_trending_matched">
-        <item quantity="one">মিলেছে <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="other">মিলেছে <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
     </plurals>
     <plurals name="sync_status_trending_building">
         <item quantity="one">এখন ট্রেন্ডিং তৈরি হচ্ছে · <xliff:g id="count">%1$d</xliff:g>টি মিল</item>

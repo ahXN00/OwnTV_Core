@@ -136,7 +136,6 @@
     <!-- Translators: Sort option to sort by last watched date. -->
     <string name="content_last_watched">Last watched</string>
     <!-- Translators: Instructional text on the series screen telling the user how to view episodes. -->
-    <string name="content_press_ok_episodes">Press OK on the poster to view episodes.</string>
     <!-- Translators: Context-menu option to play content in an external player app. -->
     <string name="content_play_external">Play with external player</string>
     <!-- Translators: Context-menu option to delete downloaded OpenSubtitles subtitles. "OpenSub" is an abbreviation of OpenSubtitles. -->
@@ -152,17 +151,12 @@
     <!-- Translators: Button to close a dialog or overlay. -->
     <string name="content_close">Close</string>
     <!-- Translators: Empty-state hint on the Movies screen when no movie is focused. -->
-    <string name="content_focus_movie">Focus a movie to see details.</string>
     <!-- Translators: Empty-state hint on the Live TV screen when no channel is focused. -->
-    <string name="content_focus_channel">Focus a channel to see it here.</string>
     <!-- Translators: Instructional text on the Live TV channel card. The dot is a separator. -->
-    <string name="content_press_ok_fullscreen">Press OK to watch fullscreen \u00b7 Long-press for options</string>
     <!-- Translators: Hint text in the rename dialog explaining the rename is local to this profile only. -->
     <string name="content_rename_hint">Only for this profile. Leave blank to restore the original name.</string>
     <!-- Translators: Empty-state hint on the Series screen when no series is focused. -->
-    <string name="content_focus_series">Focus a series, press OK to view episodes.</string>
     <!-- Translators: Empty-state hint on the series episode list when no episode is focused. -->
-    <string name="content_focus_episode">Focus an episode to see details.</string>
     <!-- Translators: Empty-state message on the Movies screen when the category has no movies. -->
     <string name="content_no_movies_here">No movies here.</string>
     <!-- Translators: Empty-state message on the Series screen when the category has no series. -->
@@ -187,9 +181,7 @@
     <!-- Translators: Empty-state message when a series search returns no results. "query" is the user\'s search text. -->
     <string name="content_no_series_found">No series found for \u201c<xliff:g id="query">%1$s</xliff:g>\u201d</string>
     <!-- Translators: Search hint text in the movie category browser. "category" is the category name. The ellipsis indicates a search action. -->
-    <string name="content_search_movies"><xliff:g id="category">%1$s</xliff:g>\u2026</string>
     <!-- Translators: Search hint text in the series category browser. -->
-    <string name="content_search_series"><xliff:g id="category">%1$s</xliff:g>\u2026</string>
     <!-- Translators: Context-menu option to reorder a movie in a custom list. -->
     <string name="content_reorder_movie">Reorder movie</string>
     <!-- Translators: Context-menu option to reorder a series in a custom list. -->
@@ -201,7 +193,6 @@
     <!-- Translators: Loading status shown while re-searching TMDB for a title. -->
     <string name="content_researching_tmdb">Re-searching TMDB\u2026</string>
     <!-- Translators: Instructional text on movie and series detail cards. The dot is a separator. -->
-    <string name="content_ok_play_options">OK to play \u00b7 long-press for options</string>
     <!-- Translators: Secondary informational text showing a resume position. "position" is a formatted time string such as 12:34. -->
     <string name="content_resume_at">Resume <xliff:g id="position">%1$s</xliff:g></string>
     <!-- Translators: Duration display for content longer than one hour. "hours" and "minutes" are integers. -->
@@ -229,11 +220,9 @@
     <!-- Translators: EPG programme time range display. "day" is the day name, "start" and "stop" are times. The en-dash is a range indicator. -->
     <string name="content_live_day_time_range"><xliff:g id="day">%1$s</xliff:g> <xliff:g id="start">%2$s</xliff:g> \u2013 <xliff:g id="stop">%3$s</xliff:g></string>
     <!-- Translators: EPG data range display. "days" is the number of days of EPG data. "d" is an abbreviation for days. -->
-    <string name="content_epg_days">EPG \u00b7 <xliff:g id="days">%1$d</xliff:g>d</string>
     <!-- Translators: Label for catch-up (time-shifted) playback feature. -->
     <string name="content_catchup">Catch-up</string>
     <!-- Translators: Catch-up availability display. "days" is the number of days of catch-up available. "d" is an abbreviation for days. -->
-    <string name="content_catchup_days">Catch-up \u00b7 <xliff:g id="days">%1$d</xliff:g>d</string>
     <!-- Translators: Context-menu option to play content in an external player. Shorter variant. -->
     <string name="content_play_external_short">Play in external player</string>
     <!-- Translators: Context-menu option to rename a Live TV channel. -->
@@ -251,12 +240,7 @@
     <!-- Translators: Empty-state message when a channel search returns no results. "query" is the user\'s search text. -->
     <string name="content_no_channels_found">No channels found for \u201c<xliff:g id="query">%1$s</xliff:g>\u201d</string>
     <!-- Translators: Plural category count label in the channel category browser. "category" is the category name; "count" is the number of channels. -->
-    <plurals name="content_count_channels">
-        <item quantity="one"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> channel)</item>
-        <item quantity="other"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> channels)</item>
-    </plurals>
     <!-- Translators: Search hint text in the channel category browser. -->
-    <string name="content_search_channels"><xliff:g id="category">%1$s</xliff:g>\u2026</string>
     <!-- Translators: Opens and labels the channel EPG matching flow. -->
     <string name="content_match_epg">Match EPG</string>
     <!-- Translators: Catch-up playback title showing which channel. "channel" is the channel name. -->
@@ -292,7 +276,6 @@
     <!-- Translators: Label on the EPG timeline for the next programme. "time" is the start time. All caps is intentional. -->
     <string name="content_live_next_label">NEXT \u00b7 <xliff:g id="time">%1$s</xliff:g></string>
     <!-- Translators: Label on the EPG timeline for later programmes. All caps is intentional. -->
-    <string name="content_live_later_label">LATER</string>
     <!-- Translators: Time range display on the EPG timeline. "start" and "stop" are times. The en-dash is a range indicator. -->
     <string name="content_live_time_range_plain"><xliff:g id="start">%1$s</xliff:g> \u2013 <xliff:g id="stop">%2$s</xliff:g></string>
     <!-- Translators: Predefined category name for the Favorites list. -->
@@ -368,7 +351,6 @@
     <!-- Translators: Action label for the "Last channel" item in the continue-watching row. -->
     <string name="content_action_last_channel">Last channel</string>
     <!-- Translators: Continue-watching label combining an action and content name. "action" is the action label (e.g. Resume); "name" is the content name. The dot is a separator. -->
-    <string name="content_continue_label"><xliff:g id="action">%1$s</xliff:g> \u00b7 <xliff:g id="name">%2$s</xliff:g></string>
     <!-- Translators: Empty-state message for a section that is not yet implemented. "section" is the section name. Directs the user to add a source. -->
     <string name="content_empty_section"><xliff:g id="section">%1$s</xliff:g> arrives in a later phase. Add an M3U or Xtream source to populate this list.</string>
     <!-- Translators: Progress percentage display. The double percent (%%) is an Android XML escape for a literal %. -->
@@ -382,13 +364,11 @@
     <!-- Translators: Remaining time display for a live programme. "end" is the end time; "minutes" is the minutes remaining. -->
     <string name="content_live_time_remaining"><xliff:g id="end">%1$s</xliff:g> \u00b7 <xliff:g id="minutes">%2$d</xliff:g> min left</string>
     <!-- Translators: Sidebar section heading for browsing content. -->
-    <string name="common_browse">Browse</string>
 
 
     <!-- Translators: Screen title for the Downloads screen. -->
     <string name="content_downloads_title">Downloads</string>
     <!-- Translators: Description text on the Downloads screen. -->
-    <string name="content_downloads_description">Movies &amp; episodes saved for offline playback.</string>
     <!-- Translators: Empty-state message on the Downloads screen. Directs the user to open content and press Download. -->
     <string name="content_downloads_empty">No downloads yet. Open a movie or episode and press Download.</string>
     <!-- Translators: Section header for the storage information on the Downloads screen. -->
@@ -422,7 +402,6 @@
     <!-- Translators: Tab or filter label for active downloads. -->
     <string name="content_downloads_active">Active</string>
     <!-- Translators: Tab or filter label for downloads waiting to start. -->
-    <string name="content_downloads_waiting">Waiting</string>
     <!-- Translators: Tab or filter label for completed downloads. -->
     <string name="content_downloads_completed_group">Completed</string>
     <!-- Translators: Tab or filter label for failed downloads. -->
@@ -489,14 +468,9 @@
     <!-- Translators: EPG stats composite display. Each placeholder is already a complete localized count/status phrase; reorder the phrases as needed. -->
     <string name="content_epg_stats_loaded"><xliff:g id="channels">%1$s</xliff:g> <xliff:g id="programmes">%2$s</xliff:g> <xliff:g id="catchup">%3$s</xliff:g></string>
     <!-- Translators: Status message when no channels support catch-up. -->
-    <string name="content_epg_no_catchup_channels">No channels support catch-up.</string>
     <!-- Translators: Status message when no catch-up channels are available. -->
     <string name="content_epg_stats_no_catchup">No catch-up channels are available.</string>
     <!-- Translators: Plural catch-up availability display. "count" is the number of channels with catch-up. -->
-    <plurals name="content_epg_catchup_count">
-        <item quantity="one">Catch-up is available on <xliff:g id="count">%1$d</xliff:g> channel.</item>
-        <item quantity="other">Catch-up is available on <xliff:g id="count">%1$d</xliff:g> channels.</item>
-    </plurals>
     <!-- Translators: Plural catch-up stats display (variant used in a different context than catchup_count). -->
     <plurals name="content_epg_stats_catchup_available">
         <item quantity="one">Catch-up is available on <xliff:g id="count">%1$d</xliff:g> channel.</item>
@@ -532,7 +506,6 @@
     <!-- Translators: Empty-state message on the EPG screen. Directs the user to add an EPG source. "EPG" and "XMLTV" are technical names. -->
     <string name="content_epg_add_description">Add an EPG (XMLTV) source to fill the guide with programs.</string>
     <!-- Translators: Help text in the EPG channel-action dialog. -->
-    <string name="content_epg_favourite_description">Favorite this channel, or set its guide data.</string>
     <!-- Translators: Label for the guide category filter in the EPG screen. -->
     <string name="content_epg_guide_category">Guide category</string>
     <!-- Translators: Filter option to show all guide categories. -->
@@ -548,13 +521,11 @@
     <!-- Translators: Button in the EPG screen to jump to the current time. -->
     <string name="content_epg_jump_now">Jump to Now</string>
     <!-- Translators: Programme runtime display. "minutes" is the duration in minutes. "m" is an abbreviation for minutes. -->
-    <string name="content_epg_runtime"><xliff:g id="minutes">%1$d</xliff:g>m</string>
     <!-- Translators: EPG review-dialog heading. -->
     <string name="content_epg_review_matches">Review EPG matches</string>
     <!-- Translators: A switch in the Review EPG matches window. When on, the channels matched there also show the logo of the guide channel they were matched to. -->
     <string name="content_epg_include_logos">Include guide logos</string>
     <!-- Translators: The same setting as "Include guide logos", as a short check-box label for the narrow TV review window. Keep it to one short word. -->
-    <string name="content_epg_include_logos_short">Logos</string>
     <!-- Translators: Description in the EPG review dialog explaining what to do with uncertain matches. -->
     <string name="content_epg_review_description">These channels were matched by name but weren\'t a confident fit. Accept the right ones; skip the rest.</string>
     <!-- Translators: Button to accept an EPG match in the review dialog. -->
@@ -568,9 +539,7 @@
     <!-- Translators: Button to manually pick an EPG guide channel for a channel. -->
     <string name="content_epg_pick_manually">Pick EPG manually</string>
     <!-- Translators: Instructional text on the EPG screen explaining navigation. -->
-    <string name="content_epg_move_hint">Move right into a row, then browse with \u25c0 \u25b6 to preview a program.</string>
     <!-- Translators: Label for catch-up availability indicator in the EPG. The circular arrow is a visual indicator. -->
-    <string name="content_epg_catchup">\u21bb catch-up</string>
     <!-- Translators: Time range display in the EPG programme info. "start" and "end" are times. The en-dash is a range indicator. -->
     <string name="content_epg_time_range"><xliff:g id="start">%1$s</xliff:g> \u2013 <xliff:g id="end">%2$s</xliff:g></string>
     <!-- Translators: Filter option to show all categories in the EPG. -->
@@ -586,7 +555,6 @@
     <!-- Translators: Sort option to sort EPG channels by favorites. -->
     <string name="content_epg_sort_favorites">Favorites</string>
     <!-- Translators: Button showing the current category filter in the EPG. "label" is the category name. -->
-    <string name="content_epg_category_button">Category: <xliff:g id="label">%1$s</xliff:g></string>
     <!-- Translators: Button showing the current sort order in the EPG. "label" is the sort option name. -->
     <string name="content_epg_sort_button">Sort: <xliff:g id="label">%1$s</xliff:g></string>
     <!-- Translators: Button to trigger EPG auto-matching. -->
@@ -594,11 +562,9 @@
     <!-- Translators: EPG auto-match suggestion row. "name" is the suggested guide channel; "percent" is the match confidence percentage. -->
     <string name="content_epg_channel_score">\u2192 <xliff:g id="name">%1$s</xliff:g> \u00b7 <xliff:g id="percent">%2$d</xliff:g>%%</string>
     <!-- Translators: Channel number and name display in the EPG. "number" is the channel number, "name" is the channel name. -->
-    <string name="content_epg_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
     <!-- Translators: Visible middle-dot separator between EPG metadata segments. -->
     <string name="content_epg_bits_separator">" \u00b7 "</string>
     <!-- Translators: Label on the EPG timeline for the current time slot with the time. "time" is the current time. All caps is intentional. -->
-    <string name="content_epg_now">NOW \u00b7 <xliff:g id="time">%1$s</xliff:g></string>
     <!-- Translators: Context-menu option in the EPG to watch a programme from the start (catch-up). -->
     <string name="content_epg_watch_start">Watch from start</string>
     <!-- Translators: Context-menu option in the EPG to tune to a live channel. -->

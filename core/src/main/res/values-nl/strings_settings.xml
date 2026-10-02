@@ -7,11 +7,7 @@
     <string name="settings_mini_player">Minispeler</string>
     <string name="settings_mini_player_description">De kleine zwevende speler die verschijnt wanneer je tijdens het bladeren een zender vastzet (PiP). Pas deze instellingen hier aan, of rechtstreeks met de knoppen voor vergroten/verkleinen en verplaatsen op de minispeler zelf.</string>
     <string name="settings_size">Grootte</string>
-    <string name="settings_mini_player_size_description">Hoe groot de minispeler is als percentage van de schermbreedte (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
     <string name="settings_position">Positie</string>
-    <string name="settings_mini_player_position_description">Aan welke hoek of rand de minispeler wordt vastgezet.</string>
-    <string name="settings_mini_player_size">Grootte van minispeler</string>
-    <string name="settings_mini_player_position">Positie van minispeler</string>
     <string name="settings_home_screen">Startscherm</string>
     <string name="settings_sections">Secties</string>
     <string name="settings_hidden_sections">Verborgen secties blijven in de lijst staan, zodat je ze weer kunt inschakelen.</string>
@@ -58,16 +54,11 @@
     <string name="settings_proxy_connection_failed">Kan geen verbinding maken met de proxy (controleer host/poort).</string>
     <string name="settings_proxy_http">Proxy gaf HTTP <xliff:g id="code">%1$d</xliff:g> terug</string>
     <string name="settings_proxy_failed">Proxytest mislukt.</string>
-    <string name="settings_ch_nav_title">Bladeren met CH+/RW · CH−/FF-toetsen</string>
-    <string name="settings_ch_nav_description">Blader met de CH+/RW · CH−/FF-toetsen van de afstandsbediening door de categorie- of itemlijst.</string>
-    <string name="settings_ch_nav_enabled">CH+/RW · CH−/FF-toetsen gebruiken om door lijsten te bladeren</string>
-    <string name="settings_ch_nav_enabled_description">Als dit is ingeschakeld, spring je met CH+/RW en CH−/FF binnen het gefocuste paneel (categoriebalk of itemlijst, en de categorielijst bij Aanpassen). Als dit is uitgeschakeld, doen deze toetsen niets op die schermen.</string>
     <string name="settings_ch_nav_up">Aantal overslaan met CH+ / Terugspoelen (richting eerste)</string>
     <string name="settings_ch_nav_up_description">Hoeveel items je met één druk op CH+/RW omhoog springt. Lang indrukken gaat altijd naar het eerste item.</string>
     <string name="settings_ch_nav_down">Aantal overslaan met CH− / Vooruitspoelen (richting laatste)</string>
     <string name="settings_ch_nav_down_description">Hoeveel items je met één druk op CH−/FF omlaag springt. Lang indrukken gaat altijd naar het laatste item.</string>
     <string name="settings_skip_counts">Aantallen om over te slaan</string>
-    <string name="settings_ch_nav_help">• Sprongen worden bij het begin en einde begrensd, zodat je bij korte lijsten met één druk het einde bereikt.\n• CH+/RW lang indrukken = eerste item, CH−/FF lang indrukken = laatste item.\n• Lang indrukken is uitgeschakeld in de lijst ‘Alles’ (elke zender / film / serie) — kort indrukken om over te slaan werkt daar nog wel.\n• Geldt voor het paneel dat momenteel focus heeft — de categoriebalk of de itemlijst/het itemraster.\n• Bladert ook door de categorielijst in Instellingen → Categorieën en items aanpassen.</string>
     <string name="settings_remote_shortcuts">Afstandsbedieningssnelkoppelingen</string>
     <string name="settings_remote_shortcuts_description">Wijs vrije knoppen toe aan navigatie, afspelen en bladeren. Essentiële navigatieknoppen blijven beveiligd.</string>
     <string name="settings_remote_shortcuts_enabled">Afstandsbedieningssnelkoppelingen gebruiken</string>
@@ -112,7 +103,6 @@
     <string name="settings_remote_action_jump_first">Naar eerste item</string>
     <string name="settings_remote_action_jump_last">Naar laatste item</string>
     <string name="settings_large_skips_warning">Bij grote sprongen schiet je voorbij het einde van korte lijsten en kan de navigatie op minder krachtige tv\'s schokkerig aanvoelen.</string>
-    <string name="settings_ch_nav_picker">Bladeren met CH+/RW · CH−/FF-toetsen</string>
     <string name="settings_weather">Weer</string>
     <string name="settings_show_weather">Weer tonen</string>
     <string name="settings_show_weather_description">Toon het huidige weer in de bovenbalk.</string>
@@ -131,7 +121,6 @@
     <string name="settings_metadata_provider_description">Gebruik alleen wat je afspeellijst aanbiedt. Geen zoekopdrachten bij TMDB.</string>
     <string name="settings_metadata_provider_tmdb_description">De informatie uit je afspeellijst heeft voorrang; TMDB vult ontbrekende gegevens aan en voegt cast, genres en achtergrondafbeeldingen toe.</string>
     <string name="settings_metadata_tmdb_only_description">Geef voor elk veld de voorkeur aan TMDB; val alleen terug op je afspeellijst als TMDB niets heeft.</string>
-    <string name="settings_selected">Geselecteerd</string>
     <string name="settings_metadata_allowance">Je dagelijkse deel</string>
     <string name="settings_metadata_reset_automatic">Wordt automatisch opnieuw ingesteld</string>
     <string name="settings_metadata_library_details">Bibliotheekdetails</string>
@@ -149,27 +138,19 @@
     <string name="settings_metadata_connection">Verbinding</string>
     <string name="settings_metadata_remote_advanced">Geavanceerde TMDB-gegevens ophalen</string>
     <string name="settings_metadata_remote_advanced_description">Gebruik je eigen TMDB-API-sleutel of een zelfgehoste Worker in plaats van de gedeelde standaard.</string>
-    <string name="settings_metadata_usage_label">Gebruik</string>
-    <string name="settings_metadata_usage_value"><xliff:g id="min_used">%1$d</xliff:g>/<xliff:g id="min_total">%2$d</xliff:g> min · <xliff:g id="hr_used">%3$d</xliff:g>/<xliff:g id="hr_total">%4$d</xliff:g> uur · <xliff:g id="day_used">%5$d</xliff:g>/<xliff:g id="day_total">%6$d</xliff:g> dag</string>
-    <string name="settings_metadata_source_label">Bron</string>
     <string name="settings_metadata_key_label">Sleutel</string>
     <string name="settings_metadata_server_label">Server</string>
-    <string name="settings_metadata_refills_label">Aangevuld om</string>
     <string name="settings_metadata_clear_advanced_title">Je eigen sleutel niet meer gebruiken?</string>
     <string name="settings_metadata_clear_advanced_message">Je TMDB-API-sleutel en het adres van je eigen server worden van dit apparaat verwijderd, en OwnTV keert terug naar de ingebouwde gedeelde dienst met het dagelijkse deel.</string>
     <string name="settings_metadata_fair_share">De ingebouwde metadatadienst wordt gedeeld door iedereen die OwnTV gebruikt, dus elk apparaat krijgt elke dag zijn eigen deel. Als je jouw deel opmaakt, pauzeren posters en beschrijvingen tot het weer wordt aangevuld — de informatie uit je eigen afspeellijst blijft gewoon werken. Je eigen TMDB-API-sleutel of server toevoegen heft de limiet op: het is gratis en een persoonlijke sleutel heeft praktisch geen limiet.</string>
     <string name="settings_metadata_limit_reached">Dagelijks metadatadeel op — voeg je eigen TMDB-sleutel toe via Instellingen → Metadata om deze limiet op te heffen.</string>
     <string name="settings_metadata_language">Taal van metagegevens</string>
     <string name="settings_metadata_language_description">Taal voor plots, genres en titels van TMDB. Velden die TMDB niet heeft vertaald blijven in het Engels. Details worden per taal gecachet, dus terugschakelen gaat direct.</string>
-    <string name="settings_advanced_options">Geavanceerde opties</string>
-    <string name="settings_advanced_metadata_description">Gebruik je eigen TMDB-API-sleutel of een zelfgehoste server in plaats van de gedeelde standaard.</string>
     <string name="settings_metadata_server_description">Laat beide leeg om de ingebouwde gedeelde server te gebruiken (geen configuratie nodig). Voer je eigen TMDB-API-sleutel in om TMDB rechtstreeks aan te roepen, of een URL van een zelfgehoste server om je eigen proxy/mirror te gebruiken. Een URL heeft voorrang op een sleutel.</string>
     <string name="settings_metadata_key_from_phone">Sleutel ophalen via een ander apparaat</string>
     <string name="settings_metadata_key_from_phone_desc">Open het adres in een browser op een willekeurig apparaat — telefoon, computer of een andere tv — log daar in bij TMDB en stuur de sleutel door. Niets te typen met de afstandsbediening.</string>
     <string name="settings_metadata_key_received">TMDB-sleutel ontvangen</string>
     <string name="settings_tmdb_api_key">TMDB-API-sleutel (v3)</string>
-    <string name="settings_self_host_url">URL van zelfgehoste server</string>
-    <string name="settings_test">Test</string>
     <string name="settings_metadata_empty_title">Voer een titel in om op te zoeken.</string>
     <string name="settings_metadata_server_unavailable">Kan de server voor metagegevens niet bereiken — controleer netwerk / sleutel / URL.</string>
     <string name="settings_metadata_no_match">Geen overeenkomst in TMDB voor ‘<xliff:g id="query">%1$s</xliff:g>’.</string>
@@ -193,7 +174,6 @@
     <string name="settings_quick_hdr">HDR (alleen mpv)</string>
     <string name="settings_quick_autoplay">Automatisch afspelen</string>
     <string name="settings_quick_check_update">Controleren op update</string>
-    <string name="settings_search_label">Instellingen doorzoeken</string>
     <string name="settings_search_hint">Instellingen doorzoeken…</string>
     <string name="settings_language">Taal</string>
     <string name="settings_language_description">Weergavetaal van de app</string>
@@ -224,7 +204,6 @@
     <string name="settings_home_root_description">Kies, herschik en filter de rijen op het startscherm</string>
     <string name="settings_metadata_root_description">Posters, samenvattingen, cast en beoordelingen voor films en series</string>
     <string name="settings_download_folder">Downloadmap</string>
-    <string name="settings_app_storage">Appopslag</string>
     <string name="settings_backup_restore">Back-up en herstellen</string>
     <string name="settings_backup_restore_description">Exporteer of herstel profielen en bronnen</string>
     <string name="settings_clear_history">Kijkgeschiedenis wissen</string>
@@ -266,7 +245,6 @@
     <string name="settings_afr_resolution">Resolutie aanpassen</string>
     <string name="settings_afr_resolution_description">Alleen films. Als de beeldmodus voor een film wisselt, schakelt de tv ook naar de resolutie van de film — 1080p voor een HD-film op een 4K-tv —, nooit hoger dan de resolutie bij de start. Uit laat de resolutie ongemoeid en laat de tv opschalen, meestal het betere beeld.</string>
     <string name="settings_surround_sound">Surroundsound</string>
-    <string name="settings_surround_description">Decodeer Dolby/DTS naar surround (5.1/7.1) voor een echte 5.1/7.1-ontvanger. Laat dit UIT voor tv-luidsprekers of een stereosoundbar — meerkanaalsaudio kan op sommige tv\'s/soundbars achterlopen op het beeld. Als het geluid wegdrijft, pas je dit licht aan via het menu Audio van de speler → A/V-synchronisatie.</string>
     <string name="settings_surround_description_mobile">Decodeer Dolby/DTS naar surround (5.1/7.1) voor een echte 5.1/7.1-ontvanger die op dit apparaat is aangesloten. Laat dit UIT voor de ingebouwde luidspreker, een koptelefoon of een stereosoundbar — meerkanaalsaudio kan achterlopen op het beeld. Als het geluid wegdrijft, pas je dit licht aan via het menu Audio van de speler → A/V-synchronisatie.</string>
     <string name="settings_audio_passthrough">Dolby- en DTS-passthrough</string>
     <string name="settings_audio_passthrough_description">Aan: Dolby en DTS gaan ongedecodeerd naar de tv, soundbar of receiver als die zegt ze te kunnen afspelen (ExoPlayer). Uit: de app decodeert ze, nog steeds als surround waar Surroundsound dat toestaat. mpv decodeert altijd. Niet gebruikt zolang Nachtmodus of Volume-egalisatie aan staat.</string>
@@ -324,13 +302,11 @@
     <string name="settings_yes_clear">Ja, wissen</string>
     <string name="settings_presets">Voorinstellingen</string>
     <string name="settings_hex_code">Hexcode</string>
-    <string name="settings_hex">Hex</string>
     <string name="settings_apply">Toepassen</string>
     <string name="settings_hex_error">Voer 6 hexadecimale cijfers in, bijv. 52DBC8</string>
     <string name="settings_color_picker">Kleurkiezer</string>
     <string name="settings_use_color">Deze kleur gebruiken</string>
     <string name="settings_about_version">Versie <xliff:g id="version">%1$s</xliff:g></string>
-    <string name="settings_about_description_full">Je eigen IPTV-speler voor Android TV — een gratis, opensource-app die uitsluitend als speler dient. De app biedt geen zenders of inhoud; je gebruikt je eigen legaal toegankelijke bronnen.</string>
     <string name="settings_about_description_full_mobile">Je eigen IPTV-speler voor Android — een gratis, opensource-app die uitsluitend als speler dient. De app biedt geen zenders of inhoud; je gebruikt je eigen legaal toegankelijke bronnen.</string>
     <string name="settings_about_license">© 2026 OwnTV · GPLv3-licentie</string>
     <string name="settings_join_telegram">Word lid op Telegram</string>
@@ -345,7 +321,6 @@
     <string name="settings_clear_log">Logboek wissen</string>
     <string name="settings_browsing_title">Bladeren en lijsten</string>
     <string name="settings_browsing_description_full">Waarnaar live-tv, Films en Series terugkeren wanneer je terugkomt.</string>
-    <string name="settings_section_toggle"><xliff:g id="section">%1$s</xliff:g>: <xliff:g id="state">%2$s</xliff:g></string>
     <string name="settings_glass_surfaces">Glasoppervlakken</string>
     <string name="settings_glass_surfaces_description">Kies welke delen van de app als glas worden weergegeven. Als je elk oppervlak uitschakelt, wordt glas uitgeschakeld.</string>
     <string name="settings_all_surfaces_on">Alle oppervlakken: Aan</string>
@@ -488,7 +463,6 @@
     <string name="settings_language_original">Originele taal</string>
     <string name="settings_language_ukrainian">Oekraïens</string>
     <string name="settings_language_vietnamese">Vietnamees</string>
-    <string name="settings_decoding">Decodering</string>
     <string name="settings_hardware_decoding">Hardwaredecodering</string>
     <string name="settings_hardware_decoding_description">Gebruik de hardwaredecoder van de tv. Schakel dit uit als sommige streams haperen of beeldfouten vertonen.</string>
     <string name="settings_hardware_decoding_description_mobile">Gebruik de hardwaredecoder van het apparaat. Schakel dit uit als sommige streams haperen of beeldfouten vertonen.</string>
@@ -546,7 +520,6 @@
     <string name="settings_live_rewind_step_description">Hoe ver terug- en vooruitspoelen gaan op een live-zender: in het terugkijkarchief, of in de kopie opgeslagen door Live-tv pauzeren en terugspoelen.</string>
     <string name="settings_resume_playback">Afspelen hervatten</string>
     <string name="settings_resume_playback_description">Wat er moet gebeuren wanneer een film of aflevering een opgeslagen positie heeft.</string>
-    <string name="settings_subtitles">Ondertiteling</string>
     <string name="settings_subtitle_appearance">Weergave van ondertiteling</string>
     <string name="settings_subtitle_appearance_description">Grootte, tekstkleur, positie op het scherm en transparantie van de achtergrond. Wanneer dit uitstaat, behoudt ondertiteling de standaardweergave — inclusief de opmaak die omroepen in ondertiteling voor live-tv opnemen.</string>
     <string name="settings_subtitle_size">Grootte van ondertiteling</string>
@@ -571,7 +544,6 @@
     <string name="settings_shared">Gedeeld</string>
     <string name="settings_open_subtitles_access_priority">Laat beide leeg om de gedeelde Worker van OwnTV te gebruiken. Een eigen Worker-URL heeft voorrang op een directe API-sleutel. Accountsessies blijven profielspecifiek.</string>
     <string name="settings_remove_custom_access">Aangepaste toegang verwijderen</string>
-    <string name="settings_audio">Audio</string>
     <string name="settings_preferred_audio_language">Voorkeurstaal voor audio</string>
     <string name="settings_audio_sync">Audiosynchronisatie</string>
     <string name="settings_audio_sync_description">Verschuif de audio naar voren of achteren zodat deze gelijkloopt met de video. Werkt met beide spelers (mpv en ExoPlayer).</string>
@@ -594,7 +566,6 @@
     <string name="settings_none_auto">Geen / Automatisch</string>
     <string name="settings_view_grid">Raster</string>
     <string name="settings_view_list">Lijst</string>
-    <string name="settings_language_portuguese">Portugees</string>
     <string name="settings_subtitle_small">Klein</string>
     <string name="settings_subtitle_normal">Normaal</string>
     <string name="settings_subtitle_large">Groot</string>
@@ -666,8 +637,6 @@
     <string name="settings_download_remote_title">Downloaden op een ander apparaat</string>
     <string name="settings_download_remote_description">Scan op een apparaat met een browser op hetzelfde wifi-netwerk — telefoon, computer of een andere tv — de QR-code (of open de URL), voer deze pincode in en download je back-upbestand om het veilig te bewaren.</string>
     <string name="settings_preparing_backup">Back-up voorbereiden…</string>
-    <string name="settings_glass_effect_on">Glaseffect: aan</string>
-    <string name="settings_glass_effect_off">Glaseffect: uit</string>
     <string name="settings_background_on">Achtergrondafbeelding: aan</string>
     <string name="settings_background_off">Achtergrondafbeelding: uit</string>
     <string name="settings_ui_zoom_range">Schaal de volledige interface (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
@@ -685,7 +654,6 @@
     <string name="settings_catchup_player_ask">Altijd vragen</string>
     <string name="settings_catchup_player_internal">OwnTV-speler</string>
     <string name="settings_catchup_player_external">Externe speler</string>
-    <string name="settings_soon">BINNENKORT</string>
     <string name="settings_download_folder_title">Downloadmap kiezen</string>
     <string name="settings_pick_background_title">Achtergrondafbeelding kiezen</string>
     <string name="settings_theme_dialog">Thema</string>
@@ -695,7 +663,6 @@
     <string name="settings_done">Gereed</string>
     <string name="settings_reset">Opnieuw instellen</string>
     <string name="settings_device_details"><xliff:g id="model">%1$s</xliff:g> · <xliff:g id="android">%2$s</xliff:g></string>
-    <string name="settings_playback_entry"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="engine">%2$s</xliff:g> · <xliff:g id="kind">%3$s</xliff:g></string>
     <string name="settings_history_live">Live-tv</string>
     <string name="settings_history_movies">Films</string>
     <string name="settings_history_series">Series</string>
@@ -731,8 +698,6 @@
     <string name="settings_customize_remove_lock">Vergrendeling verwijderen</string>
     <string name="settings_customize_description">Verberg en toon zenders, films en series en wijzig de naam of volgorde van categorieën voor dit profiel. Blijft behouden na opnieuw synchroniseren.</string>
     <string name="settings_customize_new_category_behavior">Gedrag voor nieuwe categorieën</string>
-    <string name="settings_customize_hide_new">Verbergen — nieuwe categorieën die bij opnieuw synchroniseren worden toegevoegd, zijn standaard verborgen</string>
-    <string name="settings_customize_show_new">Tonen — nieuwe categorieën die bij opnieuw synchroniseren worden toegevoegd, worden standaard getoond</string>
     <string name="settings_customize_hide">Verbergen</string>
     <string name="settings_customize_show">Tonen</string>
     <string name="settings_customize_behavior_hide">Verbergen</string>
@@ -914,7 +879,6 @@
     <string name="settings_backup_encrypt_message">Met een back-upwachtwoord wordt het hele bestand versleuteld — inclusief afspeellijsten, profielen en opgeslagen wachtwoorden — en kan niets erin zonder dat wachtwoord worden gelezen. Bewaar het goed: als u het kwijtraakt, kan de back-up helemaal niet meer worden geopend. Zonder wachtwoord wordt het bestand niet versleuteld en worden opgeslagen wachtwoorden en pincodes niet opgenomen.</string>
     <string name="settings_backup_export_title">Een back-up exporteren</string>
     <string name="settings_backup_restore_title">Een back-up herstellen</string>
-    <string name="settings_backup_restore_message">Stuur de back-up op afstand vanaf een apparaat met een browser op hetzelfde wifi-netwerk, of kies een back-upbestand dat al op dit apparaat staat.</string>
     <string name="settings_backup_password">Back-upwachtwoord</string>
     <string name="settings_backup_enter_password">Voer het back-upwachtwoord in</string>
     <string name="settings_backup_wrong_password">Onjuist back-upwachtwoord</string>
@@ -925,7 +889,6 @@
     <string name="settings_backup_choose_folder">Kies een map om de back-up in op te slaan</string>
     <string name="settings_backup_choose_folder_action">Map kiezen</string>
     <string name="settings_backup_pick_file">Kies een back-upbestand om te herstellen</string>
-    <string name="settings_backup_local_file">Lokaal bestand</string>
     <string name="settings_backup_remote">Extern apparaat</string>
     <string name="settings_backup_everything">Alles</string>
     <string name="settings_backup_kids_profile">Kinderprofiel</string>
@@ -1087,7 +1050,6 @@
     <string name="settings_subtitle_customize">Ondertiteling aanpassen</string>
     <string name="settings_subtitle_customize_off">Als deze optie uitstaat, blijft de ondertiteling precies zoals de stream en de speler die weergeven.</string>
     <string name="settings_subtitle_preview_stock">Voorbeeld — standaardweergave</string>
-    <string name="settings_subtitle_stock_description">Standaardweergave, inclusief de kleuren en plaatsing die omroepen in ondertiteling voor live-tv hebben vastgelegd.</string>
     <string name="settings_subtitle_reset_all">Alles resetten</string>
     <string name="settings_subtitle_color">Kleur van ondertiteling</string>
     <string name="settings_subtitle_color_default_description">Bij Standaard bepalen de stream en de speler de kleur.</string>
@@ -1171,7 +1133,6 @@
     <string name="settings_video_seconds"><xliff:g id="seconds">%1$d</xliff:g>s video</string>
     <string name="settings_epg_offset_root_description">Verschuif de hele gids wanneer de tijden van een feed niet overeenkomen met wat er werkelijk wordt uitgezonden. Een enkele zender kan afzonderlijk worden verschoven via het lang-druk-menu (Live-tv of Gids) — dat is de optie voor Oost/West-versies die één gids delen.</string>
     <string name="settings_epg_offset_dialog_description">Verplaatst elk programma in de gids. Gebruik het wanneer de hele feed op de verkeerde klok staat; houd voor een enkele zender (een Oost/West-versie die één gids deelt) de zender lang ingedrukt in Live-tv of de Gids en stel daar de eigen offset in.</string>
-    <string name="settings_panel_width_screen_description">Stel in hoeveel van het scherm elk paneel inneemt — categorieën, de lijst en het voorbeeld.</string>
     <string name="settings_panel_width_summary">Categorie <xliff:g id="category">%1$d</xliff:g>%% · Lijst <xliff:g id="list">%2$d</xliff:g>%% · <xliff:g id="preview_label">%3$s</xliff:g> <xliff:g id="preview">%4$d</xliff:g>%%</string>
     <string name="settings_panel_width_help">• De drie panelen delen één rij, dus hun percentages moeten bij elkaar 100%% zijn.\n• Als je een paneel breder maakt, moet je dezelfde hoeveelheid van een ander afhalen voordat je opslaat.\n• Reset zet een sectie terug naar de standaardbreedtes waarmee dit scherm begon.\n• Als je een sectie uitschakelt, wordt de standaardindeling hersteld zonder dat je waarden verloren gaan.\n• Film- en serieposters worden automatisch opnieuw ingedeeld, dus een smallere lijst toont gewoon minder per rij.</string>
     <string name="settings_panel_width_preview">Voorbeeld</string>
@@ -1280,10 +1241,6 @@
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> instelling</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> instellingen</item>
     </plurals>
-    <plurals name="settings_pinned_count">
-        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> vastgezet</item>
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> vastgezet</item>
-    </plurals>
     <plurals name="settings_match_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> treffer</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> treffers</item>
@@ -1298,7 +1255,6 @@
     <string name="settings_selection_highlight">Selectiemarkering</string>
     <string name="settings_selection_highlight_description">Kleur en dikte van de rand rond het geselecteerde item</string>
     <string name="settings_nav_bar_customization">Navigatiebalk aanpassen</string>
-    <string name="settings_nav_bar_description">Pas de tabbladen aan je afspeellijst aan of verberg wat je niet gebruikt</string>
     <string name="settings_playback_mobile">Mobiel</string>
     <string name="settings_playback_tv_only_note">Livevoorbeeld en afstandsbedieningssneltoetsen zijn tv-functies — ze zijn niet beschikbaar op een telefoon.</string>
     <string name="settings_background_playback">Afspelen op de achtergrond</string>
@@ -1319,8 +1275,6 @@
     <string name="settings_mini_player_style_description">Hoe het spelen met je meegaat terwijl je rondkijkt</string>
     <string name="settings_mini_player_style_floating">Zwevend venster</string>
     <string name="settings_mini_player_style_docked">Vaste balk</string>
-    <string name="settings_pip_on_back">Picture-in-picture bij Terug</string>
-    <string name="settings_pip_on_back_description">Ook naar het zwevende venster gaan als je op Terug drukt</string>
     <string name="settings_pip_size">Venstergrootte</string>
     <string name="settings_pip_size_description">Hoe groot het zwevende venster begint. Knijp om het te veranderen.</string>
     <string name="settings_pip_size_small">Klein</string>
@@ -1340,9 +1294,7 @@
     <string name="local_sync_qr_description">QR-code met het adres van dit apparaat</string>
     <string name="local_sync_pin_is">Pincode: <xliff:g id="pin">%1$s</xliff:g></string>
     <string name="local_sync_add_device">Een apparaat zoeken</string>
-    <string name="local_sync_add_device_description">Zoek op het netwerk, scan een code of typ een adres</string>
     <string name="local_sync_paired_devices">Gekoppelde apparaten</string>
-    <string name="local_sync_device_address">Op <xliff:g id="address">%1$s</xliff:g></string>
     <string name="local_sync_working">Bezig…</string>
     <string name="local_sync_find_hint">Beide apparaten moeten op hetzelfde wifinetwerk zitten en op het andere moet Synchronisatiemodus aan staan.</string>
     <string name="local_sync_searching">Netwerk doorzoeken…</string>
@@ -1455,7 +1407,6 @@
     <string name="settings_backup_location">Locatie</string>
     <string name="settings_multiview">Multiview</string>
     <string name="settings_multiview_description">Kijk naar meerdere livekanalen tegelijk. Je bepaalt elke keer hoeveel, tot deze limiet — elke tegel gebruikt een verbinding van je provider.</string>
-    <string name="settings_multiview_tiles">Tegels</string>
     <string name="settings_multiview_tiles_max">Meeste tegels</string>
     <string name="settings_multiview_tiles_max_value">Max. <xliff:g id="count">%1$d</xliff:g></string>
     <string name="settings_multiview_warning_title">Meer dan twee tegels</string>
@@ -1627,7 +1578,6 @@
     <string name="settings_line_rec_post_roll">Voor programma’s die uitlopen</string>
     <string name="settings_line_measured_stats">Live-fps, bitrate en verloren frames</string>
     <string name="settings_line_logging">Een volledig spoor voor foutmeldingen</string>
-    <string name="settings_help_quick">De schakelaars die je het meest gebruikt, op één plek. Houd OK ingedrukt op een rij in Instellingen om hem hier vast te zetten; houd OK ingedrukt op een rij hier om hem los te maken. Elke vastgezette rij laat zien waar hij thuishoort.</string>
     <string name="settings_help_profiles">Elke kijker heeft eigen favorieten, kijkgeschiedenis, hervatpunten en rijen op Start. Kindermodus toont alleen de categorieën die je toestaat; een pincode voorkomt dat anderen het profiel openen.</string>
     <string name="settings_help_playlists">Voeg een afspeellijst toe via een link, een Xtream-login, een Stalker-portaal of een bestand, synchroniseer hem opnieuw of verwijder hem.</string>
     <string name="settings_help_epg_sources">Voeg een XMLTV-gidsbron toe via de link, vernieuw hem of verwijder hem. Bronnen vullen de tv-gids en de programmaregels in Live tv.</string>

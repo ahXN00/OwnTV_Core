@@ -85,7 +85,6 @@
     <string name="player_next_episode">അടുത്ത എപ്പിസോഡ് <xliff:g id="seconds">%1$d</xliff:g> സെക്കൻഡിനകം</string>
     <string name="player_play_now">ഇപ്പോൾ പ്ലേ ചെയ്യുക</string>
     <string name="player_volume">ശബ്ദനില</string>
-    <string name="player_control_engine">പ്ലേയർ എൻജിൻ</string>
     <string name="player_unmute">ശബ്ദം ഓണാക്കുക</string>
     <string name="player_mute">നിശ്ശബ്ദമാക്കുക</string>
     <string name="player_percent"><xliff:g id="value">%1$d</xliff:g>%%</string>
@@ -233,7 +232,6 @@
     <string name="player_subtitles_free_description_full">OpenSubtitles സൗജന്യവും തുറന്ന സമൂഹം അധിഷ്ഠിതവുമായ ഒരു സബ്‌ടൈറ്റിൽ സേവനമാണ്. നിങ്ങളുടെ സ്വന്തം opensubtitles.com അക്കൗണ്ട് ഉപയോഗിച്ച് സൈൻ ഇൻ ചെയ്യുക; സൗജന്യമായി ഒരെണ്ണം സൃഷ്ടിക്കാം. ഇത് നിലവിലെ പ്രൊഫൈലിന് മാത്രമേ ബാധകമാകൂ.</string>
     <string name="player_subtitles_session_expired">നിങ്ങളുടെ OpenSubtitles സെഷൻ കാലഹരണപ്പെട്ടു. സബ്‌ടൈറ്റിലുകൾ തിരയുന്നതും ഡൗൺലോഡ് ചെയ്യുന്നതും തുടരാൻ ക്രമീകരണങ്ങൾ → വീഡിയോ പ്ലെയർ → സബ്‌ടൈറ്റിലുകൾ → OpenSubtitles എന്നതിൽ നിന്ന് വീണ്ടും സൈൻ ഇൻ ചെയ്യുക.</string>
     <string name="player_subtitles_account_needed">OpenSubtitles അക്കൗണ്ട് ആവശ്യമാണ്\n\nസബ്‌ടൈറ്റിലുകൾ തിരയാനും ഡൗൺലോഡ് ചെയ്യാനും ക്രമീകരണങ്ങൾ → വീഡിയോ പ്ലെയർ → സബ്‌ടൈറ്റിലുകൾ → OpenSubtitles എന്നതിൽ നിന്ന് സൈൻ ഇൻ ചെയ്യുക. OpenSubtitles സൗജന്യവും തുറന്ന സമൂഹം അധിഷ്ഠിതവുമായ ഒരു സേവനമാണ് — opensubtitles.com-ൽ ആർക്കും സൗജന്യ അക്കൗണ്ട് സൃഷ്ടിക്കാം.</string>
-    <string name="player_subtitles_no_matches">പൊരുത്തപ്പെടുന്ന സബ്‌ടൈറ്റിലുകളൊന്നും കണ്ടെത്തിയില്ല.</string>
     <string name="player_subtitles_show_all_languages">എല്ലാ ഭാഷകളും കാണിക്കുക</string>
     <string name="player_subtitles_all_languages">എല്ലാ ഭാഷകളും</string>
     <string name="player_subtitles_try_again">വീണ്ടും ശ്രമിക്കുക</string>
@@ -295,8 +293,6 @@
     <string name="player_provider_retry_after">HTTP <xliff:g id="code">%1$d</xliff:g>: <xliff:g id="reason">%2$s</xliff:g> <xliff:g id="seconds">%3$d</xliff:g> സെക്കൻഡിനുശേഷം വീണ്ടും ശ്രമിക്കുന്നു.</string>
     <string name="player_provider_busy">ദാതാവ് തിരക്കിലാണ്.</string>
     <string name="player_error_data_saver">ഡാറ്റ ലാഭം ഓണാണ്, അതിനാൽ മൊബൈൽ ഡാറ്റയിൽ സ്ട്രീമിംഗ് ഓഫാണ്. Wi-Fi-യിൽ ബന്ധിപ്പിക്കുക, അല്ലെങ്കിൽ ക്രമീകരണങ്ങളിൽ ഡാറ്റ ലാഭം ഓഫാക്കുക.</string>
-    <string name="player_audio_only_video_off">വീഡിയോ ഓഫ് · ഡാറ്റ ലാഭിക്കുന്നു</string>
-    <string name="player_audio_only_show_video">വീഡിയോ</string>
     <string name="player_sleep_timer">സ്ലീപ്പ് ടൈമർ</string>
     <string name="player_sleep_timer_end_of_programme">പരിപാടിയുടെ അവസാനം</string>
     <string name="player_sleep_timer_end_of_movie">സിനിമയുടെ അവസാനം</string>
@@ -321,12 +317,10 @@
         <item quantity="other">നിങ്ങളുടെ ദാതാവ് ഒരു സമയം <xliff:g id="count">%1$d</xliff:g> സ്ട്രീമുകൾ അനുവദിക്കുന്നു. അതിൽ <xliff:g id="recording">%2$d</xliff:g> എണ്ണം റെക്കോർഡ് ചെയ്യുന്നു.</item>
     </plurals>
     <string name="multiview_refused_reserved">നിങ്ങൾക്ക് കാണൽ തുടരാൻ ഒരു കണക്ഷൻ ഒഴിവാക്കി വയ്ക്കുന്നു. എല്ലാ കണക്ഷനുകളിലും റെക്കോർഡ് ചെയ്യാൻ ക്രമീകരണങ്ങളിൽ ഇത് മാറ്റുക.</string>
-    <string name="multiview_unknown_connections">ഈ പ്ലേലിസ്റ്റ് എത്ര സ്ട്രീമുകൾ അനുവദിക്കുന്നു എന്ന് OwnTV-ക്ക് അറിയാനായില്ല. ഒരു ടൈൽ പരാജയപ്പെട്ടാൽ കാരണം ഇതാണ്.</string>
     <string name="multiview_decoder_exhausted">ഈ ടിവിക്ക് ഒരേസമയം മറ്റൊരു ചാനൽ കൂടി ഡീകോഡ് ചെയ്യാനാകില്ല.</string>
     <string name="multiview_decoder_exhausted_mobile">ഈ ഉപകരണത്തിന് ഒരേസമയം മറ്റൊരു ചാനൽ കൂടി ഡീകോഡ് ചെയ്യാനാകില്ല.</string>
     <string name="multiview_tile_change_channel">ചാനൽ മാറ്റുക</string>
     <string name="multiview_tile_fullscreen">പൂർണ്ണ സ്ക്രീനിൽ</string>
-    <string name="multiview_tile_record">ഇത് റെക്കോർഡ് ചെയ്യുക</string>
     <string name="multiview_tile_remove">ടൈൽ നീക്കുക</string>
     <string name="multiview_audio_tile">ശബ്ദം ഈ ടൈലിൽ നിന്നാണ്</string>
     <string name="multiview_add_to">മൾട്ടിവ്യൂവിൽ ചേർക്കുക</string>

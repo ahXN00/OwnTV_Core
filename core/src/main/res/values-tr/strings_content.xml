@@ -77,7 +77,6 @@
     <string name="content_oldest_first">Önce en eskiler</string>
     <string name="content_newest_first">Önce en yeniler</string>
     <string name="content_last_watched">Son izlenme</string>
-    <string name="content_press_ok_episodes">Bölümleri görüntülemek için afişte OK\'e basın.</string>
     <string name="content_play_external">Harici oynatıcıyla oynat</string>
     <string name="content_delete_subtitles">OpenSub altyazılarını sil</string>
     <string name="content_tmdb_details">TMDB Ayrıntıları</string>
@@ -85,12 +84,7 @@
     <string name="content_refetch_tmdb">TMDB ayrıntılarını yeniden getir</string>
     <string name="content_set_tmdb_name">TMDB adını belirle</string>
     <string name="content_close">Kapat</string>
-    <string name="content_focus_movie">Ayrıntıları görmek için bir filme odaklanın.</string>
-    <string name="content_focus_channel">Burada görmek için bir kanala odaklanın.</string>
-    <string name="content_press_ok_fullscreen">Tam ekranda izlemek için OK\'e basın · Seçenekler için basılı tutun</string>
     <string name="content_rename_hint">Yalnızca bu profil için geçerlidir. Özgün adı geri yüklemek için boş bırakın.</string>
-    <string name="content_focus_series">Bir diziye odaklanın, bölümleri görüntülemek için OK\'e basın.</string>
-    <string name="content_focus_episode">Ayrıntıları görmek için bir bölüme odaklanın.</string>
     <string name="content_no_movies_here">Burada film yok.</string>
     <string name="content_no_series_here">Burada dizi yok.</string>
     <string name="content_no_episodes">Kullanılabilir bölüm yok.</string>
@@ -106,14 +100,11 @@
     <string name="content_provider">Sağlayıcı</string>
     <string name="content_provider_name">Sağlayıcı: %1$s</string>
     <string name="content_no_series_found">“<xliff:g id="query">%1$s</xliff:g>” için dizi bulunamadı</string>
-    <string name="content_search_movies"><xliff:g id="category">%1$s</xliff:g>…</string>
-    <string name="content_search_series"><xliff:g id="category">%1$s</xliff:g>…</string>
     <string name="content_reorder_movie">Filmi yeniden sırala</string>
     <string name="content_reorder_series">Diziyi yeniden sırala</string>
     <string name="content_already_downloaded">Zaten indirildi — İndirilenler menüsünü kontrol edin.</string>
     <string name="content_refetching_tmdb">TMDB ayrıntıları yeniden getiriliyor…</string>
     <string name="content_researching_tmdb">TMDB\'de yeniden aranıyor…</string>
-    <string name="content_ok_play_options">Oynatmak için OK · seçenekler için basılı tutun</string>
     <string name="content_resume_at"><xliff:g id="position">%1$s</xliff:g> konumundan devam et</string>
     <string name="content_duration_hours"><xliff:g id="hours">%1$d</xliff:g> sa <xliff:g id="minutes">%2$d</xliff:g> dk</string>
     <string name="content_duration_minutes"><xliff:g id="minutes">%1$d</xliff:g> dk</string>
@@ -127,9 +118,7 @@
     <string name="content_no_epg">EPG yok</string>
     <string name="content_epg">EPG</string>
     <string name="content_live_day_time_range"><xliff:g id="day">%1$s</xliff:g> <xliff:g id="start">%2$s</xliff:g> – <xliff:g id="stop">%3$s</xliff:g></string>
-    <string name="content_epg_days">EPG · <xliff:g id="days">%1$d</xliff:g> gün</string>
     <string name="content_catchup">Geri izleme</string>
-    <string name="content_catchup_days">Geri izleme · <xliff:g id="days">%1$d</xliff:g> gün</string>
     <string name="content_play_external_short">Harici oynatıcıda oynat</string>
     <string name="content_rename">Yeniden adlandır</string>
     <string name="content_rename_channel">Kanalı yeniden adlandır</string>
@@ -138,11 +127,6 @@
     <string name="content_remove_history">İzleme geçmişinden kaldır</string>
     <string name="content_no_channels_here">Burada kanal yok.</string>
     <string name="content_no_channels_found">“<xliff:g id="query">%1$s</xliff:g>” için kanal bulunamadı</string>
-    <plurals name="content_count_channels">
-        <item quantity="one"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> kanal)</item>
-        <item quantity="other"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> kanal)</item>
-    </plurals>
-    <string name="content_search_channels"><xliff:g id="category">%1$s</xliff:g>…</string>
     <string name="content_match_epg">EPG\'yi eşleştir</string>
     <string name="content_catchup_title">Geri izleme · <xliff:g id="channel">%1$s</xliff:g></string>
     <string name="content_rewind_at">Geri sar · <xliff:g id="time">%1$s</xliff:g></string>
@@ -164,7 +148,6 @@
     <string name="content_clear_match">Eşleşmeyi temizle</string>
     <string name="content_live_now_label">ŞİMDİ</string>
     <string name="content_live_next_label">SIRADA · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="content_live_later_label">DAHA SONRA</string>
     <string name="content_live_time_range_plain"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="stop">%2$s</xliff:g></string>
     <string name="content_category_favorites">Favoriler</string>
     <string name="content_category_history">İzleme Geçmişi</string>
@@ -202,16 +185,13 @@
     <string name="content_action_play">Oynat</string>
     <string name="content_action_next_up">Sıradaki</string>
     <string name="content_action_last_channel">Son kanal</string>
-    <string name="content_continue_label"><xliff:g id="action">%1$s</xliff:g> · <xliff:g id="name">%2$s</xliff:g></string>
     <string name="content_empty_section"><xliff:g id="section">%1$s</xliff:g> daha sonraki bir aşamada eklenecek. Bu listeyi doldurmak için bir M3U veya Xtream kaynak ekleyin.</string>
     <string name="content_progress_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="content_section_category"><xliff:g id="section">%1$s</xliff:g> / <xliff:g id="category">%2$s</xliff:g></string>
     <string name="content_preview_player">Size özel IPTV oynatıcınız.</string>
     <string name="content_live_time_range"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="end">%2$s</xliff:g></string>
     <string name="content_live_time_remaining"><xliff:g id="end">%1$s</xliff:g> · <xliff:g id="minutes">%2$d</xliff:g> dk kaldı</string>
-    <string name="common_browse">Göz At</string>
     <string name="content_downloads_title">İndirilenler</string>
-    <string name="content_downloads_description">Çevrimdışı oynatma için kaydedilen filmler ve bölümler.</string>
     <string name="content_downloads_empty">Henüz indirilen öğe yok. Bir film veya bölüm açıp İndir\'e basın.</string>
     <string name="content_downloads_storage">Depolama</string>
     <string name="content_downloads_options">İndirme seçenekleri</string>
@@ -228,7 +208,6 @@
     <string name="content_downloads_queued">Kuyrukta…</string>
     <string name="content_downloads_count"><xliff:g id="count">%1$d</xliff:g></string>
     <string name="content_downloads_active">Etkin</string>
-    <string name="content_downloads_waiting">Bekliyor</string>
     <string name="content_downloads_completed_group">Tamamlandı</string>
     <string name="content_downloads_failed_group">Başarısız</string>
     <string name="content_downloads_progress"><xliff:g id="percent">%1$d</xliff:g>%% · <xliff:g id="downloaded">%2$s</xliff:g> / <xliff:g id="total">%3$s</xliff:g></string>
@@ -264,12 +243,7 @@
         <item quantity="other">Rehberde <xliff:g id="programmes">%1$d</xliff:g> program var.</item>
     </plurals>
     <string name="content_epg_stats_loaded"><xliff:g id="channels">%1$s</xliff:g> <xliff:g id="programmes">%2$s</xliff:g> <xliff:g id="catchup">%3$s</xliff:g></string>
-    <string name="content_epg_no_catchup_channels">Geri izlemeyi destekleyen kanal yok.</string>
     <string name="content_epg_stats_no_catchup">Geri izleme kanalı bulunmuyor.</string>
-    <plurals name="content_epg_catchup_count">
-        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> kanalda geri izleme kullanılabilir.</item>
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> kanalda geri izleme kullanılabilir.</item>
-    </plurals>
     <plurals name="content_epg_stats_catchup_available">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> kanalda geri izleme kullanılabilir.</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> kanalda geri izleme kullanılabilir.</item>
@@ -293,7 +267,6 @@
     <string name="content_epg_no_guide">Rehber yok.</string>
     <string name="content_epg_no_programme">Şu anda program yok.</string>
     <string name="content_epg_add_description">Rehberi programlarla doldurmak için bir EPG (XMLTV) kaynağı ekleyin.</string>
-    <string name="content_epg_favourite_description">Bu kanalı favoriye ekleyin veya rehber verilerini ayarlayın.</string>
     <string name="content_epg_guide_category">Rehber kategorisi</string>
     <string name="content_epg_all_categories">Tüm kategoriler</string>
     <string name="content_epg_search_hint">Rehber kanallarında ara…</string>
@@ -301,18 +274,14 @@
     <string name="content_epg_add_favourite">Favorilere ekle</string>
     <string name="content_epg_remove_favourite">Favorilerden kaldır</string>
     <string name="content_epg_jump_now">Şimdiye git</string>
-    <string name="content_epg_runtime"><xliff:g id="minutes">%1$d</xliff:g> dk</string>
     <string name="content_epg_review_matches">EPG eşleşmelerini gözden geçir</string>
     <string name="content_epg_include_logos">Rehber logolarını dahil et</string>
-    <string name="content_epg_include_logos_short">Logolar</string>
     <string name="content_epg_review_description">Bu kanallar ada göre eşleştirildi ancak eşleşmeler yeterince kesin değil. Doğru olanları kabul edin, kalanları atlayın.</string>
     <string name="content_epg_accept">Kabul et</string>
     <string name="content_epg_accept_all">Tümünü kabul et</string>
     <string name="content_epg_skip">Atla</string>
     <string name="content_epg_skip_all">Tümünü atla</string>
     <string name="content_epg_pick_manually">EPG\'yi elle seç</string>
-    <string name="content_epg_move_hint">Bir satıra girmek için sağa ilerleyin, ardından bir programı önizlemek için ◀ ▶ ile göz atın.</string>
-    <string name="content_epg_catchup">↻ geri izleme</string>
     <string name="content_epg_time_range"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="end">%2$s</xliff:g></string>
     <string name="content_epg_all">Tümü</string>
     <string name="content_epg_sort_alpha">A–Z</string>
@@ -320,13 +289,10 @@
     <string name="content_epg_sort_live">Canlı TV</string>
     <string name="content_epg_sort_catchup">Geri izleme</string>
     <string name="content_epg_sort_favorites">Favoriler</string>
-    <string name="content_epg_category_button">Kategori: <xliff:g id="label">%1$s</xliff:g></string>
     <string name="content_epg_sort_button">Sırala: <xliff:g id="label">%1$s</xliff:g></string>
     <string name="content_epg_match_button">EPG\'yi otomatik eşleştir</string>
     <string name="content_epg_channel_score">→ <xliff:g id="name">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
-    <string name="content_epg_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
     <string name="content_epg_bits_separator">" · "</string>
-    <string name="content_epg_now">ŞİMDİ · <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_watch_start">Baştan izle</string>
     <string name="content_epg_watch_channel">Kanalı izle</string>
     <string name="content_epg_favourite">Favoriye ekle</string>

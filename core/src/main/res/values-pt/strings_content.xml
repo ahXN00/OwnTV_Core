@@ -81,7 +81,6 @@
     <string name="content_oldest_first">Mais antigos primeiro</string>
     <string name="content_newest_first">Mais recentes primeiro</string>
     <string name="content_last_watched">Assistido por último</string>
-    <string name="content_press_ok_episodes">Pressione OK no pôster para ver os episódios.</string>
     <string name="content_play_external">Reproduzir com reprodutor externo</string>
     <string name="content_delete_subtitles">Excluir legendas do OpenSub</string>
     <string name="content_tmdb_details">Detalhes do TMDB</string>
@@ -89,12 +88,7 @@
     <string name="content_refetch_tmdb">Buscar novamente os detalhes do TMDB</string>
     <string name="content_set_tmdb_name">Definir nome no TMDB</string>
     <string name="content_close">Fechar</string>
-    <string name="content_focus_movie">Coloque um filme em foco para ver os detalhes.</string>
-    <string name="content_focus_channel">Coloque um canal em foco para vê-lo aqui.</string>
-    <string name="content_press_ok_fullscreen">Pressione OK para assistir em tela cheia · Mantenha pressionado para ver as opções</string>
     <string name="content_rename_hint">Somente para este perfil. Deixe em branco para restaurar o nome original.</string>
-    <string name="content_focus_series">Coloque uma série em foco e pressione OK para ver os episódios.</string>
-    <string name="content_focus_episode">Coloque um episódio em foco para ver os detalhes.</string>
     <string name="content_no_movies_here">Não há filmes aqui.</string>
     <string name="content_no_series_here">Não há séries aqui.</string>
     <string name="content_no_episodes">Nenhum episódio disponível.</string>
@@ -112,14 +106,11 @@
     <string name="content_provider">Provedor</string>
     <string name="content_provider_name">Provedor: %1$s</string>
     <string name="content_no_series_found">Nenhuma série encontrada para “<xliff:g id="query">%1$s</xliff:g>”</string>
-    <string name="content_search_movies"><xliff:g id="category">%1$s</xliff:g>…</string>
-    <string name="content_search_series"><xliff:g id="category">%1$s</xliff:g>…</string>
     <string name="content_reorder_movie">Reordenar filme</string>
     <string name="content_reorder_series">Reordenar série</string>
     <string name="content_already_downloaded">Já foi baixado — verifique o menu Downloads.</string>
     <string name="content_refetching_tmdb">Buscando novamente os detalhes do TMDB…</string>
     <string name="content_researching_tmdb">Pesquisando novamente no TMDB…</string>
-    <string name="content_ok_play_options">OK para reproduzir · mantenha pressionado para ver as opções</string>
     <string name="content_resume_at">Continuar de <xliff:g id="position">%1$s</xliff:g></string>
     <string name="content_duration_hours"><xliff:g id="hours">%1$d</xliff:g>h <xliff:g id="minutes">%2$d</xliff:g>min</string>
     <string name="content_duration_minutes"><xliff:g id="minutes">%1$d</xliff:g>min</string>
@@ -133,9 +124,7 @@
     <string name="content_no_epg">Sem EPG</string>
     <string name="content_epg">EPG</string>
     <string name="content_live_day_time_range"><xliff:g id="day">%1$s</xliff:g> <xliff:g id="start">%2$s</xliff:g> – <xliff:g id="stop">%3$s</xliff:g></string>
-    <string name="content_epg_days">EPG · <xliff:g id="days">%1$d</xliff:g> d</string>
     <string name="content_catchup">Programação retroativa</string>
-    <string name="content_catchup_days">Programação retroativa · <xliff:g id="days">%1$d</xliff:g> d</string>
     <string name="content_play_external_short">Reproduzir no reprodutor externo</string>
     <string name="content_rename">Renomear</string>
     <string name="content_rename_channel">Renomear canal</string>
@@ -144,12 +133,6 @@
     <string name="content_remove_history">Remover do histórico</string>
     <string name="content_no_channels_here">Não há canais aqui.</string>
     <string name="content_no_channels_found">Nenhum canal encontrado para “<xliff:g id="query">%1$s</xliff:g>”</string>
-    <plurals name="content_count_channels">
-        <item quantity="one"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> canal)</item>
-        <item quantity="many"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> canais)</item>
-        <item quantity="other"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> canais)</item>
-    </plurals>
-    <string name="content_search_channels"><xliff:g id="category">%1$s</xliff:g>…</string>
     <string name="content_match_epg">Associar EPG</string>
     <string name="content_catchup_title">Programação retroativa · <xliff:g id="channel">%1$s</xliff:g></string>
     <string name="content_rewind_at">Retroceder · <xliff:g id="time">%1$s</xliff:g></string>
@@ -171,7 +154,6 @@
     <string name="content_clear_match">Limpar associação</string>
     <string name="content_live_now_label">AGORA</string>
     <string name="content_live_next_label">A SEGUIR · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="content_live_later_label">MAIS TARDE</string>
     <string name="content_live_time_range_plain"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="stop">%2$s</xliff:g></string>
     <string name="content_category_favorites">Favoritos</string>
     <string name="content_category_history">Histórico</string>
@@ -209,16 +191,13 @@
     <string name="content_action_play">Reproduzir</string>
     <string name="content_action_next_up">A seguir</string>
     <string name="content_action_last_channel">Último canal</string>
-    <string name="content_continue_label"><xliff:g id="action">%1$s</xliff:g> · <xliff:g id="name">%2$s</xliff:g></string>
     <string name="content_empty_section"><xliff:g id="section">%1$s</xliff:g> será disponibilizado em uma fase posterior. Adicione uma fonte M3U ou Xtream para preencher esta lista.</string>
     <string name="content_progress_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="content_section_category"><xliff:g id="section">%1$s</xliff:g> / <xliff:g id="category">%2$s</xliff:g></string>
     <string name="content_preview_player">Seu próprio reprodutor de IPTV.</string>
     <string name="content_live_time_range"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="end">%2$s</xliff:g></string>
     <string name="content_live_time_remaining"><xliff:g id="end">%1$s</xliff:g> · <xliff:g id="minutes">%2$d</xliff:g> min restantes</string>
-    <string name="common_browse">Explorar</string>
     <string name="content_downloads_title">Downloads</string>
-    <string name="content_downloads_description">Filmes e episódios salvos para reprodução sem conexão.</string>
     <string name="content_downloads_empty">Ainda não há downloads. Abra um filme ou episódio e pressione Baixar.</string>
     <string name="content_downloads_storage">Armazenamento</string>
     <string name="content_downloads_options">Opções de download</string>
@@ -235,7 +214,6 @@
     <string name="content_downloads_queued">Na fila…</string>
     <string name="content_downloads_count"><xliff:g id="count">%1$d</xliff:g></string>
     <string name="content_downloads_active">Ativos</string>
-    <string name="content_downloads_waiting">Aguardando</string>
     <string name="content_downloads_completed_group">Concluídos</string>
     <string name="content_downloads_failed_group">Com falha</string>
     <string name="content_downloads_progress"><xliff:g id="percent">%1$d</xliff:g>%% · <xliff:g id="downloaded">%2$s</xliff:g> / <xliff:g id="total">%3$s</xliff:g></string>
@@ -273,13 +251,7 @@
         <item quantity="other">O guia contém <xliff:g id="programmes">%1$d</xliff:g> programas.</item>
     </plurals>
     <string name="content_epg_stats_loaded"><xliff:g id="channels">%1$s</xliff:g> <xliff:g id="programmes">%2$s</xliff:g> <xliff:g id="catchup">%3$s</xliff:g></string>
-    <string name="content_epg_no_catchup_channels">Nenhum canal oferece programação retroativa.</string>
     <string name="content_epg_stats_no_catchup">Nenhum canal com programação retroativa está disponível.</string>
-    <plurals name="content_epg_catchup_count">
-        <item quantity="one">A programação retroativa está disponível em <xliff:g id="count">%1$d</xliff:g> canal.</item>
-        <item quantity="many">A programação retroativa está disponível em <xliff:g id="count">%1$d</xliff:g> canais.</item>
-        <item quantity="other">A programação retroativa está disponível em <xliff:g id="count">%1$d</xliff:g> canais.</item>
-    </plurals>
     <plurals name="content_epg_stats_catchup_available">
         <item quantity="one">A programação retroativa está disponível em <xliff:g id="count">%1$d</xliff:g> canal.</item>
         <item quantity="many">A programação retroativa está disponível em <xliff:g id="count">%1$d</xliff:g> canais.</item>
@@ -307,7 +279,6 @@
     <string name="content_epg_no_guide">Sem guia.</string>
     <string name="content_epg_no_programme">Nenhum programa neste horário.</string>
     <string name="content_epg_add_description">Adicione uma fonte de EPG (XMLTV) para preencher o guia com programas.</string>
-    <string name="content_epg_favourite_description">Adicione este canal aos favoritos ou defina os dados do guia dele.</string>
     <string name="content_epg_guide_category">Categoria do guia</string>
     <string name="content_epg_all_categories">Todas as categorias</string>
     <string name="content_epg_search_hint">Pesquisar canais do guia…</string>
@@ -315,18 +286,14 @@
     <string name="content_epg_add_favourite">Adicionar aos favoritos</string>
     <string name="content_epg_remove_favourite">Remover dos favoritos</string>
     <string name="content_epg_jump_now">Ir para agora</string>
-    <string name="content_epg_runtime"><xliff:g id="minutes">%1$d</xliff:g>min</string>
     <string name="content_epg_review_matches">Revisar associações de EPG</string>
     <string name="content_epg_include_logos">Incluir logos do guia</string>
-    <string name="content_epg_include_logos_short">Logos</string>
     <string name="content_epg_review_description">Estes canais foram associados pelo nome, mas a correspondência não foi considerada confiável. Aceite os corretos e ignore os demais.</string>
     <string name="content_epg_accept">Aceitar</string>
     <string name="content_epg_accept_all">Aceitar todos</string>
     <string name="content_epg_skip">Ignorar</string>
     <string name="content_epg_skip_all">Ignorar todos</string>
     <string name="content_epg_pick_manually">Escolher EPG manualmente</string>
-    <string name="content_epg_move_hint">Mova para a direita até uma linha e navegue com ◀ ▶ para visualizar um programa.</string>
-    <string name="content_epg_catchup">↻ programação retroativa</string>
     <string name="content_epg_time_range"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="end">%2$s</xliff:g></string>
     <string name="content_epg_all">Todos</string>
     <string name="content_epg_sort_alpha">A–Z</string>
@@ -334,13 +301,10 @@
     <string name="content_epg_sort_live">TV ao vivo</string>
     <string name="content_epg_sort_catchup">Programação retroativa</string>
     <string name="content_epg_sort_favorites">Favoritos</string>
-    <string name="content_epg_category_button">Categoria: <xliff:g id="label">%1$s</xliff:g></string>
     <string name="content_epg_sort_button">Ordenar: <xliff:g id="label">%1$s</xliff:g></string>
     <string name="content_epg_match_button">Associar EPG automaticamente</string>
     <string name="content_epg_channel_score">→ <xliff:g id="name">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
-    <string name="content_epg_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
     <string name="content_epg_bits_separator">" · "</string>
-    <string name="content_epg_now">AGORA · <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_watch_start">Assistir do início</string>
     <string name="content_epg_watch_channel">Assistir ao canal</string>
     <string name="content_epg_favourite">Favoritar</string>

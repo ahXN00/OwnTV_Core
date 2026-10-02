@@ -7,11 +7,7 @@
     <string name="settings_mini_player">Minispelare</string>
     <string name="settings_mini_player_description">Den lilla flytande spelaren som visas när du dockar en kanal (PiP) medan du bläddrar. Ändra inställningarna här eller direkt med knapparna för storleksändring och flyttning på själva minispelaren.</string>
     <string name="settings_size">Storlek</string>
-    <string name="settings_mini_player_size_description">Hur stor minispelaren är som andel av skärmens bredd (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
     <string name="settings_position">Position</string>
-    <string name="settings_mini_player_position_description">Vilket hörn eller vilken kant minispelaren dockas mot.</string>
-    <string name="settings_mini_player_size">Minispelarens storlek</string>
-    <string name="settings_mini_player_position">Minispelarens position</string>
     <string name="settings_home_screen">Startskärm</string>
     <string name="settings_sections">Avsnitt</string>
     <string name="settings_hidden_sections">Dolda avsnitt finns kvar i listan så att du kan visa dem igen.</string>
@@ -58,16 +54,11 @@
     <string name="settings_proxy_connection_failed">Det gick inte att ansluta till proxyn (kontrollera värd/port).</string>
     <string name="settings_proxy_http">Proxyn returnerade HTTP <xliff:g id="code">%1$d</xliff:g></string>
     <string name="settings_proxy_failed">Proxytestet misslyckades.</string>
-    <string name="settings_ch_nav_title">Sidbläddring med CH+/RW · CH−/FF-knapparna</string>
-    <string name="settings_ch_nav_description">Bläddra en sida i kategori- eller objektlistan med fjärrkontrollens CH+/RW / CH−/FF-knappar.</string>
-    <string name="settings_ch_nav_enabled">Använd CH+/RW · CH−/FF-knapparna för att bläddra i listor</string>
-    <string name="settings_ch_nav_enabled_description">När funktionen är på hoppar CH+/RW och CH−/FF i den fokuserade panelen (kategorifältet eller objektlistan samt kategorilistan under Anpassa). När den är avstängd gör knapparna ingenting på dessa skärmar.</string>
     <string name="settings_ch_nav_up">CH+ / Spola bakåt (mot den första)</string>
     <string name="settings_ch_nav_up_description">Hur många objekt ett tryck på CH+/RW hoppar uppåt. Ett långtryck går alltid till det första objektet.</string>
     <string name="settings_ch_nav_down">CH− / Spola framåt (mot den sista)</string>
     <string name="settings_ch_nav_down_description">Hur många objekt ett tryck på CH−/FF hoppar nedåt. Ett långtryck går alltid till det sista objektet.</string>
     <string name="settings_skip_counts">Antal objekt per hopp</string>
-    <string name="settings_ch_nav_help">• Hoppen stannar vid listans ändar, så korta listor når slutet med ett enda tryck.\n• Långtryck på CH+/RW = första objektet, långtryck på CH−/FF = sista objektet.\n• Långtryck är inaktiverat i listan ”Alla” (alla kanaler / filmer / serier) — korta tryck för att hoppa fungerar fortfarande där.\n• Gäller den panel som har fokus — kategorifältet eller objektlistan/rutnätet.\n• Bläddrar även i kategorilistan under Inställningar → Anpassa kategorier och objekt.</string>
     <string name="settings_remote_shortcuts">Fjärrkontrollsgenvägar</string>
     <string name="settings_remote_shortcuts_description">Tilldela lediga knappar till navigering, uppspelning och bläddring. Viktiga navigeringsknappar förblir skyddade.</string>
     <string name="settings_remote_shortcuts_enabled">Använd fjärrkontrollsgenvägar</string>
@@ -112,7 +103,6 @@
     <string name="settings_remote_action_jump_first">Gå till första objektet</string>
     <string name="settings_remote_action_jump_last">Gå till sista objektet</string>
     <string name="settings_large_skips_warning">Stora hopp går förbi korta listor och kan kännas ryckiga på enklare tv-apparater.</string>
-    <string name="settings_ch_nav_picker">Sidbläddring med CH+/RW · CH−/FF-knapparna</string>
     <string name="settings_weather">Väder</string>
     <string name="settings_show_weather">Visa väder</string>
     <string name="settings_show_weather_description">Visa aktuellt väder i det övre fältet.</string>
@@ -131,7 +121,6 @@
     <string name="settings_metadata_provider_description">Använd endast det som din spellista tillhandahåller. Inga sökningar på TMDB.</string>
     <string name="settings_metadata_provider_tmdb_description">Informationen från din spellista prioriteras. TMDB fyller i luckorna och lägger till skådespelare, genrer och bakgrundsbilder.</string>
     <string name="settings_metadata_tmdb_only_description">Föredra TMDB för varje fält. Använd endast spellistan som reserv när TMDB saknar information.</string>
-    <string name="settings_selected">Vald</string>
     <string name="settings_metadata_allowance">Din dagliga andel</string>
     <string name="settings_metadata_reset_automatic">Återställs automatiskt</string>
     <string name="settings_metadata_library_details">Biblioteksdetaljer</string>
@@ -149,27 +138,19 @@
     <string name="settings_metadata_connection">Anslutning</string>
     <string name="settings_metadata_remote_advanced">Hämta avancerade TMDB-uppgifter</string>
     <string name="settings_metadata_remote_advanced_description">Använd din egen TMDB-API-nyckel eller en egen Worker i stället för den delade standardtjänsten.</string>
-    <string name="settings_metadata_usage_label">Användning</string>
-    <string name="settings_metadata_usage_value"><xliff:g id="min_used">%1$d</xliff:g>/<xliff:g id="min_total">%2$d</xliff:g> min · <xliff:g id="hr_used">%3$d</xliff:g>/<xliff:g id="hr_total">%4$d</xliff:g> tim · <xliff:g id="day_used">%5$d</xliff:g>/<xliff:g id="day_total">%6$d</xliff:g> dag</string>
-    <string name="settings_metadata_source_label">Källa</string>
     <string name="settings_metadata_key_label">Nyckel</string>
     <string name="settings_metadata_server_label">Server</string>
-    <string name="settings_metadata_refills_label">Fylls på</string>
     <string name="settings_metadata_clear_advanced_title">Sluta använda din egen nyckel?</string>
     <string name="settings_metadata_clear_advanced_message">Din TMDB API-nyckel och adressen till din egen server tas bort från den här enheten, och OwnTV går tillbaka till den inbyggda delade tjänsten med dess dagliga andel.</string>
     <string name="settings_metadata_fair_share">Den inbyggda metadatatjänsten delas av alla som använder OwnTV, så varje enhet får sin egen andel varje dag. Om du gör slut på din andel pausas omslag och beskrivningar tills den fylls på igen — informationen från din egen spellista fungerar som vanligt. Att lägga till en egen TMDB API-nyckel eller server tar bort gränsen: det är gratis, och en personlig nyckel har praktiskt taget ingen gräns.</string>
     <string name="settings_metadata_limit_reached">Din dagliga metadataandel är slut — lägg till en egen TMDB-nyckel under Inställningar → Metadata för att ta bort gränsen.</string>
     <string name="settings_metadata_language">Metadataspråk</string>
     <string name="settings_metadata_language_description">Språk för handling, genrer och titlar från TMDB. Fält som TMDB inte har översatt förblir på engelska. Detaljer cachas per språk, så att byta tillbaka går direkt.</string>
-    <string name="settings_advanced_options">Avancerade alternativ</string>
-    <string name="settings_advanced_metadata_description">Använd din egen TMDB API-nyckel eller en egen server i stället för den delade standardservern.</string>
     <string name="settings_metadata_server_description">Lämna båda tomma för att använda den inbyggda delade servern (ingen konfiguration behövs). Ange din egen TMDB API-nyckel för att anropa TMDB direkt eller webbadressen till en egen server för att använda din egen proxy/spegel. En webbadress prioriteras framför en nyckel.</string>
     <string name="settings_metadata_key_from_phone">Hämta nyckeln från en annan enhet</string>
     <string name="settings_metadata_key_from_phone_desc">Öppna adressen i en webbläsare på valfri enhet – telefon, dator eller en annan tv – logga in på TMDB där och skicka över nyckeln. Inget att skriva med fjärrkontrollen.</string>
     <string name="settings_metadata_key_received">TMDB-nyckel mottagen</string>
     <string name="settings_tmdb_api_key">TMDB API-nyckel (v3)</string>
-    <string name="settings_self_host_url">Webbadress till egen server</string>
-    <string name="settings_test">Test</string>
     <string name="settings_metadata_empty_title">Ange en titel att söka efter.</string>
     <string name="settings_metadata_server_unavailable">Det gick inte att nå metadataservern — kontrollera nätverket / nyckeln / webbadressen.</string>
     <string name="settings_metadata_no_match">Ingen TMDB-träff för ”<xliff:g id="query">%1$s</xliff:g>”.</string>
@@ -193,7 +174,6 @@
     <string name="settings_quick_hdr">HDR (endast mpv)</string>
     <string name="settings_quick_autoplay">Automatisk uppspelning</string>
     <string name="settings_quick_check_update">Sök efter uppdatering</string>
-    <string name="settings_search_label">Sök i inställningarna</string>
     <string name="settings_search_hint">Sök i inställningarna…</string>
     <string name="settings_language">Språk</string>
     <string name="settings_language_description">Appens visningsspråk</string>
@@ -224,7 +204,6 @@
     <string name="settings_home_root_description">Välj, ändra ordning på och filtrera raderna på startskärmen</string>
     <string name="settings_metadata_root_description">Omslagsbilder, handlingar, skådespelare och betyg för filmer och serier</string>
     <string name="settings_download_folder">Nedladdningsmapp</string>
-    <string name="settings_app_storage">Applagring</string>
     <string name="settings_backup_restore">Säkerhetskopia och återställning</string>
     <string name="settings_backup_restore_description">Exportera eller återställ profiler och källor</string>
     <string name="settings_clear_history">Rensa visningshistorik</string>
@@ -266,7 +245,6 @@
     <string name="settings_afr_resolution">Anpassa upplösning</string>
     <string name="settings_afr_resolution_description">Endast filmer. När skärmläget byts för en film byter tv:n även till filmens upplösning — 1080p för en HD-film på en 4K-tv —, aldrig över upplösningen den startade med. Av låter upplösningen vara och låter tv:n skala upp, oftast den bättre bilden.</string>
     <string name="settings_surround_sound">Surroundljud</string>
-    <string name="settings_surround_description">Avkoda Dolby/DTS till surroundljud (5.1/7.1) för en riktig 5.1/7.1-mottagare. Låt vara AV för tv-högtalare eller en soundbar med stereo — flerkanalsljud kan göra att ljudet hamnar efter bilden på vissa tv-apparater/soundbar-högtalare. Om synkroniseringen glider justerar du Spelarens ljudmeny → A/V-synkronisering.</string>
     <string name="settings_surround_description_mobile">Avkoda Dolby/DTS till surroundljud (5.1/7.1) för en riktig 5.1/7.1-mottagare som är ansluten till den här enheten. Låt vara AV för den inbyggda högtalaren, hörlurar eller en soundbar med stereo — flerkanalsljud kan göra att ljudet hamnar efter bilden. Om synkroniseringen glider justerar du Spelarens ljudmeny → A/V-synkronisering.</string>
     <string name="settings_audio_passthrough">Dolby- och DTS-passthrough</string>
     <string name="settings_audio_passthrough_description">På: Dolby och DTS skickas oavkodade till tv:n, soundbaren eller receivern när den anger att den kan spela upp dem (ExoPlayer). Av: appen avkodar dem, fortfarande som surround där Surroundljud tillåter det. mpv avkodar alltid. Används inte medan Nattläge eller Volymutjämning är på.</string>
@@ -324,13 +302,11 @@
     <string name="settings_yes_clear">Ja, rensa</string>
     <string name="settings_presets">Förval</string>
     <string name="settings_hex_code">Hexkod</string>
-    <string name="settings_hex">Hex</string>
     <string name="settings_apply">Använd</string>
     <string name="settings_hex_error">Ange 6 hexsiffror, t.ex. 52DBC8</string>
     <string name="settings_color_picker">Färgväljare</string>
     <string name="settings_use_color">Använd den här färgen</string>
     <string name="settings_about_version">Version <xliff:g id="version">%1$s</xliff:g></string>
-    <string name="settings_about_description_full">Din egen IPTV-spelare för Android TV — en kostnadsfri app med öppen källkod som endast fungerar som spelare. Den tillhandahåller inga kanaler eller något innehåll. Du använder dina egna källor som du har laglig åtkomst till.</string>
     <string name="settings_about_description_full_mobile">Din egen IPTV-spelare för Android — en kostnadsfri app med öppen källkod som endast fungerar som spelare. Den tillhandahåller inga kanaler eller något innehåll. Du använder dina egna källor som du har laglig åtkomst till.</string>
     <string name="settings_about_license">© 2026 OwnTV · GPLv3-licens</string>
     <string name="settings_join_telegram">Gå med i vår grupp på Telegram</string>
@@ -345,7 +321,6 @@
     <string name="settings_clear_log">Rensa loggen</string>
     <string name="settings_browsing_title">Bläddring och listor</string>
     <string name="settings_browsing_description_full">Vad live-tv, filmer och serier återgår till när du kommer tillbaka.</string>
-    <string name="settings_section_toggle"><xliff:g id="section">%1$s</xliff:g>: <xliff:g id="state">%2$s</xliff:g></string>
     <string name="settings_glass_surfaces">Glasytor</string>
     <string name="settings_glass_surfaces_description">Välj vilka delar av appen som ska visas som glas. Om du stänger av alla ytor stängs glaseffekten av.</string>
     <string name="settings_all_surfaces_on">Alla ytor: På</string>
@@ -488,7 +463,6 @@
     <string name="settings_language_original">Originalspråk</string>
     <string name="settings_language_ukrainian">Ukrainska</string>
     <string name="settings_language_vietnamese">Vietnamesiska</string>
-    <string name="settings_decoding">Avkodning</string>
     <string name="settings_hardware_decoding">Maskinvaruavkodning</string>
     <string name="settings_hardware_decoding_description">Använd tv:ns maskinvaruavkodare. Stäng av om vissa strömmar hackar eller visar bildfel.</string>
     <string name="settings_hardware_decoding_description_mobile">Använd enhetens maskinvaruavkodare. Stäng av om vissa strömmar hackar eller visar bildfel.</string>
@@ -546,7 +520,6 @@
     <string name="settings_live_rewind_step_description">Hur långt bakåt- och framåtspolning flyttar på en livekanal: i dess catch-up-arkiv, eller i kopian som sparats av Pausa och spola tillbaka live-tv.</string>
     <string name="settings_resume_playback">Återuppta uppspelningen</string>
     <string name="settings_resume_playback_description">Vad som ska göras när en film eller ett avsnitt har en sparad position.</string>
-    <string name="settings_subtitles">Undertexter</string>
     <string name="settings_subtitle_appearance">Undertexternas utseende</string>
     <string name="settings_subtitle_appearance_description">Storlek, textfärg, placering på skärmen och bakgrundens genomskinlighet. När detta är av behåller undertexterna sitt standardutseende – inklusive formateringen som tv-bolagen bäddar in i undertexter för live-tv.</string>
     <string name="settings_subtitle_size">Undertextstorlek</string>
@@ -571,7 +544,6 @@
     <string name="settings_shared">Delad</string>
     <string name="settings_open_subtitles_access_priority">Lämna båda tomma för att använda OwnTV:s delade Worker. En egen Worker-URL har företräde framför en direkt API-nyckel. Kontosessioner är fortfarande profilspecifika.</string>
     <string name="settings_remove_custom_access">Ta bort anpassad åtkomst</string>
-    <string name="settings_audio">Ljud</string>
     <string name="settings_preferred_audio_language">Föredraget ljudspråk</string>
     <string name="settings_audio_sync">Ljudsynkronisering</string>
     <string name="settings_audio_sync_description">Flytta ljudet framåt eller bakåt för att matcha videon. Fungerar i båda spelarna (mpv och ExoPlayer).</string>
@@ -594,7 +566,6 @@
     <string name="settings_none_auto">Ingen/automatiskt</string>
     <string name="settings_view_grid">Rutnät</string>
     <string name="settings_view_list">Lista</string>
-    <string name="settings_language_portuguese">Portugisiska</string>
     <string name="settings_subtitle_small">Liten</string>
     <string name="settings_subtitle_normal">Normal</string>
     <string name="settings_subtitle_large">Stor</string>
@@ -666,8 +637,6 @@
     <string name="settings_download_remote_title">Ladda ned på en annan enhet</string>
     <string name="settings_download_remote_description">På valfri enhet med webbläsare i samma wifi – telefon, dator eller en annan tv – skanna QR-koden (eller öppna URL:en), ange den här PIN-koden och ladda ner din säkerhetskopia för att spara den.</string>
     <string name="settings_preparing_backup">Förbereder säkerhetskopian…</string>
-    <string name="settings_glass_effect_on">Glaseffekt: På</string>
-    <string name="settings_glass_effect_off">Glaseffekt: Av</string>
     <string name="settings_background_on">Bakgrundsbild: På</string>
     <string name="settings_background_off">Bakgrundsbild: Av</string>
     <string name="settings_ui_zoom_range">Skala hela gränssnittet (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
@@ -685,7 +654,6 @@
     <string name="settings_catchup_player_ask">Fråga alltid</string>
     <string name="settings_catchup_player_internal">OwnTV-spelare</string>
     <string name="settings_catchup_player_external">Extern spelare</string>
-    <string name="settings_soon">SNART</string>
     <string name="settings_download_folder_title">Välj nedladdningsmapp</string>
     <string name="settings_pick_background_title">Välj en bakgrundsbild</string>
     <string name="settings_theme_dialog">Tema</string>
@@ -695,7 +663,6 @@
     <string name="settings_done">Klar</string>
     <string name="settings_reset">Återställ</string>
     <string name="settings_device_details"><xliff:g id="model">%1$s</xliff:g> · <xliff:g id="android">%2$s</xliff:g></string>
-    <string name="settings_playback_entry"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="engine">%2$s</xliff:g> · <xliff:g id="kind">%3$s</xliff:g></string>
     <string name="settings_history_live">Live-tv</string>
     <string name="settings_history_movies">Filmer</string>
     <string name="settings_history_series">Serier</string>
@@ -731,8 +698,6 @@
     <string name="settings_customize_remove_lock">Ta bort låset</string>
     <string name="settings_customize_description">Dölj och visa kanaler, filmer och serier samt byt namn på eller ändra ordning på kategorier för den här profilen. Bevaras vid omsynkroniseringar.</string>
     <string name="settings_customize_new_category_behavior">Beteende för nya kategorier</string>
-    <string name="settings_customize_hide_new">Dölj – nya kategorier som läggs till vid omsynkronisering döljs som standard</string>
-    <string name="settings_customize_show_new">Visa – nya kategorier som läggs till vid omsynkronisering visas som standard</string>
     <string name="settings_customize_hide">Dölj</string>
     <string name="settings_customize_show">Visa</string>
     <string name="settings_customize_behavior_hide">Dölj</string>
@@ -914,7 +879,6 @@
     <string name="settings_backup_encrypt_message">Med ett lösenord för säkerhetskopian krypteras hela filen – inklusive spellistor, profiler och sparade lösenord – och ingenting i den kan läsas utan lösenordet. Förvara det säkert: om du förlorar det går säkerhetskopian inte att öppna alls. Utan lösenord krypteras inte filen och sparade lösenord och PIN-koder utelämnas.</string>
     <string name="settings_backup_export_title">Exportera en säkerhetskopia</string>
     <string name="settings_backup_restore_title">Återställ en säkerhetskopia</string>
-    <string name="settings_backup_restore_message">Skicka säkerhetskopian via fjärrenhet från valfri enhet med webbläsare i samma wifi, eller välj en säkerhetskopia som redan finns på den här enheten.</string>
     <string name="settings_backup_password">Lösenord för säkerhetskopia</string>
     <string name="settings_backup_enter_password">Ange lösenordet för säkerhetskopian</string>
     <string name="settings_backup_wrong_password">Fel lösenord för säkerhetskopian</string>
@@ -925,7 +889,6 @@
     <string name="settings_backup_choose_folder">Välj en mapp där säkerhetskopian ska sparas</string>
     <string name="settings_backup_choose_folder_action">Välj mapp</string>
     <string name="settings_backup_pick_file">Välj en säkerhetskopia att återställa</string>
-    <string name="settings_backup_local_file">Lokal fil</string>
     <string name="settings_backup_remote">Fjärrenhet</string>
     <string name="settings_backup_everything">Allt</string>
     <string name="settings_backup_kids_profile">Barnprofil</string>
@@ -1087,7 +1050,6 @@
     <string name="settings_subtitle_customize">Anpassa undertexter</string>
     <string name="settings_subtitle_customize_off">När inställningen är av visas undertexterna precis som strömmen och spelaren återger dem.</string>
     <string name="settings_subtitle_preview_stock">Förhandsvisning – standardutseende</string>
-    <string name="settings_subtitle_stock_description">Standardutseende, inklusive de färger och den placering som tv-bolagen bäddar in i undertexter för live-tv.</string>
     <string name="settings_subtitle_reset_all">Återställ allt</string>
     <string name="settings_subtitle_color">Undertextfärg</string>
     <string name="settings_subtitle_color_default_description">Standard låter strömmen och spelaren styra färgen.</string>
@@ -1171,7 +1133,6 @@
     <string name="settings_video_seconds"><xliff:g id="seconds">%1$d</xliff:g> s video</string>
     <string name="settings_epg_offset_root_description">Förskjut hela guiden när ett flödes tider inte stämmer med det som faktiskt sänds. En enskild kanal kan förskjutas för sig själv från dess långtrycksmeny (Live-TV eller guiden) – det är den för East/West-versioner som delar en guide.</string>
     <string name="settings_epg_offset_dialog_description">Flyttar varje program i guiden. Använd det när hela flödet har fel tid; för en enskild kanal (en East/West-version som delar en guide) långtrycker du kanalen i Live-TV eller guiden och ställer in dess egen förskjutning där.</string>
-    <string name="settings_panel_width_screen_description">Ange hur stor del av skärmen varje panel tar – kategorier, listan och förhandsvisningen.</string>
     <string name="settings_panel_width_summary">Kategori <xliff:g id="category">%1$d</xliff:g>%% · Lista <xliff:g id="list">%2$d</xliff:g>%% · <xliff:g id="preview_label">%3$s</xliff:g> <xliff:g id="preview">%4$d</xliff:g>%%</string>
     <string name="settings_panel_width_help">• De tre panelerna delar en rad, så deras procentsatser måste bli 100 %% tillsammans.\n• Gör du en panel bredare måste du ta bort lika mycket från en annan innan du sparar.\n• Återställning sätter tillbaka en sektion till standardbredderna som den här skärmen startade med.\n• Att stänga av en sektion återställer dess standardlayout utan att dina värden går förlorade.\n• Film- och serieaffischer flödar om automatiskt, så en smalare lista visar bara färre per rad.</string>
     <string name="settings_panel_width_preview">Förhandsvisning</string>
@@ -1280,10 +1241,6 @@
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> inställning</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> inställningar</item>
     </plurals>
-    <plurals name="settings_pinned_count">
-        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> fäst</item>
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> fästa</item>
-    </plurals>
     <plurals name="settings_match_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> träff</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> träffar</item>
@@ -1298,7 +1255,6 @@
     <string name="settings_selection_highlight">Markering av val</string>
     <string name="settings_selection_highlight_description">Färg och tjocklek på ramen runt det valda objektet</string>
     <string name="settings_nav_bar_customization">Anpassa navigeringsfältet</string>
-    <string name="settings_nav_bar_description">Anpassa flikarna till din spellista eller dölj dem du inte använder</string>
     <string name="settings_playback_mobile">Mobil</string>
     <string name="settings_playback_tv_only_note">Direktförhandsvisning och fjärrkontrollens genvägar är tv-funktioner – de finns inte på en telefon.</string>
     <string name="settings_background_playback">Uppspelning i bakgrunden</string>
@@ -1319,8 +1275,6 @@
     <string name="settings_mini_player_style_description">Hur uppspelningen följer med när du bläddrar</string>
     <string name="settings_mini_player_style_floating">Flytande fönster</string>
     <string name="settings_mini_player_style_docked">Fast list</string>
-    <string name="settings_pip_on_back">Bild-i-bild med Bakåt</string>
-    <string name="settings_pip_on_back_description">Krymp till det flytande fönstret även när du trycker Bakåt</string>
     <string name="settings_pip_size">Fönsterstorlek</string>
     <string name="settings_pip_size_description">Hur stort det flytande fönstret börjar. Nyp för att ändra.</string>
     <string name="settings_pip_size_small">Litet</string>
@@ -1340,9 +1294,7 @@
     <string name="local_sync_qr_description">QR-kod med den här enhetens adress</string>
     <string name="local_sync_pin_is">PIN-kod: <xliff:g id="pin">%1$s</xliff:g></string>
     <string name="local_sync_add_device">Hitta en enhet</string>
-    <string name="local_sync_add_device_description">Sök på nätverket, skanna en kod eller skriv in en adress</string>
     <string name="local_sync_paired_devices">Parkopplade enheter</string>
-    <string name="local_sync_device_address">På <xliff:g id="address">%1$s</xliff:g></string>
     <string name="local_sync_working">Arbetar…</string>
     <string name="local_sync_find_hint">Båda enheterna måste vara på samma Wi-Fi, och den andra måste ha Synkroniseringsläge på.</string>
     <string name="local_sync_searching">Söker på nätverket…</string>
@@ -1455,7 +1407,6 @@
     <string name="settings_backup_location">Plats</string>
     <string name="settings_multiview">Multivy</string>
     <string name="settings_multiview_description">Titta på flera direktkanaler samtidigt. Du väljer hur många varje gång, upp till den här gränsen – varje ruta använder en av leverantörens anslutningar.</string>
-    <string name="settings_multiview_tiles">Rutor</string>
     <string name="settings_multiview_tiles_max">Högsta antal rutor</string>
     <string name="settings_multiview_tiles_max_value">Max <xliff:g id="count">%1$d</xliff:g></string>
     <string name="settings_multiview_warning_title">Fler än två rutor</string>
@@ -1627,7 +1578,6 @@
     <string name="settings_line_rec_post_roll">För program som drar över</string>
     <string name="settings_line_measured_stats">Aktuell fps, bithastighet och tappade bildrutor</string>
     <string name="settings_line_logging">Ett fullständigt spår för felrapporter</string>
-    <string name="settings_help_quick">Reglagen du använder mest, samlade på ett ställe. Håll ned OK på en rad i Inställningar för att fästa den här; håll ned OK på en rad här för att lossa den. Varje fäst rad visar fortfarande var den hör hemma.</string>
     <string name="settings_help_profiles">Varje tittare har egna favoriter, egen historik, egna återupptagningspunkter och egna rader på Hem. Barnläge visar bara de kategorier du tillåter; en pinkod hindrar andra från att öppna profilen.</string>
     <string name="settings_help_playlists">Lägg till en spellista från en länk, en Xtream-inloggning, en Stalker-portal eller en fil, synka om den eller ta bort den.</string>
     <string name="settings_help_epg_sources">Lägg till en XMLTV-guidekälla via länken, uppdatera den eller ta bort den. Källorna fyller tv-guiden och programraderna i Live-tv.</string>

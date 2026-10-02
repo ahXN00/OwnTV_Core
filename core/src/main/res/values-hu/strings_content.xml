@@ -73,7 +73,6 @@
     <string name="content_oldest_first">Legrégebbi elöl</string>
     <string name="content_newest_first">Legújabb elöl</string>
     <string name="content_last_watched">Utoljára megtekintett</string>
-    <string name="content_press_ok_episodes">Nyomd meg az OK gombot a poszteren az epizódok megjelenítéséhez.</string>
     <string name="content_play_external">Lejátszás külső lejátszóval</string>
     <string name="content_delete_subtitles">OpenSub-feliratok törlése</string>
     <string name="content_tmdb_details">TMDB-adatok</string>
@@ -81,12 +80,7 @@
     <string name="content_refetch_tmdb">TMDB-adatok újbóli lekérése</string>
     <string name="content_set_tmdb_name">TMDB-név megadása</string>
     <string name="content_close">Bezárás</string>
-    <string name="content_focus_movie">Jelölj ki egy filmet az adatok megjelenítéséhez.</string>
-    <string name="content_focus_channel">Jelölj ki egy csatornát, hogy itt megjelenjen.</string>
-    <string name="content_press_ok_fullscreen">OK a teljes képernyős nézethez · Tartsd nyomva a beállításokhoz</string>
     <string name="content_rename_hint">Csak ehhez a profilhoz. Hagyd üresen az eredeti név visszaállításához.</string>
-    <string name="content_focus_series">Jelölj ki egy sorozatot, és nyomd meg az OK gombot az epizódok megjelenítéséhez.</string>
-    <string name="content_focus_episode">Jelölj ki egy epizódot az adatok megjelenítéséhez.</string>
     <string name="content_no_movies_here">Itt nincsenek filmek.</string>
     <string name="content_no_series_here">Itt nincsenek sorozatok.</string>
     <string name="content_no_episodes">Nincs elérhető epizód.</string>
@@ -102,14 +96,11 @@
     <string name="content_provider">Szolgáltató</string>
     <string name="content_provider_name">Szolgáltató: %1$s</string>
     <string name="content_no_series_found">Nincs sorozat erre: „<xliff:g id="query">%1$s</xliff:g>”</string>
-    <string name="content_search_movies"><xliff:g id="category">%1$s</xliff:g>…</string>
-    <string name="content_search_series"><xliff:g id="category">%1$s</xliff:g>…</string>
     <string name="content_reorder_movie">Film átrendezése</string>
     <string name="content_reorder_series">Sorozat átrendezése</string>
     <string name="content_already_downloaded">Már letöltve — nézd meg a Letöltések menüt.</string>
     <string name="content_refetching_tmdb">TMDB-adatok újbóli lekérése…</string>
     <string name="content_researching_tmdb">Újbóli keresés a TMDB-n…</string>
-    <string name="content_ok_play_options">OK a lejátszáshoz · Tartsd nyomva a beállításokhoz</string>
     <string name="content_resume_at">Folytatás innen: <xliff:g id="position">%1$s</xliff:g></string>
     <string name="content_duration_hours"><xliff:g id="hours">%1$d</xliff:g> ó <xliff:g id="minutes">%2$d</xliff:g> p</string>
     <string name="content_duration_minutes"><xliff:g id="minutes">%1$d</xliff:g> p</string>
@@ -123,9 +114,7 @@
     <string name="content_no_epg">Nincs EPG</string>
     <string name="content_epg">EPG</string>
     <string name="content_live_day_time_range"><xliff:g id="day">%1$s</xliff:g> <xliff:g id="start">%2$s</xliff:g> – <xliff:g id="stop">%3$s</xliff:g></string>
-    <string name="content_epg_days">EPG · <xliff:g id="days">%1$d</xliff:g> nap</string>
     <string name="content_catchup">Visszanézés</string>
-    <string name="content_catchup_days">visszanézés · <xliff:g id="days">%1$d</xliff:g> nap</string>
     <string name="content_play_external_short">Lejátszás külső lejátszóban</string>
     <string name="content_rename">Átnevezés</string>
     <string name="content_rename_channel">Csatorna átnevezése</string>
@@ -134,11 +123,6 @@
     <string name="content_remove_history">Eltávolítás az előzményekből</string>
     <string name="content_no_channels_here">Itt nincsenek csatornák.</string>
     <string name="content_no_channels_found">Nincs csatorna erre: „<xliff:g id="query">%1$s</xliff:g>”</string>
-    <plurals name="content_count_channels">
-        <item quantity="one"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> csatorna)</item>
-        <item quantity="other"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> csatorna)</item>
-    </plurals>
-    <string name="content_search_channels"><xliff:g id="category">%1$s</xliff:g>…</string>
     <string name="content_match_epg">EPG párosítása</string>
     <string name="content_catchup_title">visszanézés · <xliff:g id="channel">%1$s</xliff:g></string>
     <string name="content_rewind_at">Visszatekerés · <xliff:g id="time">%1$s</xliff:g></string>
@@ -156,7 +140,6 @@
     <string name="content_clear_match">Párosítás törlése</string>
     <string name="content_live_now_label">MOST</string>
     <string name="content_live_next_label">KÖVETKEZIK · <xliff:g id="time">%1$s</xliff:g></string>
-    <string name="content_live_later_label">KÉSŐBB</string>
     <string name="content_live_time_range_plain"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="stop">%2$s</xliff:g></string>
     <string name="content_category_favorites">Kedvencek</string>
     <string name="content_category_history">Előzmények</string>
@@ -194,16 +177,13 @@
     <string name="content_action_play">Lejátszás</string>
     <string name="content_action_next_up">Következik</string>
     <string name="content_action_last_channel">Előző csatorna</string>
-    <string name="content_continue_label"><xliff:g id="action">%1$s</xliff:g> · <xliff:g id="name">%2$s</xliff:g></string>
     <string name="content_empty_section">A(z) <xliff:g id="section">%1$s</xliff:g> egy későbbi fázisban lesz elérhető. Adj hozzá egy M3U- vagy Xtream-forrást a lista feltöltéséhez.</string>
     <string name="content_progress_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="content_section_category"><xliff:g id="section">%1$s</xliff:g> / <xliff:g id="category">%2$s</xliff:g></string>
     <string name="content_preview_player">A saját IPTV-lejátszód.</string>
     <string name="content_live_time_range"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="end">%2$s</xliff:g></string>
     <string name="content_live_time_remaining"><xliff:g id="end">%1$s</xliff:g> · még <xliff:g id="minutes">%2$d</xliff:g> p</string>
-    <string name="common_browse">Böngészés</string>
     <string name="content_downloads_title">Letöltések</string>
-    <string name="content_downloads_description">Offline lejátszáshoz mentett filmek és epizódok.</string>
     <string name="content_downloads_empty">Még nincsenek letöltések. Nyiss meg egy filmet vagy epizódot, és nyomd meg a Letöltés gombot.</string>
     <string name="content_downloads_storage">Tárhely</string>
     <string name="content_downloads_options">Letöltési beállítások</string>
@@ -220,7 +200,6 @@
     <string name="content_downloads_queued">Sorban áll…</string>
     <string name="content_downloads_count"><xliff:g id="count">%1$d</xliff:g></string>
     <string name="content_downloads_active">Aktív</string>
-    <string name="content_downloads_waiting">Várakozik</string>
     <string name="content_downloads_completed_group">Kész</string>
     <string name="content_downloads_failed_group">Sikertelen</string>
     <string name="content_downloads_progress"><xliff:g id="percent">%1$d</xliff:g>%% · <xliff:g id="downloaded">%2$s</xliff:g> / <xliff:g id="total">%3$s</xliff:g></string>
@@ -256,12 +235,7 @@
         <item quantity="other">A műsorújság <xliff:g id="programmes">%1$d</xliff:g> műsort tartalmaz.</item>
     </plurals>
     <string name="content_epg_stats_loaded"><xliff:g id="channels">%1$s</xliff:g> <xliff:g id="programmes">%2$s</xliff:g> <xliff:g id="catchup">%3$s</xliff:g></string>
-    <string name="content_epg_no_catchup_channels">Egyetlen csatorna sem támogatja a visszanézést.</string>
     <string name="content_epg_stats_no_catchup">Nincs elérhető visszanézhető csatorna.</string>
-    <plurals name="content_epg_catchup_count">
-        <item quantity="one">A visszanézés <xliff:g id="count">%1$d</xliff:g> csatornán érhető el.</item>
-        <item quantity="other">A visszanézés <xliff:g id="count">%1$d</xliff:g> csatornán érhető el.</item>
-    </plurals>
     <plurals name="content_epg_stats_catchup_available">
         <item quantity="one">A visszanézés <xliff:g id="count">%1$d</xliff:g> csatornán érhető el.</item>
         <item quantity="other">A visszanézés <xliff:g id="count">%1$d</xliff:g> csatornán érhető el.</item>
@@ -285,7 +259,6 @@
     <string name="content_epg_no_guide">Nincsenek EPG-adatok.</string>
     <string name="content_epg_no_programme">Ebben az időpontban nincs műsor.</string>
     <string name="content_epg_add_description">Adj hozzá egy EPG-forrást (XMLTV), hogy a műsorújság megteljen műsorokkal.</string>
-    <string name="content_epg_favourite_description">Add hozzá ezt a csatornát a kedvencekhez, vagy állítsd be az EPG-adatait.</string>
     <string name="content_epg_guide_category">EPG-kategória</string>
     <string name="content_epg_all_categories">Összes kategória</string>
     <string name="content_epg_search_hint">EPG-csatornák keresése…</string>
@@ -293,18 +266,14 @@
     <string name="content_epg_add_favourite">Hozzáadás a kedvencekhez</string>
     <string name="content_epg_remove_favourite">Eltávolítás a kedvencekből</string>
     <string name="content_epg_jump_now">Ugrás a mosthoz</string>
-    <string name="content_epg_runtime"><xliff:g id="minutes">%1$d</xliff:g> p</string>
     <string name="content_epg_review_matches">EPG-párosítások ellenőrzése</string>
     <string name="content_epg_include_logos">Műsorújság-logók használata</string>
-    <string name="content_epg_include_logos_short">Logók</string>
     <string name="content_epg_review_description">Ezeket a csatornákat a nevük alapján párosítottuk, de az egyezés nem volt egyértelmű. Fogadd el a helyeseket, a többit hagyd ki.</string>
     <string name="content_epg_accept">Elfogadás</string>
     <string name="content_epg_accept_all">Összes elfogadása</string>
     <string name="content_epg_skip">Kihagyás</string>
     <string name="content_epg_skip_all">Összes kihagyása</string>
     <string name="content_epg_pick_manually">EPG kiválasztása kézzel</string>
-    <string name="content_epg_move_hint">Lépj jobbra egy sorba, majd a ◀ ▶ gombokkal lapozz egy műsor előnézetéhez.</string>
-    <string name="content_epg_catchup">↻ Visszanézés</string>
     <string name="content_epg_time_range"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="end">%2$s</xliff:g></string>
     <string name="content_epg_all">Összes</string>
     <string name="content_epg_sort_alpha">A–Z</string>
@@ -312,13 +281,10 @@
     <string name="content_epg_sort_live">Élő TV</string>
     <string name="content_epg_sort_catchup">Visszanézés</string>
     <string name="content_epg_sort_favorites">Kedvencek</string>
-    <string name="content_epg_category_button">Kategória: <xliff:g id="label">%1$s</xliff:g></string>
     <string name="content_epg_sort_button">Rendezés: <xliff:g id="label">%1$s</xliff:g></string>
     <string name="content_epg_match_button">EPG automatikus párosítása</string>
     <string name="content_epg_channel_score">→ <xliff:g id="name">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
-    <string name="content_epg_channel_number"><xliff:g id="number">%1$s</xliff:g>  <xliff:g id="name">%2$s</xliff:g></string>
     <string name="content_epg_bits_separator">" · "</string>
-    <string name="content_epg_now">MOST · <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_watch_start">Megtekintés elejétől</string>
     <string name="content_epg_watch_channel">Csatorna megtekintése</string>
     <string name="content_epg_favourite">Kedvenc</string>

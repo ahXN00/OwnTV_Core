@@ -19,7 +19,6 @@
     <string name="common_start_over">المشاهدة من البداية</string>
     <string name="common_name">الاسم</string>
     <string name="common_own_tv_user">مستخدم OwnTV</string>
-    <string name="common_switch_profile">تبديل الملف الشخصي</string>
     <string name="common_proxy">الوكيل</string>
     <string name="common_title">العنوان</string>
     <string name="common_search_hint">بحث…</string>
@@ -43,7 +42,6 @@
     <string name="common_something_went_wrong">حدث خطأ ما</string>
     <string name="common_move_instructions">▲/▼ للنقل · موافق للحفظ · رجوع للإلغاء</string>
     <string name="common_number_grouped"><xliff:g id="count">%1$,d</xliff:g></string>
-    <string name="common_rating"><xliff:g id="rating">%1$.1f</xliff:g></string>
     <string name="common_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="common_timestamp_minutes"><xliff:g id="minutes">%1$d</xliff:g>:<xliff:g id="seconds">%2$02d</xliff:g></string>
     <string name="common_timestamp_hours"><xliff:g id="hours">%1$d</xliff:g>:<xliff:g id="minutes">%2$02d</xliff:g>:<xliff:g id="seconds">%3$02d</xliff:g></string>
@@ -162,7 +160,6 @@
     <string name="sync_error_secure">فشل الاتصال الآمن — ربما تكون شهادة الخادم غير صالحة.</string>
     <string name="sync_error_malformed_guide">كانت بيانات دليل البرامج الواردة من الخادم بتنسيق غير صالح. ربما تم تحميل بعضها رغم ذلك — يُرجى المحاولة مرة أخرى، أو التحقق من عنوان URL الخاص بدليل البرامج الإلكتروني.</string>
     <string name="sync_error_guide_empty">هذا الدليل فارغ حاليًا. ربما لم ينشره المزوّد بعد — يرجى المحاولة لاحقًا.</string>
-    <string name="common_items_per_skip">عدد العناصر لكل تخطٍّ</string>
     <string name="common_minutes">دقائق</string>
     <string name="common_size_mb"><xliff:g id="size">%1$s</xliff:g> ميجابايت</string>
     <string name="common_size_gb"><xliff:g id="size">%1$s</xliff:g> غيغابايت</string>
@@ -172,7 +169,6 @@
     <string name="common_show">إظهار</string>
     <string name="common_qr_code_companion_url">رمز QR لعنوان URL المرافق</string>
     <string name="sync_status_trending_starting">اكتملت المزامنة · <xliff:g id="source">%1$s</xliff:g> · جارٍ إنشاء «الرائج الآن»</string>
-    <string name="sync_status_trending_matching">جارٍ مطابقة العناصر الرائجة مع قائمة التشغيل الخاصة بك</string>
     <string name="sync_status_trending_detail_waiting">في انتظار استجابة العناصر المرشحة من TMDB</string>
     <string name="sync_status_trending_detail_received">العناصر المرشحة من TMDB · الأفلام: <xliff:g id="movies">%1$d</xliff:g> · المسلسلات: <xliff:g id="series">%2$d</xliff:g></string>
     <string name="sync_status_trending_detail_preparing">فهرس عناوين المزوّد · <xliff:g id="processed">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g></string>
@@ -193,14 +189,6 @@
         <item quantity="few">تم استلام أحدث <xliff:g id="count">%1$d</xliff:g> عناصر رائجة</item>
         <item quantity="many">تم استلام أحدث <xliff:g id="count">%1$d</xliff:g> عنصرًا رائجًا</item>
         <item quantity="other">تم استلام أحدث <xliff:g id="count">%1$d</xliff:g> عنصر رائج</item>
-    </plurals>
-    <plurals name="sync_status_trending_matched">
-        <item quantity="zero">تمت مطابقة <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="one">تمت مطابقة <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="two">تمت مطابقة <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="few">تمت مطابقة <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="many">تمت مطابقة <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="other">تمت مطابقة <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
     </plurals>
     <plurals name="sync_status_trending_building">
         <item quantity="zero">جارٍ إنشاء «الرائج الآن» · <xliff:g id="count">%1$d</xliff:g> مطابقة</item>

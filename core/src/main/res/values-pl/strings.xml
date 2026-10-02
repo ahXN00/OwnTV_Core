@@ -19,7 +19,6 @@
     <string name="common_start_over">Odtwórz od początku</string>
     <string name="common_name">Nazwa</string>
     <string name="common_own_tv_user">Użytkownik OwnTV</string>
-    <string name="common_switch_profile">Przełącz profil</string>
     <string name="common_proxy">Proxy</string>
     <string name="common_title">Tytuł</string>
     <string name="common_search_hint">Wyszukiwanie…</string>
@@ -43,7 +42,6 @@
     <string name="common_something_went_wrong">Coś poszło nie tak</string>
     <string name="common_move_instructions">▲/▼ — przenieś · OK — zapisz · Wstecz — anuluj</string>
     <string name="common_number_grouped"><xliff:g id="count">%1$,d</xliff:g></string>
-    <string name="common_rating"><xliff:g id="rating">%1$.1f</xliff:g></string>
     <string name="common_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="common_timestamp_minutes"><xliff:g id="minutes">%1$d</xliff:g>:<xliff:g id="seconds">%2$02d</xliff:g></string>
     <string name="common_timestamp_hours"><xliff:g id="hours">%1$d</xliff:g>:<xliff:g id="minutes">%2$02d</xliff:g>:<xliff:g id="seconds">%3$02d</xliff:g></string>
@@ -144,7 +142,6 @@
     <string name="sync_error_secure">Nie udało się nawiązać bezpiecznego połączenia — certyfikat serwera może być nieprawidłowy.</string>
     <string name="sync_error_malformed_guide">Dane przewodnika z serwera miały nieprawidłowy format. Część mogła mimo to zostać wczytana — spróbuj ponownie lub sprawdź adres URL EPG.</string>
     <string name="sync_error_guide_empty">Ten przewodnik jest teraz pusty. Dostawca mógł go jeszcze nie opublikować — spróbuj ponownie później.</string>
-    <string name="common_items_per_skip">Liczba elementów pomijanych jednorazowo</string>
     <string name="common_minutes">Minuty</string>
     <string name="common_size_mb"><xliff:g id="size">%1$s</xliff:g> MB</string>
     <string name="common_size_gb"><xliff:g id="size">%1$s</xliff:g> GB</string>
@@ -154,7 +151,6 @@
     <string name="common_show">Pokaż</string>
     <string name="common_qr_code_companion_url">Kod QR adresu URL aplikacji towarzyszącej</string>
     <string name="sync_status_trending_starting">Synchronizacja zakończona · <xliff:g id="source">%1$s</xliff:g> · Tworzenie sekcji Teraz popularne</string>
-    <string name="sync_status_trending_matching">Dopasowywanie popularnych pozycji do Twojej listy odtwarzania</string>
     <string name="sync_status_trending_detail_waiting">Oczekiwanie na odpowiedź z propozycjami TMDB</string>
     <string name="sync_status_trending_detail_received">Propozycje TMDB · Filmy: <xliff:g id="movies">%1$d</xliff:g> · Seriale: <xliff:g id="series">%2$d</xliff:g></string>
     <string name="sync_status_trending_detail_preparing">Indeks tytułów dostawcy · <xliff:g id="processed">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g></string>
@@ -173,12 +169,6 @@
         <item quantity="few">Odebrano <xliff:g id="count">%1$d</xliff:g> najnowsze popularne pozycje</item>
         <item quantity="many">Odebrano <xliff:g id="count">%1$d</xliff:g> najnowszych popularnych pozycji</item>
         <item quantity="other">Odebrano <xliff:g id="count">%1$d</xliff:g> najnowszej popularnej pozycji</item>
-    </plurals>
-    <plurals name="sync_status_trending_matched">
-        <item quantity="one">Dopasowano <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="few">Dopasowano <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="many">Dopasowano <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="other">Dopasowano <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
     </plurals>
     <plurals name="sync_status_trending_building">
         <item quantity="one">Tworzenie sekcji Teraz popularne · <xliff:g id="count">%1$d</xliff:g> dopasowanie</item>

@@ -16,15 +16,11 @@
     <!-- Translators: Label for the size setting in the mini-player section. -->
     <string name="settings_size">Size</string>
     <!-- Translators: Description of the mini-player size setting. 'min' and 'max' are the allowed percentage range. -->
-    <string name="settings_mini_player_size_description">How big the mini-player is, as a share of the screen width (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
     <!-- Translators: Label for the position setting in the mini-player section. -->
     <string name="settings_position">Position</string>
     <!-- Translators: Description of the mini-player position setting. -->
-    <string name="settings_mini_player_position_description">Which corner or edge the mini-player docks to.</string>
     <!-- Translators: Setting label for the mini-player size slider/picker. -->
-    <string name="settings_mini_player_size">Mini-player size</string>
     <!-- Translators: Setting label for the mini-player position picker. -->
-    <string name="settings_mini_player_position">Mini-player position</string>
     <!-- Translators: Section header for Home screen customization. -->
     <string name="settings_home_screen">Home screen</string>
     <!-- Translators: Section header for the Home row visibility toggles. -->
@@ -114,13 +110,9 @@
     <!-- Translators: Generic proxy test failure message. -->
     <string name="settings_proxy_failed">Proxy test failed.</string>
     <!-- Translators: Section header for the CH+/CH- key paging feature. -->
-    <string name="settings_ch_nav_title">CH+/RW · CH−/FF Key Paging</string>
     <!-- Translators: Description of the CH+/CH- key paging feature. -->
-    <string name="settings_ch_nav_description">Page the category or item list with the remote\'s CH+/RW / CH−/FF keys.</string>
     <!-- Translators: Toggle label to enable CH+/CH- key paging. -->
-    <string name="settings_ch_nav_enabled">Use CH+/RW · CH−/FF keys to page lists</string>
     <!-- Translators: Description of what happens when CH+/CH- paging is enabled. -->
-    <string name="settings_ch_nav_enabled_description">When on, CH+/RW and CH−/FF skip inside the focused panel (category rail or item list, and the Customize category list). When off, those keys do nothing in those screens.</string>
     <!-- Translators: Setting label for the CH+ skip count (items jumped per press toward the first item). -->
     <string name="settings_ch_nav_up">CH+ / Rewind skip (toward first)</string>
     <!-- Translators: Description of the CH+ skip count setting. -->
@@ -132,11 +124,6 @@
     <!-- Translators: Section header for the skip count settings. -->
     <string name="settings_skip_counts">Skip counts</string>
     <!-- Translators: Detailed help text explaining CH+/CH- key paging behavior. The bullets and arrows are visual formatting. -->
-    <string name="settings_ch_nav_help">• Skips are clamped at the ends, so short lists reach the end in one press.
-• Long-press CH+ = first item, long-press CH− = last item.
-• Long-press is disabled on the &quot;All&quot; list (every channel / movie / series) — short-press skipping still works there.
-• Applies to whichever panel currently has focus — the category rail or the item list/grid.
-• Also pages the category list in Settings → Customize Categories &amp; Items.</string>
     <!-- Translators: Title of the settings screen where remote buttons are assigned to app actions. -->
     <string name="settings_remote_shortcuts">Remote shortcuts</string>
     <!-- Translators: Description below the Remote shortcuts screen title. -->
@@ -220,7 +207,6 @@
     <!-- Translators: Warning about large skip values on low-end TVs. -->
     <string name="settings_large_skips_warning">Large skips overshoot short lists and may feel jumpy on low-end TVs.</string>
     <!-- Translators: Picker title for the CH+/CH- key paging setting. -->
-    <string name="settings_ch_nav_picker">CH+/RW · CH−/FF key paging</string>
     <!-- Translators: Section header for weather settings. -->
     <string name="settings_weather">Weather</string>
     <!-- Translators: Toggle label to show/hide the weather chip in the top bar. -->
@@ -257,7 +243,6 @@
     <!-- Translators: Description of the 'TMDB only' metadata option. -->
     <string name="settings_metadata_tmdb_only_description">Prefer TMDB for every field; fall back to your playlist only when TMDB has nothing.</string>
     <!-- Translators: Status label for the currently selected option. This is a state, not a command. -->
-    <string name="settings_selected">Selected</string>
     <!-- Translators: Label for the shared metadata service's remaining daily allowance. -->
     <string name="settings_metadata_allowance">Your shared allowance</string>
     <string name="settings_metadata_reset_automatic">Resets automatically</string>
@@ -297,18 +282,14 @@
     <string name="settings_remove_custom_access">Remove custom access</string>
     <!-- Translators: InfoRow label for which TMDB source is in use. -->
     <!-- Translators: InfoRow label for how much of the daily share has been used. -->
-    <string name="settings_metadata_usage_label">Usage</string>
     <!-- Translators: All three allowance windows on ONE line, e.g. "3/40 min - 150/150 hr - 399/400 day".
          Keep it short: it shares a row with its label on a TV screen. Not a plural - the numbers are
          ratios, and every locale shows the same three fixed windows. -->
-    <string name="settings_metadata_usage_value" tools:ignore="PluralsCandidate"><xliff:g id="min_used">%1$d</xliff:g>/<xliff:g id="min_total">%2$d</xliff:g> min · <xliff:g id="hr_used">%3$d</xliff:g>/<xliff:g id="hr_total">%4$d</xliff:g> hr · <xliff:g id="day_used">%5$d</xliff:g>/<xliff:g id="day_total">%6$d</xliff:g> day</string>
-    <string name="settings_metadata_source_label">Source</string>
     <!-- Translators: InfoRow label for the user's own TMDB API key, shown masked. -->
     <string name="settings_metadata_key_label">Key</string>
     <!-- Translators: InfoRow label for the self-hosted metadata server address. -->
     <string name="settings_metadata_server_label">Server</string>
     <!-- Translators: InfoRow label for when the daily allowance refills. -->
-    <string name="settings_metadata_refills_label">Refills at</string>
     <!-- Translators: Title of the dialog shown when switching off Advanced options while a key is saved. -->
     <string name="settings_metadata_clear_advanced_title">Stop using your own key?</string>
     <!-- Translators: Body of that dialog. Explains the saved key and server address are deleted. -->
@@ -322,9 +303,7 @@
     <!-- Translators: Description of the metadata language setting. 'TMDB' is a brand name. -->
     <string name="settings_metadata_language_description">Language for plots, genres &amp; titles from TMDB. Fields TMDB hasn\'t translated stay in English. Details are cached per language, so switching back is instant.</string>
     <!-- Translators: Collapsible section header for advanced TMDB settings. -->
-    <string name="settings_advanced_options">Advanced options</string>
     <!-- Translators: Description of the advanced metadata options. -->
-    <string name="settings_advanced_metadata_description">Use your own TMDB API key or a self-hosted server instead of the shared default.</string>
     <!-- Translators: Description of the TMDB server configuration options. -->
     <string name="settings_metadata_server_description">Leave both blank to use the built-in shared server (no setup). Enter your own TMDB API key to call TMDB directly, or a self-hosted server URL to use your own proxy/mirror. A URL takes priority over a key.</string>
     <!-- Translators: Text-field label for the TMDB API key. 'TMDB' is a brand name. -->
@@ -336,9 +315,7 @@
     <string name="settings_metadata_key_received">TMDB key received</string>
     <string name="settings_tmdb_api_key">TMDB API key (v3)</string>
     <!-- Translators: Text-field label for a self-hosted TMDB proxy URL. -->
-    <string name="settings_self_host_url">Self-host server URL</string>
     <!-- Translators: TMDB test-section heading. -->
-    <string name="settings_test">Test</string>
     <!-- Translators: Error when no title is entered for TMDB lookup. -->
     <string name="settings_metadata_empty_title">Enter a title to look up.</string>
     <!-- Translators: Error when the TMDB server cannot be reached. -->
@@ -386,7 +363,6 @@
     <!-- Translators: Quick action label to check for app updates. -->
     <string name="settings_quick_check_update">Check for update</string>
     <!-- Translators: Accessibility label for the settings search bar. -->
-    <string name="settings_search_label">Search settings</string>
     <!-- Translators: Placeholder text in the settings search field. -->
     <string name="settings_search_hint">Search settings…</string>
     <!-- Translators: Row-menu action that adds the chosen setting to the Quick group. -->
@@ -413,10 +389,6 @@
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> settings</item>
     </plurals>
     <!-- Translators: Badge counting how many settings the user has pinned to the Quick group. -->
-    <plurals name="settings_pinned_count">
-        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> pinned</item>
-        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> pinned</item>
-    </plurals>
     <!-- Translators: Badge counting how many settings a search matched. -->
     <plurals name="settings_match_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> match</item>
@@ -476,7 +448,6 @@
     <!-- Translators: Settings navigation label for the download folder setting. -->
     <string name="settings_download_folder">Download folder</string>
     <!-- Translators: Settings navigation label for app storage information. -->
-    <string name="settings_app_storage">App storage</string>
     <!-- Translators: Settings navigation label for Backup & Restore. -->
     <string name="settings_backup_restore">Backup &amp; Restore</string>
     <!-- Translators: Description of the Backup & Restore settings. -->
@@ -601,7 +572,6 @@
     <!-- Translators: Setting label for surround sound decoding. -->
     <string name="settings_surround_sound">Surround sound</string>
     <!-- Translators: Description of the surround sound setting. Explains when to leave it OFF. -->
-    <string name="settings_surround_description">Decode Dolby/DTS to surround (5.1/7.1) for a real 5.1/7.1 receiver. Leave OFF for TV speakers or a stereo soundbar — multichannel can lag audio behind video on some TVs/soundbars. If it drifts, nudge the player\'s Audio menu → A/V sync.</string>
     <!-- Translators: Phone/tablet wording of settings_surround_description. -->
     <string name="settings_surround_description_mobile">Decode Dolby/DTS to surround (5.1/7.1) for a real 5.1/7.1 receiver connected to this device. Leave OFF for the built-in speaker, headphones or a stereo soundbar — multichannel can lag audio behind video. If it drifts, nudge the player\'s Audio menu → A/V sync.</string>
     <!-- Translators: Settings → Video player, Sound section. Toggle: send Dolby/DTS audio undecoded ("bitstream") to the TV or receiver. -->
@@ -714,7 +684,6 @@
     <!-- Translators: Text-field label for entering a hex color code. -->
     <string name="settings_hex_code">Hex code</string>
     <!-- Translators: Label for the hex color input tab/mode. -->
-    <string name="settings_hex">Hex</string>
     <!-- Translators: Button to apply the selected accent color. -->
     <string name="settings_apply">Apply</string>
     <!-- Translators: Error when the hex code is invalid. '52DBC8' is an example. -->
@@ -726,7 +695,6 @@
     <!-- Translators: Version display on the About screen. 'version' is the version string. -->
     <string name="settings_about_version">Version <xliff:g id="version">%1$s</xliff:g></string>
     <!-- Translators: Full description of OwnTV on the About screen. 'OwnTV' is a brand name. -->
-    <string name="settings_about_description_full">Your own IPTV player for Android TV — a free, open-source, player-only app. It provides no channels or content; you bring your own legally accessible sources.</string>
     <string name="settings_about_description_full_mobile">Your own IPTV player for Android — a free, open-source, player-only app. It provides no channels or content; you bring your own legally accessible sources.</string>
     <!-- Translators: Copyright and license information. 'GPLv3' is a license name. -->
     <string name="settings_about_license">© 2026 OwnTV · GPLv3 License</string>
@@ -755,7 +723,6 @@
     <!-- Translators: Description of the Browsing & lists settings. -->
     <string name="settings_browsing_description_full">What Live TV, Movies and Series return to when you come back.</string>
     <!-- Translators: Section toggle display. 'section' is the section name, 'state' is On/Off. -->
-    <string name="settings_section_toggle"><xliff:g id="section">%1$s</xliff:g>: <xliff:g id="state">%2$s</xliff:g></string>
     <!-- Translators: Setting label for choosing which surfaces render as glass. -->
     <string name="settings_glass_surfaces">Glass surfaces</string>
     <!-- Translators: Description of the glass surfaces setting. -->
@@ -1041,7 +1008,6 @@
     <!-- Translators: Language name in the language picker. -->
     <string name="settings_language_vietnamese">Vietnamese</string>
     <!-- Translators: Section header for decoder settings. -->
-    <string name="settings_decoding">Decoding</string>
     <!-- Translators: Toggle label for hardware video decoding. -->
     <string name="settings_hardware_decoding">Hardware decoding</string>
     <!-- Translators: Description of the hardware decoding setting. -->
@@ -1121,7 +1087,6 @@
     <!-- Translators: Description of the resume playback setting. -->
     <string name="settings_resume_playback_description">What to do when a movie or episode has a saved position.</string>
     <!-- Translators: Section header for subtitle settings. -->
-    <string name="settings_subtitles">Subtitles</string>
     <!-- Translators: Setting label for the subtitle appearance editor. -->
     <string name="settings_subtitle_appearance">Subtitle appearance</string>
     <!-- Translators: Description of the subtitle appearance editor and its disabled behavior. -->
@@ -1143,7 +1108,6 @@
     <!-- Translators: Description of the OpenSubtitles setting. 'opensubtitles.com' is a website. -->
     <string name="settings_open_subtitles_description">Sign in to search and download subtitles, and manage downloaded subtitles. Per profile; a free opensubtitles.com account is required.</string>
     <!-- Translators: Section header for audio settings. -->
-    <string name="settings_audio">Audio</string>
     <!-- Translators: Setting label for preferred audio language. -->
     <string name="settings_preferred_audio_language">Preferred audio language</string>
     <!-- Translators: Setting label for audio/video synchronization. -->
@@ -1189,7 +1153,6 @@
     <!-- Translators: View mode option: list layout. -->
     <string name="settings_view_list">List</string>
     <!-- Translators: Language name in the language picker (generic Portuguese). -->
-    <string name="settings_language_portuguese">Portuguese</string>
     <!-- Translators: Subtitle size option: small. -->
     <string name="settings_subtitle_small">Small</string>
     <!-- Translators: Subtitle size option: normal. -->
@@ -1332,9 +1295,7 @@ Choose Balanced if a channel becomes unreliable.</string>
     <!-- Translators: Loading status shown while preparing a backup file. -->
     <string name="settings_preparing_backup">Preparing backup…</string>
     <!-- Translators: Status label when the glass effect is enabled. -->
-    <string name="settings_glass_effect_on">Glass Effect: On</string>
     <!-- Translators: Status label when the glass effect is disabled. -->
-    <string name="settings_glass_effect_off">Glass Effect: Off</string>
     <!-- Translators: Status label when a background image is set. -->
     <string name="settings_background_on">Background image: On</string>
     <!-- Translators: Status label when no background image is set. -->
@@ -1367,7 +1328,6 @@ Choose Balanced if a channel becomes unreliable.</string>
     <!-- Translators: Catch-up player option: use an external player app. -->
     <string name="settings_catchup_player_external">External player</string>
     <!-- Translators: Badge indicating a feature is coming soon. All caps is intentional. -->
-    <string name="settings_soon">SOON</string>
     <!-- Translators: Dialog title for choosing the download folder. -->
     <string name="settings_download_folder_title">Choose the download folder</string>
     <!-- Translators: Dialog title for the background image picker. -->
@@ -1387,7 +1347,6 @@ Choose Balanced if a channel becomes unreliable.</string>
     <!-- Translators: Device information display. 'model' is the device model, 'android' is the Android version. -->
     <string name="settings_device_details"><xliff:g id="model">%1$s</xliff:g> · <xliff:g id="android">%2$s</xliff:g></string>
     <!-- Translators: Playback error log entry format. 'time' is the timestamp, 'engine' is the video engine, 'kind' is the error type. -->
-    <string name="settings_playback_entry"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="engine">%2$s</xliff:g> · <xliff:g id="kind">%3$s</xliff:g></string>
     <!-- Translators: History scope label for Live TV. -->
     <string name="settings_history_live">Live TV</string>
     <!-- Translators: History scope label for Movies. -->
@@ -1471,9 +1430,7 @@ Choose Balanced if a channel becomes unreliable.</string>
     <!-- Translators: Setting label for new-category visibility behavior. -->
     <string name="settings_customize_new_category_behavior">New category behavior</string>
     <!-- Translators: Option to hide new categories added on re-sync. -->
-    <string name="settings_customize_hide_new">Hide — new categories added on re-sync are hidden by default</string>
     <!-- Translators: Option to show new categories added on re-sync. -->
-    <string name="settings_customize_show_new">Show — new categories added on re-sync are shown by default</string>
     <!-- Translators: Imperative command button to hide one or more categories. Translate as an action, not the state "Hidden". -->
     <string name="settings_customize_hide">Hide</string>
     <!-- Translators: Imperative command button to reveal one or more hidden categories. Translate as an action, not the state "Shown". -->
@@ -1819,7 +1776,6 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <!-- Translators: Section header for the backup restore flow. -->
     <string name="settings_backup_restore_title">Restore a backup</string>
     <!-- Translators: Description of the backup restore process. -->
-    <string name="settings_backup_restore_message">Send the backup by Remote from any device with a browser on the same Wi-Fi, or pick a backup file already on this device.</string>
     <!-- Translators: Text-field label for the backup password. -->
     <string name="settings_backup_password">Backup password</string>
     <!-- Translators: Heading for the backup password entry screen. -->
@@ -1841,7 +1797,6 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <!-- Translators: Heading for picking a backup file to restore. -->
     <string name="settings_backup_pick_file">Pick a backup file to restore</string>
     <!-- Translators: Option label for restoring from a local file. -->
-    <string name="settings_backup_local_file">Local file</string>
     <!-- Translators: Option label for restoring from a remote device. -->
     <string name="settings_backup_remote">Remote</string>
     <!-- Translators: Checkbox label to include everything in the backup. -->
@@ -2147,7 +2102,6 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <!-- Translators: Heading above the custom subtitle preview. -->
     <string name="settings_subtitle_preview_stock">Preview — stock look</string>
     <!-- Translators: Explains that the disabled preview retains embedded broadcaster styling. -->
-    <string name="settings_subtitle_stock_description">Stock look, including the colors and placement broadcasters embed in Live TV subtitles.</string>
     <!-- Translators: Button that restores every subtitle appearance setting to its default. -->
     <string name="settings_subtitle_reset_all">Reset all</string>
     <!-- Translators: Subtitle color setting title. -->
@@ -2281,7 +2235,6 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <string name="settings_video_seconds"><xliff:g id="seconds">%1$d</xliff:g>s of video</string>
     <string name="settings_epg_offset_root_description">Shift the whole guide when a feed’s times don’t match what’s actually on. A single channel can be shifted on its own from its long-press menu (Live TV or Guide) — that’s the one for East/West versions sharing a guide.</string>
     <string name="settings_epg_offset_dialog_description">Moves every programme in the guide. Use it when the whole feed is on the wrong clock; for a single channel (an East/West version sharing one guide), long-press the channel in Live TV or the Guide and set its own offset there.</string>
-    <string name="settings_panel_width_screen_description">Set how much of the screen each panel takes — categories, the item list, and the preview.</string>
     <string name="settings_panel_width_summary">Category <xliff:g id="category">%1$d</xliff:g>%% · List <xliff:g id="list">%2$d</xliff:g>%% · <xliff:g id="preview_label">%3$s</xliff:g> <xliff:g id="preview">%4$d</xliff:g>%%</string>
     <string name="settings_panel_width_help">• The panels share one row, so their percentages must add up to 100%%.\n• Set the Preview or Poster panel to 0%% to hide it; Category and List stay at 10%% or more.\n• Widen one panel and you have to take the same amount off another before saving.\n• Reset puts a section back to the standard widths this screen started with.\n• Turning a section off restores its standard layout without losing your values.\n• Movie and series posters re-flow automatically, so a narrower list just shows fewer per row.</string>
     <string name="settings_panel_width_preview">Preview</string>
@@ -2361,7 +2314,6 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <string name="settings_selection_highlight_description">Color and thickness of the ring around the selected item</string>
     <!-- Translators: Settings row. Which tabs appear in the phone's bottom navigation bar. -->
     <string name="settings_nav_bar_customization">Navigation bar customization</string>
-    <string name="settings_nav_bar_description">Adapt the tabs to your playlist, or hide the ones you do not use</string>
     <!-- Translators: Heading for the group of player settings that only exist on a phone or tablet. -->
     <string name="settings_playback_mobile">Mobile</string>
     <!-- Translators: One-line note on the phone's Playback settings page, explaining why two television-only options are absent. -->
@@ -2394,8 +2346,6 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <!-- Translators: Option for the row above. A fixed bar just above the navigation tabs. -->
     <string name="settings_mini_player_style_docked">Docked bar</string>
     <!-- Translators: Settings row. Also enter the floating window when the user presses the Back button, not only when they leave the app. Keep the platform name for Picture-in-Picture in your language. -->
-    <string name="settings_pip_on_back">Picture-in-Picture on Back</string>
-    <string name="settings_pip_on_back_description">Also shrink into the floating window when you press Back</string>
     <!-- Translators: Settings row. The starting size of the floating video window. -->
     <string name="settings_pip_size">Window size</string>
     <string name="settings_pip_size_description">How large the floating window starts. Pinch it to resize.</string>
@@ -2430,11 +2380,9 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <!-- Translators: Button that starts looking for another device to pair with. -->
     <string name="local_sync_add_device">Find a device</string>
     <!-- Translators: Description under the "Find a device" button. -->
-    <string name="local_sync_add_device_description">Search the network, scan a code, or type an address</string>
     <!-- Translators: Section heading above the list of devices already paired. -->
     <string name="local_sync_paired_devices">Paired devices</string>
     <!-- Translators: Subtitle of a paired device row. %1$s is an address such as 192.168.1.20. -->
-    <string name="local_sync_device_address">At <xliff:g id="address">%1$s</xliff:g></string>
     <!-- Translators: Shown while a transfer is in progress. -->
     <string name="local_sync_working">Working…</string>
     <!-- Translators: Explanation at the top of the "Find a device" sheet. -->
@@ -2649,7 +2597,6 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <!-- Translators: Description of the Multiview setting. -->
     <string name="settings_multiview_description">Watch several live channels at once. You choose how many each time, up to this limit — every tile uses one of your provider\'s connections.</string>
     <!-- Translators: Label for how many tiles the Multiview grid has (1-4). -->
-    <string name="settings_multiview_tiles">Tiles</string>
     <!-- Translators: Playlist/player setting: the largest number of Multiview tiles allowed. It is a ceiling, not a fixed size. -->
     <string name="settings_multiview_tiles_max">Most tiles</string>
     <!-- Translators: The value shown beside the setting above, e.g. "Max 4". -->
@@ -2990,7 +2937,6 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <!-- Translators: One-line description under a setting's name on a Settings page (P10); keep it short, it is cut to one line. -->
     <string name="settings_line_logging">A full trace for bug reports</string>
     <!-- Translators: Explanation of the Quick settings group, shown in the panel beside its rows. -->
-    <string name="settings_help_quick">The switches you reach for most, in one place. Hold OK on any row in Settings to pin it here; hold OK on a row here to unpin it. Each pinned row still says where it lives.</string>
     <!-- Translators: Explanation of the Profile settings group, shown in the panel beside the profiles. -->
     <string name="settings_help_profiles">Each viewer keeps their own favorites, watch history, resume points and Home rows. Kids mode shows only the categories you allow; a PIN stops anyone else from opening the profile.</string>
     <!-- Translators: Explanation shown in the panel beside the Settings rows (P10) while this setting has focus. -->

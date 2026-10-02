@@ -85,7 +85,6 @@
     <string name="player_next_episode">다음 에피소드까지 <xliff:g id="seconds">%1$d</xliff:g>초</string>
     <string name="player_play_now">지금 재생</string>
     <string name="player_volume">볼륨</string>
-    <string name="player_control_engine">재생 엔진</string>
     <string name="player_unmute">음소거 해제</string>
     <string name="player_mute">음소거</string>
     <string name="player_percent"><xliff:g id="value">%1$d</xliff:g>%%</string>
@@ -227,7 +226,6 @@
     <string name="player_subtitles_free_description_full">OpenSubtitles는 무료 개방형 커뮤니티 자막 서비스입니다. 본인의 opensubtitles.com 계정으로 로그인하세요. 계정은 무료로 만들 수 있습니다. 이 설정은 현재 프로필에만 적용됩니다.</string>
     <string name="player_subtitles_session_expired">OpenSubtitles 세션이 만료되었습니다. 자막을 계속 검색하고 다운로드하려면 설정 → 비디오 플레이어 → 자막 → OpenSubtitles에서 다시 로그인하세요.</string>
     <string name="player_subtitles_account_needed">OpenSubtitles 계정 필요\n\n자막을 검색하고 다운로드하려면 설정 → 비디오 플레이어 → 자막 → OpenSubtitles에서 로그인하세요. OpenSubtitles는 무료 개방형 커뮤니티 서비스이며 누구나 opensubtitles.com에서 무료 계정을 만들 수 있습니다.</string>
-    <string name="player_subtitles_no_matches">일치하는 자막을 찾지 못했습니다.</string>
     <string name="player_subtitles_show_all_languages">모든 언어 표시</string>
     <string name="player_subtitles_all_languages">모든 언어</string>
     <string name="player_subtitles_try_again">다시 시도</string>
@@ -288,8 +286,6 @@
     <string name="player_provider_retry_after">HTTP <xliff:g id="code">%1$d</xliff:g>: <xliff:g id="reason">%2$s</xliff:g> <xliff:g id="seconds">%3$d</xliff:g>초 후 다시 시도합니다.</string>
     <string name="player_provider_busy">제공업체가 사용 중입니다.</string>
     <string name="player_error_data_saver">데이터 절약이 켜져 있어 모바일 데이터로는 재생하지 않습니다. Wi-Fi에 연결하거나 설정에서 데이터 절약을 끄세요.</string>
-    <string name="player_audio_only_video_off">영상 꺼짐 · 데이터 절약 중</string>
-    <string name="player_audio_only_show_video">영상</string>
     <string name="player_sleep_timer">취침 예약</string>
     <string name="player_sleep_timer_end_of_programme">프로그램 종료</string>
     <string name="player_sleep_timer_end_of_movie">영화가 끝날 때</string>
@@ -312,12 +308,10 @@
         <item quantity="other">제공업체가 한 번에 <xliff:g id="count">%1$d</xliff:g>개 스트림을 허용합니다. 그중 <xliff:g id="recording">%2$d</xliff:g>개가 녹화 중입니다.</item>
     </plurals>
     <string name="multiview_refused_reserved">계속 시청할 수 있도록 연결 하나를 비워 둡니다. 모든 연결에서 녹화하려면 설정에서 바꾸세요.</string>
-    <string name="multiview_unknown_connections">이 재생목록이 스트림을 몇 개까지 허용하는지 OwnTV가 확인하지 못했습니다. 타일이 실패한다면 그 때문입니다.</string>
     <string name="multiview_decoder_exhausted">이 TV는 채널을 하나 더 동시에 디코딩할 수 없습니다.</string>
     <string name="multiview_decoder_exhausted_mobile">이 기기는 채널을 하나 더 동시에 디코딩할 수 없습니다.</string>
     <string name="multiview_tile_change_channel">채널 변경</string>
     <string name="multiview_tile_fullscreen">전체 화면으로</string>
-    <string name="multiview_tile_record">이 채널 녹화</string>
     <string name="multiview_tile_remove">타일 제거</string>
     <string name="multiview_audio_tile">이 타일에서 소리가 납니다</string>
     <string name="multiview_add_to">멀티뷰에 추가</string>

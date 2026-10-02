@@ -19,7 +19,6 @@
     <string name="common_start_over">शुरुआत से चलाएँ</string>
     <string name="common_name">नाम</string>
     <string name="common_own_tv_user">OwnTV उपयोगकर्ता</string>
-    <string name="common_switch_profile">प्रोफ़ाइल बदलें</string>
     <string name="common_proxy">प्रॉक्सी</string>
     <string name="common_title">शीर्षक</string>
     <string name="common_search_hint">खोज…</string>
@@ -43,7 +42,6 @@
     <string name="common_something_went_wrong">कुछ गड़बड़ हुई</string>
     <string name="common_move_instructions">स्थान बदलने के लिए ▲/▼ · सहेजने के लिए OK · रद्द करने के लिए वापस</string>
     <string name="common_number_grouped"><xliff:g id="count">%1$,d</xliff:g></string>
-    <string name="common_rating"><xliff:g id="rating">%1$.1f</xliff:g></string>
     <string name="common_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="common_timestamp_minutes"><xliff:g id="minutes">%1$d</xliff:g>:<xliff:g id="seconds">%2$02d</xliff:g></string>
     <string name="common_timestamp_hours"><xliff:g id="hours">%1$d</xliff:g>:<xliff:g id="minutes">%2$02d</xliff:g>:<xliff:g id="seconds">%3$02d</xliff:g></string>
@@ -126,7 +124,6 @@
     <string name="sync_error_secure">सुरक्षित कनेक्शन विफल — सर्वर का प्रमाणपत्र अमान्य हो सकता है।</string>
     <string name="sync_error_malformed_guide">सर्वर से मिला कार्यक्रम गाइड डेटा विकृत था। इसका कुछ हिस्सा फिर भी लोड हुआ हो सकता है — कृपया फिर कोशिश करें या EPG URL जाँचें।</string>
     <string name="sync_error_guide_empty">यह गाइड अभी खाली है। हो सकता है प्रदाता ने इसे अभी तक प्रकाशित न किया हो — कृपया बाद में पुनः प्रयास करें।</string>
-    <string name="common_items_per_skip">हर स्किप में आइटमों की संख्या</string>
     <string name="common_minutes">मिनट</string>
     <string name="common_size_mb"><xliff:g id="size">%1$s</xliff:g> MB</string>
     <string name="common_size_gb"><xliff:g id="size">%1$s</xliff:g> GB</string>
@@ -136,7 +133,6 @@
     <string name="common_show">दिखाएँ</string>
     <string name="common_qr_code_companion_url">सहायक URL के लिए QR कोड</string>
     <string name="sync_status_trending_starting">सिंक पूरा हुआ · <xliff:g id="source">%1$s</xliff:g> · अभी लोकप्रिय सूची बनाई जा रही है</string>
-    <string name="sync_status_trending_matching">लोकप्रिय आइटम का आपकी प्लेलिस्ट से मिलान किया जा रहा है</string>
     <string name="sync_status_trending_detail_waiting">TMDB के संभावित परिणामों की प्रतिक्रिया की प्रतीक्षा है</string>
     <string name="sync_status_trending_detail_received">TMDB के संभावित परिणाम · फ़िल्में: <xliff:g id="movies">%1$d</xliff:g> · सीरीज़: <xliff:g id="series">%2$d</xliff:g></string>
     <string name="sync_status_trending_detail_preparing">प्रदाता शीर्षक इंडेक्स · <xliff:g id="processed">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g></string>
@@ -153,10 +149,6 @@
     <plurals name="sync_status_trending_received">
         <item quantity="one">नवीनतम <xliff:g id="count">%1$d</xliff:g> लोकप्रिय आइटम मिला</item>
         <item quantity="other">नवीनतम <xliff:g id="count">%1$d</xliff:g> लोकप्रिय आइटम मिले</item>
-    </plurals>
-    <plurals name="sync_status_trending_matched">
-        <item quantity="one">मिलान हुआ <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
-        <item quantity="other">मिलान हुए <xliff:g id="total">%1$d</xliff:g> · <xliff:g id="movies">%2$s</xliff:g> · <xliff:g id="series">%3$s</xliff:g></item>
     </plurals>
     <plurals name="sync_status_trending_building">
         <item quantity="one">अभी लोकप्रिय सूची बनाई जा रही है · <xliff:g id="count">%1$d</xliff:g> मिलान</item>
