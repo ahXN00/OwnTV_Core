@@ -6,6 +6,7 @@ same 108-unit adaptive-icon canvas. Change the mockup first, then this file, nev
 
     python tools/brand/render_brand.py extras  --font <Roboto.ttf> --out <repo>/extras
     python tools/brand/render_brand.py android --font <Roboto.ttf> --out core/src/main/res
+    python tools/brand/render_brand.py logos --out <repo>/extras      (README logos, #227 wordmark, no font)
 
 Needs Pillow. The wordmark uses the apps' default font (the system sans, Roboto on Android).
 """
@@ -550,6 +551,29 @@ def wordmark_227(width_px, tv_colour, own=WORD_OWN):
     return img.resize((width_px, max(1, int(round(182 * width_px / 988)))), Image.LANCZOS)
 
 
+def lockup_227(p, mark_px, own=WORD_OWN, tv=None, pad=0):
+    """Horizontal lockup with the #227 wordmark: flat mark, gap = mark * .26, the wordmark .6 of the mark high."""
+    word = wordmark_227(round(mark_px * .6 * 988 / 182), tv or p['acc'], own)
+    gap = round(mark_px * .26)
+    w = pad * 2 + mark_px + gap + word.width
+    h = pad * 2 + mark_px
+    img = Image.new('RGBA', (w, h), (0, 0, 0, 0))
+    img.alpha_composite(mark(p, mark_px, 'flat', VB_TIGHT), (pad, pad))
+    img.alpha_composite(word, (pad + mark_px + gap, (h - word.height) // 2))
+    return img
+
+
+def logos(root):
+    """The README logos (extras/brand/app-logos) with the #227 wordmark, every colour, dark and light."""
+    d = os.path.join(root, 'brand', 'app-logos')
+    os.makedirs(d, exist_ok=True)
+    for key, p in PAL.items():
+        # shown at width 360 in the READMEs, drawn at 2x
+        lockup_227(p, 150, pad=10).save(os.path.join(d, f'logo_{key}.png'))
+        # on light backgrounds: ink "own", the darker accent "tv"
+        lockup_227(p, 150, own='#16181D', tv=p['ui'], pad=10).save(os.path.join(d, f'logo_{key}_light.png'))
+
+
 # ---- Pixel: the dot-matrix TV set ------------------------------------------------------------------
 
 def pixel_dots_grid():
@@ -716,12 +740,15 @@ def stage(res):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('what', choices=['extras', 'android', 'stage'])
+    ap.add_argument('what', choices=['extras', 'android', 'stage', 'logos'])
     ap.add_argument('--font')
     ap.add_argument('--out', required=True)
     a = ap.parse_args()
     if a.what == 'stage':
         stage(a.out)
+        return
+    if a.what == 'logos':
+        logos(a.out)
         return
     if not a.font:
         ap.error('--font is required for extras / android')

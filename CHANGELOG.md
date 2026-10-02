@@ -9,6 +9,14 @@
 > in one bolded line of its own (e.g. **Database v46 · Backup v24 · Breaking**). The detail — what,
 > why, files and verification — belongs in the commit message, never here.
 
+## Unreleased
+
+**Database v47 · Backup v24 · Breaking**
+
+### ✨ New features
+
+- **🎨 Everything the new TV interface needs: settings, texts in every language, backgrounds, the Pixel icon and the owntv wordmark**
+
 ## core-1.0.61 — 2026-09-26
 
 ### 🐛 Fixes

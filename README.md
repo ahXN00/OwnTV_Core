@@ -285,6 +285,11 @@ Subtitle search and downloads are powered by [OpenSubtitles](https://www.opensub
 and the wider Kotlin / AndroidX open-source ecosystem. Thank you to all their maintainers. See each
 project for its own license.
 
+### 🎨 Brand
+
+The lowercase **owntv** wordmark was designed for OwnTV by [@m3th0d93](https://github.com/m3th0d93)
+in [issue #227](https://github.com/ahXN00/OwnTV/issues/227).
+
 ## ⚖️ Legal
 
 OwnTV Core is media **player** infrastructure only. It ships with no channels, playlists,
