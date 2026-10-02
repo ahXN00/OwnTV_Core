@@ -5,7 +5,7 @@
     <string name="setup_from_device">Lokalt</string>
     <string name="setup_from_phone">Fjärrenhet</string>
     <string name="setup_send_from_phone">Skicka från en annan enhet</string>
-    <string name="setup_phone_background_description">Skanna QR-koden på en telefon, surfplatta eller dator som är ansluten till samma Wi-Fi (eller öppna webbadressen), ange denna PIN och skicka ett foto. Det blir bakgrundsbild direkt.</string>
+    <string name="setup_phone_background_description">På valfri enhet med webbläsare i samma wifi – telefon, dator eller en annan tv – skanna QR-koden (eller öppna URL:en), ange den här PIN-koden och skicka ett foto. Det blir bakgrund direkt.</string>
     <string name="setup_opening_server">Öppnar servern…</string>
     <string name="setup_enter_pin_browser">Ange denna PIN i webbläsaren</string>
     <string name="setup_open_url">Eller öppna denna webbadress</string>
@@ -73,7 +73,7 @@
     <string name="setup_invalid_mac">Ogiltig MAC-adress – använd AA:BB:CC:DD:EE:FF</string>
     <string name="setup_pick_backup_file">Välj en säkerhetskopia att återställa</string>
     <string name="setup_restore_a_backup">Återställ en säkerhetskopia</string>
-    <string name="setup_restore_choice_description">Skicka säkerhetskopian från en annan enhet (telefon eller bärbar dator) som är ansluten till samma Wi-Fi, eller välj en säkerhetskopia som redan finns på den här enheten.</string>
+    <string name="setup_restore_choice_description">Skicka säkerhetskopian via fjärrenhet från valfri enhet med webbläsare i samma wifi, eller välj en säkerhetskopia som redan finns på den här enheten.</string>
     <string name="setup_upload_from_wifi_device">Ladda upp från en enhet på ditt Wi-Fi</string>
     <string name="setup_local_file">Lokal fil</string>
     <string name="setup_pick_backup_local">Välj en säkerhetskopia på den här enheten</string>
@@ -94,18 +94,9 @@
     <string name="setup_continue">Fortsätt</string>
     <string name="setup_import_failed">Importen misslyckades</string>
     <string name="setup_try_again_caps">Försök igen</string>
-    <string name="setup_add_from_phone">Lägg till från en annan enhet</string>
-    <string name="setup_phone_add_description">Skanna QR-koden på en telefon, surfplatta eller dator som är ansluten till samma Wi-Fi (eller öppna webbadressen), ange denna PIN, fyll i din spellista och tryck på Skicka till tv:n. Uppgifterna visas sedan här, redo att importeras – du trycker på Starta import med fjärrkontrollen.</string>
     <string name="setup_opening">Öppnar…</string>
-    <string name="setup_open_server">Öppna server</string>
-    <string name="setup_stop_server">Stoppa server</string>
     <string name="setup_add_source">Lägg till en källa</string>
-    <string name="setup_add_source_description">Fyll i formuläret på en annan enhet eller skriv in uppgifterna här med fjärrkontrollen.</string>
-    <string name="setup_manual">Manuellt</string>
-    <string name="setup_use_phone_same_wifi">Använd en telefon, surfplatta eller dator på samma Wi-Fi</string>
-    <string name="setup_type_source_here">Ange Xtream / M3U / Stalker här</string>
     <string name="setup_edit_source">Redigera källa</string>
-    <string name="setup_add_your_source">Lägg till din källa</string>
     <string name="setup_edit_source_description">Uppdatera uppgifterna för den här källan eller ändra inställningen för automatisk uppdatering.</string>
     <string name="setup_byo_source_description">OwnTV är en spelare – använd din egen Xtream-, M3U- eller Stalker-källa.</string>
     <string name="setup_xtream">Xtream</string>
@@ -161,7 +152,6 @@
     <string name="setup_now">Nu</string>
     <string name="setup_later">Senare</string>
     <string name="setup_off">Av</string>
-    <string name="setup_scope_value">◀ <xliff:g id="value">%1$s</xliff:g> ▶</string>
     <string name="setup_default_mag">Standard (MAG200)</string>
     <string name="setup_mag250">MAG250</string>
     <string name="setup_mag254">MAG254</string>
@@ -267,4 +257,25 @@
     <string name="companion_error_pair_failed">Kunde inte parkoppla med den här enheten.</string>
     <string name="local_sync_browser_title">OwnTV lokal synkronisering</string>
     <string name="local_sync_browser_body">Den här adressen är till OwnTV-appen på din andra enhet. Öppna Lokal synkronisering där och välj den här enheten i listan.</string>
+    <string name="setup_step_display">Skärm</string>
+    <string name="setup_step_playlist">Spellista</string>
+    <string name="setup_step_ready">Klart</string>
+    <string name="setup_key_previous_step">Föregående steg</string>
+    <string name="setup_welcome_title">Välkommen till OwnTV</string>
+    <string name="setup_welcome_sub">Din egen IPTV-spelare. Välj ett språk för att börja – du kan ändra det senare i Inställningar.</string>
+    <string name="setup_display_sub">Hur stort gränssnittet och texten är på den här tv:n. Raden nedan ändras medan du justerar.</string>
+    <string name="setup_line_zoom">Allt på skärmen</string>
+    <string name="setup_line_font">Bara texten</string>
+    <string name="setup_line_app_icon">Hur OwnTV visas på tv:ns startskärm</string>
+    <string name="setup_restore_card_line">Från en fil, eller via fjärrenhet från en annan enhet</string>
+    <string name="setup_device_appear">Enheter med synkläge på visas här</string>
+    <string name="setup_device_address_hint">eller skriv den andra enhetens adress</string>
+    <string name="setup_profile_sub">En profil har egna favoriter, egen historik och egen Hem. Lägg till fler senare under Inställningar › Profil.</string>
+    <string name="setup_avatar">Avatar</string>
+    <string name="setup_avatar_line">Välj en eller behåll bokstaven</string>
+    <string name="setup_create_profile">Skapa profil</string>
+    <string name="setup_phone_card_line">Fyll i formuläret i en webbläsare på en annan enhet – snabbast</string>
+    <string name="setup_importing_title">Importerar <xliff:g id="name">%1$s</xliff:g></string>
+    <string name="setup_add_guide">Lägg till en tv-guide</string>
+    <string name="setup_add_guide_line">En ny installation har ingen guide ännu</string>
 </resources>

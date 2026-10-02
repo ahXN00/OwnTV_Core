@@ -3,9 +3,9 @@
     <string name="setup_background_image">Фоновое изображение</string>
     <string name="setup_background_image_description">Выберите фотографию, которая будет отображаться за интерфейсом, или удалите её, чтобы вернуть однотонные панели.</string>
     <string name="setup_from_device">На устройстве</string>
-    <string name="setup_from_phone">С телефона</string>
+    <string name="setup_from_phone">Удалённо</string>
     <string name="setup_send_from_phone">Отправка с другого устройства</string>
-    <string name="setup_phone_background_description">На телефоне, планшете или компьютере, подключённом к той же сети Wi-Fi, отсканируйте QR-код (или откройте URL-адрес), введите этот PIN и отправьте фотографию. Она сразу станет фоновым изображением.</string>
+    <string name="setup_phone_background_description">На любом устройстве с браузером в той же сети Wi-Fi — телефоне, компьютере или другом телевизоре — отсканируйте QR-код (или откройте адрес), введите этот PIN и отправьте фото. Оно сразу станет фоном.</string>
     <string name="setup_opening_server">Запуск сервера…</string>
     <string name="setup_enter_pin_browser">Введите этот PIN в браузере</string>
     <string name="setup_open_url">Или откройте этот URL-адрес</string>
@@ -75,7 +75,7 @@
     <string name="setup_invalid_mac">Недопустимый MAC-адрес — используйте формат AA:BB:CC:DD:EE:FF</string>
     <string name="setup_pick_backup_file">Выберите файл резервной копии для восстановления</string>
     <string name="setup_restore_a_backup">Восстановление резервной копии</string>
-    <string name="setup_restore_choice_description">Отправьте резервную копию с другого устройства (телефона или ноутбука), подключённого к той же сети Wi-Fi, либо выберите файл резервной копии на этом устройстве.</string>
+    <string name="setup_restore_choice_description">Отправьте резервную копию удалённо с любого устройства с браузером в той же сети Wi-Fi или выберите файл копии, который уже есть на этом устройстве.</string>
     <string name="setup_upload_from_wifi_device">Загрузить с устройства в вашей сети Wi-Fi</string>
     <string name="setup_local_file">Локальный файл</string>
     <string name="setup_pick_backup_local">Выбрать файл резервной копии на этом устройстве</string>
@@ -100,18 +100,9 @@
     <string name="setup_continue">Продолжить</string>
     <string name="setup_import_failed">Не удалось выполнить импорт</string>
     <string name="setup_try_again_caps">Повторить</string>
-    <string name="setup_add_from_phone">Добавление с другого устройства</string>
-    <string name="setup_phone_add_description">На телефоне, планшете или компьютере, подключённом к той же сети Wi-Fi, отсканируйте QR-код (или откройте URL-адрес), введите этот PIN, заполните данные плейлиста и нажмите «Отправить на телевизор». После этого здесь появятся данные, готовые к импорту, — нажмите «Начать импорт» на пульте ДУ.</string>
     <string name="setup_opening">Запуск…</string>
-    <string name="setup_open_server">Запустить сервер</string>
-    <string name="setup_stop_server">Остановить сервер</string>
     <string name="setup_add_source">Добавить источник</string>
-    <string name="setup_add_source_description">Заполните форму на другом устройстве или введите данные здесь с помощью пульта ДУ.</string>
-    <string name="setup_manual">Вручную</string>
-    <string name="setup_use_phone_same_wifi">Использовать телефон, планшет или компьютер в той же сети Wi-Fi</string>
-    <string name="setup_type_source_here">Ввести здесь данные Xtream / M3U / Stalker</string>
     <string name="setup_edit_source">Изменить источник</string>
-    <string name="setup_add_your_source">Добавьте свой источник</string>
     <string name="setup_edit_source_description">Обновите данные этого источника или измените настройки его автообновления.</string>
     <string name="setup_byo_source_description">OwnTV — это плеер: добавьте собственный источник Xtream, M3U или Stalker.</string>
     <string name="setup_xtream">Xtream</string>
@@ -167,7 +158,6 @@
     <string name="setup_now">Сейчас</string>
     <string name="setup_later">Позже</string>
     <string name="setup_off">Выкл.</string>
-    <string name="setup_scope_value">◀ <xliff:g id="value">%1$s</xliff:g> ▶</string>
     <string name="setup_default_mag">По умолчанию (MAG200)</string>
     <string name="setup_mag250">MAG250</string>
     <string name="setup_mag254">MAG254</string>
@@ -273,4 +263,25 @@
     <string name="companion_error_pair_failed">Не удалось выполнить сопряжение с этим устройством.</string>
     <string name="local_sync_browser_title">Локальная синхронизация OwnTV</string>
     <string name="local_sync_browser_body">Этот адрес предназначен для приложения OwnTV на другом устройстве. Откройте там локальную синхронизацию и выберите это устройство из списка.</string>
+    <string name="setup_step_display">Экран</string>
+    <string name="setup_step_playlist">Плейлист</string>
+    <string name="setup_step_ready">Готово</string>
+    <string name="setup_key_previous_step">Предыдущий шаг</string>
+    <string name="setup_welcome_title">Добро пожаловать в OwnTV</string>
+    <string name="setup_welcome_sub">Ваш собственный IPTV-плеер. Выберите язык, чтобы начать, — его можно изменить позже в настройках.</string>
+    <string name="setup_display_sub">Насколько крупно интерфейс и текст отображаются на этом телевизоре. Строка ниже меняется по ходу.</string>
+    <string name="setup_line_zoom">Всё на экране</string>
+    <string name="setup_line_font">Только текст</string>
+    <string name="setup_line_app_icon">Как OwnTV выглядит на главном экране телевизора</string>
+    <string name="setup_restore_card_line">Из файла или удалённо с другого устройства</string>
+    <string name="setup_device_appear">Здесь появятся устройства с включённым режимом синхронизации</string>
+    <string name="setup_device_address_hint">или введите адрес другого устройства</string>
+    <string name="setup_profile_sub">У каждого профиля свои избранное, история и главная. Добавить ещё можно позже в Настройки › Профиль.</string>
+    <string name="setup_avatar">Аватар</string>
+    <string name="setup_avatar_line">Выберите или оставьте букву</string>
+    <string name="setup_create_profile">Создать профиль</string>
+    <string name="setup_phone_card_line">Заполните форму в браузере на другом устройстве — быстрее всего</string>
+    <string name="setup_importing_title">Импорт: <xliff:g id="name">%1$s</xliff:g></string>
+    <string name="setup_add_guide">Добавить телегид</string>
+    <string name="setup_add_guide_line">У новой установки ещё нет телегида</string>
 </resources>

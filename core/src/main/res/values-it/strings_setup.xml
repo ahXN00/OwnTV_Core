@@ -5,7 +5,7 @@
     <string name="setup_from_device">Locale</string>
     <string name="setup_from_phone">Da remoto</string>
     <string name="setup_send_from_phone">Invia da un altro dispositivo</string>
-    <string name="setup_phone_background_description">Da un telefono, un tablet o un computer connesso alla stessa Wi-Fi, scansiona il codice QR (oppure apri l\'URL), inserisci questo PIN e invia una foto. Diventerà immediatamente lo sfondo.</string>
+    <string name="setup_phone_background_description">Su qualsiasi dispositivo con browser sulla stessa Wi-Fi — telefono, computer o un’altra TV — scansiona il QR (o apri l’URL), inserisci questo PIN e invia una foto. Diventa subito lo sfondo.</string>
     <string name="setup_opening_server">Apertura del server…</string>
     <string name="setup_enter_pin_browser">Inserisci questo PIN nel browser</string>
     <string name="setup_open_url">Oppure apri questo URL</string>
@@ -74,7 +74,7 @@
     <string name="setup_invalid_mac">Indirizzo MAC non valido: usa AA:BB:CC:DD:EE:FF</string>
     <string name="setup_pick_backup_file">Scegli un file di backup da ripristinare</string>
     <string name="setup_restore_a_backup">Ripristina un backup</string>
-    <string name="setup_restore_choice_description">Invia il backup da un altro dispositivo (telefono o computer portatile) connesso alla stessa Wi-Fi oppure scegli un file di backup già presente su questo dispositivo.</string>
+    <string name="setup_restore_choice_description">Invia il backup da remoto da qualsiasi dispositivo con browser sulla stessa Wi-Fi, oppure scegli un file di backup già presente su questo dispositivo.</string>
     <string name="setup_upload_from_wifi_device">Carica da un dispositivo connesso alla tua Wi-Fi</string>
     <string name="setup_local_file">File locale</string>
     <string name="setup_pick_backup_local">Scegli un file di backup su questo dispositivo</string>
@@ -97,18 +97,9 @@
     <string name="setup_continue">Continua</string>
     <string name="setup_import_failed">Importazione non riuscita</string>
     <string name="setup_try_again_caps">Riprova</string>
-    <string name="setup_add_from_phone">Aggiungi da un altro dispositivo</string>
-    <string name="setup_phone_add_description">Da un telefono, un tablet o un computer connesso alla stessa Wi-Fi, scansiona il codice QR (oppure apri l\'URL), inserisci questo PIN, compila i dati della playlist e tocca Invia alla TV. I relativi dettagli appariranno qui, pronti per l\'importazione: premi Avvia importazione con il telecomando.</string>
     <string name="setup_opening">Apertura…</string>
-    <string name="setup_open_server">Apri server</string>
-    <string name="setup_stop_server">Arresta server</string>
     <string name="setup_add_source">Aggiungi una fonte</string>
-    <string name="setup_add_source_description">Compila il modulo su un altro dispositivo oppure digita qui i dettagli con il telecomando.</string>
-    <string name="setup_manual">Manuale</string>
-    <string name="setup_use_phone_same_wifi">Usa un telefono, un tablet o un computer sulla stessa Wi-Fi</string>
-    <string name="setup_type_source_here">Inserisci qui Xtream / M3U / Stalker</string>
     <string name="setup_edit_source">Modifica fonte</string>
-    <string name="setup_add_your_source">Aggiungi la tua fonte</string>
     <string name="setup_edit_source_description">Aggiorna i dettagli di questa fonte oppure modifica l\'impostazione di aggiornamento automatico.</string>
     <string name="setup_byo_source_description">OwnTV è un player: aggiungi la tua fonte Xtream, M3U o Stalker.</string>
     <string name="setup_xtream">Xtream</string>
@@ -164,7 +155,6 @@
     <string name="setup_now">Ora</string>
     <string name="setup_later">Più tardi</string>
     <string name="setup_off">Disattivato</string>
-    <string name="setup_scope_value">◀ <xliff:g id="value">%1$s</xliff:g> ▶</string>
     <string name="setup_default_mag">Predefinito (MAG200)</string>
     <string name="setup_mag250">MAG250</string>
     <string name="setup_mag254">MAG254</string>
@@ -270,4 +260,25 @@
     <string name="companion_error_pair_failed">Impossibile abbinare questo dispositivo.</string>
     <string name="local_sync_browser_title">Sincronizzazione locale OwnTV</string>
     <string name="local_sync_browser_body">Questo indirizzo è per l\'app OwnTV sull\'altro dispositivo. Apri lì Sincronizzazione locale e scegli questo dispositivo dall\'elenco.</string>
+    <string name="setup_step_display">Schermo</string>
+    <string name="setup_step_playlist">Playlist</string>
+    <string name="setup_step_ready">Pronto</string>
+    <string name="setup_key_previous_step">Passo precedente</string>
+    <string name="setup_welcome_title">Benvenuto in OwnTV</string>
+    <string name="setup_welcome_sub">Il tuo lettore IPTV. Scegli una lingua per iniziare: potrai cambiarla più tardi nelle Impostazioni.</string>
+    <string name="setup_display_sub">Quanto sono grandi l’interfaccia e il testo su questa TV. La riga qui sotto cambia mentre regoli.</string>
+    <string name="setup_line_zoom">Tutto ciò che è sullo schermo</string>
+    <string name="setup_line_font">Solo il testo</string>
+    <string name="setup_line_app_icon">Come appare OwnTV nella schermata iniziale della TV</string>
+    <string name="setup_restore_card_line">Da un file, o da remoto da un altro dispositivo</string>
+    <string name="setup_device_appear">Qui compaiono i dispositivi con la modalità Sync attiva</string>
+    <string name="setup_device_address_hint">oppure digita l’indirizzo dell’altro dispositivo</string>
+    <string name="setup_profile_sub">Ogni profilo ha i propri preferiti, cronologia e Home. Aggiungine altri più tardi in Impostazioni › Profilo.</string>
+    <string name="setup_avatar">Avatar</string>
+    <string name="setup_avatar_line">Scegline uno o tieni l’iniziale</string>
+    <string name="setup_create_profile">Crea profilo</string>
+    <string name="setup_phone_card_line">Compila il modulo nel browser di un altro dispositivo: il modo più rapido</string>
+    <string name="setup_importing_title">Importazione di <xliff:g id="name">%1$s</xliff:g></string>
+    <string name="setup_add_guide">Aggiungi una guida TV</string>
+    <string name="setup_add_guide_line">Una nuova installazione non ha ancora una guida</string>
 </resources>

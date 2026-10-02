@@ -5,7 +5,7 @@
     <string name="setup_from_device">로컬</string>
     <string name="setup_from_phone">원격</string>
     <string name="setup_send_from_phone">다른 기기에서 보내기</string>
-    <string name="setup_phone_background_description">동일한 Wi-Fi에 연결된 휴대전화, 태블릿 또는 컴퓨터에서 QR 코드를 스캔하거나 URL을 열고 이 PIN을 입력한 다음 사진을 보내세요. 사진이 즉시 배경으로 설정됩니다.</string>
+    <string name="setup_phone_background_description">같은 Wi-Fi에 있는 브라우저가 있는 아무 기기(휴대폰, 컴퓨터 또는 다른 TV)에서 QR을 스캔(또는 URL 열기)하고 이 PIN을 입력한 뒤 사진을 보내세요. 바로 배경이 됩니다.</string>
     <string name="setup_opening_server">서버 여는 중…</string>
     <string name="setup_enter_pin_browser">브라우저에 이 PIN을 입력하세요</string>
     <string name="setup_open_url">또는 이 URL을 여세요</string>
@@ -72,7 +72,7 @@
     <string name="setup_invalid_mac">잘못된 MAC 주소입니다. AA:BB:CC:DD:EE:FF 형식을 사용하세요.</string>
     <string name="setup_pick_backup_file">복원할 백업 파일 선택</string>
     <string name="setup_restore_a_backup">백업 복원</string>
-    <string name="setup_restore_choice_description">동일한 Wi-Fi에 연결된 다른 기기(휴대전화 또는 노트북)에서 백업을 보내거나, 이 기기에 이미 저장된 백업 파일을 선택하세요.</string>
+    <string name="setup_restore_choice_description">같은 Wi-Fi에 있는 브라우저가 있는 아무 기기에서 원격으로 백업을 보내거나, 이 기기에 이미 있는 백업 파일을 선택하세요.</string>
     <string name="setup_upload_from_wifi_device">Wi-Fi에 연결된 기기에서 업로드</string>
     <string name="setup_local_file">로컬 파일</string>
     <string name="setup_pick_backup_local">이 기기에서 백업 파일 선택</string>
@@ -91,18 +91,9 @@
     <string name="setup_continue">계속</string>
     <string name="setup_import_failed">가져오기 실패</string>
     <string name="setup_try_again_caps">다시 시도</string>
-    <string name="setup_add_from_phone">다른 기기에서 추가</string>
-    <string name="setup_phone_add_description">동일한 Wi-Fi에 연결된 휴대전화, 태블릿 또는 컴퓨터에서 QR 코드를 스캔하거나 URL을 열고 이 PIN을 입력한 다음 플레이리스트 정보를 작성하여 TV로 보내기를 누르세요. 그러면 해당 정보가 여기에 표시되어 가져올 준비가 됩니다. 리모컨으로 가져오기 시작을 누르세요.</string>
     <string name="setup_opening">여는 중…</string>
-    <string name="setup_open_server">서버 열기</string>
-    <string name="setup_stop_server">서버 중지</string>
     <string name="setup_add_source">소스 추가</string>
-    <string name="setup_add_source_description">다른 기기에서 양식을 작성하거나 리모컨으로 여기에 세부 정보를 입력하세요.</string>
-    <string name="setup_manual">수동</string>
-    <string name="setup_use_phone_same_wifi">동일한 Wi-Fi의 휴대폰, 태블릿 또는 컴퓨터 사용</string>
-    <string name="setup_type_source_here">여기에 Xtream / M3U / Stalker 입력</string>
     <string name="setup_edit_source">소스 편집</string>
-    <string name="setup_add_your_source">내 소스 추가</string>
     <string name="setup_edit_source_description">이 소스의 세부 정보를 업데이트하거나 자동 새로 고침 설정을 변경하세요.</string>
     <string name="setup_byo_source_description">OwnTV는 플레이어입니다. 사용할 Xtream, M3U 또는 Stalker 소스를 직접 추가하세요.</string>
     <string name="setup_xtream">Xtream</string>
@@ -158,7 +149,6 @@
     <string name="setup_now">지금</string>
     <string name="setup_later">나중에</string>
     <string name="setup_off">끔</string>
-    <string name="setup_scope_value">◀ <xliff:g id="value">%1$s</xliff:g> ▶</string>
     <string name="setup_default_mag">기본값(MAG200)</string>
     <string name="setup_mag250">MAG250</string>
     <string name="setup_mag254">MAG254</string>
@@ -264,4 +254,25 @@
     <string name="companion_error_pair_failed">이 기기와 페어링할 수 없습니다.</string>
     <string name="local_sync_browser_title">OwnTV 로컬 동기화</string>
     <string name="local_sync_browser_body">이 주소는 다른 기기의 OwnTV 앱을 위한 것입니다. 그쪽에서 로컬 동기화를 열고 목록에서 이 기기를 선택하세요.</string>
+    <string name="setup_step_display">화면</string>
+    <string name="setup_step_playlist">재생목록</string>
+    <string name="setup_step_ready">완료</string>
+    <string name="setup_key_previous_step">이전 단계</string>
+    <string name="setup_welcome_title">OwnTV에 오신 것을 환영합니다</string>
+    <string name="setup_welcome_sub">나만의 IPTV 플레이어입니다. 시작할 언어를 고르세요. 나중에 설정에서 바꿀 수 있습니다.</string>
+    <string name="setup_display_sub">이 TV에서 인터페이스와 글자의 크기입니다. 아래 행이 바로 따라 바뀝니다.</string>
+    <string name="setup_line_zoom">화면의 모든 요소</string>
+    <string name="setup_line_font">글자만</string>
+    <string name="setup_line_app_icon">TV 홈 화면에서 OwnTV가 표시되는 모습</string>
+    <string name="setup_restore_card_line">파일에서 또는 다른 기기에서 원격으로</string>
+    <string name="setup_device_appear">동기화 모드가 켜진 기기가 여기에 표시됩니다</string>
+    <string name="setup_device_address_hint">또는 다른 기기의 주소 입력</string>
+    <string name="setup_profile_sub">프로필마다 즐겨찾기, 기록, 홈이 따로 있습니다. 나중에 설정 › 프로필에서 더 추가하세요.</string>
+    <string name="setup_avatar">아바타</string>
+    <string name="setup_avatar_line">하나 고르거나 첫 글자를 그대로 두세요</string>
+    <string name="setup_create_profile">프로필 만들기</string>
+    <string name="setup_phone_card_line">다른 기기의 브라우저에서 양식 작성 — 가장 빠름</string>
+    <string name="setup_importing_title"><xliff:g id="name">%1$s</xliff:g> 가져오는 중</string>
+    <string name="setup_add_guide">TV 가이드 추가</string>
+    <string name="setup_add_guide_line">새로 설치하면 아직 가이드가 없습니다</string>
 </resources>

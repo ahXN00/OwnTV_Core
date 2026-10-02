@@ -13,7 +13,6 @@
     <string name="settings_mini_player_size">Размер мини-плеера</string>
     <string name="settings_mini_player_position">Положение мини-плеера</string>
     <string name="settings_home_screen">Главный экран</string>
-    <string name="settings_home_description">Скрывайте, меняйте порядок и фильтруйте ряды на главном экране для этого профиля.</string>
     <string name="settings_sections">Разделы</string>
     <string name="settings_hidden_sections">Скрытые разделы остаются в списке, чтобы их можно было снова включить.</string>
     <string name="settings_keep_watching">Продолжить просмотр</string>
@@ -68,7 +67,6 @@
     <string name="settings_ch_nav_down">Переход по CH− / Перемотке вперёд (к концу)</string>
     <string name="settings_ch_nav_down_description">Количество элементов, на которое одно нажатие CH−/FF перемещает вниз. Долгое нажатие всегда выполняет переход к последнему элементу.</string>
     <string name="settings_skip_counts">Количество пропускаемых элементов</string>
-    <string name="settings_how_it_works">Как это работает</string>
     <string name="settings_ch_nav_help">• Переход ограничивается границами списка, поэтому в коротком списке можно дойти до конца одним нажатием.\n• Долгое нажатие CH+/RW = первый элемент, долгое нажатие CH−/FF = последний элемент.\n• Долгое нажатие отключено в списке «Все» (все каналы / фильмы / сериалы) — переход короткими нажатиями там по-прежнему работает.\n• Действует на панель, которая сейчас находится в фокусе, — ряд категорий или список/сетка элементов.\n• Также перелистывает список категорий в разделе «Настройки → Настройка категорий и элементов».</string>
     <string name="settings_remote_shortcuts">Команды пульта</string>
     <string name="settings_remote_shortcuts_description">Назначьте свободным кнопкам навигацию, воспроизведение и просмотр списков. Основные кнопки навигации останутся защищёнными.</string>
@@ -82,7 +80,6 @@
     <string name="settings_remote_shortcuts_capture_title">Нажмите кнопку пульта</string>
     <string name="settings_remote_shortcuts_capture_description">Нажмите быстро или удерживайте до отпускания. Назад, крестовину, OK, громкость, Главную и питание назначать нельзя.</string>
     <string name="settings_remote_shortcuts_choose_action">Выберите действие</string>
-    <string name="settings_remote_shortcuts_binding"><xliff:g id="press">%1$s</xliff:g> · <xliff:g id="action">%2$s</xliff:g></string>
     <string name="settings_remote_shortcuts_short_press">Короткое нажатие</string>
     <string name="settings_remote_shortcuts_long_press">Долгое нажатие</string>
     <string name="settings_remote_shortcuts_unknown_button">Кнопка пульта %1$d</string>
@@ -117,7 +114,6 @@
     <string name="settings_large_skips_warning">При больших значениях короткие списки могут проскакивать слишком быстро, а на маломощных телевизорах навигация может казаться дёрганой.</string>
     <string name="settings_ch_nav_picker">Постраничная навигация клавишами CH+/RW · CH−/FF</string>
     <string name="settings_weather">Погода</string>
-    <string name="settings_top_bar_weather">Погода на верхней панели</string>
     <string name="settings_show_weather">Показывать погоду</string>
     <string name="settings_show_weather_description">Отображать текущую погоду на верхней панели.</string>
     <string name="settings_custom_location">Другое местоположение</string>
@@ -140,7 +136,6 @@
     <string name="settings_metadata_reset_automatic">Сбрасывается автоматически</string>
     <string name="settings_metadata_library_details">Сведения о библиотеке</string>
     <string name="settings_metadata_test_connection">Проверить текущее подключение</string>
-    <string name="settings_allowance_available">Доступно</string>
     <string name="settings_allowance_refills">Пополнится <xliff:g id="time">%1$s</xliff:g></string>
     <string name="settings_allowance_minute">Минута</string>
     <string name="settings_allowance_hour">Час</string>
@@ -172,7 +167,7 @@
     <string name="settings_advanced_metadata_description">Используйте собственный ключ API TMDB или самостоятельно размещённый сервер вместо общего сервера по умолчанию.</string>
     <string name="settings_metadata_server_description">Оставьте оба поля пустыми, чтобы использовать встроенный общий сервер без дополнительной настройки. Введите собственный ключ API TMDB для прямых запросов к TMDB или URL самостоятельно размещённого сервера, чтобы использовать собственный прокси или зеркало. URL имеет приоритет над ключом.</string>
     <string name="settings_metadata_key_from_phone">Получить ключ с другого устройства</string>
-    <string name="settings_metadata_key_from_phone_desc">Отсканируйте код телефоном, планшетом или компьютером, войдите там в TMDB и отправьте ключ. На пульте ничего вводить не нужно.</string>
+    <string name="settings_metadata_key_from_phone_desc">Откройте адрес в браузере любого устройства — телефона, компьютера или другого телевизора, — войдите там в TMDB и отправьте ключ. Ничего не нужно набирать пультом.</string>
     <string name="settings_metadata_key_received">Ключ TMDB получен</string>
     <string name="settings_tmdb_api_key">Ключ API TMDB (v3)</string>
     <string name="settings_self_host_url">URL самостоятельно размещённого сервера</string>
@@ -572,7 +567,7 @@
     <string name="settings_open_subtitles_setup_title">Настройка OpenSubtitles</string>
     <string name="settings_open_subtitles_setup_description">Войдите в свою учётную запись OpenSubtitles.</string>
     <string name="settings_open_subtitles_setup_remote">Удалённо</string>
-    <string name="settings_open_subtitles_setup_remote_description">Введите данные в браузере на другом устройстве в той же сети Wi-Fi — телефоне, планшете или компьютере.</string>
+    <string name="settings_open_subtitles_setup_remote_description">Введите свои данные в браузере на другом устройстве в той же сети Wi-Fi — телефоне, компьютере или другом телевизоре.</string>
     <string name="settings_open_subtitles_setup_local">Ввести здесь</string>
     <string name="settings_open_subtitles_setup_local_description">Введите данные на этом телевизоре с помощью пульта.</string>
     <string name="settings_open_subtitles_api_key">Ключ API приложения OpenSubtitles</string>
@@ -667,7 +662,7 @@
     <string name="settings_guide_synced">Программа передач синхронизирована</string>
     <string name="settings_guide_sync_failed">Не удалось синхронизировать программу передач</string>
     <string name="settings_restore_remote_title">Восстановление с другого устройства</string>
-    <string name="settings_restore_remote_description">На телефоне, планшете или компьютере, подключённом к той же сети Wi-Fi, отсканируйте QR-код (или откройте URL), введите этот PIN, выберите файл резервной копии OwnTV и нажмите «Отправить на ТВ». Затем выберите здесь, что нужно восстановить.</string>
+    <string name="settings_restore_remote_description">На любом устройстве с браузером в той же сети Wi-Fi — телефоне, компьютере или другом телевизоре — отсканируйте QR-код (или откройте адрес), введите этот PIN, выберите файл резервной копии OwnTV и отправьте его. Затем здесь выберите, что восстановить.</string>
     <string name="settings_opening_server">Запуск сервера…</string>
     <string name="settings_enter_pin_browser">Введите этот PIN в браузере</string>
     <string name="settings_companion_qr">QR-код URL страницы-компаньона</string>
@@ -675,7 +670,7 @@
     <string name="settings_try_again">Повторить</string>
     <string name="settings_new_pin">Начать заново с новым PIN</string>
     <string name="settings_download_remote_title">Загрузка на другое устройство</string>
-    <string name="settings_download_remote_description">На телефоне, планшете или компьютере, подключённом к той же сети Wi-Fi, отсканируйте QR-код (или откройте URL), введите этот PIN и загрузите файл резервной копии, чтобы сохранить его в надёжном месте.</string>
+    <string name="settings_download_remote_description">На любом устройстве с браузером в той же сети Wi-Fi — телефоне, компьютере или другом телевизоре — отсканируйте QR-код (или откройте адрес), введите этот PIN и скачайте файл резервной копии, чтобы сохранить его.</string>
     <string name="settings_preparing_backup">Подготовка резервной копии…</string>
     <string name="settings_glass_effect_on">Эффект стекла: вкл.</string>
     <string name="settings_glass_effect_off">Эффект стекла: выкл.</string>
@@ -907,8 +902,6 @@
     <string name="settings_epg_sources_error">⚠ <xliff:g id="error">%1$s</xliff:g></string>
     <string name="settings_epg_sources_auto_refresh_title">Автоматическое обновление</string>
     <string name="settings_epg_sources_auto_refresh_description">Отключено, при запуске или при устаревании данных</string>
-    <string name="settings_epg_sources_on">Вкл.</string>
-    <string name="settings_epg_sources_off">Выкл.</string>
     <string name="settings_epg_sources_not_synced">Ещё не синхронизировано</string>
     <string name="settings_epg_refresh_1h">1 час</string>
     <string name="settings_epg_refresh_3h">3 часа</string>
@@ -943,7 +936,7 @@
     <string name="settings_backup_encrypt_message">Если установить пароль резервной копии, весь файл будет зашифрован — включая плейлисты, профили и сохранённые пароли — и без этого пароля прочитать его содержимое будет невозможно. Храните пароль в надёжном месте: если вы его потеряете, резервную копию нельзя будет открыть. Без пароля файл не шифруется, а сохранённые пароли и PIN-коды в него не включаются.</string>
     <string name="settings_backup_export_title">Экспорт резервной копии</string>
     <string name="settings_backup_restore_title">Восстановление резервной копии</string>
-    <string name="settings_backup_restore_message">Отправьте резервную копию с другого устройства (телефона или ноутбука) в той же сети Wi-Fi либо выберите файл резервной копии, уже сохранённый на этом устройстве.</string>
+    <string name="settings_backup_restore_message">Отправьте резервную копию удалённо с любого устройства с браузером в той же сети Wi-Fi или выберите файл копии, который уже есть на этом устройстве.</string>
     <string name="settings_backup_password">Пароль резервной копии</string>
     <string name="settings_backup_enter_password">Введите пароль резервной копии</string>
     <string name="settings_backup_wrong_password">Неверный пароль резервной копии</string>
@@ -1466,7 +1459,7 @@
     <string name="more_backup_never_title">Резервной копии ещё нет</string>
     <string name="more_backup_never_body"><xliff:g id="playlists">%1$s</xliff:g>, <xliff:g id="favorites">%2$s</xliff:g>, <xliff:g id="history">%3$s</xliff:g> и все настройки хранятся только на этом телевизоре.</string>
     <string name="more_backup_now">Создать копию</string>
-    <string name="more_backup_now_body">Сохраните файл на этом телевизоре или отправьте его на телефон или ноутбук</string>
+    <string name="more_backup_now_body">Сохранить файл на этом телевизоре или отправить его удалённо на другое устройство</string>
     <string name="more_backup_file_tv">Файл на этом ТВ</string>
     <string name="more_restore_body">Из файла на этом телевизоре или удалённо с другого устройства</string>
     <string name="more_backup_included">Что входит</string>
@@ -1757,4 +1750,82 @@
         <item quantity="many"><xliff:g id="count">%1$d</xliff:g> источников</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> источника</item>
     </plurals>
+    <string name="settings_title_date_time_weather">Дата, время и погода</string>
+    <string name="settings_line_show_weather">Текущая погода в верхней панели</string>
+    <string name="settings_line_custom_location">Пусто = определить автоматически</string>
+    <string name="settings_line_temperature_unit">Цельсий или Фаренгейт</string>
+    <string name="settings_clock_colors">Цвета</string>
+    <string name="settings_clock_time_color">Цвет времени</string>
+    <string name="settings_line_clock_time">Часы</string>
+    <string name="settings_clock_date_color">Цвет даты</string>
+    <string name="settings_line_clock_date">Дата под часами</string>
+    <string name="settings_clock_weather_color">Цвет погоды</string>
+    <string name="settings_line_clock_weather">Температура и город</string>
+    <string name="settings_clock_color_white">Белый</string>
+    <string name="settings_clock_color_grey">Серый</string>
+    <string name="settings_clock_color_accent">Акцент</string>
+    <string name="settings_clock_color_help">OK открывает выбор цвета (готовые цвета, палитра или hex-код), тот же, что для акцентного цвета. Предпросмотр меняется вместе с выбором.</string>
+    <string name="settings_key_pick_color">Выбрать цвет</string>
+    <string name="settings_line_trending_layout">Как выглядит строка трендов</string>
+    <string name="settings_home_shown">Показана</string>
+    <string name="settings_home_hide_row">Скрыть эту строку</string>
+    <string name="settings_home_show_row">Показать эту строку</string>
+    <string name="settings_home_move_row">Переместить (▲ ▼, затем OK)</string>
+    <string name="settings_line_remote_shortcuts_on">Выключение сохраняет назначения</string>
+    <string name="settings_language_system_help">OwnTV использует язык телевизора (сейчас <xliff:g id="language">%1$s</xliff:g>). Выберите язык ниже, чтобы использовать его только в OwnTV.</string>
+    <string name="settings_language_pick_help">Использовать <xliff:g id="language">%1$s</xliff:g> в OwnTV независимо от языка телевизора.</string>
+    <string name="settings_key_use">Выбрать</string>
+    <string name="settings_line_metadata_source">Откуда берутся сведения о фильмах и сериалах</string>
+    <string name="settings_line_metadata_language">Сюжеты, жанры и названия из TMDB</string>
+    <string name="settings_line_metadata_advanced">Свой ключ или собственный Worker</string>
+    <string name="settings_line_os_advanced">Свой API-ключ или Worker</string>
+    <string name="settings_line_os_filter">Только выбранный язык</string>
+    <string name="settings_line_os_search_language">Показывается в результатах поиска</string>
+    <string name="settings_subtitle_delete_help">Удаление освобождает место; скачать снова можно из плеера.</string>
+    <string name="settings_glass_style">Стиль</string>
+    <string name="settings_line_glass_style">Готовый стиль или Своё</string>
+    <string name="settings_line_glass_apply">Какие поверхности матовые</string>
+    <string name="settings_glass_preview_help">Каждое изменение сразу видно здесь.</string>
+    <plurals name="settings_home_row_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> строка</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> строки</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> строк</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> строки</item>
+    </plurals>
+    <plurals name="settings_subtitles_downloaded_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> загружен</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> загружено</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> загружено</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> загружено</item>
+    </plurals>
+    <plurals name="settings_subtitle_file_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> файл</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> файла</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> файлов</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> файла</item>
+    </plurals>
+    <string name="settings_line_add_from_phone">Заполните форму в браузере на другом устройстве</string>
+    <string name="settings_add_type_here">Ввести здесь</string>
+    <string name="settings_line_add_type_here">Xtream, M3U или Stalker с пульта</string>
+    <string name="settings_help_add_from_phone">Откройте адрес или отсканируйте код в браузере любого устройства в той же сети Wi-Fi — телефона, компьютера или другого телевизора, — заполните там плейлист и отправьте его сюда. Гораздо быстрее, чем набирать адрес пультом.</string>
+    <string name="settings_help_add_type_here">Введите пультом данные Xtream, адрес M3U или портал Stalker, затем начните импорт на панели.</string>
+    <string name="settings_remote_waiting">Ожидание другого устройства</string>
+    <string name="settings_remote_nothing_yet">Пока ничего не получено</string>
+    <string name="settings_remote_new_pin">Новый PIN</string>
+    <string name="settings_line_remote_new_pin">Если этот увидел кто-то ещё</string>
+    <string name="settings_remote_scan">Отсканируйте или откройте в браузере</string>
+    <string name="settings_remote_or_open">или откройте</string>
+    <string name="settings_remote_details_note">Данные появятся здесь; импорт вы запускаете пультом.</string>
+    <string name="settings_key_stop_back">Остановить и назад</string>
+    <string name="settings_source_type">Тип</string>
+    <string name="settings_line_source_type">Xtream, M3U или портал Stalker</string>
+    <string name="settings_choose_local_file">Выбрать локальный файл…</string>
+    <string name="settings_line_local_file">.m3u или .m3u8 на этом телевизоре</string>
+    <string name="settings_form_optional">Необязательно</string>
+    <string name="settings_form_field_help">OK открывает клавиатуру; ▼ переходит к следующему полю.</string>
+    <string name="settings_help_playlist_url">Адрес вашего списка .m3u или .m3u8.</string>
+    <string name="settings_line_fill_from_playlist">Использовать адрес гида из плейлиста</string>
+    <string name="settings_line_epg_auto_refresh">Поддерживать гид в актуальном виде</string>
+    <string name="settings_line_epg_logos">Вместо логотипов плейлиста</string>
+    <string name="settings_help_epg_name">Показывается в списке гидов и в «Выбрать EPG вручную».</string>
 </resources>

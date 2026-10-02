@@ -13,7 +13,6 @@
     <string name="settings_mini_player_size">ミニプレーヤーのサイズ</string>
     <string name="settings_mini_player_position">ミニプレーヤーの位置</string>
     <string name="settings_home_screen">ホーム画面</string>
-    <string name="settings_home_description">このプロフィールのホーム画面にある行の表示、順序、フィルターを変更します。</string>
     <string name="settings_sections">セクション</string>
     <string name="settings_hidden_sections">非表示のセクションも一覧に残るため、いつでも再表示できます。</string>
     <string name="settings_keep_watching">視聴を続ける</string>
@@ -68,7 +67,6 @@
     <string name="settings_ch_nav_down">CH− / 早送りのスキップ数（末尾方向）</string>
     <string name="settings_ch_nav_down_description">CH−/FFを1回押したときに下方向へ移動する項目数です。長押しすると常に末尾の項目へ移動します。</string>
     <string name="settings_skip_counts">スキップ数</string>
-    <string name="settings_how_it_works">動作の仕組み</string>
     <string name="settings_ch_nav_help">• 末端を越えないようにスキップが制限されるため、短い一覧では1回押すだけで末端に到達します。\n• CH+/RWを長押し＝先頭の項目、CH−/FFを長押し＝末尾の項目。\n• 「すべて」の一覧（全チャンネル／映画／シリーズ）では長押しが無効です。短押しによるスキップは引き続き使用できます。\n• 現在フォーカスがあるパネル（カテゴリレールまたは項目の一覧／グリッド）に適用されます。\n• 「設定」→「カテゴリと項目をカスタマイズ」のカテゴリ一覧でもページ移動できます。</string>
     <string name="settings_remote_shortcuts">リモコンショートカット</string>
     <string name="settings_remote_shortcuts_description">リモコンの空きボタンにナビゲーション、再生、一覧操作を割り当てます。重要な操作ボタンは保護されます。</string>
@@ -82,7 +80,6 @@
     <string name="settings_remote_shortcuts_capture_title">リモコンのボタンを押してください</string>
     <string name="settings_remote_shortcuts_capture_description">短く押すか、離すまで長押しします。戻る、方向、OK、音量、ホーム、電源ボタンは割り当てできません。</string>
     <string name="settings_remote_shortcuts_choose_action">操作を選択</string>
-    <string name="settings_remote_shortcuts_binding"><xliff:g id="press">%1$s</xliff:g> · <xliff:g id="action">%2$s</xliff:g></string>
     <string name="settings_remote_shortcuts_short_press">短押し</string>
     <string name="settings_remote_shortcuts_long_press">長押し</string>
     <string name="settings_remote_shortcuts_unknown_button">リモコンボタン %1$d</string>
@@ -117,7 +114,6 @@
     <string name="settings_large_skips_warning">スキップ数が大きいと短い一覧を飛び越え、低性能のTVでは動きがぎこちなく感じられることがあります。</string>
     <string name="settings_ch_nav_picker">CH+/RW · CH−/FFキーによるページ移動</string>
     <string name="settings_weather">天気</string>
-    <string name="settings_top_bar_weather">トップバーの天気</string>
     <string name="settings_show_weather">天気を表示</string>
     <string name="settings_show_weather_description">現在の天気をトップバーに表示します。</string>
     <string name="settings_custom_location">カスタム地点</string>
@@ -140,7 +136,6 @@
     <string name="settings_metadata_reset_automatic">自動的にリセットされます</string>
     <string name="settings_metadata_library_details">ライブラリの詳細</string>
     <string name="settings_metadata_test_connection">現在の接続をテスト</string>
-    <string name="settings_allowance_available">利用可能</string>
     <string name="settings_allowance_refills"><xliff:g id="time">%1$s</xliff:g> に回復</string>
     <string name="settings_allowance_minute">分</string>
     <string name="settings_allowance_hour">時間</string>
@@ -169,7 +164,7 @@
     <string name="settings_advanced_metadata_description">共有のデフォルト設定の代わりに、独自のTMDB APIキーまたはセルフホストサーバーを使用します。</string>
     <string name="settings_metadata_server_description">内蔵の共有サーバーを使用する場合は両方を空欄にしてください（セットアップ不要）。TMDBを直接呼び出すには独自のTMDB APIキーを入力し、独自のプロキシ／ミラーを使用するにはセルフホストサーバーのURLを入力します。URLはキーより優先されます。</string>
     <string name="settings_metadata_key_from_phone">別の端末からキーを取得</string>
-    <string name="settings_metadata_key_from_phone_desc">スマートフォン、タブレット、パソコンでコードを読み取り、そこでTMDBにログインしてキーを送信します。リモコンでの入力は不要です。</string>
+    <string name="settings_metadata_key_from_phone_desc">任意の機器（スマホ、パソコン、別のテレビ）のブラウザーでアドレスを開き、TMDB にサインインしてキーを送ります。リモコンでの入力は不要です。</string>
     <string name="settings_metadata_key_received">TMDBキーを受信しました</string>
     <string name="settings_tmdb_api_key">TMDB APIキー（v3）</string>
     <string name="settings_self_host_url">セルフホストサーバーのURL</string>
@@ -566,7 +561,7 @@
     <string name="settings_open_subtitles_setup_title">OpenSubtitlesを設定</string>
     <string name="settings_open_subtitles_setup_description">OpenSubtitlesのアカウントでサインインします。</string>
     <string name="settings_open_subtitles_setup_remote">リモート</string>
-    <string name="settings_open_subtitles_setup_remote_description">同じWi-Fiにつながった別の端末（スマートフォン、タブレット、パソコン）のブラウザーで入力します。</string>
+    <string name="settings_open_subtitles_setup_remote_description">同じ Wi-Fi にある別の機器（スマホ、パソコン、別のテレビ）のブラウザーで詳細を入力します。</string>
     <string name="settings_open_subtitles_setup_local">ここで入力</string>
     <string name="settings_open_subtitles_setup_local_description">リモコンを使ってこのテレビで入力します。</string>
     <string name="settings_open_subtitles_api_key">OpenSubtitlesのアプリケーションAPIキー</string>
@@ -658,7 +653,7 @@
     <string name="settings_guide_synced">番組表を同期しました</string>
     <string name="settings_guide_sync_failed">番組表の同期に失敗しました</string>
     <string name="settings_restore_remote_title">別のデバイスから復元</string>
-    <string name="settings_restore_remote_description">同じWi-Fi上のスマートフォン、タブレット、パソコンでQRコードをスキャンするかURLを開き、このPINを入力してOwnTVのバックアップファイルを選び、「テレビに送信」をタップします。その後、ここで復元する項目を選択します。</string>
+    <string name="settings_restore_remote_description">同じ Wi-Fi にあるブラウザー付きの任意の機器（スマホ、パソコン、別のテレビ）で QR を読み取る（または URL を開く）、この PIN を入力して OwnTV のバックアップファイルを選んで送信します。復元する内容はここで選びます。</string>
     <string name="settings_opening_server">サーバーを起動中…</string>
     <string name="settings_enter_pin_browser">ブラウザにこのPINを入力してください</string>
     <string name="settings_companion_qr">コンパニオンURLのQRコード</string>
@@ -666,7 +661,7 @@
     <string name="settings_try_again">再試行</string>
     <string name="settings_new_pin">新しいPINでやり直す</string>
     <string name="settings_download_remote_title">別のデバイスにダウンロード</string>
-    <string name="settings_download_remote_description">同じWi-Fi上のスマートフォン、タブレット、パソコンでQRコードをスキャンするかURLを開き、このPINを入力して、保管用にバックアップファイルをダウンロードします。</string>
+    <string name="settings_download_remote_description">同じ Wi-Fi にあるブラウザー付きの任意の機器（スマホ、パソコン、別のテレビ）で QR を読み取る（または URL を開く）、この PIN を入力してバックアップファイルをダウンロードし、安全に保管します。</string>
     <string name="settings_preparing_backup">バックアップを準備中…</string>
     <string name="settings_glass_effect_on">ガラス効果：オン</string>
     <string name="settings_glass_effect_off">ガラス効果：オフ</string>
@@ -880,8 +875,6 @@
     <string name="settings_epg_sources_error">⚠ <xliff:g id="error">%1$s</xliff:g></string>
     <string name="settings_epg_sources_auto_refresh_title">自動更新</string>
     <string name="settings_epg_sources_auto_refresh_description">オフ、起動時、またはデータが古い場合</string>
-    <string name="settings_epg_sources_on">オン</string>
-    <string name="settings_epg_sources_off">オフ</string>
     <string name="settings_epg_sources_not_synced">まだ同期されていません</string>
     <string name="settings_epg_refresh_1h">1時間ごと</string>
     <string name="settings_epg_refresh_3h">3時間ごと</string>
@@ -910,7 +903,7 @@
     <string name="settings_backup_encrypt_message">バックアップパスワードを設定すると、プレイリスト、プロフィール、保存済みパスワードを含むファイル全体が暗号化され、そのパスワードなしでは内容を一切読み取れません。パスワードは安全に保管してください。紛失すると、バックアップを開けなくなります。パスワードを設定しない場合、ファイルは暗号化されず、保存済みパスワードとPINは含まれません。</string>
     <string name="settings_backup_export_title">バックアップをエクスポート</string>
     <string name="settings_backup_restore_title">バックアップを復元</string>
-    <string name="settings_backup_restore_message">同じWi-Fi上の別のデバイス（スマートフォンまたはノートパソコン）からバックアップを送信するか、このデバイスにあるバックアップファイルを選択します。</string>
+    <string name="settings_backup_restore_message">同じ Wi-Fi にあるブラウザー付きの任意の機器からリモートでバックアップを送るか、この機器にあるバックアップファイルを選びます。</string>
     <string name="settings_backup_password">バックアップパスワード</string>
     <string name="settings_backup_enter_password">バックアップパスワードを入力</string>
     <string name="settings_backup_wrong_password">バックアップパスワードが違います</string>
@@ -1397,7 +1390,7 @@
     <string name="more_backup_never_title">バックアップしたことがありません</string>
     <string name="more_backup_never_body"><xliff:g id="playlists">%1$s</xliff:g>、<xliff:g id="favorites">%2$s</xliff:g>、<xliff:g id="history">%3$s</xliff:g> とすべてのカスタマイズは、このテレビにしかありません。</string>
     <string name="more_backup_now">今すぐバックアップ</string>
-    <string name="more_backup_now_body">このテレビにファイルを保存するか、スマートフォンやノートPCに送ります</string>
+    <string name="more_backup_now_body">このテレビにファイルを保存するか、リモートで別の機器に送ります</string>
     <string name="more_backup_file_tv">このテレビに保存</string>
     <string name="more_restore_body">このテレビのファイルから、または別のデバイスからリモートで</string>
     <string name="more_backup_included">含まれるもの</string>
@@ -1664,4 +1657,73 @@
     <plurals name="settings_epg_feed_count">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 件のフィード</item>
     </plurals>
+    <string name="settings_title_date_time_weather">日付・時刻・天気</string>
+    <string name="settings_line_show_weather">上部バーに現在の天気を表示</string>
+    <string name="settings_line_custom_location">空欄 = 自動検出</string>
+    <string name="settings_line_temperature_unit">摂氏または華氏</string>
+    <string name="settings_clock_colors">色</string>
+    <string name="settings_clock_time_color">時刻の色</string>
+    <string name="settings_line_clock_time">時計</string>
+    <string name="settings_clock_date_color">日付の色</string>
+    <string name="settings_line_clock_date">時計の下の日付</string>
+    <string name="settings_clock_weather_color">天気の色</string>
+    <string name="settings_line_clock_weather">気温と都市</string>
+    <string name="settings_clock_color_white">白</string>
+    <string name="settings_clock_color_grey">グレー</string>
+    <string name="settings_clock_color_accent">アクセント</string>
+    <string name="settings_clock_color_help">OK でカラーピッカー（プリセット、パレット、16 進コード）を開きます。アクセントカラーと同じものです。プレビューは操作に合わせて変わります。</string>
+    <string name="settings_key_pick_color">色を選ぶ</string>
+    <string name="settings_line_trending_layout">トレンド行の表示方法</string>
+    <string name="settings_home_shown">表示</string>
+    <string name="settings_home_hide_row">この行を非表示</string>
+    <string name="settings_home_show_row">この行を表示</string>
+    <string name="settings_home_move_row">移動（▲ ▼、最後に OK）</string>
+    <string name="settings_line_remote_shortcuts_on">オフでも割り当ては保持されます</string>
+    <string name="settings_language_system_help">OwnTV はテレビの言語（現在は <xliff:g id="language">%1$s</xliff:g>）に従います。OwnTV だけで使う言語を下から選んでください。</string>
+    <string name="settings_language_pick_help">テレビの言語に関係なく、OwnTV で <xliff:g id="language">%1$s</xliff:g> を使います。</string>
+    <string name="settings_key_use">使用</string>
+    <string name="settings_line_metadata_source">映画とシリーズの詳細の取得元</string>
+    <string name="settings_line_metadata_language">TMDB のあらすじ、ジャンル、タイトル</string>
+    <string name="settings_line_metadata_advanced">自分のキーまたはセルフホストの Worker</string>
+    <string name="settings_line_os_advanced">自分の API キーまたは Worker</string>
+    <string name="settings_line_os_filter">選んだ言語のみ</string>
+    <string name="settings_line_os_search_language">検索結果に表示</string>
+    <string name="settings_subtitle_delete_help">削除すると容量が空きます。プレーヤーから再度ダウンロードできます。</string>
+    <string name="settings_glass_style">スタイル</string>
+    <string name="settings_line_glass_style">プリセットまたはカスタム</string>
+    <string name="settings_line_glass_apply">すりガラスにする面</string>
+    <string name="settings_glass_preview_help">変更はすぐにここに表示されます。</string>
+    <plurals name="settings_home_row_count">
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 行</item>
+    </plurals>
+    <plurals name="settings_subtitles_downloaded_count">
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 件ダウンロード済み</item>
+    </plurals>
+    <plurals name="settings_subtitle_file_count">
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> ファイル</item>
+    </plurals>
+    <string name="settings_line_add_from_phone">別の機器のブラウザーでフォームに入力</string>
+    <string name="settings_add_type_here">ここで入力</string>
+    <string name="settings_line_add_type_here">リモコンで Xtream、M3U、Stalker を入力</string>
+    <string name="settings_help_add_from_phone">同じ Wi-Fi の任意の機器（スマホ、パソコン、別のテレビ）のブラウザーでアドレスを開くかコードを読み取り、プレイリストを入力してここに送信します。リモコンで URL を入力するよりずっと速いです。</string>
+    <string name="settings_help_add_type_here">リモコンで Xtream のログイン、M3U のアドレス、Stalker のポータルを入力し、パネルからインポートを開始します。</string>
+    <string name="settings_remote_waiting">別の機器を待っています</string>
+    <string name="settings_remote_nothing_yet">まだ何も受信していません</string>
+    <string name="settings_remote_new_pin">新しい PIN</string>
+    <string name="settings_line_remote_new_pin">他の人に見られた場合</string>
+    <string name="settings_remote_scan">読み取るかブラウザーで開く</string>
+    <string name="settings_remote_or_open">または開く</string>
+    <string name="settings_remote_details_note">詳細はここに表示されます。インポートはリモコンで開始します。</string>
+    <string name="settings_key_stop_back">停止して戻る</string>
+    <string name="settings_source_type">種類</string>
+    <string name="settings_line_source_type">Xtream、M3U、Stalker ポータル</string>
+    <string name="settings_choose_local_file">ローカルファイルを選ぶ…</string>
+    <string name="settings_line_local_file">このテレビ上の .m3u または .m3u8</string>
+    <string name="settings_form_optional">任意</string>
+    <string name="settings_form_field_help">OK でキーボードを開き、▼ で次の欄に移ります。</string>
+    <string name="settings_help_playlist_url">.m3u または .m3u8 リストのアドレス。</string>
+    <string name="settings_line_fill_from_playlist">プレイリストのガイドアドレスを使う</string>
+    <string name="settings_line_epg_auto_refresh">ガイドを最新に保つ</string>
+    <string name="settings_line_epg_logos">プレイリストのロゴの代わりに</string>
+    <string name="settings_help_epg_name">ガイド一覧と「EPG を手動で選ぶ」に表示されます。</string>
 </resources>

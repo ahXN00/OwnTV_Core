@@ -5,7 +5,7 @@
     <string name="setup_from_device">ローカル</string>
     <string name="setup_from_phone">リモート</string>
     <string name="setup_send_from_phone">別の端末から送信</string>
-    <string name="setup_phone_background_description">同じWi-Fiに接続したスマートフォン、タブレット、パソコンでQRコードをスキャン（またはURLを開く）し、このPINを入力して写真を送信します。写真はすぐに背景になります。</string>
+    <string name="setup_phone_background_description">同じ Wi-Fi にあるブラウザー付きの任意の機器（スマホ、パソコン、別のテレビ）で QR を読み取る（または URL を開く）、この PIN を入力して写真を送ると、すぐに背景になります。</string>
     <string name="setup_opening_server">サーバーを起動中…</string>
     <string name="setup_enter_pin_browser">ブラウザにこのPINを入力してください</string>
     <string name="setup_open_url">または、このURLを開いてください</string>
@@ -72,7 +72,7 @@
     <string name="setup_invalid_mac">無効なMACアドレスです。AA:BB:CC:DD:EE:FFの形式を使用してください</string>
     <string name="setup_pick_backup_file">復元するバックアップファイルを選択</string>
     <string name="setup_restore_a_backup">バックアップを復元</string>
-    <string name="setup_restore_choice_description">同じWi-Fiに接続した別のデバイス（スマートフォンまたはノートパソコン）からバックアップを送信するか、このデバイスにあるバックアップファイルを選択します。</string>
+    <string name="setup_restore_choice_description">同じ Wi-Fi にあるブラウザー付きの任意の機器からリモートでバックアップを送るか、この機器にあるバックアップファイルを選びます。</string>
     <string name="setup_upload_from_wifi_device">Wi-Fi上のデバイスからアップロード</string>
     <string name="setup_local_file">ローカルファイル</string>
     <string name="setup_pick_backup_local">このデバイス上のバックアップファイルを選択</string>
@@ -91,18 +91,9 @@
     <string name="setup_continue">続行</string>
     <string name="setup_import_failed">インポートに失敗しました</string>
     <string name="setup_try_again_caps">もう一度試す</string>
-    <string name="setup_add_from_phone">別の端末から追加</string>
-    <string name="setup_phone_add_description">同じWi-Fiに接続したスマートフォン、タブレット、パソコンでQRコードをスキャン（またはURLを開く）し、このPINを入力してプレイリスト情報を入力した後、［TVに送信］をタップします。情報がここに表示され、インポートできる状態になります。リモコンで［インポートを開始］を押してください。</string>
     <string name="setup_opening">起動中…</string>
-    <string name="setup_open_server">サーバーを起動</string>
-    <string name="setup_stop_server">サーバーを停止</string>
     <string name="setup_add_source">ソースを追加</string>
-    <string name="setup_add_source_description">別の端末でフォームに入力するか、リモコンを使ってここに詳細を入力します。</string>
-    <string name="setup_manual">手動</string>
-    <string name="setup_use_phone_same_wifi">同じWi-Fi上のスマートフォン、タブレット、パソコンを使用</string>
-    <string name="setup_type_source_here">ここでXtream / M3U / Stalkerを入力</string>
     <string name="setup_edit_source">ソースを編集</string>
-    <string name="setup_add_your_source">ソースを追加</string>
     <string name="setup_edit_source_description">このソースの詳細を更新するか、自動更新設定を変更します。</string>
     <string name="setup_byo_source_description">OwnTVはプレーヤーです。ご自身のXtream、M3U、またはStalkerソースを追加してください。</string>
     <string name="setup_xtream">Xtream</string>
@@ -158,7 +149,6 @@
     <string name="setup_now">今すぐ</string>
     <string name="setup_later">後で</string>
     <string name="setup_off">オフ</string>
-    <string name="setup_scope_value">◀ <xliff:g id="value">%1$s</xliff:g> ▶</string>
     <string name="setup_default_mag">デフォルト（MAG200）</string>
     <string name="setup_mag250">MAG250</string>
     <string name="setup_mag254">MAG254</string>
@@ -264,4 +254,25 @@
     <string name="companion_error_pair_failed">この端末とペアリングできませんでした。</string>
     <string name="local_sync_browser_title">OwnTV ローカル同期</string>
     <string name="local_sync_browser_body">このアドレスは、もう一方の端末の OwnTV アプリ用です。そちらでローカル同期を開き、一覧からこの端末を選んでください。</string>
+    <string name="setup_step_display">表示</string>
+    <string name="setup_step_playlist">プレイリスト</string>
+    <string name="setup_step_ready">完了</string>
+    <string name="setup_key_previous_step">前の手順</string>
+    <string name="setup_welcome_title">OwnTV へようこそ</string>
+    <string name="setup_welcome_sub">あなた専用の IPTV プレーヤーです。まず言語を選んでください。あとで設定から変更できます。</string>
+    <string name="setup_display_sub">このテレビでの画面と文字の大きさ。下の行が操作に合わせて変わります。</string>
+    <string name="setup_line_zoom">画面のすべて</string>
+    <string name="setup_line_font">文字のみ</string>
+    <string name="setup_line_app_icon">テレビのホーム画面での OwnTV の見え方</string>
+    <string name="setup_restore_card_line">ファイルから、または別の機器からリモートで</string>
+    <string name="setup_device_appear">同期モードがオンの機器がここに表示されます</string>
+    <string name="setup_device_address_hint">または相手の機器のアドレスを入力</string>
+    <string name="setup_profile_sub">プロフィールごとにお気に入り、履歴、ホームが別々です。あとから 設定 › プロフィール で追加できます。</string>
+    <string name="setup_avatar">アバター</string>
+    <string name="setup_avatar_line">1 つ選ぶか、頭文字のままにします</string>
+    <string name="setup_create_profile">プロフィールを作成</string>
+    <string name="setup_phone_card_line">別の機器のブラウザーでフォームに入力 — いちばん速い方法</string>
+    <string name="setup_importing_title"><xliff:g id="name">%1$s</xliff:g> をインポート中</string>
+    <string name="setup_add_guide">番組ガイドを追加</string>
+    <string name="setup_add_guide_line">新しくインストールした直後はガイドがありません</string>
 </resources>

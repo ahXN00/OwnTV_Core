@@ -541,6 +541,9 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val WEATHER_ENABLED = booleanPreferencesKey("weather_enabled")
         val WEATHER_LOCATION = stringPreferencesKey("weather_location")
         val WEATHER_FAHRENHEIT = booleanPreferencesKey("weather_fahrenheit")
+        val CLOCK_TIME_COLOR = stringPreferencesKey("clock_time_color")
+        val CLOCK_DATE_COLOR = stringPreferencesKey("clock_date_color")
+        val CLOCK_WEATHER_COLOR = stringPreferencesKey("clock_weather_color")
         // TMDB metadata enrichment (see extras/future-plan/tmdb-metadata-plan.md). Master toggle + the two
         // advanced tiers (own key / self-host URL). Blank tier fields = use the default caching Worker.
         val METADATA_ENABLED = booleanPreferencesKey("metadata_enabled") // legacy; migrated to METADATA_MODE
@@ -886,6 +889,23 @@ class SettingsRepository(private val context: Context, private val localeStore: 
 
     suspend fun setWeatherFahrenheit(fahrenheit: Boolean) {
         context.dataStore.edit { it[Keys.WEATHER_FAHRENHEIT] = fahrenheit }
+    }
+
+    /**
+     * Colours of the top-right clock's three parts (TV Settings › Appearance › Date, time & weather).
+     * Each is blank (the shipped look), [ClockColors.ACCENT] (follows the accent) or a "#RRGGBB" hex.
+     */
+    val clockColors: Flow<ClockColors> = prefsFlow {
+        ClockColors(it[Keys.CLOCK_TIME_COLOR] ?: "", it[Keys.CLOCK_DATE_COLOR] ?: "", it[Keys.CLOCK_WEATHER_COLOR] ?: "")
+    }
+
+    suspend fun setClockColor(part: ClockPart, value: String) {
+        val key = when (part) {
+            ClockPart.TIME -> Keys.CLOCK_TIME_COLOR
+            ClockPart.DATE -> Keys.CLOCK_DATE_COLOR
+            ClockPart.WEATHER -> Keys.CLOCK_WEATHER_COLOR
+        }
+        context.dataStore.edit { it[key] = value.trim() }
     }
 
     // --- TMDB metadata enrichment (plan §4) ---
@@ -2910,6 +2930,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             Keys.SORT_SERIES, Keys.RESUME_MODE, Keys.CATCHUP_TZ, Keys.CATCHUP_PLAYER, Keys.ANIMATION_LEVEL, Keys.VOD_VIEW_MODE, Keys.GUIDE_VIEW,
             Keys.EPISODE_VIEW_MODE, Keys.VOD_LAYOUT, Keys.LIVE_LAYOUT, Keys.LIVE_VIEW, Keys.REMINDER_MODE,
             Keys.WEATHER_LOCATION, Keys.RECENT_SEARCHES,
+            Keys.CLOCK_TIME_COLOR, Keys.CLOCK_DATE_COLOR, Keys.CLOCK_WEATHER_COLOR,
             // Global proxy — non-secret fields only. The proxy password (Keys.PROXY_PASS) is NEVER part of
             // this whitelist; it is handled separately by BackupManager (encrypted or omitted).
             Keys.PROXY_HOST, Keys.PROXY_USER,

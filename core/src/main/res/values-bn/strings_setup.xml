@@ -5,7 +5,7 @@
     <string name="setup_from_device">স্থানীয়</string>
     <string name="setup_from_phone">দূরবর্তী</string>
     <string name="setup_send_from_phone">অন্য ডিভাইস থেকে পাঠান</string>
-    <string name="setup_phone_background_description">একই Wi-Fi-এ থাকা কোনো ফোন, ট্যাবলেট বা কম্পিউটার দিয়ে QR স্ক্যান করুন (অথবা URL খুলুন), এই PIN লিখুন এবং একটি ছবি পাঠান। ছবিটি সঙ্গে সঙ্গেই পটভূমি হয়ে যাবে।</string>
+    <string name="setup_phone_background_description">একই ওয়াই-ফাইয়ের ব্রাউজারযুক্ত যেকোনো ডিভাইসে — ফোন, কম্পিউটার বা অন্য টিভি — QR স্ক্যান করুন (বা URL খুলুন), এই PIN দিন এবং একটি ছবি পাঠান। সেটি সঙ্গে সঙ্গে ব্যাকগ্রাউন্ড হবে।</string>
     <string name="setup_opening_server">সার্ভার খোলা হচ্ছে…</string>
     <string name="setup_enter_pin_browser">ব্রাউজারে এই PIN লিখুন</string>
     <string name="setup_open_url">অথবা এই URL খুলুন</string>
@@ -73,7 +73,7 @@
     <string name="setup_invalid_mac">MAC ঠিকানা অবৈধ — AA:BB:CC:DD:EE:FF বিন্যাস ব্যবহার করুন</string>
     <string name="setup_pick_backup_file">পুনরুদ্ধারের জন্য একটি ব্যাকআপ ফাইল বেছে নিন</string>
     <string name="setup_restore_a_backup">একটি ব্যাকআপ পুনরুদ্ধার করুন</string>
-    <string name="setup_restore_choice_description">একই Wi-Fi-এ থাকা অন্য ডিভাইস (ফোন বা ল্যাপটপ) থেকে ব্যাকআপটি পাঠান, অথবা এই ডিভাইসে আগে থেকেই থাকা একটি ব্যাকআপ ফাইল বেছে নিন।</string>
+    <string name="setup_restore_choice_description">একই ওয়াই-ফাইয়ের ব্রাউজারযুক্ত যেকোনো ডিভাইস থেকে দূর থেকে ব্যাকআপ পাঠান, বা এই ডিভাইসে থাকা কোনো ব্যাকআপ ফাইল বাছুন।</string>
     <string name="setup_upload_from_wifi_device">আপনার Wi-Fi-এ থাকা একটি ডিভাইস থেকে আপলোড করুন</string>
     <string name="setup_local_file">স্থানীয় ফাইল</string>
     <string name="setup_pick_backup_local">এই ডিভাইসে থাকা একটি ব্যাকআপ ফাইল বেছে নিন</string>
@@ -94,18 +94,9 @@
     <string name="setup_continue">চালিয়ে যান</string>
     <string name="setup_import_failed">ইমপোর্ট ব্যর্থ হয়েছে</string>
     <string name="setup_try_again_caps">আবার চেষ্টা করুন</string>
-    <string name="setup_add_from_phone">অন্য ডিভাইস থেকে যোগ করুন</string>
-    <string name="setup_phone_add_description">একই Wi-Fi-এ থাকা কোনো ফোন, ট্যাবলেট বা কম্পিউটার দিয়ে QR স্ক্যান করুন (অথবা URL খুলুন), এই PIN লিখুন, আপনার প্লেলিস্টের তথ্য পূরণ করে TV-তে পাঠান ট্যাপ করুন। এরপর এর তথ্য এখানে ইমপোর্টের জন্য প্রস্তুত অবস্থায় দেখা যাবে — রিমোট দিয়ে ইমপোর্ট শুরু করুন চাপুন।</string>
     <string name="setup_opening">খোলা হচ্ছে…</string>
-    <string name="setup_open_server">সার্ভার খুলুন</string>
-    <string name="setup_stop_server">সার্ভার বন্ধ করুন</string>
     <string name="setup_add_source">একটি উৎস যোগ করুন</string>
-    <string name="setup_add_source_description">অন্য ডিভাইসে ফর্মটি পূরণ করুন, অথবা রিমোট দিয়ে এখানে তথ্যগুলো লিখুন।</string>
-    <string name="setup_manual">ম্যানুয়াল</string>
-    <string name="setup_use_phone_same_wifi">একই Wi-Fi-এ থাকা ফোন, ট্যাবলেট বা কম্পিউটার ব্যবহার করুন</string>
-    <string name="setup_type_source_here">এখানে Xtream / M3U / Stalker লিখুন</string>
     <string name="setup_edit_source">উৎস সম্পাদনা করুন</string>
-    <string name="setup_add_your_source">আপনার উৎস যোগ করুন</string>
     <string name="setup_edit_source_description">এই উৎসের তথ্য আপডেট করুন, অথবা এর স্বয়ংক্রিয় রিফ্রেশ সেটিং পরিবর্তন করুন।</string>
     <string name="setup_byo_source_description">OwnTV একটি প্লেয়ার — আপনার নিজস্ব Xtream, M3U বা Stalker উৎস যোগ করুন।</string>
     <string name="setup_xtream">Xtream</string>
@@ -161,7 +152,6 @@
     <string name="setup_now">এখন</string>
     <string name="setup_later">পরে</string>
     <string name="setup_off">বন্ধ</string>
-    <string name="setup_scope_value">◀ <xliff:g id="value">%1$s</xliff:g> ▶</string>
     <string name="setup_default_mag">ডিফল্ট (MAG200)</string>
     <string name="setup_mag250">MAG250</string>
     <string name="setup_mag254">MAG254</string>
@@ -267,4 +257,25 @@
     <string name="companion_error_pair_failed">এই ডিভাইসের সঙ্গে পেয়ার করা যায়নি।</string>
     <string name="local_sync_browser_title">OwnTV লোকাল সিঙ্ক</string>
     <string name="local_sync_browser_body">এই ঠিকানাটি আপনার অন্য ডিভাইসের OwnTV অ্যাপের জন্য। সেখানে লোকাল সিঙ্ক খুলে তালিকা থেকে এই ডিভাইসটি বেছে নিন।</string>
+    <string name="setup_step_display">ডিসপ্লে</string>
+    <string name="setup_step_playlist">প্লেলিস্ট</string>
+    <string name="setup_step_ready">প্রস্তুত</string>
+    <string name="setup_key_previous_step">আগের ধাপ</string>
+    <string name="setup_welcome_title">OwnTV-তে স্বাগতম</string>
+    <string name="setup_welcome_sub">আপনার নিজের IPTV প্লেয়ার। শুরু করতে একটি ভাষা বাছুন — পরে সেটিংসে বদলাতে পারবেন।</string>
+    <string name="setup_display_sub">এই টিভিতে ইন্টারফেস ও তার লেখা কত বড়। নিচের সারিটি সঙ্গে সঙ্গে বদলায়।</string>
+    <string name="setup_line_zoom">স্ক্রিনের সবকিছু</string>
+    <string name="setup_line_font">শুধু লেখা</string>
+    <string name="setup_line_app_icon">টিভির হোম স্ক্রিনে OwnTV কেমন দেখায়</string>
+    <string name="setup_restore_card_line">ফাইল থেকে, বা অন্য ডিভাইস থেকে দূর থেকে</string>
+    <string name="setup_device_appear">সিঙ্ক মোড চালু থাকা ডিভাইস এখানে দেখাবে</string>
+    <string name="setup_device_address_hint">অথবা অন্য ডিভাইসের ঠিকানা লিখুন</string>
+    <string name="setup_profile_sub">প্রতিটি প্রোফাইলের নিজস্ব পছন্দ, ইতিহাস ও হোম থাকে। পরে সেটিংস › প্রোফাইল থেকে আরও যোগ করুন।</string>
+    <string name="setup_avatar">অবতার</string>
+    <string name="setup_avatar_line">একটি বাছুন, বা প্রথম অক্ষরটি রাখুন</string>
+    <string name="setup_create_profile">প্রোফাইল তৈরি করুন</string>
+    <string name="setup_phone_card_line">অন্য ডিভাইসের ব্রাউজারে ফর্ম পূরণ করুন — সবচেয়ে দ্রুত</string>
+    <string name="setup_importing_title"><xliff:g id="name">%1$s</xliff:g> ইমপোর্ট হচ্ছে</string>
+    <string name="setup_add_guide">টিভি গাইড যোগ করুন</string>
+    <string name="setup_add_guide_line">নতুন ইনস্টলে এখনও কোনো গাইড নেই</string>
 </resources>

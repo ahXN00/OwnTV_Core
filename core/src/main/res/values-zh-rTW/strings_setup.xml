@@ -5,7 +5,7 @@
     <string name="setup_from_device">本機</string>
     <string name="setup_from_phone">遠端</string>
     <string name="setup_send_from_phone">從其他裝置傳送</string>
-    <string name="setup_phone_background_description">使用位於相同 Wi-Fi 網路的手機、平板或電腦掃描 QR 碼（或開啟網址），輸入此 PIN 並傳送相片。相片會立即成為背景。</string>
+    <string name="setup_phone_background_description">在同一 Wi-Fi 下任何有瀏覽器的裝置（手機、電腦或另一台電視）上掃描 QR 碼（或開啟網址），輸入此 PIN 並傳送相片，它會立即成為背景。</string>
     <string name="setup_opening_server">正在開啟伺服器…</string>
     <string name="setup_enter_pin_browser">在瀏覽器中輸入此 PIN</string>
     <string name="setup_open_url">或開啟此網址</string>
@@ -72,7 +72,7 @@
     <string name="setup_invalid_mac">MAC 位址無效，請使用 AA:BB:CC:DD:EE:FF 格式</string>
     <string name="setup_pick_backup_file">選擇要還原的備份檔案</string>
     <string name="setup_restore_a_backup">還原備份</string>
-    <string name="setup_restore_choice_description">從相同 Wi-Fi 網路上的其他裝置（手機或筆記型電腦）傳送備份，或選擇此裝置上已有的備份檔案。</string>
+    <string name="setup_restore_choice_description">從同一 Wi-Fi 下任何有瀏覽器的裝置遠端傳送備份，或選擇此裝置上已有的備份檔案。</string>
     <string name="setup_upload_from_wifi_device">從 Wi-Fi 網路上的裝置上傳</string>
     <string name="setup_local_file">本機檔案</string>
     <string name="setup_pick_backup_local">選擇此裝置上的備份檔案</string>
@@ -91,18 +91,9 @@
     <string name="setup_continue">繼續</string>
     <string name="setup_import_failed">匯入失敗</string>
     <string name="setup_try_again_caps">再試一次</string>
-    <string name="setup_add_from_phone">從其他裝置新增</string>
-    <string name="setup_phone_add_description">使用位於相同 Wi-Fi 網路的手機、平板或電腦掃描 QR 碼（或開啟網址），輸入此 PIN、填寫播放清單資訊，然後點選「傳送至電視」。其詳細資料隨即會顯示於此並可供匯入，請使用遙控器按下「開始匯入」。</string>
     <string name="setup_opening">正在開啟…</string>
-    <string name="setup_open_server">開啟伺服器</string>
-    <string name="setup_stop_server">停止伺服器</string>
     <string name="setup_add_source">新增來源</string>
-    <string name="setup_add_source_description">在其他裝置上填寫表單，或使用遙控器在此輸入詳細資料。</string>
-    <string name="setup_manual">手動</string>
-    <string name="setup_use_phone_same_wifi">使用位於相同 Wi-Fi 網路的手機、平板或電腦</string>
-    <string name="setup_type_source_here">在此輸入 Xtream / M3U / Stalker</string>
     <string name="setup_edit_source">編輯來源</string>
-    <string name="setup_add_your_source">新增您的來源</string>
     <string name="setup_edit_source_description">更新此來源的詳細資料，或變更其自動重新整理設定。</string>
     <string name="setup_byo_source_description">OwnTV 是一款播放器，請自行提供 Xtream、M3U 或 Stalker 來源。</string>
     <string name="setup_xtream">Xtream</string>
@@ -158,7 +149,6 @@
     <string name="setup_now">立即</string>
     <string name="setup_later">稍後</string>
     <string name="setup_off">關閉</string>
-    <string name="setup_scope_value">◀ <xliff:g id="value">%1$s</xliff:g> ▶</string>
     <string name="setup_default_mag">預設 (MAG200)</string>
     <string name="setup_mag250">MAG250</string>
     <string name="setup_mag254">MAG254</string>
@@ -264,4 +254,25 @@
     <string name="companion_error_pair_failed">無法與此裝置配對。</string>
     <string name="local_sync_browser_title">OwnTV 本機同步</string>
     <string name="local_sync_browser_body">此位址供你另一部裝置上的 OwnTV 應用程式使用。請在那裡開啟「本機同步」，並從清單中選擇本機。</string>
+    <string name="setup_step_display">顯示</string>
+    <string name="setup_step_playlist">播放清單</string>
+    <string name="setup_step_ready">完成</string>
+    <string name="setup_key_previous_step">上一步</string>
+    <string name="setup_welcome_title">歡迎使用 OwnTV</string>
+    <string name="setup_welcome_sub">你自己的 IPTV 播放器。請先選擇語言，之後可在設定中變更。</string>
+    <string name="setup_display_sub">介面與文字在這台電視上的大小。下方這一列會隨之變化。</string>
+    <string name="setup_line_zoom">畫面上的所有內容</string>
+    <string name="setup_line_font">僅文字</string>
+    <string name="setup_line_app_icon">OwnTV 在電視主畫面上的樣子</string>
+    <string name="setup_restore_card_line">從檔案還原，或從另一台裝置遠端傳送</string>
+    <string name="setup_device_appear">開啟同步模式的裝置會顯示在這裡</string>
+    <string name="setup_device_address_hint">或輸入另一台裝置的位址</string>
+    <string name="setup_profile_sub">每個設定檔都有自己的最愛、記錄和首頁。之後可在 設定 › 設定檔 中新增更多。</string>
+    <string name="setup_avatar">頭像</string>
+    <string name="setup_avatar_line">選一個，或保留首字母</string>
+    <string name="setup_create_profile">建立設定檔</string>
+    <string name="setup_phone_card_line">在另一台裝置的瀏覽器中填寫表單 — 最快</string>
+    <string name="setup_importing_title">正在匯入 <xliff:g id="name">%1$s</xliff:g></string>
+    <string name="setup_add_guide">新增電視節目表</string>
+    <string name="setup_add_guide_line">全新安裝還沒有節目表</string>
 </resources>

@@ -13,7 +13,6 @@
     <string name="settings_mini_player_size">Tamanho do minirreprodutor</string>
     <string name="settings_mini_player_position">Posição do minirreprodutor</string>
     <string name="settings_home_screen">Tela inicial</string>
-    <string name="settings_home_description">Oculte, reordene e filtre as linhas da tela inicial para este perfil.</string>
     <string name="settings_sections">Seções</string>
     <string name="settings_hidden_sections">As seções ocultas continuam listadas para que você possa reativá-las.</string>
     <string name="settings_keep_watching">Continuar assistindo</string>
@@ -68,7 +67,6 @@
     <string name="settings_ch_nav_down">Salto com CH− / Avançar (em direção ao último)</string>
     <string name="settings_ch_nav_down_description">Quantos itens são percorridos para baixo ao pressionar CH−/FF uma vez. Manter pressionado sempre vai para o último item.</string>
     <string name="settings_skip_counts">Contagens de salto</string>
-    <string name="settings_how_it_works">Como funciona</string>
     <string name="settings_ch_nav_help">• Os saltos são limitados nas extremidades, portanto listas curtas chegam ao fim com um único toque.\n• Manter CH+/RW pressionado = primeiro item; manter CH−/FF pressionado = último item.\n• Manter pressionado fica desativado na lista \"Todos\" (todos os canais/filmes/séries) — os saltos com toques curtos ainda funcionam nela.\n• Aplica-se ao painel que estiver em foco — a faixa de categorias ou a lista/grade de itens.\n• Também percorre por páginas a lista de categorias em Configurações → Personalizar categorias e itens.</string>
     <string name="settings_remote_shortcuts">Atalhos do controle remoto</string>
     <string name="settings_remote_shortcuts_description">Atribua botões livres à navegação, reprodução e exploração. Os botões essenciais continuam protegidos.</string>
@@ -82,7 +80,6 @@
     <string name="settings_remote_shortcuts_capture_title">Pressione um botão do controle</string>
     <string name="settings_remote_shortcuts_capture_description">Pressione rapidamente ou segure até soltar. Voltar, direcional, OK, volume, Início e energia não podem ser atribuídos.</string>
     <string name="settings_remote_shortcuts_choose_action">Escolher uma ação</string>
-    <string name="settings_remote_shortcuts_binding"><xliff:g id="press">%1$s</xliff:g> · <xliff:g id="action">%2$s</xliff:g></string>
     <string name="settings_remote_shortcuts_short_press">Toque curto</string>
     <string name="settings_remote_shortcuts_long_press">Toque longo</string>
     <string name="settings_remote_shortcuts_unknown_button">Botão do controle %1$d</string>
@@ -117,7 +114,6 @@
     <string name="settings_large_skips_warning">Saltos grandes ultrapassam listas curtas e podem parecer bruscos em TVs de baixo desempenho.</string>
     <string name="settings_ch_nav_picker">Paginação pelas teclas CH+/RW · CH−/FF</string>
     <string name="settings_weather">Clima</string>
-    <string name="settings_top_bar_weather">Clima na barra superior</string>
     <string name="settings_show_weather">Mostrar clima</string>
     <string name="settings_show_weather_description">Exiba o clima atual na barra superior.</string>
     <string name="settings_custom_location">Localização personalizada</string>
@@ -140,7 +136,6 @@
     <string name="settings_metadata_reset_automatic">Redefine automaticamente</string>
     <string name="settings_metadata_library_details">Detalhes da biblioteca</string>
     <string name="settings_metadata_test_connection">Testar a conexão atual</string>
-    <string name="settings_allowance_available">Disponível</string>
     <string name="settings_allowance_refills">Recarrega <xliff:g id="time">%1$s</xliff:g></string>
     <string name="settings_allowance_minute">Minuto</string>
     <string name="settings_allowance_hour">Hora</string>
@@ -171,7 +166,7 @@
     <string name="settings_advanced_metadata_description">Use sua própria chave de API do TMDB ou um servidor auto-hospedado em vez do padrão compartilhado.</string>
     <string name="settings_metadata_server_description">Deixe ambos em branco para usar o servidor compartilhado integrado (sem configuração). Insira sua própria chave de API do TMDB para acessar o TMDB diretamente ou a URL de um servidor auto-hospedado para usar seu próprio proxy/espelho. Uma URL tem prioridade sobre uma chave.</string>
     <string name="settings_metadata_key_from_phone">Obter a chave por outro dispositivo</string>
-    <string name="settings_metadata_key_from_phone_desc">Escaneie o código com um celular, tablet ou computador, entre no TMDB por lá e envie a chave. Nada para digitar no controle.</string>
+    <string name="settings_metadata_key_from_phone_desc">Abra o endereço no navegador de qualquer aparelho — celular, computador ou outra TV —, entre no TMDB lá e envie a chave. Nada para digitar pelo controle.</string>
     <string name="settings_metadata_key_received">Chave do TMDB recebida</string>
     <string name="settings_tmdb_api_key">Chave de API do TMDB (v3)</string>
     <string name="settings_self_host_url">URL do servidor auto-hospedado</string>
@@ -570,7 +565,7 @@
     <string name="settings_open_subtitles_setup_title">Configurar o OpenSubtitles</string>
     <string name="settings_open_subtitles_setup_description">Faça login com sua conta do OpenSubtitles.</string>
     <string name="settings_open_subtitles_setup_remote">Remoto</string>
-    <string name="settings_open_subtitles_setup_remote_description">Preencha seus dados em um navegador de outro dispositivo na mesma rede Wi-Fi — celular, tablet ou computador.</string>
+    <string name="settings_open_subtitles_setup_remote_description">Preencha seus dados no navegador de outro aparelho na mesma Wi-Fi — celular, computador ou outra TV.</string>
     <string name="settings_open_subtitles_setup_local">Digitar aqui</string>
     <string name="settings_open_subtitles_setup_local_description">Digite seus dados nesta TV com o controle remoto.</string>
     <string name="settings_open_subtitles_api_key">Chave de API de aplicativo do OpenSubtitles</string>
@@ -664,7 +659,7 @@
     <string name="settings_guide_synced">Guia de TV sincronizado</string>
     <string name="settings_guide_sync_failed">Falha ao sincronizar o guia de TV</string>
     <string name="settings_restore_remote_title">Restaurar de outro dispositivo</string>
-    <string name="settings_restore_remote_description">Em um celular, tablet ou computador conectado à mesma rede Wi-Fi, escaneie o código QR (ou abra o URL), insira este PIN, escolha o arquivo de cópia de segurança do OwnTV e toque em Enviar para a TV. Depois, escolha aqui o que deseja restaurar.</string>
+    <string name="settings_restore_remote_description">Em qualquer aparelho com navegador na mesma Wi-Fi — celular, computador ou outra TV —, escaneie o QR (ou abra a URL), digite este PIN, escolha o seu arquivo de backup do OwnTV e envie. Depois você escolhe aqui o que restaurar.</string>
     <string name="settings_opening_server">Abrindo servidor…</string>
     <string name="settings_enter_pin_browser">Insira este PIN no navegador</string>
     <string name="settings_companion_qr">Código QR do URL complementar</string>
@@ -672,7 +667,7 @@
     <string name="settings_try_again">Tentar novamente</string>
     <string name="settings_new_pin">Recomeçar com um novo PIN</string>
     <string name="settings_download_remote_title">Baixar em outro dispositivo</string>
-    <string name="settings_download_remote_description">Em um celular, tablet ou computador conectado à mesma rede Wi-Fi, escaneie o código QR (ou abra o URL), insira este PIN e baixe seu arquivo de cópia de segurança para guardá-lo com segurança.</string>
+    <string name="settings_download_remote_description">Em qualquer aparelho com navegador na mesma Wi-Fi — celular, computador ou outra TV —, escaneie o QR (ou abra a URL), digite este PIN e baixe o seu arquivo de backup para guardá-lo com segurança.</string>
     <string name="settings_preparing_backup">Preparando cópia de segurança…</string>
     <string name="settings_glass_effect_on">Efeito de vidro: ativado</string>
     <string name="settings_glass_effect_off">Efeito de vidro: desativado</string>
@@ -898,8 +893,6 @@
     <string name="settings_epg_sources_error">⚠ <xliff:g id="error">%1$s</xliff:g></string>
     <string name="settings_epg_sources_auto_refresh_title">Atualização automática</string>
     <string name="settings_epg_sources_auto_refresh_description">Desativada, na inicialização ou quando os dados estiverem desatualizados</string>
-    <string name="settings_epg_sources_on">Ativado</string>
-    <string name="settings_epg_sources_off">Desativado</string>
     <string name="settings_epg_sources_not_synced">Ainda não sincronizado</string>
     <string name="settings_epg_refresh_1h">1 hora</string>
     <string name="settings_epg_refresh_3h">3 horas</string>
@@ -932,7 +925,7 @@
     <string name="settings_backup_encrypt_message">Com uma senha para a cópia de segurança, o arquivo inteiro é criptografado — incluindo listas de reprodução, perfis e senhas salvas — e nada nele pode ser lido sem essa senha. Guarde-a em segurança: se você perdê-la, não será possível abrir a cópia de segurança. Sem uma senha, o arquivo não é criptografado e as senhas e os PINs salvos não são incluídos.</string>
     <string name="settings_backup_export_title">Exportar uma cópia de segurança</string>
     <string name="settings_backup_restore_title">Restaurar uma cópia de segurança</string>
-    <string name="settings_backup_restore_message">Envie a cópia de segurança de outro dispositivo (celular ou notebook) conectado à mesma rede Wi-Fi ou escolha um arquivo de cópia de segurança que já esteja neste dispositivo.</string>
+    <string name="settings_backup_restore_message">Envie o backup remotamente de qualquer aparelho com navegador na mesma Wi-Fi, ou escolha um arquivo de backup que já esteja neste aparelho.</string>
     <string name="settings_backup_password">Senha da cópia de segurança</string>
     <string name="settings_backup_enter_password">Insira a senha da cópia de segurança</string>
     <string name="settings_backup_wrong_password">Senha incorreta da cópia de segurança</string>
@@ -1443,7 +1436,7 @@
     <string name="more_backup_never_title">Nunca foi feito backup</string>
     <string name="more_backup_never_body"><xliff:g id="playlists">%1$s</xliff:g>, <xliff:g id="favorites">%2$s</xliff:g>, <xliff:g id="history">%3$s</xliff:g> e todas as personalizações estão só nesta TV.</string>
     <string name="more_backup_now">Fazer backup agora</string>
-    <string name="more_backup_now_body">Salve um arquivo nesta TV ou envie para seu celular ou notebook</string>
+    <string name="more_backup_now_body">Salve um arquivo nesta TV ou envie-o remotamente para outro aparelho</string>
     <string name="more_backup_file_tv">Arquivo nesta TV</string>
     <string name="more_restore_body">De um arquivo nesta TV ou remotamente de outro dispositivo</string>
     <string name="more_backup_included">O que está incluído</string>
@@ -1726,4 +1719,79 @@
         <item quantity="many"><xliff:g id="count">%1$d</xliff:g> fontes</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> fontes</item>
     </plurals>
+    <string name="settings_title_date_time_weather">Data, hora e clima</string>
+    <string name="settings_line_show_weather">O clima atual na barra superior</string>
+    <string name="settings_line_custom_location">Vazio = detectar automaticamente</string>
+    <string name="settings_line_temperature_unit">Celsius ou Fahrenheit</string>
+    <string name="settings_clock_colors">Cores</string>
+    <string name="settings_clock_time_color">Cor da hora</string>
+    <string name="settings_line_clock_time">O relógio</string>
+    <string name="settings_clock_date_color">Cor da data</string>
+    <string name="settings_line_clock_date">A data abaixo do relógio</string>
+    <string name="settings_clock_weather_color">Cor do clima</string>
+    <string name="settings_line_clock_weather">Temperatura e cidade</string>
+    <string name="settings_clock_color_white">Branco</string>
+    <string name="settings_clock_color_grey">Cinza</string>
+    <string name="settings_clock_color_accent">Destaque</string>
+    <string name="settings_clock_color_help">OK abre o seletor de cor (predefinições, paleta ou código hexadecimal), o mesmo da cor de destaque. A prévia acompanha cada mudança.</string>
+    <string name="settings_key_pick_color">Escolher cor</string>
+    <string name="settings_line_trending_layout">Como a fileira de tendências é exibida</string>
+    <string name="settings_home_shown">Exibida</string>
+    <string name="settings_home_hide_row">Ocultar esta fileira</string>
+    <string name="settings_home_show_row">Mostrar esta fileira</string>
+    <string name="settings_home_move_row">Mover (▲ ▼, depois OK)</string>
+    <string name="settings_line_remote_shortcuts_on">Desligado mantém suas atribuições</string>
+    <string name="settings_language_system_help">O OwnTV segue o idioma da TV (agora <xliff:g id="language">%1$s</xliff:g>). Escolha um abaixo para usá-lo só no OwnTV.</string>
+    <string name="settings_language_pick_help">Usar <xliff:g id="language">%1$s</xliff:g> no OwnTV, qualquer que seja o idioma da TV.</string>
+    <string name="settings_key_use">Usar</string>
+    <string name="settings_line_metadata_source">De onde vêm os detalhes de filmes e séries</string>
+    <string name="settings_line_metadata_language">Sinopses, gêneros e títulos do TMDB</string>
+    <string name="settings_line_metadata_advanced">Sua própria chave ou um Worker próprio</string>
+    <string name="settings_line_os_advanced">Sua própria chave de API ou Worker</string>
+    <string name="settings_line_os_filter">Só o idioma escolhido</string>
+    <string name="settings_line_os_search_language">Exibido nos resultados da busca</string>
+    <string name="settings_subtitle_delete_help">Excluir libera o espaço; você pode baixá-lo de novo pelo player.</string>
+    <string name="settings_glass_style">Estilo</string>
+    <string name="settings_line_glass_style">Uma predefinição ou Personalizado</string>
+    <string name="settings_line_glass_apply">Quais superfícies ficam foscas</string>
+    <string name="settings_glass_preview_help">Cada mudança aparece aqui na hora.</string>
+    <plurals name="settings_home_row_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> fileira</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> fileiras</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> fileiras</item>
+    </plurals>
+    <plurals name="settings_subtitles_downloaded_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> baixado</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> baixados</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> baixados</item>
+    </plurals>
+    <plurals name="settings_subtitle_file_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> arquivo</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> arquivos</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> arquivos</item>
+    </plurals>
+    <string name="settings_line_add_from_phone">Preencha o formulário no navegador de outro aparelho</string>
+    <string name="settings_add_type_here">Digitar aqui</string>
+    <string name="settings_line_add_type_here">Xtream, M3U ou Stalker pelo controle</string>
+    <string name="settings_help_add_from_phone">Abra o endereço ou escaneie o código no navegador de qualquer aparelho na mesma Wi-Fi — celular, computador ou outra TV —, preencha a sua lista lá e envie para cá. Muito mais rápido que digitar uma URL pelo controle.</string>
+    <string name="settings_help_add_type_here">Digite um login Xtream, um endereço M3U ou um portal Stalker pelo controle e inicie a importação no painel.</string>
+    <string name="settings_remote_waiting">Aguardando o outro aparelho</string>
+    <string name="settings_remote_nothing_yet">Nada recebido ainda</string>
+    <string name="settings_remote_new_pin">Novo PIN</string>
+    <string name="settings_line_remote_new_pin">Se outra pessoa viu este</string>
+    <string name="settings_remote_scan">Escaneie ou abra em um navegador</string>
+    <string name="settings_remote_or_open">ou abra</string>
+    <string name="settings_remote_details_note">Os dados aparecem aqui; você inicia a importação pelo controle.</string>
+    <string name="settings_key_stop_back">Parar e voltar</string>
+    <string name="settings_source_type">Tipo</string>
+    <string name="settings_line_source_type">Xtream, M3U ou portal Stalker</string>
+    <string name="settings_choose_local_file">Escolher um arquivo local…</string>
+    <string name="settings_line_local_file">.m3u ou .m3u8 nesta TV</string>
+    <string name="settings_form_optional">Opcional</string>
+    <string name="settings_form_field_help">OK abre o teclado; ▼ vai para o próximo campo.</string>
+    <string name="settings_help_playlist_url">O endereço da sua lista .m3u ou .m3u8.</string>
+    <string name="settings_line_fill_from_playlist">Usar o endereço de guia que a sua lista fornece</string>
+    <string name="settings_line_epg_auto_refresh">Manter o guia atualizado</string>
+    <string name="settings_line_epg_logos">Em vez dos da lista</string>
+    <string name="settings_help_epg_name">Exibido na lista de guias e em Escolher EPG manualmente.</string>
 </resources>

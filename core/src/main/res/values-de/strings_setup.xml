@@ -3,9 +3,9 @@
     <string name="setup_background_image">Hintergrundbild</string>
     <string name="setup_background_image_description">Wähle ein Foto aus, das hinter der Benutzeroberfläche angezeigt werden soll, oder entferne es, um wieder einfarbige Flächen zu verwenden.</string>
     <string name="setup_from_device">Lokal</string>
-    <string name="setup_from_phone">Mobilgerät</string>
+    <string name="setup_from_phone">Extern</string>
     <string name="setup_send_from_phone">Von einem anderen Gerät senden</string>
-    <string name="setup_phone_background_description">Scanne auf einem Telefon, Tablet oder Computer im selben Wi-Fi den QR-Code (oder öffne die URL), gib diese PIN ein und sende ein Foto. Es wird sofort als Hintergrundbild verwendet.</string>
+    <string name="setup_phone_background_description">Scannen Sie auf einem beliebigen Gerät mit Browser im selben WLAN – Smartphone, Computer oder ein anderer Fernseher – den QR-Code (oder öffnen Sie die URL), geben Sie diese PIN ein und senden Sie ein Foto. Es wird sofort zum Hintergrund.</string>
     <string name="setup_opening_server">Server wird gestartet…</string>
     <string name="setup_enter_pin_browser">Diese PIN im Browser eingeben</string>
     <string name="setup_open_url">Oder diese URL öffnen</string>
@@ -73,7 +73,7 @@
     <string name="setup_invalid_mac">Ungültige MAC-Adresse — verwende das Format AA:BB:CC:DD:EE:FF</string>
     <string name="setup_pick_backup_file">Sicherungsdatei zum Wiederherstellen auswählen</string>
     <string name="setup_restore_a_backup">Eine Sicherung wiederherstellen</string>
-    <string name="setup_restore_choice_description">Sende die Sicherung von einem anderen Gerät (Smartphone oder Laptop) im selben Wi-Fi oder wähle eine Sicherungsdatei aus, die sich bereits auf diesem Gerät befindet.</string>
+    <string name="setup_restore_choice_description">Senden Sie die Sicherung per Extern von einem beliebigen Gerät mit Browser im selben WLAN, oder wählen Sie eine Sicherungsdatei auf diesem Gerät.</string>
     <string name="setup_upload_from_wifi_device">Von einem Gerät in deinem Wi-Fi hochladen</string>
     <string name="setup_local_file">Lokale Datei</string>
     <string name="setup_pick_backup_local">Eine Sicherungsdatei auf diesem Gerät auswählen</string>
@@ -94,18 +94,9 @@
     <string name="setup_continue">Weiter</string>
     <string name="setup_import_failed">Importieren fehlgeschlagen</string>
     <string name="setup_try_again_caps">Erneut versuchen</string>
-    <string name="setup_add_from_phone">Von einem anderen Gerät hinzufügen</string>
-    <string name="setup_phone_add_description">Scannen Sie auf einem Telefon, Tablet oder Computer im selben Wi-Fi den QR-Code (oder öffnen Sie die URL), geben Sie diese PIN ein, füllen Sie die Angaben zu Ihrer Wiedergabeliste aus und tippen Sie auf „An TV senden“; die Angaben werden dann hier angezeigt und können importiert werden — Sie drücken mit der Fernbedienung auf „Importieren starten“.</string>
     <string name="setup_opening">Wird gestartet…</string>
-    <string name="setup_open_server">Server starten</string>
-    <string name="setup_stop_server">Server stoppen</string>
     <string name="setup_add_source">Quelle hinzufügen</string>
-    <string name="setup_add_source_description">Fülle das Formular auf einem anderen Gerät aus oder gib die Angaben hier mit der Fernbedienung ein.</string>
-    <string name="setup_manual">Manuell</string>
-    <string name="setup_use_phone_same_wifi">Ein Telefon, Tablet oder einen Computer im selben Wi-Fi verwenden</string>
-    <string name="setup_type_source_here">Xtream-/M3U-/Stalker-Daten hier eingeben</string>
     <string name="setup_edit_source">Quelle bearbeiten</string>
-    <string name="setup_add_your_source">Deine Quelle hinzufügen</string>
     <string name="setup_edit_source_description">Aktualisiere die Angaben dieser Quelle oder ändere die Einstellung für die automatische Aktualisierung.</string>
     <string name="setup_byo_source_description">OwnTV ist ein Player — füge deine eigene Xtream-, M3U- oder Stalker-Quelle hinzu.</string>
     <string name="setup_xtream">Xtream</string>
@@ -161,7 +152,6 @@
     <string name="setup_now">Jetzt</string>
     <string name="setup_later">Später</string>
     <string name="setup_off">Aus</string>
-    <string name="setup_scope_value">◀ <xliff:g id="value">%1$s</xliff:g> ▶</string>
     <string name="setup_default_mag">Standard (MAG200)</string>
     <string name="setup_mag250">MAG250</string>
     <string name="setup_mag254">MAG254</string>
@@ -267,4 +257,25 @@
     <string name="companion_error_pair_failed">Kopplung mit diesem Gerät nicht möglich.</string>
     <string name="local_sync_browser_title">OwnTV lokale Synchronisierung</string>
     <string name="local_sync_browser_body">Diese Adresse ist für die OwnTV-App auf deinem anderen Gerät. Öffne dort die lokale Synchronisierung und wähle dieses Gerät aus der Liste.</string>
+    <string name="setup_step_display">Anzeige</string>
+    <string name="setup_step_playlist">Playlist</string>
+    <string name="setup_step_ready">Fertig</string>
+    <string name="setup_key_previous_step">Vorheriger Schritt</string>
+    <string name="setup_welcome_title">Willkommen bei OwnTV</string>
+    <string name="setup_welcome_sub">Ihr eigener IPTV-Player. Wählen Sie zum Start eine Sprache – Sie können sie später in den Einstellungen ändern.</string>
+    <string name="setup_display_sub">Wie groß die Oberfläche und ihr Text auf diesem Fernseher sind. Die Zeile unten ändert sich mit.</string>
+    <string name="setup_line_zoom">Alles auf dem Bildschirm</string>
+    <string name="setup_line_font">Nur Text</string>
+    <string name="setup_line_app_icon">Wie OwnTV auf dem Startbildschirm des Fernsehers erscheint</string>
+    <string name="setup_restore_card_line">Aus einer Datei oder per Extern von einem anderen Gerät</string>
+    <string name="setup_device_appear">Geräte mit aktivem Sync-Modus erscheinen hier</string>
+    <string name="setup_device_address_hint">oder die Adresse des anderen Geräts eingeben</string>
+    <string name="setup_profile_sub">Ein Profil hat eigene Favoriten, einen eigenen Verlauf und eine eigene Startseite. Weitere fügen Sie später unter Einstellungen › Profil hinzu.</string>
+    <string name="setup_avatar">Avatar</string>
+    <string name="setup_avatar_line">Einen wählen oder den Anfangsbuchstaben behalten</string>
+    <string name="setup_create_profile">Profil erstellen</string>
+    <string name="setup_phone_card_line">Formular im Browser eines anderen Geräts ausfüllen – am schnellsten</string>
+    <string name="setup_importing_title"><xliff:g id="name">%1$s</xliff:g> wird importiert</string>
+    <string name="setup_add_guide">TV-Guide hinzufügen</string>
+    <string name="setup_add_guide_line">Eine Neuinstallation hat noch keinen Guide</string>
 </resources>

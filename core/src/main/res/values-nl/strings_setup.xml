@@ -5,7 +5,7 @@
     <string name="setup_from_device">Lokaal</string>
     <string name="setup_from_phone">Op afstand</string>
     <string name="setup_send_from_phone">Verzenden vanaf een ander apparaat</string>
-    <string name="setup_phone_background_description">Scan op een telefoon, tablet of computer die met hetzelfde Wi-Fi-netwerk is verbonden de QR-code (of open de URL), voer deze PIN in en verzend een foto. Deze wordt direct de achtergrond.</string>
+    <string name="setup_phone_background_description">Scan op een apparaat met een browser op hetzelfde wifi-netwerk — telefoon, computer of een andere tv — de QR-code (of open de URL), voer deze pincode in en stuur een foto. Die wordt meteen de achtergrond.</string>
     <string name="setup_opening_server">Server openen…</string>
     <string name="setup_enter_pin_browser">Voer deze PIN in de browser in</string>
     <string name="setup_open_url">Of open deze URL</string>
@@ -73,7 +73,7 @@
     <string name="setup_invalid_mac">Ongeldig MAC-adres — gebruik AA:BB:CC:DD:EE:FF</string>
     <string name="setup_pick_backup_file">Kies een back-upbestand om te herstellen</string>
     <string name="setup_restore_a_backup">Een back-up herstellen</string>
-    <string name="setup_restore_choice_description">Verzend de back-up vanaf een ander apparaat (telefoon of laptop) op hetzelfde Wi-Fi-netwerk, of kies een back-upbestand dat al op dit apparaat staat.</string>
+    <string name="setup_restore_choice_description">Stuur de back-up op afstand vanaf een apparaat met een browser op hetzelfde wifi-netwerk, of kies een back-upbestand dat al op dit apparaat staat.</string>
     <string name="setup_upload_from_wifi_device">Uploaden vanaf een apparaat op je Wi-Fi-netwerk</string>
     <string name="setup_local_file">Lokaal bestand</string>
     <string name="setup_pick_backup_local">Kies een back-upbestand op dit apparaat</string>
@@ -94,18 +94,9 @@
     <string name="setup_continue">Doorgaan</string>
     <string name="setup_import_failed">Importeren mislukt</string>
     <string name="setup_try_again_caps">Opnieuw proberen</string>
-    <string name="setup_add_from_phone">Toevoegen vanaf een ander apparaat</string>
-    <string name="setup_phone_add_description">Scan op een telefoon, tablet of computer die met hetzelfde Wi-Fi-netwerk is verbonden de QR-code (of open de URL), voer deze PIN in, vul je afspeellijst in en tik op Naar tv verzenden. De gegevens verschijnen vervolgens hier, klaar om te importeren — druk met de afstandsbediening op Importeren starten.</string>
     <string name="setup_opening">Openen…</string>
-    <string name="setup_open_server">Server openen</string>
-    <string name="setup_stop_server">Server stoppen</string>
     <string name="setup_add_source">Een bron toevoegen</string>
-    <string name="setup_add_source_description">Vul het formulier op een ander apparaat in of typ de gegevens hier met de afstandsbediening.</string>
-    <string name="setup_manual">Handmatig</string>
-    <string name="setup_use_phone_same_wifi">Gebruik een telefoon, tablet of computer op hetzelfde Wi-Fi-netwerk</string>
-    <string name="setup_type_source_here">Typ hier Xtream / M3U / Stalker</string>
     <string name="setup_edit_source">Bron bewerken</string>
-    <string name="setup_add_your_source">Je bron toevoegen</string>
     <string name="setup_edit_source_description">Werk de gegevens van deze bron bij of wijzig de instelling voor automatisch vernieuwen.</string>
     <string name="setup_byo_source_description">OwnTV is een speler — voeg je eigen Xtream-, M3U- of Stalker-bron toe.</string>
     <string name="setup_xtream">Xtream</string>
@@ -161,7 +152,6 @@
     <string name="setup_now">Nu</string>
     <string name="setup_later">Later</string>
     <string name="setup_off">Uit</string>
-    <string name="setup_scope_value">◀ <xliff:g id="value">%1$s</xliff:g> ▶</string>
     <string name="setup_default_mag">Standaard (MAG200)</string>
     <string name="setup_mag250">MAG250</string>
     <string name="setup_mag254">MAG254</string>
@@ -267,4 +257,25 @@
     <string name="companion_error_pair_failed">Kon niet koppelen met dit apparaat.</string>
     <string name="local_sync_browser_title">OwnTV lokaal synchroniseren</string>
     <string name="local_sync_browser_body">Dit adres is bedoeld voor de OwnTV-app op je andere apparaat. Open daar Lokaal synchroniseren en kies dit apparaat uit de lijst.</string>
+    <string name="setup_step_display">Weergave</string>
+    <string name="setup_step_playlist">Playlist</string>
+    <string name="setup_step_ready">Klaar</string>
+    <string name="setup_key_previous_step">Vorige stap</string>
+    <string name="setup_welcome_title">Welkom bij OwnTV</string>
+    <string name="setup_welcome_sub">Je eigen IPTV-speler. Kies een taal om te beginnen — je kunt die later wijzigen in Instellingen.</string>
+    <string name="setup_display_sub">Hoe groot de interface en de tekst op deze tv zijn. De rij hieronder verandert mee.</string>
+    <string name="setup_line_zoom">Alles op het scherm</string>
+    <string name="setup_line_font">Alleen tekst</string>
+    <string name="setup_line_app_icon">Hoe OwnTV op het startscherm van de tv verschijnt</string>
+    <string name="setup_restore_card_line">Uit een bestand, of op afstand vanaf een ander apparaat</string>
+    <string name="setup_device_appear">Apparaten met Sync-modus aan verschijnen hier</string>
+    <string name="setup_device_address_hint">of typ het adres van het andere apparaat</string>
+    <string name="setup_profile_sub">Een profiel heeft eigen favorieten, geschiedenis en Home. Voeg er later meer toe via Instellingen › Profiel.</string>
+    <string name="setup_avatar">Avatar</string>
+    <string name="setup_avatar_line">Kies er een, of houd de letter</string>
+    <string name="setup_create_profile">Profiel aanmaken</string>
+    <string name="setup_phone_card_line">Vul het formulier in een browser op een ander apparaat in — het snelst</string>
+    <string name="setup_importing_title"><xliff:g id="name">%1$s</xliff:g> importeren</string>
+    <string name="setup_add_guide">Tv-gids toevoegen</string>
+    <string name="setup_add_guide_line">Een nieuwe installatie heeft nog geen gids</string>
 </resources>

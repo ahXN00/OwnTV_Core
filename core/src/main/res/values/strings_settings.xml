@@ -27,8 +27,6 @@
     <string name="settings_mini_player_position">Mini-player position</string>
     <!-- Translators: Section header for Home screen customization. -->
     <string name="settings_home_screen">Home screen</string>
-    <!-- Translators: Description of the Home screen settings section. -->
-    <string name="settings_home_description">Hide, reorder and filter rows on Home for this profile.</string>
     <!-- Translators: Section header for the Home row visibility toggles. -->
     <string name="settings_sections">Sections</string>
     <!-- Translators: Description of how hidden sections work. -->
@@ -133,8 +131,6 @@
     <string name="settings_ch_nav_down_description">How many items one CH−/FF press jumps down. Long-press always goes to the last item.</string>
     <!-- Translators: Section header for the skip count settings. -->
     <string name="settings_skip_counts">Skip counts</string>
-    <!-- Translators: Collapsible help section header explaining CH+/CH- behavior. -->
-    <string name="settings_how_it_works">How it works</string>
     <!-- Translators: Detailed help text explaining CH+/CH- key paging behavior. The bullets and arrows are visual formatting. -->
     <string name="settings_ch_nav_help">• Skips are clamped at the ends, so short lists reach the end in one press.
 • Long-press CH+ = first item, long-press CH− = last item.
@@ -165,8 +161,6 @@
     <string name="settings_remote_shortcuts_capture_description">Press briefly for a short-press shortcut, or hold until you release for a long-press shortcut. Back, D-pad, OK, volume, Home and power buttons cannot be assigned.</string>
     <!-- Translators: Title of the popup where an action is chosen for a learned remote button. -->
     <string name="settings_remote_shortcuts_choose_action">Choose an action</string>
-    <!-- Translators: Summary under an assigned button. First placeholder is Short press/Long press; second is the assigned action. -->
-    <string name="settings_remote_shortcuts_binding"><xliff:g id="press">%1$s</xliff:g> · <xliff:g id="action">%2$s</xliff:g></string>
     <!-- Translators: Label identifying a normal brief button press. -->
     <string name="settings_remote_shortcuts_short_press">Short press</string>
     <!-- Translators: Label identifying a button held down before release. -->
@@ -229,8 +223,6 @@
     <string name="settings_ch_nav_picker">CH+/RW · CH−/FF key paging</string>
     <!-- Translators: Section header for weather settings. -->
     <string name="settings_weather">Weather</string>
-    <!-- Translators: Setting label for the top-bar weather chip. -->
-    <string name="settings_top_bar_weather">Top bar weather</string>
     <!-- Translators: Toggle label to show/hide the weather chip in the top bar. -->
     <string name="settings_show_weather">Show weather</string>
     <!-- Translators: Description of the show-weather toggle. -->
@@ -271,7 +263,6 @@
     <string name="settings_metadata_reset_automatic">Resets automatically</string>
     <string name="settings_metadata_library_details">Library details</string>
     <string name="settings_metadata_test_connection">Test current connection</string>
-    <string name="settings_allowance_available">Available</string>
     <string name="settings_allowance_refills">Refills <xliff:g id="time">%1$s</xliff:g></string>
     <string name="settings_allowance_minute">Minute</string>
     <string name="settings_allowance_hour">Hour</string>
@@ -294,7 +285,7 @@
     <!-- Translators: Option that hands the details over from a browser on another device. Matches the Remote wording used elsewhere in the app. -->
     <string name="settings_open_subtitles_setup_remote">Remote</string>
     <!-- Translators: Description of the Remote option. Any browser on the same Wi-Fi works, not only a phone. -->
-    <string name="settings_open_subtitles_setup_remote_description">Fill in your details in a browser on another device on the same Wi-Fi — a phone, tablet or computer.</string>
+    <string name="settings_open_subtitles_setup_remote_description">Fill in your details in a browser on another device on the same Wi-Fi — a phone, a computer or another TV.</string>
     <!-- Translators: Option that types the details on the TV itself. Contrasts with Remote. -->
     <string name="settings_open_subtitles_setup_local">Enter here</string>
     <!-- Translators: Description of the Enter here option. "the remote" is the TV remote control. -->
@@ -340,7 +331,7 @@
     <!-- Translators: Row that opens the remote hand-over, so the key need not be typed with the remote. -->
     <string name="settings_metadata_key_from_phone">Get key from another device</string>
     <!-- Translators: Description of that row. -->
-    <string name="settings_metadata_key_from_phone_desc">Scan the code with a phone, tablet or computer, sign in to TMDB there, and send the key across. Nothing to type with the remote.</string>
+    <string name="settings_metadata_key_from_phone_desc">Open the address in a browser on any device — a phone, a computer or another TV — sign in to TMDB there, and send the key across. Nothing to type with the remote.</string>
     <!-- Translators: Toast shown on the TV when a key arrives from the remote device. -->
     <string name="settings_metadata_key_received">TMDB key received</string>
     <string name="settings_tmdb_api_key">TMDB API key (v3)</string>
@@ -1321,7 +1312,7 @@ Choose Balanced if a channel becomes unreliable.</string>
     <!-- Translators: Screen title for the remote restore companion screen. -->
     <string name="settings_restore_remote_title">Restore from another device</string>
     <!-- Translators: Description of the remote restore process. -->
-    <string name="settings_restore_remote_description">On a phone, tablet or computer on the same Wi-Fi, scan the QR (or open the URL), enter this PIN, choose your OwnTV backup file and tap Send to TV. You then pick what to restore here.</string>
+    <string name="settings_restore_remote_description">On any device with a browser on the same Wi-Fi — a phone, a computer or another TV — scan the QR (or open the URL), enter this PIN, choose your OwnTV backup file and send it. You then pick what to restore here.</string>
     <!-- Translators: Loading status shown while the companion HTTP server is starting. -->
     <string name="settings_opening_server">Opening server…</string>
     <!-- Translators: Instruction above the PIN display telling the user to enter it in the browser. -->
@@ -1337,7 +1328,7 @@ Choose Balanced if a channel becomes unreliable.</string>
     <!-- Translators: Screen title for the remote download companion screen. -->
     <string name="settings_download_remote_title">Download on another device</string>
     <!-- Translators: Description of the remote backup download process. -->
-    <string name="settings_download_remote_description">On a phone, tablet or computer on the same Wi-Fi, scan the QR (or open the URL), enter this PIN, and download your backup file to keep it safe.</string>
+    <string name="settings_download_remote_description">On any device with a browser on the same Wi-Fi — a phone, a computer or another TV — scan the QR (or open the URL), enter this PIN, and download your backup file to keep it safe.</string>
     <!-- Translators: Loading status shown while preparing a backup file. -->
     <string name="settings_preparing_backup">Preparing backup…</string>
     <!-- Translators: Status label when the glass effect is enabled. -->
@@ -1772,10 +1763,6 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <string name="settings_epg_sources_auto_refresh_title">Auto refresh</string>
     <!-- Translators: Description of the EPG auto-refresh setting. -->
     <string name="settings_epg_sources_auto_refresh_description">Off, on startup, or when data is stale</string>
-    <!-- Translators: EPG auto-refresh state: enabled. -->
-    <string name="settings_epg_sources_on">On</string>
-    <!-- Translators: EPG auto-refresh state: disabled. -->
-    <string name="settings_epg_sources_off">Off</string>
     <!-- Translators: Status text when the EPG source has not been synced yet. -->
     <string name="settings_epg_sources_not_synced">Not synced yet</string>
     <!-- Translators: EPG refresh interval: every 1 hour. -->
@@ -1832,7 +1819,7 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <!-- Translators: Section header for the backup restore flow. -->
     <string name="settings_backup_restore_title">Restore a backup</string>
     <!-- Translators: Description of the backup restore process. -->
-    <string name="settings_backup_restore_message">Send the backup from another device (phone or laptop) on the same Wi-Fi, or pick a backup file already on this device.</string>
+    <string name="settings_backup_restore_message">Send the backup by Remote from any device with a browser on the same Wi-Fi, or pick a backup file already on this device.</string>
     <!-- Translators: Text-field label for the backup password. -->
     <string name="settings_backup_password">Backup password</string>
     <!-- Translators: Heading for the backup password entry screen. -->
@@ -2588,7 +2575,7 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <!-- Translators: More › Backup & Restore: tile that makes a backup. -->
     <string name="more_backup_now">Back up now</string>
     <!-- Translators: More › Backup & Restore: line under Back up now. -->
-    <string name="more_backup_now_body">Save a file on this TV, or send it to your phone or laptop</string>
+    <string name="more_backup_now_body">Save a file on this TV, or send it by Remote to another device</string>
     <!-- Translators: More › Backup & Restore: button that saves the backup as a file on this TV. -->
     <string name="more_backup_file_tv">File on this TV</string>
     <!-- Translators: More › Backup & Restore: line under Restore. -->
@@ -3113,4 +3100,139 @@ Resync and remove missing titles also allows removing titles the provider no lon
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> feed</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> feeds</item>
     </plurals>
+    <!-- Translators: Title of the Settings page for the top-right clock block: date, time and weather. -->
+    <string name="settings_title_date_time_weather">Date, time &amp; weather</string>
+    <!-- Translators: Short line under the Show weather row. -->
+    <string name="settings_line_show_weather">Current weather in the top bar</string>
+    <!-- Translators: Short line under the Custom location row: leaving it blank detects the city automatically. -->
+    <string name="settings_line_custom_location">Blank = auto-detect</string>
+    <!-- Translators: Short line under the Temperature unit row. -->
+    <string name="settings_line_temperature_unit">Celsius or Fahrenheit</string>
+    <!-- Translators: Heading above the three clock colour rows. -->
+    <string name="settings_clock_colors">Colors</string>
+    <!-- Translators: Row: colour of the clock's time. -->
+    <string name="settings_clock_time_color">Time color</string>
+    <!-- Translators: Short line under the Time color row. -->
+    <string name="settings_line_clock_time">The clock</string>
+    <!-- Translators: Row: colour of the date under the clock. -->
+    <string name="settings_clock_date_color">Date color</string>
+    <!-- Translators: Short line under the Date color row. -->
+    <string name="settings_line_clock_date">The date under the clock</string>
+    <!-- Translators: Row: colour of the weather (temperature and city) next to the date. -->
+    <string name="settings_clock_weather_color">Weather color</string>
+    <!-- Translators: Short line under the Weather color row. -->
+    <string name="settings_line_clock_weather">Temperature and city</string>
+    <!-- Translators: Colour value: white. -->
+    <string name="settings_clock_color_white">White</string>
+    <!-- Translators: Colour value: grey. -->
+    <string name="settings_clock_color_grey">Grey</string>
+    <!-- Translators: Colour value: follows the app's accent colour. -->
+    <string name="settings_clock_color_accent">Accent</string>
+    <!-- Translators: Panel text for the clock colour rows. OK is the remote's OK key. -->
+    <string name="settings_clock_color_help">OK opens the color picker (presets, palette or a hex code), the same one as Accent color. The preview follows as you move.</string>
+    <!-- Translators: Key hint after the OK key: opens the colour picker. -->
+    <string name="settings_key_pick_color">Pick color</string>
+    <!-- Translators: Short line under the Trending layout row on the Home screen settings page. -->
+    <string name="settings_line_trending_layout">How the trending row is drawn</string>
+    <!-- Translators: Value of a Home row that is shown on Home (opposite of Hidden). -->
+    <string name="settings_home_shown">Shown</string>
+    <!-- Translators: Action: hide this row from Home. -->
+    <string name="settings_home_hide_row">Hide this row</string>
+    <!-- Translators: Action: show this hidden row on Home again. -->
+    <string name="settings_home_show_row">Show this row</string>
+    <!-- Translators: Action: move this Home row. The arrows are the remote's keys; OK ends the move. -->
+    <string name="settings_home_move_row">Move (▲ ▼, then OK)</string>
+    <!-- Translators: Short line under Use remote shortcuts: turning it off keeps the button assignments. -->
+    <string name="settings_line_remote_shortcuts_on">Off keeps your assignments</string>
+    <!-- Translators: Panel text for System default in Language. %1$s is the TV's current language name. -->
+    <string name="settings_language_system_help">OwnTV follows the language of the TV (now <xliff:g id="language">%1$s</xliff:g>). Pick one below to use it in OwnTV only.</string>
+    <!-- Translators: Panel text for a language in Language. %1$s is that language's name. -->
+    <string name="settings_language_pick_help">Use <xliff:g id="language">%1$s</xliff:g> in OwnTV, whatever language the TV is set to.</string>
+    <!-- Translators: Key hint after the OK key: use the focused language. -->
+    <string name="settings_key_use">Use</string>
+    <!-- Translators: Short line under Metadata source. -->
+    <string name="settings_line_metadata_source">Where Movies &amp; Series details come from</string>
+    <!-- Translators: Short line under Metadata language. -->
+    <string name="settings_line_metadata_language">Plots, genres and titles from TMDB</string>
+    <!-- Translators: Short line under the advanced TMDB access row. -->
+    <string name="settings_line_metadata_advanced">Your own key or a self-hosted Worker</string>
+    <!-- Translators: Short line under the advanced OpenSubtitles access row. -->
+    <string name="settings_line_os_advanced">Your own API key or Worker</string>
+    <!-- Translators: Short line under Filter by language (OpenSubtitles search). -->
+    <string name="settings_line_os_filter">Only your chosen language</string>
+    <!-- Translators: Short line under Search language (OpenSubtitles search). -->
+    <string name="settings_line_os_search_language">Shown in search results</string>
+    <!-- Translators: Panel text for a downloaded subtitle on the Delete subtitles page. -->
+    <string name="settings_subtitle_delete_help">Deleting frees the space; you can download it again from the player.</string>
+    <!-- Translators: Row on the Glass Effect page: the glass preset. -->
+    <string name="settings_glass_style">Style</string>
+    <!-- Translators: Short line under Style on the Glass Effect page. -->
+    <string name="settings_line_glass_style">A preset, or Custom</string>
+    <!-- Translators: Short line under Apply glass to. -->
+    <string name="settings_line_glass_apply">Which surfaces are frosted</string>
+    <!-- Translators: Panel text above the Glass Effect live preview. -->
+    <string name="settings_glass_preview_help">Every change shows here straight away.</string>
+    <!-- Translators: Count beside the Home screen page title: how many rows it lists. -->
+    <plurals name="settings_home_row_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> row</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> rows</item>
+    </plurals>
+    <!-- Translators: Value line of the Delete subtitles row: how many subtitle files are downloaded. -->
+    <plurals name="settings_subtitles_downloaded_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> downloaded</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> downloaded</item>
+    </plurals>
+    <!-- Translators: Count beside the Delete subtitles page title. -->
+    <plurals name="settings_subtitle_file_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> file</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> files</item>
+    </plurals>
+    <!-- Translators: Short line under From your phone. -->
+    <string name="settings_line_add_from_phone">Fill the form in a browser on another device</string>
+    <!-- Translators: Add a source: type the details on the TV with the remote. -->
+    <string name="settings_add_type_here">Type it here</string>
+    <!-- Translators: Short line under Type it here. -->
+    <string name="settings_line_add_type_here">Xtream, M3U or Stalker with the remote</string>
+    <!-- Translators: Panel text for From your phone. -->
+    <string name="settings_help_add_from_phone">Open the address or scan the code in a browser on any device on the same Wi-Fi — a phone, a computer or another TV — fill in your playlist there and send it here. Much faster than typing a URL with the remote.</string>
+    <!-- Translators: Panel text for Type it here. -->
+    <string name="settings_help_add_type_here">Type an Xtream login, an M3U address or a Stalker portal with the remote, then start the import from the panel.</string>
+    <!-- Translators: Row on From your phone while the TV waits for the phone to send the form. -->
+    <string name="settings_remote_waiting">Waiting for the other device</string>
+    <!-- Translators: Line under Waiting for your phone. -->
+    <string name="settings_remote_nothing_yet">Nothing received yet</string>
+    <!-- Translators: Row: start again with a new PIN. -->
+    <string name="settings_remote_new_pin">New PIN</string>
+    <!-- Translators: Line under New PIN: use it if someone else saw the current PIN. -->
+    <string name="settings_line_remote_new_pin">If someone else saw this one</string>
+    <!-- Translators: Panel heading above the QR code on From your phone. -->
+    <string name="settings_remote_scan">Scan or open in a browser</string>
+    <!-- Translators: Panel: before the address to open instead of scanning the QR code. -->
+    <string name="settings_remote_or_open">or open</string>
+    <!-- Translators: Panel note on From your phone. Start import is the button on the next page. -->
+    <string name="settings_remote_details_note">The details appear here; you press Start import with the remote.</string>
+    <!-- Translators: Key hint after Back on From your phone: stops the phone server and goes back. -->
+    <string name="settings_key_stop_back">Stop and go back</string>
+    <!-- Translators: Row on the Add source form: Xtream, M3U or Stalker. -->
+    <string name="settings_source_type">Type</string>
+    <!-- Translators: Line under Type on the Add source form. -->
+    <string name="settings_line_source_type">Xtream, M3U or Stalker portal</string>
+    <!-- Translators: Row on the M3U form: pick a playlist file stored on the TV. -->
+    <string name="settings_choose_local_file">Choose a local file…</string>
+    <!-- Translators: Line under Choose a local file. -->
+    <string name="settings_line_local_file">.m3u or .m3u8 on this TV</string>
+    <!-- Translators: Heading above the optional fields of a form. -->
+    <string name="settings_form_optional">Optional</string>
+    <!-- Translators: Panel text for a text field. ▼ is the remote's down key. -->
+    <string name="settings_form_field_help">OK opens the keyboard; ▼ moves to the next field.</string>
+    <!-- Translators: Panel text for the playlist address field (followed by the field help). -->
+    <string name="settings_help_playlist_url">The address of your .m3u or .m3u8 list.</string>
+    <!-- Translators: Line under Fill from playlist on the Add EPG form. -->
+    <string name="settings_line_fill_from_playlist">Use the guide address your playlist gives</string>
+    <!-- Translators: Line under Auto refresh on the Add EPG form. -->
+    <string name="settings_line_epg_auto_refresh">Keep the guide up to date</string>
+    <!-- Translators: Line under Use this guide's channel logos: the guide's logos instead of the playlist's. -->
+    <string name="settings_line_epg_logos">Instead of the playlist’s</string>
+    <!-- Translators: Panel text for the guide's Name field (followed by the field help). -->
+    <string name="settings_help_epg_name">Shown in the guide list and in Pick EPG manually.</string>
 </resources>
