@@ -73,8 +73,6 @@
     <string name="search_recent">Recent searches</string>
     <!-- Translators: Empty-state message when there are no recent searches. -->
     <string name="search_recent_empty">Your recent searches will show here.</string>
-    <!-- Translators: Error message when the search query is too short. -->
-    <string name="search_minimum_query">Type at least 2 characters to search across everything.</string>
     <!-- Translators: Empty-state message when a search returns no results. "query" is the search text. -->
     <string name="search_no_results"><xliff:g id="query">%1$s</xliff:g> \u2014 no results.</string>
     <!-- Translators: Empty-state message when a list category has no items. "list" is the list name. -->
@@ -83,10 +81,6 @@
     <string name="search_clear">Clear</string>
     <!-- Translators: Search-results section heading for jumping to a result in its native screen. -->
     <string name="search_jump_to">Jump to</string>
-    <!-- Translators: Action button in search results to tune to a live channel. -->
-    <string name="search_watch_live">Watch live</string>
-    <!-- Translators: Action button in search results to play content. -->
-    <string name="search_play">Play</string>
     <!-- Translators: Action button in search results to open a series detail screen. -->
     <string name="search_open_series">Open series</string>
     <!-- Translators: Content type label in search results. -->
@@ -95,8 +89,34 @@
     <string name="search_series">Series</string>
     <!-- Translators: Content type label in search results. -->
     <string name="search_channels">Channels</string>
-    <!-- Translators: Channel number display in search results. "number" is the channel number. The hash (#) is a conventional channel prefix. -->
-    <string name="search_channel_number">#<xliff:g id="number">%1$s</xliff:g></string>
+    <!-- Translators: Key hint on a channel search result: OK takes you to the channel in Live TV (it does not play it). -->
+    <string name="search_go_to_channel">Go to channel</string>
+    <!-- Translators: Key hint on a movie search result: OK takes you to the movie in Movies (it does not play it). -->
+    <string name="search_go_to_movie">Go to movie</string>
+    <!-- Translators: Button under the recent searches list that deletes them all. -->
+    <string name="search_clear_recent">Clear recent searches</string>
+    <!-- Translators: Placeholder in the empty search field. -->
+    <string name="search_field_hint">Channels, movies and series</string>
+    <!-- Translators: Title of the card shown on the empty search page. -->
+    <string name="search_card_title">Find anything in your playlists</string>
+    <!-- Translators: Text of the card shown on the empty search page. -->
+    <string name="search_card_body">Channels, movies and series from every playlist you show. Pick a result to go straight to it, then play, download or open its options there.</string>
+    <!-- Translators: Title when a search finds nothing. "query" is the typed text, in quotes. -->
+    <string name="search_nothing_found">Nothing found for “<xliff:g id="query">%1$s</xliff:g>”</string>
+    <!-- Translators: Line under "Nothing found" explaining what search looks in. -->
+    <string name="search_nothing_found_body">Search looks in channel, movie and series names in the playlists you show. Hidden categories are not searched.</string>
+    <!-- Translators: The typed search text shown in quotes next to the page title. Use your language's quotation marks. -->
+    <string name="search_query_quoted">“<xliff:g id="query">%1$s</xliff:g>”</string>
+    <!-- Translators: Number of search results next to the page title. -->
+    <plurals name="search_result_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> result</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> results</item>
+    </plurals>
+    <!-- Translators: Row under the first channels in search results; opens the list of all matching channels. -->
+    <plurals name="search_all_channels">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> channel</item>
+        <item quantity="other">All <xliff:g id="count">%1$d</xliff:g> channels</item>
+    </plurals>
 
     <!-- Home -->
     <!-- Translators: Default profile name placeholder in the profile editor. -->
