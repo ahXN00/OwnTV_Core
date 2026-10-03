@@ -51,6 +51,25 @@ class LiveStreamQuirksTest {
         assertFalse(LiveStreamQuirks.isExplicitHlsUrl(ts))
     }
 
+    /**
+     * Bug 8: a panel where a few channels redirect `.ts` to a manifest and the rest serve plain TS. Once
+     * the host lesson sends a plain channel into the HLS parser and it fails, the lesson is wrong for this
+     * panel — it must stop applying, and a later redirecting channel must not teach it back.
+     */
+    @Test
+    fun `a host lesson disproved by a plain ts channel is dropped and not relearned`() {
+        val redirecting = "http://panel.example:80/live/user/pass/6082.ts"
+        val plain = "http://panel.example:80/live/user/pass/5331.ts"
+        LiveStreamQuirks.rememberHlsRedirect(redirecting)
+        assertTrue(LiveStreamQuirks.isKnownHlsHost(plain))
+
+        LiveStreamQuirks.forgetHlsRedirect(plain)
+        assertFalse(LiveStreamQuirks.isKnownHlsHost(plain))
+
+        LiveStreamQuirks.rememberHlsRedirect(redirecting)
+        assertFalse(LiveStreamQuirks.isKnownHlsHost(plain))
+    }
+
     @Test
     fun `a different provider is unaffected by what one panel taught us`() {
         LiveStreamQuirks.rememberHlsRedirect("http://panel.example:80/live/u/p/1.ts")

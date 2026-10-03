@@ -68,6 +68,11 @@ interface CustomCategoryDao {
     suspend fun exists(profileId: Long, type: MediaType, contextKey: String, itemId: Long): Boolean
 
     /** Removes ONE membership row — "Move to…" away from a custom-category origin without keeping it. */
+    /** The custom categories [itemId] belongs to — a channel kept in one stays visible when its own
+     *  provider folder is hidden. */
+    @Query("SELECT DISTINCT contextKey FROM custom_category_members WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId")
+    suspend fun contextsOf(profileId: Long, type: MediaType, itemId: Long): List<String>
+
     @Query("DELETE FROM custom_category_members WHERE profileId = :profileId AND mediaType = :type AND contextKey = :contextKey AND itemId = :itemId")
     suspend fun deleteItem(profileId: Long, type: MediaType, contextKey: String, itemId: Long)
 

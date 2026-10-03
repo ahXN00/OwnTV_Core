@@ -78,6 +78,8 @@ class LiveTuneController(
         val timeshift: TimeshiftManager? get() = null
         /** N4 — Settings → the window in minutes while local timeshift is on; null while it is off. */
         suspend fun timeshiftWindowMinutes(): Int? = null
+        /** N4 — Settings → what coming back to a kept copy does ("Continue where you left off?"). */
+        suspend fun timeshiftResumeMode(): SettingsRepository.ResumeMode = SettingsRepository.ResumeMode.ASK
         /** N11 — Settings → Maximum video quality, for the variant a buffer saves; null for none. */
         suspend fun maxVideoHeight(): Int? = null
     }
@@ -445,12 +447,15 @@ class LiveTuneController(
             return false
         }
         ts = opened.session
-        tsFromIndex = null
+        val resumeAt = opened.resumeAtWallMs
+        val mode = if (resumeAt == null) SettingsRepository.ResumeMode.ASK else host.timeshiftResumeMode()
+        // AUTO opens the copy where the user was; NEVER plays it from the live edge. Neither asks.
+        tsFromIndex = if (mode == SettingsRepository.ResumeMode.AUTO && resumeAt != null) opened.session.pieceAt(resumeAt) else null
         tsWindowSec = window * 60
         // The copy is plain TS or fragmented MP4 on loopback: no container hint, no fallback address,
         // no licence, and the provider's headers stay with the downloader.
         tsRequest = request(channel, source).copy(httpHeaders = null, drmConfig = null, manifestType = null, directSource = null)
-        publishTimeshift(resumeAtWallMs = opened.resumeAtWallMs)
+        publishTimeshift(resumeAtWallMs = resumeAt.takeIf { mode == SettingsRepository.ResumeMode.ASK })
         engineLog("timeshift: '${channel.name}' plays from its saved copy")
         return true
     }
@@ -941,6 +946,8 @@ class LiveTuneController(
 
         override suspend fun timeshiftWindowMinutes(): Int? =
             if (settings.timeshiftEnabled.first()) settings.timeshiftWindowMinutes.first() else null
+
+        override suspend fun timeshiftResumeMode(): SettingsRepository.ResumeMode = settings.timeshiftResumeMode.first()
 
         override suspend fun maxVideoHeight(): Int? =
             PlaybackSettings.await(settings).maxVideoHeight.takeIf { it > 0 }

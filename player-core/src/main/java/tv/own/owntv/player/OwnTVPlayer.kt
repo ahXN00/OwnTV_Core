@@ -3080,8 +3080,21 @@ class OwnTVPlayer(
                             videoCheckJob?.cancel()
                             return@launch
                         }
+                        // #229 — a catch-up archive is MPEG-TS, never an MP4 missing its fast-start index:
+                        // still no picture after the software rescue means mpv can't decode it, so hand it
+                        // to ExoPlayer like the other archive rungs, and say "decode" if that is spent too.
+                        if (item.archiveThisItem) {
+                            videoCheckJob?.cancel()
+                            val raw = load.lastMpvError ?: diagnostics.recentError()
+                            android.util.Log.w(TAG, "watchdog — archive loaded but never produced a picture ('$raw')")
+                            load.expectingPlayback = false; _buffering.value = false
+                            if (fallbackToExoVod(PlaybackFailure.MpvOpenDecode, mpvStuck = false)) return@launch
+                            _error.value = vodErrorMessage(decodeFailureMessage(raw))
+                            _errorInfo.value = ErrorInfo(raw?.let { PlayerErrors.reasonFor(it) }, mediaSpec(), raw)
+                            return@launch
+                        }
                         android.util.Log.w(TAG, "watchdog MOOV-AT-END — FILE_LOADED but no bitrate/height after ${elapsed}ms, aborting (server lacks Range support)")
-                                    _error.value = vodErrorMessage(PlaybackFailure.NotStreaming)
+                        _error.value = vodErrorMessage(PlaybackFailure.NotStreaming)
                         load.expectingPlayback = false; _buffering.value = false
                         videoCheckJob?.cancel()
                         return@launch

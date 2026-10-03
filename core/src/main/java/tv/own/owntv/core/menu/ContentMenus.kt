@@ -46,6 +46,8 @@ private val LIVE_ACTIONS = listOf(
     MenuActionRef("play_external", R.string.content_play_external),
     MenuActionRef("move", R.string.content_move),
     MenuActionRef("move_to_category", R.string.content_move_to_category),
+    // Only offered inside a category the user created; it takes the channel out of that one alone.
+    MenuActionRef("remove_from_category", R.string.content_remove_from_category),
     MenuActionRef("hide", R.string.content_hide_channel),
     MenuActionRef("remove_history", R.string.content_remove_history),
 )

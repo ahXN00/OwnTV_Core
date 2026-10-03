@@ -1012,6 +1012,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, c.name
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, mv.name
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, s.name
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT DISTINCT contextKey FROM custom_category_members WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT EXISTS(SELECT 1 FROM custom_category_members WHERE profileId = :profileId AND mediaType = :type AND contextKey = :contextKey AND itemId = :itemId)
 4	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT c.* FROM channels c
 4	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT mv.* FROM movies mv
@@ -1993,6 +1994,7 @@
 2	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	play_trailer
 1	technical	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	record
 3	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	refetch_tmdb
+1	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	remove_from_category
 3	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	remove_history
 1	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	rename
 2	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	set_tmdb_name
@@ -3004,6 +3006,7 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	surround_sound
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	theme_mode
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	timeshift_enabled
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	timeshift_resume_mode
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	timeshift_window_minutes
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	tmdb_api_key
 1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	tunneled_playback
@@ -4370,6 +4373,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	open stalled — $detail
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	open stalled: $detail — the stream is buffered but unplayable here
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	owntv-http-evict
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	panel serves both HLS and plain TS — dropped the HLS lesson, retrying as TS
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	panel to mpv
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	passthrough audio: re-priming the output after the track change
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	pdt=${playlist.hasProgramDateTime} startOffsetUs=${playlist.startOffsetUs}
@@ -4892,6 +4896,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog T_OPEN — archive never opened on mpv after ${elapsed}ms, handing to ExoPlayer
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog T_OPEN — no FILE_LOADED after ${elapsed}ms, HARD-RESETTING mpv
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog T_OPEN — no FILE_LOADED after ${elapsed}ms, silent hard-reset + retry
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog — archive loaded but never produced a picture ('$raw')
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog — item has no video track and audio is playing; standing down
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog: archive decoder failed ('$decoderErr')
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog: archive loaded but produced no video

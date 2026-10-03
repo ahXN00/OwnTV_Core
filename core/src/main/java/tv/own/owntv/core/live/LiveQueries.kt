@@ -84,7 +84,17 @@ fun liveCountFlow(
     }
 }
 
-/** A channel the user has not hidden, in a category they have not hidden. */
-fun isChannelVisible(ch: ChannelEntity, cust: SectionCustomizations, hiddenCats: Set<Long>): Boolean =
+/**
+ * A channel the user has not hidden, in a category they have not hidden.
+ *
+ * A hidden provider category hides its channels only where they appear *because of* that category.
+ * In a list the user built — a custom category, Favorites, History — the channel is there on its own
+ * merit, so hiding its provider folder must not empty it (the Guide already worked this way).
+ */
+fun isChannelVisible(ch: ChannelEntity, cust: SectionCustomizations, hiddenCats: Set<Long>, key: LiveKey? = null): Boolean =
     CustomizeKeys.channel(ch) !in cust.hiddenItems &&
-        (ch.categoryId == null || ch.categoryId !in hiddenCats)
+        (!hiddenCategoryApplies(key) || ch.categoryId == null || ch.categoryId !in hiddenCats)
+
+/** Whether a hidden provider category filters the list shown for [key] (see [isChannelVisible]). */
+fun hiddenCategoryApplies(key: LiveKey?): Boolean =
+    key !is LiveKey.Custom && key != LiveKey.Favorites && key != LiveKey.History

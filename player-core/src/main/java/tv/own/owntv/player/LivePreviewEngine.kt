@@ -1167,6 +1167,13 @@ class LivePreviewEngine(
                 retryRedirectedStreamAsHls()
                 return
             }
+            // Bug 8 — the reverse: the panel was learned as HLS from another channel, but THIS one is plain
+            // TS and the manifest parser choked on it. The lesson is wrong for this panel; drop it and
+            // reopen the same URL as TS, instead of trying an `.m3u8` sibling and then handing to mpv.
+            if (tune.hlsFromHostLesson && isFormatFailure(error)) {
+                retryWithoutHostHlsLesson()
+                return
+            }
             // The same story one container along, and the ONLY route for a stream that declares nothing:
             // a Stalker portal hands back its own `cmd` and an Xtream panel's URL we build ourselves, so
             // neither can ever carry a `manifest_type`. If the response was a DASH manifest and the
@@ -2108,6 +2115,28 @@ class LivePreviewEngine(
         }
     }
 
+    private fun retryWithoutHostHlsLesson() {
+        val p = player ?: return
+        val url = currentUrl ?: return
+        tune.hlsFromHostLesson = false
+        LiveStreamQuirks.forgetHlsRedirect(url)
+        _state.value = State.LOADING; _buffering.value = true
+        _error.value = null; _errorInfo.value = null
+        LiveDiagnosticsLog.event("panel serves both HLS and plain TS — dropped the HLS lesson, retrying as TS")
+        mainHandler.post {
+            if (currentUrl != url) return@post
+            runCatching {
+                reprepare(p, url)
+            }.onFailure {
+                _state.value = State.ERROR
+                _buffering.value = false
+                val raw = it.message.orEmpty()
+                _error.value = PlayerErrors.visibleFailure(raw, url, PlaybackFailure.Channel)
+                _errorInfo.value = ErrorInfo(PlayerErrors.reasonFor(raw), exoSpec(), it.message)
+            }
+        }
+    }
+
     private fun retryRedirectedStreamAsHls() {
         val p = player ?: return
         val url = currentUrl ?: return
@@ -2898,6 +2927,8 @@ class LivePreviewEngine(
             inferredHls = Util.inferContentType(uri) == C.CONTENT_TYPE_HLS,
         )
         activeRoute = route
+        tune.hlsFromHostLesson = route == StreamRoute.HLS && knownHlsHost && !tune.forceHlsForCurrentLoad &&
+            currentManifestType == null && Util.inferContentType(uri) != C.CONTENT_TYPE_HLS
         LiveDiagnosticsLog.event(
             "media_source inferred=${route.logName} declared=${currentManifestType?.key ?: "-"} " +
                 "knownHlsHost=$knownHlsHost knownDashHost=$knownDashHost " +
@@ -3339,6 +3370,9 @@ internal data class TuneState(
     @field:Volatile var responseWasHls: Boolean = false,
     var forceHlsForCurrentLoad: Boolean = false,
     var redirectedHlsRetryDone: Boolean = false,
+    /** This load went to the HLS parser only because the panel was learned as redirecting `.ts` to a
+     *  manifest — nothing about this channel said HLS (bug 8). */
+    var hlsFromHostLesson: Boolean = false,
     /** The top-level request ended at a DASH manifest even though nothing about the submitted URL said
      *  so — the only signal available for a stream that declares no `manifest_type` (v43). */
     @field:Volatile var responseWasDash: Boolean = false,

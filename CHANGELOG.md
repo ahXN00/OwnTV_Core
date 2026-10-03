@@ -9,13 +9,22 @@
 > in one bolded line of its own (e.g. **Database v46 · Backup v24 · Breaking**). The detail — what,
 > why, files and verification — belongs in the commit message, never here.
 
-## Unreleased
+## core-1.0.62 — 2026-10-03
 
 **Database v47 · Backup v24 · Breaking**
 
 ### ✨ New features
 
 - **🎨 Everything the new TV interface needs: settings, texts in every language, backgrounds, the Pixel icon and the owntv wordmark**
+- **⏪ Setting for resuming a saved channel: ask, always or never**
+- **🗂️ Remove a channel from a custom category**
+- **🎞️ mpv engine 2026.10.0**
+
+### 🐛 Fixes
+
+- **⚡ Faster channel switching on providers that mix HLS and TS channels**
+- **📼 Catch-up that shows no picture tries the second player instead of a wrong fast-start error (#229)**
+- **🗂️ Hiding a provider category no longer empties custom categories, Favorites or History**
 
 ## core-1.0.61 — 2026-09-26
 

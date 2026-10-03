@@ -124,6 +124,7 @@ object LiveStreamQuirks {
     )
 
     private val hlsRedirectHosts = ConcurrentHashMap.newKeySet<String>()
+    private val mixedHlsHosts = ConcurrentHashMap.newKeySet<String>()
     private val dashRedirectHosts = ConcurrentHashMap.newKeySet<String>()
     private val segmentRefusingHosts = ConcurrentHashMap.newKeySet<String>()
     private val singleSessionHosts = ConcurrentHashMap.newKeySet<String>()
@@ -137,9 +138,24 @@ object LiveStreamQuirks {
     private val providerMessages = ConcurrentHashMap<String, Pair<Int, String>>()
 
     /** Record that [url]'s host serves HLS even when its advertised URL says `.ts`. */
-    fun rememberHlsRedirect(url: String) { hlsRedirectHosts += hostKey(url) }
+    fun rememberHlsRedirect(url: String) {
+        val key = hostKey(url)
+        if (key !in mixedHlsHosts) hlsRedirectHosts += key
+    }
 
     fun isKnownHlsHost(url: String): Boolean = hostKey(url) in hlsRedirectHosts
+
+    /**
+     * Bug 8 — [url]'s panel serves plain TS on some channels and redirects others to a manifest, so the
+     * host-wide lesson is wrong there: drop it and never learn it again this session. Without this one
+     * redirecting channel sent every plain one through a failed HLS open and a failed `.m3u8` retry
+     * before mpv played it.
+     */
+    fun forgetHlsRedirect(url: String) {
+        val key = hostKey(url)
+        mixedHlsHosts += key
+        hlsRedirectHosts -= key
+    }
 
     /**
      * Record that [url]'s host serves DASH manifests from URLs that do not say `.mpd` (v43).
@@ -402,7 +418,7 @@ object LiveStreamQuirks {
      * still needs. The persistence hook stays installed, so a lesson learned afterwards is saved again.
      */
     suspend fun forgetLearned(archiveStore: tv.own.owntv.core.player.ArchiveDecodeStore) {
-        hlsRedirectHosts.clear(); dashRedirectHosts.clear(); segmentRefusingHosts.clear(); singleSessionHosts.clear()
+        hlsRedirectHosts.clear(); mixedHlsHosts.clear(); dashRedirectHosts.clear(); segmentRefusingHosts.clear(); singleSessionHosts.clear()
         brokenTimestampStreams.clear(); noHlsVariantStreams.clear(); noHlsVariantMpvStreams.clear()
         tolerantDemuxStreams.clear(); prerollDefeatedStreams.clear(); softwareArchiveHosts.clear()
         uaBlockingHosts.clear(); providerMessages.clear()
@@ -411,7 +427,7 @@ object LiveStreamQuirks {
 
     /** Test hook — clears everything including the persistence hook. */
     internal fun clearForTest() {
-        hlsRedirectHosts.clear(); segmentRefusingHosts.clear(); singleSessionHosts.clear()
+        hlsRedirectHosts.clear(); mixedHlsHosts.clear(); segmentRefusingHosts.clear(); singleSessionHosts.clear()
         brokenTimestampStreams.clear(); softwareArchiveHosts.clear(); archivePersistence = null
         noHlsVariantStreams.clear(); noHlsVariantMpvStreams.clear(); prerollDefeatedStreams.clear()
         tolerantDemuxStreams.clear()

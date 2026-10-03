@@ -447,6 +447,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val LIVE_LEFT_RIGHT_REWINDS = booleanPreferencesKey("live_left_right_rewinds")
         val TIMESHIFT_ENABLED = booleanPreferencesKey("timeshift_enabled")
         val TIMESHIFT_WINDOW_MINUTES = intPreferencesKey("timeshift_window_minutes")
+        val TIMESHIFT_RESUME_MODE = stringPreferencesKey("timeshift_resume_mode")
         val SURROUND_SOUND = booleanPreferencesKey("surround_sound")
         val SURROUND_MODE = stringPreferencesKey("surround_mode")
         val AUTO_PLAY_NEXT = booleanPreferencesKey("auto_play_next")
@@ -1143,6 +1144,15 @@ class SettingsRepository(private val context: Context, private val localeStore: 
 
     suspend fun setResumeMode(mode: ResumeMode) {
         context.dataStore.edit { it[Keys.RESUME_MODE] = mode.name }
+    }
+
+    /** N4 — coming back to a channel whose saved copy was kept: ask, resume where you were, or go live. */
+    val timeshiftResumeMode: Flow<ResumeMode> = prefsFlow { prefs ->
+        prefs[Keys.TIMESHIFT_RESUME_MODE]?.let { runCatching { ResumeMode.valueOf(it) }.getOrNull() } ?: ResumeMode.ASK
+    }
+
+    suspend fun setTimeshiftResumeMode(mode: ResumeMode) {
+        context.dataStore.edit { it[Keys.TIMESHIFT_RESUME_MODE] = mode.name }
     }
 
     // --- Nav menu customization (v4.3.0) ---
@@ -3054,7 +3064,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             Keys.LIVE_ENGINE, Keys.VOD_ENGINE,
             Keys.MAIN_FONT_FAMILY, Keys.POPUP_FONT_FAMILY,
             Keys.PREF_AUDIO_LANG, Keys.PREF_SUB_LANG, Keys.SUB_SEARCH_LANGS, Keys.SORT_LIVE, Keys.SORT_GUIDE, Keys.SORT_MOVIES,
-            Keys.SORT_SERIES, Keys.RESUME_MODE, Keys.CATCHUP_TZ, Keys.CATCHUP_PLAYER, Keys.ANIMATION_LEVEL, Keys.VOD_VIEW_MODE, Keys.GUIDE_VIEW,
+            Keys.SORT_SERIES, Keys.RESUME_MODE, Keys.TIMESHIFT_RESUME_MODE, Keys.CATCHUP_TZ, Keys.CATCHUP_PLAYER, Keys.ANIMATION_LEVEL, Keys.VOD_VIEW_MODE, Keys.GUIDE_VIEW,
             Keys.EPISODE_VIEW_MODE, Keys.VOD_LAYOUT, Keys.LIVE_LAYOUT, Keys.LIVE_VIEW, Keys.REMINDER_MODE,
             Keys.WEATHER_LOCATION, Keys.RECENT_SEARCHES,
             Keys.CLOCK_TIME_COLOR, Keys.CLOCK_DATE_COLOR, Keys.CLOCK_WEATHER_COLOR,

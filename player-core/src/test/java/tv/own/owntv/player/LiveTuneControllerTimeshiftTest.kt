@@ -105,7 +105,10 @@ class LiveTuneControllerTimeshiftTest {
         override fun setReconnectProvider(provider: ReconnectUrlProvider?) {}
     }
 
-    private inner class Host : LiveTuneController.Host {
+    private inner class Host(
+        val resumeMode: tv.own.owntv.core.settings.SettingsRepository.ResumeMode =
+            tv.own.owntv.core.settings.SettingsRepository.ResumeMode.ASK,
+    ) : LiveTuneController.Host {
         override suspend fun sourceOf(sourceId: Long): SourceEntity? = null
         override fun needsResolve(source: SourceEntity?) = false
         override suspend fun resolve(source: SourceEntity, cmd: String): String? = null
@@ -117,6 +120,7 @@ class LiveTuneControllerTimeshiftTest {
         override fun recordLadderEvent(onExo: Boolean, reason: PlayerFailureReason, detail: String) {}
         override val timeshift: TimeshiftManager get() = manager
         override suspend fun timeshiftWindowMinutes(): Int? = 15
+        override suspend fun timeshiftResumeMode() = resumeMode
     }
 
     private fun channel(id: Long, catchup: Boolean = false) = ChannelEntity(
@@ -169,6 +173,42 @@ class LiveTuneControllerTimeshiftTest {
         c.preview(channel(4), muted = true)
         assertNull(c.localTimeshift.value)
         assertFalse("parked, not deleted", session.isClosed)
+    }
+
+    /** Watch [first], zap to another channel, come straight back: what the return offers under [mode]. */
+    private suspend fun comeBack(mode: tv.own.owntv.core.settings.SettingsRepository.ResumeMode, first: Long): Pair<LiveTuneController, Engines> {
+        val engines = Engines()
+        val c = LiveTuneController(scope, engines, Host(mode))
+        c.tune(channel(first))
+        awaitLog(engines) { log -> log.any { it.startsWith("exo:") } }
+        engines.exoWatch!!.complete(null)
+        delay(300)
+        c.tune(channel(first + 1))
+        awaitLog(engines) { log -> log.count { it.startsWith("exo:") } >= 2 }
+        engines.exoWatch!!.complete(null)
+        c.tune(channel(first))
+        awaitLog(engines) { log -> log.count { it.startsWith("exo:") } >= 3 }
+        return c to engines
+    }
+
+    @Test
+    fun `coming back to a kept copy asks by default`() = runBlocking {
+        val (c, _) = comeBack(tv.own.owntv.core.settings.SettingsRepository.ResumeMode.ASK, first = 10)
+        assertNotNull("Continue where you left off? is offered", c.localTimeshift.value!!.resumeAtWallMs)
+    }
+
+    @Test
+    fun `Never resume goes to the live edge without asking`() = runBlocking {
+        val (c, engines) = comeBack(tv.own.owntv.core.settings.SettingsRepository.ResumeMode.NEVER, first = 20)
+        assertNull(c.localTimeshift.value!!.resumeAtWallMs)
+        assertTrue(engines.log.last { it.startsWith("exo:") }.contains("/live."))
+    }
+
+    @Test
+    fun `Always resume reopens where the user was without asking`() = runBlocking {
+        val (c, engines) = comeBack(tv.own.owntv.core.settings.SettingsRepository.ResumeMode.AUTO, first = 30)
+        assertNull(c.localTimeshift.value!!.resumeAtWallMs)
+        assertFalse("opened inside the copy, not at its live edge", engines.log.last { it.startsWith("exo:") }.contains("/live."))
     }
 
     private companion object {
