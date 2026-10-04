@@ -167,6 +167,32 @@ class LiveTuneControllerTest {
     }
 
     @Test
+    fun `opening the channel ExoPlayer is previewing shows ExoPlayer at once`() = runTest {
+        val engines = FakeEngines()
+        val c = controller(engines, FakeHost(this))
+        c.preview(channel(9), muted = true)
+        runCurrent()
+        assertFalse(c.liveOnExo.value)
+        c.expectPromotion(channel(9))
+        assertTrue("before the tune has run", c.liveOnExo.value)
+    }
+
+    @Test
+    fun `a channel whose ExoPlayer preview failed goes to the next engine without showing it`() = runTest {
+        val engines = FakeEngines()
+        val c = controller(engines, FakeHost(this))
+        c.preview(channel(10), muted = true)
+        runCurrent()
+        engines.exoFailed = true
+        c.expectPromotion(channel(10))
+        assertFalse(c.liveOnExo.value)
+        c.tune(channel(10))
+        advanceTimeBy(OwnTVPlayer.SURFACE_HANDOFF_MS + 1_000)
+        assertTrue(engines.log.any { it.startsWith("mpv:") })
+        assertFalse("the failed preview is not promoted", engines.log.contains("exo-unmute"))
+    }
+
+    @Test
     fun `a late failure of a replaced tune changes nothing`() = runTest {
         val engines = FakeEngines()
         val host = FakeHost(this)
