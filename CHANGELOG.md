@@ -9,6 +9,14 @@
 > in one bolded line of its own (e.g. **Database v46 · Backup v24 · Breaking**). The detail — what,
 > why, files and verification — belongs in the commit message, never here.
 
+## core-1.0.65 — 2026-10-04
+
+**Database v48**
+
+### ✨ New features
+
+- **🔀 A live channel that dies on its own playlist is tried on another playlist that carries it**
+
 ## core-1.0.64 — 2026-10-04
 
 ### 🐛 Fixes
