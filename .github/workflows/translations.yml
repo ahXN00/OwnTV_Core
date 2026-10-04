@@ -71,13 +71,21 @@ jobs:
       - name: Lock Weblate and have it push everything
         run: |
           . "$RUNNER_TEMP/weblate.sh"
-          lock_all true
-          repo_op commit
-          repo_op push
-          for c in $(components); do
-            wl GET "components/$WEBLATE_PROJECT/$c/repository/" \
-              | jq -e '.needs_push == false and .needs_merge == false' >/dev/null \
-              || { echo "::error::Weblate component $c still has unpushed or unmerged work"; exit 1; }
+          # A locked component refuses commit and push (HTTP 423), so push first, then lock. A string
+          # saved in between stays in Weblate's database, not in git, so it can never conflict; if
+          # Weblate committed it anyway, unlock and go round again.
+          for attempt in 1 2 3; do
+            repo_op commit
+            repo_op push
+            lock_all true
+            clean=true
+            for c in $(components); do
+              wl GET "components/$WEBLATE_PROJECT/$c/repository/" \
+                | jq -e '.needs_push == false and .needs_merge == false' >/dev/null || clean=false
+            done
+            [ "$clean" = true ] && break
+            lock_all false
+            [ "$attempt" = 3 ] && { echo "::error::Weblate kept unpushed or unmerged work after 3 attempts"; exit 1; }
           done
           git fetch --quiet origin translations
 
@@ -162,6 +170,12 @@ jobs:
               || gh pr create --head "$branch" --base main --title "Add $name ($pct% translated)" \
                    --body "$name has reached $pct% on Weblate, above the readiness threshold. This adds its files from the \`translations\` branch and marks it tier 1, packaged and visible in the language picker. Merge to ship it; it is then kept up to date by the daily sync. This pull request is refreshed on every sync while open."
           done
+
+      - name: Close an earlier "blocked" issue
+        if: success()
+        run: |
+          num=$(gh issue list --state open --search "Translations sync blocked in:title" --json number --jq '.[0].number')
+          [ -z "$num" ] || gh issue close "$num" --comment "Resolved: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
       - name: Report a blocked sync
         if: failure()
