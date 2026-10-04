@@ -2158,6 +2158,9 @@
 2	json	core/src/main/java/tv/own/owntv/core/model/HomeRow.kt	order
 2	preference-key	core/src/main/java/tv/own/owntv/core/model/HomeRow.kt	recentLiveMode
 2	json	core/src/main/java/tv/own/owntv/core/model/HomeRow.kt	trendingStyle
+1	log	core/src/main/java/tv/own/owntv/core/network/BoundedDns.kt	${HttpClient.redactHost(hostname)}: no DNS answer in time
+1	log	core/src/main/java/tv/own/owntv/core/network/BoundedDns.kt	dns ${HttpClient.redactHost(hostname)} failed (${failure.javaClass.simpleName}) — using its last known addresses
+1	technical	core/src/main/java/tv/own/owntv/core/network/BoundedDns.kt	owntv-dns
 1	url	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	$base${if ('?' in base) '&' else '?'}dns=$query
 1	technical	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	${cfg.dohUrl}|${cfg.host}:${cfg.port}|$hostname
 2	technical	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	Accept
@@ -2203,6 +2206,7 @@
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	retrying
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	transferEncoding=${response.header("Transfer-Encoding").orEmpty()}
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	wireEncoding=${response.networkResponse?.header("Content-Encoding").orEmpty()}
+1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	•••
 4	log	core/src/main/java/tv/own/owntv/core/network/ProxyConfig.kt	\0
 1	log	core/src/main/java/tv/own/owntv/core/network/ProxyConfig.kt	$u:$p@
 1	url	core/src/main/java/tv/own/owntv/core/network/ProxyConfig.kt	127.0.0.1

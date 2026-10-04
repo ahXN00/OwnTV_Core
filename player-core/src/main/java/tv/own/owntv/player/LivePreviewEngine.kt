@@ -2745,6 +2745,8 @@ class LivePreviewEngine(
      *  masked ([textPrefix]), and Authorization/Cookie are logged as presence flags, never values. */
     private val diagnosticHttpClient by lazy {
         streamingHttp.client.newBuilder()
+            .connectTimeout(LIVE_CONNECT_TIMEOUT_MS, java.util.concurrent.TimeUnit.MILLISECONDS)
+            .dns(liveDnsOver(streamingHttp.client.dns))
             .addInterceptor { chain ->
                 val startedAt = android.os.SystemClock.elapsedRealtime()
                 val request = chain.request()
@@ -3190,6 +3192,15 @@ class LivePreviewEngine(
 
     companion object {
         private const val MAX_VOLUME = VolumeBoost.MAX_VOLUME // same ceiling as mpv; 100–150 comes from LoudnessEnhancer
+        /** Shared by every live engine in the process, so a last good answer outlives any one client; rebuilt
+         *  only if the client's resolver changes. Wraps that resolver, so the custom DNS / DoH setting applies. */
+        @Volatile private var liveDns: tv.own.owntv.core.network.BoundedDns? = null
+
+        @Synchronized
+        private fun liveDnsOver(delegate: okhttp3.Dns): tv.own.owntv.core.network.BoundedDns =
+            liveDns?.takeIf { it.delegate === delegate }
+                ?: tv.own.owntv.core.network.BoundedDns(delegate = delegate, log = LiveDiagnosticsLog::event).also { liveDns = it }
+
         /**
          * The reconnect ladder's length — the "~2 minutes of blind retrying" the network-restored comment
          * in the class body already describes. That length used to come from [MAX_RECONNECTS] attempts at
@@ -3199,6 +3210,10 @@ class LivePreviewEngine(
          * true however slowly the attempts fail.
          */
         private const val RECONNECT_GIVE_UP_MS = 2 * 60_000L
+        /** Connect timeout for live streams. A live server answers in well under a second; 15s (the app's
+         *  default) left each reconnect during an outage waiting that long for every attempt. 5s still
+         *  allows three SYNs (0, 1 and 3s). */
+        private const val LIVE_CONNECT_TIMEOUT_MS = 5_000L
         private const val MAX_RECONNECTS = 8        // ~consecutive failures before giving up (HUD Retry then)
         /** Bytes this recent mean a stream is already coming back (see [receivingData]). */
         private const val RECENT_BYTES_MS = 2_000L
