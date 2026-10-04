@@ -5,6 +5,7 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
 import android.util.Log
+import androidx.core.content.edit
 import org.json.JSONObject
 import java.security.KeyStore
 import javax.crypto.Cipher
@@ -57,7 +58,7 @@ class OpenSubtitlesAuthStore(context: Context) {
     /** Seals and stores [session] for [profileId]. On any crypto failure nothing is written. */
     fun save(profileId: Long, session: Session) {
         runCatching {
-            prefs.edit().putString(key(profileId), encrypt(encode(session))).apply()
+            prefs.edit { putString(key(profileId), encrypt(encode(session))) }
         }.onFailure {
             Log.w(TAG, "could not store session for profile $profileId: ${it.javaClass.simpleName}")
         }
@@ -65,7 +66,7 @@ class OpenSubtitlesAuthStore(context: Context) {
 
     /** Permanent erasure for sign-out and profile deletion (plan §5.5). */
     fun erase(profileId: Long) {
-        prefs.edit().remove(key(profileId)).apply()
+        prefs.edit { remove(key(profileId)) }
     }
 
     private fun key(profileId: Long) = "profile_$profileId"

@@ -38,6 +38,45 @@
          first time the television was switched off at the wall. -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+    <!-- ExternalPlayerLauncher asks which installed apps can play a stream. From Android 11 that
+         answer only includes apps matching a declared query, so without these it can report "no
+         external player" with VLC installed. One entry per intent shape it tries: each MIME it
+         offers, then the bare URI. -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:mimeType="video/*" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:mimeType="application/x-mpegURL" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="http" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="https" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="rtsp" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="rtmp" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="udp" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <data android:scheme="mms" />
+        </intent>
+    </queries>
+
     <application>
         <!-- "Restart now" after an icon change (AppRestartActivity). Its own process, so it outlives
              the app process it ends, and its own task, so the reopened app is never put back into the

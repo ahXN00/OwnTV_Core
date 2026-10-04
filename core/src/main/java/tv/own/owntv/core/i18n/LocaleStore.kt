@@ -1,5 +1,6 @@
 package tv.own.owntv.core.i18n
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
@@ -80,6 +81,7 @@ class LocaleStore internal constructor(
      * [IllegalStateException] rather than swallowed: a silent locale-write failure would leave the
      * user thinking they switched language while nothing persisted.
      */
+    @SuppressLint("UseKtx") // KTX edit {} cannot return commit()'s result, which is checked here
     suspend fun set(tag: String): Boolean = writeMutex.withLock {
         val canonical = normalize(tag)
             ?: throw IllegalArgumentException("Unsupported application locale: ${tag.trim()}")

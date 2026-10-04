@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Lint findings that are deliberate, each scoped to the file it was checked against. -->
+<lint>
+    <!-- A false positive: LiveBuffer.Override is a Kotlin value class, not java.lang.Integer. -->
+    <issue id="UseValueOf">
+        <ignore path="src/main/java/tv/own/owntv/player/LiveTuneController.kt" />
+    </issue>
+</lint>

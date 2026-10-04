@@ -24,7 +24,7 @@ internal object HlsMaster {
                 line.startsWith("#EXT-X-STREAM-INF:") -> pending = line.substringAfter(':')
                 line.isEmpty() || line.startsWith("#") -> Unit
                 pending != null -> {
-                    val attrs = pending!!
+                    val attrs = pending
                     out += Variant(
                         uri = line,
                         bandwidth = attribute(attrs, "BANDWIDTH")?.toLongOrNull() ?: 0L,

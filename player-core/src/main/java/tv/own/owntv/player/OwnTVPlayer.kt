@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 
 import android.content.Context
 import android.view.Surface
+import androidx.core.graphics.createBitmap
 import dev.jdtech.mpv.MPVLib
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -2264,7 +2265,7 @@ class OwnTVPlayer(
     private fun captureFreezeThen(block: () -> Unit) {
         val surface = attachedSurface
         val w = surfaceW; val h = surfaceH
-        if (surface == null || w <= 0 || h <= 0 || android.os.Build.VERSION.SDK_INT < 24) {
+        if (surface == null || w <= 0 || h <= 0) {
             android.util.Log.w(TAG, "freeze-frame skipped: surface=${surface != null} size=${w}x$h sdk=${android.os.Build.VERSION.SDK_INT}")
             block(); return
         }
@@ -2275,7 +2276,7 @@ class OwnTVPlayer(
         val scale = minOf(1f, FREEZE_MAX_W.toFloat() / w)
         val cw = (w * scale).toInt().coerceAtLeast(1)
         val ch = (h * scale).toInt().coerceAtLeast(1)
-        val bmp = runCatching { android.graphics.Bitmap.createBitmap(cw, ch, android.graphics.Bitmap.Config.ARGB_8888) }.getOrNull()
+        val bmp = runCatching { createBitmap(cw, ch) }.getOrNull()
         if (bmp == null) { android.util.Log.w(TAG, "freeze-frame skipped: bitmap alloc failed ${cw}x$ch"); block(); return }
         var proceeded = false
         val proceed = { if (!proceeded) { proceeded = true; block() } }

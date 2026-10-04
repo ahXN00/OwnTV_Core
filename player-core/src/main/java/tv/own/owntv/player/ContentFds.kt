@@ -1,8 +1,8 @@
 package tv.own.owntv.player
 
 import android.content.Context
-import android.net.Uri
 import android.os.ParcelFileDescriptor
+import androidx.core.net.toUri
 
 /**
  * Lets mpv play a file it has no path to.
@@ -41,7 +41,7 @@ internal class ContentFds(private val context: Context) {
             return url
         }
         val fd = runCatching {
-            context.contentResolver.openFileDescriptor(Uri.parse(url), READ_MODE)
+            context.contentResolver.openFileDescriptor(url.toUri(), READ_MODE)
         }.getOrNull()
         if (fd == null) {
             android.util.Log.w(TAG, "cannot open a descriptor for a document — letting mpv fail it")

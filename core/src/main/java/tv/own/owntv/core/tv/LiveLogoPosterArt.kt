@@ -9,6 +9,8 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.net.Uri
+import androidx.core.graphics.createBitmap
+import androidx.core.net.toUri
 import androidx.tvprovider.media.tv.TvContractCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -132,7 +134,7 @@ class LiveLogoPosterArt(
 
     private fun fileFor(source: Uri, aspectRatio: Int) = File(directory, "${key(source, aspectRatio)}.png")
 
-    private fun uriFor(file: File): Uri = Uri.parse("content://${context.packageName}$AUTHORITY_SUFFIX/${file.name}")
+    private fun uriFor(file: File): Uri = "content://${context.packageName}$AUTHORITY_SUFFIX/${file.name}".toUri()
 
     private val directory get() = File(context.cacheDir, DIRECTORY)
 
@@ -150,7 +152,7 @@ class LiveLogoPosterArt(
 
         internal fun fitInside(source: Bitmap, aspectRatio: Int): Bitmap {
             val canvas = canvasSize(aspectRatio)
-            val output = Bitmap.createBitmap(canvas.width, canvas.height, Bitmap.Config.ARGB_8888)
+            val output = createBitmap(canvas.width, canvas.height)
             val bounds = fitInsideBounds(source.width, source.height, aspectRatio)
             Canvas(output).drawBitmap(source, null, Rect(bounds.left, bounds.top, bounds.right, bounds.bottom), Paint(Paint.FILTER_BITMAP_FLAG))
             return output

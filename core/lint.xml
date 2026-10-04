@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Lint findings that are deliberate, each scoped to the files it was checked against, so a new
+     occurrence anywhere else still warns. Dependency-version warnings are not here on purpose: they
+     are reminders to update, not mistakes. -->
+<lint>
+    <!-- An English spell-checker reading other languages. Every hit was checked: Turkish doubles a
+         word on purpose ("ayrı ayrı", "tek tek", "sık sık"), "Zusehens" and "desativa-se se" are
+         correct, and the rest are search-keyword lists. -->
+    <issue id="Typos">
+        <ignore path="src/main/res/values-de/strings_features.xml" />
+        <ignore path="src/main/res/values-es-rUS/strings_settings.xml" />
+        <ignore path="src/main/res/values-hu/strings_settings.xml" />
+        <ignore path="src/main/res/values-pt-rPT/strings_settings.xml" />
+        <ignore path="src/main/res/values-tr/strings.xml" />
+        <ignore path="src/main/res/values-tr/strings_settings.xml" />
+    </issue>
+
+    <!-- Only ever stored as a truncated SHA-256, to tell "this device, reinstalled" from another one. -->
+    <issue id="HardwareIds">
+        <ignore path="src/main/java/tv/own/owntv/core/backup/DeviceIdentity.kt" />
+    </issue>
+
+    <!-- Delegates to the platform first and consults the bundled Let's Encrypt roots only when the
+         platform rejects the chain; it never accepts a chain neither of them validates. -->
+    <issue id="CustomX509TrustManager">
+        <ignore path="src/main/java/tv/own/owntv/core/network/ExtraTrustAnchors.kt" />
+    </issue>
+
+    <!-- LiveLogoArtProvider has to be public for Google TV Home to read the logo art; it serves
+         hash-named PNGs from one cache directory only (see the manifest comment). -->
+    <issue id="ExportedContentProvider">
+        <ignore path="src/main/AndroidManifest.xml" />
+    </issue>
+
+    <!-- Both apps ship as APKs carrying every packaged language; there are no language splits to
+         download. -->
+    <issue id="AppBundleLocaleChanges">
+        <ignore path="src/main/java/tv/own/owntv/core/i18n/AppLocale.kt" />
+    </issue>
+
+    <!-- Only a list of intents to try in order: on 8.0–10 these resolve to nothing and the next one
+         is tried. -->
+    <issue id="InlinedApi">
+        <ignore path="src/main/java/tv/own/owntv/core/storage/StorageAccess.kt" />
+    </issue>
+
+    <!-- Free-space floors for files written over time (timeshift, recordings, downloads, update
+         APKs), not one allocation of a known size, which is what allocateBytes is for. -->
+    <issue id="UsableSpace">
+        <ignore path="src/main/java/tv/own/owntv/core/storage/MediaRoot.kt" />
+        <ignore path="src/main/java/tv/own/owntv/core/storage/MediaTarget.kt" />
+        <ignore path="src/main/java/tv/own/owntv/core/timeshift/TimeshiftManager.kt" />
+        <ignore path="src/main/java/tv/own/owntv/core/timeshift/TimeshiftSession.kt" />
+        <ignore path="src/main/java/tv/own/owntv/core/update/UpdateManager.kt" />
+    </issue>
+
+    <!-- Brand artwork: the logo and wordmark are drawn once, large, and must stay exact. -->
+    <issue id="VectorPath">
+        <ignore path="src/main/res/drawable/owntv_mark_pixel.xml" />
+        <ignore path="src/main/res/drawable/owntv_splash_static_pixel.xml" />
+    </issue>
+    <issue id="VectorRaster">
+        <ignore path="src/main/res/drawable/owntv_wordmark_own.xml" />
+        <ignore path="src/main/res/drawable/owntv_wordmark_tv.xml" />
+    </issue>
+
+    <!-- Renaming mipmap-anydpi-v26 to mipmap-anydpi was tried: both names map to the same output and
+         AGP's incremental merge then emptied it, so every app build lost its launcher icons. -->
+    <issue id="ObsoleteSdkInt">
+        <ignore path="src/main/res/mipmap-anydpi-v26" />
+    </issue>
+
+    <!-- Android TV launcher banners: a television is xhdpi or above, so only xhdpi and xxxhdpi exist. -->
+    <issue id="IconDensities">
+        <ignore regexp="owntv_banner_" />
+    </issue>
+
+    <!-- The Olive and Olive on Cream icons share the same name art; only their backgrounds differ. -->
+    <issue id="IconDuplicates">
+        <ignore regexp="owntv_splash_name_olive" />
+    </issue>
+</lint>

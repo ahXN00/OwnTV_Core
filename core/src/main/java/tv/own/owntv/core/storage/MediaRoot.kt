@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.StatFs
 import android.provider.DocumentsContract
+import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import java.io.File
 
@@ -138,7 +139,7 @@ sealed interface MediaRoot {
         /** True when a folder was chosen but [of] is using the app's own folder because it is missing. */
         fun isFallback(context: Context, configured: String?): Boolean {
             val value = configured?.takeIf { it.isNotBlank() } ?: return false
-            if (MediaTarget.isDocument(value)) return !Tree(context, Uri.parse(value)).isAvailable()
+            if (MediaTarget.isDocument(value)) return !Tree(context, value.toUri()).isAvailable()
             return !StorageAccess.isUsableDir(java.io.File(value))
         }
 

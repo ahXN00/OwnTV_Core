@@ -9,6 +9,12 @@
 > in one bolded line of its own (e.g. **Database v46 · Backup v24 · Breaking**). The detail — what,
 > why, files and verification — belongs in the commit message, never here.
 
+## core-1.0.63 — 2026-10-04
+
+### 🐛 Fixes
+
+- **▶️ Play in external player finds VLC and MX Player on Android 11 and newer**
+
 ## core-1.0.62 — 2026-10-03
 
 **Database v47 · Backup v24 · Breaking**

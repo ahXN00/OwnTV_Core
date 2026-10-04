@@ -45,6 +45,7 @@ class TimeshiftSession(
         @Volatile var complete: Boolean = false
     }
 
+    @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN") // wait/notifyAll need a java.lang.Object
     private val lock = Object()
     private val pieces = ArrayDeque<Piece>()
     private var nextIndex = 0L
@@ -96,7 +97,7 @@ class TimeshiftSession(
         val now = clock()
         val previous = pieces.lastOrNull()
         val gap = pendingGap || previous == null
-        val wallStart = if (gap || previous == null) now else previous.wallStartMs + previous.durationMs
+        val wallStart = if (gap) now else previous.wallStartMs + previous.durationMs
         val index = nextIndex++
         val piece = Piece(
             index = index,
@@ -117,11 +118,13 @@ class TimeshiftSession(
     }
 
     /** Make what has been written visible to readers. Called after every network read. */
-    fun flush() = synchronized(lock) {
-        val stream = out ?: return
-        stream.flush()
-        pieces.lastOrNull()?.let { it.bytes = it.file.length() }
-        lock.notifyAll()
+    fun flush() {
+        synchronized(lock) {
+            val stream = out ?: return
+            stream.flush()
+            pieces.lastOrNull()?.let { it.bytes = it.file.length() }
+            lock.notifyAll()
+        }
     }
 
     /** Close the running piece at [durationMs] of television; null measures it on the wall clock. */
@@ -326,15 +329,17 @@ class TimeshiftSession(
     val isClosed: Boolean get() = closed
 
     /** Stop everything and delete the folder. Readers get end-of-stream. */
-    fun close() = synchronized(lock) {
-        if (closed) return
-        closed = true
-        runCatching { out?.close() }
-        out = null
-        dropAllLocked()
-        initFile?.delete()
-        runCatching { dir.deleteRecursively() } // the walk throws if the folder vanishes under it
-        lock.notifyAll()
+    fun close() {
+        synchronized(lock) {
+            if (closed) return
+            closed = true
+            runCatching { out?.close() }
+            out = null
+            dropAllLocked()
+            initFile?.delete()
+            runCatching { dir.deleteRecursively() } // the walk throws if the folder vanishes under it
+            lock.notifyAll()
+        }
     }
 
     private fun dropAllLocked() {
