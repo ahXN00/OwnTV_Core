@@ -29,11 +29,14 @@ class LiveTuneControllerTest {
         override var exoUrl: String? = null
         override var exoIsHls = false
         override var exoFailed = false
+        override var exoStillReconnecting = false
         override var mpvHasStream = false
 
         /** Complete with a reason to fail the ExoPlayer watch, or with null for "opened". */
         var exoWatch: CompletableDeferred<String?>? = null
         var mpvWatch: CompletableDeferred<MpvOutcome>? = null
+        /** Set before the watch opens to fail the channel later, after it has played. */
+        var exoLaterFailure: CompletableDeferred<String>? = null
 
         override fun exoPlay(url: String, muted: Boolean, request: LiveRequest) {
             exoUrl = url
@@ -55,6 +58,7 @@ class LiveTuneControllerTest {
             val d = CompletableDeferred<String?>().also { exoWatch = it }
             val reason = d.await()
             if (reason == null) onOpened() else if (stillOurs()) handOver(reason)
+            if (reason == null) exoLaterFailure?.let { val r = it.await(); if (stillOurs()) handOver(r) }
         }
 
         override fun mpvPlay(url: String, request: LiveRequest) {
@@ -164,6 +168,33 @@ class LiveTuneControllerTest {
         advanceTimeBy(60_000)
         assertFalse(engines.log.contains("exo-abandon"))
         assertTrue(host.events.isEmpty())
+    }
+
+    /** A channel plays, its ladder budget runs out, then it stalls for good with nothing left to try. */
+    private fun TestScope.stallAfterPlayingWithNoFallback(engines: FakeEngines) {
+        val host = FakeHost(this).apply { budgetSecs = 10 }
+        val c = controller(engines, host)
+        c.tune(channel(6))
+        runCurrent()
+        val later = CompletableDeferred<String>().also { engines.exoLaterFailure = it }
+        engines.exoWatch!!.complete(null)
+        advanceTimeBy(60_000)
+        later.complete("played, then stalled for 18s without recovering")
+        advanceTimeBy(OwnTVPlayer.SURFACE_HANDOFF_MS + 1)
+    }
+
+    @Test
+    fun `with nothing left to try, ExoPlayer's own reconnects are left running`() = runTest {
+        val engines = FakeEngines().apply { exoStillReconnecting = true }
+        stallAfterPlayingWithNoFallback(engines)
+        assertFalse(engines.log.contains("exo-abandon"))
+    }
+
+    @Test
+    fun `with nothing left to try and ExoPlayer out of reconnects, the tune is abandoned`() = runTest {
+        val engines = FakeEngines()
+        stallAfterPlayingWithNoFallback(engines)
+        assertEquals("exo-abandon", engines.log.last())
     }
 
     @Test

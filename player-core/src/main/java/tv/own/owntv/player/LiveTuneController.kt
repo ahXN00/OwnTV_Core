@@ -769,6 +769,15 @@ class LiveTuneController(
         // so nothing may be learned from it.
         val next = ladder.advance(failureWasAboutFormat = !isRequestRefusal(reason), nowMs = nowMs) ?: run {
             val detail = if (outOfTime) "$reason — gave up after ${armedBudgetMs / 1000}s" else reason
+            // Nowhere to go, but ExoPlayer is still reconnecting a channel that played. Abandoning here
+            // sets its gaveUp flag, which stops those reconnects: measured on an upstream outage of ~50s
+            // with the link still up (so no "network restored" to resume on), the next connect failure
+            // left a black screen until the user pressed Retry. The engine reports "Lost connection"
+            // itself once its own ladder is spent.
+            if (_liveOnExo.value && engines.exoStillReconnecting) {
+                engineLog("'${channel.name}' — no fallback left ($detail); leaving ExoPlayer's own reconnects running")
+                return
+            }
             engineLog("'${channel.name}' — no fallback left ($detail)")
             host.recordLadderEvent(_liveOnExo.value, PlayerFailureReason.LIVE_NO_FALLBACK, "'${channel.name}': $detail")
             abandon(channel, detail)

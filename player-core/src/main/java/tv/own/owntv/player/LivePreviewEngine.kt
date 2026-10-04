@@ -1006,6 +1006,20 @@ class LivePreviewEngine(
      *  spinner that will never clear. */
     fun abandon(reason: String) = failLoad(reason)
 
+    /**
+     * A channel that has played is mid-way through this engine's own reconnect ladder: it has not given
+     * up and has attempts left. Abandoning it then (see [LiveTuneController]) would cut that ladder off.
+     */
+    val stillReconnecting: Boolean
+        get() = tune.hasPlayed && !tune.gaveUp && currentUrl != null && tune.retryCount < MAX_RECONNECTS
+
+    /**
+     * Bytes arrived from the network in the last [RECENT_BYTES_MS]: a stalled stream that is receiving
+     * data is coming back, one that is not may be dead.
+     */
+    val receivingData: Boolean
+        get() = android.os.SystemClock.elapsedRealtime() - throughputTracker.lastBytesAtMs < RECENT_BYTES_MS
+
     /** Terminal failure of the current load that is NOT worth another reconnect: stand the watchdogs down
      *  and surface an error so the ViewModel can retry elsewhere (TS variant / mpv) immediately. */
     private fun failLoad(reason: String) {
@@ -1052,6 +1066,15 @@ class LivePreviewEngine(
                 }
                 Player.STATE_READY -> {
                     val resumed = tune.hasPlayed // a READY after first play == recovered from a buffer/stall
+                    // A late recovery: the ladder called this channel dead (failLoad) while the reconnect it
+                    // had already started was still opening, and that reconnect has now produced a picture.
+                    // Leaving gaveUp set would keep the error over a playing channel AND disarm the stall
+                    // watchdog for the rest of the tune, so a later stall would never reconnect.
+                    if (tune.gaveUp && !tune.stoppingIntentionally) {
+                        LiveDiagnosticsLog.event("recovered after the ladder gave up — clearing the error")
+                        tune.gaveUp = false
+                        _error.value = null; _errorInfo.value = null
+                    }
                 _state.value = State.PLAYING; _buffering.value = false
                 tune.hasPlayed = true; mainHandler.removeCallbacks(stallWatchdog)
                 updateAudioOnlyClassification()
@@ -1746,6 +1769,20 @@ class LivePreviewEngine(
             mainHandler.postDelayed({
                 if (currentUrl != url) { tune.reconnectPending = false; return@postDelayed } // superseded (zapped / stopped)
                 tune.reconnectPending = false
+                // Media3 kept retrying during the delay and got the stream back by itself. Re-preparing now
+                // would tear down a stream that is already playing or already refilling — measured: a
+                // recovered channel was restarted 11s later, and a response already 450 KB in was thrown
+                // away (+3s).
+                // A stall always starts from an empty buffer, so anything buffered now arrived since — and a
+                // connection that has just answered may not have buffered a sample yet, so recent bytes count.
+                val playing = p.playbackState == Player.STATE_READY && _state.value == State.PLAYING
+                val refilling = p.playbackState == Player.STATE_BUFFERING && (p.totalBufferedDuration > 0 || receivingData)
+                if (playing || refilling) {
+                    LiveDiagnosticsLog.event("reconnect skipped — the stream came back on its own")
+                    // Still buffering: if this refill stalls again, the watchdog reconnects as usual.
+                    if (refilling) { mainHandler.removeCallbacks(stallWatchdog); mainHandler.postDelayed(stallWatchdog, STALL_MS) }
+                    return@postDelayed
+                }
                 val loadUrl = fresh ?: url // null provider/result → replay the (still-valid) stored URL
                 if (fresh != null && fresh != url) {
                     currentUrl = fresh // adopt the refreshed URL so a later reconnect compares against it
@@ -1754,6 +1791,11 @@ class LivePreviewEngine(
                 runCatching {
                     reprepare(p, loadUrl) // fresh fetch (live edge)
                 }.onFailure { _state.value = State.ERROR; _error.value = PlaybackFailure.LostConnection }
+                // The player can stay in BUFFERING across the re-prepare, so no state change re-arms the
+                // watchdog — and without it a reconnect that doesn't open would be the ladder's last.
+                if (tune.hasPlayed && !tune.gaveUp) {
+                    mainHandler.removeCallbacks(stallWatchdog); mainHandler.postDelayed(stallWatchdog, STALL_MS)
+                }
             }, delayMs)
         }
     }
@@ -3055,6 +3097,8 @@ class LivePreviewEngine(
     companion object {
         private const val MAX_VOLUME = VolumeBoost.MAX_VOLUME // same ceiling as mpv; 100–150 comes from LoudnessEnhancer
         private const val MAX_RECONNECTS = 8        // ~consecutive failures before giving up (HUD Retry then)
+        /** Bytes this recent mean a stream is already coming back (see [receivingData]). */
+        private const val RECENT_BYTES_MS = 2_000L
         /** Playback must hold this long before the reconnect ladder is considered recovered. */
         internal const val HEALTHY_MS = 60_000L
 
