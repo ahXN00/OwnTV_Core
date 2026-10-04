@@ -4370,8 +4370,11 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	mpeg-ts
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	mpeg2
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	muxedCaptions=${mv.muxedCaptionFormats?.size ?: 0}
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	network re-validated while reconnecting — retrying now
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	network restored
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	network restored — resuming the channel the ladder gave up on
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	network revalidated
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	no data for ${failingSecs}s; gave up after ${tune.retryCount} reconnects
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	no picture after ${now - tune.readySinceMs}ms
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	open stalled
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	open stalled — $detail
@@ -4408,7 +4411,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	re-buffer flap ($detail) — this stream can't reach its pre-buffer, reopening without one
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	ready
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	reconnect attempt ${tune.retryCount}/$MAX_RECONNECTS reason=$reason
-1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	reconnect exhausted ($reason) at ${tune.retryCount}/$MAX_RECONNECTS — giving up
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	reconnect exhausted ($reason) at ${tune.retryCount}/$MAX_RECONNECTS after ${failingSecs}s — giving up
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	reconnect fresh-url failed: ${it.message}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	reconnect re-resolved expiring URL (${HttpClient.redactUrl(fresh)})
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	reconnect skipped — the stream came back on its own

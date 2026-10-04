@@ -20,6 +20,14 @@ interface PlaybackEngine {
      *  will re-ask for the identical stream by itself. The HUD shows it as a spinner with a live countdown
      *  instead of an error screen. Null when nothing is pending. */
     val providerBackOff: StateFlow<ProviderBackOff?> get() = NO_BACKOFF
+    /**
+     * When the current stall began (`SystemClock.elapsedRealtime()`), for a stream that had been playing
+     * and is now trying to get back — null while playing, before the first frame, and once the engine
+     * has given up (then [error] says so). Once a stall has lasted a while the HUD says the stream is
+     * reconnecting, so a long reconnect reads as "working on it" rather than a frozen app. Engines that
+     * don't track it leave it null.
+     */
+    val stalledSinceMs: StateFlow<Long?> get() = NULL_LONG
     val videoRes: StateFlow<String?>
     /** Up-to-4 mini stream chips (aspect · resolution · fps · audio) for the player top bar. */
     val streamChips: StateFlow<List<String>> get() = NO_CHIPS
@@ -156,6 +164,7 @@ interface PlaybackEngine {
         private val FALSE_FLOW: StateFlow<Boolean> = MutableStateFlow(false)
         private val NO_QUALITIES: StateFlow<List<Int>> = MutableStateFlow(emptyList())
         private val NULL_INT: StateFlow<Int?> = MutableStateFlow(null)
+        private val NULL_LONG: StateFlow<Long?> = MutableStateFlow(null)
         private val DEFAULT_SEEK_STEP: StateFlow<Long> =
             MutableStateFlow(tv.own.owntv.core.settings.SeekSteps.DEFAULT_SEEK_STEP_SEC * 1000L)
     }
