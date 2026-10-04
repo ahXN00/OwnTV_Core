@@ -103,6 +103,26 @@
     <string name="content_mark_unwatched">Mark as unwatched</string>
     <!-- Translators: Context-menu option to reorder an item in a custom list. -->
     <string name="content_move">Move</string>
+    <!-- Translators: Long-press menu entry on a category: undo the user's hides, moves and custom order inside it. -->
+    <string name="content_category_restore_playlist">Restore to playlist default</string>
+    <!-- Translators: Same entry on a user-created category, which has no playlist default. -->
+    <string name="content_category_restore_custom">Restore to default</string>
+    <!-- Translators: Question above the list of what restoring a category to its default will change. -->
+    <string name="content_category_restore_question">This will:</string>
+    <!-- Translators: Confirmation line. "count" is how many hidden items in the category will be shown again. -->
+    <plurals name="content_category_restore_hidden">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> hidden item shows again</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> hidden items show again</item>
+    </plurals>
+    <!-- Translators: Confirmation line. "count" is how many items moved out of this category return to it. -->
+    <plurals name="content_category_restore_moved">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> moved-out item returns</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> moved-out items return</item>
+    </plurals>
+    <!-- Translators: Confirmation line: the user's manual order inside the category will be cleared. -->
+    <string name="content_category_restore_order">Custom order cleared</string>
+    <!-- Translators: Confirmation text when the category has no changes to undo (the only button is Cancel). -->
+    <string name="content_category_restore_nothing">Category is already at the playlist default</string>
     <!-- Translators: Context-menu option that opens the picker for moving an item into a combined category. -->
     <string name="content_move_to_category">Move to category…</string>
     <!-- Translators: Context-menu option on a channel inside a category the user created: take it out of that category only. The channel itself and its own provider category are unaffected. -->
