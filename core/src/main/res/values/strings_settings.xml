@@ -155,13 +155,7 @@
     <!-- Translators: Fallback name for an unusual remote button; number is Android's button identifier. -->
     <string name="settings_remote_shortcuts_unknown_button">Remote button <xliff:g id="number">%1$d</xliff:g></string>
     <!-- Translators: Help text explaining defaults and safety rules for configurable remote shortcuts. -->
-    <string name="settings_remote_shortcuts_help">• By default, CH+/CH− and rewind/fast-forward page browsing lists; holding them jumps to the first or last item.
-• Short and long presses can be assigned separately.
-• Jump to last stays disabled on very large &quot;All&quot; lists.
-• Long-press Back always focuses Now Playing and cannot be reassigned.
-• Common assignable buttons are red/green/yellow/blue, numbers, CH+/CH− and rewind/fast-forward.
-• Back, D-pad, OK, volume, Home and power buttons stay protected.
-• Number shortcuts work while browsing; fullscreen number entry keeps channel-navigation priority.</string>
+    <string name="settings_remote_shortcuts_help">• By default, CH+/CH− and rewind/fast-forward page browsing lists; holding them jumps to the first or last item.\n• Short and long presses can be assigned separately.\n• Jump to last stays disabled on very large \"All\" lists.\n• Long-press Back always focuses Now Playing and cannot be reassigned.\n• Common assignable buttons are red/green/yellow/blue, numbers, CH+/CH− and rewind/fast-forward.\n• Back, D-pad, OK, volume, Home and power buttons stay protected.\n• Number shortcuts work while browsing; fullscreen number entry keeps channel-navigation priority.</string>
     <!-- Translators: Remote-control button name. -->
     <string name="settings_remote_button_channel_up">Channel +</string>
     <!-- Translators: Remote-control button name. -->
@@ -216,7 +210,7 @@
     <!-- Translators: Setting label for the custom weather location override. -->
     <string name="settings_custom_location">Custom location</string>
     <!-- Translators: Description of the custom location setting. Explains auto-detect vs manual city/coordinates. -->
-    <string name="settings_custom_location_description">Override the city used for weather. Leave blank to auto-detect, or enter a city (e.g. London) or &quot;lat,lon&quot; (e.g. 51.5,-0.12). Useful on a VPN, where auto-detect resolves to the server\'s city.</string>
+    <string name="settings_custom_location_description">Override the city used for weather. Leave blank to auto-detect, or enter a city (e.g. London) or \"lat,lon\" (e.g. 51.5,-0.12). Useful on a VPN, where auto-detect resolves to the server\'s city.</string>
     <!-- Translators: Toggle that lets the weather follow the phone's own location instead of a typed-in city. -->
     <string name="settings_use_device_location">Use this device\'s location</string>
     <string name="settings_use_device_location_description">Weather follows where the phone is. Turn off to enter a city yourself.</string>
@@ -229,7 +223,7 @@
     <!-- Translators: Text-field label for entering a city name or coordinates. -->
     <string name="settings_city_latlon">City or lat,lon</string>
     <!-- Translators: Placeholder hint text in the custom location field. -->
-    <string name="settings_location_hint">Leave blank to auto-detect from your public IP. Enter a city (e.g. London) or &quot;lat,lon&quot; (e.g. 51.5,-0.12).</string>
+    <string name="settings_location_hint">Leave blank to auto-detect from your public IP. Enter a city (e.g. London) or \"lat,lon\" (e.g. 51.5,-0.12).</string>
     <!-- Translators: Section header for metadata settings. 'TMDB' is a brand name (The Movie Database). -->
     <string name="settings_metadata">Metadata (TMDB)</string>
     <!-- Translators: Setting label for the metadata source choice. -->
@@ -321,13 +315,13 @@
     <!-- Translators: Error when the TMDB server cannot be reached. -->
     <string name="settings_metadata_server_unavailable">Couldn\'t reach the metadata server — check network / key / URL.</string>
     <!-- Translators: Error when TMDB returns no match. 'query' is the searched title. -->
-    <string name="settings_metadata_no_match">No TMDB match for &quot;<xliff:g id="query">%1$s</xliff:g>&quot;.</string>
+    <string name="settings_metadata_no_match">No TMDB match for \"<xliff:g id="query">%1$s</xliff:g>\".</string>
     <!-- Translators: Generic TMDB lookup failure. -->
     <string name="settings_metadata_lookup_failed">Lookup failed.</string>
     <!-- Translators: TMDB match result display. 'title' is the matched title, 'year' is the year, 'id' is the TMDB ID. -->
     <string name="settings_metadata_match_result"><xliff:g id="title">%1$s</xliff:g><xliff:g id="year">%2$s</xliff:g> · tmdb #<xliff:g id="id">%3$d</xliff:g></string>
     <!-- Translators: Year display in TMDB match results. Wrapped in parentheses. -->
-    <string name="settings_metadata_year"> (<xliff:g id="year">%1$d</xliff:g>)</string>
+    <string name="settings_metadata_year">(<xliff:g id="year">%1$d</xliff:g>)</string>
     <!-- Translators: Button or section label to look up a movie title on TMDB. -->
     <string name="settings_lookup_movie">Look up a movie title</string>
     <!-- Translators: Button to perform a test TMDB lookup. -->
@@ -1176,9 +1170,7 @@
     <!-- Translators: Warning header for the low latency setting. The warning emoji is part of the display. -->
     <string name="settings_low_latency_warning">⚠️ Low latency</string>
     <!-- Translators: Warning description explaining the tradeoffs of low latency. Directs the user to choose Balanced if unreliable. -->
-    <string name="settings_low_latency_warning_description">Playing closer to the live broadcast leaves a smaller buffer. On slower connections or unstable streams this can cause more buffering, stutter, or reconnects.
-
-Choose Balanced if a channel becomes unreliable.</string>
+    <string name="settings_low_latency_warning_description">Playing closer to the live broadcast leaves a smaller buffer. On slower connections or unstable streams this can cause more buffering, stutter, or reconnects.\n\nChoose Balanced if a channel becomes unreliable.</string>
     <!-- Translators: Button to acknowledge the low latency warning. -->
     <string name="settings_low_latency_understand">I understand</string>
     <!-- Translators: Setting label for a custom live buffer size. -->
@@ -1539,7 +1531,7 @@ Choose Balanced if a channel becomes unreliable.</string>
     <!-- Translators: Explains the remote's channel up/down keys in long lists. Keep CH+ and CH− as they are. -->
     <string name="settings_span_ch_help">CH+ / CH− skip a page. Hold CH+ / CH− to jump to the last or first item.</string>
     <!-- Translators: Visible single middle-dot separator between metadata segments in the Customize screen. -->
-    <string name="settings_customize_metadata_separator">  ·  </string>
+    <string name="settings_customize_metadata_separator">"  ·  "</string>
 
     <!-- Translators: Screen title for the Sources management screen. -->
     <string name="settings_sources_title">Sources</string>
@@ -1612,7 +1604,7 @@ Choose Balanced if a channel becomes unreliable.</string>
     <!-- Translators: Source-type label for a restored/local-backup source. -->
     <string name="settings_sources_backup">Backup</string>
     <!-- Translators: Visible bullet separator between source detail segments. -->
-    <string name="settings_sources_details_separator">  •  </string>
+    <string name="settings_sources_details_separator">"  •  "</string>
     <!-- Translators: Status text shown while preparing a source catalog. -->
     <string name="settings_sources_preparing_detail">Preparing catalog</string>
     <!-- Translators: Loading status shown while removing a source. -->
@@ -1634,9 +1626,7 @@ Choose Balanced if a channel becomes unreliable.</string>
     <!-- Translators: Option to resync and remove titles no longer listed by the provider. -->
     <string name="settings_sources_resync_remove_full">Resync and remove missing titles</string>
     <!-- Translators: Description of the resync options and their effects. -->
-    <string name="settings_sources_resync_description">Resync now fetches the latest catalog and keeps everything already saved.
-
-Resync and remove missing titles also allows removing titles the provider no longer lists. Your favorites, history and resume positions for titles that are still listed are kept.</string>
+    <string name="settings_sources_resync_description">Resync now fetches the latest catalog and keeps everything already saved.\n\nResync and remove missing titles also allows removing titles the provider no longer lists. Your favorites, history and resume positions for titles that are still listed are kept.</string>
     <!-- Translators: Auto-refresh option: off (no automatic refresh). -->
     <string name="settings_sources_refresh_off">Off</string>
     <!-- Translators: Auto-refresh option: refresh when the app starts. -->
@@ -2225,7 +2215,7 @@ Resync and remove missing titles also allows removing titles the provider no lon
     <string name="settings_playback_kind_event">Event</string>
     <string name="settings_playback_kind_report">Report</string>
     <!-- Translators: Playback-log entry header. The values are date/time, entry kind, engine, and stream type. -->
-    <string name="settings_playback_entry_with_kind"><xliff:g id="date">%1$s</xliff:g>  ·  <xliff:g id="kind">%2$s</xliff:g>  ·  <xliff:g id="engine">%3$s</xliff:g>  ·  <xliff:g id="stream_type">%4$s</xliff:g></string>
+    <string name="settings_playback_entry_with_kind"><xliff:g id="date">%1$s</xliff:g> · <xliff:g id="kind">%2$s</xliff:g> · <xliff:g id="engine">%3$s</xliff:g> · <xliff:g id="stream_type">%4$s</xliff:g></string>
     <string name="settings_export">Export</string>
     <string name="settings_detailed_playback_logging_description">Keep a full trace of what the live engine does — every tune, fallback and reconnect — in Logcat and in the exported report. Leave it off unless you are chasing a problem; it never changes playback, only how much is written down.</string>
     <string name="settings_live_preroll_playlist_picker">Which playlist?</string>
