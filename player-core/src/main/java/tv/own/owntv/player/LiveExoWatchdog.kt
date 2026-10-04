@@ -174,6 +174,17 @@ class LiveExoWatchdog(
                 "played, then stalled for ${STALL_HANDOFF_MS / 1000}s without recovering"
             }
             handOver(reason)
+            // Handed over, but with nowhere to go ExoPlayer kept the channel and is still reconnecting.
+            // Keep watching for one outcome the ladder can still answer: the stream's content turning
+            // out unplayable on ExoPlayer, which mpv may play.
+            if (!stillOurs() || !engine.stillReconnecting) return
+            val settled = engine.state.first { it != LivePreviewEngine.State.LOADING }
+            if (!stillOurs()) return
+            if (settled == LivePreviewEngine.State.PLAYING) continue
+            if (settled == LivePreviewEngine.State.ERROR && engine.contentBroken) {
+                yield() // see the ERROR branch above
+                handOver("ExoPlayer can't play this stream's content: ${engine.errorInfo.value?.raw ?: engine.error.value}")
+            }
             return
         }
     }

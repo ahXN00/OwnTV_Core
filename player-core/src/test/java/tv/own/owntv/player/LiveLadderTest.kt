@@ -317,6 +317,17 @@ class LiveLadderTest {
     }
 
     @Test
+    fun `a restarted deadline lets a spent tune climb to its next rung`() {
+        // A channel that opened and later proved unplayable on its engine is not "out of time".
+        val ladder = budgetedLadder("http://restart.test/live/1.ts")
+        assertEquals(Rung.EXO_TS, ladder.advance(nowMs = 20_000L))
+        assertNull(ladder.advance(nowMs = 300_000L))
+        ladder.restartDeadline(nowMs = 300_000L, budgetMs = 30_000L)
+        assertEquals(Rung.MPV_HLS, ladder.advance(nowMs = 300_000L))
+        assertTrue(ladder.expired(331_000L))
+    }
+
+    @Test
     fun `a tune inside its budget is completely unaffected`() {
         val ladder = budgetedLadder("http://r.test/live/1.ts")
         assertFalse(ladder.expired(1_000L))

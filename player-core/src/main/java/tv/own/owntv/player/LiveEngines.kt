@@ -35,6 +35,8 @@ interface LiveEngines {
     val exoFailed: Boolean
     /** ExoPlayer is working through its own reconnects after having played (see [LivePreviewEngine.stillReconnecting]). */
     val exoStillReconnecting: Boolean get() = false
+    /** ExoPlayer cannot play this stream's content (see [LivePreviewEngine.contentBroken]). */
+    val exoContentBroken: Boolean get() = false
     /** Whether mpv holds a stream (full-screen live, a film, a catch-up). */
     val mpvHasStream: Boolean
 
@@ -94,6 +96,7 @@ class EnginePair(private val exo: LivePreviewEngine, private val mpv: OwnTVPlaye
     override val exoIsHls: Boolean get() = exo.isHlsStream
     override val exoFailed: Boolean get() = exo.state.value == LivePreviewEngine.State.ERROR
     override val exoStillReconnecting: Boolean get() = exo.stillReconnecting
+    override val exoContentBroken: Boolean get() = exo.contentBroken
     override val mpvHasStream: Boolean get() = mpv.hasActiveStream
 
     override fun exoPlay(url: String, muted: Boolean, request: LiveRequest) = exo.play(url, muted, request)
