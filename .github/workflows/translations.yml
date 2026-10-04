@@ -1,0 +1,176 @@
+name: translations
+
+# Two-way sync between main and Weblate's branch, `translations` (see tools/i18n/README.md,
+# "How Weblate and the repository stay in sync"). Weblate is locked for the whole run and made to
+# push first, so nothing writes `translations` except this job and Weblate only ever fast-forwards.
+# Every merge is string by string (tools/i18n/sync_translations.py); git's line merge is never used.
+#
+# Secrets: WEBLATE_TOKEN (the maintainer's Weblate API key) to lock/push/unlock Weblate, and
+# CONSUMER_BUMP_TOKEN to push and open pull requests - pushes made with GITHUB_TOKEN would not run
+# CI on main or on the promotion pull request.
+
+on:
+  schedule:
+    - cron: '17 2 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'core/src/main/res/values*/strings*.xml'
+      - 'tools/i18n/locales.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: translations
+  cancel-in-progress: false
+
+env:
+  WEBLATE_API: https://hosted.weblate.org/api
+  WEBLATE_PROJECT: owntv
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      WEBLATE_TOKEN: ${{ secrets.WEBLATE_TOKEN }}
+      GH_TOKEN: ${{ secrets.CONSUMER_BUMP_TOKEN }}
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.CONSUMER_BUMP_TOKEN }}
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Tools
+        run: |
+          pip install -r tools/i18n/requirements-weblate.txt
+          git config user.name  "Ashiq Hasan"
+          git config user.email "ashiq.hasan@hotmail.com"
+          cat > "$RUNNER_TEMP/weblate.sh" <<'EOF'
+          wl() {  # wl METHOD PATH [JSON]
+            curl -fsS -X "$1" -H "Authorization: Token $WEBLATE_TOKEN" \
+              -H 'Content-Type: application/json' ${3:+-d "$3"} "$WEBLATE_API/$2"
+          }
+          components() {
+            wl GET "projects/$WEBLATE_PROJECT/components/?page_size=100" \
+              | jq -r '.results[] | select(.is_glossary | not) | .slug'
+          }
+          lock_all() {  # lock_all true|false
+            for c in $(components); do wl POST "components/$WEBLATE_PROJECT/$c/lock/" "{\"lock\":$1}" >/dev/null; done
+          }
+          repo_op() { wl POST "projects/$WEBLATE_PROJECT/repository/" "{\"operation\":\"$1\"}" | jq -e '.result' >/dev/null; }
+          EOF
+
+      - name: Lock Weblate and have it push everything
+        run: |
+          . "$RUNNER_TEMP/weblate.sh"
+          lock_all true
+          repo_op commit
+          repo_op push
+          for c in $(components); do
+            wl GET "components/$WEBLATE_PROJECT/$c/repository/" \
+              | jq -e '.needs_push == false and .needs_merge == false' >/dev/null \
+              || { echo "::error::Weblate component $c still has unpushed or unmerged work"; exit 1; }
+          done
+          git fetch --quiet origin translations
+
+      - name: translations -> main (shipped languages)
+        id: to_main
+        run: |
+          python tools/i18n/sync_translations.py to-main
+          if [ -n "$(git status --porcelain -- core/src/main/res)" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set up JDK 21
+        if: steps.to_main.outputs.changed == 'true'
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Android SDK
+        if: steps.to_main.outputs.changed == 'true'
+        uses: android-actions/setup-android@v4
+        with:
+          packages: 'platform-tools'
+
+      - name: Set up Gradle
+        if: steps.to_main.outputs.changed == 'true'
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Gates on the imported translations
+        if: steps.to_main.outputs.changed == 'true'
+        run: |
+          python tools/i18n/check_weblate_format.py check
+          python tools/i18n/validate_strings.py --report none
+          python tools/i18n/gen_supported_locales.py check
+          python tools/i18n/test_i18n_tools.py
+          chmod +x ./gradlew
+          ./gradlew :core:lintDebug --stacktrace
+
+      - name: Commit to main
+        if: steps.to_main.outputs.changed == 'true'
+        run: |
+          langs=$(git status --porcelain -- core/src/main/res | sed -E 's#.*/res/values-([^/]+)/.*#\1#' | sort -u | paste -sd, -)
+          git add core/src/main/res
+          git commit -q -m "Translations from Weblate ($langs)"
+          git push origin HEAD:main
+
+      - name: main -> translations
+        run: |
+          next=$(MAIN_REF=HEAD python tools/i18n/sync_translations.py to-weblate)
+          if [ -n "$next" ]; then
+            git push origin "$next:refs/heads/translations"   # a fast-forward by construction
+          else
+            echo "translations already up to date"
+          fi
+
+      - name: Unlock Weblate and let it take the update
+        if: always()
+        run: |
+          . "$RUNNER_TEMP/weblate.sh"
+          lock_all false
+          repo_op pull || echo "::warning::Weblate pull failed; it will pull on its next update"
+
+      - name: Languages ready to ship
+        run: |
+          git fetch --quiet origin translations main
+          git checkout -q origin/main
+          python tools/i18n/sync_translations.py ready | while read -r id pct name; do
+            if [ "$name" = "NOT-IN-CATALOGUE" ]; then
+              title="Language $id reached $pct% on Weblate - needs a locales.json entry"
+              gh issue list --state open --search "$title in:title" --json number | jq -e 'length > 0' >/dev/null \
+                || gh issue create --title "$title" --body "Weblate's \`$id\` is $pct% translated, above the readiness threshold, but it is not in tools/i18n/locales.json, so it cannot be promoted automatically. Add its catalogue entry; the next sync opens the promotion pull request."
+              continue
+            fi
+            branch="translations/promote-$id"
+            git checkout -q -B "$branch" origin/main
+            python tools/i18n/sync_translations.py promote "$id"
+            python tools/i18n/gen_supported_locales.py
+            git add core/src/main tools/i18n/locales.json tools/i18n/README.md README.md
+            git commit -q -m "Add $name ($pct% translated)"
+            git push -q --force origin "$branch"
+            gh pr list --head "$branch" --state open --json number | jq -e 'length > 0' >/dev/null \
+              || gh pr create --head "$branch" --base main --title "Add $name ($pct% translated)" \
+                   --body "$name has reached $pct% on Weblate, above the readiness threshold. This adds its files from the \`translations\` branch and marks it tier 1, packaged and visible in the language picker. Merge to ship it; it is then kept up to date by the daily sync. This pull request is refreshed on every sync while open."
+          done
+
+      - name: Report a blocked sync
+        if: failure()
+        run: |
+          title="Translations sync blocked"
+          url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          num=$(gh issue list --state open --search "$title in:title" --json number --jq '.[0].number')
+          if [ -n "$num" ]; then
+            gh issue comment "$num" --body "Blocked again: $url"
+          else
+            gh issue create --title "$title" --body "Weblate was unlocked and translators can keep working; nothing is lost - everything stays on the \`translations\` branch, and the next run retries. See the failing step: $url"
+          fi

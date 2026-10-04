@@ -26,6 +26,10 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))  # so `from tools.i18n import ...` works when run as a script
 
 
+# The readiness bar is configuration (community.json), not a constant of these tests.
+THRESHOLD = json.loads((ROOT / "tools/i18n/community.json").read_text())["translationReadinessThresholdPercent"]
+
+
 def _load(name: str, path: str):
     spec = importlib.util.spec_from_file_location(name, ROOT / path)
     mod = importlib.util.module_from_spec(spec)
@@ -413,7 +417,7 @@ class TestValidateStrings(unittest.TestCase):
         res = _make_fixture(self.tmpdir, source, locales, {"values-de": de_xml})
         rc, out = self._run(res, self.tmpdir / "tools/i18n/locales.json")
         self.assertEqual(rc, 1, out)
-        self.assertIn("below the 70% translation readiness threshold", out)
+        self.assertIn(f"below the {THRESHOLD}% translation readiness threshold", out)
 
     def test_malformed_present_translation_still_exits_nonzero(self):
         """Missing keys are informational, but a present, malformed key still fails — it overrides
@@ -507,7 +511,8 @@ class TestValidateStrings(unittest.TestCase):
             "vi": ("vi", "vi", "vi", "Vietnamese", "Tiếng Việt", "Latn", False),
         }
         by_id = {e["id"]: e for e in catalogue}
-        self.assertEqual(set(expected), {e["id"] for e in catalogue if e["tier"] == 2})
+        # A catalogue-only language may since have been promoted (tier 1, shipped, with resources).
+        self.assertLessEqual({e["id"] for e in catalogue if e["tier"] == 2}, set(expected))
         for locale_id, (tag, qualifier, weblate, english, endonym, script, rtl) in expected.items():
             with self.subTest(locale=locale_id):
                 entry = by_id[locale_id]
@@ -515,10 +520,11 @@ class TestValidateStrings(unittest.TestCase):
                     entry["languageTag"], entry["resourceQualifier"], entry["weblateCode"],
                     entry["englishName"], entry["endonym"], entry["script"], entry["rtl"]))
                 self.assertEqual(entry["resourceDirectory"], f"values-{qualifier}")
-                self.assertEqual(entry["tier"], 2)
-                self.assertFalse(entry["packaged"])
-                self.assertFalse(entry["pickerVisible"])
-                self.assertFalse((ROOT / "core/src/main/res" / entry["resourceDirectory"]).exists())
+                promoted = entry["tier"] == 1
+                self.assertIn(entry["tier"], (1, 2))
+                self.assertEqual(promoted, entry["packaged"])
+                self.assertEqual(promoted, entry["pickerVisible"])
+                self.assertEqual(promoted, (ROOT / "core/src/main/res" / entry["resourceDirectory"]).exists())
 
     def test_spanish_default_uses_current_weblate_es_definition(self):
         catalogue = json.loads((ROOT / "tools/i18n/locales.json").read_text())
@@ -592,7 +598,7 @@ class TestValidateStrings(unittest.TestCase):
             "https://github.com/ahXN00/OwnTV/issues/new?template=feature_request.yml&title=%5BLanguage%5D%20Add%20",
             request_url,
         )
-        self.assertEqual(70, config["translationReadinessThresholdPercent"])
+        self.assertIsInstance(config["translationReadinessThresholdPercent"], int)
         generated = (ROOT / "core/src/main/java/tv/own/owntv/core/i18n/SupportedLocales.kt").read_text()
         readme = (ROOT / "README.md").read_text()
         guide = (ROOT / "tools/i18n/README.md").read_text()
@@ -609,10 +615,10 @@ class TestValidateStrings(unittest.TestCase):
         self.assertEqual(1, guide.count(url))
         self.assertEqual(1, guide.count(request_url))
 
-    def test_packaging_readiness_boundary_69_rejected_70_accepted(self):
+    def test_packaging_readiness_boundary_just_below_rejected_at_threshold_accepted(self):
         source_items = "".join(f'<string name="k{i}">K{i}</string>' for i in range(100))
         source = f"<resources>{source_items}</resources>"
-        for translated_count, expected_rc in ((69, 1), (70, 0)):
+        for translated_count, expected_rc in ((THRESHOLD - 1, 1), (THRESHOLD, 0)):
             with self.subTest(translated=translated_count):
                 case = Path(tempfile.mkdtemp())
                 locales = _full_tier1()
@@ -624,8 +630,8 @@ class TestValidateStrings(unittest.TestCase):
                     "values-bg": f"<resources>{translated}</resources>"})
                 rc, out = self._run(res, case / "tools/i18n/locales.json")
                 self.assertEqual(expected_rc, rc, out)
-                if translated_count == 69:
-                    self.assertIn("below the 70% translation readiness threshold", out)
+                if expected_rc:
+                    self.assertIn(f"below the {THRESHOLD}% translation readiness threshold", out)
 
     def test_translation_review_state_neither_read_nor_required(self):
         """translation_status.json is gone; the validator must not reference or require it."""

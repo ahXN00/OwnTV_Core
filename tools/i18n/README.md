@@ -44,18 +44,31 @@ machine-translate them.
 ## Readiness and promotion
 
 The sole threshold owner is `translationReadinessThresholdPercent` in `community.json`; it is exactly
-70%. The generator emits the same named Kotlin constant. A community locale below 70% must remain
-unpackaged and unselectable. At 70% or above it becomes *eligible* for explicit maintainer promotion;
+75%. The generator emits the same named Kotlin constant. A community locale below 75% must remain
+unpackaged and unselectable. At 75% or above it becomes *eligible* for explicit maintainer promotion;
 coverage does not silently change release packaging.
 
-Promotion is intentionally manual, not generated:
+## How Weblate and the repository stay in sync
 
-1. Let Weblate create/sync all six Android resource files and run validation.
-2. Run the coverage report and confirm at least 70%.
-3. In the locale's single `locales.json` entry, change `tier` to `1`, `packaged` to `true`, and
-   `pickerVisible` to `true` in one reviewed change.
-4. Regenerate `SupportedLocales.kt` and README content; validate resources and build the app.
-5. Review English fallback on missing keys and perform script/RTL/plural/focus smoke tests.
+Weblate works on the `translations` branch only and pushes there directly; it never opens a pull
+request and never touches `main`. `translations` holds every language, including those still below
+the threshold, so it is also the permanent copy of all translators' work — never delete it, never
+merge it into `main`.
+
+`.github/workflows/translations.yml` (daily, after any push to `main` that changes strings, and on
+demand) locks Weblate, has it push its pending work, then runs `sync_translations.py`:
+
+1. `to-main` — every string a translator changed in a shipped language replaces main's; everything
+   else stays as main has it. Checked by the i18n gates and lint, then committed to `main`.
+2. `to-weblate` — `translations` becomes main (English, code, shipped languages) plus the unshipped
+   languages exactly as Weblate has them. Weblate fast-forwards to it, so it never has a commit to
+   replay and cannot hit a merge conflict.
+3. `ready` / `promote` — a language that reaches the threshold gets one pull request,
+   `translations/promote-<id>`, which adds its files and marks it tier 1, packaged and visible.
+   Merging that pull request is the one manual step.
+
+If any gate fails, nothing is committed anywhere, Weblate is unlocked, and an issue says why.
+Translators are never blocked for longer than one run.
 
 Gradle reads only `packaged` qualifiers from the catalogue. Generated Kotlin applies the threshold
 again to picker rows as defense in depth. Coverage is calculated once by Python from Android resource

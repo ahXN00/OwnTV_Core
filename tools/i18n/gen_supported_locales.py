@@ -252,7 +252,7 @@ def _generate() -> tuple[str, int, int]:
     L.append("            it.packaged && it.pickerVisible")
     L.append("    }")
     L.append("")
-    L.append("    /** A community locale is ready for manual packaging/picker promotion at 70% or above. */")
+    L.append("    /** A community locale is ready for manual packaging/picker promotion at the readiness threshold or above. */")
     L.append("    fun isTranslationReady(coverage: Int): Boolean =")
     L.append("        coverage >= TRANSLATION_READINESS_THRESHOLD_PERCENT")
     L.append("")
