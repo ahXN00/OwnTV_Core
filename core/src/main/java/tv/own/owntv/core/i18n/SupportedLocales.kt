@@ -36,7 +36,7 @@ data class SupportedLocale(
 object SupportedLocales {
 
     /** Community translations are promoted to shipping only at this coverage boundary. */
-    const val TRANSLATION_READINESS_THRESHOLD_PERCENT: Int = 70
+    const val TRANSLATION_READINESS_THRESHOLD_PERCENT: Int = 75
 
     /** Canonical Hosted Weblate project overview used by the app and generated documentation. */
     const val CONTRIBUTION_PROJECT_URL: String = "https://hosted.weblate.org/projects/owntv/"
@@ -672,7 +672,7 @@ object SupportedLocales {
             it.packaged && it.pickerVisible
     }
 
-    /** A community locale is ready for manual packaging/picker promotion at 70% or above. */
+    /** A community locale is ready for manual packaging/picker promotion at the readiness threshold or above. */
     fun isTranslationReady(coverage: Int): Boolean =
         coverage >= TRANSLATION_READINESS_THRESHOLD_PERCENT
 
