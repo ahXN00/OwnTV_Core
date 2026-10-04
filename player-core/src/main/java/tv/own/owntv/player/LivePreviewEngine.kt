@@ -869,8 +869,9 @@ class LivePreviewEngine(
      * wait, and a live stream can only be loaded as far ahead as its provider publishes. If the buffer has
      * stopped growing *short of* the threshold there is nothing left to wait for: drop the pre-roll for
      * that one stream and reopen it. A healthy stream keeps filling (at the live edge, roughly a second of
-     * media per second) and is left alone. [PREROLL_OPEN_GRACE_MS] past the requested amount is the
-     * backstop for one that dribbles rather than stalls outright.
+     * media per second) and is left alone, and so is one that has not delivered its first sample yet.
+     * [PREROLL_OPEN_GRACE_MS] past the requested amount is the backstop for one that dribbles rather than
+     * stalls outright, or never starts.
      */
     private val openWatchdog = object : Runnable {
         override fun run() {
@@ -901,7 +902,11 @@ class LivePreviewEngine(
             val targetMs = effectivePrerollSecs() * 1000L
             if (targetMs > 0L && buffered < targetMs) {
                 val grew = buffered - prerollBufferedMs
-                if (grew >= PREROLL_MIN_GROWTH_MS) prerollStuckPolls = 0 else prerollStuckPolls++
+                // Nothing buffered yet is not "stopped growing": the redirect, the first byte and the first
+                // keyframe all come first. Measured on a 4K raw-TS channel: first response 2.3 s after
+                // play(), the check reopened the stream at 3.5 s, first frame at 7.0 s. A stream that never
+                // delivers anything is still caught by `tooLong`.
+                if (buffered == 0L || grew >= PREROLL_MIN_GROWTH_MS) prerollStuckPolls = 0 else prerollStuckPolls++
                 val stuck = prerollStuckPolls >= PREROLL_STUCK_POLLS
                 val tooLong = waitedMs >= targetMs + PREROLL_OPEN_GRACE_MS
                 if (stuck || tooLong) {
