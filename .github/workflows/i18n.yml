@@ -85,3 +85,8 @@ jobs:
         run: python3 tools/i18n/check_text_overflow.py
       - name: Python i18n tool regression tests
         run: python3 tools/i18n/test_i18n_tools.py
+      # A translation file Weblate would rewrite on save is a future merge conflict on Weblate's side.
+      - name: Translation files in Weblate's form
+        run: |
+          pip install -r tools/i18n/requirements-weblate.txt
+          python3 tools/i18n/check_weblate_format.py check

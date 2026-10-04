@@ -263,7 +263,7 @@
     <plurals name="settings_catchup_supported">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> kanál podporuje TV archiv · časové pásmo a přehrávač pro přehrávání TV archivu</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> kanály podporují TV archiv · časové pásmo a přehrávač pro přehrávání TV archivu</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> kanálu podporuje TV archiv · časové pásmo a přehrávač pro přehrávání TV archivu</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> kanálů podporuje TV archiv · časové pásmo a přehrávač pro přehrávání TV archivu</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> kanálů podporuje TV archiv · časové pásmo a přehrávač pro přehrávání TV archivu</item>
     </plurals>
     <string name="settings_catchup_unavailable">V tomto playlistu nejsou k dispozici žádné kanály s TV archivem</string>
@@ -294,7 +294,7 @@
     <string name="settings_startup_channel_unavailable">Spouštěcí kanál není dostupný. Byla otevřena domovská obrazovka.</string>
     <string name="settings_all_history">Celou historii</string>
     <string name="settings_choose_history">Zvolte, co se má pro tento profil odstranit. Playlisty, oblíbené ani stahování nebudou ovlivněny.</string>
-    <string name="settings_clear_history_confirm">Vymazat historii <xliff:g id="scope">%1$s</xliff:g>?</string>
+    <string name="settings_clear_history_confirm">Vymazat historii <xliff:g id="scope">%1$s</xliff:g>\?</string>
     <string name="settings_cannot_undo">Tuto akci nelze vrátit zpět.</string>
     <string name="settings_no">Ne</string>
     <string name="settings_yes_clear">Ano, vymazat</string>
@@ -591,7 +591,7 @@
     <plurals name="settings_reset_player_choices_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> uložená volba</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> uložené volby</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> uložené volby</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> uložených voleb</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> uložených voleb</item>
     </plurals>
     <string name="settings_reset_player_choices_confirm">Resetovat uložené volby přehrávače?</string>
@@ -723,7 +723,7 @@
     <plurals name="settings_customize_range_selected">
         <item quantity="one">Vybrána <xliff:g id="count">%1$d</xliff:g> kategorie. Opakovaným stisknutím ⤒ ↑ ↓ ⤓ ji přesunete.</item>
         <item quantity="few">Vybrány <xliff:g id="count">%1$d</xliff:g> kategorie. Opakovaným stisknutím ⤒ ↑ ↓ ⤓ je přesunete společně.</item>
-        <item quantity="many">Vybráno <xliff:g id="count">%1$d</xliff:g> kategorie. Opakovaným stisknutím ⤒ ↑ ↓ ⤓ je přesunete společně.</item>
+        <item quantity="many">Vybráno <xliff:g id="count">%1$d</xliff:g> kategorií. Opakovaným stisknutím ⤒ ↑ ↓ ⤓ je přesunete společně.</item>
         <item quantity="other">Vybráno <xliff:g id="count">%1$d</xliff:g> kategorií. Opakovaným stisknutím ⤒ ↑ ↓ ⤓ je přesunete společně.</item>
     </plurals>
     <string name="settings_customize_rename">Přejmenovat</string>
@@ -731,7 +731,6 @@
     <string name="settings_customize_rename_or_delete_category">Přejmenovat nebo odstranit kategorii</string>
     <string name="settings_customize_new_category">＋ Nová kategorie</string>
     <string name="settings_customize_sort_button">Řazení: <xliff:g id="label">%1$s</xliff:g> ▾</string>
-
     <string name="settings_customize_filter_button">Filtr: <xliff:g id="label">%1$s</xliff:g> ▾</string>
     <string name="settings_customize_filter_title">Filtrovat seznam</string>
     <string name="settings_customize_filter_all">Vše</string>
@@ -748,7 +747,7 @@
     <plurals name="settings_customize_selected_categories">
         <item quantity="one">Vybrána <xliff:g id="count">%1$d</xliff:g> kategorie.</item>
         <item quantity="few">Vybrány <xliff:g id="count">%1$d</xliff:g> kategorie.</item>
-        <item quantity="many">Vybráno <xliff:g id="count">%1$d</xliff:g> kategorie.</item>
+        <item quantity="many">Vybráno <xliff:g id="count">%1$d</xliff:g> kategorií.</item>
         <item quantity="other">Vybráno <xliff:g id="count">%1$d</xliff:g> kategorií.</item>
     </plurals>
     <string name="settings_customize_hide_show_title">Skrýt nebo zobrazit kategorie</string>
@@ -811,22 +810,21 @@
     <string name="settings_sources_refresh_startup">Aktualizovat při spuštění</string>
     <string name="settings_sources_refresh_6h">6 hodin</string>
     <string name="settings_sources_refresh_12h">12 hodin</string>
-    <string name="settings_sources_refresh_manual">Vlastní interval\u2026</string>
+    <string name="settings_sources_refresh_manual">Vlastní interval…</string>
     <plurals name="settings_sources_refresh_days">
         <item quantity="one">Každý <xliff:g id="count">%1$d</xliff:g> den</item>
         <item quantity="few">Každé <xliff:g id="count">%1$d</xliff:g> dny</item>
-        <item quantity="many">Každých <xliff:g id="count">%1$d</xliff:g> dne</item>
+        <item quantity="many">Každých <xliff:g id="count">%1$d</xliff:g> dní</item>
         <item quantity="other">Každých <xliff:g id="count">%1$d</xliff:g> dní</item>
     </plurals>
     <string name="settings_sources_refresh_days_title">Interval obnovení</string>
     <string name="settings_sources_refresh_days_hint">Doleva a doprava zvolíte počet dnů, od 1 do 99.</string>
-
     <string name="settings_epg_guide_days">Počet dnů programu k uchování</string>
     <string name="settings_epg_guide_days_hint">Doleva a doprava zvolíte počet dnů, od <xliff:g id="min">%1$d</xliff:g> do <xliff:g id="max">%2$d</xliff:g>.</string>
     <plurals name="settings_epg_guide_days_value">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> den</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> dny</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> dne</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> dní</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> dní</item>
     </plurals>
     <string name="settings_epg_sources_title">Zdroje EPG</string>
@@ -853,7 +851,7 @@
     <plurals name="settings_epg_sources_catchup">
         <item quantity="one">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálu.</item>
         <item quantity="few">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálech.</item>
-        <item quantity="many">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálu.</item>
+        <item quantity="many">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálech.</item>
         <item quantity="other">TV archiv je k dispozici na <xliff:g id="count">%1$d</xliff:g> kanálech.</item>
     </plurals>
     <string name="settings_epg_sources_error">⚠ <xliff:g id="error">%1$s</xliff:g></string>
@@ -872,13 +870,13 @@
     <plurals name="settings_epg_sources_status_count_channels">
         <item quantity="one">TV program obsahuje <xliff:g id="channels">%1$d</xliff:g> kanál.</item>
         <item quantity="few">TV program obsahuje <xliff:g id="channels">%1$d</xliff:g> kanály.</item>
-        <item quantity="many">TV program obsahuje <xliff:g id="channels">%1$d</xliff:g> kanálu.</item>
+        <item quantity="many">TV program obsahuje <xliff:g id="channels">%1$d</xliff:g> kanálů.</item>
         <item quantity="other">TV program obsahuje <xliff:g id="channels">%1$d</xliff:g> kanálů.</item>
     </plurals>
     <plurals name="settings_epg_sources_status_count_programmes">
         <item quantity="one">Obsahuje <xliff:g id="programmes">%1$d</xliff:g> pořad.</item>
         <item quantity="few">Obsahuje <xliff:g id="programmes">%1$d</xliff:g> pořady.</item>
-        <item quantity="many">Obsahuje <xliff:g id="programmes">%1$d</xliff:g> pořadu.</item>
+        <item quantity="many">Obsahuje <xliff:g id="programmes">%1$d</xliff:g> pořadů.</item>
         <item quantity="other">Obsahuje <xliff:g id="programmes">%1$d</xliff:g> pořadů.</item>
     </plurals>
     <string name="settings_epg_sources_status_count"><xliff:g id="channels">%1$s</xliff:g> <xliff:g id="programmes">%2$s</xliff:g></string>
@@ -942,7 +940,7 @@
     <plurals name="settings_backup_restored">
         <item quantity="one">Obnovena <xliff:g id="items">%1$d</xliff:g> položka.</item>
         <item quantity="few">Obnoveny <xliff:g id="items">%1$d</xliff:g> položky.</item>
-        <item quantity="many">Obnoveno <xliff:g id="items">%1$d</xliff:g> položky.</item>
+        <item quantity="many">Obnoveno <xliff:g id="items">%1$d</xliff:g> položek.</item>
         <item quantity="other">Obnoveno <xliff:g id="items">%1$d</xliff:g> položek.</item>
     </plurals>
     <string name="settings_backup_restore_resync">Opětovnou synchronizací zdrojů načtěte obsah.</string>
@@ -950,7 +948,7 @@
     <plurals name="settings_backup_skipped_sources">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> zdroj byl přeskočen, protože jeho typ playlistu není podporován.</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> zdroje byly přeskočeny, protože jejich typy playlistů nejsou podporovány.</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> zdroje bylo přeskočeno, protože jejich typy playlistů nejsou podporovány.</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> zdrojů bylo přeskočeno, protože jejich typy playlistů nejsou podporovány.</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> zdrojů bylo přeskočeno, protože jejich typy playlistů nejsou podporovány.</item>
     </plurals>
     <string name="settings_backup_export_error">Export se nezdařil.</string>
@@ -966,7 +964,7 @@
     <plurals name="settings_bulk_rename_selected">
         <item quantity="one">Vybrán <xliff:g id="count">%1$d</xliff:g> název. Přidejte pravidla nebo jej automaticky upravte.</item>
         <item quantity="few">Vybrány <xliff:g id="count">%1$d</xliff:g> názvy. Přidejte pravidla nebo je automaticky upravte.</item>
-        <item quantity="many">Vybráno <xliff:g id="count">%1$d</xliff:g> názvu. Přidejte pravidla nebo je automaticky upravte.</item>
+        <item quantity="many">Vybráno <xliff:g id="count">%1$d</xliff:g> názvů. Přidejte pravidla nebo je automaticky upravte.</item>
         <item quantity="other">Vybráno <xliff:g id="count">%1$d</xliff:g> názvů. Přidejte pravidla nebo je automaticky upravte.</item>
     </plurals>
     <string name="settings_bulk_rename_add_rule">✎ Přidat pravidlo</string>
@@ -999,19 +997,19 @@
     <plurals name="settings_bulk_rename_will_change">
         <item quantity="one">Změní se <xliff:g id="count">%1$d</xliff:g> název</item>
         <item quantity="few">Změní se <xliff:g id="count">%1$d</xliff:g> názvy</item>
-        <item quantity="many">Změní se <xliff:g id="count">%1$d</xliff:g> názvu</item>
+        <item quantity="many">Změní se <xliff:g id="count">%1$d</xliff:g> názvů</item>
         <item quantity="other">Změní se <xliff:g id="count">%1$d</xliff:g> názvů</item>
     </plurals>
     <plurals name="settings_bulk_rename_unchanged_count">
         <item quantity="one">Beze změny zůstane <xliff:g id="count">%1$d</xliff:g> název</item>
         <item quantity="few">Beze změny zůstanou <xliff:g id="count">%1$d</xliff:g> názvy</item>
-        <item quantity="many">Beze změny zůstane <xliff:g id="count">%1$d</xliff:g> názvu</item>
+        <item quantity="many">Beze změny zůstane <xliff:g id="count">%1$d</xliff:g> názvů</item>
         <item quantity="other">Beze změny zůstane <xliff:g id="count">%1$d</xliff:g> názvů</item>
     </plurals>
     <plurals name="settings_bulk_rename_duplicates_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> duplicita</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> duplicity</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> duplicity</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> duplicit</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> duplicit</item>
     </plurals>
     <string name="settings_bulk_rename_apply_all">Použít vše</string>
@@ -1038,13 +1036,13 @@
     <plurals name="settings_customize_selected_items">
         <item quantity="one">Vybrána <xliff:g id="count">%1$d</xliff:g> položka.</item>
         <item quantity="few">Vybrány <xliff:g id="count">%1$d</xliff:g> položky.</item>
-        <item quantity="many">Vybráno <xliff:g id="count">%1$d</xliff:g> položky.</item>
+        <item quantity="many">Vybráno <xliff:g id="count">%1$d</xliff:g> položek.</item>
         <item quantity="other">Vybráno <xliff:g id="count">%1$d</xliff:g> položek.</item>
     </plurals>
     <plurals name="settings_customize_move_items_selected">
         <item quantity="one">Vybrána <xliff:g id="count">%1$d</xliff:g> položka. Opakovaným stisknutím ⤒ ↑ ↓ ⤓ ji přesunete.</item>
         <item quantity="few">Vybrány <xliff:g id="count">%1$d</xliff:g> položky. Opakovaným stisknutím ⤒ ↑ ↓ ⤓ je přesunete společně.</item>
-        <item quantity="many">Vybráno <xliff:g id="count">%1$d</xliff:g> položky. Opakovaným stisknutím ⤒ ↑ ↓ ⤓ je přesunete společně.</item>
+        <item quantity="many">Vybráno <xliff:g id="count">%1$d</xliff:g> položek. Opakovaným stisknutím ⤒ ↑ ↓ ⤓ je přesunete společně.</item>
         <item quantity="other">Vybráno <xliff:g id="count">%1$d</xliff:g> položek. Opakovaným stisknutím ⤒ ↑ ↓ ⤓ je přesunete společně.</item>
     </plurals>
     <string name="settings_customize_rename_item_hint">Platí pouze pro tento profil. Ponecháním prázdného pole obnovíte „<xliff:g id="name">%1$s</xliff:g>“.</string>
@@ -1276,7 +1274,7 @@
     <plurals name="settings_match_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> shoda</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> shody</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> shody</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> shod</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> shod</item>
     </plurals>
     <string name="settings_guide_width">Šířky sloupců programu</string>
@@ -1425,25 +1423,25 @@
     <plurals name="more_playlist_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> playlist</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> playlisty</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> playlistu</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> playlistů</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> playlistů</item>
     </plurals>
     <plurals name="more_count_favorites">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> oblíbená položka</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> oblíbené položky</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> oblíbené položky</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> oblíbených položek</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> oblíbených položek</item>
     </plurals>
     <plurals name="more_count_history">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> položka historie</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> položky historie</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> položky historie</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> položek historie</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> položek historie</item>
     </plurals>
     <plurals name="more_about_languages">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> jazyk</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> jazyky</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> jazyka</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> jazyků</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> jazyků</item>
     </plurals>
     <string name="settings_backup_location">Umístění</string>
@@ -1497,7 +1495,7 @@
     <plurals name="settings_nav_hide_after_seconds">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> sekunda</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> sekundy</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> sekundy</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> sekund</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> sekund</item>
     </plurals>
     <string name="settings_live_layout">Rozvržení Živého vysílání</string>
@@ -1670,13 +1668,13 @@
     <plurals name="settings_help_language">
         <item quantity="one">Jazyk všech nabídek a zpráv v OwnTV. <xliff:g id="count">%1$d</xliff:g> jazyk; dokud nějaký nevyberete, řídí se jazykem televize.</item>
         <item quantity="few">Jazyk všech nabídek a zpráv v OwnTV. <xliff:g id="count">%1$d</xliff:g> jazyky; dokud nějaký nevyberete, řídí se jazykem televize.</item>
-        <item quantity="many">Jazyk všech nabídek a zpráv v OwnTV. <xliff:g id="count">%1$d</xliff:g> jazyka; dokud nějaký nevyberete, řídí se jazykem televize.</item>
+        <item quantity="many">Jazyk všech nabídek a zpráv v OwnTV. <xliff:g id="count">%1$d</xliff:g> jazyků; dokud nějaký nevyberete, řídí se jazykem televize.</item>
         <item quantity="other">Jazyk všech nabídek a zpráv v OwnTV. <xliff:g id="count">%1$d</xliff:g> jazyků; dokud nějaký nevyberete, řídí se jazykem televize.</item>
     </plurals>
     <plurals name="settings_profile_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> profil</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> profily</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> profilu</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> profilů</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> profilů</item>
     </plurals>
     <string name="settings_seg_separate">Samostatné</string>
@@ -1687,7 +1685,7 @@
     <plurals name="settings_epg_feed_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> zdroj</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> zdroje</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> zdroje</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> zdrojů</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> zdrojů</item>
     </plurals>
     <string name="settings_title_date_time_weather">Datum, čas a počasí</string>
@@ -1725,19 +1723,19 @@
     <plurals name="settings_home_row_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> řádek</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> řádky</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> řádku</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> řádků</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> řádků</item>
     </plurals>
     <plurals name="settings_subtitles_downloaded_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> stažený</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> stažené</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> staženého</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> stažených</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> stažených</item>
     </plurals>
     <plurals name="settings_subtitle_file_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> soubor</item>
         <item quantity="few"><xliff:g id="count">%1$d</xliff:g> soubory</item>
-        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> souboru</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> souborů</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> souborů</item>
     </plurals>
     <string name="settings_line_add_from_phone">Vyplňte formulář v prohlížeči na jiném zařízení</string>

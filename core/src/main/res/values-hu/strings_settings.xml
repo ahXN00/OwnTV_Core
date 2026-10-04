@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2"
-           xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools">
     <string name="settings_sort_playlist">Lejátszási lista</string>
     <string name="settings_sort_alpha">A–Z</string>
     <string name="settings_sort_rating">Értékelés</string>
@@ -340,7 +339,7 @@
     <string name="settings_startup_channel_unavailable">Az indítási csatorna nem érhető el. A kezdőlap nyílt meg.</string>
     <string name="settings_all_history">Összes előzmény</string>
     <string name="settings_choose_history">Válaszd ki, mit távolítsunk el ehhez a profilhoz. A lejátszási listákat, kedvenceket és letöltéseket ez nem érinti.</string>
-    <string name="settings_clear_history_confirm">Törlöd ezt az előzményt: <xliff:g id="scope">%1$s</xliff:g>?</string>
+    <string name="settings_clear_history_confirm">Törlöd ezt az előzményt: <xliff:g id="scope">%1$s</xliff:g>\?</string>
     <string name="settings_cannot_undo">Ez nem vonható vissza.</string>
     <string name="settings_no">Nem</string>
     <string name="settings_yes_clear">Igen, törlés</string>
@@ -823,14 +822,13 @@
     <string name="settings_sources_refresh_startup">Frissítés induláskor</string>
     <string name="settings_sources_refresh_6h">6 óra</string>
     <string name="settings_sources_refresh_12h">12 óra</string>
-    <string name="settings_sources_refresh_manual">Egyéni időköz\u2026</string>
+    <string name="settings_sources_refresh_manual">Egyéni időköz…</string>
     <plurals name="settings_sources_refresh_days">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> naponta</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> naponta</item>
     </plurals>
     <string name="settings_sources_refresh_days_title">Frissítési időköz</string>
     <string name="settings_sources_refresh_days_hint">A balra és jobbra gombbal állítható a napok száma, 1-től 99-ig.</string>
-
     <string name="settings_epg_guide_days">Megőrzött műsorújság-napok</string>
     <string name="settings_epg_guide_days_hint">A balra és jobbra gombbal állítható a napok száma, <xliff:g id="min">%1$d</xliff:g>-től <xliff:g id="max">%2$d</xliff:g>-ig.</string>
     <plurals name="settings_epg_guide_days_value">
@@ -887,7 +885,6 @@
     <string name="settings_epg_sources_status_count_with_catchup"><xliff:g id="counts">%1$s</xliff:g> <xliff:g id="catchup">%2$s</xliff:g></string>
     <string name="settings_epg_sources_status_synced">Szinkronizálva, de nem található műsor az időablakban.</string>
     <string name="settings_epg_sources_status_synced_with_catchup"><xliff:g id="catchup">%1$s</xliff:g></string>
-
     <string name="settings_backup_title">Mentés és visszaállítás</string>
     <string name="settings_backup_working">Feldolgozás…</string>
     <string name="settings_backup_what_backup">Mit mentsen</string>
@@ -959,10 +956,8 @@
     <string name="settings_backup_which_profiles">Mely profilokat mentse</string>
     <string name="settings_backup_selected_profiles">A mentés csak a kijelölt profilokat és azok adatait fogja tartalmazni. A zárolt profilokhoz szükséges a PIN-kódjuk.</string>
     <string name="settings_backup_profile_pin_description">Ez nem a jelenlegi profilod. Add meg a PIN-kódját, hogy bekerüljön a mentésbe — PIN nélkül az adatai nem lesznek elmentve.</string>
-
     <string name="settings_metadata_optional">nem kötelező</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
-
     <string name="settings_bulk_rename_title">Tömeges átnevezés</string>
     <plurals name="settings_bulk_rename_selected">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> név kijelölve. Adj hozzá szabályokat, vagy tisztítsd meg automatikusan.</item>
@@ -1018,7 +1013,6 @@
     <string name="settings_bulk_rename_auto_country_provider">Automatikus: ország-/szolgáltatócímkék</string>
     <string name="settings_bulk_rename_auto_quality_codec">Automatikus: minőség-/kodekcímkék bárhol</string>
     <string name="settings_bulk_rename_auto_emoji_symbols">Automatikus: emodzsik és szimbólumok</string>
-
     <string name="settings_customize_new_category_title">Új kategória</string>
     <string name="settings_customize_new_category_description">Vegyes kategória ehhez a profilhoz — helyezz bele csatornákat, filmeket vagy sorozatokat.</string>
     <string name="settings_customize_this_category">ez a kategória</string>
@@ -1042,13 +1036,11 @@
     <string name="settings_customize_rename_items">✎ Elemek átnevezése</string>
     <string name="settings_customize_move_to">Áthelyezés…</string>
     <string name="settings_customize_back">← Vissza</string>
-
     <string name="settings_move_category_title">Áthelyezés kategóriába</string>
     <string name="settings_move_category_description">Az elem kikerül innen: „<xliff:g id="name">%1$s</xliff:g>”, hacsak nem hagyod ott is.</string>
     <string name="settings_move_category_new">＋ Új kategória…</string>
     <string name="settings_move_category_keep">Maradjon a(z) „<xliff:g id="name">%1$s</xliff:g>” kategóriában is</string>
     <string name="settings_move_category_action">Áthelyezés</string>
-
     <string name="settings_dns_description">Egyéni DNS-kiszolgáló használata a domainek feloldásához</string>
     <string name="settings_dns_custom">Egyéni DNS</string>
     <string name="settings_dns_toggle_description">Az OwnTV összes domainfeloldása egyéni DNS-kiszolgálón keresztül történjen.</string>
@@ -1067,7 +1059,6 @@
     <string name="settings_dns_connection_refused">A kapcsolat elutasítva — ellenőrizd a kiszolgáló címét és portját.</string>
     <string name="settings_dns_test_failed">A DNS-teszt nem sikerült — ellenőrizd a kiszolgáló címét.</string>
     <string name="settings_dns_no_addresses">A DNS nem adott vissza címet ehhez: <xliff:g id="host">%1$s</xliff:g>.</string>
-
     <string name="settings_subtitle_customize">Feliratok testreszabása</string>
     <string name="settings_subtitle_customize_off">Kikapcsolva a feliratok pontosan úgy jelennek meg, ahogy az adatfolyam és a lejátszó rajzolja őket.</string>
     <string name="settings_subtitle_preview_stock">Előnézet — gyári megjelenés</string>
