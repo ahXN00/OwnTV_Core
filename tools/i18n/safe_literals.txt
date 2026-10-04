@@ -4370,6 +4370,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	load_control stale (was=$builtLoadControl want=$wanted) — rebuilding player
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	load_error status=${code ?: -1} type=${error.javaClass.simpleName}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	matroska
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	media server not answering
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	media_source inferred=${route.logName} declared=${currentManifestType?.key ?: "-"}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	min=${lc.minBufferMs}ms max=${lc.maxBufferMs}ms latency=${liveBufferSecs ?: -1}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	mp4
@@ -4384,6 +4385,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	network revalidated
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	no data for ${failingSecs}s; gave up after ${tune.retryCount} reconnects
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	no picture after ${now - tune.readySinceMs}ms
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	no response from ${HttpClient.redactHost(host)} within ${RESPONSE_DEADLINE_MS}ms — request abandoned ($misses in a row)
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	open stalled
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	open stalled — $detail
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	open stalled: $detail — the stream is buffered but unplayable here
@@ -5059,6 +5061,8 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/ResolutionLabel.kt	480p
 1	technical	player-core/src/main/java/tv/own/owntv/player/ResolutionLabel.kt	4K
 1	technical	player-core/src/main/java/tv/own/owntv/player/ResolutionLabel.kt	720p
+1	log	player-core/src/main/java/tv/own/owntv/player/ResponseDeadline.kt	no response headers within ${deadlineMs}ms
+1	technical	player-core/src/main/java/tv/own/owntv/player/ResponseDeadline.kt	owntv-response-deadline
 1	log	player-core/src/main/java/tv/own/owntv/player/ScreenOff.kt	ScreenOff
 1	log	player-core/src/main/java/tv/own/owntv/player/ScreenOff.kt	lockNow failed
 1	empty	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	\0

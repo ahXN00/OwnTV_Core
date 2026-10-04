@@ -1443,6 +1443,7 @@ class LivePreviewEngine(
         // THE reset. Everything a new channel must not inherit from the previous one lives in
         // [TuneState], so forgetting it is one assignment that cannot be partially done.
         tune = TuneState(playStartedMs = android.os.SystemClock.elapsedRealtime())
+        deadlineMisses.set(0)
         _stalledSinceMs.value = null
         // Read BEFORE the player is (re)built below — the load control is fixed at construction.
         prerollOverrideSecs = prerollSecsOverride
@@ -1903,6 +1904,25 @@ class LivePreviewEngine(
             }
             pendingReload = reload
             mainHandler.postDelayed(reload, delayMs)
+        }
+    }
+
+    /** Consecutive live requests that got no response headers in time (see [ResponseDeadline]). */
+    private val deadlineMisses = java.util.concurrent.atomic.AtomicInteger(0)
+
+    private fun onResponseDeadlineMissed(host: String) {
+        val misses = deadlineMisses.incrementAndGet()
+        LiveDiagnosticsLog.event(
+            "no response from ${HttpClient.redactHost(host)} within ${RESPONSE_DEADLINE_MS}ms — request abandoned ($misses in a row)",
+        )
+        // HLS keeps refreshing and fetching from the media server the panel picked, so Media3's retry goes
+        // straight back to the silent one. Twice in a row on a channel that played: rejoin through the
+        // panel, which picks again. (Raw TS needs nothing more: each retry already goes through the panel.)
+        if (activeIsHls && tune.hasPlayed && !tune.gaveUp && !tune.reconnectPending &&
+            misses >= HLS_DEADLINE_MISSES_TO_RECONNECT
+        ) {
+            deadlineMisses.set(0)
+            reconnect("media server not answering", immediate = true)
         }
     }
 
@@ -2808,6 +2828,13 @@ class LivePreviewEngine(
         streamingHttp.client.newBuilder()
             .connectTimeout(LIVE_CONNECT_TIMEOUT_MS, java.util.concurrent.TimeUnit.MILLISECONDS)
             .dns(liveDnsOver(streamingHttp.client.dns))
+            .addNetworkInterceptor(
+                ResponseDeadline(
+                    RESPONSE_DEADLINE_MS,
+                    onMissed = { host -> mainHandler.post { onResponseDeadlineMissed(host) } },
+                    onAnswered = { deadlineMisses.set(0) },
+                ),
+            )
             .addInterceptor { chain ->
                 val startedAt = android.os.SystemClock.elapsedRealtime()
                 val request = chain.request()
@@ -3301,6 +3328,11 @@ class LivePreviewEngine(
          *  default) left each reconnect during an outage waiting that long for every attempt. 5s still
          *  allows three SYNs (0, 1 and 3s). */
         private const val LIVE_CONNECT_TIMEOUT_MS = 5_000L
+        /** Response headers per hop (see [ResponseDeadline]). Healthy panels and media servers measured
+         *  up to 1.6 s; a silent one never answered. */
+        private const val RESPONSE_DEADLINE_MS = 4_000L
+        /** Consecutive missed deadlines before a played HLS channel rejoins through the panel. */
+        private const val HLS_DEADLINE_MISSES_TO_RECONNECT = 2
         private const val MAX_RECONNECTS = 8        // ~consecutive failures before giving up (HUD Retry then)
         /** Content failures after playing (see [isContentFailure]) before the stream is ExoPlayer's no
          *  longer: one may be a corrupt moment that a reconnect skips past, two is the stream. */
