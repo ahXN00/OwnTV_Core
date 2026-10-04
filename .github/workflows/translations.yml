@@ -21,6 +21,7 @@ on:
 
 permissions:
   contents: read
+  issues: write   # issues use the built-in token; CONSUMER_BUMP_TOKEN has no Issues permission
 
 concurrency:
   group: translations
@@ -36,6 +37,7 @@ jobs:
     env:
       WEBLATE_TOKEN: ${{ secrets.WEBLATE_TOKEN }}
       GH_TOKEN: ${{ secrets.CONSUMER_BUMP_TOKEN }}
+      ISSUE_TOKEN: ${{ github.token }}
     steps:
       - name: Checkout main
         uses: actions/checkout@v7
@@ -155,8 +157,8 @@ jobs:
           python tools/i18n/sync_translations.py ready | while read -r id pct name; do
             if [ "$name" = "NOT-IN-CATALOGUE" ]; then
               title="Language $id reached $pct% on Weblate - needs a locales.json entry"
-              gh issue list --state open --search "$title in:title" --json number | jq -e 'length > 0' >/dev/null \
-                || gh issue create --title "$title" --body "Weblate's \`$id\` is $pct% translated, above the readiness threshold, but it is not in tools/i18n/locales.json, so it cannot be promoted automatically. Add its catalogue entry; the next sync opens the promotion pull request."
+              GH_TOKEN=$ISSUE_TOKEN gh issue list --state open --search "$title in:title" --json number | jq -e 'length > 0' >/dev/null \
+                || GH_TOKEN=$ISSUE_TOKEN gh issue create --title "$title" --body "Weblate's \`$id\` is $pct% translated, above the readiness threshold, but it is not in tools/i18n/locales.json, so it cannot be promoted automatically. Add its catalogue entry; the next sync opens the promotion pull request."
               continue
             fi
             branch="translations/promote-$id"
@@ -173,12 +175,16 @@ jobs:
 
       - name: Close an earlier "blocked" issue
         if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           num=$(gh issue list --state open --search "Translations sync blocked in:title" --json number --jq '.[0].number')
           [ -z "$num" ] || gh issue close "$num" --comment "Resolved: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
       - name: Report a blocked sync
         if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           title="Translations sync blocked"
           url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
