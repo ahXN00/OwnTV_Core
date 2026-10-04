@@ -9,6 +9,12 @@
 > in one bolded line of its own (e.g. **Database v46 · Backup v24 · Breaking**). The detail — what,
 > why, files and verification — belongs in the commit message, never here.
 
+## core-1.0.64 — 2026-10-04
+
+### 🐛 Fixes
+
+- **🧭 The TV rail no longer widens on focus unless you turn it on**
+
 ## core-1.0.63 — 2026-10-04
 
 ### 🐛 Fixes
