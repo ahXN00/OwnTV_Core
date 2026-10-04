@@ -14,7 +14,7 @@ import tv.own.owntv.core.database.entity.SourceEntity
 import tv.own.owntv.core.model.SourceType
 
 /**
- * `SmartProviderDao` — the cross-provider failover memory (v47, Smart Provider phase 2).
+ * `SmartProviderDao` — the cross-provider failover memory (v48, Smart Provider phase 2).
  *
  * Opened through [ownTVTestDatabase], so these run on the bundled engine the app actually ships.
  *

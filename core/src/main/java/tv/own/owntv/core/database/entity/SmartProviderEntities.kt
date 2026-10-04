@@ -6,7 +6,7 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 
 /**
- * One remembered "this channel is also carried by that provider" relationship (v47, Smart Provider
+ * One remembered "this channel is also carried by that provider" relationship (v48, Smart Provider
  * phase 2).
  *
  * When a tune fails on the provider that owns a channel, the useful question is not "what went

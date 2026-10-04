@@ -7,7 +7,7 @@ import androidx.room.Query
 import tv.own.owntv.core.database.entity.ChannelProviderCandidateEntity
 
 /**
- * Reads and writes of the cross-provider failover memory (v47, Smart Provider phase 2).
+ * Reads and writes of the cross-provider failover memory (v48, Smart Provider phase 2).
  *
  * Deliberately small. This table is a cache of a *relationship*, and the entity plus its migration
  * are the substance of this phase — what a provider last did for a channel. Deciding which

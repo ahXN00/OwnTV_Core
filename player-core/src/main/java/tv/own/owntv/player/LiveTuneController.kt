@@ -835,9 +835,13 @@ class LiveTuneController(
         // is bounded by one deadline, so a chain of providers can never hold the screen black longer than
         // the user agreed to wait. It belongs to the anchor: that is the channel, and the playlist, whose
         // "Give up after" the user set. A substitute inherits it rather than getting a fresh allowance.
-        attempt?.openBudget(ownMs, nowMs)
+        val walk = attempt
+        walk?.openBudget(ownMs, nowMs)
         // Inside that deadline each provider gets its own window — the anchor's, or what is left of it.
-        armedBudgetMs = attempt?.budgetFor(ownMs, nowMs) ?: ownMs
+        // Only a substitute is floored (see [ProviderAttempt.budgetFor]): the tune the user asked for gets
+        // exactly the window its playlist names, so a "Give up after" of 2s is two seconds, not five.
+        val onAnchor = walk == null || walk.anchor.id == channel.id
+        armedBudgetMs = walk?.budgetFor(ownMs, nowMs, onAnchor = onAnchor) ?: ownMs
         ladder.arm(channel.streamUrl, preference, budgetMs = armedBudgetMs, nowMs = nowMs) {
             // A saved copy is one address; the ladder is only the two engines.
             ts == null && hasHlsAlternative(channel, source)
@@ -1061,14 +1065,25 @@ class LiveTuneController(
         fun leftMs(nowMs: Long): Long =
             if (deadlineAtMs == LiveLadder.NO_BUDGET) Long.MAX_VALUE else deadlineAtMs - nowMs
 
-        /** This provider's own window, capped by what the walk has left. */
-        fun budgetFor(ownMs: Long, nowMs: Long): Long {
+        /**
+         * This provider's own window: the playlist's setting, capped by what the walk has left.
+         *
+         * [onAnchor] is whether the tune being armed is the anchor's own — the channel the user picked,
+         * on the playlist they picked it from — and that window is the playlist's setting exactly. A
+         * "Give up after" of two seconds is two seconds on the anchor: [MIN_PROVIDER_BUDGET_MS] exists for
+         * the substitutes and must not quietly overrule a choice the user made.
+         *
+         * A substitute is the other case. It only ever runs because the walk still had an allowance to
+         * spend, and it needs a window worth calling a try, so its own setting is floored — a playlist
+         * saying two seconds, or Never, is not a fair try at another provider's copy. Zero or less would
+         * also read as [LiveLadder.NO_BUDGET] and hand the substitute the whole screen with no "Give up
+         * after" at all, which is the other half of what that floor is for.
+         */
+        fun budgetFor(ownMs: Long, nowMs: Long, onAnchor: Boolean): Long {
             val left = leftMs(nowMs)
             if (left == Long.MAX_VALUE) return ownMs
-            // Never below the floor: a window of zero or less would read as [LiveLadder.NO_BUDGET] and
-            // hand a provider the whole screen back with no "Give up after" at all.
-            return minOf(if (ownMs == LiveLadder.NO_BUDGET) left else ownMs, left)
-                .coerceAtLeast(MIN_PROVIDER_BUDGET_MS)
+            val window = minOf(if (ownMs == LiveLadder.NO_BUDGET) left else ownMs, left)
+            return if (onAnchor) window else window.coerceAtLeast(MIN_PROVIDER_BUDGET_MS)
         }
     }
 
@@ -1266,8 +1281,11 @@ class LiveTuneController(
         const val MAX_PROVIDER_TRIES = 3
 
         /**
-         * A provider with less than this of the walk's deadline left is not started: a tune needs seconds
-         * to get a picture, and beginning one at the wire is spending them to no purpose.
+         * Two jobs, both about the *substitutes*. A provider with less than this of the walk's deadline
+         * left is not started at all: a tune needs seconds to get a picture, and beginning one at the wire
+         * is spending them to no purpose. And a substitute's own "Give up after" is raised to it, because a
+         * couple of seconds is not a fair try at another playlist. The anchor is deliberately outside both:
+         * its window is the setting the user made, exactly as it was before this phase.
          */
         const val MIN_PROVIDER_BUDGET_MS = 5_000L
     }
