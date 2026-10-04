@@ -7,7 +7,14 @@ import kotlinx.coroutines.flow.asStateFlow
 /**
  * App-wide "a catalog sync is running" signal for the shell's unobtrusive status pill. Every sync —
  * foreground add, backgrounded add, WorkManager remainder/refresh — funnels through
- * [SyncManager.sync], which reports here. Purely observational: nothing reads this to make decisions.
+ * [SyncManager.sync], which reports here.
+ *
+ * [active] is a decision input as well as a display one. Two readers depend on it: the background
+ * catalogue drain yields while a sync of the source it is draining is running, and a host app's
+ * post-sync discovery pass waits for this map to settle empty and abandons a pass when one starts.
+ * Those readers are why this is a map keyed by source id rather than a flag — several playlists
+ * syncing at once collapse into a single non-empty-to-empty transition. [lastCompleted] is the
+ * pill's alone.
  */
 class SyncActivityTracker {
 
