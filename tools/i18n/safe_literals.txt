@@ -4117,9 +4117,10 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	${f.channelCount}ch
 1	technical	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	${f.sampleRate / 1000}kHz
 1	technical	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	?
-7	technical	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	AudioOutputPolicy
+8	log	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	AudioOutputPolicy
 1	compiler	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	DEPRECATION
 1	technical	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	audio
+1	log	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	audio decoder released: $decoderName
 1	log	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	audio decoder: $decoderName (init ${initializationDurationMs}ms, passthrough=$passthrough)
 1	log	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	audio format -> ${format.sampleMimeType} ${format.channelCount}ch ${format.sampleRate}Hz
 1	technical	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	audio output underran ${AudioOutputPolicy.UNDERRUN_LIMIT}× in ${AudioOutputPolicy.UNDERRUN_WINDOW_MS / 1000}s
@@ -4158,7 +4159,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	AV1
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	ExoPlayer
 1	log	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	ExoPlayer error: ${error.errorCodeName}
-2	log	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	ExoSubtitleEngine
+3	log	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	ExoSubtitleEngine
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	H.264
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	HEVC
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	MPEG-2
@@ -4168,6 +4169,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	ass
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	audio mode: video track ${if (disabled) "off" else "back on"}
 1	log	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	audio track -> id=$id lang=${f?.language}
+1	log	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	audio watchdog: $reason — already stereo PCM, restarting without the stereo latch
 1	log	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	audio watchdog: $reason — forcing stereo for this session
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	av01
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	avc
@@ -4304,6 +4306,7 @@
 1	mime	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	application/x-mpegurl
 2	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	audio
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	audio: ${audioSinkError.message ?: audioSinkError.javaClass.simpleName}
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	audioWatchdog: $reason — already stereo PCM, rebuilding without the stereo latch
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	audioWatchdog: $reason — forcing stereo for this session
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	av01
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	avc

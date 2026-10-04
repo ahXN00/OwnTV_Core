@@ -718,10 +718,16 @@ class ExoSubtitleEngine(
         // latches to stereo and the owner restarts this item — the sink's capabilities are decided at
         // construction, so nothing short of a rebuild can undo a bad choice.
         audioWatchdog.poll(p.isPlaying)?.let { reason ->
+            // Already plain stereo PCM: the latch cannot change this output, so restart without it.
+            if (audioWatchdog.outputWasStereoPcm) {
+                android.util.Log.w("ExoSubtitleEngine", "audio watchdog: $reason — already stereo PCM, restarting without the stereo latch")
+                onAudioFallback?.invoke(false)
+                return
+            }
             android.util.Log.w("ExoSubtitleEngine", "audio watchdog: $reason — forcing stereo for this session")
             AudioOutputPolicy.latchStereo("exo/vod: $reason")
             PlaybackErrorLog.event(context, "ExoPlayer", live = false, reason = PlayerFailureReason.STEREO_FALLBACK, detail = reason)
-            onAudioFallback?.invoke()
+            onAudioFallback?.invoke(true)
         }
     }
 
@@ -790,8 +796,9 @@ class ExoSubtitleEngine(
         }
     }
 
-    /** Fired once when the audio watchdog forces stereo; the owner shows the message and restarts. */
-    var onAudioFallback: (() -> Unit)? = null
+    /** Fired once when the audio watchdog finds the output dead; the owner restarts the item. [stereoLatched]
+     *  says whether the session was also forced to stereo — only then is there a fallback to announce. */
+    var onAudioFallback: ((stereoLatched: Boolean) -> Unit)? = null
 
     /** Fired when this item failed on the hardware decoder and the software rung is still available;
      *  the owner restarts it here with `preferSoftware`. [fromStart] when the item must restart at 0

@@ -796,7 +796,18 @@ class LivePreviewEngine(
                 // Audio output health. Runs in EVERY surround mode including "Surround" — a user who asked
                 // for 5.1 did not ask for silence — and cannot be turned off. On a hit the session latches
                 // to stereo (which every engine reads) and this channel is rebuilt on a stereo-only sink.
-                audioWatchdog.poll(p.isPlaying)?.let { reason ->
+                // A muted preview deselects the audio track (applyMute), so nothing plays out by design: that is
+                // not "no sound". Measured: a preview left on for ~10s rebuilt its player as the user opened it
+                // full screen. Unmuting re-selects the track, whose format change re-arms the watchdog.
+                audioWatchdog.poll(p.isPlaying && !audioTrackDisabled)?.let { reason ->
+                    // Already plain stereo PCM: the latch cannot change this output, and would only take
+                    // surround away from every later stream. Measured: a decoded 2ch AAC stream whose
+                    // AudioTrack never started latched the session; the rebuilt player played at once.
+                    if (audioWatchdog.outputWasStereoPcm) {
+                        LiveDiagnosticsLog.event("audioWatchdog: $reason — already stereo PCM, rebuilding without the stereo latch")
+                        rebuildForSettingChange()
+                        return
+                    }
                     LiveDiagnosticsLog.event("audioWatchdog: $reason — forcing stereo for this session")
                     AudioOutputPolicy.latchStereo("exo/live: $reason")
                     PlaybackErrorLog.event(context, "ExoPlayer", live = true, reason = PlayerFailureReason.STEREO_FALLBACK, detail = reason)
