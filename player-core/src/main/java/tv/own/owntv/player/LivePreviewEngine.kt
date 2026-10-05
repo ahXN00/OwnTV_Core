@@ -1354,6 +1354,22 @@ class LivePreviewEngine(
     fun setSurface(s: Surface?) {
         surface = s
         if (s != null) player?.setVideoSurface(s) else player?.clearVideoSurface()
+        if (s != null) {
+            awaitingFreshSurface = false
+            prepareOnSurface?.let { start -> mainHandler.removeCallbacks(start); start.run() }
+        }
+    }
+
+    /** Set by [releaseDecoderForUhd] until the replacement surface arrives: a decoder started before
+     *  then would run on Media3's placeholder and die when moved to the real one (see [play]). */
+    private var awaitingFreshSurface = false
+
+    /** A [play] holding its prepare for that surface; runs on its arrival, or after [FRESH_SURFACE_WAIT_MS]. */
+    private var prepareOnSurface: Runnable? = null
+
+    private fun cancelPrepareOnSurface() {
+        prepareOnSurface?.let { mainHandler.removeCallbacks(it) }
+        prepareOnSurface = null
     }
 
     /** Enable/disable Media3's own Surface.setFrameRate mechanism. This is separate from the window-level
@@ -1404,7 +1420,11 @@ class LivePreviewEngine(
     /** Fully release the ExoPlayer instance (and its MediaCodec) — used when leaving a UHD channel so the
      *  4K hardware decoder is handed back cleanly instead of parked/reused, and recreate the surface with
      *  it (see [recreateSurface]). The next [play] lazily rebuilds via `player ?: build()`; it may run
-     *  before the replacement surface arrives, which is fine — [setSurface] attaches it a frame later. */
+     *  before the replacement surface arrives, so the old surface is forgotten here — that window cannot
+     *  take another 4K codec, and one started on it and then moved to the new surface never shows a
+     *  second frame (measured on the TCL: Realtek's HEVC decoder logs "surface changed" and stops). With
+     *  no surface Media3 starts the codec on a placeholder and moves it the same way, so [play] also holds
+     *  its prepare until the replacement arrives through [setSurface]. */
     fun releaseDecoderForUhd() {
         if (!sawUhd) return // only pay the rebuild when leaving a genuine UHD stream
         sawUhd = false
@@ -1414,6 +1434,8 @@ class LivePreviewEngine(
         player?.run { removeListener(listener); release() }
         player = null
         videoRenderer = null
+        surface = null
+        awaitingFreshSurface = true
         recreateSurface()
     }
 
@@ -1444,6 +1466,7 @@ class LivePreviewEngine(
         // [TuneState], so forgetting it is one assignment that cannot be partially done.
         tune = TuneState(playStartedMs = android.os.SystemClock.elapsedRealtime())
         deadlineMisses.set(0); deadlineArmed = false
+        cancelPrepareOnSurface() // the previous channel's held prepare
         _stalledSinceMs.value = null
         pendingReload = null // the previous channel's; an answer on this one must never bring it forward
         // Read BEFORE the player is (re)built below — the load control is fixed at construction.
@@ -1535,7 +1558,21 @@ class LivePreviewEngine(
             setVideoTrackDisabled(_audioOnly.value) // survives a player rebuild while Audio Mode is on (F19c)
             // An open that buffers but never starts would otherwise hold the spinner forever — see
             // [openWatchdog]. Armed for every tune, pre-roll or not: branch (1) doesn't need one.
-            reprepare(p, url)
+            if (awaitingFreshSurface) {
+                // Just after a 4K release: start the decoder on the new surface, not on a placeholder that
+                // it would have to leave (see [releaseDecoderForUhd]). Bounded, so a screen that never
+                // supplies one still plays as before.
+                LiveDiagnosticsLog.event("waiting for the new video surface before starting the decoder")
+                val start = Runnable {
+                    prepareOnSurface = null
+                    awaitingFreshSurface = false
+                    if (player === p && currentUrl == url) reprepare(p, url)
+                }
+                prepareOnSurface = start
+                mainHandler.postDelayed(start, FRESH_SURFACE_WAIT_MS)
+            } else {
+                reprepare(p, url)
+            }
         }.onFailure {
             android.util.Log.w(LiveDiagnosticsLog.TAG, "preview play() failed for ${HttpClient.redactUrl(url)}", it)
             LiveDiagnosticsLog.event("play() failed: ${it.message}")
@@ -1751,6 +1788,7 @@ class LivePreviewEngine(
         mainHandler.removeCallbacks(stallWatchdog); mainHandler.removeCallbacks(progressWatchdog); mainHandler.removeCallbacks(fpsFastRefresh)
         mainHandler.removeCallbacks(openWatchdog)
         mainHandler.removeCallbacks(healthyReset)
+        cancelPrepareOnSurface()
         frameCounter.set(0); tune.lastFrameCount = 0; tune.everRendered = false; tune.lastProgressPos = -1L; tune.frozenChecks = 0
         tune.audioTrackList = emptyList(); tune.audioSelections = emptyList(); _audioCount.value = 0
         tune.textTrackList = emptyList(); tune.textSelections = emptyList(); _subCount.value = 0
@@ -1802,6 +1840,8 @@ class LivePreviewEngine(
         mainHandler.removeCallbacks(openWatchdog)
         mainHandler.removeCallbacks(healthyReset)
         mainHandler.removeCallbacks(audioOnlyConfirmation)
+        cancelPrepareOnSurface()
+        awaitingFreshSurface = false
         player?.run { removeListener(listener); release() }
         player = null
         videoRenderer = null
@@ -3343,6 +3383,9 @@ class LivePreviewEngine(
         /** Response headers per hop (see [ResponseDeadline]). Healthy panels and media servers measured
          *  up to 1.6 s; a silent one never answered. */
         private const val RESPONSE_DEADLINE_MS = 4_000L
+        /** How long a [play] after a 4K release waits for its new surface before starting anyway. Measured
+         *  on the TCL: the replacement arrived 2.3 s after the release when opening full screen. */
+        private const val FRESH_SURFACE_WAIT_MS = 5_000L
         /** Consecutive missed deadlines before a played HLS channel rejoins through the panel. */
         private const val HLS_DEADLINE_MISSES_TO_RECONNECT = 2
         private const val MAX_RECONNECTS = 8        // ~consecutive failures before giving up (HUD Retry then)
