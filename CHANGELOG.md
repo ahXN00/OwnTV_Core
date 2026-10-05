@@ -9,6 +9,17 @@
 > in one bolded line of its own (e.g. **Database v46 · Backup v24 · Breaking**). The detail — what,
 > why, files and verification — belongs in the commit message, never here.
 
+## core-1.0.65 — unreleased
+
+### ✨ New features
+
+- **🔄 "Stream interrupted. Reconnecting…" while a live channel recovers by itself** (community PR #13 by @tvdev-android)
+
+### 🐛 Fixes
+
+- **📡 Live channels keep the last picture through a network outage and come back by themselves** (community PRs #12, #13, #17 by @tvdev-android)
+- **⏱️ A live reconnect no longer stalls behind a slow connection or DNS lookup** (community PR #14 by @tvdev-android)
+
 ## core-1.0.64 — 2026-10-04
 
 ### 🐛 Fixes
