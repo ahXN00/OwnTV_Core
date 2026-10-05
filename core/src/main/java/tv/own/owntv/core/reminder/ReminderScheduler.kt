@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import androidx.core.net.toUri
 import tv.own.owntv.core.database.dao.ReminderDao
 
 /**
@@ -60,7 +61,7 @@ class ReminderScheduler(
         val intent = Intent(context, ReminderAlarmReceiver::class.java).apply {
             action = ReminderAlarmReceiver.ACTION_REMINDER_DUE
             // In the data, not an extra: PendingIntent equality ignores extras.
-            data = android.net.Uri.parse("owntv://reminder/$id")
+            data = "owntv://reminder/$id".toUri()
         }
         return runCatching {
             PendingIntent.getBroadcast(context, id.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)

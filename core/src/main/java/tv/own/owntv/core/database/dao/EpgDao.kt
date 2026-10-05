@@ -122,7 +122,8 @@ interface EpgDao {
 
     /** Lightweight version for Guide row rendering; avoids CursorWindow pressure from descriptions. */
     @Query(
-        "SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, 0 AS contentHash " +
+        "SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, 0 AS contentHash, " +
+            "NULL AS categories, NULL AS year, NULL AS rating, NULL AS lengthMin, NULL AS episode " +
             "FROM epg_programmes WHERE epgChannelId = :epgKey " +
             "AND startMs > :from - 86400000 AND stopMs > :from AND startMs < :to ORDER BY startMs ASC",
     )
@@ -130,7 +131,8 @@ interface EpgDao {
 
     /** Lightweight rows for several Home On Now channels at once. */
     @Query(
-        "SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, 0 AS contentHash " +
+        "SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, 0 AS contentHash, " +
+            "NULL AS categories, NULL AS year, NULL AS rating, NULL AS lengthMin, NULL AS episode " +
             "FROM epg_programmes WHERE epgChannelId IN (:epgKeys) " +
             "AND startMs > :from - 86400000 AND stopMs > :from AND startMs < :to ORDER BY epgChannelId ASC, startMs ASC",
     )

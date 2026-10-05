@@ -635,7 +635,7 @@ class TvHomeRepository(
     private fun safeMediaArtUri(raw: String?): Uri? = safeLiveArtUri(raw)
 
     private fun resourceUri(resId: Int): Uri =
-        Uri.parse("android.resource://${context.packageName}/$resId")
+        "android.resource://${context.packageName}/$resId".toUri()
 
     private fun isHidden(customizations: SectionCustomizations, channel: tv.own.owntv.core.database.entity.ChannelEntity): Boolean =
         CustomizeKeys.channel(channel) in customizations.hiddenItems

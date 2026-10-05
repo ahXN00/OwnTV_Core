@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import tv.own.owntv.core.network.StreamHeaders
 import java.io.File
 import tv.own.owntv.core.i18n.AppLocale
@@ -77,7 +78,7 @@ class ExternalPlayerLauncher(private val context: Context) {
     // Whether any installed app can handle a video URL.
     fun isAvailable(): Boolean {
         val probe = Intent(Intent.ACTION_VIEW)
-            .setDataAndType(Uri.parse("https://example.com/video.mp4"), "video/mp4")
+            .setDataAndType("https://example.com/video.mp4".toUri(), "video/mp4")
         return context.packageManager.queryIntentActivities(probe, 0).isNotEmpty()
     }
 
@@ -95,7 +96,7 @@ class ExternalPlayerLauncher(private val context: Context) {
     //  - "android.media.intent.extra.HTTP_HEADERS": the Bundle form some ExoPlayer-based players use.
     // A player that knows none of them ignores the extras entirely, which is the behaviour we had.
     private fun applyHeaders(intent: Intent, url: String, userAgent: String?, httpHeaders: String?) {
-        if (Uri.parse(url).scheme?.lowercase() !in NETWORK_SCHEMES) return
+        if (url.toUri().scheme?.lowercase() !in NETWORK_SCHEMES) return
         val headers = LinkedHashMap<String, String>(4)
         userAgent?.takeIf { it.isNotBlank() }?.let { headers["User-Agent"] = it }
         // Per-channel headers win over the source UA: a playlist that sets its own User-Agent set it
@@ -114,14 +115,14 @@ class ExternalPlayerLauncher(private val context: Context) {
 
     // Network scheme: hand the URL over verbatim; otherwise treat as a local file path.
     private fun uriFor(url: String): Uri? {
-        val scheme = Uri.parse(url).scheme?.lowercase()
-        if (scheme in NETWORK_SCHEMES) return Uri.parse(url)
+        val scheme = url.toUri().scheme?.lowercase()
+        if (scheme in NETWORK_SCHEMES) return url.toUri()
         // A download or recording saved into a folder the user picked is already a shareable URI —
         // it needs no FileProvider, and wrapping it in one is impossible anyway. It is passed
         // through with the read grant the intent already carries. Whether the other app is allowed
         // to open it is then between it and the provider; before this, a document simply fell
         // through to File(), did not exist, and the external player silently refused to start.
-        if (scheme == CONTENT_SCHEME) return Uri.parse(url)
+        if (scheme == CONTENT_SCHEME) return url.toUri()
         val file = File(url)
         if (!file.exists()) return null
         val authority = context.packageName + ".fileprovider"

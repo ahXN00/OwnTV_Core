@@ -1042,6 +1042,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE sourceId = :sourceId AND epgChannelId IN (:epgChannelIds)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE startMs > :after
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE stopMs < :before
+2	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	NULL AS categories, NULL AS year, NULL AS rating, NULL AS lengthMin, NULL AS episode
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT (MAX(stopMs) - MIN(startMs)) / 86400000 FROM epg_programmes WHERE epgChannelId = :epgChannelId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT * FROM epg_programmes WHERE epgChannelId = :epgChannelId AND startMs <= :now AND stopMs > :now ORDER BY startMs DESC LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT * FROM epg_programmes WHERE epgChannelId = :epgChannelId AND stopMs <= :now ORDER BY stopMs DESC LIMIT 1
@@ -1059,7 +1060,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT epgChannelId, displayName, normName, normId FROM epg_channels LIMIT :limit
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT epgChannelId, iconUrl FROM epg_channels WHERE sourceId IN (:sourceIds) AND iconUrl IS NOT NULL AND iconUrl != ''
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT id, epgChannelId, startMs, contentHash FROM epg_programmes WHERE sourceId = :sourceId AND epgChannelId = :epgChannelId
-2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, 0 AS contentHash
+2	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, 0 AS contentHash,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	(:type = 'LIVE' AND itemId NOT IN (SELECT id FROM channels)) OR
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	(:type = 'MOVIE' AND itemId NOT IN (SELECT id FROM movies)) OR
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	(:type = 'SERIES' AND itemId NOT IN (SELECT id FROM series))
@@ -1904,6 +1905,7 @@
 1	empty	core/src/main/java/tv/own/owntv/core/i18n/LocaleStore.kt	\0
 1	technical	core/src/main/java/tv/own/owntv/core/i18n/LocaleStore.kt	Failed to persist application locale
 1	assertion	core/src/main/java/tv/own/owntv/core/i18n/LocaleStore.kt	Unsupported application locale: ${tag.trim()}
+1	compiler	core/src/main/java/tv/own/owntv/core/i18n/LocaleStore.kt	UseKtx
 1	technical	core/src/main/java/tv/own/owntv/core/i18n/LocaleStore.kt	owntv_locale
 1	preference-key	core/src/main/java/tv/own/owntv/core/i18n/LocaleStore.kt	ui_language
 3	uri	core/src/main/java/tv/own/owntv/core/launcher/LauncherDeepLink.kt	episode
@@ -3773,6 +3775,7 @@
 1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftServer.kt	owntv-timeshift-client
 1	log	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftServer.kt	owntv-timeshift-server
 1	file-path	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftSession.kt	.
+1	compiler	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftSession.kt	PLATFORM_CLASS_MAPPED_TO_KOTLIN
 1	file-path	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftSession.kt	init.mp4
 1	file-path	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftSession.kt	mp4
 1	file-path	core/src/main/java/tv/own/owntv/core/timeshift/TimeshiftSession.kt	ts

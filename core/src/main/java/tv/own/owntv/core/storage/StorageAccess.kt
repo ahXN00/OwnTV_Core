@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Environment
 import android.provider.Settings
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import java.io.File
 
 /**
@@ -42,7 +43,7 @@ object StorageAccess {
      * READ_EXTERNAL_STORAGE stays declared (maxSdk 32) so "Files and media" is listed there.
      */
     fun openStoragePermissionSettings(context: Context) {
-        val pkg = Uri.parse("package:${context.packageName}")
+        val pkg = "package:${context.packageName}".toUri()
         val candidates = listOf(
             Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, pkg),
             Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION, pkg),

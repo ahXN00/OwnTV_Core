@@ -1225,13 +1225,11 @@ class SettingsRepository(private val context: Context, private val localeStore: 
 
     /**
      * Docked + Compact only: the size the rail opens to over the content while it holds focus, so the
-     * names show without the content giving up room. null = Off (it stays icons only). Default Normal.
+     * names show without the content giving up room. null = Off (it stays icons only). Default Off
+     * (owner, 2026-10-04: a fresh install or an update gets the plain Docked rail).
      */
     val navWiden: Flow<NavSize?> = prefsFlow { prefs ->
-        when (val v = prefs[Keys.NAV_WIDEN]) {
-            NAV_WIDEN_OFF -> null
-            else -> v?.let { runCatching { NavSize.valueOf(it) }.getOrNull() }?.takeIf { it != NavSize.COMPACT } ?: NavSize.NORMAL
-        }
+        prefs[Keys.NAV_WIDEN]?.let { runCatching { NavSize.valueOf(it) }.getOrNull() }?.takeIf { it != NavSize.COMPACT }
     }
 
     suspend fun setNavWiden(size: NavSize?) {

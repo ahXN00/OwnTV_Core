@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.util.Log
+import androidx.core.graphics.createBitmap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -83,7 +84,7 @@ class ProfileAvatarStore(private val context: Context) {
         val top = (source.height - side) / 2
         val target = minOf(side, SIZE_PX)
         if (left == 0 && top == 0 && side == source.width && side == source.height && target == side) return source
-        val out = Bitmap.createBitmap(target, target, Bitmap.Config.ARGB_8888)
+        val out = createBitmap(target, target)
         android.graphics.Canvas(out).drawBitmap(
             source,
             Rect(left, top, left + side, top + side),

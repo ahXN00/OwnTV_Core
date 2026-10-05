@@ -47,7 +47,7 @@ class LiveTuneControllerTimeshiftTest {
                     runCatching {
                         s.use {
                             val r = it.getInputStream().bufferedReader()
-                            while (r.readLine()?.isNotEmpty() == true) Unit
+                            while (r.readLine()?.isNotEmpty() == true) {}
                             val out = it.getOutputStream()
                             out.write("HTTP/1.1 200 OK\r\nConnection: close\r\n\r\n".toByteArray())
                             while (open) {

@@ -17,9 +17,11 @@ class SupportedLocalesTest {
 
     @Test
     fun `catalogue has source override established translations and catalogue-only backlog`() {
+        // A catalogue-only language moves from tier 2 to tier 1 when it is promoted at the readiness
+        // threshold (tools/i18n/sync_translations.py), so only the total is fixed.
         assertEquals(44, SupportedLocales.all.size)
-        assertEquals(25, SupportedLocales.all.count { it.tier == 1 })
-        assertEquals(18, SupportedLocales.all.count { it.tier == 2 })
+        assertEquals(43, SupportedLocales.all.count { it.tier == 1 || it.tier == 2 })
+        assertTrue(SupportedLocales.all.count { it.tier == 1 } >= 25)
     }
 
     @Test
@@ -32,9 +34,8 @@ class SupportedLocalesTest {
 
     @Test
     fun `catalogue-only locales are unshipped invisible and zero coverage`() {
-        val backlog = SupportedLocales.all.filter { it.tier == 2 }
-        assertEquals(18, backlog.size)
-        backlog.forEach {
+        // Their translations live only on Weblate's `translations` branch, never in this repo.
+        SupportedLocales.all.filter { it.tier == 2 }.forEach {
             assertFalse("${it.id} must not be packaged", it.packaged)
             assertFalse("${it.id} must not be picker-visible", it.pickerVisible)
             assertEquals("${it.id} must start at 0%", 0, it.coverage)
@@ -42,10 +43,10 @@ class SupportedLocalesTest {
     }
 
     @Test
-    fun `translation readiness threshold has an exact 69 70 boundary`() {
-        assertEquals(70, SupportedLocales.TRANSLATION_READINESS_THRESHOLD_PERCENT)
-        assertFalse(SupportedLocales.isTranslationReady(69))
-        assertTrue(SupportedLocales.isTranslationReady(70))
+    fun `translation readiness threshold has an exact 74 75 boundary`() {
+        assertEquals(75, SupportedLocales.TRANSLATION_READINESS_THRESHOLD_PERCENT)
+        assertFalse(SupportedLocales.isTranslationReady(74))
+        assertTrue(SupportedLocales.isTranslationReady(75))
     }
 
     @Test

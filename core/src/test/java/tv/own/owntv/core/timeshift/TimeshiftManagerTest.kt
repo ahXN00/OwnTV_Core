@@ -38,7 +38,7 @@ class TimeshiftManagerTest {
                     runCatching {
                         socket.use { s ->
                             val input = s.getInputStream().bufferedReader()
-                            while (input.readLine()?.isNotEmpty() == true) Unit
+                            while (input.readLine()?.isNotEmpty() == true) {}
                             val out = s.getOutputStream()
                             out.write("HTTP/1.1 200 OK\r\nContent-Type: video/mp2t\r\nConnection: close\r\n\r\n".toByteArray())
                             out.write(TsCutterTest.packet(0, true, payload = TsCutterTest.patPayload()))
@@ -147,7 +147,7 @@ class TimeshiftManagerTest {
         thread(isDaemon = true) {
             runCatching {
                 notTs.accept().use { s ->
-                    s.getInputStream().bufferedReader().let { r -> while (r.readLine()?.isNotEmpty() == true) Unit }
+                    s.getInputStream().bufferedReader().let { r -> while (r.readLine()?.isNotEmpty() == true) {} }
                     s.getOutputStream().write("HTTP/1.1 200 OK\r\nConnection: close\r\n\r\n".toByteArray())
                     s.getOutputStream().write(ByteArray(600 * 1024) { 0x11 })
                 }

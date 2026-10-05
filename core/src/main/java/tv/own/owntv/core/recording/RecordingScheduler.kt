@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import androidx.core.net.toUri
 import tv.own.owntv.core.database.dao.RecordingDao
 import tv.own.owntv.core.model.RecordingFailure
 import tv.own.owntv.core.model.RecordingStatus
@@ -106,7 +107,7 @@ class RecordingScheduler(
             action = RecordingAlarmReceiver.ACTION_RECORDING_DUE
             // In the data, not an extra: PendingIntent equality ignores extras, so two recordings
             // would otherwise collapse into one alarm.
-            data = android.net.Uri.parse("owntv://recording/$id")
+            data = "owntv://recording/$id".toUri()
         }
         val flags = PendingIntent.FLAG_UPDATE_CURRENT or
             if (mutable) PendingIntent.FLAG_MUTABLE else PendingIntent.FLAG_IMMUTABLE

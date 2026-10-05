@@ -1,9 +1,9 @@
 package tv.own.owntv.core.sync
 
-import android.net.Uri
 import android.os.SystemClock
 import android.util.Log
 import androidx.annotation.VisibleForTesting
+import androidx.core.net.toUri
 import java.io.File
 import java.io.InputStream
 import java.util.Objects
@@ -576,9 +576,9 @@ internal class M3uSyncer(
      */
     private fun localPlaylistSize(url: String): Long? = when {
         url.startsWith("/") -> File(url).length().takeIf { it > 0 }
-        url.startsWith("file://") -> Uri.parse(url).path?.let { File(it).length().takeIf { len -> len > 0 } }
+        url.startsWith("file://") -> url.toUri().path?.let { File(it).length().takeIf { len -> len > 0 } }
         url.startsWith("content://") -> runCatching {
-            context.contentResolver.openAssetFileDescriptor(Uri.parse(url), "r")?.use { afd ->
+            context.contentResolver.openAssetFileDescriptor(url.toUri(), "r")?.use { afd ->
                 afd.length.takeIf { it >= 0 }
             }
         }.getOrNull()
@@ -591,11 +591,11 @@ internal class M3uSyncer(
     private fun openLocalPlaylist(url: String): InputStream = when {
         url.startsWith("/") -> File(url).inputStream()
         url.startsWith("file://") -> {
-            val uri = Uri.parse(url)
+            val uri = url.toUri()
             File(uri.path ?: throw java.io.IOException("playlist_file_unavailable")).inputStream()
         }
         url.startsWith("content://") ->
-            context.contentResolver.openInputStream(Uri.parse(url))
+            context.contentResolver.openInputStream(url.toUri())
                 ?: throw java.io.IOException("playlist_file_unavailable")
         else -> throw java.io.IOException("playlist_path_unsupported")
     }
