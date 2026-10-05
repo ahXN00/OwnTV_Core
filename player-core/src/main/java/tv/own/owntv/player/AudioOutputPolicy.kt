@@ -203,8 +203,22 @@ class AudioWatchdog : AnalyticsListener {
     /** True when the renderer chose passthrough (the TV/receiver decodes) rather than in-app decode. */
     @Volatile var passthrough = false
         private set
-    /** Whether a decoder was initialised for the current audio format. See [onAudioPositionAdvancing]. */
+    /** Whether an audio decoder is running: from [onAudioDecoderInitialized] to [onAudioDecoderReleased].
+     *  See [onAudioPositionAdvancing]. */
     @Volatile private var decoderInitialized = false
+
+    /**
+     * The failing output was already plain stereo PCM: two channels or fewer, and decoded here — either
+     * a format that can never be bitstreamed (AAC, MP3, Opus…), or a decoder was seen running for it.
+     * Latching the session to stereo cannot change such an output, so the owner should rebuild this
+     * player without latching — the latch would only take surround away from every later stream.
+     */
+    val outputWasStereoPcm: Boolean
+        get() {
+            val format = audioFormat ?: return false
+            if (format.channelCount !in 1..2) return false
+            return !canBitstream(format.sampleMimeType) || (decoderInitialized && !passthrough)
+        }
 
     /** Call when a new load starts. */
     fun reset() {
@@ -231,7 +245,8 @@ class AudioWatchdog : AnalyticsListener {
         audioFormat = format
         armed = true
         advancing = false
-        decoderInitialized = false
+        // Not decoderInitialized: Media3 can report the decoder before the format it was created for, and
+        // clearing it here then read a decoded stream as passthrough. The decoder's own lifecycle owns it.
         playingSinceArmMs = 0L
         lastTickMs = 0L
     }
@@ -256,6 +271,11 @@ class AudioWatchdog : AnalyticsListener {
         )
     }
 
+    override fun onAudioDecoderReleased(eventTime: AnalyticsListener.EventTime, decoderName: String) {
+        decoderInitialized = false
+        android.util.Log.i("AudioOutputPolicy", "audio decoder released: $decoderName")
+    }
+
     override fun onAudioPositionAdvancing(
         eventTime: AnalyticsListener.EventTime,
         playoutStartSystemTimeMs: Long,
@@ -268,7 +288,9 @@ class AudioWatchdog : AnalyticsListener {
         // read `false` for every bitstreamed E-AC3/AC3/DTS track. Deferring to here rather than
         // deciding in onAudioInputFormatChanged avoids the window where the decoder simply has not
         // been created yet.
-        if (!decoderInitialized && !passthrough) {
+        // Only a format the sink can bitstream can be on that path: AAC or MP3 without a decoder event is a
+        // decoder this listener did not hear about, not passthrough.
+        if (!decoderInitialized && !passthrough && canBitstream(audioFormat?.sampleMimeType)) {
             passthrough = true
             android.util.Log.i("AudioOutputPolicy", "audio path: passthrough — the TV is decoding this stream")
         }
@@ -342,6 +364,9 @@ class AudioWatchdog : AnalyticsListener {
         return "no sound from the audio output after ${AudioOutputPolicy.NO_AUDIO_GRACE_MS / 1000}s ($what)"
     }
 
+    /** Formats an Android audio sink can send to the TV undecoded; everything else is always decoded here. */
+    private fun canBitstream(mimeType: String?): Boolean = mimeType in BITSTREAM_MIME_TYPES
+
     /** Human-readable audio line for the stream-info overlay, or null when nothing is known yet. */
     fun describe(): String? {
         val f = audioFormat ?: return null
@@ -350,6 +375,15 @@ class AudioWatchdog : AnalyticsListener {
         val rate = if (f.sampleRate != Format.NO_VALUE) "${f.sampleRate / 1000}kHz" else null
         val path = if (passthrough) "passthrough" else "decoded"
         return listOfNotNull(codec, channels, rate, path).joinToString(" · ")
+    }
+
+    private companion object {
+        /** What a sink can bitstream (Media3's passthrough encodings); see [canBitstream]. */
+        val BITSTREAM_MIME_TYPES = setOf(
+            MimeTypes.AUDIO_AC3, MimeTypes.AUDIO_E_AC3, MimeTypes.AUDIO_E_AC3_JOC, MimeTypes.AUDIO_AC4,
+            MimeTypes.AUDIO_DTS, MimeTypes.AUDIO_DTS_HD, MimeTypes.AUDIO_DTS_EXPRESS, MimeTypes.AUDIO_DTS_X,
+            MimeTypes.AUDIO_TRUEHD,
+        )
     }
 }
 
