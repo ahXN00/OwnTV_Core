@@ -4219,6 +4219,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveExoWatchdog.kt	'$channelName' opened on ExoPlayer
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveExoWatchdog.kt	'$channelName' still stalled, but its reconnect is receiving data — ${STALL_REFILL_GRACE_MS / 1000}s more to show a picture
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveExoWatchdog.kt	'$channelName' stopped playing (state=$left) — ${STALL_HANDOFF_MS / 1000}s to recover
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveExoWatchdog.kt	ExoPlayer can't play this stream's content: ${engine.errorInfo.value?.raw ?: engine.error.value}
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveExoWatchdog.kt	ExoPlayer error before first frame: ${engine.errorInfo.value?.raw ?: engine.error.value}
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveExoWatchdog.kt	ExoPlayer gave up mid-stream: ${engine.errorInfo.value?.raw ?: engine.error.value}
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveExoWatchdog.kt	ExoPlayer never opened it (${openBudgetMs / 1000}s, no frame and no error)
@@ -4238,6 +4239,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	$name=${v.second}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	${Math.round(it)} FPS
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	${buffered}ms buffered (needs ${startMs}ms) after ${waitedMs}ms, no frame,
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	${error.errorCodeName} again after playing — this stream's content is unplayable on ExoPlayer
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	${error.errorCodeName} while a reconnect waits — running it now
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	${f.width}x${f.height}
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	${tune.flapCount} re-buffers in ${now - tune.flapWindowStartMs}ms, position advanced ${advancedMs}ms
@@ -4276,6 +4278,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	ENDED
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	EXO
 5	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	ExoPlayer
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	ExoPlayer can't play this stream (${error.errorCodeName})
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	ExoPlayer error: ${error.errorCodeName}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	H.264
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	HEVC
@@ -4367,6 +4370,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	load_control stale (was=$builtLoadControl want=$wanted) — rebuilding player
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	load_error status=${code ?: -1} type=${error.javaClass.simpleName}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	matroska
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	media server not answering
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	media_source inferred=${route.logName} declared=${currentManifestType?.key ?: "-"}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	min=${lc.minBufferMs}ms max=${lc.maxBufferMs}ms latency=${liveBufferSecs ?: -1}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	mp4
@@ -4381,6 +4385,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	network revalidated
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	no data for ${failingSecs}s; gave up after ${tune.retryCount} reconnects
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	no picture after ${now - tune.readySinceMs}ms
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	no response from ${HttpClient.redactHost(host)} within ${RESPONSE_DEADLINE_MS}ms — request abandoned ($misses in a row)
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	open stalled
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	open stalled — $detail
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	open stalled: $detail — the stream is buffered but unplayable here
@@ -5056,6 +5061,8 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/ResolutionLabel.kt	480p
 1	technical	player-core/src/main/java/tv/own/owntv/player/ResolutionLabel.kt	4K
 1	technical	player-core/src/main/java/tv/own/owntv/player/ResolutionLabel.kt	720p
+1	log	player-core/src/main/java/tv/own/owntv/player/ResponseDeadline.kt	no response headers within ${deadlineMs}ms
+1	technical	player-core/src/main/java/tv/own/owntv/player/ResponseDeadline.kt	owntv-response-deadline
 1	log	player-core/src/main/java/tv/own/owntv/player/ScreenOff.kt	ScreenOff
 1	log	player-core/src/main/java/tv/own/owntv/player/ScreenOff.kt	lockNow failed
 1	empty	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	\0

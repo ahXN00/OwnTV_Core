@@ -764,6 +764,10 @@ class LiveTuneController(
     private suspend fun advance(channel: ChannelEntity, source: SourceEntity?, reason: String) {
         if (!ladder.owns(channel.streamUrl)) return // a newer tune owns the ladder now
         val nowMs = host.nowMs()
+        // ExoPlayer played this channel, then found its content unplayable (not a connection problem).
+        // The opening budget is long spent by then, which would refuse mpv, the engine most likely to
+        // play it: give this handover a fresh one.
+        if (_liveOnExo.value && engines.exoContentBroken) ladder.restartDeadline(nowMs, armedBudgetMs)
         val outOfTime = ladder.expired(nowMs)
         // A panel refusing the *request* (a busy 458, a 403, a rate limit) says nothing about the format,
         // so nothing may be learned from it.

@@ -704,6 +704,7 @@ class LivePreviewEngine(
         if (tune.retryCount > 0) LiveDiagnosticsLog.event("playback healthy for ${HEALTHY_MS}ms — reconnect ladder reset")
         tune.retryCount = 0
         tune.failingSinceMs = 0L
+        tune.contentFailures = 0
     }
 
     // Auto-resume after the ladder is spent. The ladder covers ~2 minutes of blind retrying, which is as
@@ -1030,6 +1031,31 @@ class LivePreviewEngine(
      * A channel that has played is mid-way through this engine's own reconnect ladder: it has not given
      * up and has attempts left. Abandoning it then (see [LiveTuneController]) would cut that ladder off.
      */
+    /** ExoPlayer cannot play this stream's content (see [isContentFailure]): the other engine should
+     *  have it, whatever the tune's opening budget says. */
+    val contentBroken: Boolean get() = tune.contentBroken
+
+    /**
+     * An error that is about what the stream *contains*, not about the connection to it: an extractor
+     * that crashed on the data (`UnexpectedLoaderException` — measured: Media3's AC-3 reader throwing
+     * ArrayIndexOutOfBoundsException on corrupt frames), Media3's stuck-player check (video buffered,
+     * audio never ready, loading stopped), or a container/format the renderers reject. A reconnect
+     * fetches the same content and fails the same way; mpv's demuxer skips damaged frames.
+     */
+    private fun isContentFailure(error: PlaybackException): Boolean {
+        if (error.errorCode in PlaybackException.ERROR_CODE_PARSING_CONTAINER_MALFORMED..PlaybackException.ERROR_CODE_PARSING_MANIFEST_UNSUPPORTED ||
+            error.errorCode == PlaybackException.ERROR_CODE_DECODING_FORMAT_UNSUPPORTED
+        ) return true
+        var cause: Throwable? = error.cause
+        while (cause != null) {
+            if (cause is androidx.media3.exoplayer.upstream.Loader.UnexpectedLoaderException ||
+                cause is androidx.media3.common.util.StuckPlayerException
+            ) return true
+            cause = cause.cause
+        }
+        return false
+    }
+
     val stillReconnecting: Boolean
         get() = tune.hasPlayed && !tune.gaveUp && currentUrl != null &&
             !ladderSpent(android.os.SystemClock.elapsedRealtime())
@@ -1212,6 +1238,16 @@ class LivePreviewEngine(
             // mid-stream drop → reconnect, unless a reconnect from the SAME failed prepare is already
             // in flight (ExoPlayer often fires this alongside a STATE_IDLE for one physical failure) or
             // we've already exhausted retries and are waiting on the user/a fresh play().
+            // The stream's content, not the connection: a second one in a row means ExoPlayer cannot play
+            // this channel, and reconnecting only fetches the same data again. Measured: corrupt AC-3 frames
+            // crashed Media3's reader on every reconnect, one frame then a freeze, for the whole 2-minute
+            // ladder. Fail the load so the tune controller can give the channel to mpv.
+            if (tune.hasPlayed && !tune.gaveUp && isContentFailure(error) && ++tune.contentFailures >= CONTENT_FAILURE_LIMIT) {
+                tune.contentBroken = true
+                LiveDiagnosticsLog.event("${error.errorCodeName} again after playing — this stream's content is unplayable on ExoPlayer")
+                failLoad("ExoPlayer can't play this stream (${error.errorCodeName})")
+                return
+            }
             // A reconnect is already waiting out its backoff, but this error is an answer (an HTTP status, or
             // a playlist that has moved past us): the network is back. Measured after a ~90 s HLS outage: the
             // stale segment URL answered 403 as the network returned, and the picture then waited 12 s for
@@ -1407,6 +1443,7 @@ class LivePreviewEngine(
         // THE reset. Everything a new channel must not inherit from the previous one lives in
         // [TuneState], so forgetting it is one assignment that cannot be partially done.
         tune = TuneState(playStartedMs = android.os.SystemClock.elapsedRealtime())
+        deadlineMisses.set(0)
         _stalledSinceMs.value = null
         pendingReload = null // the previous channel's; an answer on this one must never bring it forward
         // Read BEFORE the player is (re)built below — the load control is fixed at construction.
@@ -1870,6 +1907,25 @@ class LivePreviewEngine(
             }
             pendingReload = reload
             mainHandler.postDelayed(reload, delayMs)
+        }
+    }
+
+    /** Consecutive live requests that got no response headers in time (see [ResponseDeadline]). */
+    private val deadlineMisses = java.util.concurrent.atomic.AtomicInteger(0)
+
+    private fun onResponseDeadlineMissed(host: String) {
+        val misses = deadlineMisses.incrementAndGet()
+        LiveDiagnosticsLog.event(
+            "no response from ${HttpClient.redactHost(host)} within ${RESPONSE_DEADLINE_MS}ms — request abandoned ($misses in a row)",
+        )
+        // HLS keeps refreshing and fetching from the media server the panel picked, so Media3's retry goes
+        // straight back to the silent one. Twice in a row on a channel that played: rejoin through the
+        // panel, which picks again. (Raw TS needs nothing more: each retry already goes through the panel.)
+        if (activeIsHls && tune.hasPlayed && !tune.gaveUp && !tune.reconnectPending &&
+            misses >= HLS_DEADLINE_MISSES_TO_RECONNECT
+        ) {
+            deadlineMisses.set(0)
+            reconnect("media server not answering", immediate = true)
         }
     }
 
@@ -2775,6 +2831,13 @@ class LivePreviewEngine(
         streamingHttp.client.newBuilder()
             .connectTimeout(LIVE_CONNECT_TIMEOUT_MS, java.util.concurrent.TimeUnit.MILLISECONDS)
             .dns(liveDnsOver(streamingHttp.client.dns))
+            .addNetworkInterceptor(
+                ResponseDeadline(
+                    RESPONSE_DEADLINE_MS,
+                    onMissed = { host -> mainHandler.post { onResponseDeadlineMissed(host) } },
+                    onAnswered = { deadlineMisses.set(0) },
+                ),
+            )
             .addInterceptor { chain ->
                 val startedAt = android.os.SystemClock.elapsedRealtime()
                 val request = chain.request()
@@ -3268,7 +3331,15 @@ class LivePreviewEngine(
          *  default) left each reconnect during an outage waiting that long for every attempt. 5s still
          *  allows three SYNs (0, 1 and 3s). */
         private const val LIVE_CONNECT_TIMEOUT_MS = 5_000L
+        /** Response headers per hop (see [ResponseDeadline]). Healthy panels and media servers measured
+         *  up to 1.6 s; a silent one never answered. */
+        private const val RESPONSE_DEADLINE_MS = 4_000L
+        /** Consecutive missed deadlines before a played HLS channel rejoins through the panel. */
+        private const val HLS_DEADLINE_MISSES_TO_RECONNECT = 2
         private const val MAX_RECONNECTS = 8        // ~consecutive failures before giving up (HUD Retry then)
+        /** Content failures after playing (see [isContentFailure]) before the stream is ExoPlayer's no
+         *  longer: one may be a corrupt moment that a reconnect skips past, two is the stream. */
+        private const val CONTENT_FAILURE_LIMIT = 2
         /** Bytes this recent mean a stream is already coming back (see [receivingData]). */
         private const val RECENT_BYTES_MS = 2_000L
         /** How often a played live channel retries a connection failure (see [progressiveLivePolicy],
@@ -3569,6 +3640,11 @@ internal data class TuneState(
     @field:Volatile var lastVideoDecoderHardware: Boolean? = null,
     var hasPlayed: Boolean = false,
     var retryCount: Int = 0,
+    /** Errors after the first frame that say the stream's *content* is unplayable here (see
+     *  [LivePreviewEngine.isContentFailure]); reset by sustained playback. */
+    var contentFailures: Int = 0,
+    /** Set once [contentFailures] reaches its limit: reconnecting cannot help, the other engine might. */
+    var contentBroken: Boolean = false,
     /** When the current run of reconnects began (0 = none); see [LivePreviewEngine]'s RECONNECT_GIVE_UP_MS. */
     var failingSinceMs: Long = 0L,
     /** One decoder rebuild+retry per load — see [LivePreviewEngine.rebuildDecoderAndRetry]. */

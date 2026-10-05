@@ -30,6 +30,7 @@ class LiveTuneControllerTest {
         override var exoIsHls = false
         override var exoFailed = false
         override var exoStillReconnecting = false
+        override var exoContentBroken = false
         override var mpvHasStream = false
 
         /** Complete with a reason to fail the ExoPlayer watch, or with null for "opened". */
@@ -195,6 +196,14 @@ class LiveTuneControllerTest {
         val engines = FakeEngines()
         stallAfterPlayingWithNoFallback(engines)
         assertEquals("exo-abandon", engines.log.last())
+    }
+
+    @Test
+    fun `a stream ExoPlayer cannot play after it opened goes to mpv, budget or not`() = runTest {
+        val engines = FakeEngines().apply { exoContentBroken = true }
+        stallAfterPlayingWithNoFallback(engines)
+        assertTrue(engines.log.any { it.startsWith("mpv:") })
+        assertFalse(engines.log.contains("exo-abandon"))
     }
 
     @Test
