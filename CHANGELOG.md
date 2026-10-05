@@ -19,6 +19,9 @@
 
 - **📡 Live channels keep the last picture through a network outage and come back by themselves** (community PRs #12, #13, #17 by @tvdev-android)
 - **⏱️ A live reconnect no longer stalls behind a slow connection or DNS lookup** (community PR #14 by @tvdev-android)
+- **🎞️ A live channel ExoPlayer can't decode after it started playing moves to the other player** (community PR #20 by @tvdev-android)
+- **🔌 A live channel whose server stops answering mid-stream reconnects in seconds** (community PR #20 by @tvdev-android)
+- **📺 4K channels saved by Pause and rewind play on ExoPlayer again instead of losing the picture**
 
 ## core-1.0.64 — 2026-10-04
 
