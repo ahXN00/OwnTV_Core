@@ -499,6 +499,10 @@ class LivePreviewEngine(
      *  this moves, so the attempt made *after* a wait gets a full deadline of its own instead of
      *  inheriting the seconds left over from the refused one. */
     val providerBackOffsSpent: Int get() = tune.providerBackOffs
+    private val _stalledSinceMs = MutableStateFlow<Long?>(null)
+    /** See [PlaybackEngine.stalledSinceMs]. Set when a channel that has played stops, cleared when it plays
+     *  again, is stopped, or ends in an error. */
+    override val stalledSinceMs: StateFlow<Long?> = _stalledSinceMs.asStateFlow()
     private val _providerBackOff = MutableStateFlow<ProviderBackOff?>(null)
     override val providerBackOff: StateFlow<ProviderBackOff?> = _providerBackOff.asStateFlow()
     /** The tuned channel carries a User-Agent the user configured (per-source or per-channel). An explicit
@@ -699,6 +703,7 @@ class LivePreviewEngine(
     private val healthyReset = Runnable {
         if (tune.retryCount > 0) LiveDiagnosticsLog.event("playback healthy for ${HEALTHY_MS}ms — reconnect ladder reset")
         tune.retryCount = 0
+        tune.failingSinceMs = 0L
     }
 
     // Auto-resume after the ladder is spent. The ladder covers ~2 minutes of blind retrying, which is as
@@ -706,6 +711,9 @@ class LivePreviewEngine(
     // longer to report. Past that we stop guessing and wait to be told: when the network comes back,
     // resume the channel we were parked on. An outage of any length then recovers by itself, while a
     // provider outage (network never dropped, so nothing fires here) still surfaces its error.
+    // "Network dropped" includes an outage beyond the local link: with the cable in but the uplink gone,
+    // Android's own validation fails after ~90s (measured) and passes again when the uplink returns, so a
+    // channel parked on "Lost connection" by a long upstream outage resumes here too.
     init {
         connectivity.isOnline
             .onEach { online -> if (online) onNetworkRestored() }
@@ -718,10 +726,22 @@ class LivePreviewEngine(
      * and must not be restarted behind the user's back.
      */
     private fun onNetworkRestored() {
+        // Still reconnecting rather than given up: the attempt in flight may be stuck behind a connect or
+        // DNS lookup that began while the network was down. Start a fresh one now instead of waiting for
+        // it to time out. (Android only marks a network unvalidated after its own probes fail — ~90s
+        // measured on an upstream outage — so this only ever helps a long one.)
+        if (!tune.gaveUp && tune.hasPlayed && currentUrl != null && !tune.stoppingIntentionally &&
+            _stalledSinceMs.value != null && !tune.reconnectPending
+        ) {
+            LiveDiagnosticsLog.event("network re-validated while reconnecting — retrying now")
+            reconnect("network revalidated", immediate = true)
+            return
+        }
         if (!tune.gaveUp || currentUrl == null || !tune.hasPlayed || tune.stoppingIntentionally) return
         LiveDiagnosticsLog.event("network restored — resuming the channel the ladder gave up on")
         tune.gaveUp = false
         tune.retryCount = 0
+        tune.failingSinceMs = 0L // a fresh ladder, timed from this resume — not from the outage that spent the last one
         _error.value = null; _errorInfo.value = null
         _state.value = State.LOADING; _buffering.value = true
         reconnect("network restored")
@@ -1006,6 +1026,30 @@ class LivePreviewEngine(
      *  spinner that will never clear. */
     fun abandon(reason: String) = failLoad(reason)
 
+    /**
+     * A channel that has played is mid-way through this engine's own reconnect ladder: it has not given
+     * up and has attempts left. Abandoning it then (see [LiveTuneController]) would cut that ladder off.
+     */
+    val stillReconnecting: Boolean
+        get() = tune.hasPlayed && !tune.gaveUp && currentUrl != null &&
+            !ladderSpent(android.os.SystemClock.elapsedRealtime())
+
+    /**
+     * Whether the reconnect ladder is finished: [MAX_RECONNECTS] attempts, or [RECONNECT_GIVE_UP_MS] of
+     * reconnecting since the picture last played, whichever comes first. The count alone assumed attempts
+     * fail promptly; the time bound is what keeps "~2 minutes" true when they don't.
+     */
+    private fun ladderSpent(nowMs: Long): Boolean =
+        tune.retryCount >= MAX_RECONNECTS ||
+            (tune.failingSinceMs > 0L && nowMs - tune.failingSinceMs >= RECONNECT_GIVE_UP_MS)
+
+    /**
+     * Bytes arrived from the network in the last [RECENT_BYTES_MS]: a stalled stream that is receiving
+     * data is coming back, one that is not may be dead.
+     */
+    val receivingData: Boolean
+        get() = android.os.SystemClock.elapsedRealtime() - throughputTracker.lastBytesAtMs < RECENT_BYTES_MS
+
     /** Terminal failure of the current load that is NOT worth another reconnect: stand the watchdogs down
      *  and surface an error so the ViewModel can retry elsewhere (TS variant / mpv) immediately. */
     private fun failLoad(reason: String) {
@@ -1014,6 +1058,7 @@ class LivePreviewEngine(
         mainHandler.removeCallbacks(openWatchdog)
         mainHandler.removeCallbacks(healthyReset)
         tune.gaveUp = true
+        _stalledSinceMs.value = null
         _isPlaying.value = false; _buffering.value = false
         _error.value = PlayerErrors.visibleFailure(reason, currentUrl, PlaybackFailure.Channel)
         _errorInfo.value = ErrorInfo(PlayerErrors.reasonFor(reason), exoSpec(), reason)
@@ -1043,6 +1088,7 @@ class LivePreviewEngine(
                     // After it has played, a long buffer == a dropped feed → reconnect (live streams don't
                     // resume on their own here). Before first play, leave initial load alone.
                     if (tune.hasPlayed && !tune.gaveUp) {
+                        if (_stalledSinceMs.value == null) _stalledSinceMs.value = android.os.SystemClock.elapsedRealtime()
                         LiveDiagnosticsLog.event("stallWatchdog armed (${STALL_MS}ms)")
                         mainHandler.removeCallbacks(stallWatchdog); mainHandler.postDelayed(stallWatchdog, STALL_MS)
                         // …and the watchdog above can only fire if this state LASTS. A stream that bounces
@@ -1052,6 +1098,16 @@ class LivePreviewEngine(
                 }
                 Player.STATE_READY -> {
                     val resumed = tune.hasPlayed // a READY after first play == recovered from a buffer/stall
+                    // A late recovery: the ladder called this channel dead (failLoad) while the reconnect it
+                    // had already started was still opening, and that reconnect has now produced a picture.
+                    // Leaving gaveUp set would keep the error over a playing channel AND disarm the stall
+                    // watchdog for the rest of the tune, so a later stall would never reconnect.
+                    _stalledSinceMs.value = null
+                    if (tune.gaveUp && !tune.stoppingIntentionally) {
+                        LiveDiagnosticsLog.event("recovered after the ladder gave up — clearing the error")
+                        tune.gaveUp = false
+                        _error.value = null; _errorInfo.value = null
+                    }
                 _state.value = State.PLAYING; _buffering.value = false
                 tune.hasPlayed = true; mainHandler.removeCallbacks(stallWatchdog)
                 updateAudioOnlyClassification()
@@ -1059,6 +1115,11 @@ class LivePreviewEngine(
                     // Recovery is measured, not assumed: arm the ladder reset and let it fire only if this
                     // READY actually holds (see [healthyReset]).
                     mainHandler.removeCallbacks(healthyReset); mainHandler.postDelayed(healthyReset, HEALTHY_MS)
+                    // The picture is back, so the "2 minutes without recovering" clock restarts; the reconnect
+                    // count still waits for [healthyReset]. Measured: after an outage a channel recovered, then
+                    // re-buffered every few seconds on a busy device, never held 60s, and a routine
+                    // BEHIND_LIVE_WINDOW 5 minutes later found the ladder "spent" and gave up.
+                    if (resumed) tune.failingSinceMs = 0L
                     if (resumed) LiveDiagnosticsLog.event("playing — READY, spinner cleared, stallWatchdog cancelled")
                     // (re)start the silent-freeze poll now that we're actually playing. Reset the frame
                     // baseline so the freeze window is measured from this READY (a healthy stream renders its
@@ -1151,9 +1212,23 @@ class LivePreviewEngine(
             // mid-stream drop → reconnect, unless a reconnect from the SAME failed prepare is already
             // in flight (ExoPlayer often fires this alongside a STATE_IDLE for one physical failure) or
             // we've already exhausted retries and are waiting on the user/a fresh play().
+            // A reconnect is already waiting out its backoff, but this error is an answer (an HTTP status, or
+            // a playlist that has moved past us): the network is back. Measured after a ~90 s HLS outage: the
+            // stale segment URL answered 403 as the network returned, and the picture then waited 12 s for
+            // the pending attempt's 15 s backoff. Run it now; it rejoins from the panel URL.
+            if (tune.hasPlayed && tune.reconnectPending && !tune.gaveUp && isAnswerAfterOutage(error)) {
+                pendingReload?.let { reload ->
+                    LiveDiagnosticsLog.event("${error.errorCodeName} while a reconnect waits — running it now")
+                    mainHandler.removeCallbacks(reload); mainHandler.post(reload)
+                }
+                return
+            }
             if (tune.hasPlayed && !tune.reconnectPending && !tune.gaveUp) {
                 val hlsHttpFailure = activeIsHls && error.errorCode == PlaybackException.ERROR_CODE_IO_BAD_HTTP_STATUS
-                reconnect("error ${error.errorCodeName}", fastHlsHttpRecovery = hlsHttpFailure)
+                // The network is back, but the segments it was waiting for have left the playlist (a long
+                // HLS outage). Nothing to wait for: rejoin the live edge now.
+                val behindLiveWindow = error.errorCode == PlaybackException.ERROR_CODE_BEHIND_LIVE_WINDOW
+                reconnect("error ${error.errorCodeName}", fastHlsHttpRecovery = hlsHttpFailure, immediate = behindLiveWindow)
                 return
             }
             if (tune.hasPlayed) return
@@ -1332,6 +1407,7 @@ class LivePreviewEngine(
         // THE reset. Everything a new channel must not inherit from the previous one lives in
         // [TuneState], so forgetting it is one assignment that cannot be partially done.
         tune = TuneState(playStartedMs = android.os.SystemClock.elapsedRealtime())
+        _stalledSinceMs.value = null
         // Read BEFORE the player is (re)built below — the load control is fixed at construction.
         prerollOverrideSecs = prerollSecsOverride
         this.liveBufferOverride = liveBufferOverride
@@ -1632,6 +1708,7 @@ class LivePreviewEngine(
         tune.stoppingIntentionally = true
         currentUrl = null
         tune.hasPlayed = false; tune.retryCount = 0; tune.reconnectPending = false; tune.gaveUp = false; tune.decoderRetryDone = false
+        tune.failingSinceMs = 0L; _stalledSinceMs.value = null
         cancelProviderBackOff(); tune.providerBackOffs = 0
         mainHandler.removeCallbacks(stallWatchdog); mainHandler.removeCallbacks(progressWatchdog); mainHandler.removeCallbacks(fpsFastRefresh)
         mainHandler.removeCallbacks(openWatchdog)
@@ -1701,27 +1778,35 @@ class LivePreviewEngine(
     }
 
     /** Live auto-reconnect: re-fetch [currentUrl] from the live edge after a mid-stream error/stall. Backs
-     *  off and gives up after [MAX_RECONNECTS] consecutive failures (then the HUD's Retry button takes over).
+     *  off and gives up after [MAX_RECONNECTS] attempts or RECONNECT_GIVE_UP_MS, whichever comes first
+     *  (then the HUD's Retry button takes over).
      *  tune.retryCount is reset to 0 as soon as playback goes healthy again (STATE_READY).
      *
      *  For an expiring-URL source (Stalker, plan §5.4.1) the reconnect must NOT replay the now-dead
      *  resolved URL — a [reconnectUrlProvider] mints a fresh one first (null/absent → replay as-is,
      *  which is correct for M3U/Xtream and direct-URL Stalker portals). */
-    private fun reconnect(reason: String, fastHlsHttpRecovery: Boolean = false) {
+    private fun reconnect(reason: String, fastHlsHttpRecovery: Boolean = false, immediate: Boolean = false) {
         mainHandler.removeCallbacks(stallWatchdog); mainHandler.removeCallbacks(progressWatchdog); mainHandler.removeCallbacks(fpsFastRefresh)
         mainHandler.removeCallbacks(openWatchdog)
         mainHandler.removeCallbacks(healthyReset) // this attempt is a failure, not a recovery
         val p = player
         val url = currentUrl
-        if (p == null || url == null || tune.retryCount >= MAX_RECONNECTS) {
-            LiveDiagnosticsLog.event("reconnect exhausted ($reason) at ${tune.retryCount}/$MAX_RECONNECTS — giving up")
+        val nowMs = android.os.SystemClock.elapsedRealtime()
+        if (p == null || url == null || ladderSpent(nowMs)) {
+            val failingSecs = if (tune.failingSinceMs > 0L) (nowMs - tune.failingSinceMs) / 1000 else 0L
+            LiveDiagnosticsLog.event("reconnect exhausted ($reason) at ${tune.retryCount}/$MAX_RECONNECTS after ${failingSecs}s — giving up")
             tune.gaveUp = true
+            _stalledSinceMs.value = null
             _state.value = State.ERROR; _isPlaying.value = false; _buffering.value = false
-            val raw = tune.lastCodecError ?: diagnostics.recentError() ?: reason
+            // The err: line under the error. With nothing more specific to show, say what happened rather
+            // than the last reconnect's internal trigger ("buffering stalled" read as a double negative).
+            val raw = tune.lastCodecError ?: diagnostics.recentError()
+                ?: "no data for ${failingSecs}s; gave up after ${tune.retryCount} reconnects"
             _error.value = PlayerErrors.visibleFailure(raw, currentUrl, PlaybackFailure.LostConnection)
             _errorInfo.value = ErrorInfo(PlayerErrors.reasonFor(raw), exoSpec(), raw)
             return
         }
+        if (tune.failingSinceMs == 0L) tune.failingSinceMs = nowMs // a fresh run, or the picture came back since
         tune.retryCount++
         tune.reconnectPending = true
         _error.value = null; _errorInfo.value = null; _state.value = State.LOADING; _buffering.value = true
@@ -1730,7 +1815,11 @@ class LivePreviewEngine(
         // away), but it does NOT get its retry count forgiven here: only [healthyReset] — sustained
         // playback — clears the ladder. Forgiving on a bare READY let a feed that died 10 s later loop
         // forever without ever reaching the honest "Lost connection" end state.
-        val delayMs = if (fastHlsHttpRecovery) hlsHttpReconnectDelayMs(tune.retryCount) else reconnectDelayMs(tune.retryCount)
+        val delayMs = when {
+            immediate -> 0L
+            fastHlsHttpRecovery -> hlsHttpReconnectDelayMs(tune.retryCount)
+            else -> reconnectDelayMs(tune.retryCount)
+        }
         // Resolve a fresh URL off-main (Stalker create_link is a network call) before the delayed reload.
         val provider = reconnectUrlProvider
         scope.launch {
@@ -1743,9 +1832,25 @@ class LivePreviewEngine(
             } else null
             // Coalesce the backoff delay with the resolve: whichever is later wins, but the resolve must
             // complete before we reload. Post the reload so it lands on the main thread's Looper after delay.
-            mainHandler.postDelayed({
-                if (currentUrl != url) { tune.reconnectPending = false; return@postDelayed } // superseded (zapped / stopped)
+            val reload = Runnable {
+                pendingReload = null
+                if (currentUrl != url) { tune.reconnectPending = false; return@Runnable } // superseded (zapped / stopped)
                 tune.reconnectPending = false
+                // Media3 kept retrying during the delay and got the stream back by itself. Re-preparing now
+                // would tear down a stream that is already playing or already refilling — measured: a
+                // recovered channel was restarted 11s later, and a response already 450 KB in was thrown
+                // away (+3s).
+                // Refilling means bytes are arriving, not that something is buffered: an HLS stall starts with
+                // a few hundred ms still in the buffer, and counting that skipped every reconnect of a 90 s
+                // outage. Recent bytes also cover a connection that has answered but not yet buffered a sample.
+                val playing = p.playbackState == Player.STATE_READY && _state.value == State.PLAYING
+                val refilling = p.playbackState == Player.STATE_BUFFERING && receivingData
+                if (playing || refilling) {
+                    LiveDiagnosticsLog.event("reconnect skipped — the stream came back on its own")
+                    // Still buffering: if this refill stalls again, the watchdog reconnects as usual.
+                    if (refilling) { mainHandler.removeCallbacks(stallWatchdog); mainHandler.postDelayed(stallWatchdog, STALL_MS) }
+                    return@Runnable
+                }
                 val loadUrl = fresh ?: url // null provider/result → replay the (still-valid) stored URL
                 if (fresh != null && fresh != url) {
                     currentUrl = fresh // adopt the refreshed URL so a later reconnect compares against it
@@ -1754,9 +1859,23 @@ class LivePreviewEngine(
                 runCatching {
                     reprepare(p, loadUrl) // fresh fetch (live edge)
                 }.onFailure { _state.value = State.ERROR; _error.value = PlaybackFailure.LostConnection }
-            }, delayMs)
+                // The player can stay in BUFFERING across the re-prepare, so no state change re-arms the
+                // watchdog — and without it a reconnect that doesn't open would be the ladder's last.
+                if (tune.hasPlayed && !tune.gaveUp) {
+                    mainHandler.removeCallbacks(stallWatchdog); mainHandler.postDelayed(stallWatchdog, STALL_MS)
+                }
+            }
+            pendingReload = reload
+            mainHandler.postDelayed(reload, delayMs)
         }
     }
+
+    private fun isAnswerAfterOutage(error: PlaybackException): Boolean =
+        error.errorCode == PlaybackException.ERROR_CODE_IO_BAD_HTTP_STATUS ||
+            error.errorCode == PlaybackException.ERROR_CODE_BEHIND_LIVE_WINDOW
+
+    /** The scheduled reload of a pending [reconnect], so an answer from the server can bring it forward. */
+    private var pendingReload: Runnable? = null
 
     /**
      * Whether [error] is the video hardware decoder giving up rather than a stream/network problem.
@@ -2651,6 +2770,8 @@ class LivePreviewEngine(
      *  masked ([textPrefix]), and Authorization/Cookie are logged as presence flags, never values. */
     private val diagnosticHttpClient by lazy {
         streamingHttp.client.newBuilder()
+            .connectTimeout(LIVE_CONNECT_TIMEOUT_MS, java.util.concurrent.TimeUnit.MILLISECONDS)
+            .dns(liveDnsOver(streamingHttp.client.dns))
             .addInterceptor { chain ->
                 val startedAt = android.os.SystemClock.elapsedRealtime()
                 val request = chain.request()
@@ -2806,15 +2927,34 @@ class LivePreviewEngine(
     }
 
     /**
-     * Stock policy everywhere except a live media segment the provider outright refuses (403/404/410).
-     * Media3 can only re-issue the identical segment URL, and the traced panel answers 403 to it for as
-     * long as the playlist snapshot lives — the default ladder therefore spends ~8 s hammering a URL
-     * that will never succeed, drains the buffer and turns a recoverable hiccup into a dead channel.
-     * One short retry (a genuine blip), then fatal so [maybeBackOffFromLiveEdge]/the reconnect ladder
-     * can act. Manifests and every other data type keep the stock behaviour.
+     * HLS. Stock policy everywhere except two cases.
+     *
+     * A live media segment the provider outright refuses (403/404/410). Media3 can only re-issue the
+     * identical segment URL, and the traced panel answers 403 to it for as long as the playlist snapshot
+     * lives — the default ladder therefore spends ~8 s hammering a URL that will never succeed, drains
+     * the buffer and turns a recoverable hiccup into a dead channel. One short retry (a genuine blip),
+     * then fatal so [maybeBackOffFromLiveEdge]/the reconnect ladder can act.
+     *
+     * A live channel that has played and then loses its connection. As for raw TS
+     * ([progressiveLivePolicy]): Media3's stock count turns a connection failure fatal after three
+     * retries, which drops the player to IDLE — measured on a 4K HLS channel, a ~97 s upstream outage
+     * blanked the picture 28 s into the stall. Instead, segment and playlist connection failures retry a
+     * second apart without turning fatal, so the last frame stays up and the first attempt after the
+     * uplink returns is never more than about a second away. The engine's ladder still owns the verdict.
+     * An HTTP status is an answer, not an outage, and keeps the stock count.
      */
     private val edgeRefusalPolicy =
         object : androidx.media3.exoplayer.upstream.DefaultLoadErrorHandlingPolicy() {
+            override fun getMinimumLoadableRetryCount(dataType: Int): Int =
+                if (playedHls && (dataType == C.DATA_TYPE_MEDIA || dataType == C.DATA_TYPE_MANIFEST)) {
+                    Int.MAX_VALUE
+                } else {
+                    super.getMinimumLoadableRetryCount(dataType)
+                }
+
+            private val playedHls: Boolean
+                get() = activeIsHls && isLiveContent && tune.hasPlayed && !tune.gaveUp
+
             override fun getRetryDelayMsFor(
                 loadErrorInfo: androidx.media3.exoplayer.upstream.LoadErrorHandlingPolicy.LoadErrorInfo,
             ): Long {
@@ -2823,7 +2963,56 @@ class LivePreviewEngine(
                 if (isSegment && status != null && LiveStreamQuirks.isEdgeRefusal(status)) {
                     return edgeRefusalRetryDelayMs(loadErrorInfo.errorCount)
                 }
-                return super.getRetryDelayMsFor(loadErrorInfo)
+                val stock = super.getRetryDelayMsFor(loadErrorInfo)
+                if (stock == C.TIME_UNSET || !playedHls) return stock
+                return if (status != null) {
+                    // Answered with a status: the stock three tries, then fatal so the ladder can act.
+                    if (loadErrorInfo.errorCount > DEFAULT_MIN_LOADABLE_RETRY_COUNT) C.TIME_UNSET else stock
+                } else {
+                    minOf(stock, PROGRESSIVE_LIVE_RETRY_MS)
+                }
+            }
+        }
+
+    /**
+     * Raw TS (progressive live) once the channel has played. Media3's stock policy turns a connection
+     * failure fatal after three retries (six once it has classed the stream as live), which drops the
+     * player to IDLE: a black screen between reconnects
+     * (measured: an upstream outage of ~3 min blanked the picture at ~50 s, with retries 1–5 s apart).
+     * Instead, keep retrying connection-level failures a second apart: the last frame stays up, and the
+     * first attempt after the uplink returns is never more than about a second away. The engine's ladder
+     * still owns the verdict ([stallWatchdog] → [reconnect] → RECONNECT_GIVE_UP_MS).
+     *
+     * An HTTP status from the server is an answer, not an outage, and keeps the stock count. Before the
+     * first frame everything keeps the stock behaviour, so a channel that never opens still fails fast to
+     * the next rung.
+     */
+    private val progressiveLivePolicy =
+        object : androidx.media3.exoplayer.upstream.DefaultLoadErrorHandlingPolicy() {
+            // Not keyed on DATA_TYPE_MEDIA_PROGRESSIVE_LIVE: Media3 only learns a stream is live once it has
+            // parsed some of it, and a reconnect that cannot connect never gets that far. It stays plain
+            // DATA_TYPE_MEDIA with the stock three retries — measured, exactly what still blanked the screen.
+            override fun getMinimumLoadableRetryCount(dataType: Int): Int =
+                if (playedRawTs && (dataType == C.DATA_TYPE_MEDIA || dataType == C.DATA_TYPE_MEDIA_PROGRESSIVE_LIVE)) {
+                    Int.MAX_VALUE
+                } else {
+                    super.getMinimumLoadableRetryCount(dataType)
+                }
+
+            private val playedRawTs: Boolean
+                get() = activeRoute == StreamRoute.PROGRESSIVE && isLiveContent && tune.hasPlayed && !tune.gaveUp
+
+            override fun getRetryDelayMsFor(
+                loadErrorInfo: androidx.media3.exoplayer.upstream.LoadErrorHandlingPolicy.LoadErrorInfo,
+            ): Long {
+                val stock = super.getRetryDelayMsFor(loadErrorInfo)
+                if (stock == C.TIME_UNSET || !playedRawTs) return stock
+                return if (httpStatusOf(loadErrorInfo.exception) != null) {
+                    // Answered with a status: the stock six tries, then fatal so the ladder can act.
+                    if (loadErrorInfo.errorCount > DEFAULT_MIN_LOADABLE_RETRY_COUNT_PROGRESSIVE_LIVE) C.TIME_UNSET else stock
+                } else {
+                    minOf(stock, PROGRESSIVE_LIVE_RETRY_MS)
+                }
             }
         }
 
@@ -2856,7 +3045,7 @@ class LivePreviewEngine(
                         androidx.media3.extractor.ts.DefaultTsPayloadReaderFactory.FLAG_OVERRIDE_CAPTION_DESCRIPTORS,
                     )
                     .setTsSubtitleFormats(listOf(cc1)),
-            )
+            ).setLoadErrorHandlingPolicy(progressiveLivePolicy)
             cachedHlsCcFactory = HlsMediaSource.Factory(cachedHttpDataSource!!)
                 .setExtractorFactory(DefaultHlsExtractorFactory(0, true))
                 // Media3 defaults this to zero, which it documents as an *infinite* timeout: a rendition
@@ -3054,7 +3243,34 @@ class LivePreviewEngine(
 
     companion object {
         private const val MAX_VOLUME = VolumeBoost.MAX_VOLUME // same ceiling as mpv; 100–150 comes from LoudnessEnhancer
+        /** Shared by every live engine in the process, so a last good answer outlives any one client; rebuilt
+         *  only if the client's resolver changes. Wraps that resolver, so the custom DNS / DoH setting applies. */
+        @Volatile private var liveDns: tv.own.owntv.core.network.BoundedDns? = null
+
+        @Synchronized
+        private fun liveDnsOver(delegate: okhttp3.Dns): tv.own.owntv.core.network.BoundedDns =
+            liveDns?.takeIf { it.delegate === delegate }
+                ?: tv.own.owntv.core.network.BoundedDns(delegate = delegate, log = LiveDiagnosticsLog::event).also { liveDns = it }
+
+        /**
+         * The reconnect ladder's length — the "~2 minutes of blind retrying" the network-restored comment
+         * in the class body already describes. That length used to come from [MAX_RECONNECTS] attempts at
+         * [RECONNECT_DELAYS_MS], which assumes each attempt fails promptly. During an upstream outage they
+         * don't: measured, one stalled DNS lookup (80s) and 15s connect timeouts left the ladder at one
+         * attempt after 2.5 minutes — so neither a verdict nor a recovery. Timing it keeps the 2 minutes
+         * true however slowly the attempts fail.
+         */
+        private const val RECONNECT_GIVE_UP_MS = 2 * 60_000L
+        /** Connect timeout for live streams. A live server answers in well under a second; 15s (the app's
+         *  default) left each reconnect during an outage waiting that long for every attempt. 5s still
+         *  allows three SYNs (0, 1 and 3s). */
+        private const val LIVE_CONNECT_TIMEOUT_MS = 5_000L
         private const val MAX_RECONNECTS = 8        // ~consecutive failures before giving up (HUD Retry then)
+        /** Bytes this recent mean a stream is already coming back (see [receivingData]). */
+        private const val RECENT_BYTES_MS = 2_000L
+        /** How often a played live channel retries a connection failure (see [progressiveLivePolicy],
+         *  [edgeRefusalPolicy]). */
+        private const val PROGRESSIVE_LIVE_RETRY_MS = 1_000L
         /** Playback must hold this long before the reconnect ladder is considered recovered. */
         internal const val HEALTHY_MS = 60_000L
 
@@ -3350,6 +3566,8 @@ internal data class TuneState(
     @field:Volatile var lastVideoDecoderHardware: Boolean? = null,
     var hasPlayed: Boolean = false,
     var retryCount: Int = 0,
+    /** When the current run of reconnects began (0 = none); see [LivePreviewEngine]'s RECONNECT_GIVE_UP_MS. */
+    var failingSinceMs: Long = 0L,
     /** One decoder rebuild+retry per load — see [LivePreviewEngine.rebuildDecoderAndRetry]. */
     var decoderRetryDone: Boolean = false,
     /** A single failed prepare() fires both onPlayerError AND the STATE_IDLE that follows it — without
