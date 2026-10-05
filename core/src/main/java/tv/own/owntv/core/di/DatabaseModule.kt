@@ -123,4 +123,5 @@ val databaseModule = module {
     single { get<OwnTVDatabase>().metadataDao() }
     single { get<OwnTVDatabase>().trendingDao() }
     single { get<OwnTVDatabase>().subtitleDao() }
+    single { get<OwnTVDatabase>().smartProviderDao() }
 }

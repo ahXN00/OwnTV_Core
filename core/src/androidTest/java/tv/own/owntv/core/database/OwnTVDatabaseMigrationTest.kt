@@ -705,6 +705,184 @@ class OwnTVDatabaseMigrationTest {
         }
     }
 
+    /**
+     * The v47 → v48 hop: `channel_provider_candidates`, the Smart Provider engine's cross-provider
+     * failover memory (phase 2).
+     *
+     * The table starts empty on an upgrade, so what this test pins is the *shape*, and every part of
+     * that shape is load-bearing:
+     *  - identity is the (anchorKey, sourceId) pair, with **no synthetic id** — that is what makes
+     *    the table one memory per (channel, provider) instead of one per attempt;
+     *  - the only foreign key is `sources` CASCADE, the one path by which this table is expected to
+     *    lose rows;
+     *  - exactly one non-unique index, `index_channel_provider_candidates_sourceId`, which the
+     *    primary key's own index cannot replace (`sourceId` is the key's second column, not its
+     *    prefix);
+     *  - both timestamps default to 0, so a candidate that was discovered but never tried is not
+     *    mistaken for one that failed.
+     *
+     * The table is deliberately absent from `EXPECTED_NON_UNIQUE_INDEXES`, so its index is asserted
+     * here directly rather than riding along with the healed set — and the last two assertions are
+     * the guard that keeps it that way, because joining that map would make a fresh bulk import drop
+     * this index.
+     */
+    @Test
+    fun migrateVersion47To48_addsChannelProviderCandidates_withCompositeKeyAndSourceCascade() {
+        context.deleteDatabase(DB_NAME)
+        val old = context.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null)
+        try {
+            executeSchemaQueries(old, "tv.own.owntv.core.database.OwnTVDatabase/47.json")
+            // v47's `sources` declares most columns NOT NULL with no default, so every one of them
+            // has to be given or the insert is refused. (The short v3 insert above only works
+            // because v3's `sources` was much narrower.)
+            old.execSQL(
+                "INSERT INTO sources (id, name, type, url, syncLive, syncMovies, syncSeries, " +
+                    "hlsSupported, preferHls, livePrerollSecs, liveLatencyCustomSecs, maxConnections, " +
+                    "maxConnectionsProbedAt, createdAt) VALUES " +
+                    "(10, 'Playlist', '${SourceType.XTREAM.name}', 'https://example.test', 1, 1, 1, " +
+                    "0, 0, -1, -1, 0, 0, 2)",
+            )
+            old.version = 47
+        } finally {
+            old.close()
+        }
+
+        val db = openWithAllMigrations()
+        try {
+            val sqlite = openForAssertions(db)
+            assertEquals(CURRENT_VERSION, userVersionOf(sqlite))
+
+            assertTableExists(sqlite, "channel_provider_candidates")
+            assertCount(sqlite, "channel_provider_candidates", 0)
+            assertIndexExists(sqlite, "index_channel_provider_candidates_sourceId")
+
+            // Every column, and — just as importantly — no synthetic id.
+            listOf(
+                "anchorKey",
+                "anchorSourceId",
+                "sourceId",
+                "candidateRemoteId",
+                "candidateName",
+                "lastSuccessAt",
+                "lastFailureAt",
+                "lastFailureReason",
+            ).forEach { assertColumnExists(sqlite, "channel_provider_candidates", it) }
+            assertEquals(
+                "channel_provider_candidates must be keyed on (anchorKey, sourceId), not on a synthetic id",
+                0L,
+                countRows(
+                    sqlite,
+                    "SELECT COUNT(*) FROM pragma_table_info('channel_provider_candidates') WHERE name = 'id'",
+                ),
+            )
+
+            // The composite primary key, in declaration order.
+            sqlite.prepare(
+                "SELECT name FROM pragma_table_info('channel_provider_candidates') WHERE pk > 0 ORDER BY pk",
+            ).use { statement ->
+                val keyColumns = ArrayList<String>()
+                while (statement.step()) keyColumns.add(statement.getText(0))
+                assertEquals(listOf("anchorKey", "sourceId"), keyColumns)
+            }
+
+            // The nullable half: a candidate that matched without a provider remote id (a hand-made
+            // M3U row) and one that has never failed are both legitimate rows.
+            listOf("candidateRemoteId", "lastFailureReason").forEach { column ->
+                assertEquals(
+                    "$column must be nullable",
+                    1L,
+                    countRows(
+                        sqlite,
+                        "SELECT COUNT(*) FROM pragma_table_info('channel_provider_candidates') " +
+                            "WHERE name = ? AND \"notnull\" = 0",
+                        arrayOf<Any?>(column),
+                    ),
+                )
+            }
+            listOf("anchorKey", "anchorSourceId", "sourceId", "candidateName").forEach { column ->
+                assertEquals(
+                    "$column must be required",
+                    1L,
+                    countRows(
+                        sqlite,
+                        "SELECT COUNT(*) FROM pragma_table_info('channel_provider_candidates') " +
+                            "WHERE name = ? AND \"notnull\" = 1",
+                        arrayOf<Any?>(column),
+                    ),
+                )
+            }
+
+            // 0 means "never", which is why both stamps carry a SQL default.
+            listOf("lastSuccessAt", "lastFailureAt").forEach { column ->
+                assertEquals(
+                    "$column must default to 0",
+                    1L,
+                    countRows(
+                        sqlite,
+                        "SELECT COUNT(*) FROM pragma_table_info('channel_provider_candidates') " +
+                            "WHERE name = ? AND dflt_value = '0'",
+                        arrayOf<Any?>(column),
+                    ),
+                )
+            }
+            // Omitting the stamps on insert must produce "never", not a null.
+            sqlite.execSQL(
+                "INSERT INTO channel_provider_candidates " +
+                    "(anchorKey, anchorSourceId, sourceId, candidateName) " +
+                    "VALUES ('10:LIVE:bbc-one', 10, 10, 'BBC One')",
+            )
+            sqlite.prepare(
+                "SELECT lastSuccessAt, lastFailureAt, candidateRemoteId, lastFailureReason " +
+                    "FROM channel_provider_candidates WHERE anchorKey = '10:LIVE:bbc-one'",
+            ).use { statement ->
+                assertTrue("the row just inserted must be readable", statement.step())
+                assertEquals(0L, statement.getLong(0))
+                assertEquals(0L, statement.getLong(1))
+                assertTrue("candidateRemoteId must be null when omitted", statement.isNull(2))
+                assertTrue("lastFailureReason must be null when omitted", statement.isNull(3))
+            }
+
+            // The single foreign key: `sources.id`, CASCADE on delete, and nothing else.
+            sqlite.prepare(
+                "SELECT \"table\", \"from\", \"to\", on_update, on_delete " +
+                    "FROM pragma_foreign_key_list('channel_provider_candidates')",
+            ).use { statement ->
+                assertTrue("expected one foreign key on channel_provider_candidates", statement.step())
+                assertEquals("sources", statement.getText(0))
+                assertEquals("sourceId", statement.getText(1))
+                assertEquals("id", statement.getText(2))
+                assertEquals("NO ACTION", statement.getText(3))
+                assertEquals("CASCADE", statement.getText(4))
+                assertTrue("expected exactly one foreign key", !statement.step())
+            }
+
+            // Deleting the playlist that the memory names is the intended way for it to disappear.
+            assertCount(sqlite, "sources", 1)
+            sqlite.execSQL("DELETE FROM sources WHERE id = 10")
+            assertCount(sqlite, "channel_provider_candidates", 0)
+
+            // Nothing else on the schema moved.
+            // The upstream v47 tables are untouched by this hop.
+            assertTableExists(sqlite, "programme_reminders")
+            assertTableExists(sqlite, "catalog_backfill")
+            assertTableExists(sqlite, "playback_quirks")
+            assertCount(sqlite, "catalog_backfill", 0)
+
+            // …and the new table stays out of the bulk-import and FTS machinery, which is what keeps
+            // BulkInsertHelper from dropping its index during a fresh sync.
+            assertTrue(
+                "channel_provider_candidates must stay out of EXPECTED_NON_UNIQUE_INDEXES",
+                OwnTVDatabase.EXPECTED_NON_UNIQUE_INDEXES.keys.none { it == "channel_provider_candidates" },
+            )
+            assertTrue(
+                "channel_provider_candidates must stay out of EXPECTED_FTS_TABLES",
+                "channel_provider_candidates" !in OwnTVDatabase.EXPECTED_FTS_TABLES,
+            )
+        } finally {
+            db.close()
+        }
+    }
+
     private fun normNameOf(db: SQLiteConnection, epgChannelId: String): String? =
         db.prepare("SELECT normName FROM epg_channels WHERE epgChannelId = ?").use {
             it.bindText(1, epgChannelId)
