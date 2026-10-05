@@ -218,6 +218,20 @@ class LiveTuneControllerTest {
     }
 
     @Test
+    fun `an expected promotion no tune followed does not freeze the preview pane`() = runTest {
+        val engines = FakeEngines()
+        val c = controller(engines, FakeHost(this))
+        c.preview(channel(9), muted = true)
+        runCurrent()
+        c.expectPromotion(channel(9))
+        assertTrue(c.liveOnExo.value)
+        c.preview(channel(11), muted = true)
+        runCurrent()
+        assertFalse(c.liveOnExo.value)
+        assertTrue(engines.log.last().startsWith("exo:") && engines.log.last().endsWith("/11.ts"))
+    }
+
+    @Test
     fun `a channel whose ExoPlayer preview failed goes to the next engine without showing it`() = runTest {
         val engines = FakeEngines()
         val c = controller(engines, FakeHost(this))

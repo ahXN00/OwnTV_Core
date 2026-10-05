@@ -263,7 +263,12 @@ class LiveTuneController(
      * stays silent and [previewBlockedSingleSession] says why.
      */
     fun preview(channel: ChannelEntity, muted: Boolean) {
-        if (_liveOnExo.value) return
+        if (_liveOnExo.value) {
+            if (current != null) return
+            // An [expectPromotion] no tune followed (an external player, a refused channel): the pane is
+            // still the pane, and must not stay frozen on the last channel.
+            _liveOnExo.value = false
+        }
         previewedChannelId = channel.id
         ts?.let { session ->
             // The pane already shows this channel from its saved copy (Back from full screen): it keeps

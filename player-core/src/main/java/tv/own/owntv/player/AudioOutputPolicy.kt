@@ -381,7 +381,7 @@ class AudioWatchdog : AnalyticsListener {
         /** What a sink can bitstream (Media3's passthrough encodings); see [canBitstream]. */
         val BITSTREAM_MIME_TYPES = setOf(
             MimeTypes.AUDIO_AC3, MimeTypes.AUDIO_E_AC3, MimeTypes.AUDIO_E_AC3_JOC, MimeTypes.AUDIO_AC4,
-            MimeTypes.AUDIO_DTS, MimeTypes.AUDIO_DTS_HD, MimeTypes.AUDIO_DTS_EXPRESS, MimeTypes.AUDIO_DTS_X,
+            MimeTypes.AUDIO_DTS, MimeTypes.AUDIO_DTS_HD, MimeTypes.AUDIO_DTS_EXPRESS, MimeTypes.AUDIO_DTS_UHD_P2,
             MimeTypes.AUDIO_TRUEHD,
         )
     }
