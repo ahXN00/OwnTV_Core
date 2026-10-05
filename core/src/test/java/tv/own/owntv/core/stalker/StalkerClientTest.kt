@@ -100,6 +100,60 @@ class StalkerClientTest {
         assertTrue(url.contains("signature=sig%3D%26value"))
     }
 
+    /**
+     * The bug this pins: confirmed against a real portal that `sn`/`device_id`/`device_id2` already
+     * registered to the MAC are still rejected ("Device conflict - device_id mismatch") when
+     * `stb_type` is missing — the portal correlates identity against the claimed hardware model, not
+     * the MAC alone. `stb_type` only means anything alongside identity, so a MAC-only request must not
+     * carry it even when a model is supplied.
+     */
+    @Test
+    fun profileUrl_stbTypeAccompaniesDeviceIdentity() {
+        val url = StalkerClient.profileUrl(
+            "http://host/portal.php",
+            StalkerDeviceIdentity(deviceId = "device_one"),
+            stbType = "MAG270",
+        )
+        assertTrue(url.contains("stb_type=MAG270"))
+    }
+
+    @Test
+    fun profileUrl_stbTypeOmittedWithoutDeviceIdentity() {
+        val url = StalkerClient.profileUrl("http://host/portal.php", StalkerDeviceIdentity(), stbType = "MAG270")
+        assertFalse(url.contains("stb_type"))
+    }
+
+    // ---- get_profile's "device conflict" rejection, which arrives as an ordinary 200 OK ----
+
+    /**
+     * The bug this pins: a device-identity mismatch is a 200 OK carrying `msg`/`block_msg` and no real
+     * profile fields — not empty, so the "empty profile" check let it through as a working session.
+     * The actual failure then only surfaced later, as a bare-text `Authorization failed.` on whatever
+     * call ran next.
+     */
+    @Test
+    fun deviceConflictMessage_detectsAMismatchWithNoRealProfileFields() {
+        assertEquals(
+            "Device conflict - device_id mismatch",
+            StalkerClient.deviceConflictMessage(
+                mapOf("status" to "1", "msg" to "Device conflict - device_id mismatch", "block_msg" to "Please contact your provider"),
+            ),
+        )
+    }
+
+    @Test
+    fun deviceConflictMessage_fallsBackToBlockMsgWhenMsgIsAbsent() {
+        assertEquals(
+            "Please contact your provider",
+            StalkerClient.deviceConflictMessage(mapOf("block_msg" to "Please contact your provider")),
+        )
+    }
+
+    @Test
+    fun deviceConflictMessage_nullForARealProfile() {
+        assertNull(StalkerClient.deviceConflictMessage(mapOf("id" to "1439338", "status" to "0", "stb_type" to "MAG270")))
+    }
+
     // ---- create_link cmd prefix stripping ----
 
     @Test
@@ -162,6 +216,40 @@ class StalkerClientTest {
     fun httpFailure_otherStatusesKeepTheirCode() {
         assertEquals(503, (StalkerClient.httpFailure(503, "u") as StalkerClient.StalkerHttpException).code)
         assertEquals(429, (StalkerClient.httpFailure(429, "u") as StalkerClient.StalkerHttpException).code)
+    }
+
+    // ---- reading the real device model back out of a preset User-Agent, for get_profile's stb_type ----
+
+    /**
+     * `X-User-Agent`'s `Model:` is a fixed "MAG250" regardless of the source's actual User-Agent — a
+     * real portal was confirmed by curl to not care. `stb_type` on `get_profile` is a different story:
+     * confirmed by curl that the real device model, not whatever `User-Agent` happens to claim, has to
+     * go there alongside device identity (see [profileUrl_stbTypeAccompaniesDeviceIdentity]). [magModel]
+     * reads that model back out of one of the MAG presets' `User-Agent` strings — each names its own
+     * model — which is the only reliable source for it without a dedicated field.
+     */
+    @Test
+    fun magModel_readsTheModelOutOfTheUserAgentString() {
+        assertEquals("MAG200", StalkerClient.magModel(StalkerClient.DEFAULT_MAG_USER_AGENT))
+        assertEquals(
+            "MAG270",
+            StalkerClient.magModel("Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG270 stbapp ver: 4 rev: 250 Safari/533.3"),
+        )
+        assertEquals(
+            "MAG254",
+            StalkerClient.magModel("Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG254 stbapp ver: 4 rev: 250 Safari/533.3"),
+        )
+    }
+
+    @Test
+    fun magModel_isCaseInsensitive() {
+        assertEquals("MAG250", StalkerClient.magModel("...mag250 stbapp..."))
+    }
+
+    @Test
+    fun magModel_fallsBackToTheDefaultForANonMagUserAgent() {
+        assertEquals("MAG200", StalkerClient.magModel("Mozilla/5.0 (Windows NT 10.0; Win64; x64)"))
+        assertEquals("MAG200", StalkerClient.magModel(""))
     }
 
     // ---- catch-up: which field says a channel has an archive, and in what unit ----

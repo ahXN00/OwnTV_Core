@@ -3072,7 +3072,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	$root/portal.php
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	$root/server/load.php
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	$root/stalker_portal/server/load.php
-2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	${portalRoot(url.substringBefore('?'))}/c/
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	${portalRoot(url.substringBefore('?'))}/c/
 1	url	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	&JsHttpRequest=1-xml
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	&category=${enc(it)}
 1	url	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	&device_id2=${URLEncoder.encode(it, "UTF-8")}
@@ -3080,6 +3080,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	&series=$it
 1	url	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	&signature=${URLEncoder.encode(it, "UTF-8")}
 1	url	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	&sn=${URLEncoder.encode(it, "UTF-8")}
+1	url	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	&stb_type=${URLEncoder.encode(it, "UTF-8")}
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	(?i)(token|password|pass)=[^&]*
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	(\\d+)\\s*$
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	(\\d{4})-(\\d{2})-(\\d{2})(?:[ T](\\d{2}):(\\d{2})(?::(\\d{2}))?)?
@@ -3091,13 +3092,31 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	127.0.0.1
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	:
 1	url	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	?type=stb&action=get_profile&hd=1&auth_second_step=
-2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Authorization
-2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Bearer $token
-2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Cookie
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Authorization
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Bearer $token
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Cookie
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	GET done url=$safeUrl action=$action totalMs=${SystemClock.elapsedRealtime() - startedAt}
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	GET start url=$safeUrl action=$action
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	HTTP $code for $safeUrl
-2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Model: MAG250; Link: WiFi
+2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG200
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG245
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG250
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG254
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG270
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG275
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG295
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG315
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG322
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG345
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG349
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG351
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG352
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG420
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG424
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG425
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG520
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG522
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Model: MAG250; Link: WiFi
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG200 stbapp ver: 4 rev: 2721 Safari/533.3
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	No portal API endpoint candidates for $portalUrl
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal accepted the handshake but returned an empty profile — the MAC may not be authorized
@@ -3106,14 +3125,14 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal handshake returned no token
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal rejected the request (HTTP $code)
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal response has no "js" payload
-1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal response is not JSON (got ${reader.peek()})
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal response is not JSON (got ${reader.peek()}): ${redactForLog(peeking.head())}
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal returned an empty payload — token expired or MAC not authorized
-2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Referer
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Referer
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	StalkerClient
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	UNCHECKED_CAST
 7	technical	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	UTF-8
-2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	User-Agent
-2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	X-User-Agent
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	User-Agent
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	X-User-Agent
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	[:\\-. ]
 1	regex	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	\\bspecials?\\b
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	\\d{4}
@@ -3121,6 +3140,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	added
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	archive
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	auto
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	block_msg
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	category
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	category_id
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	ch_id
@@ -3140,13 +3160,14 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	handshake ok apiBase=$apiBase
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	http://
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	https://
-4	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	id
+6	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	id
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	itv
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	js
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	localhost
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	logo
-2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	mac=${URLEncoder.encode(mac, "UTF-8")}; stb_lang=en; timezone=${TimeZone.getDefault().id}
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	mac=${URLEncoder.encode(mac, "UTF-8")}; stb_lang=en; timezone=${TimeZone.getDefault().id}
 3	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	max_page_items
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	msg
 7	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	name
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	number
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	o_name

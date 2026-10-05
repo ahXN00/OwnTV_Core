@@ -12,6 +12,7 @@ import kotlinx.coroutines.withContext
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import java.io.FilterInputStream
 import java.io.IOException
 import java.io.File
 import java.io.InputStream
@@ -150,6 +151,18 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
      * `?type=stb&action=get_profile` (with the Bearer token) — confirms the MAC is authorized and
      * returns the STB profile (scalar fields only; nested payloads are skipped). Optional second-step
      * device identity is sent only when supplied; MAC-only sources retain the original request shape.
+     *
+     * When device identity is supplied, `stb_type` goes along with it, derived from [userAgent] via
+     * [magModel]. Confirmed against a real portal by curl: `sn`/`device_id`/`device_id2` that were
+     * genuinely registered to this MAC were rejected — "Device conflict - device_id mismatch" — with
+     * `stb_type` omitted or naming the wrong model, and accepted, same MAC and identity values, with
+     * the correct `stb_type` added. Nothing else in the request changed between those two calls.
+     *
+     * That rejection comes back as an ordinary `200 OK` with a profile-shaped object (`status`, `msg`,
+     * `block_msg` — no `id` and none of the real STB fields), so it reads as success to anything that
+     * only checks "is this empty". Treated as fatal here instead of being cached as a working session:
+     * silently accepting it meant the actual failure only surfaced later, as a bare-text `Authorization
+     * failed.` on the next unrelated call.
      */
     open suspend fun getProfile(
         apiBase: String,
@@ -158,9 +171,11 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
         userAgent: String? = null,
         identity: StalkerDeviceIdentity = StalkerDeviceIdentity(),
     ): Map<String, String> {
-        val url = profileUrl(apiBase, identity)
+        val effectiveUserAgent = userAgent?.takeIf { it.isNotBlank() } ?: DEFAULT_MAG_USER_AGENT
+        val url = profileUrl(apiBase, identity, magModel(effectiveUserAgent))
         val profile = request(url, mac, token, userAgent) { readScalarFields(it) }
         if (profile.isEmpty()) throw StalkerAuthException("Portal accepted the handshake but returned an empty profile — the MAC may not be authorized")
+        deviceConflictMessage(profile)?.let { throw StalkerAuthException(it) }
         return profile
     }
 
@@ -737,9 +752,10 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
     /** The MAG request every portal call is made with — headers in exactly one place. */
     private fun portalRequest(url: String, mac: String, token: String?, userAgent: String?): Request {
         val referer = "${portalRoot(url.substringBefore('?'))}/c/"
+        val effectiveUserAgent = userAgent?.takeIf { it.isNotBlank() } ?: DEFAULT_MAG_USER_AGENT
         val builder = Request.Builder()
             .url(url)
-            .header("User-Agent", userAgent?.takeIf { it.isNotBlank() } ?: DEFAULT_MAG_USER_AGENT)
+            .header("User-Agent", effectiveUserAgent)
             .header("Cookie", "mac=${URLEncoder.encode(mac, "UTF-8")}; stb_lang=en; timezone=${TimeZone.getDefault().id}")
             .header("X-User-Agent", "Model: MAG250; Link: WiFi")
             .header("Referer", referer)
@@ -750,15 +766,7 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
     private suspend fun <T> request(
         url: String, mac: String, token: String?, userAgent: String?, parseJs: suspend (JsonReader) -> T,
     ): T = withContext(Dispatchers.IO) {
-        val referer = "${portalRoot(url.substringBefore('?'))}/c/"
-        val builder = Request.Builder()
-            .url(url)
-            .header("User-Agent", userAgent?.takeIf { it.isNotBlank() } ?: DEFAULT_MAG_USER_AGENT)
-            .header("Cookie", "mac=${URLEncoder.encode(mac, "UTF-8")}; stb_lang=en; timezone=${TimeZone.getDefault().id}")
-            .header("X-User-Agent", "Model: MAG250; Link: WiFi")
-            .header("Referer", referer)
-        if (token != null) builder.header("Authorization", "Bearer $token")
-        val httpRequest = builder.build()
+        val httpRequest = portalRequest(url, mac, token, userAgent)
 
         val coroutineContext = currentCoroutineContext()
         val startedAt = SystemClock.elapsedRealtime()
@@ -790,11 +798,19 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
      * [parseJs] is a *suspending* function so that a reader can do real work per item — the guide
      * crawl writes each batch to the database as it parses, and therefore never holds the whole
      * payload. Callers that just build a value pass an ordinary lambda and are unaffected.
+     *
+     * [input] is wrapped in [HeadPeekingInputStream] so a "not JSON" failure can report what the
+     * portal actually sent — a handful of bytes, never the whole body (which for the guide crawl can
+     * be up to [MAX_GUIDE_BYTES]). This is diagnostic only: [reader]'s lenient mode is what decides
+     * whether the response parses, not this peek.
      */
     private suspend fun <T> parseEnvelope(input: InputStream, parseJs: suspend (JsonReader) -> T): T {
-        JsonReader(input.reader(Charsets.UTF_8)).use { reader ->
+        val peeking = HeadPeekingInputStream(input, RESPONSE_PEEK_BYTES)
+        JsonReader(peeking.reader(Charsets.UTF_8)).use { reader ->
             reader.isLenient = true // some portals prefix/pad the JSON
-            if (reader.peek() != JsonToken.BEGIN_OBJECT) throw IOException("Portal response is not JSON (got ${reader.peek()})")
+            if (reader.peek() != JsonToken.BEGIN_OBJECT) {
+                throw IOException("Portal response is not JSON (got ${reader.peek()}): ${redactForLog(peeking.head())}")
+            }
             reader.beginObject()
             var result: T? = null
             var found = false
@@ -870,19 +886,63 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
         /** A portal guide larger than this is not a guide; refuse it rather than fill the device. */
         private const val MAX_GUIDE_BYTES = 192L * 1024 * 1024
 
+        /** How much of a non-JSON response is worth quoting in the error — enough to name the shape, not the whole body. */
+        private const val RESPONSE_PEEK_BYTES = 200
+
         /** Classic MAG-box UA most portals accept (§1.1); overridable per source (MAG254/270/420 presets in Phase B). */
         const val DEFAULT_MAG_USER_AGENT =
             "Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG200 stbapp ver: 4 rev: 2721 Safari/533.3"
 
-        internal fun profileUrl(apiBase: String, identity: StalkerDeviceIdentity): String = buildString {
+        /** Fallback model when [userAgent] carries none of the recognized MAG tokens — matches the default UA above. */
+        private const val DEFAULT_MAG_MODEL = "MAG200"
+
+        /** The MAG model tokens actually issued in the wild, longest-prefix-safe order doesn't matter: exact word match. */
+        private val KNOWN_MAG_MODELS = listOf(
+            "MAG522", "MAG520", "MAG425", "MAG424", "MAG420", "MAG352", "MAG351", "MAG349",
+            "MAG345", "MAG322", "MAG315", "MAG295", "MAG275", "MAG270", "MAG254", "MAG250", "MAG245", "MAG200",
+        )
+
+        /**
+         * The `MAGnnn` token for a given [userAgent] — one of the MAG preset strings in
+         * `MAG_USER_AGENTS` (`SetupText.kt`), each of which embeds its own model name. Used for both
+         * `X-User-Agent`'s `Model:` field (see [portalRequest]) and `get_profile`'s `stb_type` (see
+         * [profileUrl]), so a source that picks a preset gets a consistent model everywhere. Falls
+         * back to [DEFAULT_MAG_MODEL] for a custom `User-Agent` that names no known model — which is
+         * the normal case for a hand-typed UA that mirrors a real STB client's generic string (those
+         * always say "MAG200" regardless of actual hardware); such a source should pick the matching
+         * preset instead of typing the UA, so the real model still reaches `stb_type`.
+         */
+        internal fun magModel(userAgent: String): String =
+            KNOWN_MAG_MODELS.firstOrNull { userAgent.contains(it, ignoreCase = true) } ?: DEFAULT_MAG_MODEL
+
+        /**
+         * [stbType] is only meaningful alongside device identity — a portal that checks `device_id`
+         * against it has nothing to check for a MAC-only source, and MAC-only sources must keep their
+         * original request shape (see [getProfile]'s kdoc), so it is omitted whenever [identity] is
+         * empty, same as the identity fields themselves.
+         */
+        internal fun profileUrl(apiBase: String, identity: StalkerDeviceIdentity, stbType: String? = null): String = buildString {
             append(apiBase)
             append("?type=stb&action=get_profile&hd=1&auth_second_step=")
             append(if (identity.hasAny) '1' else '0')
             identity.serialNumber?.takeIf { it.isNotBlank() }?.let { append("&sn=${URLEncoder.encode(it, "UTF-8")}") }
+            if (identity.hasAny) stbType?.takeIf { it.isNotBlank() }?.let { append("&stb_type=${URLEncoder.encode(it, "UTF-8")}") }
             identity.deviceId?.takeIf { it.isNotBlank() }?.let { append("&device_id=${URLEncoder.encode(it, "UTF-8")}") }
             identity.deviceId2?.takeIf { it.isNotBlank() }?.let { append("&device_id2=${URLEncoder.encode(it, "UTF-8")}") }
             identity.signature?.takeIf { it.isNotBlank() }?.let { append("&signature=${URLEncoder.encode(it, "UTF-8")}") }
             append("&JsHttpRequest=1-xml")
+        }
+
+        /**
+         * `get_profile`'s rejection shape: a device-identity mismatch comes back as an ordinary
+         * `200 OK` object carrying `msg`/`block_msg` but none of the real profile fields (no `id`).
+         * Confirmed against a real portal with `sn`/`device_id`/`device_id2` that were genuinely
+         * registered to the MAC but sent with no `stb_type`, or the wrong one — see [getProfile].
+         * Returns the message worth showing, or `null` for an ordinary profile.
+         */
+        internal fun deviceConflictMessage(profile: Map<String, String>): String? {
+            if (!profile["id"].isNullOrBlank()) return null
+            return profile["msg"] ?: profile["block_msg"]
         }
 
         /**
@@ -1007,4 +1067,29 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
             return url.querySize > 0 || url.encodedPath.contains(".")
         }
     }
+}
+
+/**
+ * Passes bytes through unchanged, but remembers the first [limit] of them so a caller that gave up
+ * partway through the stream (e.g. [StalkerClient]'s "not JSON" check) can still say what the portal
+ * actually sent. Never buffers past [limit] — the guide crawl can be tens of megabytes, and this exists
+ * to describe a failure, not to re-implement the body.
+ */
+private class HeadPeekingInputStream(input: InputStream, private val limit: Int) : FilterInputStream(input) {
+    private val captured = java.io.ByteArrayOutputStream(minOf(limit, 64))
+
+    override fun read(): Int {
+        val b = super.read()
+        if (b != -1 && captured.size() < limit) captured.write(b)
+        return b
+    }
+
+    override fun read(b: ByteArray, off: Int, len: Int): Int {
+        val n = super.read(b, off, len)
+        if (n > 0 && captured.size() < limit) captured.write(b, off, minOf(n, limit - captured.size()))
+        return n
+    }
+
+    /** The bytes seen so far, up to [limit], decoded as UTF-8 (replacing anything that isn't valid). */
+    fun head(): String = captured.toByteArray().toString(Charsets.UTF_8)
 }
