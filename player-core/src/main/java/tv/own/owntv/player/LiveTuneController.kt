@@ -203,8 +203,30 @@ class LiveTuneController(
         engineLog("tune '${channel.name}' -> ${route.why} [${route.preference.name}]")
         openTimeshift(channel, source, resolved)
         arm(channel, source, route.preference)
-        if (route.onMpv) startOnMpv(channel, source, route.why, resolved = resolved)
-        else startOnExo(channel, source, resolved)
+        when {
+            route.onMpv -> startOnMpv(channel, source, route.why, resolved = resolved)
+            // The preview already found that ExoPlayer can't open this channel. Promoting it put the
+            // preview's error on screen for ~1 s while the ladder moved on to mpv: go there directly.
+            previewedChannelId == channel.id && engines.exoFailed -> {
+                engineLog("'${channel.name}' — its ExoPlayer preview had already failed; trying the next engine")
+                advance(channel, source, "the ExoPlayer preview had already failed", aboutFormat = false)
+            }
+            else -> startOnExo(channel, source, resolved)
+        }
+    }
+
+    /** The channel the preview pane last asked ExoPlayer for (see [expectPromotion]). */
+    private var previewedChannelId: Long? = null
+
+    /**
+     * The user is opening [channel] full screen. When ExoPlayer is already previewing it, say so at once,
+     * before the full-screen player is first drawn: it then shows ExoPlayer's surface from the start
+     * instead of building mpv's and swapping it out when [start] gets there. Measured on a 4K channel:
+     * ~4 s of black on opening, with the engine pill reading "MPV" meanwhile. [start] still decides the
+     * engine, and turns this off again if that is mpv.
+     */
+    fun expectPromotion(channel: ChannelEntity) {
+        if (previewedChannelId == channel.id && engines.exoUrl != null && !engines.exoFailed) _liveOnExo.value = true
     }
 
     /**
@@ -242,6 +264,7 @@ class LiveTuneController(
      */
     fun preview(channel: ChannelEntity, muted: Boolean) {
         if (_liveOnExo.value) return
+        previewedChannelId = channel.id
         ts?.let { session ->
             // The pane already shows this channel from its saved copy (Back from full screen): it keeps
             // saving, because the user has not left the channel.
@@ -761,7 +784,13 @@ class LiveTuneController(
      * place the ladder is climbed, from either engine's watcher — which is what makes "each rung at most
      * once" hold, and that finiteness is what stops a channel bouncing between the engines for ever.
      */
-    private suspend fun advance(channel: ChannelEntity, source: SourceEntity?, reason: String) {
+    private suspend fun advance(
+        channel: ChannelEntity,
+        source: SourceEntity?,
+        reason: String,
+        /** Whether the failure says anything about the stream's format; by default, unless it was a refusal. */
+        aboutFormat: Boolean = !isRequestRefusal(reason),
+    ) {
         if (!ladder.owns(channel.streamUrl)) return // a newer tune owns the ladder now
         val nowMs = host.nowMs()
         // ExoPlayer played this channel, then found its content unplayable (not a connection problem).
@@ -771,7 +800,7 @@ class LiveTuneController(
         val outOfTime = ladder.expired(nowMs)
         // A panel refusing the *request* (a busy 458, a 403, a rate limit) says nothing about the format,
         // so nothing may be learned from it.
-        val next = ladder.advance(failureWasAboutFormat = !isRequestRefusal(reason), nowMs = nowMs) ?: run {
+        val next = ladder.advance(failureWasAboutFormat = aboutFormat, nowMs = nowMs) ?: run {
             val detail = if (outOfTime) "$reason — gave up after ${armedBudgetMs / 1000}s" else reason
             // Nowhere to go, but ExoPlayer is still reconnecting a channel that played. Abandoning here
             // sets its gaveUp flag, which stops those reconnects: measured on an upstream outage of ~50s
