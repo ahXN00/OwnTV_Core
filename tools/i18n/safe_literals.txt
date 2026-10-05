@@ -3125,7 +3125,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal handshake returned no token
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal rejected the request (HTTP $code)
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal response has no "js" payload
-1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal response is not JSON (got ${reader.peek()}): ${redactForLog(peeking.head())}
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal response is not JSON (got $got)
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal returned an empty payload — token expired or MAC not authorized
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Referer
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	StalkerClient
@@ -3155,6 +3155,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	ffrt
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	ffrt2
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	ffrt3
+1	log	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	get_profile device conflict — retrying once with stb_type=$model
 1	log	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	guide download url=$safeUrl bytes=$written ms=${SystemClock.elapsedRealtime() - startedAt}
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	handshake candidate failed apiBase=$apiBase message=${e.message}
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	handshake ok apiBase=$apiBase
@@ -3171,6 +3172,7 @@
 7	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	name
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	number
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	o_name
+1	log	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	portal response is not JSON (got $got): ${redactForLog(peeking.head())}
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	poster
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	rating
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	rating_imdb

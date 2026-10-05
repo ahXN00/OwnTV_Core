@@ -1,5 +1,6 @@
 package tv.own.owntv.core.stalker
 
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -152,6 +153,52 @@ class StalkerClientTest {
     @Test
     fun deviceConflictMessage_nullForARealProfile() {
         assertNull(StalkerClient.deviceConflictMessage(mapOf("id" to "1439338", "status" to "0", "stb_type" to "MAG270")))
+    }
+
+    @Test
+    fun deviceConflictMessage_blankMessagesAreNotAConflict() {
+        assertNull(StalkerClient.deviceConflictMessage(mapOf("status" to "0", "msg" to "", "block_msg" to " ")))
+    }
+
+    // ---- get_profile: today's request first, stb_type only as a retry after a device conflict ----
+
+    private val conflict = mapOf("status" to "1", "msg" to "Device conflict - device_id mismatch")
+    private val realProfile = mapOf("id" to "1439338", "status" to "0")
+
+    /** Runs [StalkerClient.resolveProfile] against [answers] in order; each request's `stb_type` lands in [sent]. */
+    private fun resolve(identity: StalkerDeviceIdentity, sent: MutableList<String?>, vararg answers: Map<String, String>) = runBlocking {
+        val queue = ArrayDeque(answers.toList())
+        StalkerClient.resolveProfile(identity, userAgent = null) { stbType -> sent += stbType; queue.removeFirst() }
+    }
+
+    @Test
+    fun getProfile_aBlankMsgProfilePassesInOneRequest() {
+        val sent = mutableListOf<String?>()
+        assertEquals("0", resolve(StalkerDeviceIdentity(deviceId = "dev"), sent, mapOf("status" to "0", "msg" to ""))["status"])
+        assertEquals(listOf<String?>(null), sent)
+    }
+
+    @Test
+    fun getProfile_aConflictIsRetriedOnceWithStbType() {
+        val sent = mutableListOf<String?>()
+        assertEquals("1439338", resolve(StalkerDeviceIdentity(deviceId = "dev"), sent, conflict, realProfile)["id"])
+        assertEquals(listOf(null, "MAG200"), sent)
+    }
+
+    @Test
+    fun getProfile_aConflictTwiceIsAnAuthFailure() {
+        val sent = mutableListOf<String?>()
+        val error = runCatching { resolve(StalkerDeviceIdentity(deviceId = "dev"), sent, conflict, conflict) }.exceptionOrNull()
+        assertTrue(error is StalkerClient.StalkerAuthException)
+        assertEquals("Device conflict - device_id mismatch", error?.message)
+        assertEquals(2, sent.size)
+    }
+
+    @Test
+    fun getProfile_aMacOnlySourceNeverSendsStbType() {
+        val sent = mutableListOf<String?>()
+        assertTrue(runCatching { resolve(StalkerDeviceIdentity(), sent, conflict) }.exceptionOrNull() is StalkerClient.StalkerAuthException)
+        assertEquals(listOf<String?>(null), sent)
     }
 
     // ---- create_link cmd prefix stripping ----

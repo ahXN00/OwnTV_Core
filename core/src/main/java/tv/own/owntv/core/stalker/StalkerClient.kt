@@ -152,11 +152,13 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
      * returns the STB profile (scalar fields only; nested payloads are skipped). Optional second-step
      * device identity is sent only when supplied; MAC-only sources retain the original request shape.
      *
-     * When device identity is supplied, `stb_type` goes along with it, derived from [userAgent] via
-     * [magModel]. Confirmed against a real portal by curl: `sn`/`device_id`/`device_id2` that were
-     * genuinely registered to this MAC were rejected — "Device conflict - device_id mismatch" — with
-     * `stb_type` omitted or naming the wrong model, and accepted, same MAC and identity values, with
-     * the correct `stb_type` added. Nothing else in the request changed between those two calls.
+     * Some portals reject device identity sent without `stb_type`: confirmed against a real portal by
+     * curl, `sn`/`device_id`/`device_id2` genuinely registered to this MAC were refused — "Device
+     * conflict - device_id mismatch" — with `stb_type` omitted or naming the wrong model, and accepted
+     * with the correct one. So the first request is exactly the one every working source already
+     * makes, and only a conflict answer to a request carrying identity is retried once with
+     * `stb_type` = [magModel] of the effective User-Agent. A source that works today sends one request,
+     * unchanged; sending a guessed model up front could break a portal that checks it.
      *
      * That rejection comes back as an ordinary `200 OK` with a profile-shaped object (`status`, `msg`,
      * `block_msg` — no `id` and none of the real STB fields), so it reads as success to anything that
@@ -170,13 +172,8 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
         token: String,
         userAgent: String? = null,
         identity: StalkerDeviceIdentity = StalkerDeviceIdentity(),
-    ): Map<String, String> {
-        val effectiveUserAgent = userAgent?.takeIf { it.isNotBlank() } ?: DEFAULT_MAG_USER_AGENT
-        val url = profileUrl(apiBase, identity, magModel(effectiveUserAgent))
-        val profile = request(url, mac, token, userAgent) { readScalarFields(it) }
-        if (profile.isEmpty()) throw StalkerAuthException("Portal accepted the handshake but returned an empty profile — the MAC may not be authorized")
-        deviceConflictMessage(profile)?.let { throw StalkerAuthException(it) }
-        return profile
+    ): Map<String, String> = resolveProfile(identity, userAgent) { stbType ->
+        request(profileUrl(apiBase, identity, stbType), mac, token, userAgent) { readScalarFields(it) }
     }
 
     /**
@@ -752,10 +749,9 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
     /** The MAG request every portal call is made with — headers in exactly one place. */
     private fun portalRequest(url: String, mac: String, token: String?, userAgent: String?): Request {
         val referer = "${portalRoot(url.substringBefore('?'))}/c/"
-        val effectiveUserAgent = userAgent?.takeIf { it.isNotBlank() } ?: DEFAULT_MAG_USER_AGENT
         val builder = Request.Builder()
             .url(url)
-            .header("User-Agent", effectiveUserAgent)
+            .header("User-Agent", userAgent?.takeIf { it.isNotBlank() } ?: DEFAULT_MAG_USER_AGENT)
             .header("Cookie", "mac=${URLEncoder.encode(mac, "UTF-8")}; stb_lang=en; timezone=${TimeZone.getDefault().id}")
             .header("X-User-Agent", "Model: MAG250; Link: WiFi")
             .header("Referer", referer)
@@ -799,17 +795,20 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
      * crawl writes each batch to the database as it parses, and therefore never holds the whole
      * payload. Callers that just build a value pass an ordinary lambda and are unaffected.
      *
-     * [input] is wrapped in [HeadPeekingInputStream] so a "not JSON" failure can report what the
+     * [input] is wrapped in [HeadPeekingInputStream] so a "not JSON" failure can log what the
      * portal actually sent — a handful of bytes, never the whole body (which for the guide crawl can
      * be up to [MAX_GUIDE_BYTES]). This is diagnostic only: [reader]'s lenient mode is what decides
-     * whether the response parses, not this peek.
+     * whether the response parses, not this peek. The quote goes to the log, not into the exception:
+     * an exception's message reaches the sync error and warning text the user reads.
      */
     private suspend fun <T> parseEnvelope(input: InputStream, parseJs: suspend (JsonReader) -> T): T {
         val peeking = HeadPeekingInputStream(input, RESPONSE_PEEK_BYTES)
         JsonReader(peeking.reader(Charsets.UTF_8)).use { reader ->
             reader.isLenient = true // some portals prefix/pad the JSON
             if (reader.peek() != JsonToken.BEGIN_OBJECT) {
-                throw IOException("Portal response is not JSON (got ${reader.peek()}): ${redactForLog(peeking.head())}")
+                val got = reader.peek()
+                Log.w(TAG, "portal response is not JSON (got $got): ${redactForLog(peeking.head())}")
+                throw IOException("Portal response is not JSON (got $got)")
             }
             reader.beginObject()
             var result: T? = null
@@ -904,9 +903,9 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
 
         /**
          * The `MAGnnn` token for a given [userAgent] — one of the MAG preset strings in
-         * `MAG_USER_AGENTS` (`SetupText.kt`), each of which embeds its own model name. Used for both
-         * `X-User-Agent`'s `Model:` field (see [portalRequest]) and `get_profile`'s `stb_type` (see
-         * [profileUrl]), so a source that picks a preset gets a consistent model everywhere. Falls
+         * `MAG_USER_AGENTS` (`SetupText.kt`), each of which embeds its own model name. Used only for
+         * `get_profile`'s `stb_type` on a device-conflict retry (see [getProfile]); `X-User-Agent`'s
+         * `Model:` in [portalRequest] deliberately stays a fixed `MAG250`, as it always has. Falls
          * back to [DEFAULT_MAG_MODEL] for a custom `User-Agent` that names no known model — which is
          * the normal case for a hand-typed UA that mirrors a real STB client's generic string (those
          * always say "MAG200" regardless of actual hardware); such a source should pick the matching
@@ -942,7 +941,27 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
          */
         internal fun deviceConflictMessage(profile: Map<String, String>): String? {
             if (!profile["id"].isNullOrBlank()) return null
-            return profile["msg"] ?: profile["block_msg"]
+            return profile["msg"]?.takeIf { it.isNotBlank() } ?: profile["block_msg"]?.takeIf { it.isNotBlank() }
+        }
+
+        /**
+         * [getProfile]'s decision, apart from the network: [fetch] with no `stb_type` first, and once
+         * more with one only after a device conflict on a request that carried identity.
+         */
+        internal suspend fun resolveProfile(
+            identity: StalkerDeviceIdentity,
+            userAgent: String?,
+            fetch: suspend (stbType: String?) -> Map<String, String>,
+        ): Map<String, String> {
+            var profile = fetch(null)
+            if (identity.hasAny && profile.isNotEmpty() && deviceConflictMessage(profile) != null) {
+                val model = magModel(userAgent?.takeIf { it.isNotBlank() } ?: DEFAULT_MAG_USER_AGENT)
+                Log.i(TAG, "get_profile device conflict — retrying once with stb_type=$model")
+                profile = fetch(model)
+            }
+            if (profile.isEmpty()) throw StalkerAuthException("Portal accepted the handshake but returned an empty profile — the MAC may not be authorized")
+            deviceConflictMessage(profile)?.let { throw StalkerAuthException(it) }
+            return profile
         }
 
         /**
