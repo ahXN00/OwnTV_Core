@@ -1027,10 +1027,6 @@ class LivePreviewEngine(
      *  spinner that will never clear. */
     fun abandon(reason: String) = failLoad(reason)
 
-    /**
-     * A channel that has played is mid-way through this engine's own reconnect ladder: it has not given
-     * up and has attempts left. Abandoning it then (see [LiveTuneController]) would cut that ladder off.
-     */
     /** ExoPlayer cannot play this stream's content (see [isContentFailure]): the other engine should
      *  have it, whatever the tune's opening budget says. */
     val contentBroken: Boolean get() = tune.contentBroken
@@ -1056,6 +1052,10 @@ class LivePreviewEngine(
         return false
     }
 
+    /**
+     * A channel that has played is mid-way through this engine's own reconnect ladder: it has not given
+     * up and has attempts left. Abandoning it then (see [LiveTuneController]) would cut that ladder off.
+     */
     val stillReconnecting: Boolean
         get() = tune.hasPlayed && !tune.gaveUp && currentUrl != null &&
             !ladderSpent(android.os.SystemClock.elapsedRealtime())
@@ -1135,7 +1135,7 @@ class LivePreviewEngine(
                         _error.value = null; _errorInfo.value = null
                     }
                 _state.value = State.PLAYING; _buffering.value = false
-                tune.hasPlayed = true; mainHandler.removeCallbacks(stallWatchdog)
+                tune.hasPlayed = true; deadlineArmed = true; mainHandler.removeCallbacks(stallWatchdog)
                 updateAudioOnlyClassification()
                 if (activeIsHls && !tune.playlistLogged) { tune.playlistLogged = true; logHlsPlaylist("ready") }
                     // Recovery is measured, not assumed: arm the ladder reset and let it fire only if this
@@ -1443,7 +1443,7 @@ class LivePreviewEngine(
         // THE reset. Everything a new channel must not inherit from the previous one lives in
         // [TuneState], so forgetting it is one assignment that cannot be partially done.
         tune = TuneState(playStartedMs = android.os.SystemClock.elapsedRealtime())
-        deadlineMisses.set(0)
+        deadlineMisses.set(0); deadlineArmed = false
         _stalledSinceMs.value = null
         pendingReload = null // the previous channel's; an answer on this one must never bring it forward
         // Read BEFORE the player is (re)built below — the load control is fixed at construction.
@@ -1745,7 +1745,7 @@ class LivePreviewEngine(
         LiveDiagnosticsLog.event("stop() — intentional")
         tune.stoppingIntentionally = true
         currentUrl = null
-        tune.hasPlayed = false; tune.retryCount = 0; tune.reconnectPending = false; tune.gaveUp = false; tune.decoderRetryDone = false
+        tune.hasPlayed = false; deadlineArmed = false; tune.retryCount = 0; tune.reconnectPending = false; tune.gaveUp = false; tune.decoderRetryDone = false
         tune.failingSinceMs = 0L; _stalledSinceMs.value = null; pendingReload = null
         cancelProviderBackOff(); tune.providerBackOffs = 0
         mainHandler.removeCallbacks(stallWatchdog); mainHandler.removeCallbacks(progressWatchdog); mainHandler.removeCallbacks(fpsFastRefresh)
@@ -1807,6 +1807,7 @@ class LivePreviewEngine(
         videoRenderer = null
         surface = null
         currentUrl = null
+        deadlineArmed = false
         sawUhd = false
         _state.value = State.IDLE
         // A released engine is never reused (LiveEnginePool drops it), and each Multiview tile is its
@@ -1912,6 +1913,13 @@ class LivePreviewEngine(
 
     /** Consecutive live requests that got no response headers in time (see [ResponseDeadline]). */
     private val deadlineMisses = java.util.concurrent.atomic.AtomicInteger(0)
+
+    /**
+     * Whether [ResponseDeadline] applies: only once this tune has shown a picture. Before that a cold
+     * restream can take longer than the deadline for the panel to spin it up, and the open watchdogs and
+     * the tune's "Give up after" already bound the wait. Volatile because OkHttp's threads read it.
+     */
+    @Volatile private var deadlineArmed = false
 
     private fun onResponseDeadlineMissed(host: String) {
         val misses = deadlineMisses.incrementAndGet()
@@ -2836,6 +2844,7 @@ class LivePreviewEngine(
                     RESPONSE_DEADLINE_MS,
                     onMissed = { host -> mainHandler.post { onResponseDeadlineMissed(host) } },
                     onAnswered = { deadlineMisses.set(0) },
+                    active = { deadlineArmed },
                 ),
             )
             .addInterceptor { chain ->

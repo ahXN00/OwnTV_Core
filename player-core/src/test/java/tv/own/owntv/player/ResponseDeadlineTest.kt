@@ -126,4 +126,21 @@ class ResponseDeadlineTest {
         assertEquals(0, missed.get())
         assertEquals(1, answered.get())
     }
+
+    @Test
+    fun `an inactive deadline lets a slow answer through`() {
+        // Before a channel's first frame: a cold restream may take longer than the deadline to answer.
+        val inactive = OkHttpClient.Builder()
+            .readTimeout(10, TimeUnit.SECONDS)
+            .addNetworkInterceptor(
+                ResponseDeadline(300, { missed.incrementAndGet() }, { answered.incrementAndGet() }, active = { false }),
+            )
+            .build()
+        serve(delayMs = 800)
+        inactive.newCall(Request.Builder().url(url).build()).execute().use { r ->
+            assertEquals("ok", r.body.string())
+        }
+        assertEquals(0, missed.get())
+        assertEquals(0, answered.get())
+    }
 }

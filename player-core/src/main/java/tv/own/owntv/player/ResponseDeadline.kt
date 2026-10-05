@@ -30,9 +30,12 @@ class ResponseDeadline(
      *  silent server behind it, so counting it would hide that server. Called on the request's thread. */
     private val onAnswered: () -> Unit,
     private val scheduler: ScheduledExecutorService = SCHEDULER,
+    /** False lets every request wait as long as it needs. Read on the request's thread. */
+    private val active: () -> Boolean = { true },
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
+        if (!active()) return chain.proceed(chain.request())
         val call = chain.call()
         // WAITING → ANSWERED or MISSED, exactly once: a deadline that fires as the headers arrive must not
         // cancel a stream that has already started.
