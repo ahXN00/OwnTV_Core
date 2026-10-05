@@ -14,6 +14,8 @@
 ### ✨ New features
 
 - **🔄 "Stream interrupted. Reconnecting…" while a live channel recovers by itself** (community PR #13 by @tvdev-android)
+- **↩️ Strings for restoring a category, or the playlists shown, to the playlist default** (community PR #11 by @tvdev-android)
+- **⏭️ Strings for the phone player's next / previous channel in list buttons**
 
 ### 🐛 Fixes
 
@@ -25,6 +27,7 @@
 - **⚡ Opening a channel from its preview no longer shows a black screen first** (community PR #19 by @tvdev-android)
 - **⏩ Channels with a pre-buffer start faster** (community PR #19 by @tvdev-android)
 - **🔊 Surround sound is no longer turned off by a muted preview** (community PR #21 by @tvdev-android)
+- **🔐 Stalker portals that reject a device as a "Device conflict" are retried with the box model** (community PR #22 by @atlasafford)
 
 ## core-1.0.64 — 2026-10-04
 
