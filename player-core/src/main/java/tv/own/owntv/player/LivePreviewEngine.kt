@@ -1408,6 +1408,7 @@ class LivePreviewEngine(
         // [TuneState], so forgetting it is one assignment that cannot be partially done.
         tune = TuneState(playStartedMs = android.os.SystemClock.elapsedRealtime())
         _stalledSinceMs.value = null
+        pendingReload = null // the previous channel's; an answer on this one must never bring it forward
         // Read BEFORE the player is (re)built below — the load control is fixed at construction.
         prerollOverrideSecs = prerollSecsOverride
         this.liveBufferOverride = liveBufferOverride
@@ -1708,7 +1709,7 @@ class LivePreviewEngine(
         tune.stoppingIntentionally = true
         currentUrl = null
         tune.hasPlayed = false; tune.retryCount = 0; tune.reconnectPending = false; tune.gaveUp = false; tune.decoderRetryDone = false
-        tune.failingSinceMs = 0L; _stalledSinceMs.value = null
+        tune.failingSinceMs = 0L; _stalledSinceMs.value = null; pendingReload = null
         cancelProviderBackOff(); tune.providerBackOffs = 0
         mainHandler.removeCallbacks(stallWatchdog); mainHandler.removeCallbacks(progressWatchdog); mainHandler.removeCallbacks(fpsFastRefresh)
         mainHandler.removeCallbacks(openWatchdog)
@@ -1832,8 +1833,10 @@ class LivePreviewEngine(
             } else null
             // Coalesce the backoff delay with the resolve: whichever is later wins, but the resolve must
             // complete before we reload. Post the reload so it lands on the main thread's Looper after delay.
-            val reload = Runnable {
-                pendingReload = null
+            lateinit var reload: Runnable
+            reload = Runnable {
+                // Only its own: a reload left over from a channel since left must not clear the current one's.
+                if (pendingReload === reload) pendingReload = null
                 if (currentUrl != url) { tune.reconnectPending = false; return@Runnable } // superseded (zapped / stopped)
                 tune.reconnectPending = false
                 // Media3 kept retrying during the delay and got the stream back by itself. Re-preparing now
