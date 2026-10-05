@@ -22,6 +22,9 @@
 - **🎞️ A live channel ExoPlayer can't decode after it started playing moves to the other player** (community PR #20 by @tvdev-android)
 - **🔌 A live channel whose server stops answering mid-stream reconnects in seconds** (community PR #20 by @tvdev-android)
 - **📺 4K channels saved by Pause and rewind play on ExoPlayer again instead of losing the picture**
+- **⚡ Opening a channel from its preview no longer shows a black screen first** (community PR #19 by @tvdev-android)
+- **⏩ Channels with a pre-buffer start faster** (community PR #19 by @tvdev-android)
+- **🔊 Surround sound is no longer turned off by a muted preview** (community PR #21 by @tvdev-android)
 
 ## core-1.0.64 — 2026-10-04
 
