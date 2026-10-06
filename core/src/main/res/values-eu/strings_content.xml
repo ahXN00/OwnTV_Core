@@ -1,3 +1,298 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <plurals name="content_downloading_items">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> elementu deskargatzen</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> elementu deskargatzen</item>
+    </plurals>
+    <plurals name="content_queued_items">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> elementu ilaran</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> elementu ilaran</item>
+    </plurals>
+    <plurals name="content_paused_items">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> elementu pausatuta</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> elementu pausatuta</item>
+    </plurals>
+    <plurals name="content_downloads_failed">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> deskarga huts egin da</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> deskarga huts egin dira</item>
+    </plurals>
+    <string name="content_genre_action">Ekintza</string>
+    <string name="content_genre_adult">Helduentzako</string>
+    <string name="content_genre_anime">Animea</string>
+    <string name="content_genre_comedy">Komedia</string>
+    <string name="content_genre_documentary">Dokumentala</string>
+    <string name="content_genre_drama">Drama</string>
+    <string name="content_genre_entertainment">Entretenimendua</string>
+    <string name="content_genre_horror">Beldurra</string>
+    <string name="content_genre_kids">Haurrentzako</string>
+    <string name="content_genre_movies">Filmak</string>
+    <string name="content_genre_music">Musika</string>
+    <string name="content_genre_news">Albisteak</string>
+    <string name="content_genre_other">Besterik</string>
+    <string name="content_genre_religious">Erlijiosoa</string>
+    <string name="content_genre_romance">Erromantzea</string>
+    <string name="content_genre_scifi">Zientzia fikzioa</string>
+    <string name="content_genre_series">Telesailak</string>
+    <string name="content_genre_sport">Kirola</string>
+    <string name="content_exit_owntv">OwnTV itxi?</string>
+    <string name="content_exit_confirmation">Ziur aplikazioa itxi nahi duzula?</string>
+    <string name="content_restore_incomplete_title">Leheneratze batek ez du amaitu</string>
+    <string name="content_restore_incomplete_message">Aplikazioa itxi egin da <xliff:g id="description">%1$s</xliff:g> leheneratzen ari zela, beraz baliteke zati bat falta izatea. Ez da ezer ezabatu — exekutatu berriro leheneratze bera Ezarpenak → Babeskopia eta leheneratzea atalean, gainerakoa osatzeko.</string>
+    <string name="content_playlist_picker_title">Erakutsi erreprodukzio-zerrenda</string>
+    <string name="content_playlist_picker_description">Aukeratu zein erreprodukzio-zerrenda arakatu nahi duzun. Leku guztietan aplikatzen da eta gogoratu egiten da.</string>
+    <string name="content_avatar_picker_title">Aukeratu zure avatarra</string>
+    <string name="content_category_browser_title">Kategoriak</string>
+    <string name="content_channel_overlay_title">Kanalak</string>
+    <string name="content_live_now">Orain zuzenean</string>
+    <string name="content_live_next">Hurrengoa zuzenean</string>
+    <string name="content_archive_playing">Erreproduzitzen</string>
+    <string name="content_archive_then">Ondoren</string>
+    <string name="content_clock_programme">Programaren ordua</string>
+    <string name="content_clock_current">Uneko ordua</string>
+    <string name="content_media_overview">Sinopsia</string>
+    <string name="content_media_cast">Aktoreak</string>
+    <string name="content_media_press_back">Sakatu Atzera ixteko</string>
+    <string name="content_add_favourite">Gehitu gogokoetara</string>
+    <string name="content_remove_favourite">Kendu gogokoetatik</string>
+    <string name="content_mark_watched">Markatu ikusitako gisa</string>
+    <string name="content_mark_unwatched">Markatu ikusi gabeko gisa</string>
+    <string name="content_move">Mugitu</string>
+    <string name="content_move_to_category">Mugitu kategoriara…</string>
+    <string name="content_download">Deskargatu</string>
+    <string name="content_download_all_episodes">Deskargatu atal guztiak</string>
+    <string name="content_play">Erreproduzitu</string>
+    <string name="content_next_up">Hurrengoa</string>
+    <string name="content_favorited">Gogokoetan</string>
+    <string name="content_favorite">Gogokoa</string>
+    <string name="content_show_watched">Erakutsi ikusitakoak</string>
+    <string name="content_hide_watched">Ezkutatu ikusitakoak</string>
+    <string name="content_sorting">Ordenatzea</string>
+    <string name="content_episode_options">Atalaren aukerak</string>
+    <string name="content_seasons">Denboraldiak</string>
+    <string name="content_episodes">Atalak</string>
+    <string name="content_oldest_first">Zaharrenak lehenik</string>
+    <string name="content_newest_first">Berrienak lehenik</string>
+    <string name="content_last_watched">Azkena ikusia</string>
+    <string name="content_play_external">Erreproduzitu kanpoko erreproduzigailuarekin</string>
+    <string name="content_delete_subtitles">Ezabatu OpenSub azpitituluak</string>
+    <string name="content_tmdb_details">TMDB xehetasunak</string>
+    <string name="content_play_trailer">Erreproduzitu trailerra</string>
+    <string name="content_refetch_tmdb">Berreskuratu TMDB xehetasunak</string>
+    <string name="content_set_tmdb_name">Ezarri TMDB izena</string>
+    <string name="content_close">Itxi</string>
+    <string name="content_rename_hint">Profil honetarako soilik. Utzi hutsik jatorrizko izena berrezartzeko.</string>
+    <string name="content_no_movies_here">Ez dago filmik hemen.</string>
+    <string name="content_no_series_here">Ez dago telesailik hemen.</string>
+    <string name="content_no_episodes">Ez dago atalik eskuragarri.</string>
+    <string name="content_no_movies_found">Ez da filmik aurkitu “<xliff:g id="query">%1$s</xliff:g>” bilaketarako</string>
+    <plurals name="content_count_movies">
+        <item quantity="one"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> film)</item>
+        <item quantity="other"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> film)</item>
+    </plurals>
+    <plurals name="content_count_series">
+        <item quantity="one"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> telesail)</item>
+        <item quantity="other"><xliff:g id="category">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g> telesail)</item>
+    </plurals>
+    <string name="content_provider">Hornitzailea</string>
+    <string name="content_provider_name">Hornitzailea: <xliff:g id="provider">%1$s</xliff:g></string>
+    <string name="content_no_series_found">Ez da telesailik aurkitu “<xliff:g id="query">%1$s</xliff:g>” bilaketarako</string>
+    <string name="content_reorder_movie">Berrantolatu filma</string>
+    <string name="content_reorder_series">Berrantolatu telesaila</string>
+    <string name="content_already_downloaded">Dagoeneko deskargatuta — begiratu Deskargak menuan.</string>
+    <string name="content_refetching_tmdb">TMDB xehetasunak berreskuratzen…</string>
+    <string name="content_researching_tmdb">TMDBn berriro bilatzen…</string>
+    <string name="content_resume_at">Jarraitu <xliff:g id="position">%1$s</xliff:g> puntutik</string>
+    <string name="content_duration_hours"><xliff:g id="hours">%1$d</xliff:g>h <xliff:g id="minutes">%2$d</xliff:g>m</string>
+    <string name="content_duration_minutes"><xliff:g id="minutes">%1$d</xliff:g>m</string>
+    <string name="content_rating">★ <xliff:g id="rating">%1$.1f</xliff:g></string>
+    <string name="content_metadata_separator">"  •  "</string>
+    <string name="content_genres_separator">" · "</string>
+    <string name="content_season_episode"><xliff:g id="season">%1$d</xliff:g>. denb. · <xliff:g id="episode">%2$d</xliff:g>. atala</string>
+    <string name="content_season_episode_title"><xliff:g id="season">%1$d</xliff:g>. denb. · <xliff:g id="episode">%2$d</xliff:g>. atala <xliff:g id="title">%3$s</xliff:g></string>
+    <string name="content_season"><xliff:g id="season">%1$d</xliff:g>. denboraldia</string>
+    <string name="content_season_progress"><xliff:g id="season">%1$d</xliff:g>. denboraldia · <xliff:g id="completed">%2$d</xliff:g>/<xliff:g id="total">%3$d</xliff:g></string>
+    <string name="content_no_epg">EPG gabe</string>
+    <string name="content_epg">EPG</string>
+    <string name="content_live_day_time_range"><xliff:g id="day">%1$s</xliff:g> <xliff:g id="start">%2$s</xliff:g> – <xliff:g id="stop">%3$s</xliff:g></string>
+    <string name="content_catchup">Berrikusi</string>
+    <string name="content_play_external_short">Erreproduzitu kanpoko erreproduzigailuan</string>
+    <string name="content_rename">Aldatu izena</string>
+    <string name="content_rename_channel">Aldatu kanalaren izena</string>
+    <string name="content_reorder_channel">Berrantolatu kanala</string>
+    <string name="content_hide_channel">Ezkutatu kanala</string>
+    <string name="content_remove_history">Kendu historiatik</string>
+    <string name="content_no_channels_here">Ez dago kanalik hemen.</string>
+    <string name="content_no_channels_found">Ez da kanalik aurkitu “<xliff:g id="query">%1$s</xliff:g>” bilaketarako</string>
+    <string name="content_match_epg">Parekatu EPGa</string>
+    <string name="content_catchup_title">Berrikusi · <xliff:g id="channel">%1$s</xliff:g></string>
+    <string name="content_rewind_at">Atzeratu · <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="content_catchup_prompt">Aukeratu azken programa bat hasieratik berriz erreproduzitzeko.</string>
+    <string name="content_catchup_empty">Oraindik ez dago gida-daturik kanal honetarako — ziurtatu bere EPGa parekatuta dagoela (luze sakatu, edo erabili Parekatu EPGa).</string>
+    <string name="content_catchup_jump">Itzuli hona…</string>
+    <string name="content_catchup_jump_prompt">Aukeratu ikusten hasteko ordua. Ez da gidarik behar.</string>
+    <string name="content_catchup_jump_exact">Aukeratu ordu zehatza…</string>
+    <string name="content_catchup_jump_hint">Sakatu Ados egunean, orduan edo minutuan, aldatu gora eta behera teklekin, eta sakatu Ados berriro.</string>
+    <string name="content_epg_match_prompt">Aukeratu <xliff:g id="channel">%1$s</xliff:g> kanalaren gida-kanala.</string>
+    <string name="content_epg_match_prompt_current">Aukeratu <xliff:g id="channel">%1$s</xliff:g> kanalaren gida-kanala. Unekoa: <xliff:g id="match">%2$s</xliff:g></string>
+    <string name="content_search_guide_channels">Bilatu gida-kanalak…</string>
+    <string name="content_no_epg_data">Oraindik ez dago EPG daturik — gehitu EPG iturburu bat Ezarpenak atalean.</string>
+    <string name="content_no_guide_channels">Ez dago <xliff:g id="query">%1$s</xliff:g> bilaketarekin bat datorren gida-kanalik.</string>
+    <string name="content_clear_match">Garbitu parekatzea</string>
+    <string name="content_live_now_label">ORAIN</string>
+    <string name="content_live_next_label">HURRENGOA · <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="content_live_time_range_plain"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="stop">%2$s</xliff:g></string>
+    <string name="content_category_favorites">Gogokoak</string>
+    <string name="content_category_history">Historia</string>
+    <string name="content_category_all_channels">Kanal guztiak</string>
+    <string name="content_category_united_kingdom">Erresuma Batua</string>
+    <string name="content_category_united_states">Estatu Batuak</string>
+    <string name="content_category_germany">Alemania</string>
+    <string name="content_category_sports">Kirolak</string>
+    <string name="content_category_all_movies">Film guztiak</string>
+    <string name="content_category_action">Ekintza</string>
+    <string name="content_category_drama">Drama</string>
+    <string name="content_category_comedy">Komedia</string>
+    <string name="content_category_horror">Beldurra</string>
+    <string name="content_category_all_series">Telesail guztiak</string>
+    <string name="content_category_animation">Animazioa</string>
+    <string name="content_category_documentary">Dokumentala</string>
+    <string name="content_category_all_downloads">Deskarga guztiak</string>
+    <string name="content_category_movies">Filmak</string>
+    <string name="content_category_series">Telesailak</string>
+    <string name="content_zero_channels">0 kanal</string>
+    <string name="content_zero_movies">0 film</string>
+    <string name="content_zero_series">0 telesail</string>
+    <string name="content_zero_downloads">0 deskarga</string>
+    <string name="content_nothing_here">Oraindik ez dago ezer hemen</string>
+    <string name="content_add_source">Gehitu iturburu bat</string>
+    <string name="content_preview_select_channel">Hautatu kanal bat hemen aurreikusteko.</string>
+    <string name="content_offline_banner">Konexiorik gabe zaude — erreprodukzioak eta eguneraketek ez dute funtzionatuko berriz konektatu arte.</string>
+    <string name="content_subtitle_select_file">Hautatu tokiko azpititulu-fitxategia</string>
+    <string name="content_subtitle_load_failed">Ezin izan da azpititulu-fitxategia kargatu.</string>
+    <string name="content_history">Historia</string>
+    <string name="content_all_playlists">Erreprodukzio-zerrenda guztiak</string>
+    <string name="content_search_categories">Bilatu kategoriak…</string>
+    <string name="content_no_categories_match">Ez dago bat datorren kategoriarik</string>
+    <string name="content_action_resume">Jarraitu</string>
+    <string name="content_action_play">Erreproduzitu</string>
+    <string name="content_action_next_up">Hurrengoa</string>
+    <string name="content_action_last_channel">Azken kanala</string>
+    <string name="content_empty_section"><xliff:g id="section">%1$s</xliff:g> geroago iritsiko da. Gehitu M3U edo Xtream iturburu bat zerrenda hau betetzeko.</string>
+    <string name="content_progress_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="content_section_category"><xliff:g id="section">%1$s</xliff:g> / <xliff:g id="category">%2$s</xliff:g></string>
+    <string name="content_preview_player">Zure IPTV erreproduzigailu propioa.</string>
+    <string name="content_live_time_range"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="end">%2$s</xliff:g></string>
+    <string name="content_live_time_remaining"><xliff:g id="end">%1$s</xliff:g> · <xliff:g id="minutes">%2$d</xliff:g> min falta dira</string>
+    <string name="content_downloads_title">Deskargak</string>
+    <string name="content_downloads_empty">Oraindik ez dago deskargarik. Ireki film bat edo atal bat eta sakatu Deskargatu.</string>
+    <string name="content_downloads_storage">Biltegiratzea</string>
+    <string name="content_downloads_options">Deskargen aukerak</string>
+    <string name="content_downloads_storage_free"><xliff:g id="free">%1$s</xliff:g> GB libre <xliff:g id="total">%2$s</xliff:g> GBtik</string>
+    <string name="content_storage_internal">Barne-biltegiratzea</string>
+    <string name="content_storage_removable">Biltegiratze eramangarria</string>
+    <string name="content_storage_app">Aplikazioaren biltegiratzea (ez da baimenik behar)</string>
+    <string name="content_storage_choose_folder">Aukeratu beste karpeta bat…</string>
+    <string name="content_storage_chosen_folder">Aukeratutako karpeta</string>
+    <string name="content_storage_folder_lost">Karpeta hori ez dago eskuragarri jada. Aukeratu berriro, edo hautatu beste bat.</string>
+    <string name="content_storage_folder_fallback">Zure deskarga-karpeta ez dago eskuragarri oraintxe, beraz deskargak OwnTVren karpeta propioan gordetzen ari dira berriro eskuragarri egon arte.</string>
+    <string name="content_downloads_completed"><xliff:g id="size">%1$s</xliff:g> deskargatuta</string>
+    <string name="content_downloads_failure_message">Deskargak huts egin du — ezin izan da iturburua atzitu. Sakatu Saiatu berriro.</string>
+    <string name="content_downloads_queued">Ilaran…</string>
+    <string name="content_downloads_count"><xliff:g id="count">%1$d</xliff:g></string>
+    <string name="content_downloads_active">Aktiboak</string>
+    <string name="content_downloads_completed_group">Osatuta</string>
+    <string name="content_downloads_failed_group">Huts egin dutenak</string>
+    <string name="content_downloads_progress"><xliff:g id="percent">%1$d</xliff:g>%% · <xliff:g id="downloaded">%2$s</xliff:g> / <xliff:g id="total">%3$s</xliff:g></string>
+    <string name="content_downloads_progress_unknown">Deskargatzen… <xliff:g id="downloaded">%1$s</xliff:g></string>
+    <string name="content_downloads_folder_separator">" › "</string>
+    <string name="content_downloads_play">Erreproduzitu</string>
+    <string name="content_downloads_external">Kanpokoa</string>
+    <string name="content_downloads_pause">Pausatu</string>
+    <string name="content_downloads_unknown_size">—</string>
+    <string name="content_epg_create_profile">Sortu profil bat gida ikusteko.</string>
+    <string name="content_epg_filter_hides_all">Kanal guztiak ezkutatuta daude uneko iragazkiaren ondorioz. Aldatu ordenatzea gida ikusteko.</string>
+    <string name="content_epg_add_playlist">Gehitu erreprodukzio-zerrenda bat gida ikusteko.</string>
+    <string name="content_epg_no_channels_query">Ez da gida-kanalik aurkitu “<xliff:g id="query">%1$s</xliff:g>” bilaketarako.</string>
+    <string name="content_epg_mismatched_ids">Gidaren datuak gordeta daude, baina haien kanal-IDak ez datoz bat zure kanalen EPG IDekin — baliteke EPG jario hau beste hornitzaile baten kanal-sortari dagokion izatea.</string>
+    <string name="content_epg_catchup_unavailable">Berrikustea ez dago erabilgarri kanal honetarako.</string>
+    <string name="content_epg_matched_no_programmes">Parekatuta — baina gida-kanal honek ez du oraindik uneko programarik EPG jarioan.</string>
+    <string name="content_epg_add_playlist_first">Gehitu erreprodukzio-zerrenda bat lehenik.</string>
+    <string name="content_epg_no_match_data">Oraindik ez dago parekatzeko EPG daturik.</string>
+    <string name="content_epg_all_matched">Dena parekatuta dago dagoeneko.</string>
+    <string name="content_epg_no_match">Ez da EPG parekatzerik aurkitu <xliff:g id="channel">%1$s</xliff:g> kanalerako — saiatu eskuz aukeratzen.</string>
+    <plurals name="content_epg_stats_channels">
+        <item quantity="one">Gida kargatuta: <xliff:g id="channels">%1$d</xliff:g> kanal.</item>
+        <item quantity="other">Gida kargatuta: <xliff:g id="channels">%1$d</xliff:g> kanal.</item>
+    </plurals>
+    <plurals name="content_epg_stats_programmes">
+        <item quantity="one">Gidak <xliff:g id="programmes">%1$d</xliff:g> programa ditu.</item>
+        <item quantity="other">Gidak <xliff:g id="programmes">%1$d</xliff:g> programa ditu.</item>
+    </plurals>
+    <string name="content_epg_stats_loaded"><xliff:g id="channels">%1$s</xliff:g> <xliff:g id="programmes">%2$s</xliff:g> <xliff:g id="catchup">%3$s</xliff:g></string>
+    <string name="content_epg_stats_no_catchup">Ez dago berrikusteko kanalik eskuragarri.</string>
+    <plurals name="content_epg_stats_catchup_available">
+        <item quantity="one">Berrikustea <xliff:g id="count">%1$d</xliff:g> kanalean dago erabilgarri.</item>
+        <item quantity="other">Berrikustea <xliff:g id="count">%1$d</xliff:g> kanalean dago erabilgarri.</item>
+    </plurals>
+    <plurals name="content_epg_auto_matched_applied">
+        <item quantity="one"><xliff:g id="applied">%1$d</xliff:g> kanal automatikoki parekatu da.</item>
+        <item quantity="other"><xliff:g id="applied">%1$d</xliff:g> kanal automatikoki parekatu dira.</item>
+    </plurals>
+    <plurals name="content_epg_auto_matched_review">
+        <item quantity="one"><xliff:g id="review">%1$d</xliff:g> kanal berrikusi behar da.</item>
+        <item quantity="other"><xliff:g id="review">%1$d</xliff:g> kanal berrikusi behar dira.</item>
+    </plurals>
+    <string name="content_epg_auto_matched"><xliff:g id="applied">%1$s</xliff:g> <xliff:g id="review">%2$s</xliff:g></string>
+    <plurals name="content_epg_auto_matched_no_review">
+        <item quantity="one"><xliff:g id="applied">%1$d</xliff:g> kanal automatikoki parekatu da.</item>
+        <item quantity="other"><xliff:g id="applied">%1$d</xliff:g> kanal automatikoki parekatu dira.</item>
+    </plurals>
+    <string name="content_epg_title">Telebista-gida</string>
+    <string name="content_epg_matching">Parekatzen…</string>
+    <string name="content_epg_empty">Ez da EPGrik gehitu.</string>
+    <string name="content_epg_no_guide">Gidarik ez.</string>
+    <string name="content_epg_no_programme">Ez dago programarik une honetan.</string>
+    <string name="content_epg_add_description">Gehitu EPG (XMLTV) iturburu bat gida programaz betetzeko.</string>
+    <string name="content_epg_guide_category">Gidaren kategoria</string>
+    <string name="content_epg_all_categories">Kategoria guztiak</string>
+    <string name="content_epg_search_hint">Bilatu gida-kanalak…</string>
+    <string name="content_epg_add">Gehitu EPGa</string>
+    <string name="content_epg_add_favourite">Gehitu gogokoetara</string>
+    <string name="content_epg_remove_favourite">Kendu gogokoetatik</string>
+    <string name="content_epg_jump_now">Joan Orain atalera</string>
+    <string name="content_epg_review_matches">Berrikusi EPG parekatzeak</string>
+    <string name="content_epg_include_logos">Sartu gidaren logoak</string>
+    <string name="content_epg_review_description">Kanal hauek izenaren bidez parekatu dira, baina ez dira bat etortze fidagarria. Onartu zuzenak; saltatu gainerakoak.</string>
+    <string name="content_epg_accept">Onartu</string>
+    <string name="content_epg_accept_all">Onartu guztiak</string>
+    <string name="content_epg_skip">Saltatu</string>
+    <string name="content_epg_skip_all">Saltatu guztiak</string>
+    <string name="content_epg_pick_manually">Aukeratu EPGa eskuz</string>
+    <string name="content_epg_time_range"><xliff:g id="start">%1$s</xliff:g> – <xliff:g id="end">%2$s</xliff:g></string>
+    <string name="content_epg_all">Denak</string>
+    <string name="content_epg_sort_alpha">A–Z</string>
+    <string name="content_epg_sort_provider">Hornitzailea</string>
+    <string name="content_epg_sort_live">Zuzeneko telebista</string>
+    <string name="content_epg_sort_catchup">Berrikusi</string>
+    <string name="content_epg_sort_favorites">Gogokoak</string>
+    <string name="content_epg_sort_button">Ordenatu: <xliff:g id="label">%1$s</xliff:g></string>
+    <string name="content_epg_match_button">Parekatu EPGa automatikoki</string>
+    <string name="content_epg_channel_score">→ <xliff:g id="name">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
+    <string name="content_epg_bits_separator">" · "</string>
+    <string name="content_epg_watch_start">Ikusi hasieratik</string>
+    <string name="content_epg_watch_channel">Ikusi kanala</string>
+    <string name="content_epg_favourite">Gogokoa</string>
+    <string name="content_epg_unfavourite">Kendu gogokoetatik</string>
+    <string name="content_epg_player_choice_description">Ezarri aukera iraunkor bat Ezarpenak › Berrikusi atalean.</string>
+    <string name="content_epg_own_player">OwnTV erreproduzigailua</string>
+    <string name="content_epg_external_player">Kanpoko erreproduzigailua</string>
+    <string name="content_epg_time_offset">EPGaren ordu-desplazamendua</string>
+    <string name="content_epg_shift_minutes"><xliff:g id="sign">%1$s</xliff:g><xliff:g id="minutes">%2$s</xliff:g>m</string>
+    <string name="content_epg_shift_hours"><xliff:g id="sign">%1$s</xliff:g><xliff:g id="hours">%2$s</xliff:g>h</string>
+    <string name="content_epg_shift_hours_minutes"><xliff:g id="sign">%1$s</xliff:g><xliff:g id="hours">%2$s</xliff:g>h <xliff:g id="minutes">%3$s</xliff:g>m</string>
+    <string name="content_epg_offset_channel_description">Mugitu <xliff:g id="channel">%1$s</xliff:g> kanalaren gida. Erabili hau ekialdeko/mendebaldeko jario batek gida bere beste bertsioarekin partekatzen duenean — desplazamendu negatiboak gida aurreratzen du.</string>
+    <string name="content_epg_offset_following_global">Desplazamendu globala jarraitzen (<xliff:g id="offset">%1$s</xliff:g>)</string>
+    <string name="content_epg_offset_channel_only">Kanal hau soilik · globala: <xliff:g id="offset">%1$s</xliff:g></string>
+    <string name="content_epg_offset_use_global">Erabili globala</string>
+    <string name="content_preview_single_stream">Aurrebista desaktibatuta — zure hornitzaileak jario bakarra onartzen du aldi berean</string>
 </resources>

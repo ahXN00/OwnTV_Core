@@ -1,3 +1,1328 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="settings_sort_playlist">Erreprodukzio-zerrenda</string>
+    <string name="settings_sort_alpha">A–Z</string>
+    <string name="settings_sort_rating">Balorazioa</string>
+    <string name="settings_sort_date_added">Gehitze-data</string>
+    <string name="settings_mini_player">Mini erreproduzigailua</string>
+    <string name="settings_mini_player_description">Nabigatzen ari zarela kanal bat ainguratzen (PiP) duzunean ateratzen den erreproduzigailu flotatzaile txikia. Aldatu hemen, edo une berean mini erreproduzigailuaren tamaina aldatzeko / mugitzeko botoiekin.</string>
+    <string name="settings_size">Tamaina</string>
+    <string name="settings_position">Kokalekua</string>
+    <string name="settings_home_screen">Hasierako pantaila</string>
+    <string name="settings_sections">Atalak</string>
+    <string name="settings_hidden_sections">Ezkutatutako atalak zerrendan geratzen dira berriro aktibatu ahal izateko.</string>
+    <string name="settings_keep_watching">Jarraitu ikusten</string>
+    <string name="settings_live_keep_watching">Zuzeneko kanalak Jarraitu ikusten atalean</string>
+    <string name="settings_live_keep_watching_description">Erakutsi duela gutxi ikusitako zuzeneko kanalak goiburuko errenkadan.</string>
+    <string name="settings_movies_keep_watching">Filmak Jarraitu ikusten atalean</string>
+    <string name="settings_movies_keep_watching_description">Erakutsi filmak jarraitzeko txartelak goiburuko errenkadan.</string>
+    <string name="settings_series_keep_watching">Telesailak Jarraitu ikusten atalean</string>
+    <string name="settings_series_keep_watching_description">Erakutsi atalak jarraitzeko txartelak goiburuko errenkadan.</string>
+    <string name="settings_hero_preview">Erreproduzitu bideoa goiburuko errenkadan</string>
+    <string name="settings_hero_preview_description">Aurreikusi nabarmendutako elementuaren bideoa une bat igaro ondoren. Desaktibatu energia eta memoria aurrezteko Hasieran arakatzean.</string>
+    <string name="settings_android_tv_home">Android TV hasiera</string>
+    <string name="settings_android_tv_home_description">Erakutsi Jarraitu ikusten eta azken zuzeneko kanalak telebistaren hasierako pantailan.</string>
+    <string name="settings_refresh_now">Freskatu orain</string>
+    <string name="settings_refresh_description">Berreraiki Android TV hasierako Jarraitu ikusten / azken txartelak.</string>
+    <string name="settings_rebuilding">Berreraikitzen…</string>
+    <string name="settings_done_check">Eginda ✓</string>
+    <string name="settings_mode"><xliff:g id="mode">%1$s</xliff:g></string>
+    <string name="settings_hidden">Ezkutatuta</string>
+    <string name="settings_nav_dynamic_description">Dinamikoa — ikonoak zure erreprodukzio-zerrenda aktiboak eskaintzen duenera egokitzen dira. Hasiera eta Ezarpenak beti agertzen dira.</string>
+    <string name="settings_nav_static_description">Estatikoa — aukeratu eskuz beheko ikonoetatik zeintzuk agertzen diren.</string>
+    <string name="settings_static">Estatikoa</string>
+    <string name="settings_dynamic">Dinamikoa</string>
+    <string name="settings_http_proxy">HTTP proxya</string>
+    <string name="settings_use_proxy">Erabili proxya</string>
+    <string name="settings_proxy_description">Bidali OwnTVren trafiko eta erreprodukzio guztia HTTP proxy baten bidez.</string>
+    <string name="settings_host">Ostalaria</string>
+    <string name="settings_proxy_host_hint">proxy.adibidea.eus</string>
+    <string name="settings_port">Ataka</string>
+    <string name="settings_proxy_port_hint">8080</string>
+    <string name="settings_username_optional">Erabiltzaile-izena (aukerakoa)</string>
+    <string name="settings_password_optional">Pasahitza (aukerakoa)</string>
+    <string name="settings_test_proxy">Probatu proxya</string>
+    <string name="settings_testing">Probatzen…</string>
+    <string name="settings_proxy_privacy">Zure proxy-hornitzaileak ikus dezake zein zerbitzaritara konektatzen zaren, eta HTTPS ez den trafikoaren edukia.</string>
+    <string name="settings_proxy_limitations">HTTP proxya soilik oraingoz — SOCKS eta erreprodukzio-zerrendako proxyak ez dira onartzen oraindik.</string>
+    <string name="settings_proxy_connected"><xliff:g id="millis">%1$d</xliff:g> ms</string>
+    <string name="settings_proxy_invalid_address">Idatzi baliozko ostalari eta ataka bat (1–65535).</string>
+    <string name="settings_proxy_host_unreachable">Ezin da proxy-ostalaria atzitu.</string>
+    <string name="settings_proxy_timed_out">Proxyarekiko konexioak denbora-muga gainditu du.</string>
+    <string name="settings_proxy_connection_failed">Ezin izan da proxyarekin konektatu (egiaztatu ostalaria/ataka).</string>
+    <string name="settings_proxy_http">Proxyak HTTP <xliff:g id="code">%1$d</xliff:g> itzuli du</string>
+    <string name="settings_proxy_failed">Proxy-probak huts egin du.</string>
+    <string name="settings_ch_nav_up">CH+ / Atzeratze-saltoa (lehenengoranzko)</string>
+    <string name="settings_ch_nav_up_description">CH+/RW sakatze batek zenbat elementu salto egiten duen gora. Luze sakatzeak beti lehen elementura eramaten du.</string>
+    <string name="settings_ch_nav_down">CH− / Aurreratze-saltoa (azkenerantz)</string>
+    <string name="settings_ch_nav_down_description">CH−/FF sakatze batek zenbat elementu salto egiten duen behera. Luze sakatzeak beti azken elementura eramaten du.</string>
+    <string name="settings_skip_counts">Salto-kopuruak</string>
+    <string name="settings_remote_shortcuts">Urrutiko aginteko lasterbideak</string>
+    <string name="settings_remote_shortcuts_description">Esleitu urrutiko aginteko botoi libreak nabigazio-, erreprodukzio- eta arakatze-ekintzei. Nabigazio-botoi funtsezkoak babestuta geratzen dira.</string>
+    <string name="settings_remote_shortcuts_enabled">Erabili urrutiko aginteko lasterbideak</string>
+    <string name="settings_remote_shortcuts_enabled_description">Desaktibatu lasterbide pertsonalizatu guztiak zure botoi-esleipenak ezabatu gabe</string>
+    <string name="settings_remote_shortcuts_assignments">Botoi-esleipenak</string>
+    <string name="settings_remote_shortcuts_add">Gehitu lasterbidea</string>
+    <string name="settings_remote_shortcuts_add_description">Sakatu edo eutsi botoi libre bati, eta aukeratu zer egin behar duen</string>
+    <string name="settings_remote_shortcuts_reset">Berrezarri lasterbide lehenetsiak</string>
+    <string name="settings_remote_shortcuts_reset_description">Berrezarri CH+/CH− eta atzeratu/aurreratu orrikatzea; kendu beste esleipenak</string>
+    <string name="settings_remote_shortcuts_capture_title">Sakatu urrutiko aginteko botoi bat</string>
+    <string name="settings_remote_shortcuts_capture_description">Sakatu labur sakatze laburreko lasterbiderako, edo eutsi askatu arte luze sakatzeko lasterbiderako. Atzera, norabide-teklak, Ados, bolumena, Hasiera eta piztu/itzali botoiak ezin dira esleitu.</string>
+    <string name="settings_remote_shortcuts_choose_action">Aukeratu ekintza bat</string>
+    <string name="settings_remote_shortcuts_short_press">Sakatze laburra</string>
+    <string name="settings_remote_shortcuts_long_press">Sakatze luzea</string>
+    <string name="settings_remote_shortcuts_unknown_button"><xliff:g id="number">%1$d</xliff:g>. urrutiko aginteko botoia</string>
+    <string name="settings_remote_shortcuts_help">• Lehenespenez, CH+/CH− eta atzeratu/aurreratu botoiek arakatze-zerrendak orrikatzen dituzte; eutsita, lehen edo azken elementura saltatzen dute. • Sakatze laburrak eta luzeak bereizita esleitu daitezke. • Azkenera saltatzea desgaituta geratzen da Denak zerrenda oso handietan. • Atzera luze sakatzeak beti Orain erreproduzitzen fokuratzen du eta ezin da berresleitu. • Esleitu daitezkeen botoi arruntak gorria/berdea/horia/urdina, zenbakiak, CH+/CH− eta atzeratu/aurreratu dira. • Atzera, norabide-teklak, Ados, bolumena, Hasiera eta piztu/itzali botoiak babestuta geratzen dira. • Zenbaki-lasterbideek arakatzean funtzionatzen dute; pantaila osoko zenbaki-sarrerak kanal-nabigazioaren lehentasuna mantentzen du.</string>
+    <string name="settings_remote_button_channel_up">Kanala +</string>
+    <string name="settings_remote_button_channel_down">Kanala −</string>
+    <string name="settings_remote_button_rewind">Atzeratu</string>
+    <string name="settings_remote_button_fast_forward">Aurreratu</string>
+    <string name="settings_remote_button_previous">Aurrekoa</string>
+    <string name="settings_remote_button_next">Hurrengoa</string>
+    <string name="settings_remote_button_last_channel">Azken kanala</string>
+    <string name="settings_remote_button_menu">Menua</string>
+    <string name="settings_remote_button_red">Botoi gorria</string>
+    <string name="settings_remote_button_green">Botoi berdea</string>
+    <string name="settings_remote_button_yellow">Botoi horia</string>
+    <string name="settings_remote_button_blue">Botoi urdina</string>
+    <string name="settings_remote_action_continue">Jarraitu azkenekoz ikusitakoarekin</string>
+    <string name="settings_remote_action_focus_now_playing">Fokuratu Orain erreproduzitzen</string>
+    <string name="settings_remote_action_expand_now_playing">Zabaldu Orain erreproduzitzen</string>
+    <string name="settings_remote_action_mini_player">Mugitu mini erreproduzigailura</string>
+    <string name="settings_remote_action_play_pause">Erreproduzitu edo pausatu</string>
+    <string name="settings_remote_action_page_first">Orrikatu lehen elementuetarantz</string>
+    <string name="settings_remote_action_page_last">Orrikatu azken elementuetarantz</string>
+    <string name="settings_remote_action_jump_first">Saltatu lehen elementura</string>
+    <string name="settings_remote_action_jump_last">Saltatu azken elementura</string>
+    <string name="settings_large_skips_warning">Salto handiek zerrenda laburrak gainditzen dituzte eta eten-etenka senti daitezke gama baxuko telebistetan.</string>
+    <string name="settings_weather">Eguraldia</string>
+    <string name="settings_show_weather">Erakutsi eguraldia</string>
+    <string name="settings_show_weather_description">Erakutsi uneko eguraldia goiko barran.</string>
+    <string name="settings_custom_location">Kokaleku pertsonalizatua</string>
+    <string name="settings_custom_location_description">Gainidatzi eguraldirako erabiltzen den hiria. Utzi hutsik automatikoki detektatzeko, edo idatzi hiri bat (adib. Bilbo) edo lat,lon (adib. 43.26,-2.93). Baliagarria VPN batean, non detekzio automatikoak zerbitzariaren hiria erabiltzen duen.</string>
+    <string name="settings_use_device_location">Erabili gailu honen kokalekua</string>
+    <string name="settings_use_device_location_description">Eguraldiak telefonoa dagoen tokia jarraitzen du. Desaktibatu hiri bat zuk idazteko.</string>
+    <string name="settings_temperature_unit">Tenperatura-unitatea</string>
+    <string name="settings_temperature_description">Erakutsi tenperatura Celsius edo Fahrenheit gradutan.</string>
+    <string name="settings_auto">Automatikoa</string>
+    <string name="settings_city_latlon">Hiria edo lat,lon</string>
+    <string name="settings_location_hint">Utzi hutsik zure IP publikotik automatikoki detektatzeko. Idatzi hiri bat (adib. Bilbo) edo lat,lon (adib. 43.26,-2.93).</string>
+    <string name="settings_metadata">Metadatuak (TMDB)</string>
+    <string name="settings_metadata_source">Metadatuen iturburua</string>
+    <string name="settings_metadata_source_description">Aukeratu Filmen eta Telesailen xehetasunak nondik datozen.</string>
+    <string name="settings_metadata_provider_description">Erabili zure erreprodukzio-zerrendak eskaintzen duena soilik. TMDB bilaketarik ez.</string>
+    <string name="settings_metadata_provider_tmdb_description">Zure erreprodukzio-zerrendaren informazioak lehentasuna du; TMDBk hutsuneak betetzen ditu eta aktoreak, generoak eta atzealdeak gehitzen ditu.</string>
+    <string name="settings_metadata_tmdb_only_description">Lehenetsi TMDB eremu guztietarako; erabili zure erreprodukzio-zerrenda TMDBk ezer ez duenean soilik.</string>
+    <string name="settings_metadata_allowance">Zure kuota partekatua</string>
+    <string name="settings_metadata_reset_automatic">Automatikoki berrezartzen da</string>
+    <string name="settings_metadata_library_details">Liburutegiaren xehetasunak</string>
+    <string name="settings_metadata_test_connection">Probatu uneko konexioa</string>
+    <string name="settings_allowance_refills">Berriz betetzen da: <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="settings_allowance_minute">Minutua</string>
+    <string name="settings_allowance_hour">Ordua</string>
+    <string name="settings_allowance_day">Eguna</string>
+    <plurals name="settings_allowance_value">
+        <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> geratzen da</item>
+        <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> geratzen dira</item>
+    </plurals>
+    <string name="settings_metadata_active_source">Iturburu aktiboa</string>
+    <string name="settings_metadata_shared_worker_description">OwnTV Worker · konfiguraziorik gabe</string>
+    <string name="settings_metadata_connection">Konexioa</string>
+    <string name="settings_metadata_remote_advanced">Lortu TMDB informazio aurreratua</string>
+    <string name="settings_metadata_remote_advanced_description">Erabili zure TMDB API gakoa edo auto-ostatatutako Worker bat partekatutako lehenetsiaren ordez.</string>
+    <string name="settings_open_subtitles_advanced">Aukera aurreratuak</string>
+    <string name="settings_open_subtitles_advanced_description">Erabili zure aplikazioaren API gakoa edo auto-ostatatutako OpenSubtitles Worker bat.</string>
+    <string name="settings_open_subtitles_setup_title">Konfiguratu OpenSubtitles</string>
+    <string name="settings_open_subtitles_setup_description">Hasi saioa zure OpenSubtitles kontuarekin.</string>
+    <string name="settings_open_subtitles_setup_remote">Urrutikoa</string>
+    <string name="settings_open_subtitles_setup_remote_description">Bete zure datuak Wi-Fi sare berean dagoen beste gailu bateko nabigatzailean — telefonoa, tableta edo ordenagailua.</string>
+    <string name="settings_open_subtitles_setup_local">Idatzi hemen</string>
+    <string name="settings_open_subtitles_setup_local_description">Idatzi zure datuak telebista honetan urrutiko agintearekin.</string>
+    <string name="settings_open_subtitles_api_key">OpenSubtitles aplikazioaren API gakoa</string>
+    <string name="settings_worker_server_url">Worker / zerbitzariaren URLa</string>
+    <string name="settings_shared">Partekatua</string>
+    <string name="settings_open_subtitles_access_priority">Utzi bietan hutsik OwnTVren Worker partekatua erabiltzeko. Worker URL pertsonalizatu batek lehentasuna du zuzeneko API gako baten aurretik. Kontu-saioak profilarekiko espezifikoak izaten jarraitzen dute.</string>
+    <string name="settings_remove_custom_access">Kendu sarbide pertsonalizatua</string>
+    <string name="settings_metadata_key_label">Gakoa</string>
+    <string name="settings_metadata_server_label">Zerbitzaria</string>
+    <string name="settings_metadata_clear_advanced_title">Zure gakoa erabiltzeari utzi?</string>
+    <string name="settings_metadata_clear_advanced_message">Zure TMDB API gakoa eta auto-ostatatutako zerbitzariaren helbidea gailu honetatik ezabatuko dira, eta OwnTV barneko zerbitzu partekatura itzuliko da bere eguneko kuotarekin.</string>
+    <string name="settings_metadata_fair_share">Barneko zerbitzua OwnTV erabiltzen duten guztien artean partekatzen da. Minutuko, orduko edo eguneko kuota agortzen bada, TMDB xehetasunak pausatu egiten dira leiho hori berrezarri arte; erreprodukzio-zerrendako informazioak funtzionatzen jarraitzen du. Zure gakoak edo Workerrak kuota hau kentzen du.</string>
+    <string name="settings_metadata_limit_reached">Eguneko metadatuen kuota agortu da — gehitu zure TMDB gakoa Ezarpenak → Metadatuak atalean muga hau kentzeko.</string>
+    <string name="settings_metadata_language">Metadatuen hizkuntza</string>
+    <string name="settings_metadata_language_description">TMDBren sinopsien, generoen eta izenburuen hizkuntza. TMDBk itzuli ez dituen eremuak ingelesez geratzen dira. Xehetasunak hizkuntzako gordetzen dira cachean, beraz atzera aldatzea berehalakoa da.</string>
+    <string name="settings_metadata_server_description">Utzi bietan hutsik barneko zerbitzari partekatua erabiltzeko (konfiguraziorik gabe). Idatzi zure TMDB API gakoa TMDBri zuzenean deitzeko, edo auto-ostatatutako zerbitzari baten URLa zure proxy/ispilua erabiltzeko. URLak lehentasuna du gakoaren aurretik.</string>
+    <string name="settings_metadata_key_from_phone">Lortu gakoa beste gailu batetik</string>
+    <string name="settings_metadata_key_from_phone_desc">Eskaneatu kodea telefono, tableta edo ordenagailu batekin, hasi saioa TMDBn bertan eta bidali gakoa. Ez dago ezer idazterik urrutiko agintearekin.</string>
+    <string name="settings_metadata_key_received">TMDB gakoa jaso da</string>
+    <string name="settings_tmdb_api_key">TMDB API gakoa (v3)</string>
+    <string name="settings_metadata_empty_title">Idatzi bilatzeko izenburu bat.</string>
+    <string name="settings_metadata_server_unavailable">Ezin izan da metadatuen zerbitzaria atzitu — egiaztatu sarea / gakoa / URLa.</string>
+    <string name="settings_metadata_no_match">Ez dago TMDB parekaturik <xliff:g id="query">%1$s</xliff:g> bilaketarako.</string>
+    <string name="settings_metadata_lookup_failed">Bilaketak huts egin du.</string>
+    <string name="settings_metadata_match_result"><xliff:g id="title">%1$s</xliff:g><xliff:g id="year">%2$s</xliff:g> · tmdb #<xliff:g id="id">%3$d</xliff:g></string>
+    <string name="settings_metadata_year">(<xliff:g id="year">%1$d</xliff:g>)</string>
+    <string name="settings_lookup_movie">Bilatu filmaren izenburua</string>
+    <string name="settings_test_lookup">Probatu bilaketa</string>
+    <string name="settings_looking_up">Bilatzen…</string>
+    <string name="settings_tmdb_attribution">Produktu honek TMDB APIa erabiltzen du, baina TMDBk ez du babestu edo ziurtatu.</string>
+    <string name="settings_metadata_provider_only">Hornitzailea soilik</string>
+    <string name="settings_metadata_provider_plus_tmdb">Hornitzailea + TMDB</string>
+    <string name="settings_metadata_tmdb_only">TMDB soilik</string>
+    <string name="settings_tier_default">Partekatutako zerbitzu lehenetsia</string>
+    <string name="settings_tier_key">Zure TMDB gakoa</string>
+    <string name="settings_tier_self_host">Auto-ostatatua</string>
+    <string name="settings_title">Ezarpenak</string>
+    <string name="settings_quick_live_preview">Zuzeneko aurrebista</string>
+    <string name="settings_quick_preview_sound">Aurrebistaren soinua</string>
+    <string name="settings_quick_channel_numbers">Kanal-zenbakiak</string>
+    <string name="settings_quick_hdr">HDR (mpv soilik)</string>
+    <string name="settings_quick_autoplay">Erreprodukzio automatikoa</string>
+    <string name="settings_quick_check_update">Bilatu eguneraketa</string>
+    <string name="settings_search_hint">Bilatu ezarpenetan…</string>
+    <string name="settings_row_menu_pin">Ainguratu Azkarrean</string>
+    <string name="settings_row_menu_unpin">Kendu Azkarretik</string>
+    <string name="settings_row_menu_move_up">Mugitu gora</string>
+    <string name="settings_row_menu_move_down">Mugitu behera</string>
+    <string name="settings_quick_empty_title">Oraindik ez dago ezer ainguratuta</string>
+    <string name="settings_quick_empty_hint">Eutsi Ados edozein ezarpenetan eta aukeratu “Ainguratu Azkarrean”.</string>
+    <string name="settings_quick_empty_hint_touch">Luze sakatu edozein ezarpen eta aukeratu “Ainguratu Azkarrean”.</string>
+    <string name="settings_results_title">Emaitzak</string>
+    <string name="settings_results_summary">Parekatze guztiak, edonon daudela ere — bidea beraiekin dator</string>
+    <plurals name="settings_setting_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> ezarpen</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> ezarpen</item>
+    </plurals>
+    <plurals name="settings_match_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> parekatze</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> parekatze</item>
+    </plurals>
+    <string name="settings_language">Hizkuntza</string>
+    <string name="settings_language_description">Aplikazioaren pantaila-hizkuntza</string>
+    <string name="settings_language_system_default">Sistemaren lehenetsia</string>
+    <string name="settings_language_system_default_description">Gailuaren hizkuntza jarraitzen du</string>
+    <string name="settings_language_search_hint">Bilatu hizkuntzak…</string>
+    <string name="settings_search_keywords_language">hizkuntza locale itzulpena nazioartekotzea i18n language translation</string>
+    <string name="settings_language_coverage"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="settings_profile_group">Profila</string>
+    <string name="settings_playlists">Erreprodukzio-zerrendak</string>
+    <string name="settings_playlists_description">Gehitu, birsinkronizatu edo kendu M3U / Xtream erreprodukzio-zerrendak</string>
+    <string name="settings_epg_sources">EPG iturburuak</string>
+    <string name="settings_epg_sources_nav_description">Gehitu XMLTV gida-jarioak Telebista-gidarako</string>
+    <string name="settings_customize">Pertsonalizatu kategoriak eta elementuak</string>
+    <string name="settings_customize_nav_description">Ezkutatu eta erakutsi elementuak, aldatu izena eta berrantolatu kategoriak</string>
+    <string name="settings_sidebar_description_root">Egokitu alboko ikonoak automatikoki zure erreprodukzio-zerrendara, edo ezkutatu batzuk</string>
+    <string name="settings_ch_paging">Urrutiko aginteko lasterbideak</string>
+    <string name="settings_ch_paging_description">Esleitu urrutiko aginteko botoi libreak nabigazio funtsezkoa babestuta mantenduz</string>
+    <string name="settings_content_menus_title">Luze sakatzeko menuak</string>
+    <string name="settings_content_menus_description">Berrantolatu kanal-, film-, telesail- eta atal-menuetako ekintzak</string>
+    <string name="settings_content_menus_hint">Eutsi Ados ekintza bati hartzeko, gero Gora eta Behera mugitzeko. Sakatu Ados berriro uzteko.</string>
+    <string name="settings_browsing_lists">Arakatzea eta zerrendak</string>
+    <string name="settings_browsing_description">Gogoratu azken kategoria eta azken elementua Zuzeneko telebistan, Filmetan eta Telesailetan</string>
+    <string name="settings_home_root">Hasierako pantaila</string>
+    <string name="settings_home_root_description">Aukeratu, berrantolatu eta iragazi Hasierako errenkadak</string>
+    <string name="settings_metadata_root_description">Posterrak, sinopsiak, aktoreak, generoak, balorazioak eta atzealdeak Filmetarako eta Telesailetarako.</string>
+    <string name="settings_download_folder">Deskarga-karpeta</string>
+    <string name="settings_backup_restore">Babeskopia eta leheneratzea</string>
+    <string name="settings_backup_restore_description">Esportatu edo leheneratu profilak eta iturburuak</string>
+    <string name="settings_clear_history">Garbitu ikusitakoen historia</string>
+    <string name="settings_appearance_group">Itxura</string>
+    <string name="settings_theme">Gaia</string>
+    <string name="settings_theme_description">Gaia argia, iluna edo sistemarena jarraitzen du</string>
+    <string name="settings_accent">Azentu-kolorea</string>
+    <string name="settings_accent_description">Tindatu interfazea — aurrezarpenak, paleta edo hex kodea</string>
+    <string name="settings_focus_highlight">Fokuaren nabarmentzea</string>
+    <string name="settings_focus_highlight_description">Fokuan dagoen elementuaren inguruko eraztunaren kolorea eta lodiera</string>
+    <string name="settings_focus_highlight_chip"><xliff:g id="color">%1$s</xliff:g> · <xliff:g id="thickness">%2$s</xliff:g></string>
+    <string name="settings_focus_thickness">Lodiera</string>
+    <string name="settings_focus_width_thin">Mehea</string>
+    <string name="settings_focus_width_normal">Normala</string>
+    <string name="settings_focus_width_thick">Lodia</string>
+    <string name="settings_focus_width_extra">Oso lodia</string>
+    <string name="settings_focus_highlight_sample">Fokuan</string>
+    <string name="settings_glass_effect">Beirazko efektua</string>
+    <string name="settings_glass_description">Panel zeharrargi izoztuak, atzealdeko irudia eta gardentasuna</string>
+    <string name="settings_ui_zoom">Interfazearen zooma</string>
+    <string name="settings_ui_zoom_description">Eskalatu interfaze osoa</string>
+    <string name="settings_font_customization">Letra-tipoen pertsonalizazioa</string>
+    <string name="settings_font_customization_description">Interfaze nagusiaren eta leiho gainerakorren testu-tamaina eta letra-tipoak</string>
+    <string name="settings_font_size">Letra-tamaina</string>
+    <string name="settings_main_interface_font">Interfaze nagusiaren letra-tipoa</string>
+    <string name="settings_popup_font">Leiho gainerakorren letra-tipoa</string>
+    <string name="settings_choose_font">Aukeratu letra-tipoa</string>
+    <string name="settings_font_size_range">Doitu aplikazio nagusiaren testua, ez leiho gainerakorrena, <xliff:g id="min">%1$d</xliff:g>%% eta <xliff:g id="max">%2$d</xliff:g>%% artean. Azpitituluek beren tamaina mantentzen dute.</string>
+    <string name="settings_popup_font_size">Leiho gainerakorren letra-tamaina</string>
+    <string name="settings_popup_font_size_description">Elkarrizketa-koadroetako eta menuetako testua soilik aldatzen du</string>
+    <string name="settings_popup_size">Leiho gainerakorren tamaina</string>
+    <string name="settings_popup_size_description">Eskalatu elkarrizketa-koadroak eta menuak testuaren tamaina aldatu gabe</string>
+    <string name="settings_popup_size_range">Eskalatu elkarrizketa-koadroak eta menuak (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
+    <string name="settings_font_preview">Entretenimendua, erraz.</string>
+    <string name="settings_search_keywords_fonts">letra-tipoa testu tamaina tipografia leiho gainerakorra irakurketa irisgarritasuna font text size typeface typography popup reading accessibility</string>
+    <string name="settings_font_system_sans">Sistemaren sans</string>
+    <string name="settings_font_monospace">Monospace</string>
+    <string name="settings_subtitle_font">Azpitituluen letra-tipoa</string>
+    <string name="settings_animations">Animazioak</string>
+    <string name="settings_animations_description">Aktibatu edo desaktibatu interfazearen mugimendua — Desaktibatuta arinagoa sentitzen da gama baxuko telebista-kutxetan</string>
+    <string name="settings_animations_description_mobile">Aktibatu edo desaktibatu interfazearen mugimendua — Desaktibatuta arinagoa sentitzen da telefono eta tableta zaharragoetan</string>
+    <string name="settings_weather_description_root">Goiko barrako eguraldi-txipa: erakutsi edo ezkutatu, kokaleku pertsonalizatua, eta Celsius / Fahrenheit.</string>
+    <string name="settings_playback_group">Erreprodukzioa</string>
+    <string name="settings_live_preview_description">Erreproduzitu kanal bat automatikoki fokuratzen duzunean</string>
+    <string name="settings_preview_audio">Aurrebistaren audioa</string>
+    <string name="settings_preview_audio_description">Erreproduzitu soinua Zuzeneko aurrebistan</string>
+    <string name="settings_mini_player_root">Mini erreproduzigailua</string>
+    <string name="settings_mini_player_root_description">Ainguratutako mini erreproduzigailuaren tamaina eta kokalekua</string>
+    <string name="settings_hdr_description">Erabili HDR irteera bideoak eta telebistak onartzen dutenean. mpv soilik: ExoPlayer motorrak ez du ezarpen hau onartzen eta jarioaren HDR beti zuzenean pasatzen du.</string>
+    <string name="settings_hdr_description_mobile">Erabili HDR irteera bideoak eta pantailak onartzen dutenean. mpv soilik: ExoPlayer motorrak ez du ezarpen hau onartzen eta jarioaren HDR beti zuzenean pasatzen du.</string>
+    <string name="settings_auto_frame_rate">Fotograma-maiztasun automatikoa</string>
+    <string name="settings_auto_frame_rate_description">Egokitu telebistaren freskatze-maiztasuna bideoari (24/25/50/60 fps) pantaila osoan, Zuzeneko telebistan eta VODean, eta lehengoratu irtetean. Desaktibatu zure telebistak edo hartzaileak HDMI azkar berrehunkatzen badu kanal-aldaketa bakoitzean.</string>
+    <string name="settings_auto_frame_rate_description_mobile">Egokitu pantailaren freskatze-maiztasuna bideoari (24/25/50/60 fps) pantaila osoan, Zuzeneko telebistan eta VODean, eta lehengoratu irtetean. Desaktibatu pantailak keinuka egiten badu edo ilundu egiten bada bideo bat hasten denean.</string>
+    <string name="settings_afr_pause">Pausatu pantaila-aldaketan zehar</string>
+    <string name="settings_afr_pause_description">Filmetarako soilik. Telebistak pantaila-modu berri batera berriro sinkronizatu behar duenean, filmak hainbeste itxaroten du hasiera pantaila beltzean galdu ez dadin. Aldaketa leunak ez du inoiz pausatzen.</string>
+    <string name="settings_afr_resolution">Parekatu bereizmena</string>
+    <string name="settings_afr_resolution_description">Filmetarako soilik. Pantaila-modua filmerako aldatzen denean, telebistak bere bereizmenera ere aldatzen du — 1080p HD film baterako 4K telebistan — inoiz hasierako bereizmena baino altuagora. Desaktibatuta, bereizmena ukitu gabe uzten da eta telebistak eskalatzen du, normalean irudi hobea ematen duena.</string>
+    <string name="settings_auto_frame_rate_warning_suffix">Ez da gomendagarria telebista honetan: Android 12 baino lehenagoko bertsioetan maiztasuna ezin da leun aldatu.</string>
+    <string name="settings_auto_frame_rate_warning_title">Ez da gomendagarria telebista honetan</string>
+    <string name="settings_auto_frame_rate_warning_title_mobile">Ez da gomendagarria gailu honetan</string>
+    <string name="settings_auto_frame_rate_warning_description">Gailu honek Android <xliff:g id="android_version">%1$s</xliff:g> exekutatzen du. Android 12 baino lehenagoko bertsioetan telebistak ezin dio OwnTVri esan zein freskatze-maiztasunetara alda dezakeen leun, beraz maiztasuna aldatzeak pantaila segundo bat edo bi beltz utz dezake — batzuetan programa batean zehar behin baino gehiagotan.\n\nHemen Fotograma-maiztasun automatikoa desaktibatuta uztea gomendatzen dugu. Zure telebistak garbi aldatzen badu, aktibatu eta probatu: edonoiz alda dezakezu berriro.</string>
+    <string name="settings_auto_frame_rate_warning_description_mobile">Gailu honek Android <xliff:g id="android_version">%1$s</xliff:g> exekutatzen du. Android 12 baino lehenagoko bertsioetan gailuak ezin dio OwnTVri esan zein freskatze-maiztasunetara alda dezakeen leun, beraz maiztasuna aldatzeak pantaila segundo bat edo bi beltz utz dezake — batzuetan programa batean zehar behin baino gehiagotan.\n\nHemen Fotograma-maiztasun automatikoa desaktibatuta uztea gomendatzen dugu. Zure pantailak garbi aldatzen badu, aktibatu eta probatu: edonoiz alda dezakezu berriro.</string>
+    <string name="settings_auto_frame_rate_keep_off">Mantendu desaktibatuta</string>
+    <string name="settings_auto_frame_rate_turn_on_anyway">Aktibatu hala ere</string>
+    <string name="settings_surround_sound">Surround soinua</string>
+    <string name="settings_surround_description_mobile">Deskodetu Dolby/DTS surround-era (5.1/7.1) gailu honetara konektatutako benetako 5.1/7.1 hartzaile baterako. Utzi DESAKTIBATUTA barneko bozgorailurako, aurikularretarako edo soinu-barra estereo baterako — kanal anitzek audioa bideoaren atzean utz dezakete. Desinkronizatzen bada, doitu erreproduzigailuaren Audio menua → A/B sinkronizazioa.</string>
+    <string name="settings_audio_passthrough">Dolby eta DTS passthrough</string>
+    <string name="settings_audio_passthrough_description">Aktibatuta: Dolby eta DTS deskodetu gabe doaz telebistara, soinu-barrara edo hartzailera hark erreproduzitu ditzakeela esaten duenean (ExoPlayer). Desaktibatuta: aplikazioak deskodetzen ditu, Surround soinuak onartzen duen tokian surround gisa. mpvk beti deskodetzen du. Ez da erabiltzen Gau modua edo Bolumenaren berdinketa aktibatuta daudenean.</string>
+    <string name="settings_audio_passthrough_description_mobile">Aktibatuta: Dolby eta DTS deskodetu gabe doaz konektatutako telebistara edo hartzailera hark erreproduzitu ditzakeela esaten duenean (ExoPlayer). Desaktibatuta: aplikazioak deskodetzen ditu, Surround soinuak onartzen duen tokian surround gisa. mpvk beti deskodetzen du. Ez da erabiltzen Gau modua edo Bolumenaren berdinketa aktibatuta daudenean.</string>
+    <string name="settings_night_mode">Gau modua</string>
+    <string name="settings_night_mode_description">Eszena ozenak jaisten ditu eta elkarrizketa isilak igotzen, bolumen baxuan ikusteko.</string>
+    <string name="settings_volume_leveling">Bolumenaren berdinketa</string>
+    <string name="settings_volume_leveling_description">Kanal eta film guztiak poliki-poliki ozentasun berera ekartzen ditu, aldatzean bolumena salto egin ez dezan.</string>
+    <string name="settings_max_video_quality">Gehieneko bideo-kalitatea</string>
+    <string name="settings_max_video_quality_description">Kanal edo film batek hainbat eskaintzen dituenean erreproduzitzen den irudirik altuena. Banda-zabalera aurrezten du eta deskodetzailea arintzen du.</string>
+    <string name="settings_mobile_data_quality">Gehieneko kalitatea datu mugikorretan</string>
+    <string name="settings_mobile_data_quality_description">Neurtutako konexio batean, gehienez kalitate hau erreproduzitzen du. Desaktibatuta: Wi-Fi sarean bezala.</string>
+    <string name="settings_tunneled_playback">Tunel bidezko erreprodukzioa (esperimentala)</string>
+    <string name="settings_tunneled_playback_description">Zuzeneko telebista ExoPlayerrekin: telebistaren hardware propioak irudia eta soinua elkarrekin mantentzen ditu, prozesadorearentzako lan gutxiagorekin. Telebista batzuetan soilik funtzionatzen du, eta bere kabuz desaktibatzen da kanal batek huts egiten badu horrekin. Audio-sinkronizazioa ezin da doitu aktibatuta dagoen bitartean.</string>
+    <string name="settings_tunneled_playback_description_mobile">Zuzeneko telebista ExoPlayerrekin: gailuaren hardware propioak irudia eta soinua elkarrekin mantentzen ditu, prozesadorearentzako lan gutxiagorekin. Gailu batzuetan soilik funtzionatzen du, eta bere kabuz desaktibatzen da kanal batek huts egiten badu horrekin. Audio-sinkronizazioa ezin da doitu aktibatuta dagoen bitartean.</string>
+    <string name="settings_tunneled_playback_failed">Desaktibatu da kanal batek huts egin zuelako gailu honetan aktibatuta zegoela.</string>
+    <string name="settings_autoplay_next">Erreproduzitu hurrengo atala automatikoki</string>
+    <string name="settings_autoplay_next_description">Atal bat amaitzen denean, hurrengoa automatikoki hasten da — eta hurrengo denboraldira pasatzen da. Berrikusteak hurrengo programara ere jarraitzen du.</string>
+    <string name="settings_catchup">Berrikusi</string>
+    <plurals name="settings_catchup_supported">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> kanalek berrikustea onartzen du · artxiboaren erreprodukziorako ordu-zona eta erreproduzigailua</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> kanalek berrikustea onartzen dute · artxiboaren erreprodukziorako ordu-zona eta erreproduzigailua</item>
+    </plurals>
+    <string name="settings_catchup_unavailable">Ez dago berrikusteko kanalik erreprodukzio-zerrenda honetan</string>
+    <string name="settings_device">Gailua</string>
+    <string name="settings_video_player">Bideo-erreproduzigailuaren ezarpenak</string>
+    <string name="settings_video_player_description">Deskodetzailea, azpitituluak, sinkronizazioa</string>
+    <string name="settings_playback_error_log">Errore-egunkaria</string>
+    <string name="settings_playback_speed">Erreprodukzio-abiadura</string>
+    <string name="settings_player_zoom">Erreproduzigailuaren zooma</string>
+    <string name="settings_playback_error_description">Kraskadurak eta erreprodukzio-hutsegiteak — irakurtzeko edo jakinarazteko xehetasunak</string>
+    <string name="settings_network_group">Sarea</string>
+    <string name="settings_app_group">Aplikazioa</string>
+    <string name="settings_app_startup">Aplikazioaren abioa</string>
+    <string name="settings_app_startup_description">Zer irekitzen duen OwnTVk abiatzean</string>
+    <string name="settings_check_updates">Bilatu eguneraketak</string>
+    <string name="settings_check_updates_description">Lortu azken bertsioa GitHub Releases-etik</string>
+    <string name="settings_update_startup">Bilatu eguneraketak abiatzean</string>
+    <string name="settings_update_startup_description">Bilatu bertsio berri bat aplikazioa irekitzean</string>
+    <string name="settings_about">Honi buruz</string>
+    <string name="settings_about_description">Bertsioa, lizentzia eta proiektuaren informazioa</string>
+    <string name="settings_live_latency">Zuzeneko latentzia</string>
+    <string name="settings_no_settings_match">Ez dago <xliff:g id="query">%1$s</xliff:g> bilaketarekin bat datorren ezarpenik</string>
+    <string name="settings_breadcrumb"><xliff:g id="group">%1$s</xliff:g> › <xliff:g id="title">%2$s</xliff:g></string>
+    <string name="settings_startup_home">Hasiera</string>
+    <string name="settings_startup_last_channel">Azken kanala</string>
+    <string name="settings_startup_favorites">Zuzena · Gogokoak</string>
+    <string name="settings_startup_specific_channel">Kanal zehatza</string>
+    <string name="settings_startup_channel_unavailable">Abioko kanala ez dago erabilgarri. Hasiera ireki da.</string>
+    <string name="settings_all_history">Historia osoa</string>
+    <string name="settings_choose_history">Aukeratu zer kendu profil honetarako. Erreprodukzio-zerrendei, gogokoei eta deskargei ez die eragiten.</string>
+    <string name="settings_clear_history_confirm">Garbitu <xliff:g id="scope">%1$s</xliff:g> historia?</string>
+    <string name="settings_cannot_undo">Ezin da desegin.</string>
+    <string name="settings_no">Ez</string>
+    <string name="settings_yes_clear">Bai, garbitu</string>
+    <string name="settings_presets">Aurrezarpenak</string>
+    <string name="settings_hex_code">Hex kodea</string>
+    <string name="settings_apply">Aplikatu</string>
+    <string name="settings_hex_error">Idatzi 6 digitu hexadezimal, adib. 52DBC8</string>
+    <string name="settings_color_picker">Kolore-hautatzailea</string>
+    <string name="settings_use_color">Erabili kolore hau</string>
+    <string name="settings_about_version"><xliff:g id="version">%1$s</xliff:g> bertsioa</string>
+    <string name="settings_about_description_full_mobile">Zure IPTV erreproduzigailu propioa Androidentzat — doako kode irekiko aplikazioa, erreproduzigailu hutsa. Ez du kanalik edo edukirik eskaintzen; zuk ekartzen dituzu legez atzitu ditzakezun zure iturburuak.</string>
+    <string name="settings_about_license">© 2026 OwnTV · GPLv3 lizentzia</string>
+    <string name="settings_join_telegram">Batu gurekin Telegramen</string>
+    <string name="settings_telegram_qr">Telegram taldearen QR kodea</string>
+    <string name="settings_telegram_scan">Eskaneatu QRa telefonotik batzeko, edo ireki goiko esteka.</string>
+    <string name="settings_contributions">Ekarpenak, akats-txostenak eta izarrak ongi etorriak dira GitHuben.</string>
+    <string name="settings_playback_error_description_full">Azken kraskadura eta azken erreprodukzio-hutsegiteak (berrienak lehenik). Sartu xehetasun hauek arazo bat jakinarazten duzunean.</string>
+    <string name="settings_loading">Kargatzen…</string>
+    <string name="settings_no_playback_errors">Ez da erreprodukzio-erroreik erregistratu.</string>
+    <string name="settings_live">Zuzena</string>
+    <string name="settings_vod">VOD</string>
+    <string name="settings_clear_log">Garbitu egunkaria</string>
+    <string name="settings_browsing_title">Arakatzea eta zerrendak</string>
+    <string name="settings_browsing_description_full">Zer ikusten duten berriro Zuzeneko telebistak, Filmek eta Telesailek itzultzen zarenean.</string>
+    <string name="settings_glass_surfaces">Beirazko gainazalak</string>
+    <string name="settings_glass_surfaces_description">Aukeratu aplikazioaren zein zati errendatzen diren beira gisa. Gainazal guztiak desaktibatzeak beira desaktibatzen du.</string>
+    <string name="settings_all_surfaces_on">Gainazal guztiak: Aktibatuta</string>
+    <string name="settings_all_surfaces_off">Gainazal guztiak: Desaktibatuta</string>
+    <string name="settings_surface_toggle"><xliff:g id="surface">%1$s</xliff:g>: <xliff:g id="state">%2$s</xliff:g></string>
+    <string name="settings_transparency_description">Zenbat ikusten den panelen bidez (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%). Altuagoa, solidoagoa.</string>
+    <string name="settings_catchup_description">Berrikusteko denbora-zigiluak nola bidaltzen diren. Erabili zure gailuaren ordu-zona, edo ezarri zure hornitzailearen zerbitzariak espero duen desplazamendua.</string>
+    <string name="settings_manual">Eskuzkoa</string>
+    <string name="settings_theme_dark">Iluna</string>
+    <string name="settings_theme_light">Argia</string>
+    <string name="settings_theme_system">Sistema</string>
+    <string name="settings_accent_teal">Berde-urdinxka</string>
+    <string name="settings_accent_blue">Urdina</string>
+    <string name="settings_accent_violet">More</string>
+    <string name="settings_accent_green">Berdea</string>
+    <string name="settings_accent_amber">Anbarra</string>
+    <string name="settings_group_profile">Profila</string>
+    <string name="settings_group_sources">Iturburuak eta gida</string>
+    <string name="settings_group_layout">Diseinua</string>
+    <string name="settings_group_content_metadata">Edukia eta metadatuak</string>
+    <string name="settings_group_appearance">Itxura</string>
+    <string name="settings_group_network">Sarea</string>
+    <string name="settings_dns">DNS</string>
+    <string name="settings_group_app">Aplikazioa</string>
+    <string name="settings_group_summary_profile">Profilak eta nork ikus dezakeen zer</string>
+    <string name="settings_group_summary_sources">Erreprodukzio-zerrendak, gida-datuak eta haien erlojuak</string>
+    <string name="settings_group_summary_appearance">Gaia, azentua, beira, mugimendua eta testu-tamaina</string>
+    <string name="settings_group_summary_layout">Alboko barra, panelak, zerrendak eta Hasierako pantaila</string>
+    <string name="settings_group_summary_content_metadata">Izenak, azalak eta azpititulu-zerbitzuak</string>
+    <string name="settings_group_summary_playback">Bideo-erreproduzigailua eta bere errore-egunkaria</string>
+    <string name="settings_vp_section_sound">Soinua</string>
+    <string name="settings_vp_section_subtitles_summary">Tamaina, kolorea, kokalekua</string>
+    <string name="settings_vp_section_diagnostics_summary">Erreproduzigailuaren egunkari xehatuak</string>
+    <string name="settings_vp_cat_player">Erreproduzigailua</string>
+    <string name="settings_vp_cat_player_summary">Zein erreproduzigailu, erreprodukzio-zerrendako, kanpoko aplikazioak</string>
+    <string name="settings_vp_cat_picture">Irudia</string>
+    <string name="settings_vp_cat_picture_summary">Deskodetzailea, HDR, kalitatea, zooma</string>
+    <string name="settings_vp_cat_frame_rate">Fotograma-maiztasuna</string>
+    <string name="settings_vp_cat_frame_rate_summary">Egokitu pantaila bideoari</string>
+    <string name="settings_vp_cat_streaming">Streaminga</string>
+    <string name="settings_vp_cat_streaming_summary">Bufferra, denbora-muga, birkonexioak</string>
+    <string name="settings_vp_cat_live_summary">Kanal-zenbakiak, pausa eta atzeratzea</string>
+    <string name="settings_vp_cat_live_tuning">Zuzeneko doikuntza</string>
+    <string name="settings_vp_cat_live_tuning_summary">Latentzia, aurrebufferra, hasiera-ordua</string>
+    <string name="settings_vp_cat_controls">Kontrolak</string>
+    <string name="settings_vp_cat_controls_summary">Saltatze- eta atzeratze-urratsak</string>
+    <string name="settings_vp_cat_multiview">Multiview eta mini erreproduzigailua</string>
+    <string name="settings_vp_cat_multiview_summary_mobile">Hainbat zuzeneko kanal aldi berean</string>
+    <string name="settings_vp_cat_sound_summary">Bolumena, surround, gau modua, sinkronizazioa</string>
+    <string name="settings_vp_cat_languages">Hizkuntzak eta azpitituluak</string>
+    <string name="settings_vp_cat_languages_summary">Audioaren eta azpitituluen hizkuntza, azpitituluen estiloa</string>
+    <string name="settings_vp_cat_resume">Jarraitu eta erreprodukzio automatikoa</string>
+    <string name="settings_vp_cat_resume_summary">Non hasi, hurrengo atala</string>
+    <string name="settings_group_summary_network">Proxya eta DNSa jario-konexioetarako</string>
+    <string name="settings_group_summary_app">Hizkuntza, abioa, eguneraketak eta aplikazioaren informazioa</string>
+    <string name="settings_group_quick">Azkarra</string>
+    <string name="settings_group_summary_quick">Gehien erabiltzen dituzun etengailuak</string>
+    <string name="settings_search_guide_logos">Gida-kanalen logoak</string>
+    <string name="settings_search_keywords_profiles">ikusleak haurren modua pin blokeoa kontua viewers kids mode pin lock account</string>
+    <string name="settings_search_keywords_playlists">m3u xtream iturburua sinkronizatu gehitu kendu source sync add remove</string>
+    <string name="settings_search_keywords_epg">xmltv gida jarioa programa guide feed program</string>
+    <string name="settings_search_keywords_logos">kanal logoa ikonoa xmltv gida picon erreprodukzio-zerrenda channel logo icon guide playlist</string>
+    <string name="settings_search_keywords_customize">ezkutatu erakutsi izena aldatu berrantolatu kategoriak hide unhide rename reorder categories</string>
+    <string name="settings_search_keywords_sidebar">alboko barra ikonoak dinamikoa estatikoa ezkutatu erakutsi egokitu side rail icons dynamic static hide show adapt</string>
+    <string name="settings_search_keywords_ch">kanala gora behera saltatu orrialdea zerrenda kategoria channel up down skip page list category</string>
+    <string name="settings_search_keywords_browsing">gogoratu posizioa korritu kategoria azken elementua zuzena filmak telesailak berrezarri remember position scroll category last item live movies series reset</string>
+    <string name="settings_search_keywords_home">errenkadak goiburua berrantolatu iragazi rows hero reorder filter</string>
+    <string name="settings_search_keywords_metadata">posterrak sinopsiak aktoreak balorazioak posters plots cast ratings</string>
+    <string name="settings_search_keywords_theme">argia iluna sistema light dark system</string>
+    <string name="settings_search_keywords_glass">beira gardentasuna lausotu izoztu zeharrargia atzealdea horma-papera glass transparency blur frost translucent background wallpaper</string>
+    <string name="settings_search_keywords_accent">tindatu paleta hex aurrezarpena tint palette hex preset</string>
+    <string name="settings_search_keywords_focus">fokua eraztuna ertza hautapena kurtsorea ingerada focus ring border selection cursor outline</string>
+    <string name="settings_search_keywords_zoom">eskalatu interfazea tamaina scale interface size</string>
+    <string name="settings_search_keywords_animation">mugimendua arinagoa errendimendua motion snappier performance</string>
+    <string name="settings_search_keywords_weather">goiko barra txipa kokalekua celsius fahrenheit top bar chip location</string>
+    <string name="settings_search_keywords_live_preview">erreprodukzio automatikoa fokua kanala auto play focus channel</string>
+    <string name="settings_search_keywords_sound">soinua zuzeneko aurrebista sound live preview</string>
+    <string name="settings_search_keywords_audio">bolumena ozena isila ezpainen sinkronizazioa atzerapena audio-pista hizkuntza volume loud quiet lip sync delay audio track language</string>
+    <string name="settings_search_keywords_channel_numbers">kanal-zenbakia sintonizazio zuzena idatzi digituak teklatua zenbakizkoa zap lcn channel number direct tune type digits keypad numeric</string>
+    <string name="settings_search_keywords_mini">ainguratua pip miniplayer tamaina kokalekua eskala ehunekoa izkina mugitu docked size position scale percent corner move</string>
+    <string name="settings_search_keywords_hdr">dinamika-tarte handia irteera high dynamic range output</string>
+    <string name="settings_search_keywords_afr">afr freskatze-maiztasuna hz dardara 24fps 25fps 50hz 60hz pantaila modua parekatu refresh rate judder display mode match</string>
+    <string name="settings_search_keywords_surround">dolby dts 5.1 7.1 hartzailea audioa receiver audio</string>
+    <string name="settings_search_keywords_autoplay">erreprodukzio automatikoa telesailak denboraldia autoplay series season</string>
+    <string name="settings_search_keywords_catchup">artxiboa ordu-zona desplazamendua berrikusi kanpoko erreproduzigailua vlc mx archive timezone offset catchup external player</string>
+    <string name="settings_search_keywords_video">deskodetzailea azpitituluak sinkronizazioa decoder subtitles sync</string>
+    <string name="settings_search_keywords_recording">grabatu grabazioa grabazioak dvr tenporizadorea programatu telesailak gorde zuzena record recording recordings timer schedule series save live</string>
+    <string name="settings_search_keywords_subtitle_appearance">azpititulua tamaina kolorea kokalekua gardentasuna atzealdea opakutasuna subtitle size color position transparency background opacity</string>
+    <string name="settings_search_keywords_latency">zuzeneko bufferra latentzia atzerapena latentzia baxua segundoak zuzenekoaren ertzetik gertu live buffer latency delay low latency seconds</string>
+    <string name="settings_search_keywords_proxy">http trafikoa bideratu traffic route</string>
+    <string name="settings_search_keywords_dns">domeinua bilaketa ebazlea doh dns-over-https domain lookup resolver</string>
+    <string name="settings_search_keywords_startup">abiarazi ireki hasierako orria launch open landing</string>
+    <string name="settings_search_keywords_updates">github bertsioa release version</string>
+    <string name="settings_search_keywords_update_auto">eguneraketa automatikoa bertsio berria auto update new version</string>
+    <string name="settings_language_default">Lehenetsia (ingelesa)</string>
+    <string name="settings_language_device">Gailuaren hizkuntza</string>
+    <string name="settings_language_arabic">Arabiera</string>
+    <string name="settings_language_bulgarian">Bulgariera</string>
+    <string name="settings_language_chinese">Txinera</string>
+    <string name="settings_language_croatian">Kroaziera</string>
+    <string name="settings_language_czech">Txekiera</string>
+    <string name="settings_language_danish">Daniera</string>
+    <string name="settings_language_dutch">Nederlandera</string>
+    <string name="settings_language_english">Ingelesa</string>
+    <string name="settings_language_estonian">Estoniera</string>
+    <string name="settings_language_finnish">Finlandiera</string>
+    <string name="settings_language_french">Frantsesa</string>
+    <string name="settings_language_german">Alemana</string>
+    <string name="settings_language_greek">Greziera</string>
+    <string name="settings_language_hebrew">Hebreera</string>
+    <string name="settings_language_hindi">Hindia</string>
+    <string name="settings_language_hungarian">Hungariera</string>
+    <string name="settings_language_indonesian">Indonesiera</string>
+    <string name="settings_language_italian">Italiera</string>
+    <string name="settings_language_japanese">Japoniera</string>
+    <string name="settings_language_korean">Koreera</string>
+    <string name="settings_language_latvian">Letoniera</string>
+    <string name="settings_language_lithuanian">Lituaniera</string>
+    <string name="settings_language_malay">Malaysiera</string>
+    <string name="settings_language_norwegian">Norvegiera</string>
+    <string name="settings_language_persian">Persiera</string>
+    <string name="settings_language_polish">Poloniera</string>
+    <string name="settings_language_portuguese_brazil">Portugesa (Brasil)</string>
+    <string name="settings_language_portuguese_portugal">Portugesa (Portugal)</string>
+    <string name="settings_language_romanian">Errumaniera</string>
+    <string name="settings_language_russian">Errusiera</string>
+    <string name="settings_language_serbian">Serbiera</string>
+    <string name="settings_language_slovak">Eslovakiera</string>
+    <string name="settings_language_slovenian">Esloveniera</string>
+    <string name="settings_language_spanish">Gaztelania</string>
+    <string name="settings_language_spanish_latam">Gaztelania (Latinoamerika)</string>
+    <string name="settings_language_swedish">Suediera</string>
+    <string name="settings_language_thai">Thailandiera</string>
+    <string name="settings_language_turkish">Turkiera</string>
+    <string name="settings_language_original">Jatorrizko hizkuntza</string>
+    <string name="settings_language_ukrainian">Ukrainera</string>
+    <string name="settings_language_vietnamese">Vietnamera</string>
+    <string name="settings_hardware_decoding">Hardware bidezko deskodetzea</string>
+    <string name="settings_hardware_decoding_description">Erabili telebistaren hardware-deskodetzailea. Desaktibatu jario batzuk eten-etenka badabiltza edo artefaktuak erakusten badituzte.</string>
+    <string name="settings_hardware_decoding_description_mobile">Erabili gailuaren hardware-deskodetzailea. Desaktibatu jario batzuk eten-etenka badabiltza edo artefaktuak erakusten badituzte.</string>
+    <string name="settings_movies_series_player">Filmen eta Telesailen erreproduzigailua</string>
+    <string name="settings_live_tv_player">Zuzeneko telebistaren erreproduzigailua</string>
+    <string name="settings_engine_order"><xliff:g id="first">%1$s</xliff:g>, gero <xliff:g id="second">%2$s</xliff:g></string>
+    <string name="settings_engine_only"><xliff:g id="engine">%1$s</xliff:g> soilik</string>
+    <string name="settings_engine_default"><xliff:g id="option">%1$s</xliff:g> (Lehenetsia)</string>
+    <string name="settings_reset_player_choices">Berrezarri gordetako erreproduzigailu-aukerak</string>
+    <string name="settings_external_player">Kanpoko erreproduzigailua</string>
+    <string name="settings_default_zoom">Zoom lehenetsia</string>
+    <string name="settings_default_zoom_description">Erreprodukzioa hasten denean aplikatzen den formatua/zooma.</string>
+    <string name="settings_default_volume">Bolumen lehenetsia</string>
+    <string name="settings_default_volume_description">Erreprodukzioa hasten denean aplikatzen den bolumena. 100%% gainetik jario isilak anplifikatzen dira.</string>
+    <string name="settings_reset_saved_zoom">Berrezarri gordetako zooma</string>
+    <string name="settings_reset_saved_zoom_description">Erreproduzigailuan zooma aldatzeak kanal, film edo atal horretarako gordetzen du. Berrezartzeak dena zoom lehenetsia berriro jarraitzera behartzen du.</string>
+    <string name="settings_reset_saved_zoom_confirm">Berrezarri gordetako zooma?</string>
+    <string name="settings_reset_saved_zoom_confirm_description">Kanal, film eta atal guztiak zoom lehenetsira itzultzen dira. Gordetako bolumenak mantentzen dira. Banakako bat berriro ezar dezakezu edonoiz erreproduzigailutik.</string>
+    <string name="settings_reset_saved_volume">Berrezarri gordetako bolumena</string>
+    <string name="settings_reset_saved_volume_description">Erreproduzigailuan bolumena aldatzeak kanal, film edo atal horretarako gordetzen du. Berrezartzeak dena bolumen lehenetsia berriro jarraitzera behartzen du.</string>
+    <string name="settings_reset_saved_volume_confirm">Berrezarri gordetako bolumena?</string>
+    <string name="settings_reset_saved_volume_confirm_description">Kanal, film eta atal guztiak bolumen lehenetsira itzultzen dira. Gordetako zoom-ezarpenak mantentzen dira. Banakako bat berriro ezar dezakezu edonoiz erreproduzigailutik.</string>
+    <string name="settings_reset_saved_audio_delay">Berrezarri gordetako audio-sinkronizazioa</string>
+    <string name="settings_reset_saved_audio_delay_description">Erreproduzigailuan \'Gogoratu atzerapen hau\' aukeratzeak audio-sinkronizazioa gordetzen du kanal, film edo atal horretarako. Berrezartzeak dena goiko ezarpena berriro jarraitzera behartzen du.</string>
+    <string name="settings_reset_saved_audio_delay_confirm">Berrezarri gordetako audio-sinkronizazioa?</string>
+    <string name="settings_reset_saved_audio_delay_confirm_description">Kanal, film eta atal guztiak goiko audio-sinkronizaziora itzultzen dira. Gordetako zoom- eta bolumen-ezarpenak mantentzen dira. Banakako bat berriro ezar dezakezu edonoiz erreproduzigailutik.</string>
+    <string name="settings_seek_step">Bilaketa-urratsa</string>
+    <string name="settings_seek_step_description">Film edo atal batean atzeratzeak eta aurreratzeak zenbat egiten duen salto.</string>
+    <string name="settings_vod_buffer">Filmen bufferra</string>
+    <string name="settings_vod_buffer_description">Filmak, atalak eta berrikustea zenbat aurrera kargatzen diren. Automatikoak gailu honi egokitzen zaiona erabiltzen du. Buffer luzeago batek konexio txarra hobeto jasaten du; gailu honen memoriak mugak jartzen jarraitzen du, beraz bitrate altuko film batek aukeratutakoa baino gutxiago gorde dezake.</string>
+    <string name="settings_vod_network_timeout">Sare-denbora-muga</string>
+    <string name="settings_vod_network_timeout_description">Filmek, atalek eta berrikusteak zerbitzari isil baten zain zenbat egoten diren konexioa galdutzat jo aurretik. Automatikoak erreproduzigailu bakoitzaren itxaronaldia mantentzen du: 60 segundo mpv-n, 20 ExoPlayerren.</string>
+    <string name="settings_vod_reconnects">Birkonexio-saiakerak</string>
+    <string name="settings_vod_reconnects_description">Konexioa galtzen duen film edo atal bat gelditu zen tokian zenbat aldiz berrireki behar den errore bat erakutsi aurretik. Minutu bateko erreprodukzio egonkorrak saiakerak berreskuratzen ditu.</string>
+    <string name="settings_vod_network_auto">Automatikoa</string>
+    <string name="settings_live_rewind_step">Zuzeneko atzeratze-urratsa</string>
+    <string name="settings_live_rewind_step_description">Zuzeneko kanal batean atzeratzeak eta aurreratzeak zenbat mugitzen duen: bere berrikusteko artxiboan, edo Pausatu eta atzeratu zuzeneko telebista aukerak gordetako kopian.</string>
+    <string name="settings_resume_playback">Jarraitu erreprodukzioa</string>
+    <string name="settings_resume_playback_description">Zer egin film edo atal batek gordetako posizioa duenean.</string>
+    <string name="settings_subtitle_appearance">Azpitituluen itxura</string>
+    <string name="settings_subtitle_appearance_description">Tamaina, testu-kolorea, pantailako kokalekua eta atzealdeko gardentasuna. Desaktibatuta dagoen bitartean, azpitituluek lehengo itxura mantentzen dute — baita emisoreek Zuzeneko telebistako azpitituluetan txertatutako estiloa ere.</string>
+    <string name="settings_subtitle_size">Azpitituluen tamaina</string>
+    <string name="settings_subtitle_size_description">Eskalatu azpitituluen testua.</string>
+    <string name="settings_preferred_subtitle_language">Azpitituluen hizkuntza hobetsia</string>
+    <string name="settings_preferred_language_description">Hautatu azpititulu-pista hau automatikoki erabilgarri dagoenean.</string>
+    <string name="settings_preferred_audio_language_description">Audio-pista hau erreproduzitzen du jarioak daukanean. \"Jatorrizko hizkuntza\"k filmak eta telesailak egin ziren hizkuntzan erreproduzitzen ditu.</string>
+    <string name="settings_open_subtitles">OpenSubtitles</string>
+    <string name="settings_open_subtitles_connected">Konektatuta</string>
+    <string name="settings_open_subtitles_reset_in"><xliff:g id="hours">%1$d</xliff:g>h <xliff:g id="minutes">%2$d</xliff:g>m barru</string>
+    <string name="settings_open_subtitles_description">Hasi saioa azpitituluak bilatzeko eta deskargatzeko, eta deskargatutako azpitituluak kudeatzeko. Profilaka; opensubtitles.com kontu doakoa behar da.</string>
+    <string name="settings_preferred_audio_language">Audio-hizkuntza hobetsia</string>
+    <string name="settings_audio_sync">Audio-sinkronizazioa</string>
+    <string name="settings_audio_sync_description">Aurreratu edo atzeratu audioa bideoarekin bat etor dadin. Bi erreproduzigailuekin funtzionatzen du (mpv eta ExoPlayer).</string>
+    <string name="settings_live_tv">Zuzeneko telebista</string>
+    <string name="settings_live_latency_description">Zuzeneko emankizunetik zenbat gertu erreproduzitu. Txikiagoak zuzenekoarengandik gertuago esan nahi du baina buffer txikiagoarekin, beraz jario ahulek eten-etenka egin dezakete edo birkonektatu gehiago. Hurrengo irekiko duzun kanalari aplikatzen zaio.</string>
+    <string name="settings_live_latency_bitrate_note">Bitrate oso altuko kanal batean — batez ere 4K — baliteke bufferrak eskatu baino denbora gutxiago gordetzea, memorian aldi berean gorde daitekeen bideo-kopurua mugatuta dagoelako.</string>
+    <string name="settings_channel_numbers">Kanal-zenbakiak</string>
+    <string name="settings_channel_numbers_description">Erakutsi zure hornitzailearen kanal-zenbakia izenaren ondoan Zuzeneko telebistaren zerrendan, kanal-zerrendaren gainjartzean eta erreproduzigailuan — eta idatzi zenbaki bat urrutiko agintean pantaila osoko erreprodukzioan kanal horretara zuzenean saltatzeko (Ados-ek berehala sintonizatzen du, Atzera-k bertan behera uzten du). Desaktibatuta, zenbaki guztiak ezkutatzen dira eta zenbaki-teklak ez dira kontuan hartzen; ez da ezer galtzen, eta berriro aktibatzeak berrezartzen ditu.</string>
+    <string name="settings_channel_numbers_description_mobile">Erakutsi zure hornitzailearen kanal-zenbakia izenaren ondoan Zuzeneko telebistaren zerrendan eta erreproduzigailuan. Desaktibatuta, zenbaki guztiak ezkutatzen dira; ez da ezer galtzen, eta berriro aktibatzeak berrezartzen ditu.</string>
+    <string name="settings_live_left_right_rewinds">Ezkerrak eta eskuinak zuzeneko telebista atzeratzen dute</string>
+    <string name="settings_live_left_right_rewinds_description">Kontrolak ezkutatuta daudela, Ezkerrak eta Eskuinak atzeratzen eta aurreratzen dute atzera daitezkeen kanaletan (berrikustea, edo Pausatu eta atzeratu zuzeneko telebistak gordeta), kanal-zerrenda eta historia ireki beharrean.</string>
+    <string name="settings_timeshift">Pausatu eta atzeratu zuzeneko telebista</string>
+    <string name="settings_timeshift_description">Berrikusterik gabeko kanalak gailu honetan gordetzen dira pantaila osoan ikusten dituzun bitartean, pausatu eta atzeratu ahal izateko. Etengabe idazten du biltegiratzean; gutxienez 1 GB libre geratzen da beti.</string>
+    <string name="settings_timeshift_window">Atzeratzearen luzera</string>
+    <string name="settings_timeshift_window_description">Berrikusterik gabeko kanal batean zenbat atzera egin dezakezun.</string>
+    <string name="settings_diagnostics">Diagnostikoak</string>
+    <string name="settings_measured_stats">Neurtutako jario-estatistikak</string>
+    <string name="settings_measured_stats_description">Erakutsi zuzeneko fps, bitrate eta galdutako fotogramak jarioaren informazioaren gainjartzean (gainjartzea irekita dagoen bitartean neurtuta, balio hauek deklaratzen ez dituzten jarioetarako). Desaktibatu gama baxuko telebista batek eten-etenka egiten badu soilik — ez dio inoiz benetako bideoari eragiten, diagnostiko-zenbakiei bakarrik.</string>
+    <string name="settings_measured_stats_description_mobile">Erakutsi zuzeneko fps, bitrate eta galdutako fotogramak jarioaren informazioaren gainjartzean (gainjartzea irekita dagoen bitartean neurtuta, balio hauek deklaratzen ez dituzten jarioetarako). Desaktibatu gama baxuko gailu batek eten-etenka egiten badu soilik — ez dio inoiz benetako bideoari eragiten, diagnostiko-zenbakiei bakarrik.</string>
+    <string name="settings_none_auto">Bat ere ez / Automatikoa</string>
+    <string name="settings_view_grid">Sareta</string>
+    <string name="settings_view_list">Zerrenda</string>
+    <string name="settings_subtitle_small">Txikia</string>
+    <string name="settings_subtitle_normal">Normala</string>
+    <string name="settings_subtitle_large">Handia</string>
+    <string name="settings_subtitle_extra_large">Oso handia</string>
+    <string name="settings_live_latency_low">Latentzia baxua</string>
+    <string name="settings_live_latency_balanced">Orekatua</string>
+    <string name="settings_live_latency_stable">Egonkorra</string>
+    <string name="settings_live_latency_custom">Pertsonalizatua</string>
+    <string name="settings_low_latency_warning">⚠️ Latentzia baxua</string>
+    <string name="settings_low_latency_warning_description">Zuzeneko emankizunetik gertuago erreproduzitzeak buffer txikiagoa uzten du. Konexio motelagoetan edo jario ezegonkorretan horrek buffering, eten-etenka egite edo birkonexio gehiago eragin ditzake. Aukeratu Orekatua kanal bat fidagaitza bihurtzen bada.</string>
+    <string name="settings_low_latency_understand">Ulertzen dut</string>
+    <string name="settings_custom_live_buffer">Zuzeneko buffer pertsonalizatua</string>
+    <string name="settings_live_buffer_seconds"><xliff:g id="seconds">%1$d</xliff:g>s</string>
+    <string name="settings_audio_delay"><xliff:g id="delay">%1$d</xliff:g> ms</string>
+    <string name="settings_external_player_description">Aukeratu zein ataletan irekitzen den kanpoko aplikazio batean.</string>
+    <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
+    <string name="settings_movies_player_description">mpv-k (gomendatua) formatu-euskarri zabalena du — DTS/TrueHD audioa, fitxategi bereziak. ExoPlayerrek mpv-k ezin dituen jario batzuk erreproduzitzen ditu telebista batzuetan, baina ezin du DTS/TrueHD audiorik deskodetu. Aukera konbinatuek beste erreproduzigailua automatikoki saiatzen dute lehenengoak huts egiten duenean; erreproduzigailu bakarreko aukerek ez dute inoiz egiten, eta horrek pantaila beltzeko segundo batzuk aurrezten ditu bigarren erreproduzigailuak zure telebistan inoiz funtzionatzen ez badu.</string>
+    <string name="settings_movies_player_description_mobile">mpv-k (gomendatua) formatu-euskarri zabalena du — DTS/TrueHD audioa, fitxategi bereziak. ExoPlayerrek mpv-k ezin dituen jario batzuk erreproduzitzen ditu gailu batzuetan, baina ezin du DTS/TrueHD audiorik deskodetu. Aukera konbinatuek beste erreproduzigailua automatikoki saiatzen dute lehenengoak huts egiten duenean; erreproduzigailu bakarreko aukerek ez dute inoiz egiten, eta horrek pantaila beltzeko segundo batzuk aurrezten ditu bigarren erreproduzigailuak zure gailuan inoiz funtzionatzen ez badu.</string>
+    <string name="settings_live_player_description">ExoPlayerrek (gomendatua) kanalak askoz azkarrago irekitzen ditu eta zuzeneko azpitituluak dituen bakarra da. mpv-k ExoPlayerrek ezin dituen kanalak erreproduzitzen ditu, audio bereziko batzuk barne. Aukera konbinatuek beste erreproduzigailua automatikoki saiatzen dute lehenengoak huts egiten duenean; erreproduzigailu bakarreko aukerek ez dute inoiz egiten, eta horrek pantaila beltzeko segundo batzuk aurrezten ditu bigarren erreproduzigailuak zure telebistan inoiz funtzionatzen ez badu. Erreproduzigailuan eskuz aldatzen duzun kanal batek zure aukera mantentzen du, nolanahi ere.</string>
+    <string name="settings_live_player_description_mobile">ExoPlayerrek (gomendatua) kanalak askoz azkarrago irekitzen ditu eta zuzeneko azpitituluak dituen bakarra da. mpv-k ExoPlayerrek ezin dituen kanalak erreproduzitzen ditu, audio bereziko batzuk barne. Aukera konbinatuek beste erreproduzigailua automatikoki saiatzen dute lehenengoak huts egiten duenean; erreproduzigailu bakarreko aukerek ez dute inoiz egiten, eta horrek pantaila beltzeko segundo batzuk aurrezten ditu bigarren erreproduzigailuak zure gailuan inoiz funtzionatzen ez badu. Erreproduzigailuan eskuz aldatzen duzun kanal batek zure aukera mantentzen du, nolanahi ere.</string>
+    <string name="settings_reset_player_choices_description">Film edo atal bakar bat mpv eta ExoPlayer artean aldatzeak aukera hori gordetzen du hurrengo aldirako. Berrezartzeak dena goiko ezarpena berriro jarraitzera behartzen du. Zuzeneko kanalen gordetako aukerak mantentzen dira.</string>
+    <string name="settings_reset_player_choices_none">Ez dago ezer gordeta</string>
+    <plurals name="settings_reset_player_choices_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> gordeta</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> gordeta</item>
+    </plurals>
+    <string name="settings_reset_player_choices_confirm">Berrezarri gordetako erreproduzigailu-aukerak?</string>
+    <string name="settings_reset_player_choices_confirm_description">Film eta atal guztiak “Filmen eta Telesailen erreproduzigailua” ezarpenera itzultzen dira. Banakako bat berriro alda dezakezu edonoiz erreproduzigailutik.</string>
+    <string name="settings_reset_live_player_choices">Berrezarri gordetako zuzeneko telebistaren erreproduzigailu-aukerak</string>
+    <string name="settings_reset_live_player_choices_description">Kanal bat ExoPlayer eta mpv artean aldatzeak aukera hori gordetzen du kanalarentzat. Berrezartzeak kanal guztiak “Zuzeneko telebistaren erreproduzigailua” ezarpena berriro jarraitzera behartzen ditu. Filmen eta atalen gordetako aukerak mantentzen dira.</string>
+    <string name="settings_reset_live_player_choices_confirm">Berrezarri gordetako zuzeneko telebistaren erreproduzigailu-aukerak?</string>
+    <string name="settings_reset_live_player_choices_confirm_description">Kanal guztiak “Zuzeneko telebistaren erreproduzigailua” ezarpenera itzultzen dira. Banakako bat berriro alda dezakezu edonoiz erreproduzigailutik.</string>
+    <string name="settings_forget_stream_fixes">Ahaztu ikasitako jario-konponketak</string>
+    <string name="settings_forget_stream_fixes_description">Erreproduzigailuak hornitzaile bakoitzaren jarioek zer behar duten ikasten du — ExoPlayerren ordez mpv, beste formatu bat, berrikustearentzako software bidezko deskodetzea. Ahaztu hau hornitzaile batek bere jarioak konpondu baditu. Berrikustearen ikasgaiak 14 egunen ondoren bere kabuz ahazten dira.</string>
+    <string name="settings_forget_stream_fixes_confirm">Ahaztu ikasitako jario-konponketak?</string>
+    <string name="settings_forget_stream_fixes_confirm_description">Kanalak ohiko moduan irekitzen dira berriro, eta erreproduzigailuak hornitzaile batek oraindik behar duena berriz ikasiko du. Eragindako kanal baten lehen erreprodukzioak segundo batzuk gehiago behar ditzake.</string>
+    <string name="settings_external_player_row_description">Ireki jarioak kanpoko aplikazio batean (VLC, MX Player) barneko erreproduzigailuaren ordez, atalka aukeratuta. Baliagarria aplikazio honek deskodetu ezin dituen jarioetarako, edo beste erreproduzigailu bat nahiago baduzu. Jarraitzeko posizioa eta aurrekoa/hurrengoa ez daude erabilgarri kanpoko erreprodukzioan; User-Agent pertsonalizatua edo referer behar duten jarioak baliteke ez erreproduzitzea.</string>
+    <string name="settings_resume_always">Jarraitu beti</string>
+    <string name="settings_resume_ask">Galdetu jarraitzeko</string>
+    <string name="settings_resume_never">Ez jarraitu inoiz</string>
+    <string name="settings_delete_subtitles">Ezabatu azpitituluak</string>
+    <string name="settings_delete_all">Ezabatu guztiak</string>
+    <string name="settings_movies">Filmak</string>
+    <string name="settings_series">Telesailak</string>
+    <string name="settings_no_downloaded_subtitles">Ez dago deskargatutako <xliff:g id="section">%1$s</xliff:g> azpitidulurik.</string>
+    <string name="settings_delete_subtitle">Ezabatu azpititulua</string>
+    <string name="settings_delete_subtitle_message">Ezabatu <xliff:g id="name">%1$s</xliff:g> azpititulua “<xliff:g id="title">%2$s</xliff:g>” izenburuarentzat? Geroago berriro deskargatu daiteke.</string>
+    <string name="settings_delete_all_subtitles">Ezabatu azpititulu guztiak</string>
+    <string name="settings_delete_all_movies">Ezabatu film guztiak</string>
+    <string name="settings_delete_all_series">Ezabatu telesail guztiak</string>
+    <string name="settings_section_count"><xliff:g id="section">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g>)</string>
+    <string name="settings_sync_guide_question">Telebista-gida orain sinkronizatu?</string>
+    <string name="settings_sync_guide_description">Deskargatu “<xliff:g id="source">%1$s</xliff:g>” iturburuaren programa-gida (EPG). Geroago ere egin dezakezu Ezarpenak → EPG atalean.</string>
+    <string name="settings_not_now">Orain ez</string>
+    <string name="settings_sync_now">Sinkronizatu orain</string>
+    <string name="settings_syncing_guide">Telebista-gida sinkronizatzen…</string>
+    <string name="settings_connecting">Konektatzen…</string>
+    <string name="settings_run_background">Exekutatu atzeko planoan</string>
+    <string name="settings_guide_synced">Telebista-gida sinkronizatuta</string>
+    <string name="settings_guide_sync_failed">Telebista-gidaren sinkronizazioak huts egin du</string>
+    <string name="settings_restore_remote_title">Leheneratu beste gailu batetik</string>
+    <string name="settings_restore_remote_description">Wi-Fi sare berean dagoen telefono, tableta edo ordenagailu batean, eskaneatu QRa (edo ireki URLa), idatzi PIN hau, aukeratu zure OwnTV babeskopia-fitxategia eta sakatu Bidali telebistara. Ondoren, hemen aukeratuko duzu zer leheneratu.</string>
+    <string name="settings_try_again">Saiatu berriro</string>
+    <string name="settings_new_pin">Hasi berriro PIN berri batekin</string>
+    <string name="settings_download_remote_title">Deskargatu beste gailu batean</string>
+    <string name="settings_download_remote_description">Wi-Fi sare berean dagoen telefono, tableta edo ordenagailu batean, eskaneatu QRa (edo ireki URLa), idatzi PIN hau eta deskargatu zure babeskopia-fitxategia seguru gordetzeko.</string>
+    <string name="settings_preparing_backup">Babeskopia prestatzen…</string>
+    <string name="settings_background_on">Atzealdeko irudia: Aktibatuta</string>
+    <string name="settings_background_off">Atzealdeko irudia: Desaktibatuta</string>
+    <string name="settings_ui_zoom_range">Eskalatu interfaze osoa (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
+    <string name="settings_low_zoom_warning_title">⚠️ Zoom baxuaren abisua</string>
+    <string name="settings_low_zoom_warning"><xliff:g id="zoom">%1$d</xliff:g>%%ko zoomak elementu askoz gehiago erakusten ditu pantailan aldi berean. Memoria mugatua duten gailuetan (adibidez, 2 GBko telebista-makilak) honek aplikazioa ezegonkor bihur dezake edo kraskatu, batez ere erreprodukzio-zerrenda eta EPG datu handiekin.\n\nSakatu Ados jarraitzeko, edo Atzera <xliff:g id="safe_zoom">%2$d</xliff:g>%% mailan geratzeko.</string>
+    <string name="settings_low_zoom_warning_mobile"><xliff:g id="zoom">%1$d</xliff:g>%%ko zoomak elementu askoz gehiago erakusten ditu pantailan aldi berean. Memoria mugatua duten gailuetan honek aplikazioa ezegonkor bihur dezake edo kraskatu, batez ere erreprodukzio-zerrenda eta EPG datu handiekin.\n\nAukeratu Utzi <xliff:g id="safe_zoom">%2$d</xliff:g>%% mailan geratzeko.</string>
+    <string name="settings_low_zoom_accept">Ulertzen dut eta arriskua onartzen dut</string>
+    <string name="settings_surface_transparency"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="settings_surface_count_all">Gainazalak: Guztiak</string>
+    <plurals name="settings_surface_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g> gainazal</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g> gainazal</item>
+    </plurals>
+    <string name="settings_catchup_timezone_device">Gailua</string>
+    <string name="settings_catchup_player_ask">Galdetu beti</string>
+    <string name="settings_catchup_player_internal">OwnTV erreproduzigailua</string>
+    <string name="settings_catchup_player_external">Kanpoko erreproduzigailua</string>
+    <string name="settings_download_folder_title">Aukeratu deskarga-karpeta</string>
+    <string name="settings_pick_background_title">Aukeratu atzealdeko irudi bat</string>
+    <string name="settings_theme_dialog">Gaia</string>
+    <string name="settings_app_startup_dialog">Aplikazioaren abioa</string>
+    <string name="settings_animations_dialog">Animazioak</string>
+    <string name="settings_close">Itxi</string>
+    <string name="settings_done">Eginda</string>
+    <string name="settings_reset">Berrezarri</string>
+    <string name="settings_device_details"><xliff:g id="model">%1$s</xliff:g> · <xliff:g id="android">%2$s</xliff:g></string>
+    <string name="settings_history_live">Zuzeneko telebista</string>
+    <string name="settings_history_movies">Filmak</string>
+    <string name="settings_history_series">Telesailak</string>
+    <string name="settings_history_all">dena</string>
+    <string name="settings_decrease">–</string>
+    <string name="settings_increase">+</string>
+    <string name="settings_glass_effect_title">Beirazko efektua</string>
+    <string name="settings_glass_effect_description">Atzealdeko argazki baten gaineko edo aplikazioaren atzealde propioaren gaineko panel zeharrargi izoztuak.</string>
+    <string name="settings_glass_preset_title">Itxura-aurrezarpena</string>
+    <string name="settings_glass_preset_clear">Garbia</string>
+    <string name="settings_glass_preset_balanced">Orekatua</string>
+    <string name="settings_glass_preset_tinted">Tindatua</string>
+    <string name="settings_glass_preset_custom">Pertsonalizatua</string>
+    <string name="settings_glass_preset_clear_description">Horma-paperaren kolore gehiago izoztura moderatuarekin.</string>
+    <string name="settings_glass_preset_balanced_description">Gomendatutako argitasuna, sakontasuna eta irakurgarritasuna.</string>
+    <string name="settings_glass_preset_tinted_description">Gainazaleko kolore indartsuagoa atzealde nahasi edo distiratsuetarako.</string>
+    <string name="settings_glass_preset_custom_description">Erabili gordetako gardentasun eta lausotze / izozte balioak.</string>
+    <string name="settings_transparency_title">Gardentasuna</string>
+    <string name="settings_blur_title">Lausotzea / Izoztea</string>
+    <string name="settings_blur_description_enabled">Atzealdea zenbat izoztuta dagoen (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%). Atzealdeko irudi baten gainean soilik.</string>
+    <string name="settings_blur_description_disabled">Atzealdea zenbat izoztuta dagoen (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%). Atzealdeko irudi baten gainean soilik. Ezarri atzealdeko irudi bat gaitzeko.</string>
+    <string name="settings_glass_surface_panels">Eduki-panelak</string>
+    <string name="settings_glass_surface_sidebar">Alboko barra</string>
+    <string name="settings_glass_surface_preview">Aurrebista-panelak</string>
+    <string name="settings_glass_surface_dialogs">Elkarrizketa-koadroak eta leiho gainerakorrak</string>
+    <string name="settings_glass_surface_topbar">Goiko barra</string>
+    <string name="settings_glass_surface_cards">Txartelak</string>
+    <string name="settings_glass_surface_miniplayer">Mini erreproduzigailua</string>
+    <string name="settings_glass_surface_player_controls">Erreproduzigailuaren kontrolak</string>
+    <string name="settings_glass_surface_toasts">Pantailako mezuak</string>
+    <string name="settings_browsing_last_category">Gogoratu azken kategoria</string>
+    <string name="settings_browsing_last_category_description">Berrireki atala utzi zenuen kategorian, ez Denak atalean.</string>
+    <string name="settings_browsing_last_item">Gogoratu azken elementua</string>
+    <string name="settings_browsing_last_item_description">Kategoria bakoitzak bere korritze-posizioa mantentzen du goian hasi beharrean. Zuzeneko telebistak fokuan egon zen azken kanala ere leheneratzen du.</string>
+    <string name="settings_catchup_player">Erreproduzitu berrikustea hemen</string>
+    <string name="settings_customize_title">Pertsonalizatu kategoriak eta elementuak</string>
+    <string name="settings_customize_pin_locked">Pantaila hau PINez blokeatuta dago.</string>
+    <string name="settings_customize_wrong_pin">PIN okerra — saiatu berriro</string>
+    <string name="settings_customize_enter_pin">Idatzi PINa</string>
+    <string name="settings_customize_set_pin">🔒 Ezarri PINa</string>
+    <string name="settings_customize_change_pin">🔒 Aldatu PINa</string>
+    <string name="settings_customize_remove_lock">Kendu blokeoa</string>
+    <string name="settings_customize_description">Ezkutatu eta erakutsi kanalak, filmak eta telesailak, eta aldatu izena edo berrantolatu kategoriak profil honetarako. Birsinkronizazioak gainditzen ditu.</string>
+    <string name="settings_customize_new_category_behavior">Kategoria berrien portaera</string>
+    <string name="settings_customize_hide">Ezkutatu</string>
+    <string name="settings_customize_show">Erakutsi</string>
+    <string name="settings_customize_behavior_hide">Ezkutatu</string>
+    <string name="settings_customize_behavior_show">Erakutsi</string>
+    <string name="settings_customize_hidden_channels">Ezkutatutako kanalak</string>
+    <string name="settings_customize_hidden_movies">Ezkutatutako filmak</string>
+    <string name="settings_customize_hidden_series">Ezkutatutako telesailak</string>
+    <string name="settings_customize_unhide_description">Erakutsi elementu bat zerrendetara itzultzeko.</string>
+    <string name="settings_customize_categories">Kategoriak</string>
+    <string name="settings_customize_empty">Ez dago kategoriarik atal honetan oraindik — gehitu iturburu bat lehenik.</string>
+    <string name="settings_customize_range_hide_start">Tarte-hautapena hasi da. Sakatu Erakutsi/Ezkutatu amaierako elementuan tartea hautatzeko.</string>
+    <string name="settings_customize_range_rename_start">Izena aldatzeko tartea hasi da. Sakatu Aldatu izena amaierako elementuan tartea hautatzeko.</string>
+    <string name="settings_customize_range_move_start">Mugitzeko tartea hasi da. Sakatu ⤒ ↑ ↓ ⤓ amaierako elementuan tarte osoa mugitzeko.</string>
+    <string name="settings_customize_span_hide">Hautatu ezkutatzeko edo erakusteko tartea</string>
+    <string name="settings_customize_span_move">Hautatu mugitzeko tartea</string>
+    <string name="settings_customize_move_top">Mugitu goraino</string>
+    <string name="settings_customize_move_bottom">Mugitu beheraino</string>
+    <string name="settings_customize_custom_category">Pertsonalizatua</string>
+    <string name="settings_customize_span_rename">Hautatu izena aldatzeko tartea</string>
+    <string name="settings_customize_range_hide_start_touch">Tarte-hautapena hasi da. Ukitu azken elementua, gero aukeratu Ezkutatu edo Erakutsi.</string>
+    <string name="settings_customize_range_move_start_touch">Mugitzeko tartea hasi da. Ukitu azken elementua, gero erabili geziak bloke osoa mugitzeko.</string>
+    <string name="settings_customize_range_rename_start_touch">Izena aldatzeko tartea hasi da. Ukitu azken elementua tartean dagoen guztiaren izena aldatzeko.</string>
+    <plurals name="settings_customize_range_selected">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> kategoria hautatuta. Jarraitu ⤒ ↑ ↓ ⤓ sakatzen mugitzeko.</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> kategoria hautatuta. Jarraitu ⤒ ↑ ↓ ⤓ sakatzen elkarrekin mugitzeko.</item>
+    </plurals>
+    <string name="settings_customize_rename">Aldatu izena</string>
+    <string name="settings_customize_rename_category">Aldatu kategoriaren izena</string>
+    <string name="settings_customize_rename_or_delete_category">Aldatu kategoriaren izena edo ezabatu</string>
+    <string name="settings_customize_new_category">＋ Kategoria berria</string>
+    <string name="settings_customize_sort_button">Ordenatu: <xliff:g id="label">%1$s</xliff:g> ▾</string>
+    <string name="settings_customize_filter_button">Iragazi: <xliff:g id="label">%1$s</xliff:g> ▾</string>
+    <string name="settings_customize_filter_title">Iragazi zerrenda</string>
+    <string name="settings_customize_filter_all">Denak</string>
+    <string name="settings_customize_filter_visible">Ikusgaiak</string>
+    <string name="settings_customize_filter_hidden">Ezkutuak</string>
+    <string name="settings_customize_new_categories_button">Kategoria berriak: <xliff:g id="label">%1$s</xliff:g> ▾</string>
+    <string name="settings_customize_rename_hint">Profil honetarako soilik. Utzi hutsik “<xliff:g id="name">%1$s</xliff:g>” berrezartzeko.</string>
+    <string name="settings_customize_remove_pin_title">Kendu PIN blokeoa?</string>
+    <string name="settings_customize_remove_pin_message">Pertsonalizatu pantaila PINik eskatu gabe irekiko da berriro.</string>
+    <string name="settings_customize_remove">Kendu</string>
+    <string name="settings_customize_confirm_pin">Berretsi PIN berria</string>
+    <string name="settings_customize_pin_mismatch">PINak ez datoz bat — idatzi berriro</string>
+    <string name="settings_customize_new_pin">Idatzi PIN berri bat</string>
+    <plurals name="settings_customize_selected_categories">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> kategoria hautatuta.</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> kategoria hautatuta.</item>
+    </plurals>
+    <string name="settings_customize_hide_show_title">Ezkutatu edo erakutsi kategoriak</string>
+    <string name="settings_customize_was">lehen “<xliff:g id="name">%1$s</xliff:g>” zen</string>
+    <string name="settings_customize_hidden">Ezkutuan</string>
+    <string name="settings_customize_unhide">Erakutsi</string>
+    <string name="settings_customize_metadata_separator">"  ·  "</string>
+    <string name="settings_sources_title">Iturburuak</string>
+    <string name="settings_sources_description">Iturburuak profil guztien artean partekatzen dira.</string>
+    <string name="settings_sources_empty">Oraindik ez dago iturbururik. Gehitu M3U edo Xtream iturburu bat.</string>
+    <string name="settings_sources_add">Gehitu iturburua</string>
+    <string name="settings_sources_import_failed">Inportazioak huts egin du</string>
+    <string name="settings_sources_importing">Katalogoa inportatzen…</string>
+    <string name="settings_sources_preparing">Katalogoa prestatzen</string>
+    <string name="settings_sources_deleting">EZABATZEN…</string>
+    <string name="settings_sources_resync">Birsinkronizatu</string>
+    <string name="settings_sources_delete_title">Ezabatu “<xliff:g id="name">%1$s</xliff:g>”?</string>
+    <string name="settings_sources_delete_message">Honek iturburua eta bere kanal, film eta telesail guztiak kentzen ditu profil guztietatik.</string>
+    <string name="settings_sources_type_m3u">M3U · <xliff:g id="url">%1$s</xliff:g></string>
+    <string name="settings_sources_type_xtream">Xtream · <xliff:g id="url">%1$s</xliff:g></string>
+    <string name="settings_sources_type_stalker">Stalker · <xliff:g id="url">%1$s</xliff:g></string>
+    <string name="settings_sources_expiry"><xliff:g id="date">%1$s</xliff:g> iraungitzen da</string>
+    <string name="settings_sources_test_title">Iturburuaren proba</string>
+    <string name="settings_sources_test_ok">Konexioa ondo</string>
+    <string name="settings_sources_test_auth">Hornitzaileak datu hauek baztertu ditu. Egiaztatu erabiltzaile-izena, pasahitza edo MAC helbidea.</string>
+    <string name="settings_sources_test_expired">Harpidetza hau iraungi da.</string>
+    <string name="settings_sources_test_unreachable">Ezin izan da zerbitzaria atzitu. Egiaztatu helbidea eta Interneteko konexioa.</string>
+    <string name="settings_sources_test_status">Egoera: <xliff:g id="status">%1$s</xliff:g></string>
+    <string name="settings_sources_test_connections">Konexioak: <xliff:g id="used">%1$d</xliff:g> / <xliff:g id="max">%2$d</xliff:g> erabiltzen</string>
+    <string name="settings_sources_test_connections_max">Konexioak: gehienez <xliff:g id="max">%1$d</xliff:g> aldi berean</string>
+    <string name="settings_sources_test_trial">Proba-kontua</string>
+    <string name="settings_sources_test_expiry_none">Ez da iraungitze-datarik jakinarazi</string>
+    <string name="settings_sources_info">Informazioa</string>
+    <string name="settings_sources_retest">Probatu berriro</string>
+    <string name="settings_sources_probe_title">Erreprodukzio-zerrenda hau probatu?</string>
+    <string name="settings_sources_probe_warning">Hornitzaile askok ez dute inoiz esaten zenbat kanal ikus ditzakezun aldi berean, beraz OwnTVk hainbat ireki eta zeintzuk irauten duten ikusiz jakiten du. Orain erreproduzitzen ari den guztia gelditu egingo da, eta honek bi minutu arte iraun dezake.</string>
+    <string name="settings_sources_probe_running">Hornitzaile honek zenbat kanal onartzen dituen egiaztatzen… (<xliff:g id="current">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g>)</string>
+    <string name="settings_sources_probe_unknown">OwnTVk ezin izan du jakin hornitzaile honek zenbat kanal onartzen dituen.</string>
+    <string name="settings_sources_probe_skip">Saltatu</string>
+    <string name="settings_sources_auto_refresh">⟳ <xliff:g id="mode">%1$s</xliff:g></string>
+    <string name="settings_sources_default">LEHENETSIA</string>
+    <string name="settings_sources_backup">Babeskopia</string>
+    <string name="settings_sources_details_separator">"  •  "</string>
+    <string name="settings_sources_preparing_detail">Katalogoa prestatzen</string>
+    <string name="settings_sources_removing_detail">Kentzen…</string>
+    <string name="settings_sources_edit">Editatu</string>
+    <string name="settings_sources_delete">Ezabatu</string>
+    <string name="settings_sources_cancel">Utzi</string>
+    <string name="settings_sources_try_again">Saiatu berriro</string>
+    <string name="settings_sources_import_title">Inportazioa osatuta</string>
+    <string name="settings_sources_resync_title_full">Birsinkronizatu “<xliff:g id="name">%1$s</xliff:g>”</string>
+    <string name="settings_sources_resync_now_full">Birsinkronizatu orain</string>
+    <string name="settings_sources_resync_remove_full">Birsinkronizatu eta kendu falta diren izenburuak</string>
+    <string name="settings_sources_resync_description">Birsinkronizatu orain-ek azken katalogoa eskuratzen du eta dagoeneko gordetako guztia mantentzen du. Birsinkronizatu eta kendu falta diren izenburuak-ek hornitzaileak jada zerrendatzen ez dituen izenburuak kentzea ere ahalbidetzen du. Oraindik zerrendatuta dauden izenburuen gogokoak, historia eta jarraitzeko posizioak mantentzen dira.</string>
+    <string name="settings_sources_refresh_off">Desaktibatuta</string>
+    <string name="settings_sources_refresh_startup">Freskatu abiatzean</string>
+    <string name="settings_sources_refresh_6h">6 ordu</string>
+    <string name="settings_sources_refresh_12h">12 ordu</string>
+    <string name="settings_sources_refresh_manual">Tarte pertsonalizatua…</string>
+    <plurals name="settings_sources_refresh_days">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> egunero</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> egunero</item>
+    </plurals>
+    <string name="settings_sources_refresh_days_title">Freskatze-tartea</string>
+    <string name="settings_sources_refresh_days_hint">Ezkerrak eta eskuinak egun-kopurua aukeratzen dute, 1etik 99ra.</string>
+    <string name="settings_epg_guide_days">Gordetzeko gida-egunak</string>
+    <string name="settings_epg_guide_days_hint">Ezkerrak eta eskuinak egun-kopurua aukeratzen dute, <xliff:g id="min">%1$d</xliff:g>tik <xliff:g id="max">%2$d</xliff:g>ra.</string>
+    <plurals name="settings_epg_guide_days_value">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> egun</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> egun</item>
+    </plurals>
+    <string name="settings_epg_sources_title">EPG iturburuak</string>
+    <string name="settings_epg_sources_empty">Oraindik ez dago EPG iturbururik. Gehitu XMLTV esteka bat.</string>
+    <string name="settings_epg_sources_add">Gehitu EPG iturburua</string>
+    <string name="settings_epg_sources_edit">Editatu EPG iturburua</string>
+    <string name="settings_epg_sources_add_sync">Gehitu eta sinkronizatu</string>
+    <string name="settings_epg_sources_save_sync">Gorde eta sinkronizatu</string>
+    <string name="settings_epg_sources_fill_playlist">Bete erreprodukzio-zerrendatik</string>
+    <string name="settings_epg_sources_none_playlist">Zure erreprodukzio-zerrendetako batek ere ez du EPG URLrik eskaintzen.</string>
+    <string name="settings_epg_sources_use_logos">Erabili gida honen kanal-logoak</string>
+    <string name="settings_epg_sources_logos_description">Erakutsi XMLTV jario honetako logoak zure erreprodukzio-zerrendakoen ordez. Jario honek logorik ez duen kanalek erreprodukzio-zerrendakoa mantentzen dute.</string>
+    <string name="settings_epg_sources_name">Izena</string>
+    <string name="settings_epg_sources_url">XMLTV URLa</string>
+    <string name="settings_epg_sources_portal_guide">Atariko gida</string>
+    <string name="settings_epg_sources_user_agent">User-Agent (aukerakoa)</string>
+    <string name="settings_epg_sources_name_hint">adib. Euskal gida</string>
+    <string name="settings_epg_sources_url_hint">https://…/epg.xml(.gz)</string>
+    <string name="settings_epg_sources_user_agent_hint">Utzi hutsik lehenetsiarentzat</string>
+    <string name="settings_epg_sources_description">Telebista-gida betetzen duten XMLTV gida-jarioak. Gehitzean automatikoki sinkronizatzen dira eta zure erreprodukzio-zerrenden kanalekin bateratzen dira.</string>
+    <string name="settings_epg_sources_delete_title">Ezabatu “<xliff:g id="name">%1$s</xliff:g>”?</string>
+    <string name="settings_epg_sources_delete_message">EPG iturburu hau eta bere gida-datuak kentzen ditu. Zure kanalak mantentzen dira.</string>
+    <string name="settings_epg_sources_syncing_percent">Sinkronizatzen <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <plurals name="settings_epg_sources_catchup">
+        <item quantity="one">Berrikustea <xliff:g id="count">%1$d</xliff:g> kanalean dago erabilgarri.</item>
+        <item quantity="other">Berrikustea <xliff:g id="count">%1$d</xliff:g> kanaletan dago erabilgarri.</item>
+    </plurals>
+    <string name="settings_epg_sources_error">⚠ <xliff:g id="error">%1$s</xliff:g></string>
+    <string name="settings_epg_sources_auto_refresh_title">Freskatze automatikoa</string>
+    <string name="settings_epg_sources_auto_refresh_description">Desaktibatuta, abiatzean, edo datuak zaharkituta daudenean</string>
+    <string name="settings_epg_sources_not_synced">Oraindik ez da sinkronizatu</string>
+    <string name="settings_epg_refresh_1h">ordu 1</string>
+    <string name="settings_epg_refresh_3h">3 ordu</string>
+    <string name="settings_epg_refresh_6h">6 ordu</string>
+    <string name="settings_epg_refresh_12h">12 ordu</string>
+    <string name="settings_epg_refresh_24h">24 ordu</string>
+    <string name="settings_epg_refresh_48h">48 ordu</string>
+    <string name="settings_epg_sources_deleting">Ezabatzen…</string>
+    <string name="settings_epg_sources_syncing_label">Sinkronizatzen</string>
+    <string name="settings_epg_sources_connecting">Konektatzen…</string>
+    <plurals name="settings_epg_sources_status_count_channels">
+        <item quantity="one">Gidak <xliff:g id="channels">%1$d</xliff:g> kanal ditu.</item>
+        <item quantity="other">Gidak <xliff:g id="channels">%1$d</xliff:g> kanal ditu.</item>
+    </plurals>
+    <plurals name="settings_epg_sources_status_count_programmes">
+        <item quantity="one"><xliff:g id="programmes">%1$d</xliff:g> programa ditu.</item>
+        <item quantity="other"><xliff:g id="programmes">%1$d</xliff:g> programa ditu.</item>
+    </plurals>
+    <string name="settings_epg_sources_status_count"><xliff:g id="channels">%1$s</xliff:g> <xliff:g id="programmes">%2$s</xliff:g></string>
+    <string name="settings_epg_sources_status_count_with_catchup"><xliff:g id="counts">%1$s</xliff:g> <xliff:g id="catchup">%2$s</xliff:g></string>
+    <string name="settings_epg_sources_status_synced">Sinkronizatuta, baina ez da programarik aurkitu denbora-tartean.</string>
+    <string name="settings_epg_sources_status_synced_with_catchup"><xliff:g id="catchup">%1$s</xliff:g></string>
+    <string name="settings_backup_title">Babeskopia eta leheneratzea</string>
+    <string name="settings_backup_working">Lanean…</string>
+    <string name="settings_backup_what_backup">Zer egin babeskopia</string>
+    <string name="settings_backup_what_restore">Zer leheneratu</string>
+    <string name="settings_backup_encrypt_title">Babeskopia hau enkriptatu?</string>
+    <string name="settings_backup_encrypt_message">Babeskopia-pasahitz batekin, fitxategi osoa enkriptatzen da — erreprodukzio-zerrendak, profilak eta gordetako pasahitzak barne — eta bertako ezer ezin da irakurri pasahitz hori gabe. Gorde ondo: galtzen baduzu, babeskopia ezin da inola ere ireki. Pasahitzik gabe fitxategia ez dago enkriptatuta, eta gordetako pasahitzak eta PINak kanpoan uzten dira.</string>
+    <string name="settings_backup_export_title">Esportatu babeskopia</string>
+    <string name="settings_backup_restore_title">Leheneratu babeskopia</string>
+    <string name="settings_backup_password">Babeskopiaren pasahitza</string>
+    <string name="settings_backup_enter_password">Idatzi babeskopiaren pasahitza</string>
+    <string name="settings_backup_wrong_password">Babeskopiaren pasahitza okerra</string>
+    <string name="settings_backup_password_mismatch">Pasahitz hori ez dator bat. Saiatu berriro, edo saltatu gordetako pasahitzak izan ezik dena leheneratzeko.</string>
+    <string name="settings_backup_password_encrypted_mismatch">Pasahitz hori ez dator bat. Babeskopia hau enkriptatuta dago — ezin da ireki sortu zen pasahitzik gabe.</string>
+    <string name="settings_backup_encrypted_description">Babeskopia hau enkriptatuta dago. Idatzi babeskopiaren pasahitza irekitzeko eta aukeratu zer leheneratu.</string>
+    <string name="settings_backup_saved_passwords_description">Babeskopia honen pasahitzak enkriptatuta daude. Idatzi babeskopiaren pasahitza leheneratzeko, edo saltatu gainerako guztia leheneratzeko eta pasahitzak geroago berriro idazteko.</string>
+    <string name="settings_backup_choose_folder">Aukeratu babeskopia gordetzeko karpeta</string>
+    <string name="settings_backup_choose_folder_action">Aukeratu karpeta</string>
+    <string name="settings_backup_pick_file">Aukeratu leheneratzeko babeskopia-fitxategi bat</string>
+    <string name="settings_backup_remote">Urrutikoa</string>
+    <string name="settings_backup_everything">Dena</string>
+    <string name="settings_backup_kids_profile">Haurren profila</string>
+    <string name="settings_backup_profile_current">“<xliff:g id="name">%1$s</xliff:g>” (unekoa)</string>
+    <string name="settings_backup_profile_locked">“<xliff:g id="name">%1$s</xliff:g>” blokeatuta dago</string>
+    <string name="settings_backup_profile_pin">Profilaren PINa</string>
+    <string name="settings_backup_pin_incorrect">PINa okerra da.</string>
+    <string name="settings_backup_pin_locked">PINez blokeatuta</string>
+    <string name="settings_backup_unlock">Desblokeatu</string>
+    <string name="settings_backup_export_button">Esportatu babeskopia</string>
+    <string name="settings_backup_restore_button">Leheneratu babeskopia</string>
+    <string name="settings_backup_continue">Jarraitu</string>
+    <string name="settings_backup_encrypt_export">Enkriptatu eta esportatu</string>
+    <string name="settings_backup_export_unencrypted">Esportatu enkriptatu gabe</string>
+    <string name="settings_backup_encrypt_prepare">Enkriptatu eta prestatu</string>
+    <string name="settings_backup_prepare_unencrypted">Prestatu enkriptatu gabe</string>
+    <string name="settings_backup_restore_action">Leheneratu</string>
+    <string name="settings_backup_skip_passwords">Saltatu (pasahitzik gabe)</string>
+    <string name="settings_backup_section_sources">Iturburuak</string>
+    <string name="settings_backup_section_sources_desc">Erreprodukzio-zerrendak, EPG jarioak eta kredentzialak</string>
+    <string name="settings_backup_section_customize">Pertsonalizazioak</string>
+    <string name="settings_backup_section_customize_desc">Ezkutatutako/izena aldatutako/berrantolatutako kategoriak, kanalak, EPG parekatzeak eta TMDB izen pertsonalizatuak</string>
+    <string name="settings_backup_section_favorites">Gogokoak</string>
+    <string name="settings_backup_section_favorites_desc">Izarra duten kanalak, filmak eta telesailak</string>
+    <string name="settings_backup_section_history">Ikusitakoen historia</string>
+    <string name="settings_backup_section_history_desc">Duela gutxi ikusitakoen zerrendak</string>
+    <string name="settings_backup_section_resume">Jarraitzeko posizioak</string>
+    <string name="settings_backup_section_resume_desc">Filmetan eta ataletan gelditu zinen tokia</string>
+    <string name="settings_backup_section_reorder">Eskuzko berrantolatzea</string>
+    <string name="settings_backup_section_reorder_desc">Zure Mugitu gora/behera posizioak kanalentzat, filmentzat eta telesailentzat</string>
+    <string name="settings_backup_section_settings">Aplikazioaren ezarpenak</string>
+    <string name="settings_backup_section_settings_desc">Gaia, azentua, erreproduzigailuaren eta diseinuaren hobespenak</string>
+    <string name="settings_backup_device_settings">Beste gailuko hardware-ezarpenak</string>
+    <string name="settings_backup_device_settings_desc">Erreproduzigailu-motorra, hardware bidezko deskodetzea, fotograma-maiztasuna, HDR eta surround. Hartu soilik bi gailuek hardware bera badute.</string>
+    <string name="settings_backup_saved_to"><xliff:g id="path">%1$s</xliff:g> helbidean gorde da.</string>
+    <string name="settings_backup_saved_to_without_passwords"><xliff:g id="path">%1$s</xliff:g> helbidean gorde da. Pasahitzak eta PINak ez dira sartu.</string>
+    <plurals name="settings_backup_restored">
+        <item quantity="one"><xliff:g id="items">%1$d</xliff:g> elementu leheneratu da.</item>
+        <item quantity="other"><xliff:g id="items">%1$d</xliff:g> elementu leheneratu dira.</item>
+    </plurals>
+    <string name="settings_backup_restore_resync">Birsinkronizatu zure iturburuak edukia kargatzeko.</string>
+    <string name="settings_backup_restore_password_note">Idatzi berriro gordetako pasahitzak Iturburuak/Proxya atalean, eta profilen PINak.</string>
+    <plurals name="settings_backup_skipped_sources">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> iturburu saltatu da bere erreprodukzio-zerrenda mota onartzen ez delako.</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> iturburu saltatu dira beren erreprodukzio-zerrenda motak onartzen ez direlako.</item>
+    </plurals>
+    <string name="settings_backup_export_error">Esportazioak huts egin du.</string>
+    <string name="settings_backup_read_error">Ezin izan da babeskopia-fitxategia irakurri.</string>
+    <string name="settings_backup_import_error">Inportazioak huts egin du.</string>
+    <string name="settings_backup_invalid_locale">Babeskopia honek onartzen ez den aplikazio-hizkuntza bat zeukan. Leheneratzeak arrakasta izan du, baina zure uneko hizkuntza mantendu da.</string>
+    <string name="settings_backup_which_profiles">Zein profilen babeskopia egin</string>
+    <string name="settings_backup_selected_profiles">Babeskopiak hautatutako profilak eta haien datuak soilik izango ditu. Blokeatutako profilek PINa behar dute.</string>
+    <string name="settings_backup_profile_pin_description">Hau ez da zure uneko profila. Idatzi bere PINa babeskopian sartzeko — PINik gabe, bere datuen babeskopia ez da egingo.</string>
+    <string name="settings_metadata_optional">aukerakoa</string>
+    <string name="settings_metadata_test_title">Oppenheimer</string>
+    <string name="settings_bulk_rename_title">Izen-aldaketa masiboa</string>
+    <plurals name="settings_bulk_rename_selected">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> izen hautatuta. Gehitu arauak, edo garbitu automatikoki.</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> izen hautatuta. Gehitu arauak, edo garbitu automatikoki.</item>
+    </plurals>
+    <string name="settings_bulk_rename_add_rule">✎ Gehitu araua</string>
+    <string name="settings_bulk_rename_auto_cleanup">✨ Garbiketa automatikoa</string>
+    <string name="settings_bulk_rename_restore_original">↺ Leheneratu jatorrizko izenak</string>
+    <string name="settings_bulk_rename_rules_title">Izen-aldaketa masiboaren arauak</string>
+    <string name="settings_bulk_rename_rules_description">Arauak goitik behera exekutatzen dira. Bereizi balio anitzak “;” ikurrarekin — Gehitu-k balio bakarra hartzen du.</string>
+    <string name="settings_bulk_rename_add_single_value_error">“Gehitu”-k balio bakarra behar du — puntu eta komak Kendu arauetarako dira.</string>
+    <string name="settings_bulk_rename_rule_required">Gehitu gutxienez arau bat.</string>
+    <string name="settings_bulk_rename_rule_type">Arau mota</string>
+    <string name="settings_bulk_rename_action_add">Gehitu</string>
+    <string name="settings_bulk_rename_action_remove">Kendu</string>
+    <string name="settings_bulk_rename_where">Non</string>
+    <string name="settings_bulk_rename_before">Aurretik (aurrizkia)</string>
+    <string name="settings_bulk_rename_after">Ondoren (atzizkia)</string>
+    <string name="settings_bulk_rename_rule_value">Arauaren balioa</string>
+    <string name="settings_bulk_rename_value_hint">Bereizi balio anitzak “;” ikurrarekin — Gehitu-k balio bakarra hartzen du.</string>
+    <string name="settings_bulk_rename_value_example">balioa;balioa;balioa</string>
+    <string name="settings_bulk_rename_add_another_rule">＋ Gehitu beste arau bat</string>
+    <string name="settings_bulk_rename_trim_spaces">Garbitu geratutako zuriuneak</string>
+    <string name="settings_bulk_rename_ignore_case">Ez ikusi egin maiuskula/minuskulei</string>
+    <string name="settings_bulk_rename_review">Berrikusi izen-aldaketak</string>
+    <string name="settings_bulk_rename_review_description">Ez da ezer idazten errenkada bat aplikatu arte — Eginda-k aplikatutako guztia urrats batean idazten du.</string>
+    <string name="settings_bulk_rename_blank_rejected">izen hutsa baztertu da — jatorrizkoa mantendu da</string>
+    <string name="settings_bulk_rename_unchanged">aldatu gabe — ez da araurik bat etorri</string>
+    <string name="settings_bulk_rename_result">→ <xliff:g id="name">%1$s</xliff:g></string>
+    <string name="settings_bulk_rename_duplicate">izen bikoiztua — beste elementu batek erabiltzen du dagoeneko</string>
+    <string name="settings_bulk_rename_apply">Aplikatu</string>
+    <string name="settings_bulk_rename_decline">Baztertu</string>
+    <plurals name="settings_bulk_rename_will_change">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> aldatuko da</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> aldatuko dira</item>
+    </plurals>
+    <plurals name="settings_bulk_rename_unchanged_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> aldatu gabe</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> aldatu gabe</item>
+    </plurals>
+    <plurals name="settings_bulk_rename_duplicates_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> bikoiztu</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> bikoiztu</item>
+    </plurals>
+    <string name="settings_bulk_rename_apply_all">Aplikatu guztiak</string>
+    <string name="settings_bulk_rename_decline_all">Baztertu guztiak</string>
+    <string name="settings_bulk_rename_edit_rules">✎ Editatu arauak</string>
+    <string name="settings_bulk_rename_restore_title">Leheneratu jatorrizko izenak?</string>
+    <string name="settings_bulk_rename_restore_description">Hautatutako izen guztiak hornitzailearen jatorrizkora itzultzen dira. Hautapen honi soilik eragiten dio.</string>
+    <string name="settings_bulk_rename_restore">Leheneratu</string>
+    <string name="settings_bulk_rename_too_many_title">Elementu gehiegi</string>
+    <string name="settings_bulk_rename_too_many_description">Kategoria honek elementu gehiegi ditu izen-aldaketa masibo baterako — aldatu izena tarte txikiagoetan.</string>
+    <string name="settings_bulk_rename_auto_country_provider">Auto: herrialde/hornitzaile etiketak</string>
+    <string name="settings_bulk_rename_auto_quality_codec">Auto: kalitate/kodek etiketak edonon</string>
+    <string name="settings_bulk_rename_auto_emoji_symbols">Auto: emojiak eta sinboloak</string>
+    <string name="settings_customize_new_category_title">Kategoria berria</string>
+    <string name="settings_customize_new_category_description">Profil honetarako kategoria konbinatu bat — mugitu kanalak, filmak edo telesailak bertara.</string>
+    <string name="settings_customize_this_category">kategoria hau</string>
+    <string name="settings_customize_sort_categories">Ordenatu kategoriak</string>
+    <string name="settings_customize_delete_category">Ezabatu “<xliff:g id="name">%1$s</xliff:g>”?</string>
+    <string name="settings_customize_delete_category_description">Kategoria konbinatua kentzen da. Bere elementuak jatorrizko kategorietan geratzen dira.</string>
+    <string name="settings_customize_channels_description">Kategoria honetako kanalak — aldatu izena, berrantolatu, ezkutatu edo erakutsi.</string>
+    <string name="settings_customize_movies_description">Kategoria honetako filmak — berrantolatu, ezkutatu edo erakutsi.</string>
+    <string name="settings_customize_series_description">Kategoria honetako telesailak — berrantolatu, ezkutatu edo erakutsi.</string>
+    <string name="settings_customize_hide_show_items">Ezkutatu edo erakutsi elementuak</string>
+    <plurals name="settings_customize_selected_items">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> elementu hautatuta.</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> elementu hautatuta.</item>
+    </plurals>
+    <plurals name="settings_customize_move_items_selected">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> elementu hautatuta. Jarraitu ⤒ ↑ ↓ ⤓ sakatzen mugitzeko.</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> elementu hautatuta. Jarraitu ⤒ ↑ ↓ ⤓ sakatzen elkarrekin mugitzeko.</item>
+    </plurals>
+    <string name="settings_customize_rename_item_hint">Profil honetarako soilik. Utzi hutsik “<xliff:g id="name">%1$s</xliff:g>” berrezartzeko.</string>
+    <string name="settings_customize_item_was">lehen “<xliff:g id="name">%1$s</xliff:g>” zen</string>
+    <string name="settings_customize_rename_items">✎ Aldatu elementuen izena</string>
+    <string name="settings_customize_move_to">Mugitu hona…</string>
+    <string name="settings_customize_back">← Atzera</string>
+    <string name="settings_move_category_title">Mugitu kategoriara</string>
+    <string name="settings_move_category_description">Elementua “<xliff:g id="name">%1$s</xliff:g>” kategoriatik ateratzen da, bertan mantentzen ez baduzu.</string>
+    <string name="settings_move_category_new">＋ Kategoria berria…</string>
+    <string name="settings_move_category_keep">Mantendu “<xliff:g id="name">%1$s</xliff:g>” kategorian ere</string>
+    <string name="settings_move_category_action">Mugitu</string>
+    <string name="settings_dns_description">Erabili DNS zerbitzari pertsonalizatu bat domeinu-bilaketetarako</string>
+    <string name="settings_dns_custom">DNS pertsonalizatua</string>
+    <string name="settings_dns_toggle_description">Ebatzi OwnTVren domeinu-bilaketa guztiak DNS zerbitzari pertsonalizatu baten bidez.</string>
+    <string name="settings_dns_use_custom">Erabili DNS pertsonalizatua</string>
+    <string name="settings_dns_server_missing">DNS pertsonalizatua gaituta dago baina ez da zerbitzaririk konfiguratu. Idatzi zerbitzari-helbide bat eta hautatu Gorde, edo desaktibatu hau.</string>
+    <string name="settings_dns_server">DNS zerbitzaria</string>
+    <string name="settings_dns_server_hint">8.8.8.8 edo https://dns.google/dns-query</string>
+    <string name="settings_dns_test">Probatu DNSa</string>
+    <string name="settings_dns_explanation">DNS pertsonalizatuak ISPren mailako domeinu-blokeoak saihesten edo geo-desblokeoa ahalbidetzen lagun dezake SmartDNS zerbitzuen bidez. DNS-over-HTTPS (DoH) gomendatzen da — zure bilaketak enkriptatzen ditu.</string>
+    <string name="settings_dns_limitations">Ezarpen honek OkHttp oinarritutako trafikoari soilik eragiten dio (erreprodukzio-zerrenden sinkronizazioa, EPG, API deiak, irudiak, ExoPlayer jarioak). mpv-k sistemaren ebazlea erabiltzen du eta ez du eraginik jasotzen.</string>
+    <string name="settings_dns_resolved">Proba gainditu da ✓ (<xliff:g id="millis">%1$d</xliff:g> ms)</string>
+    <string name="settings_dns_enter_server">Idatzi DNS zerbitzari baten ostalaria edo DoH URL bat.</string>
+    <string name="settings_dns_not_reachable">DNS zerbitzaria ez dago eskuragarri.</string>
+    <string name="settings_dns_timed_out">DNS eskaerak denbora-muga gainditu du.</string>
+    <string name="settings_dns_network_unreachable">Sarea ez dago eskuragarri — egiaztatu zerbitzariaren helbidea.</string>
+    <string name="settings_dns_connection_refused">Konexioa ukatu da — egiaztatu zerbitzariaren helbidea eta ataka.</string>
+    <string name="settings_dns_test_failed">DNS proba huts egin da — egiaztatu zerbitzariaren helbidea.</string>
+    <string name="settings_dns_no_addresses">DNSak ez du helbiderik itzuli <xliff:g id="host">%1$s</xliff:g> ostalarirako.</string>
+    <string name="settings_subtitle_customize">Pertsonalizatu azpitituluak</string>
+    <string name="settings_subtitle_customize_off">Desaktibatuta, azpitituluak jarioak eta erreproduzigailuak marrazten dituzten bezalaxe mantentzen dira.</string>
+    <string name="settings_subtitle_preview_stock">Aurrebista — jatorrizko itxura</string>
+    <string name="settings_subtitle_reset_all">Berrezarri guztiak</string>
+    <string name="settings_subtitle_color">Azpitituluen kolorea</string>
+    <string name="settings_subtitle_color_default_description">Lehenetsiak kolorea jarioari eta erreproduzigailuari uzten dio.</string>
+    <string name="settings_subtitle_color_hex_hint">Idatzi 6 digitu hexadezimal, adib. FFEB3B</string>
+    <string name="settings_subtitle_use_default">Erabili lehenetsia</string>
+    <string name="settings_subtitle_position">Azpitituluen kokalekua</string>
+    <string name="settings_subtitle_background_transparency">Atzealdearen gardentasuna</string>
+    <string name="settings_subtitle_preview_sample">Zaldun beltz bat, hegazkin azkar bat</string>
+    <string name="settings_subtitle_customize_description">Aktibatu hau, eta gero aldatu nahi duzuna soilik — Lehenetsian geratzen den orok jatorrizko itxura mantentzen du, emisoreek Zuzeneko telebistako azpitituluetan txertatzen dituzten koloreak eta kokalekua barne.</string>
+    <string name="settings_subtitle_default">Lehenetsia</string>
+    <string name="settings_subtitle_color_short">Kolorea</string>
+    <string name="settings_subtitle_color_description">Testuaren kolorea — aurrezarpen bat, hautatzailea edo hex kode bat.</string>
+    <string name="settings_subtitle_position_short">Kokalekua</string>
+    <string name="settings_subtitle_position_description">Azpitituluak pantailan non kokatzen diren.</string>
+    <string name="settings_subtitle_background_description">Testuaren atzeko kutxa zein solidoa den.</string>
+    <string name="settings_subtitle_hex">Hex</string>
+    <string name="settings_subtitle_position_default_description">Lehenetsiak kokalekua jarioari uzten dio — emisore batek zuzeneko oin-testu bat non jartzen duen barne. Beste edozein aukerak beti irabazten du.</string>
+    <string name="settings_subtitle_background_none">Bat ere ez</string>
+    <string name="settings_subtitle_background_solid">Solidoa</string>
+    <string name="settings_subtitle_color_white">Zuria</string>
+    <string name="settings_subtitle_color_yellow">Horia</string>
+    <string name="settings_subtitle_color_cyan">Zian</string>
+    <string name="settings_subtitle_color_green">Berdea</string>
+    <string name="settings_subtitle_color_grey">Grisa</string>
+    <string name="settings_live_preroll">Aurrebufferatu zuzeneko jarioak</string>
+    <string name="settings_live_preroll_description">Bildu bideo-kopuru hau zuzeneko kanal bat erreproduzitzen hasi aurretik, eta berriro eten baten ondoren. Bideo-kopuru bat da, ez atzerako kontaketa bat. Desaktibatuta, hasiera ahalik eta azkarrena mantentzen da eta hornitzaile gehienentzat zuzena da. Igo soilik erreprodukzioak benetan eten-etenka egiten badu: hornitzaile askok zuzenekoaren aurretik segundo gutxi batzuk soilik argitaratzen dituzte, eta bidaltzen dutena baino bideo gehiago eskatzeak etenak okerrago ditzake.</string>
+    <string name="settings_live_tune_timeout">Utzi kanal bati honen ondoren</string>
+    <string name="settings_live_tune_timeout_description">Zuzeneko kanal batek ordu honetarako irudirik erakutsi ez badu, OwnTVk saiatzeari uzten dio eta jakinarazten dizu, pantaila beltza utzi beharrean bere erreproduzigailu guztiak probatzen dituen bitartean. Inoiz ez saiatzen jarraitzen du, eta horrek minutu bat baino gehiago iraun dezake zure hornitzaileak kendu duen kanal batean. Hornitzaileak eskatutako itxaronaldiak ez dira kontatzen.</string>
+    <string name="settings_live_preroll_per_playlist">Aurrebufferra erreprodukzio-zerrendaka</string>
+    <string name="settings_live_preroll_per_playlist_description">Gainidatzi goiko ezarpena erreprodukzio-zerrenda baterako, zure beste erreprodukzio-zerrendak azkar mantenduz.</string>
+    <string name="settings_live_engine_per_playlist">Zuzeneko telebistaren erreproduzigailua erreprodukzio-zerrendaka</string>
+    <string name="settings_live_engine_per_playlist_description">Gainidatzi goiko ezarpena erreprodukzio-zerrenda baterako, bere kanalak erreproduzigailu batek bakarrik ondo kudeatzen dituen hornitzaile baterako.</string>
+    <string name="settings_live_latency_per_playlist">Zuzeneko latentzia erreprodukzio-zerrendaka</string>
+    <string name="settings_live_latency_per_playlist_description">Gainidatzi goiko ezarpena erreprodukzio-zerrenda baterako, besteek baino buffer sakonagoa edo azalagoa behar duen hornitzaile baterako.</string>
+    <string name="settings_catchup_timezone_per_playlist">Berrikusteko ordu-zona erreprodukzio-zerrendaka</string>
+    <string name="settings_catchup_timezone_per_playlist_description">Gainidatzi goiko ordu-zona erreprodukzio-zerrenda baterako, bere artxiboa beste erloju batean dabilen hornitzaile baterako.</string>
+    <string name="settings_vod_engine_per_playlist">Filmen eta Telesailen erreproduzigailua erreprodukzio-zerrendaka</string>
+    <string name="settings_vod_engine_per_playlist_description">Gainidatzi goiko ezarpena erreprodukzio-zerrenda baterako, bere filmak eta atalak erreproduzigailu batek bakarrik ondo kudeatzen dituen hornitzaile baterako.</string>
+    <string name="settings_live_tune_timeout_per_playlist">Utzi honen ondoren, erreprodukzio-zerrendaka</string>
+    <string name="settings_live_tune_timeout_per_playlist_description">Gainidatzi goiko ezarpena erreprodukzio-zerrenda baterako, bere kanalak hasteko motelak edo maiz hilda daudenak dituen hornitzaile baterako.</string>
+    <plurals name="settings_live_preroll_overrides">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> ezarrita</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> ezarrita</item>
+    </plurals>
+    <string name="settings_surround_stereo">Estereo soilik</string>
+    <string name="settings_surround_auto_description">Automatikoa — saiatu Dolby/DTS surround, eta automatikoki estereora itzuli telebistak edo soinu-barrak erreproduzitzen ez badu. Gomendatua.</string>
+    <string name="settings_surround_auto_description_mobile">Automatikoa — saiatu Dolby/DTS surround, eta automatikoki estereora itzuli bozgorailuak, aurikularrek edo konektatutako hartzaileak erreproduzitzen ez badute. Gomendatua.</string>
+    <string name="settings_surround_stereo_description">Estereo soilik — deskodetu beti aplikazioan eta bidali 2.0 soinu arrunta. Erabili hau telebistaren bozgorailuetan edo soinu-barra estereo batean, edo audioa irudiaren atzetik badoa.</string>
+    <string name="settings_surround_stereo_description_mobile">Estereo soilik — deskodetu beti aplikazioan eta bidali 2.0 soinu arrunta. Erabili hau barneko bozgorailurako, aurikularretarako edo soinu-barra estereo baterako, edo audioa irudiaren atzetik badoa.</string>
+    <string name="settings_surround_forced_description">Surround — bidali Dolby/DTS benetako 5.1/7.1 hartzaile bati. Isildu edo eten-etenka egiten badu, OwnTVk estereora itzultzen da eta jakinarazten dizu.</string>
+    <string name="settings_panel_width">Panelen zabaleraren doikuntza</string>
+    <string name="settings_panel_width_description">Aldatu Zuzeneko telebistako, Filmetako eta Telesailetako kategoria-, zerrenda- eta aurrebista-panelen tamaina.</string>
+    <string name="settings_vod_layout">Filmen eta Telesailen diseinua</string>
+    <string name="settings_vod_layout_description">Panel bereiziak, edo ikuspegi zinematografiko bat atzean azalekin</string>
+    <string name="settings_vod_layout_screen_description">Aukeratu Filmak eta Telesailak nola antolatzen diren. Zuzeneko telebista eta atal-zerrenda ez dira aldatzen.</string>
+    <string name="settings_vod_layout_separate">Panel bereiziak</string>
+    <string name="settings_vod_layout_separate_description">Kategoriak, izenburu-zerrenda eta aurrebista alboz albo. Zerrenda eta Sareta ikuspegiak barne.</string>
+    <string name="settings_vod_layout_cinematic">Zinematografikoa</string>
+    <string name="settings_vod_layout_cinematic_description">Fokuan dagoen izenburuaren azala pantaila betetzen du, bere xehetasunak poster-saretaren gainean. Sareta soilik.</string>
+    <string name="settings_search_keywords_vod_layout">diseinua zinematografikoa atzealdea azala panelak filmak telesailak posterra ikuspegia sareta layout cinematic backdrop artwork panels movies series poster view grid</string>
+    <string name="settings_panel_width_details_height">Xehetasunen altuera</string>
+    <string name="settings_panel_width_details_hint">Jaitsi xehetasunen altuera poster-errenkada gehiagorako; igo sinopsi eta aktore gehiagorako.</string>
+    <string name="settings_panel_width_content_area">Eduki-eremua</string>
+    <string name="settings_guide_width">Gida-zutabeen zabalerak</string>
+    <string name="settings_guide_width_description">Aldatu kanal-zerrendaren eta EPG kronologiaren tamaina Telebista-gidan.</string>
+    <string name="settings_search_keywords_guide_width">gida epg kanal-zerrenda kronologia zutabea panelaren zabalera tamaina diseinua guide channel list timeline column panel width size resize layout</string>
+    <string name="settings_guide_width_summary">Kanal-zerrenda <xliff:g id="channels">%1$d</xliff:g>%% · EPG kronologia <xliff:g id="epg">%2$d</xliff:g>%%</string>
+    <string name="settings_guide_width_help">• Kanal-zerrenda eta EPG kronologia errenkada bera partekatzen dute, beraz haien ehunekoek 100%% batu behar dute.\n• Kanal-zerrenda zabaltzeak kronologiaren zati txikiagoa erakusten du aldi berean; programen luzerak eta denbora-eskala aldatu gabe geratzen dira.\n• Bi zutabeek 10%% edo gehiago mantentzen dute.\n• Berrezartzeak 10%%eko kanal-zerrendara eta 90%%eko EPG kronologiara itzultzen du.\n• Pertsonalizazioa desaktibatzeak Gidaren ohiko diseinua leheneratzen du zure balioak galdu gabe.</string>
+    <string name="settings_guide_width_channels">Kanal-zerrenda</string>
+    <string name="settings_guide_width_epg">EPG kronologia</string>
+    <string name="settings_search_keywords_epg_offset">epg gida ordu desplazamendua aldaketa ordu-zona ekialdea mendebaldea orduak offset shift timezone east west hours</string>
+    <string name="settings_search_keywords_panel_width">panelaren zabalera tamaina kategoria zerrenda aurrebista posterra zutabea diseinua zuzena filmak telesailak panel width size resize category list preview poster column layout live movies series</string>
+    <string name="settings_search_keywords_live_preroll">aurrebufferra prebuffer preroll buffering eten izoztu erreprodukzio-zerrendaka stutter freeze per playlist</string>
+    <string name="settings_detailed_playback_logging">Erreprodukzio-erregistro xehatua</string>
+    <string name="settings_search_keywords_detailed_logging">diagnostikoak xehatua trazua logcat arazketa txostena akatsa zuzeneko motorra diagnostics verbose trace debug report bug live engine</string>
+    <string name="settings_playback_kind_error">Errorea</string>
+    <string name="settings_playback_kind_event">Gertaera</string>
+    <string name="settings_playback_kind_report">Txostena</string>
+    <string name="settings_playback_entry_with_kind"><xliff:g id="date">%1$s</xliff:g> · <xliff:g id="kind">%2$s</xliff:g> · <xliff:g id="engine">%3$s</xliff:g> · <xliff:g id="stream_type">%4$s</xliff:g></string>
+    <string name="settings_export">Esportatu</string>
+    <string name="settings_detailed_playback_logging_description">Gorde zuzeneko motorrak egiten duenaren trazu osoa — sintonizazio, ordezko eta birkonexio guztiak — Logcat-en eta esportatutako txostenean. Utzi desaktibatuta arazo baten atzetik ez bazabiltza; ez du inoiz erreprodukzioa aldatzen, idatzitakoaren kopurua soilik.</string>
+    <string name="settings_live_preroll_playlist_picker">Zein erreprodukzio-zerrenda?</string>
+    <string name="settings_live_preroll_follow">Jarraitu ezarpena</string>
+    <string name="settings_video_seconds"><xliff:g id="seconds">%1$d</xliff:g>s bideo</string>
+    <string name="settings_epg_offset_root_description">Aldatu gida osoa jario baten orduak benetan emititzen denarekin bat ez datozenean. Kanal bakarra bere kabuz alda daiteke bere luze sakatzeko menutik (Zuzeneko telebista edo Gida) — hori da gida partekatzen duten ekialdeko/mendebaldeko bertsioentzako aukera.</string>
+    <string name="settings_epg_offset_dialog_description">Gidako programa guztiak mugitzen ditu. Erabili jario osoa erloju okerrean dagoenean; kanal bakarrerako (gida bat partekatzen duen ekialdeko/mendebaldeko bertsioa), luze sakatu kanala Zuzeneko telebistan edo Gidan eta ezarri bere desplazamendu propioa bertan.</string>
+    <string name="settings_panel_width_summary">Kategoria <xliff:g id="category">%1$d</xliff:g>%% · Zerrenda <xliff:g id="list">%2$d</xliff:g>%% · <xliff:g id="preview_label">%3$s</xliff:g> <xliff:g id="preview">%4$d</xliff:g>%%</string>
+    <string name="settings_panel_width_help">• Panelek errenkada bera partekatzen dute, beraz haien ehunekoek 100%% batu behar dute.\n• Ezarri Aurrebista edo Poster panela 0%%an ezkutatzeko; Kategoria eta Zerrenda 10%% edo gehiagotan geratzen dira.\n• Panel bat zabaltzen baduzu, gorde aurretik beste batetik kopuru bera kendu behar duzu.\n• Berrezartzeak atal bat pantaila hau hasi zeneko zabalera estandarretara itzultzen du.\n• Atal bat desaktibatzeak bere diseinu estandarra leheneratzen du zure balioak galdu gabe.\n• Film- eta telesail-posterrak automatikoki birbanatzen dira, beraz zerrenda estuago batek errenkada bakoitzean gutxiago erakusten ditu.</string>
+    <string name="settings_panel_width_preview">Aurrebista</string>
+    <string name="settings_panel_width_poster">Posterra</string>
+    <string name="settings_panel_width_dialog_title"><xliff:g id="section">%1$s</xliff:g> panelen zabalerak</string>
+    <string name="settings_panel_width_customize">Pertsonalizatu panela</string>
+    <string name="settings_panel_width_category">Kategoria-panela</string>
+    <string name="settings_panel_width_list">Zerrenda-panela</string>
+    <string name="settings_panel_width_preview_panel"><xliff:g id="label">%1$s</xliff:g> panela</string>
+    <string name="settings_panel_width_total">Guztizko tamaina</string>
+    <string name="settings_panel_width_invalid_total">Guztizko tamaina <xliff:g id="total">%1$d</xliff:g>%% da. 100%% izan behar du — doitu, mesedez.</string>
+    <string name="settings_panel_width_disable_preview_title">Zuzeneko aurrebistaren bideoa desaktibatu?</string>
+    <string name="settings_panel_width_disable_preview_description">Zuzeneko aurrebistaren bideoa aktibatuta dago une honetan. Aurrebista-panela ezkutatzeak bideoa desaktibatuko du, eta ezin da berriro aktibatu Aurrebista-panelari zabalera bat eman arte Panelen zabaleraren doikuntzan.</string>
+    <string name="settings_live_preview_panel_hidden_title">Zuzeneko aurrebistaren bideoa ez dago erabilgarri</string>
+    <string name="settings_live_preview_panel_hidden_description">Zuzeneko telebistaren Aurrebista-panela ezkutatuta dago. Eman 0%% baino zabalera handiagoa Panelen zabaleraren doikuntzan Aurrebistaren bideoa aktibatu aurretik.</string>
+    <string name="settings_language_help_translate">Lagundu OwnTV zure hizkuntzara itzultzen</string>
+    <string name="settings_language_contribution_description">Eskaneatu QR kodea edo ireki esteka erabilgarri dagoen edozein hizkuntza aukeratzeko eta OwnTVren sei itzulpen-osagaietan guztietan laguntzeko.</string>
+    <string name="settings_language_request_workflow">Zerrendatuta ez dagoen hizkuntza bat gehitu nahi duzu? Ireki lehenik hizkuntza-eskaera bat. Mantentzaile batek erregistratuko du eta oinarrizko itzulpen-fitxategiak prestatuko ditu; Hosted Weblate-n agertzen denean, ekarpenak egiten hasi zaitezke.</string>
+    <string name="settings_language_request_new">Eskatu hizkuntza berri bat</string>
+    <string name="settings_language_contribution_qr_description">OwnTV itzulpen-proiektuaren ikuspegi orokorraren QR kodea</string>
+    <string name="settings_language_contribution_qr_failed">Ezin izan da QR kodea sortu. Erabili beheko esteka horren ordez.</string>
+    <string name="settings_language_contribution_copy">Kopiatu esteka</string>
+    <string name="settings_language_contribution_copied">Esteka kopiatu da</string>
+    <string name="settings_language_contribution_open_failed">Ezin izan da esteka ireki. Kopiatu horren ordez.</string>
+    <string name="settings_language_contribution_copy_failed">Ezin izan da esteka kopiatu. Irakurri edo idatzi goian agertzen den URLa.</string>
+    <string name="settings_ambient_glow">Inguruko distira</string>
+    <string name="settings_ambient_glow_description">Konfigurazio-pantailen antzeko distira gehitzen dio interfaze solidoari</string>
+    <string name="settings_ambient_glow_dialog_description">Azentu-aura leun bat gehitzen dio beirarik gabeko interfazeari. Pultsu motelak astiro arnasten du animazioak gaituta daudenean.</string>
+    <string name="settings_ambient_glow_effect">Distira</string>
+    <string name="settings_ambient_glow_pulse">Pultsu motela</string>
+    <string name="settings_glass_preset_ultra_clear">Oso garbia</string>
+    <string name="settings_glass_preset_opaque">Opakoa</string>
+    <string name="settings_glass_preset_ultra_clear_description">Horma-paperaren xehetasun maximoa izoztura arinarekin.</string>
+    <string name="settings_glass_preset_opaque_description">Panelaren dentsitate maximoa izoztura indartsuenarekin.</string>
+    <string name="settings_glass_preset_aurora">Aurora</string>
+    <string name="settings_glass_preset_aurora_description">Beira mehea izoztura astunenarekin — telefonorako egina.</string>
+    <string name="settings_glass_highlight_title">Nabarmentzearen indarra</string>
+    <string name="settings_glass_highlight_description">Doitu fokuan dagoen beiraren argia eta ertza.</string>
+    <string name="settings_glass_live_preview">Zuzeneko aurrebista</string>
+    <string name="settings_glass_screen_description">Doitu gainazal zeharrargiak eta ikusi aldaketa guztiak berehala.</string>
+    <string name="settings_glass_master_description">Erabili gainazal zeharrargi eta izoztuak OwnTV osoan.</string>
+    <string name="settings_glass_background_image">Atzealdeko irudia</string>
+    <string name="settings_glass_background_blur_title">Atzealdearen lausotzea</string>
+    <string name="settings_glass_section_appearance">Itxura</string>
+    <string name="settings_glass_section_fine_tuning">Doikuntza fina</string>
+    <string name="settings_glass_section_behavior">Portaera</string>
+    <string name="settings_glass_surface_all">Denak</string>
+    <string name="settings_glass_background_action_description">Aukeratu lokala, urrunekoa edo garbitu</string>
+    <string name="settings_glass_transparency_short_description">Ehuneko 20–100, 5eko urratsetan</string>
+    <string name="settings_glass_blur_short_description">Ehuneko 0–100, 10eko urratsetan</string>
+    <string name="settings_glass_highlight_short_description">Fokuan dagoen beiraren ertza eta distira</string>
+    <string name="settings_glass_full_transparency_short">Gardentasun osoa</string>
+    <string name="settings_glass_full_transparency_short_description">Onartu guztiz garbiak diren gainazalak.</string>
+    <string name="settings_glass_depth_effects_short">Sakontasun-efektuak</string>
+    <string name="settings_glass_depth_effects_short_description">Erabili altxatzea, itzala eta fokuaren mugimendua.</string>
+    <string name="settings_glass_shine_short">Distira-miaketa</string>
+    <string name="settings_glass_shine_short_description">Argi-banda batek panel bat zeharkatzen du agertzen den bitartean.</string>
+    <string name="settings_glass_reset_balanced">Berrezarri Orekatura</string>
+    <string name="settings_glass_full_transparency_title">Onartu gardentasun osoa</string>
+    <string name="settings_glass_full_transparency_description">Irakurgarritasun-azpiko muga automatikoa desaktibatzen du ahalik eta beirarik garbiena lortzeko.</string>
+    <string name="settings_glass_depth_title">Sakontasuna eta itzalak</string>
+    <string name="settings_glass_depth_description">Fokuaren argiztapen-mugimendua, paralaxi fina eta sakontasun-mugimendua gaitzen ditu.</string>
+    <string name="settings_selection_highlight">Hautapenaren nabarmentzea</string>
+    <string name="settings_selection_highlight_description">Hautatutako elementuaren inguruko eraztunaren kolorea eta lodiera</string>
+    <string name="settings_nav_bar_customization">Nabigazio-barraren pertsonalizazioa</string>
+    <string name="settings_playback_mobile">Mugikorra</string>
+    <string name="settings_playback_tv_only_note">Zuzeneko aurrebista eta urrutiko aginteko lasterbideak telebistaren eginbideak dira — ez daude erabilgarri telefono batean.</string>
+    <string name="settings_background_playback">Atzeko planoko erreprodukzioa</string>
+    <string name="settings_background_playback_description">Mantendu soinua erreproduzitzen aplikaziotik irten ondoren</string>
+    <string name="settings_pip">Irudi-barruko irudia</string>
+    <string name="settings_pip_description">Txikitu bideoa leiho flotatzaile batean aplikaziotik irtetean</string>
+    <string name="settings_data_saver">Datu-aurrezlea</string>
+    <string name="settings_data_saver_description">Ez egin streaming datu mugikorrekin</string>
+    <string name="settings_gesture_sensitivity">Keinuen sentikortasuna</string>
+    <string name="settings_gesture_sensitivity_description">Zenbat irristatu behar duzun bolumena, distira edo posizioa aldatzeko</string>
+    <string name="settings_downloads_wifi_only">Deskargatu Wi-Fi bidez soilik</string>
+    <string name="settings_downloads_wifi_only_description">Itxaron Wi-Fi sarera datu mugikorrak erabili beharrean</string>
+    <string name="settings_search_keywords_background_playback">atzeko planoko audioa soinua irten aplikazioa jarraitu zerbitzua background audio sound leave app continue service</string>
+    <string name="settings_search_keywords_pip">irudi barruko irudia leiho flotatzailea gainjartzea leiho gainerakor txikia picture in picture floating window overlay small popup</string>
+    <string name="settings_search_keywords_data_saver">datu-aurrezlea mugikorra zelularra neurtua roaming trafikoa aurreztu data saver mobile cellular metered traffic save</string>
+    <string name="settings_search_keywords_gestures">keinua irristatu sentikortasuna ukitu arrastatu gesture swipe sensitivity touch drag slide</string>
+    <string name="settings_mini_player_style">Mini erreproduzigailuaren estiloa</string>
+    <string name="settings_mini_player_style_description">Erreprodukzioak arakatzen zaren bitartean nola jarraitzen zaituen</string>
+    <string name="settings_mini_player_style_floating">Leiho flotatzailea</string>
+    <string name="settings_mini_player_style_docked">Barra ainguratua</string>
+    <string name="settings_pip_size">Leihoaren tamaina</string>
+    <string name="settings_pip_size_description">Leiho flotatzailea zein handi hasten den. Atximurkatu tamaina aldatzeko.</string>
+    <string name="settings_pip_size_small">Txikia</string>
+    <string name="settings_pip_size_medium">Ertaina</string>
+    <string name="settings_pip_size_large">Handia</string>
+    <string name="settings_pip_snap">Itsatsi ertzetara</string>
+    <string name="settings_pip_snap_description">Askatu leihoa eta hurbilen dagoen ertzean kokatzen da</string>
+    <string name="settings_audio_on_screen_off">Soinua soilik pantaila itzaltzean</string>
+    <string name="settings_audio_on_screen_off_description">Utzi inork ikusten ez duen bideoa deskodetzeari, eta aurreztu bateria</string>
+    <string name="settings_audio_on_mobile_data">Soinua soilik datu mugikorretan</string>
+    <string name="settings_audio_on_mobile_data_description">Hasi irudirik gabe Wi-Fi sarerik ez dagoenean</string>
+    <string name="settings_audio_per_channel">Gogoratu soinua soilik kanalaka</string>
+    <string name="settings_audio_per_channel_description">Irudirik gabe ikusitako kanal bat modu horretan irekitzen da hurrengoan</string>
+    <string name="local_sync_title">Tokiko sinkronizazioa</string>
+    <string name="local_sync_description">Partekatu zure datuak zure beste gailuarekin Wi-Fi bidez</string>
+    <string name="local_sync_host_hint">Zure beste gailuan, aktibatu Sinkronizazio modua ere, gero sakatu Konektatu eta aukeratu hau.</string>
+    <string name="local_sync_qr_description">Gailu honen helbidea duen QR kodea</string>
+    <string name="local_sync_pin_is">PINa: <xliff:g id="pin">%1$s</xliff:g></string>
+    <string name="local_sync_add_device">Bilatu gailu bat</string>
+    <string name="local_sync_paired_devices">Parekatutako gailuak</string>
+    <string name="local_sync_working">Lanean…</string>
+    <string name="local_sync_find_hint">Bi gailuak Wi-Fi sare berean egon behar dute, eta besteak Sinkronizazio modua aktibatuta eduki behar du.</string>
+    <string name="local_sync_searching">Sarean bilatzen…</string>
+    <string name="local_sync_found">Zure sarean aurkitua</string>
+    <string name="local_sync_scan_qr">Eskaneatu kodea</string>
+    <string name="local_sync_scan_qr_description">Zuzendu kamera zure beste gailuko kodera</string>
+    <string name="local_sync_camera_denied">Kamerarik gabe ere gailua zerrendatik aukeratu dezakezu, edo bere helbidea idatzi.</string>
+    <string name="local_sync_manual_address">Edo idatzi helbidea</string>
+    <string name="local_sync_manual_address_label">Helbidea</string>
+    <string name="local_sync_enter_pin">Idatzi PINa</string>
+    <string name="local_sync_enter_pin_description">Idatzi zure beste gailuan agertzen diren sei digituak. Behin soilik egin behar duzu hau.</string>
+    <string name="local_sync_pin_label">PINa</string>
+    <string name="local_sync_pair">Parekatu</string>
+    <string name="local_sync_send_to">Bidali <xliff:g id="device">%1$s</xliff:g> gailura</string>
+    <string name="local_sync_send_description">Zure datuak hara doaz. Hemen ez da ezer aldatzen.</string>
+    <string name="local_sync_receive_from">Jaso <xliff:g id="device">%1$s</xliff:g> gailutik</string>
+    <string name="local_sync_receive_description">Bere datuak hona datoz. Han ez da ezer aldatzen.</string>
+    <string name="local_sync_merge_with">Bateratu <xliff:g id="device">%1$s</xliff:g> gailuarekin</string>
+    <string name="local_sync_merge_description">Bi gailuek dena izango dute azkenean</string>
+    <string name="local_sync_unpair">Ahaztu gailu hau</string>
+    <string name="local_sync_unpair_description">PINa berriro behar izango duzu hurrengoan</string>
+    <string name="local_sync_what_to_send">Zer bidali</string>
+    <string name="local_sync_what_to_receive">Zer jaso</string>
+    <string name="local_sync_what_to_merge">Zer bateratu</string>
+    <string name="local_sync_sections_hint">Babeskopia batek duen gauza berberak. Desautatu kanpoan utzi nahi duzun edozer.</string>
+    <string name="local_sync_everything">Dena</string>
+    <string name="local_sync_confirm_title">Zer aldatuko den</string>
+    <string name="local_sync_confirm_hint">Oraindik ez da ezer aldatu. Hau da gailu honetan aplikatzeak egingo lukeena.</string>
+    <string name="local_sync_nothing_to_change">Bi gailuek gauza bera dute dagoeneko. Ez dago aplikatzeko ezer.</string>
+    <string name="local_sync_merge_note">Zure datuak berriro bidaltzen dira ondoren, beraz bi gailuak berdin geratzen dira.</string>
+    <string name="local_sync_change_profiles">Profil berriak: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="local_sync_change_sources">Erreprodukzio-zerrenda berriak: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="local_sync_change_favorites">Gogoko berriak: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="local_sync_change_history">Historiako sarrera berriak: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="local_sync_change_resume">Jarraitzeko posizio berriak: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="local_sync_change_reorder">Ordenaren aldaketak: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="local_sync_change_settings">Desberdinak diren ezarpenak: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="local_sync_change_deletions">Kendu beharreko elementuak: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="local_sync_change_customize">Zure pertsonalizazioak ere pasatzen dira</string>
+    <string name="local_sync_apply">Aplikatu</string>
+    <string name="local_sync_done">Sinkronizazioa amaitu da</string>
+    <string name="local_sync_received_items">Jasotako elementuak: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="local_sync_sent">Zure datuak bidali dira</string>
+    <string name="local_sync_failed">Sinkronizazioak huts egin du</string>
+    <string name="local_sync_error_unreachable">Gailu hori ezin izan da atzitu. Bertan, ireki OwnTV → Ezarpenak → Datuak → Tokiko sinkronizazioa eta aktibatu Sinkronizazio modua. Bi gailuak Wi-Fi sare berean egon behar dute.</string>
+    <string name="local_sync_error_unauthorized">Beste gailuak ukatu egin du. Baliteke PINa okerra izatea, edo gailu hau ahaztu izana.</string>
+    <string name="local_sync_error_bad_payload">Iritsi dena ezin izan da irakurri. Pasahitz bat erabili baduzu, egiaztatu bi gailuetan berdina dela.</string>
+    <string name="local_sync_error_unknown">Zerbait gaizki atera da. Saiatu berriro.</string>
+    <string name="local_sync_mode">Sinkronizazio modua</string>
+    <string name="local_sync_mode_description">Zure beste gailuei hau aurkitzen uzten die. Aktibatuta geratzen da pantaila hau irekita dagoen bitartean.</string>
+    <string name="local_sync_mode_pill">Sinkronizazio modua aktibatuta</string>
+    <string name="local_sync_connect">Konektatu</string>
+    <string name="local_sync_connect_description">Bilatu Sinkronizazio modua aktibatuta duen beste gailu bat</string>
+    <string name="local_sync_last_synced">Azken sinkronizazioa: <xliff:g id="when">%1$s</xliff:g></string>
+    <string name="local_sync_already_paired">Dagoeneko parekatuta</string>
+    <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="more_pane_last_backup">Azken babeskopia</string>
+    <string name="more_pane_encrypted">Enkriptatuta</string>
+    <string name="settings_backup_location">Kokalekua</string>
+    <string name="settings_multiview">Multiview</string>
+    <string name="settings_multiview_description">Ikusi hainbat zuzeneko kanal aldi berean. Aldi bakoitzean zuk aukeratzen duzu zenbat, muga honetaraino — lauki bakoitzak zure hornitzailearen konexioetako bat erabiltzen du.</string>
+    <string name="settings_multiview_tiles_max">Lauki gehien</string>
+    <string name="settings_multiview_tiles_max_value">Gehienez <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_multiview_warning_title">Bi lauki baino gehiago</string>
+    <string name="settings_multiview_warning_description">Hiru edo lau laukik zure hornitzailearen hiru edo lau konexio behar dituzte, eta telebista-kutxa batek kanal kopuru mugatu bat deskodetu dezake aldi berean. Lauki batek ezin badu hasi, zergatik esaten du, eta beste laukiek erreproduzitzen jarraitzen dute.</string>
+    <string name="settings_multiview_keep_two">Mantendu 2</string>
+    <string name="settings_multiview_use_anyway">Erabili hala ere</string>
+    <string name="settings_app_icon">Aplikazioaren ikonoa</string>
+    <string name="settings_app_icon_summary">OwnTVren ikonoaren eta logoaren kolorea</string>
+    <string name="app_icon_petrol">Petrolioa</string>
+    <string name="app_icon_sunflower">Eguzkilorea</string>
+    <string name="app_icon_cobalt">Kobaltoa</string>
+    <string name="app_icon_tomato">Tomatea</string>
+    <string name="app_icon_board">Geltokiko taula</string>
+    <string name="app_icon_eggshell">Arrautza-azala</string>
+    <string name="app_icon_olive">Oliba</string>
+    <string name="app_icon_olive_cream">Oliba krema gainean</string>
+    <string name="app_icon_restart_title">OwnTV berrabiarazi?</string>
+    <string name="app_icon_restart_message">Ikono eta logo berri bat aukeratu duzu. OwnTV berrabiarazi ondoren izango dute eragina.</string>
+    <string name="app_icon_restart_now">Berrabiarazi orain</string>
 </resources>
