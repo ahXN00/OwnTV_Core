@@ -4621,6 +4621,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	VOD starting on ExoPlayer (preferred engine setting)
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	VOD terminally failed on ExoPlayer ($exoError) — falling back to mpv
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	VOD terminally failed on mpv ($mpvError) — falling back to ExoPlayer
+1	regex	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	[a-z0-9_]+
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	aac
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	absolute
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	ac-3
@@ -4632,11 +4633,13 @@
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	alang
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	all=warn
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	all=warn,vd=v,vo=v
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	alliance for open media av1
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	android
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	android-display=${androidDisplayHz()}
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	android-surface-size
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	ao
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	archive didn't start on hardware
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	archive stalled for ${now - stillSince}ms at ${pos}ms
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	attachSurface
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio drained ${"%.1f".format(vfps / cfps)}× too fast
@@ -4659,7 +4662,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audiotrack
 4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	auto
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	auto-safe
-1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	av1
+2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	av1
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	avc
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	c2.android
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	cache
@@ -4671,6 +4674,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	clip
 7	protocol	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	container-fps
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	correct-pts
+1	regex	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	could not initialize video chain
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	curl-enabled
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	custom
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	cycle
@@ -4734,7 +4738,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	ffmpeg-version
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	flac
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	flatten-editions
-4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	force-window
+5	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	force-window
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	frame-drop-count
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	frame-drops=${getPropertyString("frame-drop-count")}
 3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	framedrop
@@ -4743,10 +4747,13 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	freeze-frame skipped: surface=${surface != null} size=${w}x$h sdk=${android.os.Build.VERSION.SDK_INT}
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	generic
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	goldfish
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	google vp9
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	google_sdk
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	gpu
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	gpu-context
-1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	h264
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	h.264
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	h.265
+2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	h264
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	h264,vc1,hevc,vp8,vp9,av1,prores,prores_raw,ffv1,dpx,apv,mpeg2video,mpeg4
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	h265
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	handoff to exo
@@ -4756,7 +4763,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	hardware decoder produced no usable video on ExoPlayer
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	hdmv_pgs_subtitle
 5	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	height
-1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	hevc
+3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	hevc
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	hlg
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	http-header-fields
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	http-proxy
@@ -4793,8 +4800,11 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mlp
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mp2
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mp3
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpeg-2 video
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpeg-4 part 2
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpeg2
-1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpeg4
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpeg2video
+2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpeg4
 6	protocol	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv $why — reopening with tolerant demuxing (discardcorrupt/genpts/ignore_err)
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv level=$level $safe
@@ -4820,6 +4830,7 @@
 5	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	null
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	off
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	on
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	on2 vp8
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	opus
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	owntv-mpv-destroy
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	panel answered HTTP 458; this panel is now opened one stream at a time
@@ -4861,7 +4872,9 @@
 9	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	sid
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	simulator
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	slang
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	smpte vc-1
 3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	speed
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	startLoad: mpv had no surface — re-attaching
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	stereo
 3	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	stop
 3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	stream-lavf-o
@@ -4901,7 +4914,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	unsupported|connection|reset|4\\d\\d|5\\d\\d
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	user-agent
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vc-1
-1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vc1
+2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vc1
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vd-lavc-fast
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vd-lavc-skiploopfilter
 4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vid
@@ -4934,8 +4947,8 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	volume
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	volume-max
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vorbis
-1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vp8
-1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vp9
+2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vp8
+2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vp9
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vsync-jitter
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	vsync-jitter=${getPropertyString("vsync-jitter")}
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog MOOV-AT-END but decoder failed ('$decoderErr')
@@ -4945,13 +4958,15 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog T_OPEN — archive never opened on mpv after ${elapsed}ms, handing to ExoPlayer
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog T_OPEN — no FILE_LOADED after ${elapsed}ms, HARD-RESETTING mpv
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog T_OPEN — no FILE_LOADED after ${elapsed}ms, silent hard-reset + retry
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog — archive froze twice on mpv, handing to ExoPlayer
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog — archive loaded but never produced a picture ('$raw')
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog — frozen on the first frame for ${now - stillSince}ms, silent hard-reset + retry
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog — item has no video track and audio is playing; standing down
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog: archive decoder failed ('$decoderErr')
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	watchdog: archive loaded but produced no video
 4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	width
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	xsub
-27	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	yes
+28	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	yes
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	ytdl
 1	technical	player-core/src/main/java/tv/own/owntv/player/PlaybackEngines.kt	DEPRECATION
 6	empty	player-core/src/main/java/tv/own/owntv/player/PlaybackErrorLog.kt	\0
