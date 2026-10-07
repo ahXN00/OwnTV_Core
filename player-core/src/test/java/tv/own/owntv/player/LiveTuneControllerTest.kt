@@ -29,11 +29,15 @@ class LiveTuneControllerTest {
         override var exoUrl: String? = null
         override var exoIsHls = false
         override var exoFailed = false
+        override var exoStillReconnecting = false
+        override var exoContentBroken = false
         override var mpvHasStream = false
 
         /** Complete with a reason to fail the ExoPlayer watch, or with null for "opened". */
         var exoWatch: CompletableDeferred<String?>? = null
         var mpvWatch: CompletableDeferred<MpvOutcome>? = null
+        /** Set before the watch opens to fail the channel later, after it has played. */
+        var exoLaterFailure: CompletableDeferred<String>? = null
 
         override fun exoPlay(url: String, muted: Boolean, request: LiveRequest) {
             exoUrl = url
@@ -55,6 +59,7 @@ class LiveTuneControllerTest {
             val d = CompletableDeferred<String?>().also { exoWatch = it }
             val reason = d.await()
             if (reason == null) onOpened() else if (stillOurs()) handOver(reason)
+            if (reason == null) exoLaterFailure?.let { val r = it.await(); if (stillOurs()) handOver(r) }
         }
 
         override fun mpvPlay(url: String, request: LiveRequest) {
@@ -164,6 +169,81 @@ class LiveTuneControllerTest {
         advanceTimeBy(60_000)
         assertFalse(engines.log.contains("exo-abandon"))
         assertTrue(host.events.isEmpty())
+    }
+
+    /** A channel plays, its ladder budget runs out, then it stalls for good with nothing left to try. */
+    private fun TestScope.stallAfterPlayingWithNoFallback(engines: FakeEngines) {
+        val host = FakeHost(this).apply { budgetSecs = 10 }
+        val c = controller(engines, host)
+        c.tune(channel(6))
+        runCurrent()
+        val later = CompletableDeferred<String>().also { engines.exoLaterFailure = it }
+        engines.exoWatch!!.complete(null)
+        advanceTimeBy(60_000)
+        later.complete("played, then stalled for 18s without recovering")
+        advanceTimeBy(OwnTVPlayer.SURFACE_HANDOFF_MS + 1)
+    }
+
+    @Test
+    fun `with nothing left to try, ExoPlayer's own reconnects are left running`() = runTest {
+        val engines = FakeEngines().apply { exoStillReconnecting = true }
+        stallAfterPlayingWithNoFallback(engines)
+        assertFalse(engines.log.contains("exo-abandon"))
+    }
+
+    @Test
+    fun `with nothing left to try and ExoPlayer out of reconnects, the tune is abandoned`() = runTest {
+        val engines = FakeEngines()
+        stallAfterPlayingWithNoFallback(engines)
+        assertEquals("exo-abandon", engines.log.last())
+    }
+
+    @Test
+    fun `a stream ExoPlayer cannot play after it opened goes to mpv, budget or not`() = runTest {
+        val engines = FakeEngines().apply { exoContentBroken = true }
+        stallAfterPlayingWithNoFallback(engines)
+        assertTrue(engines.log.any { it.startsWith("mpv:") })
+        assertFalse(engines.log.contains("exo-abandon"))
+    }
+
+    @Test
+    fun `opening the channel ExoPlayer is previewing shows ExoPlayer at once`() = runTest {
+        val engines = FakeEngines()
+        val c = controller(engines, FakeHost(this))
+        c.preview(channel(9), muted = true)
+        runCurrent()
+        assertFalse(c.liveOnExo.value)
+        c.expectPromotion(channel(9))
+        assertTrue("before the tune has run", c.liveOnExo.value)
+    }
+
+    @Test
+    fun `an expected promotion no tune followed does not freeze the preview pane`() = runTest {
+        val engines = FakeEngines()
+        val c = controller(engines, FakeHost(this))
+        c.preview(channel(9), muted = true)
+        runCurrent()
+        c.expectPromotion(channel(9))
+        assertTrue(c.liveOnExo.value)
+        c.preview(channel(11), muted = true)
+        runCurrent()
+        assertFalse(c.liveOnExo.value)
+        assertTrue(engines.log.last().startsWith("exo:") && engines.log.last().endsWith("/11.ts"))
+    }
+
+    @Test
+    fun `a channel whose ExoPlayer preview failed goes to the next engine without showing it`() = runTest {
+        val engines = FakeEngines()
+        val c = controller(engines, FakeHost(this))
+        c.preview(channel(10), muted = true)
+        runCurrent()
+        engines.exoFailed = true
+        c.expectPromotion(channel(10))
+        assertFalse(c.liveOnExo.value)
+        c.tune(channel(10))
+        advanceTimeBy(OwnTVPlayer.SURFACE_HANDOFF_MS + 1_000)
+        assertTrue(engines.log.any { it.startsWith("mpv:") })
+        assertFalse("the failed preview is not promoted", engines.log.contains("exo-unmute"))
     }
 
     @Test

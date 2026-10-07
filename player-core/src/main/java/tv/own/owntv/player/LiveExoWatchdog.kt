@@ -148,7 +148,7 @@ class LiveExoWatchdog(
                 lastLoggedMs = nowMs
                 log("'$channelName' stopped playing (state=$left) — ${STALL_HANDOFF_MS / 1000}s to recover")
             }
-            val recovered = if (left == LivePreviewEngine.State.ERROR) {
+            var recovered = if (left == LivePreviewEngine.State.ERROR) {
                 null
             } else {
                 withTimeoutOrNull(STALL_HANDOFF_MS) {
@@ -156,6 +156,15 @@ class LiveExoWatchdog(
                 }
             }
             if (!stillOurs()) return
+            // Out of time, but the engine's reconnect is receiving data: it is refilling, not dead, and
+            // handing over now would throw away a stream about to show a picture.
+            if (left != LivePreviewEngine.State.ERROR && recovered == null && engine.receivingData) {
+                log("'$channelName' still stalled, but its reconnect is receiving data — ${STALL_REFILL_GRACE_MS / 1000}s more to show a picture")
+                recovered = withTimeoutOrNull(STALL_REFILL_GRACE_MS) {
+                    engine.state.first { it != LivePreviewEngine.State.LOADING }
+                }
+                if (!stillOurs()) return
+            }
             if (recovered == LivePreviewEngine.State.PLAYING) continue // it came back — keep watching
             if (recovered == LivePreviewEngine.State.IDLE) return
             yield() // let onPlayerError finish assigning the detail (see the ERROR branch above)
@@ -165,6 +174,17 @@ class LiveExoWatchdog(
                 "played, then stalled for ${STALL_HANDOFF_MS / 1000}s without recovering"
             }
             handOver(reason)
+            // Handed over, but with nowhere to go ExoPlayer kept the channel and is still reconnecting.
+            // Keep watching for one outcome the ladder can still answer: the stream's content turning
+            // out unplayable on ExoPlayer, which mpv may play.
+            if (!stillOurs() || !engine.stillReconnecting) return
+            val settled = engine.state.first { it != LivePreviewEngine.State.LOADING }
+            if (!stillOurs()) return
+            if (settled == LivePreviewEngine.State.PLAYING) continue
+            if (settled == LivePreviewEngine.State.ERROR && engine.contentBroken) {
+                yield() // see the ERROR branch above
+                handOver("ExoPlayer can't play this stream's content: ${engine.errorInfo.value?.raw ?: engine.error.value}")
+            }
             return
         }
     }
@@ -202,6 +222,17 @@ class LiveExoWatchdog(
          * for a second one to be attempted.
          */
         private const val STALL_HANDOFF_GRACE_MS = 2_000L
+
+        /**
+         * Extra time for a reconnect that is already receiving data when [STALL_HANDOFF_MS] runs out.
+         * Only then: a channel with nothing arriving is handed over at [STALL_HANDOFF_MS] as before.
+         *
+         * Measured on a 4K raw-TS channel with the upstream link pulled for 15s, the first reconnect
+         * needs ~4s to show a picture: rebuild the source (~0.8s), the panel's redirect + first byte
+         * (~1.3s), then refill to the restart threshold (~1.3s). The handoff landed 0.6s before the
+         * picture came back, mid-refill, so a channel that recovered by itself was reported as failed.
+         */
+        private const val STALL_REFILL_GRACE_MS = 3_000L
 
         /** Let the track list settle after the first frame before judging the audio. */
         private const val TRACK_SETTLE_MS = 300L

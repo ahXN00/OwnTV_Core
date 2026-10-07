@@ -2158,6 +2158,9 @@
 2	json	core/src/main/java/tv/own/owntv/core/model/HomeRow.kt	order
 2	preference-key	core/src/main/java/tv/own/owntv/core/model/HomeRow.kt	recentLiveMode
 2	json	core/src/main/java/tv/own/owntv/core/model/HomeRow.kt	trendingStyle
+1	log	core/src/main/java/tv/own/owntv/core/network/BoundedDns.kt	${HttpClient.redactHost(hostname)}: no DNS answer in time
+1	log	core/src/main/java/tv/own/owntv/core/network/BoundedDns.kt	dns ${HttpClient.redactHost(hostname)} failed (${failure.javaClass.simpleName}) — using its last known addresses
+1	technical	core/src/main/java/tv/own/owntv/core/network/BoundedDns.kt	owntv-dns
 1	url	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	$base${if ('?' in base) '&' else '?'}dns=$query
 1	technical	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	${cfg.dohUrl}|${cfg.host}:${cfg.port}|$hostname
 2	technical	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	Accept
@@ -2203,6 +2206,7 @@
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	retrying
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	transferEncoding=${response.header("Transfer-Encoding").orEmpty()}
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	wireEncoding=${response.networkResponse?.header("Content-Encoding").orEmpty()}
+1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	•••
 4	log	core/src/main/java/tv/own/owntv/core/network/ProxyConfig.kt	\0
 1	log	core/src/main/java/tv/own/owntv/core/network/ProxyConfig.kt	$u:$p@
 1	url	core/src/main/java/tv/own/owntv/core/network/ProxyConfig.kt	127.0.0.1
@@ -3068,7 +3072,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	$root/portal.php
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	$root/server/load.php
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	$root/stalker_portal/server/load.php
-2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	${portalRoot(url.substringBefore('?'))}/c/
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	${portalRoot(url.substringBefore('?'))}/c/
 1	url	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	&JsHttpRequest=1-xml
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	&category=${enc(it)}
 1	url	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	&device_id2=${URLEncoder.encode(it, "UTF-8")}
@@ -3076,6 +3080,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	&series=$it
 1	url	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	&signature=${URLEncoder.encode(it, "UTF-8")}
 1	url	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	&sn=${URLEncoder.encode(it, "UTF-8")}
+1	url	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	&stb_type=${URLEncoder.encode(it, "UTF-8")}
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	(?i)(token|password|pass)=[^&]*
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	(\\d+)\\s*$
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	(\\d{4})-(\\d{2})-(\\d{2})(?:[ T](\\d{2}):(\\d{2})(?::(\\d{2}))?)?
@@ -3087,13 +3092,31 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	127.0.0.1
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	:
 1	url	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	?type=stb&action=get_profile&hd=1&auth_second_step=
-2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Authorization
-2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Bearer $token
-2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Cookie
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Authorization
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Bearer $token
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Cookie
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	GET done url=$safeUrl action=$action totalMs=${SystemClock.elapsedRealtime() - startedAt}
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	GET start url=$safeUrl action=$action
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	HTTP $code for $safeUrl
-2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Model: MAG250; Link: WiFi
+2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG200
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG245
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG250
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG254
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG270
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG275
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG295
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG315
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG322
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG345
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG349
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG351
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG352
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG420
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG424
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG425
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG520
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	MAG522
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Model: MAG250; Link: WiFi
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Mozilla/5.0 (QtEmbedded; U; Linux; C) AppleWebKit/533.3 (KHTML, like Gecko) MAG200 stbapp ver: 4 rev: 2721 Safari/533.3
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	No portal API endpoint candidates for $portalUrl
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal accepted the handshake but returned an empty profile — the MAC may not be authorized
@@ -3102,14 +3125,14 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal handshake returned no token
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal rejected the request (HTTP $code)
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal response has no "js" payload
-1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal response is not JSON (got ${reader.peek()})
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal response is not JSON (got $got)
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Portal returned an empty payload — token expired or MAC not authorized
-2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Referer
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	Referer
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	StalkerClient
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	UNCHECKED_CAST
 7	technical	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	UTF-8
-2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	User-Agent
-2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	X-User-Agent
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	User-Agent
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	X-User-Agent
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	[:\\-. ]
 1	regex	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	\\bspecials?\\b
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	\\d{4}
@@ -3117,6 +3140,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	added
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	archive
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	auto
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	block_msg
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	category
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	category_id
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	ch_id
@@ -3131,21 +3155,24 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	ffrt
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	ffrt2
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	ffrt3
+1	log	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	get_profile device conflict — retrying once with stb_type=$model
 1	log	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	guide download url=$safeUrl bytes=$written ms=${SystemClock.elapsedRealtime() - startedAt}
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	handshake candidate failed apiBase=$apiBase message=${e.message}
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	handshake ok apiBase=$apiBase
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	http://
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	https://
-4	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	id
+6	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	id
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	itv
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	js
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	localhost
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	logo
-2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	mac=${URLEncoder.encode(mac, "UTF-8")}; stb_lang=en; timezone=${TimeZone.getDefault().id}
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	mac=${URLEncoder.encode(mac, "UTF-8")}; stb_lang=en; timezone=${TimeZone.getDefault().id}
 3	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	max_page_items
+1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	msg
 7	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	name
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	number
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	o_name
+1	log	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	portal response is not JSON (got $got): ${redactForLog(peeking.head())}
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	poster
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	rating
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	rating_imdb
@@ -4117,9 +4144,10 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	${f.channelCount}ch
 1	technical	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	${f.sampleRate / 1000}kHz
 1	technical	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	?
-7	technical	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	AudioOutputPolicy
+8	log	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	AudioOutputPolicy
 1	compiler	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	DEPRECATION
 1	technical	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	audio
+1	log	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	audio decoder released: $decoderName
 1	log	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	audio decoder: $decoderName (init ${initializationDurationMs}ms, passthrough=$passthrough)
 1	log	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	audio format -> ${format.sampleMimeType} ${format.channelCount}ch ${format.sampleRate}Hz
 1	technical	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	audio output underran ${AudioOutputPolicy.UNDERRUN_LIMIT}× in ${AudioOutputPolicy.UNDERRUN_WINDOW_MS / 1000}s
@@ -4158,7 +4186,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	AV1
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	ExoPlayer
 1	log	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	ExoPlayer error: ${error.errorCodeName}
-2	log	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	ExoSubtitleEngine
+3	log	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	ExoSubtitleEngine
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	H.264
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	HEVC
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	MPEG-2
@@ -4168,6 +4196,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	ass
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	audio mode: video track ${if (disabled) "off" else "back on"}
 1	log	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	audio track -> id=$id lang=${f?.language}
+1	log	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	audio watchdog: $reason — already stereo PCM, restarting without the stereo latch
 1	log	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	audio watchdog: $reason — forcing stereo for this session
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	av01
 1	technical	player-core/src/main/java/tv/own/owntv/player/ExoSubtitleEngine.kt	avc
@@ -4213,7 +4242,9 @@
 1	file-path	player-core/src/main/java/tv/own/owntv/player/LiveDiagnosticsLog.kt	live_diagnostics.log
 1	technical	player-core/src/main/java/tv/own/owntv/player/LiveDiagnosticsLog.kt	owntv-diag-log
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveExoWatchdog.kt	'$channelName' opened on ExoPlayer
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveExoWatchdog.kt	'$channelName' still stalled, but its reconnect is receiving data — ${STALL_REFILL_GRACE_MS / 1000}s more to show a picture
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveExoWatchdog.kt	'$channelName' stopped playing (state=$left) — ${STALL_HANDOFF_MS / 1000}s to recover
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveExoWatchdog.kt	ExoPlayer can't play this stream's content: ${engine.errorInfo.value?.raw ?: engine.error.value}
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveExoWatchdog.kt	ExoPlayer error before first frame: ${engine.errorInfo.value?.raw ?: engine.error.value}
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveExoWatchdog.kt	ExoPlayer gave up mid-stream: ${engine.errorInfo.value?.raw ?: engine.error.value}
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveExoWatchdog.kt	ExoPlayer never opened it (${openBudgetMs / 1000}s, no frame and no error)
@@ -4233,6 +4264,8 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	$name=${v.second}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	${Math.round(it)} FPS
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	${buffered}ms buffered (needs ${startMs}ms) after ${waitedMs}ms, no frame,
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	${error.errorCodeName} again after playing — this stream's content is unplayable on ExoPlayer
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	${error.errorCodeName} while a reconnect waits — running it now
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	${f.width}x${f.height}
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	${tune.flapCount} re-buffers in ${now - tune.flapWindowStartMs}ms, position advanced ${advancedMs}ms
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	${videoSize.height}p
@@ -4270,6 +4303,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	ENDED
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	EXO
 5	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	ExoPlayer
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	ExoPlayer can't play this stream (${error.errorCodeName})
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	ExoPlayer error: ${error.errorCodeName}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	H.264
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	HEVC
@@ -4304,6 +4338,7 @@
 1	mime	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	application/x-mpegurl
 2	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	audio
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	audio: ${audioSinkError.message ?: audioSinkError.javaClass.simpleName}
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	audioWatchdog: $reason — already stereo PCM, rebuilding without the stereo latch
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	audioWatchdog: $reason — forcing stereo for this session
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	av01
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	avc
@@ -4361,6 +4396,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	load_control stale (was=$builtLoadControl want=$wanted) — rebuilding player
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	load_error status=${code ?: -1} type=${error.javaClass.simpleName}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	matroska
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	media server not answering
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	media_source inferred=${route.logName} declared=${currentManifestType?.key ?: "-"}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	min=${lc.minBufferMs}ms max=${lc.maxBufferMs}ms latency=${liveBufferSecs ?: -1}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	mp4
@@ -4369,9 +4405,13 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	mpeg-ts
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	mpeg2
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	muxedCaptions=${mv.muxedCaptionFormats?.size ?: 0}
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	network re-validated while reconnecting — retrying now
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	network restored
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	network restored — resuming the channel the ladder gave up on
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	network revalidated
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	no data for ${failingSecs}s; gave up after ${tune.retryCount} reconnects
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	no picture after ${now - tune.readySinceMs}ms
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	no response from ${HttpClient.redactHost(host)} within ${RESPONSE_DEADLINE_MS}ms — request abandoned ($misses in a row)
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	open stalled
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	open stalled — $detail
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	open stalled: $detail — the stream is buffered but unplayable here
@@ -4407,9 +4447,11 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	re-buffer flap ($detail) — this stream can't reach its pre-buffer, reopening without one
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	ready
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	reconnect attempt ${tune.retryCount}/$MAX_RECONNECTS reason=$reason
-1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	reconnect exhausted ($reason) at ${tune.retryCount}/$MAX_RECONNECTS — giving up
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	reconnect exhausted ($reason) at ${tune.retryCount}/$MAX_RECONNECTS after ${failingSecs}s — giving up
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	reconnect fresh-url failed: ${it.message}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	reconnect re-resolved expiring URL (${HttpClient.redactUrl(fresh)})
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	reconnect skipped — the stream came back on its own
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	recovered after the ladder gave up — clearing the error
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	redirected .ts response is HLS — retrying with HlsMediaSource
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	release() — intentional
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	releaseDecoderForUhd(): releasing the 4K decoder + surface
@@ -4457,6 +4499,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	videos=${mv.videos.size} muxedAudio=${mv.muxedAudioFormat != null}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	vp9
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	waiting ${SESSION_RELEASE_MS}ms for the provider to free the account session, then retrying
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	waiting for the new video surface before starting the decoder
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	x-vnd.on2.vp9
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	{
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveRouting.kt	$engine (pinned)
@@ -4475,7 +4518,9 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' falling back to $label ($reason)
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' opened on mpv
 2	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — giving up: $detail
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — its ExoPlayer preview had already failed; trying the next engine
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — no fallback left ($detail)
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — no fallback left ($detail); leaving ExoPlayer's own reconnects running
 4	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}': $detail
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}': $label — $reason
 1	technical	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	ExoPlayer
@@ -4491,6 +4536,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	stalker reconnect re-resolve failed '${channel.name}'
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	stalker resolve failed
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	starting mpv for '${channel.name}' — reason=$reason
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	the ExoPlayer preview had already failed
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	the connection was lost ($why)
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	timeshift: '${channel.name}' cannot be saved — playing it directly
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	timeshift: '${channel.name}' plays from its saved copy
@@ -5044,6 +5090,8 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/ResolutionLabel.kt	480p
 1	technical	player-core/src/main/java/tv/own/owntv/player/ResolutionLabel.kt	4K
 1	technical	player-core/src/main/java/tv/own/owntv/player/ResolutionLabel.kt	720p
+1	log	player-core/src/main/java/tv/own/owntv/player/ResponseDeadline.kt	no response headers within ${deadlineMs}ms
+1	technical	player-core/src/main/java/tv/own/owntv/player/ResponseDeadline.kt	owntv-response-deadline
 1	log	player-core/src/main/java/tv/own/owntv/player/ScreenOff.kt	ScreenOff
 1	log	player-core/src/main/java/tv/own/owntv/player/ScreenOff.kt	lockNow failed
 1	empty	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	\0

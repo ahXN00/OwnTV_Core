@@ -9,6 +9,26 @@
 > in one bolded line of its own (e.g. **Database v46 · Backup v24 · Breaking**). The detail — what,
 > why, files and verification — belongs in the commit message, never here.
 
+## core-1.0.65 — unreleased
+
+### ✨ New features
+
+- **🔄 "Stream interrupted. Reconnecting…" while a live channel recovers by itself** (community PR #13 by @tvdev-android)
+- **↩️ Strings for restoring a category, or the playlists shown, to the playlist default** (community PR #11 by @tvdev-android)
+- **⏭️ Strings for the phone player's next / previous channel in list buttons**
+
+### 🐛 Fixes
+
+- **📡 Live channels keep the last picture through a network outage and come back by themselves** (community PRs #12, #13, #17 by @tvdev-android)
+- **⏱️ A live reconnect no longer stalls behind a slow connection or DNS lookup** (community PR #14 by @tvdev-android)
+- **🎞️ A live channel ExoPlayer can't decode after it started playing moves to the other player** (community PR #20 by @tvdev-android)
+- **🔌 A live channel whose server stops answering mid-stream reconnects in seconds** (community PR #20 by @tvdev-android)
+- **📺 4K channels saved by Pause and rewind play on ExoPlayer again instead of losing the picture**
+- **⚡ Opening a channel from its preview no longer shows a black screen first** (community PR #19 by @tvdev-android)
+- **⏩ Channels with a pre-buffer start faster** (community PR #19 by @tvdev-android)
+- **🔊 Surround sound is no longer turned off by a muted preview** (community PR #21 by @tvdev-android)
+- **🔐 Stalker portals that reject a device as a "Device conflict" are retried with the box model** (community PR #22 by @atlasafford)
+
 ## core-1.0.64 — 2026-10-04
 
 ### 🐛 Fixes

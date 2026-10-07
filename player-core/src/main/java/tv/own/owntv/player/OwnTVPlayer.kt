@@ -1912,8 +1912,8 @@ class OwnTVPlayer(
         engine.drmConfig = currentDrm
         engine.manifestType = currentManifestType
         val restartGen = loadGeneration
-        engine.onAudioFallback = {
-            toast(toastRenderer.render(PlaybackFailure.Surround))
+        engine.onAudioFallback = { stereoLatched ->
+            if (stereoLatched) toast(toastRenderer.render(PlaybackFailure.Surround))
             // Rebuilding immediately on the same Surface leaves some Realtek/TCL decoders alive-but-
             // blank. Release first, give MediaCodec time to settle, then restart on a fresh Surface.
             if (restartGen == loadGeneration && exoActive) {
