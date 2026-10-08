@@ -81,6 +81,8 @@ class SourceImporter(
             val passwordsOmitted: Boolean = false,
             val skippedSources: Int = 0,
             val invalidLocale: Boolean = false,
+            /** Restored playlists left without the secret they sync with (see BackupManager.ImportSummary). */
+            val missingCredentials: Int = 0,
             /** The source as it stands after the sync — the host uses it to offer a guide sync. */
             val source: SourceEntity? = null,
         ) : ImportState
@@ -452,6 +454,7 @@ class SourceImporter(
                     passwordsOmitted = password.isNullOrBlank(),
                     skippedSources = summary.skippedSources,
                     invalidLocale = summary.invalidLocale,
+                    missingCredentials = summary.missingCredentials,
                 )
                 true
             },

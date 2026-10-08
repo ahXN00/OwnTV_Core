@@ -16,6 +16,7 @@ import tv.own.owntv.core.database.entity.MovieEntity
 import tv.own.owntv.core.database.entity.SeriesEntity
 import tv.own.owntv.core.database.entity.SourceEntity
 import tv.own.owntv.core.model.MediaType
+import tv.own.owntv.core.network.HttpClient
 import tv.own.owntv.core.parser.XtCategory
 import tv.own.owntv.core.parser.XtreamClient
 import kotlin.coroutines.CoroutineContext
@@ -32,7 +33,25 @@ internal class XtreamSyncer(
     private val support: SyncSupport,
 ) {
     suspend fun sync(s: SourceEntity, progress: SyncCounters, stats: SyncStatsCollector, contentTypes: SyncContentTypes) {
-        val details = runCatching { xtream.fetchAccountDetails(s) }.getOrNull()
+        // A backup restored without its passphrase loses the password by design (secrets are
+        // omitted, never plaintext), and panels answer those calls with auth=0 plus empty lists.
+        // Failing fast here turns that silent empty catalog into an auth error the UI can show,
+        // instead of a "success" with no channels that only re-adding the playlist fixes.
+        if (s.username.isNullOrBlank() || s.password.isNullOrBlank()) {
+            throw HttpClient.HttpStatusException(401, "HTTP 401 Xtream authentication rejected for source ${s.id}: missing credentials")
+        }
+        val details = try {
+            xtream.fetchAccountStatus(s)
+        } catch (c: kotlinx.coroutines.CancellationException) {
+            throw c
+        } catch (e: Exception) {
+            // Network/parse failure: fall through with null details so the phase fetches below
+            // surface the real error, exactly as before.
+            null
+        }
+        if (details != null && !details.authOk) {
+            throw HttpClient.HttpStatusException(401, "HTTP 401 Xtream authentication rejected for source ${s.id}")
+        }
         if (details != null) {
             // Only a panel that actually answered gets to settle this: `details == null` is a network or
             // parse failure, and leaving the row UNKNOWN is the honest record of that.

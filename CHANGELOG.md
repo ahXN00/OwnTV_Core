@@ -9,6 +9,13 @@
 > in one bolded line of its own (e.g. **Database v46 · Backup v24 · Breaking**). The detail — what,
 > why, files and verification — belongs in the commit message, never here.
 
+## core-1.0.69 — unreleased
+
+### 🐛 Fixes
+
+- **🔐 An Xtream playlist restored without its password fails with a login error instead of syncing empty**
+- **💾 A restore reports playlists left without the password they sync with**
+
 ## core-1.0.68 — 2026-10-17
 
 **Database v49 · Backup v25 · Breaking (glass settings)**

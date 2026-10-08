@@ -31,6 +31,22 @@ class ErrorMessagesTest {
         )
     }
 
+    /**
+     * The first sync after a passwordless restore throws this message, and it must reach the user
+     * as a login error rather than as an empty playlist. The "HTTP 401" needle is what links the
+     * throw site in XtreamSyncer to the translated auth-rejected wording.
+     */
+    @Test
+    fun `missing Xtream credentials are classified as an auth rejection`() {
+        assertEquals(
+            FriendlySyncFailure.AuthenticationRejected,
+            classifySyncFailure(
+                "HTTP 401 Xtream authentication rejected for source 42: missing credentials",
+                online = true,
+            ),
+        )
+    }
+
     @Test
     fun `unmapped external failure preserves its raw text`() {
         val raw = "Provider-specific failure code X17"

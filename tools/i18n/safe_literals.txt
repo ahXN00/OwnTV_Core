@@ -67,7 +67,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	LOCAL
 1	protocol	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	MOVIE
 1	log	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	Profile picture restore failed: ${it.message}
-1	log	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	Restore done items=$count skippedSources=$skippedSources invalidLocale=$invalidLocale
+1	log	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	Restore done items=$count skippedSources=$skippedSources invalidLocale=$invalidLocale missingCredentials=$missingCredentials
 1	log	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	Restore start file=${file.name} sections=${sections.joinToString(",") { it.name }}
 1	log	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	Restore: skipping source '${o.optString("name")}' — unknown type '${o.optString("type")}'
 1	log	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	Wallpaper restore failed: ${it.message}
@@ -4414,6 +4414,8 @@
 1	log	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	$phase import failed — keeping the rest of the import
 1	technical	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	ABORTING fallback
 1	technical	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	HTTP
+1	log	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	HTTP 401 Xtream authentication rejected for source ${s.id}
+1	log	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	HTTP 401 Xtream authentication rejected for source ${s.id}: missing credentials
 4	log	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	SyncManager
 1	log	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	Xtream sync scheduling sourceId=${s.id} contentTypes=$contentTypes concurrency=$PHASE_CONCURRENCY hlsSupported=${details?.hlsSupported} maxConnections=${details?.maxConnections} serverTimeZone=${details?.serverTimeZone}
 2	technical	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	channels

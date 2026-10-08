@@ -587,6 +587,13 @@ class BackupManager(
         val skippedSources: Int = 0,
         /** Optional locale field was present but not in the SupportedLocales catalogue. */
         val invalidLocale: Boolean = false,
+        /**
+         * Restored playlists left without the secret they need to sync: Xtream without a
+         * username/password, Stalker without a MAC. Happens when the backup was written without
+         * a passphrase (secrets are omitted, never plaintext) — those rows restore, but their
+         * next sync cannot log in until the password is re-entered.
+         */
+        val missingCredentials: Int = 0,
     )
 
     /** Thrown when a backup is encrypted and the supplied passphrase is wrong (or missing where required). */
@@ -1290,8 +1297,21 @@ class BackupManager(
             if (localeFieldPresent) {
                 pendingLocaleTag?.let { tag -> settings.applyImportedLocale(tag) }
             }
-            Log.i(TAG, "Restore done items=$count skippedSources=$skippedSources invalidLocale=$invalidLocale")
-            ImportSummary(items = count, skippedSources = skippedSources, invalidLocale = invalidLocale)
+            // Playlists restored without the secret they sync with (XTREAM password, Stalker MAC).
+            // Counted from the device rows that took part in THIS restore, not from the file: a merge
+            // onto a row that already holds a password is fine, and a pre-existing broken row the file
+            // never touched is not this restore's news.
+            val missingCredentials = if (applySources && sourceIdMap.isNotEmpty()) {
+                runCatching {
+                    val restoredIds = sourceIdMap.values.toSet()
+                    sourceDao.getAllOnce().filter { it.id in restoredIds }.count { src ->
+                        (src.type == SourceType.XTREAM && (src.username.isNullOrBlank() || src.password.isNullOrBlank())) ||
+                            (src.type == SourceType.STALKER && src.mac.isNullOrBlank())
+                    }
+                }.getOrDefault(0)
+            } else 0
+            Log.i(TAG, "Restore done items=$count skippedSources=$skippedSources invalidLocale=$invalidLocale missingCredentials=$missingCredentials")
+            ImportSummary(items = count, skippedSources = skippedSources, invalidLocale = invalidLocale, missingCredentials = missingCredentials)
         }
     }
 
