@@ -87,12 +87,13 @@ class LiveTimeshiftTest {
     fun `a burst of presses loads the archive once, at the final point`() {
         val h = Harness()
         repeat(5) { h.timeshift.scrub(channel, 30) }
-        assertEquals(150, h.timeshift.offsetSec.value) // the counter follows every press
+        // The counter follows every press; the first one lands on the archive's one-minute minimum.
+        assertEquals(180, h.timeshift.offsetSec.value)
         h.await("the coalesced load") { h.loads.isNotEmpty() }
         runBlocking { delay(40) }
         assertEquals(1, h.loads.size)
-        assertEquals(150, h.loads.single().second)
-        assertEquals(h.now - 150_000L, h.loads.single().first)
+        assertEquals(180, h.loads.single().second)
+        assertEquals(h.now - 180_000L, h.loads.single().first)
         h.stop()
     }
 
@@ -112,6 +113,26 @@ class LiveTimeshiftTest {
         val h = Harness()
         h.timeshift.beginAt(channel, 30 * 24 * 3600) // a month back, on a 2-day archive
         assertEquals(2 * 24 * 3600, h.timeshift.offsetSec.value)
+        h.stop()
+    }
+
+    @Test
+    fun `a short rewind never asks the archive for the live edge itself`() {
+        val h = Harness()
+        h.timeshift.scrub(channel, 30)
+        h.await("the load") { h.loads.isNotEmpty() }
+        assertEquals(CatchupJumps.MIN_OFFSET_SEC, h.loads.single().second)
+        assertEquals(h.now - CatchupJumps.MIN_OFFSET_SEC * 1000L, h.loads.single().first)
+        assertEquals(CatchupJumps.MIN_OFFSET_SEC, h.timeshift.offsetSec.value) // the counter says where it really is
+        h.stop()
+    }
+
+    @Test
+    fun `a step forward inside the last minute goes live rather than back to the minimum`() {
+        val h = Harness()
+        h.timeshift.beginAt(channel, CatchupJumps.MIN_OFFSET_SEC)
+        h.timeshift.scrub(channel, -30)
+        assertEquals(1, h.liveEdgeRequests)
         h.stop()
     }
 

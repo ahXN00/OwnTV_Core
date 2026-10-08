@@ -28,6 +28,13 @@
 - **⏩ Channels with a pre-buffer start faster** (community PR #19 by @tvdev-android)
 - **🔊 Surround sound is no longer turned off by a muted preview** (community PR #21 by @tvdev-android)
 - **🔐 Stalker portals that reject a device as a "Device conflict" are retried with the box model** (community PR #22 by @atlasafford)
+- **⏪ H.264 catch-up and films are no longer mistaken for video the hardware decoder can't play**
+- **🔁 Retrying a catch-up, or coming back to the app during one, keeps playing it as catch-up**
+- **🖼️ A catch-up that loses its picture recovers in seconds instead of staying black**
+- **🧊 Catch-up freezes on its first frame less often, and recovers by itself**
+- **🎞️ Catch-up uses the hardware decoder again instead of falling back to software (#229)**
+- **📡 A catch-up of a programme still on air switches to live when the provider stops sending**
+- **⏱️ A short rewind on a catch-up channel no longer asks for a recording that doesn't exist yet**
 
 ## core-1.0.64 — 2026-10-04
 

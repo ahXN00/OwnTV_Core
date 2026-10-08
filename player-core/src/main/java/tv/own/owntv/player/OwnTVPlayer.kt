@@ -234,13 +234,36 @@ class OwnTVPlayer(
         internal const val HWDEC_CODECS = "h264,vc1,hevc,vp8,vp9,av1,prores,prores_raw,ffv1,dpx,apv,mpeg2video,mpeg4"
 
         /**
-         * Whether [HWDEC_CODECS] lets mpv hardware-decode [videoCodec] (mpv's `video-codec`, whose first
-         * word is the FFmpeg name). Null when unknown. A definite false means the direct path cannot
-         * engage however often it is retried.
+         * Whether [HWDEC_CODECS] lets mpv hardware-decode [videoCodec] (mpv's `video-codec`). Null when
+         * unknown. A definite false means the direct path cannot engage however often it is retried.
          */
         internal fun hwdecCovers(videoCodec: String?): Boolean? {
-            val name = videoCodec?.trim()?.substringBefore(' ')?.lowercase()?.takeIf { it.isNotEmpty() } ?: return null
+            val name = ffmpegCodecName(videoCodec) ?: return null
             return name in HWDEC_CODECS.split(',')
+        }
+
+        /**
+         * FFmpeg's short codec name from mpv's `video-codec`. Older mpv put the short name first
+         * ("mpeg4 (MPEG-4 part 2)"); current mpv gives only FFmpeg's long description ("H.264 / AVC / …"),
+         * which read as "h.264" made every H.264 stream look unsupported (#229). A long description this
+         * table does not know is null — unknown, never a definite no.
+         */
+        internal fun ffmpegCodecName(videoCodec: String?): String? {
+            val text = videoCodec?.trim()?.takeIf { it.isNotEmpty() } ?: return null
+            val first = text.substringBefore(' ')
+            if (first.matches(Regex("[a-z0-9_]+"))) return first
+            val desc = text.lowercase()
+            return when {
+                desc.startsWith("h.264") -> "h264"
+                desc.startsWith("h.265") || desc.startsWith("hevc") -> "hevc"
+                desc == "mpeg-2 video" -> "mpeg2video"
+                desc == "mpeg-4 part 2" -> "mpeg4"
+                desc == "smpte vc-1" -> "vc1"
+                desc == "google vp9" -> "vp9"
+                desc == "on2 vp8" -> "vp8"
+                desc == "alliance for open media av1" -> "av1"
+                else -> null
+            }
         }
 
         // mpv's stock subtitle values, restored verbatim for every option of the custom look (#96)
@@ -440,6 +463,9 @@ class OwnTVPlayer(
         const val SURFACE_HANDOFF_MS = 500L        // shorter release wait on the surface-attach handoff paths
         // ESTIMATED. A settle beat after the mpv core and the surface are both rebuilt from scratch.
         const val CORE_RESET_SETTLE_MS = 500L      // fresh mpv core + recreated surface settle after a hard reset
+        const val FROZEN_START_MS = 8_000L         // "playing" with the clock stuck where the picture opened
+        const val FROZEN_START_PROOF_MS = 2_000L   // this much progress past the first frame proves playback
+        const val ARCHIVE_STALL_MS = 10_000L       // an archive "playing" with its clock stuck this long has stalled
         // The Exo position emit (500ms) and the fps-chip recheck (1,500ms) used to live here. Both now
         // ride [PlayerHeartbeat]'s shared 1 Hz beat, so neither has an interval of its own any more.
         const val EXO_SUB_DELAY_DEBOUNCE_MS = 350L // settle time before a timing change re-prepares on Exo (§8)
@@ -450,6 +476,8 @@ class OwnTVPlayer(
         // isn't sitting in silence while we make up our mind.
         const val SURROUND_SILENCE_CHECK_MS = 4_000L
         const val DECODE_CHECK_MS = 4_000L         // wait before verifying video decode actually produces frames
+        /** mpv giving up on the video output for a load ("Could not initialize video chain"). */
+        val VIDEO_CHAIN_FAILED_RX = Regex("could not initialize video chain", RegexOption.IGNORE_CASE)
         const val LIVE_FPS_PROBE_MS = 6_000L       // settle time before measuring fps on a stream with no container-fps
         /** Frame rates a broadcast can plausibly be; a measurement is only trusted when it lands on one. */
         val STANDARD_FPS = floatArrayOf(23.976f, 24f, 25f, 29.97f, 30f, 50f, 59.94f, 60f)
@@ -563,6 +591,7 @@ class OwnTVPlayer(
         val userAgent: String?,
         val httpHeaders: String?,
         val reconnectProvider: tv.own.owntv.core.stalker.ReconnectUrlProvider?,
+        val isArchive: Boolean,
     )
     @Volatile private var backgroundRestore: BackgroundRestore? = null
     private var playlist: List<PlaylistItem> = emptyList()
@@ -570,6 +599,11 @@ class OwnTVPlayer(
     // mpv's android video output needs a surface at loadfile time, or it deselects video (audio-only).
     // So when no surface is attached yet we defer the load until attachSurface().
     private var surfaceAttached = false
+
+    /** Whether the mpv core itself holds [attachedSurface]. [surfaceAttached] says a surface exists; the
+     *  engine handovers detach mpv from it on the worker and leave that true, so a later mpv load set a
+     *  video output on a core with no surface ("Missing surface pointer", #229). */
+    @Volatile private var mpvHasSurface = false
     private var pendingUrlField: String? = null
     private var pendingUrl: String?
         get() = pendingUrlField
@@ -685,8 +719,8 @@ class OwnTVPlayer(
     // hwdec=mediacodec-copy) to draw them — which copies every 4K HDR frame and made playback unwatchable
     // on TV-class hardware. That fallback is GONE: video now ALWAYS stays on the direct path, and image
     // subs on a VOD are handled by handing playback to ExoPlayer (see [handoffToExo]) instead.
-    // ...with ONE exception: the copy rescue rung ([ItemState.forceCopyThisLoad]), which is only ever reached
-    // after the direct path has already failed to produce a frame.
+    // ...with TWO exceptions, both [ItemState.forceCopyThisLoad]: the copy rescue rung, reached after the
+    // direct path has failed to produce a frame, and a catch-up archive, which starts there (see [loadUrl]).
     private fun targetHwdec(): String = when {
         !hwDecodingActive() -> "no"
         item.forceCopyThisLoad -> "mediacodec-copy"
@@ -754,7 +788,8 @@ class OwnTVPlayer(
      */
     private fun MPVLib.applyProbeProfile(url: String) {
         val lower = url.lowercase()
-        // Raw continuous MPEG-TS (Xtream live `…/id.ts`, catch-up timeshift `.ts`). These probe fast and
+        // Raw continuous MPEG-TS (Xtream live `…/id.ts`, catch-up timeshift `.ts` — though an archive is
+        // never trimmed, see `trim` below). These probe fast and
         // start mid-stream, so they're the streams fast-zap trimming was built for — and the proven-safe
         // case (Xtream live works). HLS (.m3u8) and other/extensionless live URLs are NOT trimmed: they need
         // the full probe (playlist + a segment) to open cleanly, and a trimmed probe handed mpv incomplete
@@ -830,7 +865,12 @@ class OwnTVPlayer(
             },
         )
         setPropertyString("framedrop", if (brokenPts) "no" else "decoder+vo")
-        val trim = rawTs && !item.forceFullProbe
+        // Never for a catch-up archive: it starts wherever the panel cut it, and a 1 MB / 1 s probe can end
+        // before the first SPS ("Could not find codec parameters … unspecified size"). The hardware decoder
+        // cannot open without it, and mpv then drops to software decode on its own, without a word to us —
+        // every catch-up on that panel ran in software (#229, the owner's Xtream panel). The full probe reads
+        // on to the first keyframe; an archive is not zapped, so the extra second is not paid per press.
+        val trim = rawTs && !item.forceFullProbe && !item.archiveThisItem
         usedTrimmedProbe = trim
         // Error tolerance: this load's retry rung, or a stream already caught needing it this session.
         val tolerant = item.tolerantDemuxThisLoad || LiveStreamQuirks.needsTolerantDemux(url)
@@ -1178,6 +1218,11 @@ class OwnTVPlayer(
      *  [ItemState]. Two assignments in [loadUrl] replace what used to be two lists of hand-written
      *  clears, which is what stops a field being left out of one of them. */
     @Volatile private var load = LoadState()
+
+    /** mpv said it could not build a video chain for the current load — on the direct surface, its own
+     *  silent switch to software frames the surface cannot show. The decode check stops waiting when it
+     *  fires. A signal rather than [LoadState] state, so it is renewed beside it in [loadUrl]. */
+    @Volatile private var videoChainFailed = kotlinx.coroutines.CompletableDeferred<Unit>()
     @Volatile private var item = ItemState()
 
     @Volatile private var loadGeneration = 0
@@ -1233,6 +1278,13 @@ class OwnTVPlayer(
     // on it, so borrowing it here would make a finished catch-up programme start an episode.
     private val _archiveEnded = kotlinx.coroutines.flow.MutableSharedFlow<Unit>(extraBufferCapacity = 1)
     val archiveEnded: kotlinx.coroutines.flow.SharedFlow<Unit> = _archiveEnded
+
+    // Emitted once per load when a catch-up archive that was playing stops moving — not paused by the
+    // user, no END_FILE, the provider simply stopped sending (a programme still on air, opened from its
+    // start, did this on the TCL). Whether live is the answer depends on the guide, so the app decides
+    // ([tv.own.owntv.core.live.CatchupContinue.liveAfterStall]).
+    private val _archiveStalled = kotlinx.coroutines.flow.MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    val archiveStalled: kotlinx.coroutines.flow.SharedFlow<Unit> = _archiveStalled
 
     // Sleep timer "End of film / episode": the next natural end stops here instead of continuing.
     override var stopAtItemEnd: Boolean
@@ -1306,6 +1358,10 @@ class OwnTVPlayer(
             // The rolling diagnostic file follows a live stream across the ExoPlayer -> mpv fallback.
             // mpv can include the full stream URL here, so sanitize before storing or displaying it.
             LiveDiagnosticsLog.event("mpv level=$level $safe")
+            // No picture is coming on this load: run the decode check now rather than at its 4 s mark (#229).
+            // Only once this load's file is open — a late line from the previous load must not cut the
+            // next one's wait short before its decoder has even been chosen.
+            if (load.fileLoaded && VIDEO_CHAIN_FAILED_RX.containsMatchIn(t)) videoChainFailed.complete(Unit)
             // "Failed to open / loading failed" is the CONSEQUENCE — don't let it overwrite a more specific
             // cause already captured for this load (e.g. "HTTP error 400", an SSL error, a codec message).
             if (load.lastMpvError != null && GENERIC_FAIL_RX.containsMatchIn(t)) return
@@ -1705,7 +1761,7 @@ class OwnTVPlayer(
 
     /** Hardware definitely can't decode the current stream's codec at its declared size. */
     private fun hardwareCannotDecodeCurrent(): Boolean {
-        val mime = load.currentVideoCodec?.let { videoMimeFor(it) } ?: return false
+        val mime = ffmpegCodecName(load.currentVideoCodec)?.let { videoMimeFor(it) } ?: return false
         val w = load.currentWidthPx
         val h = load.currentHeightPx.takeIf { it > 0 } ?: lastVideoHeightPx
         if (w <= 0 || h <= 0) return false
@@ -1807,6 +1863,33 @@ class OwnTVPlayer(
     }
 
     /**
+     * Watch a catch-up archive that is playing for its clock to stop: [ARCHIVE_STALL_MS] at one position
+     * while not paused by the user raises [archiveStalled] once, and the watch ends. A user pause, or any
+     * movement (a timestamp reset counts), restarts the count. Runs inside the load's watchdog job, so a
+     * new load, a stop or an error ends it with the job.
+     */
+    private suspend fun watchArchiveStall(gen: Int) {
+        var lastPos = _position.value
+        var stillSince = 0L
+        while (gen == loadGeneration) {
+            delay(1000)
+            val pos = _position.value
+            if (pos != lastPos || !_isPlaying.value) {
+                lastPos = pos
+                stillSince = 0L
+                continue
+            }
+            val now = System.currentTimeMillis()
+            if (stillSince == 0L) stillSince = now
+            if (now - stillSince >= ARCHIVE_STALL_MS) {
+                android.util.Log.w(TAG, "archive stalled for ${now - stillSince}ms at ${pos}ms")
+                _archiveStalled.tryEmit(Unit)
+                return
+            }
+        }
+    }
+
+    /**
      * The mid-GOP rescue: this catch-up archive was opened in hardware and produced no picture, so
      * reopen it in software and remember the panel for the rest of the session
      * ([LiveStreamQuirks.rememberArchiveNeedsSoftware]).
@@ -1863,7 +1946,7 @@ class OwnTVPlayer(
             mpvAsync {
                 stopWithStopClassification("handoff to exo")
                 setPropertyString("vo", "null")
-                runCatching { this.detachSurface() } // mpv's detachSurface (the receiver), not OwnTVPlayer's
+                runCatching { this.detachSurface() }; mpvHasSurface = false // mpv's detachSurface (the receiver), not OwnTVPlayer's
                 scope.launch {
                     delay(DECODER_RELEASE_MS) // let mpv's MediaCodec finish releasing before ExoPlayer claims the decoder
                     if (gen != loadGeneration) return@launch // superseded meanwhile
@@ -2061,7 +2144,7 @@ class OwnTVPlayer(
             mpvAsync {
                 stopWithStopClassification("exo vod fallback")
                 setPropertyString("vo", "null")
-                runCatching { this.detachSurface() }
+                runCatching { this.detachSurface() }; mpvHasSurface = false
                 scope.launch {
                     delay(SURFACE_HANDOFF_MS) // let mpv's MediaCodec release — a busy decoder would fail Exo instantly
                     val s = attachedSurface ?: return@launch
@@ -2165,7 +2248,7 @@ class OwnTVPlayer(
             mpvAsync {
                 stopWithStopClassification("manual engine toggle")
                 setPropertyString("vo", "null")
-                runCatching { this.detachSurface() }
+                runCatching { this.detachSurface() }; mpvHasSurface = false
                 scope.launch {
                     delay(DECODER_RELEASE_MS) // let mpv's MediaCodec finish releasing before ExoPlayer claims the decoder
                     if (gen != loadGeneration) return@launch // superseded meanwhile
@@ -2352,7 +2435,7 @@ class OwnTVPlayer(
     private fun reattachMpvSurface() {
         val surface = attachedSurface ?: return
         mpvAsync {
-            runCatching { this.attachSurface(surface) } // mpv's attachSurface (the receiver)
+            runCatching { this.attachSurface(surface) }.onSuccess { mpvHasSurface = true } // mpv's attachSurface (the receiver)
             setOptionString("force-window", "yes")
             setPropertyString("vo", targetVo())
         }
@@ -2770,6 +2853,7 @@ class OwnTVPlayer(
         // THE per-load reset. Everything this load must not inherit from the previous one is in
         // [LoadState], so forgetting it is one assignment that cannot be partially done. The four values
         // that are not simply cleared come from this call's own arguments.
+        videoChainFailed = kotlinx.coroutines.CompletableDeferred()
         load = LoadState(
             loadStartTime = System.currentTimeMillis(),
             pendingStartPaused = startPaused,
@@ -2829,13 +2913,22 @@ class OwnTVPlayer(
             // ([tryArchiveSoftwareRescue] does the catching). Everything else follows the user's
             // hardware-decoding setting. (Software renders via GL, broken on the emulator, so skip it there.)
             val wantSoftware = isArchive && !glUnsupported && LiveStreamQuirks.archiveNeedsSoftware(url)
-            val needReconfig = item.forceSoftwareThisLoad != wantSoftware || item.ccSoftwareOverride || item.forceCopyThisLoad
-            // THE reset. Everything a new item must not inherit is in [ItemState]; the three values that
-            // are not simply cleared are handed to the constructor, so the whole thing stays one statement.
+            // A catch-up archive opens on the copy path — hardware decode, frames drawn through GL — instead
+            // of the direct surface. On the TCL the direct decoder froze on an archive's first frame in about
+            // one open in four (#229) and took mpv's core lock with it, so nothing could reset or retry; the
+            // copy path never hands the decoder the surface. Archives are ≤1080p, where the copy is cheap.
+            val wantCopy = isArchive && !wantSoftware && !glUnsupported && hwDecoding
+            val needReconfig = item.forceSoftwareThisLoad != wantSoftware || item.ccSoftwareOverride ||
+                item.forceCopyThisLoad != wantCopy
+            // THE reset. Everything a new item must not inherit is in [ItemState]; the values that are not
+            // simply cleared are handed to the constructor, so the whole thing stays one statement.
             item = ItemState(
                 altFormatBaseUrl = url,
                 archiveThisItem = isArchive,
                 forceSoftwareThisLoad = wantSoftware,
+                forceCopyThisLoad = wantCopy,
+                // Already on the copy rung: the rescue ladder goes on to software, not back to copy.
+                triedCopyRescue = wantCopy,
             )
             sessionExternalSubs.clear() // genuinely new item → its own external-sub session
             applySubtitleDelay(0) // timing never carries onto another item/subtitle (§8.4)
@@ -2917,7 +3010,7 @@ class OwnTVPlayer(
                 mpvAsync {
                     stopWithStopClassification("exo primary vod")
                     setPropertyString("vo", "null")
-                    runCatching { this.detachSurface() }
+                    runCatching { this.detachSurface() }; mpvHasSurface = false
                     scope.launch {
                         if (gen != loadGeneration) return@launch
                         // Wait for mpv's MediaCodec to finish releasing before Exo claims the decoder —
@@ -2989,11 +3082,51 @@ class OwnTVPlayer(
         if (!isLive) {
             val gen = loadGeneration
             videoCheckJob = scope.launch {
+                // Where the picture opened, and since when it has been sitting there while "playing".
+                var openedAtPos = -1L
+                var stillSince = 0L
                 // Check every 1s until we fire or are cancelled
                 while (gen == loadGeneration) {
                     delay(1000)
                     if (gen != loadGeneration || isLiveContent) return@launch
-                    if (load.currentHeightPx > 0) return@launch // playing normally — cancel watchdog
+                    if (load.currentHeightPx > 0) {
+                        // The picture opened. Stand down once playback has really moved; until then, catch
+                        // the load that froze on its first frame — no sound, the clock stuck at the start
+                        // and nothing ever reported. Seen on the TCL with catch-up in about one open in
+                        // four (#229); the retry then plays. Nothing else watches this: every check below
+                        // and the decode check wait on the same mpv core that has stopped answering.
+                        val pos = _position.value
+                        if (openedAtPos < 0) openedAtPos = pos
+                        if (pos > openedAtPos + FROZEN_START_PROOF_MS) {
+                            // Playing normally. An archive is still watched, for a provider that stops sending.
+                            if (item.archiveThisItem) watchArchiveStall(gen)
+                            return@launch
+                        }
+                        val now = System.currentTimeMillis()
+                        if (!_isPlaying.value || _buffering.value) { stillSince = 0L; continue }
+                        if (stillSince == 0L) stillSince = now
+                        if (now - stillSince < FROZEN_START_MS) continue
+                        if (!item.triedFrozenReset) {
+                            item.triedFrozenReset = true
+                            android.util.Log.w(TAG, "watchdog — frozen on the first frame for ${now - stillSince}ms, silent hard-reset + retry")
+                            val url = currentUrl
+                            val archive = item.archiveThisItem
+                            load.expectingPlayback = false
+                            _buffering.value = true
+                            hardReset()
+                            if (url != null) {
+                                delay(CORE_RESET_SETTLE_MS) // let the fresh mpv core + recreated surface settle
+                                // An archive restarts from its beginning — see [reload].
+                                loadUrl(url, currentMetaSnapshot(), isLiveContent, if (archive) 0L else openedAtPos, resetRetries = false, isArchive = archive)
+                            }
+                            return@launch
+                        }
+                        // Frozen again after a fresh core: for an archive, the engine that waits for a keyframe.
+                        if (item.archiveThisItem && fallbackToExoVod(PlaybackFailure.MpvOpenDecode, mpvStuck = true)) {
+                            android.util.Log.w(TAG, "watchdog — archive froze twice on mpv, handing to ExoPlayer")
+                        }
+                        return@launch
+                    }
                     val elapsed = System.currentTimeMillis() - load.loadStartTime
                     // Nothing below can judge an item that has no video track at all. An audio-only VOD
                     // (a radio station filed under Movies, a music-only MP4) loads with no height and no
@@ -3022,12 +3155,13 @@ class OwnTVPlayer(
                             android.util.Log.w(TAG, "watchdog T_OPEN — no FILE_LOADED after ${elapsed}ms, silent hard-reset + retry")
                             val url = currentUrl
                             val seekMs = load.pendingSeekMs
+                            val archive = item.archiveThisItem
                             load.expectingPlayback = false
                             _buffering.value = true
                             hardReset()
                             if (url != null) {
                                 delay(CORE_RESET_SETTLE_MS) // let the fresh mpv core + recreated surface settle
-                                loadUrl(url, currentMetaSnapshot(), isLiveContent, seekMs, resetRetries = false)
+                                loadUrl(url, currentMetaSnapshot(), isLiveContent, seekMs, resetRetries = false, isArchive = archive)
                             }
                             return@launch
                         }
@@ -3251,6 +3385,14 @@ class OwnTVPlayer(
             // the broken state (a single failed episode poisons all later playback until app restart).
             // This is the "played before, now nothing plays" regression: once the VO goes null it stays null.
             if (surfaceAttached) {
+                // An engine handover detached mpv from the surface and nothing gave it back: give it back
+                // now, or the video output below opens on no surface and the load plays audio only.
+                val surface = attachedSurface
+                if (!mpvHasSurface && surface != null && !exoActive) {
+                    android.util.Log.w(TAG, "startLoad: mpv had no surface — re-attaching")
+                    runCatching { this.attachSurface(surface) }.onSuccess { mpvHasSurface = true }
+                    setOptionString("force-window", "yes")
+                }
                 setPropertyString("vo", targetVo())
                 _directRender.value = useDirect()
             }
@@ -3608,13 +3750,16 @@ class OwnTVPlayer(
      * `loadGeneration` is captured so a zap/stop during the resolve aborts the reload.
      *
      * Live restarts at the edge; VOD resumes where it stopped, which is the whole point of retrying
-     * a movie 40 minutes in.
+     * a movie 40 minutes in. A catch-up archive stays an archive and restarts from its beginning, as
+     * [engineSwitchResumePos] does: reloaded as a plain VOD item it lost its probe, its rescue rungs and
+     * its engine pin, and resumed at an offset the panel cannot serve (#229).
      */
     private fun reload(url: String, isLive: Boolean, resetRetries: Boolean) {
-        val startAt = if (isLive) 0L else _position.value
+        val archive = !isLive && item.archiveThisItem
+        val startAt = if (isLive || archive) 0L else _position.value
         val provider = reconnectUrlProvider
         if (provider == null) {
-            loadUrl(url, currentMetaSnapshot(), isLive = isLive, startPositionMs = startAt, resetRetries = resetRetries)
+            loadUrl(url, currentMetaSnapshot(), isLive = isLive, startPositionMs = startAt, resetRetries = resetRetries, isArchive = archive)
             return
         }
         val gen = loadGeneration
@@ -3623,7 +3768,7 @@ class OwnTVPlayer(
                 runCatching { provider.freshUrl() }.getOrNull()
             }
             if (gen != loadGeneration || currentUrl == null) return@launch // zapped/stopped during resolve
-            loadUrl(fresh ?: url, currentMetaSnapshot(), isLive = isLive, startPositionMs = startAt, resetRetries = resetRetries)
+            loadUrl(fresh ?: url, currentMetaSnapshot(), isLive = isLive, startPositionMs = startAt, resetRetries = resetRetries, isArchive = archive)
         }
     }
 
@@ -3722,6 +3867,7 @@ class OwnTVPlayer(
         mpv = null
         initialized = false
         surfaceAttached = false
+        mpvHasSurface = false
         loadGeneration++
         pendingUrl = null
         // The core about to be destroyed owes these END_FILEs; the fresh one must not inherit them, or
@@ -3757,7 +3903,7 @@ class OwnTVPlayer(
             backgroundRestore = if (!isLiveContent) {
                 BackgroundRestore(
                     url, currentMetaSnapshot(), _position.value, _isPlaying.value,
-                    tunedUserAgent, tunedHttpHeaders, reconnectUrlProvider,
+                    tunedUserAgent, tunedHttpHeaders, reconnectUrlProvider, item.archiveThisItem,
                 )
             } else null
             stop()
@@ -3777,7 +3923,9 @@ class OwnTVPlayer(
             year = r.meta.year,
             logoUrl = r.meta.logoUrl,
             isLive = false,
-            startPositionMs = r.positionMs,
+            // An archive comes back as an archive, from its beginning — see [reload].
+            isArchive = r.isArchive,
+            startPositionMs = if (r.isArchive) 0L else r.positionMs,
             startPaused = !r.wasPlaying,
             userAgent = r.userAgent,
             httpHeaders = r.httpHeaders,
@@ -3872,6 +4020,7 @@ class OwnTVPlayer(
         // ExoPlayer owns playback right now (ordinary Surface recreation) → give it the new surface.
         if (exoActive) { exoEngine?.setSurface(surface); return }
         mpv?.attachSurface(surface)
+        mpvHasSurface = mpv != null
         mpv?.setOptionString("force-window", "yes")
         mpv?.setOptionString("vo", targetVo())
         // Flush a load that was waiting for the surface (so video output inits correctly the first time).
@@ -3908,6 +4057,7 @@ class OwnTVPlayer(
         mpv?.setPropertyString("vo", "null")
         mpv?.setOptionString("force-window", "no")
         mpv?.detachSurface()
+        mpvHasSurface = false
     }
 
     // --- Audio Mode (Audio Mode plan §5) ---
@@ -4399,7 +4549,8 @@ class OwnTVPlayer(
                 load.currentHeightPx = value.toInt()
                 if (value > 0) {
                     lastVideoHeightPx = value.toInt() // remember for recovery decisions on a later failed load
-                    videoCheckJob?.cancel() // video is decoding → watchdog not needed
+                    // Video is decoding. The watchdog stays on until playback has really moved: a load can
+                    // decode its first frame and then freeze there, and it stands down by itself otherwise.
                     // A real frame decoded → playback genuinely works. Dismiss any error the watchdog raised
                     // prematurely while a slow hardware decoder (e.g. Realtek setPortMode negotiation) was
                     // still producing its first frame — otherwise the popup stays stuck over playing video.
@@ -4712,8 +4863,9 @@ class OwnTVPlayer(
                 // Decode watchdog, polled: the decoder is chosen a few seconds AFTER the file loads,
                 // so read it directly once it has settled (the observed event also runs enforceDecodeGuard).
                 val gen = loadGeneration
+                val chainFailed = videoChainFailed
                 scope.launch {
-                    delay(DECODE_CHECK_MS)
+                    withTimeoutOrNull(DECODE_CHECK_MS) { chainFailed.await() }
                     if (gen != loadGeneration) return@launch
                     mpvAsync {
                         val hw = getPropertyString("hwdec-current") ?: ""
@@ -5164,6 +5316,8 @@ internal data class ItemState(
      *  error is shown. Covers auto-play advancing while the provider still holds the previous episode's
      *  connection slot. */
     var triedOpenReset: Boolean = false,
+    /** The same one silent hard-reset + reload, for a load that froze on its first frame instead. */
+    var triedFrozenReset: Boolean = false,
     /** Silent reloads from the current position a VOD that died mid-stream has used, and the position of
      *  the last one — the budget is Settings → Reconnect attempts, earned back by a minute of playback. */
     var midStreamReloads: Int = 0,
@@ -5194,8 +5348,9 @@ internal data class ItemState(
      *  retried ONCE in pure software, per item, before the error shows. Never changes the user setting. */
     @field:Volatile var forceSoftwareThisLoad: Boolean = false,
     /** The RESCUE rung between "direct hardware" and "software 1080p or less" (F09): hwdec=mediacodec-copy
-     *  + vo=gpu - still hardware decoding, but frames are copied out and composited by GL. Never a
-     *  default; it exists only for the 4K file the direct path cannot open at all. */
+     *  + vo=gpu - still hardware decoding, but frames are copied out and composited by GL. The default
+     *  only for a catch-up archive, whose first frame froze the direct path (#229); otherwise it exists
+     *  for the 4K file the direct path cannot open at all. */
     @field:Volatile var forceCopyThisLoad: Boolean = false,
     @field:Volatile var triedCopyRescue: Boolean = false,
     /** CEA-608/708 CC text is decoder side data the hardware decoder never surfaces, so the synthetic CC

@@ -99,7 +99,15 @@ dependencies {
     // happens to do for historical reasons, so nobody noticed until the mobile app was built. This
     // also pins both apps to ONE libmpv version; two hosts each declaring their own could package
     // two builds of the same native library.
-    api(libs.libmpv)
+    //
+    // -Powntv.libmpvLocalRepo=<folder> on the build command (never in a file) swaps in the
+    // engine built on this PC by OwnTV_libmpv's buildscripts/wsl_build.sh; settings.gradle.kts adds
+    // its folder as a repository. CI never sets it.
+    if (providers.gradleProperty("owntv.libmpvLocalRepo").isPresent) {
+        api("tv.own.owntv:libmpv:local")
+    } else {
+        api(libs.libmpv)
+    }
     implementation(libs.androidx.media3.exoplayer)
     implementation(libs.androidx.media3.exoplayer.hls)
     implementation(libs.androidx.media3.exoplayer.dash)
