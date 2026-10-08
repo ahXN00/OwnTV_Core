@@ -1268,11 +1268,13 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	DELETE FROM playback_progress WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId AND (
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	DELETE FROM playback_progress WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId AND updatedAt <= :at
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	FROM playback_progress p
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	FROM playback_progress p JOIN episodes e ON e.id = p.itemId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	LEFT JOIN channels c ON p.mediaType = 'LIVE' AND p.itemId = c.id
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	LEFT JOIN episodes e ON p.mediaType = 'EPISODE' AND p.itemId = e.id
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	LEFT JOIN movies m ON p.mediaType = 'MOVIE' AND p.itemId = m.id
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	LEFT JOIN series episodeSeries ON e.seriesId = episodeSeries.id
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	LEFT JOIN series s ON p.mediaType = 'SERIES' AND p.itemId = s.id
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	MAX(p.updatedAt) AS updatedAt
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	ORDER BY updatedAt DESC LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT * FROM playback_progress
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT * FROM playback_progress WHERE profileId = :profileId
@@ -1280,11 +1282,13 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT * FROM playback_progress WHERE profileId = :profileId AND mediaType = 'MOVIE'
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT * FROM playback_progress WHERE profileId = :profileId AND mediaType = :type
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT * FROM playback_progress WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT e.seriesId AS seriesId, p.positionMs AS positionMs, p.durationMs AS durationMs,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT itemId FROM playback_progress
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT itemId FROM playback_progress WHERE profileId = :profileId AND mediaType = 'EPISODE'
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT p.profileId AS profileId, p.mediaType AS mediaType, p.itemId AS itemId,
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	UPDATE playback_progress SET positionMs = :positionMs, durationMs = :durationMs, updatedAt = :at
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	WHERE c.sourceId = :sourceId OR m.sourceId = :sourceId OR s.sourceId = :sourceId OR episodeSeries.sourceId = :sourceId
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	WHERE p.profileId = :profileId AND p.mediaType = 'EPISODE' GROUP BY e.seriesId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	WHERE profileId = :profileId AND mediaType = 'EPISODE'
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId AND updatedAt < :at
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	e.seasonNumber AS seasonNumber, e.episodeNumber AS episodeNumber,
@@ -2001,6 +2005,8 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	rename
 2	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	set_tmdb_name
 3	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	tmdb_details
+1	empty	core/src/main/java/tv/own/owntv/core/metadata/HeadlineTitle.kt	\0
+1	regex	core/src/main/java/tv/own/owntv/core/metadata/HeadlineTitle.kt	^\\s*\\|?\\s*[A-Z0-9+]{1,8}\\s*\\|\\s*
 3	url	core/src/main/java/tv/own/owntv/core/metadata/MetadataImages.kt	${TmdbProvider.IMAGE_BASE}/$size${it.ensureLeadingSlash()}
 1	url	core/src/main/java/tv/own/owntv/core/metadata/MetadataImages.kt	/
 1	url	core/src/main/java/tv/own/owntv/core/metadata/MetadataImages.kt	/$this

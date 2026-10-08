@@ -18,6 +18,7 @@
 - **⏭️ Strings for the phone player's next / previous channel in list buttons**
 - **🔄 Auto refresh of playlists and guides shared by both apps**
 - **⚠️ String for the first-run restore warning when Sources is unticked**
+- **📊 Latest episode progress per series, for series poster progress bars**
 
 ### 🐛 Fixes
 
@@ -40,6 +41,7 @@
 - **🎞️ Catch-up uses the hardware decoder again instead of falling back to software (#229)**
 - **📡 A catch-up of a programme still on air switches to live when the provider stops sending**
 - **⏱️ A short rewind on a catch-up channel no longer asks for a recording that doesn't exist yet**
+- **🏷️ Film and series headlines without a leading provider tag such as "|MULTI|"**
 
 ## core-1.0.64 — 2026-10-04
 
