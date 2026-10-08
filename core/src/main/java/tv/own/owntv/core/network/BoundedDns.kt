@@ -46,11 +46,14 @@ class BoundedDns(
 
     override fun lookup(hostname: String): List<InetAddress> {
         // Registered before it runs, and it removes only itself when done — so a finished query can never
-        // be left in the map to answer every later lookup with its old result.
+        // be left in the map to answer every later lookup with its old result. done() runs only after the
+        // waiters are released, so a lookup straight after another can still find it there: a finished
+        // query is replaced, never joined.
         val mine = object : FutureTask<List<InetAddress>>(Callable { delegate.lookup(hostname) }) {
             override fun done() { inFlight.remove(hostname, this) }
         }
-        val pending = inFlight.putIfAbsent(hostname, mine) ?: mine.also { executor.execute(it) }
+        val pending = inFlight.compute(hostname) { _, current -> if (current == null || current.isDone) mine else current }!!
+        if (pending === mine) executor.execute(mine)
         // Always an UnknownHostException: it is the only failure OkHttp's Dns contract lets through.
         val failure: UnknownHostException = try {
             val waitMs = if (lastGood.containsKey(hostname)) staleTimeoutMs else timeoutMs
