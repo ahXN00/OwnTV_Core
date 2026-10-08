@@ -1,3 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_cancel">Utzi</string>
+    <string name="common_back">Atzera</string>
+    <string name="common_save">Gorde</string>
+    <string name="common_edit">Editatu</string>
+    <string name="common_delete">Ezabatu</string>
+    <string name="common_clear">Garbitu</string>
+    <string name="common_retry">Saiatu berriro</string>
+    <string name="common_create">Sortu</string>
+    <string name="common_reset">Berrezarri</string>
+    <string name="common_done">Eginda</string>
+    <string name="common_ok">Ados</string>
+    <string name="common_on">Aktibatuta</string>
+    <string name="common_off">Desaktibatuta</string>
+    <string name="common_never">Inoiz ez</string>
+    <string name="common_exit">Irten</string>
+    <string name="common_resume">Jarraitu</string>
+    <string name="common_start_over">Hasieratik hasi</string>
+    <string name="common_name">Izena</string>
+    <string name="common_own_tv_user">OwnTV erabiltzailea</string>
+    <string name="common_proxy">Proxya</string>
+    <string name="common_title">Izenburua</string>
+    <string name="common_search_hint">Bilatu…</string>
+    <string name="common_search">Bilatu</string>
+    <string name="common_weather_fahrenheit"><xliff:g id="temperature">%1$d</xliff:g>°F</string>
+    <string name="common_weather_celsius"><xliff:g id="temperature">%1$d</xliff:g>°C</string>
+    <string name="common_weather_city"><xliff:g id="temperature">%1$s</xliff:g> · <xliff:g id="city">%2$s</xliff:g></string>
+    <string name="common_nav_search">Bilatu</string>
+    <string name="common_nav_home">Hasiera</string>
+    <string name="common_nav_live_tv">Zuzeneko telebista</string>
+    <string name="common_nav_movies">Filmak</string>
+    <string name="common_nav_series">Telesailak</string>
+    <string name="common_nav_downloads">Deskargak</string>
+    <string name="common_nav_guide">Gida</string>
+    <string name="common_nav_library">Liburutegia</string>
+    <string name="common_nav_more">Gehiago</string>
+    <string name="common_cast">Aktoreak</string>
+    <string name="common_nav_settings">Ezarpenak</string>
+    <string name="shell_no_source">Iturburu gabe</string>
+    <string name="shell_now_playing">Orain erreproduzitzen</string>
+    <string name="common_something_went_wrong">Zerbait gaizki atera da</string>
+    <string name="common_move_instructions">▲/▼ mugitzeko · Ados gordetzeko · Atzera utzitzeko</string>
+    <string name="common_number_grouped"><xliff:g id="count">%1$,d</xliff:g></string>
+    <string name="common_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="common_timestamp_minutes"><xliff:g id="minutes">%1$d</xliff:g>:<xliff:g id="seconds">%2$02d</xliff:g></string>
+    <string name="common_timestamp_hours"><xliff:g id="hours">%1$d</xliff:g>:<xliff:g id="minutes">%2$02d</xliff:g>:<xliff:g id="seconds">%3$02d</xliff:g></string>
+    <string name="common_resume_position">Hemen gelditu zinen: <xliff:g id="position">%1$s</xliff:g>.</string>
+    <string name="common_resume_prompt">Erreprodukzioarekin jarraitu?</string>
+    <string name="sync_error_offline">Konexiorik gabe zaudela dirudi. Egiaztatu konexioa eta saiatu berriro.</string>
+    <string name="sync_error_generic">Zerbait gaizki atera da. Saiatu berriro, mesedez.</string>
+    <string name="sync_error_timeout">Zerbitzariak denbora gehiegi behar izan du erantzuteko. Saiatu berriro, mesedez.</string>
+    <string name="sync_error_unreachable">Ezin izan da zerbitzaria atzitu. Egiaztatu helbidea eta konexioa.</string>
+    <string name="sync_error_connection">Ezin izan da zerbitzariarekin konektatu. Baliteke zerbitzaria erorita egotea edo helbidea okerra izatea.</string>
+    <string name="sync_error_interrupted">Zerbitzariak deskarga eten du. Saiatu berriro, mesedez.</string>
+    <string name="sync_error_mac">Atariak MAC helbide hau baztertu du. Egiaztatu MAC helbidea (eta telebistaren data eta ordua) — edo harpidetza iraungi egin daiteke.</string>
+    <string name="sync_error_invalid_mac">MAC helbide baliogabea — erabili AA:BB:CC:DD:EE:FF</string>
+    <string name="sync_counts_separator">"  ·  "</string>
+    <string name="sync_counts_success">Ondo sinkronizatu da</string>
+    <string name="sync_counts_synced"><xliff:g id="counts">%1$s</xliff:g> sinkronizatuta</string>
+    <string name="sync_import_warnings">Abisuekin inportatu da: <xliff:g id="phases">%1$s</xliff:g></string>
+    <string name="sync_warning_phase_error"><xliff:g id="phase">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g></string>
+    <plurals name="sync_warning_catalog_shrink">
+        <item quantity="one"><xliff:g id="stored">%1$d</xliff:g> elementu existente mantendu da — inportazio honek %% <xliff:g id="percent">%2$d</xliff:g> gutxiago itzuli du. Sinkronizatu berriro, edo erabili Behartutako sinkronizazio garbia hornitzaileak benetan kendu badu.</item>
+        <item quantity="other"><xliff:g id="stored">%1$d</xliff:g> elementu existente mantendu dira — inportazio honek %% <xliff:g id="percent">%2$d</xliff:g> gutxiago itzuli du. Sinkronizatu berriro, edo erabili Behartutako sinkronizazio garbia hornitzaileak benetan kendu baditu.</item>
+    </plurals>
+    <string name="sync_warning_bulk_truncated">Hornitzailearen zerrenda erdian eten da, beraz gainerakoa kategoriaz kategoria eskuratu da. Dena dago hemen, baina sinkronizazioak ohi baino gehiago iraun du.</string>
+    <string name="sync_warning_bulk_truncated_partial">Hornitzailearen zerrenda erdian eten da eta ezin izan da dena berreskuratu. Baliteke izenburu batzuk falta izatea hurrengo sinkronizazioa arte.</string>
+    <plurals name="sync_warning_page_failures">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> iturburu-orrik huts egin du; baliteke eduki batzuk falta izatea hurrengo sinkronizazioa arte.</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> iturburu-orrik huts egin dute; baliteke eduki batzuk falta izatea hurrengo sinkronizazioa arte.</item>
+    </plurals>
+    <string name="sync_remainder_note">Katalogoaren gainerakoa atzeko planoan sinkronizatzen ari da oraindik — orain ikusten hasi zaitezke. Aurrerapena pantailaren behealdeko pilula txikian ageri da.</string>
+    <string name="sync_progress_preparing">Katalogoa prestatzen</string>
+    <string name="sync_progress_connecting">Iturburura konektatzen…</string>
+    <string name="sync_progress_syncing">Katalogoa sinkronizatzen</string>
+    <string name="sync_progress_percent">Sinkronizatzen <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="sync_status_catalog"><xliff:g id="source">%1$s</xliff:g> sinkronizatzen</string>
+    <string name="sync_status_catalog_with_counts"><xliff:g id="source">%1$s</xliff:g> sinkronizatzen · <xliff:g id="counts">%2$s</xliff:g></string>
+    <string name="sync_status_epg">Gida eguneratzen · <xliff:g id="source">%1$s</xliff:g></string>
+    <string name="sync_status_epg_with_counts">Gida eguneratzen · <xliff:g id="source">%1$s</xliff:g> · <xliff:g id="counts">%2$s</xliff:g></string>
+    <string name="sync_status_complete">Sinkronizazioa amaituta · <xliff:g id="source">%1$s</xliff:g></string>
+    <string name="sync_status_complete_with_changes">Sinkronizazioa amaituta · <xliff:g id="source">%1$s</xliff:g> · <xliff:g id="changes">%2$s</xliff:g></string>
+    <string name="sync_status_failed">Sinkronizazioak huts egin du · <xliff:g id="source">%1$s</xliff:g>: <xliff:g id="reason">%2$s</xliff:g></string>
+    <string name="sync_status_cancelled">Sinkronizazioa bertan behera utzi da · <xliff:g id="source">%1$s</xliff:g></string>
+    <string name="sync_status_download"><xliff:g id="title">%1$s</xliff:g> deskargatzen</string>
+    <string name="sync_status_download_with_progress"><xliff:g id="title">%1$s</xliff:g> deskargatzen · <xliff:g id="percent">%2$d</xliff:g>%%</string>
+    <string name="sync_status_trending_starting">Sinkronizazioa amaituta · <xliff:g id="source">%1$s</xliff:g> · Orain joeran dagoena sortzen</string>
+    <string name="sync_status_trending_detail_waiting">TMDBren hautagaien erantzunaren zain</string>
+    <string name="sync_status_trending_detail_received">TMDBren hautagaiak · Filmak: <xliff:g id="movies">%1$d</xliff:g> · Telesailak: <xliff:g id="series">%2$d</xliff:g></string>
+    <string name="sync_status_trending_detail_preparing">Hornitzailearen izenburu-indizea · <xliff:g id="processed">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g></string>
+    <string name="sync_status_trending_detail_movies">Filmen egiaztapena: <xliff:g id="checked">%1$d</xliff:g>/<xliff:g id="candidates">%2$d</xliff:g> · parekatzeak: <xliff:g id="matched">%3$d</xliff:g>/<xliff:g id="target">%4$d</xliff:g></string>
+    <string name="sync_status_trending_detail_series">Telesailen egiaztapena: <xliff:g id="checked">%1$d</xliff:g>/<xliff:g id="candidates">%2$d</xliff:g> · parekatzeak: <xliff:g id="matched">%3$d</xliff:g>/<xliff:g id="target">%4$d</xliff:g></string>
+    <string name="sync_status_trending_detail_selected">Hautatuta · Filmak: <xliff:g id="movies">%1$d</xliff:g> · Telesailak: <xliff:g id="series">%2$d</xliff:g> · Hasiera: <xliff:g id="home">%3$d</xliff:g></string>
+    <string name="sync_status_trending_detail_completed">Parekatuta · Filmak: <xliff:g id="movie_matches">%1$d</xliff:g>/<xliff:g id="movie_candidates">%2$d</xliff:g> · Telesailak: <xliff:g id="series_matches">%3$d</xliff:g>/<xliff:g id="series_candidates">%4$d</xliff:g></string>
+    <string name="sync_status_trending_preparing">Hornitzailearen izenburuak prestatzen parekatze azkarrerako</string>
+    <string name="sync_status_trending_matching_movies">Joeran dauden filmak zure hornitzailearekin parekatzen</string>
+    <string name="sync_status_trending_matching_series">Joeran dauden telesailak zure hornitzailearekin parekatzen</string>
+    <string name="sync_status_trending_loading_seasons">Hornitzailearen denboraldiak kargatzen</string>
+    <string name="sync_status_trending_detail_loading_seasons">Telesailak egiaztatuta: <xliff:g id="processed">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g></string>
+    <string name="sync_status_trending_preserved">Joeren eguneratzea ez dago erabilgarri · aurreko emaitzak mantendu dira</string>
+    <plurals name="sync_status_trending_received">
+        <item quantity="one">Azken <xliff:g id="count">%1$d</xliff:g> joera-elementua jaso da</item>
+        <item quantity="other">Azken <xliff:g id="count">%1$d</xliff:g> joera-elementuak jaso dira</item>
+    </plurals>
+    <plurals name="sync_status_trending_building">
+        <item quantity="one">Orain joeran dagoena sortzen · <xliff:g id="count">%1$d</xliff:g> parekatze</item>
+        <item quantity="other">Orain joeran dagoena sortzen · <xliff:g id="count">%1$d</xliff:g> parekatze</item>
+    </plurals>
+    <plurals name="sync_status_trending_publishing">
+        <item quantity="one">Orain joeran dagoena argitaratzen · <xliff:g id="count">%1$d</xliff:g> elementu</item>
+        <item quantity="other">Orain joeran dagoena argitaratzen · <xliff:g id="count">%1$d</xliff:g> elementu</item>
+    </plurals>
+    <plurals name="sync_status_trending_ready">
+        <item quantity="one">Orain joeran dagoena prest · <xliff:g id="count">%1$d</xliff:g> parekatze</item>
+        <item quantity="other">Orain joeran dagoena prest · <xliff:g id="count">%1$d</xliff:g> parekatze</item>
+    </plurals>
+    <plurals name="sync_status_trending_below_minimum">
+        <item quantity="one">Orain joeran dagoena ezkutatuta · <xliff:g id="count">%1$d</xliff:g> parekatze bakarrik</item>
+        <item quantity="other">Orain joeran dagoena ezkutatuta · <xliff:g id="count">%1$d</xliff:g> parekatze bakarrik</item>
+    </plurals>
+    <string name="sync_phase_live">Zuzeneko telebista</string>
+    <string name="sync_phase_movies">Filmak</string>
+    <string name="sync_phase_series">Telesailak</string>
+    <plurals name="sync_count_channels">
+        <item quantity="one"><xliff:g id="count">%1$s</xliff:g> kanal</item>
+        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> kanal</item>
+    </plurals>
+    <plurals name="sync_count_movies">
+        <item quantity="one"><xliff:g id="count">%1$s</xliff:g> film</item>
+        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> film</item>
+    </plurals>
+    <plurals name="sync_count_series">
+        <item quantity="one"><xliff:g id="count">%1$s</xliff:g> telesail</item>
+        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> telesail</item>
+    </plurals>
+    <plurals name="sync_count_epg">
+        <item quantity="one"><xliff:g id="count">%1$s</xliff:g> EPG sarrera</item>
+        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> EPG sarrera</item>
+    </plurals>
+    <plurals name="sync_status_more">
+        <item quantity="one">+<xliff:g id="count">%1$d</xliff:g> sinkronizazio gehiago</item>
+        <item quantity="other">+<xliff:g id="count">%1$d</xliff:g> sinkronizazio gehiago</item>
+    </plurals>
+    <plurals name="sync_categories_added">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> kategoria gehitu da</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> kategoria gehitu dira</item>
+    </plurals>
+    <plurals name="sync_categories_removed">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> kategoria kendu da</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> kategoria kendu dira</item>
+    </plurals>
+    <string name="sync_error_portal">Ezin izan da ataria atzitu. Egiaztatu atariaren URLa — normalean /c/ amaieran izaten du.</string>
+    <string name="sync_error_session">Atariko saioa iraungi da. Saiatu berriro, mesedez.</string>
+    <string name="sync_error_auth">Zerbitzariak zure saio-hasiera baztertu du. Egiaztatu erabiltzaile-izena eta pasahitza.</string>
+    <string name="sync_error_not_found">Ez da zerbitzarian aurkitu. Egiaztatu URLa.</string>
+    <string name="sync_error_server">Zerbitzariak arazo bat izan du. Saiatu berriro geroago, mesedez.</string>
+    <string name="sync_error_secure">Konexio seguruak huts egin du — baliteke zerbitzariaren ziurtagiria baliogabea izatea.</string>
+    <string name="sync_error_malformed_guide">Zerbitzariaren gidaren datuak gaizki osatuta zeuden. Baliteke batzuk kargatu izana — saiatu berriro, edo egiaztatu EPGaren URLa.</string>
+    <string name="sync_error_guide_empty">Gida hau hutsik dago oraintxe. Baliteke hornitzaileak oraindik argitaratu ez izana — saiatu berriro geroago, mesedez.</string>
+    <string name="common_minutes">Minutuak</string>
+    <string name="common_size_mb"><xliff:g id="size">%1$s</xliff:g> MB</string>
+    <string name="common_plus">+</string>
+    <string name="common_minus">–</string>
+    <string name="common_hide">Ezkutatu</string>
+    <string name="common_show">Erakutsi</string>
+    <string name="common_qr_code_companion_url">Laguntzaile-aplikazioaren URLaren QR kodea</string>
 </resources>

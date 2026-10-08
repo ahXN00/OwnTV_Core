@@ -1,3 +1,311 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="player_trailer_exit">Irten</string>
+    <string name="player_trailer_progress"><xliff:g id="current">%1$s</xliff:g> / <xliff:g id="duration">%2$s</xliff:g></string>
+    <string name="player_zoom_fit_screen">Doitu pantailara</string>
+    <string name="player_zoom_fill_crop">Bete / Moztu</string>
+    <string name="player_zoom_stretch">Luzatu</string>
+    <string name="player_zoom_original">Jatorrizkoa (1:1)</string>
+    <string name="player_zoom_force_16_9">Behartu 16:9</string>
+    <string name="player_zoom_force_4_3">Behartu 4:3</string>
+    <string name="player_mini_top_left">Goian ezkerrean</string>
+    <string name="player_mini_top_center">Goian erdian</string>
+    <string name="player_mini_top_right">Goian eskuinean</string>
+    <string name="player_mini_bottom_left">Behean ezkerrean</string>
+    <string name="player_mini_bottom_center">Behean erdian</string>
+    <string name="player_mini_bottom_right">Behean eskuinean</string>
+    <string name="player_channel_label">KANALA</string>
+    <string name="player_at_live_edge">● Zuzenekoaren muturrean</string>
+    <string name="player_behind_live">● <xliff:g id="offset">%1$s</xliff:g> zuzenekoaren atzetik</string>
+    <string name="player_live_offset">−<xliff:g id="offset">%1$s</xliff:g></string>
+    <string name="player_go_live">Joan zuzenekora</string>
+    <string name="player_timeshift_resume_title">Utzi zenuen tokitik jarraitu?</string>
+    <string name="player_timeshift_resume_message">Kanal hau zu kanpoan zeundela gorde zen.</string>
+    <string name="player_previous_channel">Aurreko kanala</string>
+    <string name="player_live_scrub_at"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="programme">%2$s</xliff:g></string>
+    <string name="player_tool_volume">Bolumena</string>
+    <string name="player_tool_brightness">Distira</string>
+    <string name="player_skip_back">Saltatu atzera</string>
+    <string name="player_skip_forward">Saltatu aurrera</string>
+    <string name="player_tool_audio">Audioa</string>
+    <string name="player_tool_subtitles">Azpitituluak</string>
+    <string name="player_tool_favorite">Gogokoa</string>
+    <string name="player_tool_catchup">Berrikusi</string>
+    <string name="player_tool_speed">Abiadura</string>
+    <string name="player_tool_aspect">Formatua</string>
+    <string name="player_tool_quality">Kalitatea</string>
+    <string name="player_tool_mini">Mini</string>
+    <string name="player_tool_audio_only">Audioa soilik</string>
+    <string name="player_tool_engine">Erreproduzigailua</string>
+    <string name="player_tool_info">Informazioa</string>
+    <string name="player_tool_report">Salatu</string>
+    <string name="player_channel_not_found">Ez da kanala aurkitu</string>
+    <string name="player_channel_number_entry">Kanal-zenbakia</string>
+    <string name="player_multiple_channels">Kanal anitz</string>
+    <string name="player_tune_failed">Sintonizazioak huts egin du</string>
+    <string name="player_playback_error">Erreprodukzio-errorea</string>
+    <string name="player_raw_error">errorea: <xliff:g id="error">%1$s</xliff:g></string>
+    <string name="player_provider_retry_after">HTTP <xliff:g id="code">%1$d</xliff:g>: <xliff:g id="reason">%2$s</xliff:g> <xliff:g id="seconds">%3$d</xliff:g>s barru berriro saiatuko da.</string>
+    <string name="player_provider_busy">Hornitzailea lanpetuta dago.</string>
+    <string name="player_audio_track">Audio-pista</string>
+    <string name="player_subtitles">Azpitituluak</string>
+    <string name="player_subtitle_timing">Azpitituluen denbora</string>
+    <string name="player_add_subtitles">GEHITU AZPITITULUAK</string>
+    <string name="player_adjust">DOITU</string>
+    <string name="player_search_subtitles">Bilatu OpenSubtitles-en</string>
+    <string name="player_select_local_subtitle">Hautatu tokiko azpititulu-fitxategia</string>
+    <string name="player_no_tracks">Ez dago pistarik eskuragarri.</string>
+    <string name="player_image_track"><xliff:g id="label">%1$s</xliff:g> · irudia</string>
+    <string name="player_av_sync">A/B sinkronizazioa</string>
+    <string name="player_av_sync_remember">Gogoratu atzerapen hau</string>
+    <string name="player_no_offset">Desplazamendurik ez</string>
+    <string name="player_subtitles_later">Azpitituluak geroago erakusten dira</string>
+    <string name="player_subtitles_earlier">Azpitituluak lehenago erakusten dira</string>
+    <string name="player_delay_zero">0 ms</string>
+    <string name="player_delay_positive">+<xliff:g id="ms">%1$d</xliff:g> ms</string>
+    <string name="player_delay_negative"><xliff:g id="ms">%1$d</xliff:g> ms</string>
+    <string name="player_speed_normal">1.0x (Normala)</string>
+    <string name="player_speed_normal_short">1.0x</string>
+    <string name="player_speed"><xliff:g id="speed">%1$s</xliff:g>x</string>
+    <string name="player_next_episode">Hurrengo atala <xliff:g id="seconds">%1$d</xliff:g>s barru</string>
+    <string name="player_play_now">Erreproduzitu orain</string>
+    <string name="player_volume">Bolumena</string>
+    <string name="player_unmute">Aktibatu soinua</string>
+    <string name="player_mute">Mututu</string>
+    <string name="player_percent"><xliff:g id="value">%1$d</xliff:g>%%</string>
+    <string name="player_duration_minutes"><xliff:g id="minutes">%1$d</xliff:g> min</string>
+    <string name="player_season_number"><xliff:g id="season">%1$d</xliff:g>. denboraldia</string>
+    <string name="player_episode_number"><xliff:g id="episode">%1$d</xliff:g>. atala</string>
+    <string name="player_episode_context_title"><xliff:g id="title">%1$s</xliff:g> · <xliff:g id="season">%2$d</xliff:g>. denb. <xliff:g id="episode">%3$d</xliff:g>. atala</string>
+    <string name="player_channel_number">#<xliff:g id="number">%1$s</xliff:g></string>
+    <string name="player_live">ZUZENEAN</string>
+    <string name="player_subtitle_delay_zero">0.0 s</string>
+    <string name="player_subtitle_delay_positive">+<xliff:g id="seconds">%1$.1f</xliff:g> s</string>
+    <string name="player_subtitle_delay_negative">−<xliff:g id="seconds">%1$.1f</xliff:g> s</string>
+    <string name="player_time_progress"><xliff:g id="position">%1$s</xliff:g> / <xliff:g id="duration">%2$s</xliff:g></string>
+    <string name="player_time_remaining">−<xliff:g id="time">%1$s</xliff:g></string>
+    <string name="player_switch_exo">ExoPlayerrera aldatu da</string>
+    <string name="player_switch_mpv">MPVra aldatu da</string>
+    <string name="player_error_image_subtitle_audio">Irudi-azpitituluak ez daude erabilgarri bideo honen audio-formaturako.</string>
+    <string name="player_error_both_engines_exo_first">Erreprodukzioak huts egin du bideo-motor biekin (ExoPlayer, gero mpv). Baliteke fitxategia hondatuta egotea edo telebista honek erreproduzitu ezin duen formatu bat erabiltzea.</string>
+    <string name="player_error_both_engines_mpv_first">Erreprodukzioak huts egin du bideo-motor biekin (mpv eta ExoPlayer). Baliteke fitxategia hondatuta egotea edo telebista honek erreproduzitu ezin duen formatu bat erabiltzea. (<xliff:g id="error">%1$s</xliff:g>)</string>
+    <string name="player_error_stream_link">Ezin izan da jario-estekarik lortu atariatik. Egiaztatu konexioa eta saiatu berriro.</string>
+    <string name="player_error_not_streaming">Bideo hau ez dago streaming-erako formatuta. Eskatu hornitzaileari fast-start bidez berriro kodetzeko, edo deskargatu lehenik.</string>
+    <string name="player_error_lost_connection">Kanal honekiko konexioa galdu da.</string>
+    <string name="player_error_channel">Ezin izan da kanal hau erreproduzitu.</string>
+    <string name="player_error_exo_decode">ExoPlayerrek ezin du bideo honen formatua deskodetu gailu honetan (<xliff:g id="error">%1$s</xliff:g>).</string>
+    <string name="player_error_exo_play">ExoPlayerrek ezin izan du jario hau erreproduzitu (<xliff:g id="error">%1$s</xliff:g>).</string>
+    <string name="player_error_image_format">Irudi-azpitituluak ez daude erabilgarri fitxategi honen formaturako.</string>
+    <string name="player_error_image_show">Ezin izan dira fitxategi honen irudi-azpitituluak erakutsi.</string>
+    <string name="player_external_could_not_open">Ezin izan da jario hau ireki.</string>
+    <string name="player_external_play_with">Erreproduzitu honekin</string>
+    <string name="player_external_play_with_item">Erreproduzitu “<xliff:g id="channel">%1$s</xliff:g> · <xliff:g id="programme">%2$s</xliff:g>” honekin…</string>
+    <string name="player_external_not_found">Ez da kanpoko erreproduzigailurik aurkitu — instalatu VLC edo MX Player.</string>
+    <string name="player_error_audio_no_video">Audioa erreproduzitzen ari da, baina bideoa ezin izan da gailu honetan errendatu.</string>
+    <string name="player_error_file_corrupt">Bideo honen fitxategia gaizki osatuta edo hondatuta dago eta ezin da erreproduzitu.</string>
+    <string name="player_error_multiple_videos">Hainbat bideok huts egin dute erreproduzitzean. Baliteke iturburua ez egotea erabilgarri edo fitxategiak hondatuta egotea.</string>
+    <string name="player_error_decoder_busy">Telebista honen bideo-deskodetzailea lanpetuta dago. Saiatu berriro une batean.</string>
+    <string name="player_error_no_internet">Ez dago Interneteko konexiorik. Egiaztatu sarea eta saiatu berriro.</string>
+    <string name="player_error_stream_unavailable">Ezin izan da jario hau erreproduzitu. Baliteke iturburua lineaz kanpo egotea edo onartzen ez den formatu bat erabiltzea. <xliff:g id="hint">%1$s</xliff:g></string>
+    <string name="player_error_mpv_open_decode">mpvk ezin izan du fitxategi hau ireki edo deskodetu.</string>
+    <string name="player_error_mpv_stream_never_started">Jarioa ez da inoiz hasi mpv-n hainbat saiakeraren ondoren.</string>
+    <string name="player_error_surround">Audio-irteera honek ezin du surround erabili — estereora aldatu da.</string>
+    <string name="player_error_hardware_fallback">Jario honen formatua ezin izan da hardware bidez deskodetu telebista honetan, beraz software bidezko deskodetzera itzuli da — eta honek ezin du <xliff:g id="resolution">%1$s</xliff:g> mantendu telebista gainkargatu gabe. Baliteke telebistak beste 4K eduki batzuk ondo erreproduzitzea; jario honen formatua da arazoa.</string>
+    <string name="player_error_hardware_disabled">Hardware bidezko deskodetzea desaktibatuta dago — software bidezko deskodetzeak ezin du <xliff:g id="resolution">%1$s</xliff:g> bideoa kudeatu. Aktibatu Ezarpenak → Bideo-erreproduzigailua atalean.</string>
+    <string name="player_error_custom_user_agent">Baliteke hornitzaile honek User-Agent pertsonalizatu bat behar izatea iturburuaren ezarpenetan.</string>
+    <string name="player_reason_decoder_busy">Hardware bidezko bideo-deskodetzailea lanpetuta dago edo ezin du jario hau kudeatu</string>
+    <string name="player_reason_decoder_transient">Hardware bidezko bideo-deskodetzailearen errorea — aldi baterakoa, saiatu berriro</string>
+    <string name="player_reason_unsupported_video">Gailu honen deskodetzaileak ez du bideo-formatu/profil hau onartzen (adib. HEVC 10 bit)</string>
+    <string name="player_reason_decoder_memory">Gailuak memoria agortu du deskodetzailearentzat — saiatu beste aplikazio batzuk ixten</string>
+    <string name="player_reason_drm">DRM / deskodetzaile seguruaren errorea</string>
+    <string name="player_reason_http_509">Hornitzaileak konexioa blokeatu du — jario gehiegi aldi berean (HTTP 509)</string>
+    <string name="player_reason_http_403">Hornitzaileak sarbidea ukatu du (HTTP 403) — kredentzialak, harpidetza edo IP blokeoa</string>
+    <string name="player_reason_http_401">Hornitzaileak zure saio-hasiera baztertu du (HTTP 401)</string>
+    <string name="player_reason_http_404">Jarioa ez da aurkitu hornitzailean (HTTP 404)</string>
+    <string name="player_reason_http_400">Hornitzaileak eskaera baztertu du (HTTP 400) — esteka okerra edo iraungia</string>
+    <string name="player_reason_ssl">Hornitzailearen SSL ziurtagiria baliogabea edo iraungia da</string>
+    <string name="player_reason_format">Jario-formatua ez da ezagutu (jario okerra edo partziala)</string>
+    <string name="player_reason_network">Sare-arazoa hornitzailera iristean</string>
+    <string name="player_reason_audio">Audio-irteeraren errorea — gailuak ezin izan du audio-formatu hau erreproduzitu</string>
+    <string name="player_audio_track_number"><xliff:g id="number">%1$d</xliff:g>. audioa</string>
+    <string name="player_subtitle_track_number"><xliff:g id="number">%1$d</xliff:g>. azpititulua</string>
+    <string name="player_metadata_separator">" · "</string>
+    <string name="player_stream_info">Jarioaren informazioa</string>
+    <string name="player_stream_engine">Motorra</string>
+    <string name="player_stream_format">Formatua</string>
+    <string name="player_stream_source">Iturburua</string>
+    <string name="player_stream_video">Bideoa</string>
+    <string name="player_stream_hdr">HDR</string>
+    <string name="player_stream_hdr10_pq">HDR10 (PQ)</string>
+    <string name="player_stream_hlg">HLG</string>
+    <string name="player_stream_sdr">SDR</string>
+    <string name="player_stream_interlacing">Lerrokatzea</string>
+    <string name="player_stream_progressive">Bat ere ez (progresiboa)</string>
+    <string name="player_stream_deinterlaced_by_player">Lerrokatua · erreproduzigailuak deslerrokatu du</string>
+    <string name="player_stream_deinterlaced_by_device">Lerrokatua · gailuak deslerrokatu du</string>
+    <string name="player_stream_not_deinterlaced">Lerrokatua · ez da deslerrokatu</string>
+    <string name="player_stream_bitrate">Bit-tasa</string>
+    <string name="player_stream_decoder">Deskodetzailea</string>
+    <string name="player_stream_audio">Audioa</string>
+    <string name="player_stream_buffer">Bufferra</string>
+    <string name="player_stream_engine_exo_preferred">ExoPlayer (hobetsia)</string>
+    <string name="player_stream_engine_exo_fallback">ExoPlayer (ordezkoa, mpv-k huts egin ondoren)</string>
+    <string name="player_stream_engine_exo_image_subtitle">ExoPlayer (irudi-azpitituluen eskuordetzea)</string>
+    <string name="player_stream_fps"><xliff:g id="fps">%1$.2f</xliff:g> fps</string>
+    <string name="player_stream_bit_depth"><xliff:g id="bits">%1$d</xliff:g> biteko</string>
+    <string name="player_stream_mbps"><xliff:g id="value">%1$s</xliff:g> Mbps</string>
+    <string name="player_stream_khz"><xliff:g id="value">%1$s</xliff:g> kHz</string>
+    <string name="player_stream_kbps"><xliff:g id="value">%1$s</xliff:g> kbps</string>
+    <string name="player_stream_seconds"><xliff:g id="value">%1$s</xliff:g> s bufferrean</string>
+    <string name="player_audio_only_title">Audioa soilik</string>
+    <string name="player_audio_only_body">Honek soinua dauka baina irudirik ez. Ez dago arazorik — ohiko moduan erreproduzitzen ari da.</string>
+    <string name="player_audio_mono">mono</string>
+    <string name="player_audio_stereo">estereo</string>
+    <plurals name="player_audio_channels">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> kanal</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> kanal</item>
+    </plurals>
+    <plurals name="player_stream_dropped_frames">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> fotograma galdu da</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> fotograma galdu dira</item>
+    </plurals>
+    <string name="player_decoder_hardware">hardware bidezko deskodetzailea</string>
+    <string name="player_decoder_software">software bidezko deskodetzailea</string>
+    <string name="player_decoder_direct">zuzena</string>
+    <string name="player_decoder_gpu">GPUa</string>
+    <string name="player_subtitles_search_title">Bilatu OpenSubtitles-en</string>
+    <string name="player_subtitles_working">Lanean…</string>
+    <string name="player_subtitles_edit_search">Editatu bilaketa</string>
+    <string name="player_subtitles_title_label">Izenburua</string>
+    <string name="player_subtitles_delete_title">Ezabatu OpenSub azpitituluak</string>
+    <string name="player_subtitles_sign_in">Hasi saioa</string>
+    <string name="player_subtitles_sign_out">Amaitu saioa</string>
+    <string name="player_subtitles_account">Kontua</string>
+    <string name="player_subtitles_username">Erabiltzaile-izena</string>
+    <string name="player_subtitles_password">Pasahitza</string>
+    <string name="player_subtitles_stay_signed_in">Mantendu saioa hasita</string>
+    <string name="player_subtitles_sign_in_title">Hasi saioa OpenSubtitles-en</string>
+    <string name="player_subtitles_connect_description">Konektatu profil honen OpenSubtitles kontua.</string>
+    <string name="player_subtitles_contacting">OpenSubtitles-ekin harremanetan jartzen…</string>
+    <string name="player_subtitles_api_notice">Produktu honek OpenSubtitles APIa erabiltzen du, baina OpenSubtitles-ek ez du babestu edo ziurtatu.</string>
+    <string name="player_subtitles_delete_description">Kendu filmetarako eta telesailetarako deskargatutako azpitituluak.</string>
+    <string name="player_subtitles_delete_login_message">Profil honen OpenSubtitles saio-hasiera kentzen du gailu honetatik. Dagoeneko deskargatutako azpitituluak erabilgarri jarraitzen dute lineaz kanpo.</string>
+    <string name="player_subtitles_delete_action">Ezabatu azpitituluak</string>
+    <string name="player_subtitles_downloads">Deskargak</string>
+    <string name="player_subtitles_vip">VIP</string>
+    <string name="player_subtitles_refresh">Freskatu</string>
+    <string name="player_subtitles_sign_in_to_use">Erabili zure opensubtitles.com kontua. Bat sortzea doakoa da.</string>
+    <plurals name="player_subtitles_remaining">
+        <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> deskarga geratzen da gaur <xliff:g id="total">%2$d</xliff:g>tik</item>
+        <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> deskarga geratzen dira gaur <xliff:g id="total">%2$d</xliff:g>tik</item>
+    </plurals>
+    <plurals name="player_subtitles_remaining_short">
+        <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> deskarga geratzen da gaur</item>
+        <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> deskarga geratzen dira gaur</item>
+    </plurals>
+    <plurals name="player_subtitles_remaining_reset">
+        <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> deskarga geratzen da gaur · <xliff:g id="reset">%2$s</xliff:g> barru berrezartzen da</item>
+        <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> deskarga geratzen dira gaur · <xliff:g id="reset">%2$s</xliff:g> barru berrezartzen da</item>
+    </plurals>
+    <plurals name="player_subtitles_remaining_count">
+        <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> deskarga geratzen da gaur</item>
+        <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> deskarga geratzen dira gaur</item>
+    </plurals>
+    <string name="player_subtitles_session">Konexio-saioa iraungi egiten da. Desaktibatu aldi baterako saio bat soilik gordetzeko.</string>
+    <string name="player_subtitles_free_description_full">OpenSubtitles doako azpitituluen komunitate-zerbitzu irekia da. Hasi saioa zure opensubtitles.com kontuarekin; bat sortzea doakoa da. Uneko profilari soilik aplikatzen zaio.</string>
+    <string name="player_subtitles_session_expired">Zure OpenSubtitles saioa iraungi da. Azpitituluak bilatzen eta deskargatzen jarraitzeko, hasi saioa berriro Ezarpenak → Bideo-erreproduzigailua → Azpitituluak → OpenSubtitles atalean.</string>
+    <string name="player_subtitles_account_needed">OpenSubtitles kontua behar da\n\nAzpitituluak bilatzeko eta deskargatzeko, hasi saioa Ezarpenak → Bideo-erreproduzigailua → Azpitituluak → OpenSubtitles atalean. OpenSubtitles doako komunitate-zerbitzu irekia da — edonork sor dezake doako kontu bat opensubtitles.com webgunean.</string>
+    <string name="player_subtitles_show_all_languages">Erakutsi hizkuntza guztiak</string>
+    <string name="player_subtitles_all_languages">Hizkuntza guztiak</string>
+    <string name="player_subtitles_try_again">Saiatu berriro</string>
+    <string name="player_subtitles_limit_reached">Eguneko azpititulu-bilaketen muga gainditu da. Saiatu berriro bihar.</string>
+    <string name="player_subtitles_network_error">Ezin izan da OpenSubtitles atzitu. Egiaztatu konexioa eta saiatu berriro.</string>
+    <string name="player_subtitles_subtitle">Azpititulua</string>
+    <string name="player_subtitles_trusted">Fidagarria</string>
+    <string name="player_subtitles_sdh">SDH</string>
+    <string name="player_subtitles_ai">IA</string>
+    <plurals name="player_subtitles_download_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> deskarga</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> deskarga</item>
+    </plurals>
+    <string name="player_subtitles_tags_separator">" · "</string>
+    <string name="player_subtitles_search">Bilatu</string>
+    <string name="player_subtitles_connected_as">Konektatuta honela:</string>
+    <string name="player_subtitles_connected_user"><xliff:g id="username">%1$s</xliff:g> gisa konektatuta</string>
+    <string name="player_subtitles_resets">Berrezartzen da</string>
+    <string name="player_subtitles_free_account">Doakoa</string>
+    <string name="player_subtitles_enter_credentials">Idatzi zure OpenSubtitles erabiltzaile-izena eta pasahitza.</string>
+    <string name="player_subtitles_invalid_credentials">OpenSubtitles-ek ezin izan du saioa hasi kontuaren datu horiekin.</string>
+    <string name="player_subtitles_sign_in_network_error">Ezin izan da OpenSubtitles atzitu. Egiaztatu Interneteko konexioa eta saiatu berriro.</string>
+    <string name="player_subtitles_sign_in_server_error">OpenSubtitles-ek eskaera baztertu du (<xliff:g id="code">%1$d</xliff:g> errorea). Zure Interneteko konexioak funtzionatzen du — saiatu berriro geroago, eta aipatu zenbaki hau arazoa jakinarazten baduzu.</string>
+    <string name="player_subtitles_refresh_network_error">Ezin izan da OpenSubtitles freskatu. Egiaztatu Interneteko konexioa.</string>
+    <string name="player_subtitles_no_matches_all_languages">Ez da bat datorren azpitidulurik aurkitu. Saiatu bilaketaren izenburua editatzen.</string>
+    <string name="player_subtitles_no_matches_chosen_language">Ez da bat datorren azpitidulurik aurkitu zure aukeratutako hizkuntzan.</string>
+    <string name="player_subtitles_search_language">Bilaketa-hizkuntza</string>
+    <string name="player_reason_software_fallback">Software bidezko deskodetzera itzuli da</string>
+    <string name="player_reason_copy_mode_fallback">Kopia-moduko deskodetzera itzuli da</string>
+    <string name="player_reason_archive_software_fallback">Berrikusteko artxiboa software bidezko deskodetzean berrireki da</string>
+    <string name="player_reason_stereo_fallback">Audio estereora aldatu da</string>
+    <string name="player_reason_one_session_provider">Hornitzaileak saio bakarra onartzen du aldi berean</string>
+    <string name="player_reason_mpv_handoff">Kanal hau mpv-ra eskuordetu da</string>
+    <string name="player_reason_live_fallback">Zuzeneko erreprodukzioa ordezko batera aldatu da</string>
+    <string name="player_reason_live_no_fallback">Zuzeneko erreprodukzioak huts egin du — ez dago ordezkorik</string>
+    <string name="player_reason_stream_report">Jarioaren txostena</string>
+    <string name="player_stream_audio_output">Audio-irteera</string>
+    <string name="player_stream_live_buffer">Zuzeneko bufferra</string>
+    <string name="player_stream_audio_passthrough">passthrough (telebistak/hartzaileak deskodetzen du)</string>
+    <string name="player_stream_audio_decoded_in_app">aplikazioan deskodetuta</string>
+    <string name="player_stream_audio_pcm"><xliff:g id="channels">%1$s</xliff:g> PCM</string>
+    <string name="player_stream_multichannel_allowed">kanal anitz onartuta</string>
+    <string name="player_stream_fell_back">ordezkora itzuli da: <xliff:g id="reason">%1$s</xliff:g></string>
+    <string name="player_stream_preroll_video"><xliff:g id="seconds">%1$s</xliff:g>s bideo aurrebufferatu</string>
+    <string name="player_stream_preroll_off">aurrebufferra desaktibatuta</string>
+    <string name="player_stream_depth">sakonera <xliff:g id="seconds">%1$s</xliff:g>s</string>
+    <string name="player_stream_readahead">aurrerako irakurketa <xliff:g id="seconds">%1$s</xliff:g>s</string>
+    <string name="player_stream_playlist_override">erreprodukzio-zerrendaren gainidazketa</string>
+    <string name="player_error_hardware_format">Telebista honen bideo-hardwareak ezin du <xliff:g id="resolution">%1$s</xliff:g> <xliff:g id="codec">%2$s</xliff:g> deskodetu. Fitxategia ondo dago, baina telebistak ezin du formatu hau bereizmen honetan erreproduzitu.</string>
+    <string name="player_report_saved">Jarioaren txostena erreprodukzio-egunkarian gorde da</string>
+    <string name="player_subtitles_filter_title">Iragazi hizkuntzaren arabera</string>
+    <string name="player_subtitles_filter_description">Desaktibatuta, OpenSubtitles-ek izenburu batentzat dituen hizkuntza guztiak erakusten dira, zerrenda osotik aukeratzeko. Aktibatuta, aukeratutako hizkuntza soilik erakusten da.</string>
+    <string name="player_subtitles_search_language_description">Hizkuntza honetako azpitituluak soilik agertzen dira bilaketa-emaitzetan. Hala ere, emaitzetan “Hizkuntza guztiak” sakatu dezakezu bilaketa bakar baterako dena ikusteko.</string>
+    <string name="player_subtitles_language_not_set">Ezarri gabe</string>
+    <string name="player_frame_rate_prompt_title">Kanal honek dardara egin dezake</string>
+    <string name="player_frame_rate_prompt_description"><xliff:g id="fps">%1$d</xliff:g> fps-tan erreproduzitzen da zure telebista <xliff:g id="current_hz">%2$d</xliff:g> Hz-tan dabilen bitartean, eta horrek ezin ditu fotograma horiek uniformeki erakutsi — mugimendua apur bat irristakorra ikusten da.\n\nFotograma-maiztasun automatikoak telebista <xliff:g id="target_hz">%3$d</xliff:g> Hz-ra aldatzen du ikusten ari zaren bitartean, eta ondoren lehengoratzen du. Telebista batzuk une batez beltz geratzen dira maiztasuna aldatzean; Ezarpenak → Bideo-erreproduzigailua atalean desaktibatu dezakezu berriro.</string>
+    <string name="player_frame_rate_turn_on">Aktibatu</string>
+    <string name="player_error_data_saver">Datu-aurrezlea aktibatuta dago, beraz datu mugikorrekin streaming egitea desaktibatuta dago. Konektatu Wi-Fi sarera, edo desaktibatu Datu-aurrezlea Ezarpenetan.</string>
+    <string name="player_sleep_timer">Lo-tenporizadorea</string>
+    <string name="player_sleep_timer_end_of_programme">Programaren amaieran</string>
+    <string name="player_sleep_timer_end_of_movie">Filmaren amaieran</string>
+    <string name="player_sleep_timer_end_of_episode">Atalaren amaieran</string>
+    <string name="player_sleep_timer_remaining"><xliff:g id="time">%1$s</xliff:g> barru gelditzen da</string>
+    <string name="player_sleep_timer_screen_off">Itzali pantaila ere</string>
+    <string name="player_sleep_timer_screen_off_explanation">Lo-tenporizadorea amaitzean pantaila itzaltzeko soilik erabiltzen da, inoiz ez beste unean.</string>
+    <string name="player_sleep_timer_screen_off_unavailable">Gailu honek ez die aplikazioei pantaila itzaltzen uzten.</string>
+    <string name="player_pip_expand">Zabaldu</string>
+    <string name="player_error_cast_unsupported">Igortzen ari zaren gailuak ezin du jario hau erreproduzitu. Zuzeneko kanal askok ez duen formatu bat erabiltzen dute — erreproduzitu zure telefonoan.</string>
+    <string name="player_cast_playing_on"><xliff:g id="device">%1$s</xliff:g> gailuan erreproduzitzen</string>
+    <string name="multiview_button">Multiview</string>
+    <string name="multiview_add_channel">Gehitu kanala</string>
+    <string name="multiview_refused_single">Zure hornitzaileak jario bakarra onartzen du aldi berean.</string>
+    <string name="multiview_refused_single_recording">Zure hornitzaileak jario bakarra onartzen du aldi berean, eta grabazio batek erabiltzen du.</string>
+    <plurals name="multiview_refused_all_in_use">
+        <item quantity="one">Zure hornitzaileak <xliff:g id="count">%1$d</xliff:g> jario onartzen du aldi berean, eta erabiltzen ari da.</item>
+        <item quantity="other">Zure hornitzaileak <xliff:g id="count">%1$d</xliff:g> jario onartzen ditu aldi berean, eta guztiak erabiltzen ari dira.</item>
+    </plurals>
+    <plurals name="multiview_refused_all_in_use_recording">
+        <item quantity="one">Zure hornitzaileak <xliff:g id="count">%1$d</xliff:g> jario onartzen du aldi berean. <xliff:g id="recording">%2$d</xliff:g> grabatzen ari da.</item>
+        <item quantity="other">Zure hornitzaileak <xliff:g id="count">%1$d</xliff:g> jario onartzen ditu aldi berean. <xliff:g id="recording">%2$d</xliff:g> grabatzen ari dira.</item>
+    </plurals>
+    <string name="multiview_refused_reserved">Konexio bat libre mantentzen da ikusten jarraitu ahal izateko. Aldatu hori Ezarpenetan konexio guztietan grabatzeko.</string>
+    <string name="multiview_decoder_exhausted">Telebista honek ezin du beste kanal bat aldi berean deskodetu.</string>
+    <string name="multiview_decoder_exhausted_mobile">Gailu honek ezin du beste kanal bat aldi berean deskodetu.</string>
+    <string name="multiview_tile_change_channel">Aldatu kanala</string>
+    <string name="multiview_tile_fullscreen">Jarri pantaila osoan</string>
+    <string name="multiview_tile_remove">Kendu laukia</string>
+    <string name="multiview_audio_tile">Soinua lauki honetan dago</string>
+    <string name="multiview_add_to">Gehitu Multiview-ra</string>
+    <string name="multiview_added">Multiview-rako gordeta · <xliff:g id="count">%1$d</xliff:g> <xliff:g id="total">%2$d</xliff:g>tik. Erreproduzitu kanal bat sareta irekitzeko.</string>
+    <string name="multiview_tile_sound_only">Soinua soilik</string>
+    <string name="multiview_tile_show_picture">Erakutsi irudia</string>
+    <string name="multiview_sound_only_note">Soinua soilik — zure hornitzailearen jarioetako bat da oraindik</string>
 </resources>
