@@ -24,6 +24,7 @@ class EpgSyncWorker(
     private val activityTracker: EpgActivityTracker,
     private val recordings: tv.own.owntv.core.recording.RecordingManager,
     private val localeStore: LocaleStore,
+    private val watchSession: tv.own.owntv.core.live.WatchSession,
 ) : CoroutineWorker(context, params) {
 
     /**
@@ -50,6 +51,12 @@ class EpgSyncWorker(
             return Result.success()
         }
 
+        // An automatic refresh never runs under a film or channel: it waits until playback stops
+        // (WorkManager restarts it later if the wait outlives the job's time limit).
+        if (reason == tv.own.owntv.core.sync.AutoRefresh.REASON && watchSession.watching.value.isNotEmpty()) {
+            Log.i(TAG, "auto refresh waiting for playback to stop sourceId=$sourceId")
+            watchSession.awaitIdle()
+        }
         val baseProgrammes = inputData.getInt(KEY_BASE_PROGRAMMES, 0)
         val progress = ProgressPublisher(baseProgrammes, source.id, source.name) { channels, programmes ->
             activityTracker.progress(source.id, channels, programmes)

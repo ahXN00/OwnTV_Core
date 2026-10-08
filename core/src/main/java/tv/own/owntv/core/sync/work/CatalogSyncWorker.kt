@@ -31,6 +31,7 @@ class CatalogSyncWorker(
     private val connectivity: ConnectivityObserver,
     private val epgRepository: tv.own.owntv.core.repository.EpgRepository,
     private val settings: SettingsRepository,
+    private val watchSession: tv.own.owntv.core.live.WatchSession,
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
@@ -56,6 +57,12 @@ class CatalogSyncWorker(
         val source = sourceRepository.getById(sourceId) ?: run {
             Log.w(TAG, "Source $sourceId not found — skipping ($reason)")
             return Result.failure()
+        }
+        // An automatic refresh never runs under a film or channel: it waits until playback stops
+        // (WorkManager restarts it later if the wait outlives the job's time limit).
+        if (reason == tv.own.owntv.core.sync.AutoRefresh.REASON && watchSession.watching.value.isNotEmpty()) {
+            Log.i(TAG, "auto refresh waiting for playback to stop sourceId=$sourceId")
+            watchSession.awaitIdle()
         }
 
         val effective = contentTypes.effectiveFor(source)

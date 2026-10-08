@@ -16,6 +16,8 @@
 - **🔄 "Stream interrupted. Reconnecting…" while a live channel recovers by itself** (community PR #13 by @tvdev-android)
 - **↩️ Strings for restoring a category, or the playlists shown, to the playlist default** (community PR #11 by @tvdev-android)
 - **⏭️ Strings for the phone player's next / previous channel in list buttons**
+- **🔄 Auto refresh of playlists and guides shared by both apps**
+- **⚠️ String for the first-run restore warning when Sources is unticked**
 
 ### 🐛 Fixes
 
@@ -28,6 +30,9 @@
 - **⏩ Channels with a pre-buffer start faster** (community PR #19 by @tvdev-android)
 - **🔊 Surround sound is no longer turned off by a muted preview** (community PR #21 by @tvdev-android)
 - **🔐 Stalker portals that reject a device as a "Device conflict" are retried with the box model** (community PR #22 by @atlasafford)
+- **🎬 An automatic playlist or guide refresh waits until playback stops**
+- **💾 A first-run backup restore opens the app only once everything is restored**
+- **🔄 Restored playlists download straight away after a restore**
 - **⏪ H.264 catch-up and films are no longer mistaken for video the hardware decoder can't play**
 - **🔁 Retrying a catch-up, or coming back to the app during one, keeps playing it as catch-up**
 - **🖼️ A catch-up that loses its picture recovers in seconds instead of staying black**

@@ -3045,6 +3045,7 @@
 1	url	core/src/main/java/tv/own/owntv/core/setup/SourceImporter.kt	content://
 1	url	core/src/main/java/tv/own/owntv/core/setup/SourceImporter.kt	file://
 1	technical	core/src/main/java/tv/own/owntv/core/setup/SourceImporter.kt	fresh_add
+1	technical	core/src/main/java/tv/own/owntv/core/setup/SourceImporter.kt	restore
 2	technical	core/src/main/java/tv/own/owntv/core/stalker/StalkerAuthManager.kt	?
 1	log	core/src/main/java/tv/own/owntv/core/stalker/StalkerAuthManager.kt	StalkerAuth
 1	log	core/src/main/java/tv/own/owntv/core/stalker/StalkerAuthManager.kt	account_info unavailable sourceId=${creds.sourceId}: ${it.message}
@@ -3350,6 +3351,13 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/subtitles/SubtitleTrackLabel.kt	OS
 1	protocol	core/src/main/java/tv/own/owntv/core/subtitles/SubtitleTrackLabel.kt	·
 1	protocol	core/src/main/java/tv/own/owntv/core/subtitles/SubtitleTrackLabel.kt	…
+1	log	core/src/main/java/tv/own/owntv/core/sync/AutoRefresh.kt	OwnTVHome
+1	technical	core/src/main/java/tv/own/owntv/core/sync/AutoRefresh.kt	auto_refresh
+1	log	core/src/main/java/tv/own/owntv/core/sync/AutoRefresh.kt	checkAutoRefresh epg sourceId=${src.id} mode=$mode — enqueuing
+1	log	core/src/main/java/tv/own/owntv/core/sync/AutoRefresh.kt	checkAutoRefresh playlist sourceId=${source.id} mode=$mode — enqueuing
+1	log	core/src/main/java/tv/own/owntv/core/sync/AutoRefresh.kt	epgRefill check failed
+1	log	core/src/main/java/tv/own/owntv/core/sync/AutoRefresh.kt	epgRefill sourceId=${src.id} — synced before but guide is empty, re-fetching
+1	technical	core/src/main/java/tv/own/owntv/core/sync/AutoRefresh.kt	migration_refill
 1	log	core/src/main/java/tv/own/owntv/core/sync/CatalogPriority.kt	CatalogPriority
 1	log	core/src/main/java/tv/own/owntv/core/sync/CatalogPriority.kt	pagesLeft=${row.lastPage - row.nextPage + 1}
 1	log	core/src/main/java/tv/own/owntv/core/sync/CatalogPriority.kt	priority category sourceId=${row.sourceId} type=${row.mediaType} cat=${row.categoryRemoteId}
@@ -3663,6 +3671,7 @@
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	Trending Home visibility read failed sourceId=${source.id}; skip enqueue
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	Trending refresh enqueued sourceId=${source.id}
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	Trending settings read failed sourceId=${source.id}; skip enqueue
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	auto refresh waiting for playback to stop sourceId=$sourceId
 1	preference-key	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	baseItemCount
 1	preference-key	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	completesInitialSync
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	contentTypes=$contentTypes effective=$effective baseItemCount=$baseItemCount forcePrune=$forcePrune
@@ -3709,6 +3718,7 @@
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	EpgSyncWorker
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	Skipping stale EPG sync sourceId=$sourceId reason=$reason
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	Starting EPG sync sourceId=${source.id} reason=$reason
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	auto refresh waiting for playback to stop sourceId=$sourceId
 1	preference-key	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	baseProgrammes
 1	preference-key	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	channels
 1	preference-key	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	programmes
