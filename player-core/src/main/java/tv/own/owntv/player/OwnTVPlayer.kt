@@ -478,6 +478,12 @@ class OwnTVPlayer(
         const val DECODE_CHECK_MS = 4_000L         // wait before verifying video decode actually produces frames
         /** mpv giving up on the video output for a load ("Could not initialize video chain"). */
         val VIDEO_CHAIN_FAILED_RX = Regex("could not initialize video chain", RegexOption.IGNORE_CASE)
+        /** FFmpeg's first probe on the copy path: it asks for the surface format, is refused (copy has no
+         *  surface by design) and carries on in buffer mode. Not a failure there — only on the direct path. */
+        val COPY_PROBE_NOISE_RX = Regex("both surface and native_window are null", RegexOption.IGNORE_CASE)
+        /** The "no picture yet" watchdog stages judge the decoder only after it has had this long with an
+         *  open file. A slow archive probe (~6 s on a Stalker panel) must not use up the decoder's time. */
+        const val DECODER_GRACE_AFTER_LOAD_MS = 4_000L
         const val LIVE_FPS_PROBE_MS = 6_000L       // settle time before measuring fps on a stream with no container-fps
         /** Frame rates a broadcast can plausibly be; a measurement is only trusted when it lands on one. */
         val STANDARD_FPS = floatArrayOf(23.976f, 24f, 25f, 29.97f, 30f, 50f, 59.94f, 60f)
@@ -1365,6 +1371,8 @@ class OwnTVPlayer(
             // "Failed to open / loading failed" is the CONSEQUENCE — don't let it overwrite a more specific
             // cause already captured for this load (e.g. "HTTP error 400", an SSL error, a codec message).
             if (load.lastMpvError != null && GENERIC_FAIL_RX.containsMatchIn(t)) return
+            // Recorded as the load's cause it would make a healthy copy-path start read as a decoder failure.
+            if (item.forceCopyThisLoad && COPY_PROBE_NOISE_RX.containsMatchIn(t)) return
             load.lastMpvError = safe
         }
     }
@@ -3128,6 +3136,7 @@ class OwnTVPlayer(
                         return@launch
                     }
                     val elapsed = System.currentTimeMillis() - load.loadStartTime
+                    val decoderHadTime = System.currentTimeMillis() - load.fileLoadedAt > DECODER_GRACE_AFTER_LOAD_MS
                     // Nothing below can judge an item that has no video track at all. An audio-only VOD
                     // (a radio station filed under Movies, a music-only MP4) loads with no height and no
                     // video bitrate — precisely stage 2's and stage 3's signature — so healthy audio was
@@ -3190,7 +3199,7 @@ class OwnTVPlayer(
                     // Read off-thread (A-F1): this loop runs on the main scope, and a blocking JNI read
                     // per tick is exactly what the threading rule at the top of this file forbids.
                     val bitrateKnown = readProperty("video-bitrate")?.toLongOrNull()?.let { it > 0 } ?: false
-                    if (load.fileLoaded && load.currentHeightPx == 0 && !bitrateKnown && elapsed > 6_000) {
+                    if (load.fileLoaded && load.currentHeightPx == 0 && !bitrateKnown && elapsed > 6_000 && decoderHadTime) {
                         // "Loaded but no height and no bitrate" is ALSO what a failed video DECODER looks
                         // like (MediaCodec err 0xfffffff4 / 0x80001000). Blaming the file there is wrong —
                         // and it dead-ends, while the same screen shows the codec error contradicting it.
@@ -3234,7 +3243,7 @@ class OwnTVPlayer(
                         videoCheckJob?.cancel()
                         return@launch
                     }
-                    if (load.fileLoaded && elapsed > 7_000) {
+                    if (load.fileLoaded && elapsed > 7_000 && decoderHadTime) {
                         // Stage 3: demuxer finished but no video frame — decoder stalled. For a catch-up
                         // archive that is the mid-GOP signature, and a hard reset only reproduces it:
                         // reopen in software instead (and teach the panel).
@@ -4668,6 +4677,7 @@ class OwnTVPlayer(
                 // Stale FILE_LOADED from mpv's own stop() during a handoff to Exo, not a real load.
                 if (exoActive) return
                 load.fileLoaded = true
+                load.fileLoadedAt = System.currentTimeMillis()
                 // Observation only — do NOT clear the counter here. Each app-issued loadfile/stop credits
                 // exactly one cleanup END_FILE, and that END_FILE can legitimately arrive *after* the new
                 // file's FILE_LOADED. The old `getAndSet(0)` threw those credits away, so the late END_FILE
@@ -5254,6 +5264,8 @@ internal data class LoadState(
     /** Set when mpv fires EVENT_FILE_LOADED; with [loadStartTime] it decides which stage of the
      *  VOD/archive load watchdog applies - open timeout at 10s, moov-at-end at 6s, decode at 7s. */
     var fileLoaded: Boolean = false,
+    /** When [fileLoaded] became true (wall clock); the decoder's own wait starts here. */
+    var fileLoadedAt: Long = 0L,
     /** When loadUrl started, for the watchdog stages above. */
     var loadStartTime: Long = 0L,
     /** Load this item paused (restoring a backgrounded VOD). */

@@ -31,7 +31,7 @@
 - **⏪ H.264 catch-up and films are no longer mistaken for video the hardware decoder can't play**
 - **🔁 Retrying a catch-up, or coming back to the app during one, keeps playing it as catch-up**
 - **🖼️ A catch-up that loses its picture recovers in seconds instead of staying black**
-- **🧊 Catch-up freezes on its first frame less often, and recovers by itself**
+- **🧊 Catch-up no longer freezes on its first frame on TVs with a Realtek chip**
 - **🎞️ Catch-up uses the hardware decoder again instead of falling back to software (#229)**
 - **📡 A catch-up of a programme still on air switches to live when the provider stops sending**
 - **⏱️ A short rewind on a catch-up channel no longer asks for a recording that doesn't exist yet**
