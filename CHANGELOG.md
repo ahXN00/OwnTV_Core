@@ -21,6 +21,8 @@
 - **📊 Latest episode progress per series, for series poster progress bars**
 - **🎞️ Guide video preview setting, kept in backups**
 - **📋 Strings and the Catch-up list for the player's Stage channel, history and category lists**
+- **⭐ Favourite movies and series rows for Home**
+- **🔎 Programme search by title, the On TV group in Search**
 
 ### 🐛 Fixes
 

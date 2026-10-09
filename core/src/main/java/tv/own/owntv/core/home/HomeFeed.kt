@@ -19,6 +19,7 @@ import tv.own.owntv.core.database.dao.SeriesDao
 import tv.own.owntv.core.database.dao.SourceDao
 import tv.own.owntv.core.database.dao.TrendingDao
 import tv.own.owntv.core.database.entity.ChannelEntity
+import tv.own.owntv.core.database.entity.ContentOrderEntity
 import tv.own.owntv.core.database.entity.EpgProgrammeEntity
 import tv.own.owntv.core.database.entity.EpisodeEntity
 import tv.own.owntv.core.database.entity.MovieEntity
@@ -150,6 +151,8 @@ data class HomeFeed(
     val continueSeries: List<LauncherContinuationItem> = emptyList(),
     val recentLive: List<ChannelEntity> = emptyList(),
     val favoriteLive: List<ChannelEntity> = emptyList(),
+    val favoriteMovies: List<MovieEntity> = emptyList(),
+    val favoriteSeries: List<SeriesEntity> = emptyList(),
     val config: HomeConfig = HomeConfig(),
     val recentGuide: GuideSliceState = GuideSliceState(),
     val favoriteGuide: GuideSliceState = GuideSliceState(),
@@ -236,6 +239,17 @@ class HomeFeedReader(
             val favLive = favouritesAsync.await()
                 .filter { c -> c.sourceId in liveIds }
                 .filterNot { isChannelHidden(it, hidden) }
+            // Favourites in the user's own Favorites order, so Home and the Favorites folder agree.
+            val favMoviesAsync = async {
+                if (HomeRow.FAVORITE_MOVIES !in config.visibleOrder || movieIds.isEmpty()) emptyList()
+                else movieDao.snapshotFavoritesManual(profileId, ContentOrderEntity.FAV_CONTEXT, movieIds.toList(), FAVORITE_VOD_ROW_LIMIT)
+                    .filterNot { CustomizeKeys.movie(it) in hidden.movie.hiddenItems || (it.categoryId != null && it.categoryId in hidden.movieCats) }
+            }
+            val favSeriesAsync = async {
+                if (HomeRow.FAVORITE_SERIES !in config.visibleOrder || seriesIds.isEmpty()) emptyList()
+                else seriesDao.snapshotFavoritesManual(profileId, ContentOrderEntity.FAV_CONTEXT, seriesIds.toList(), FAVORITE_VOD_ROW_LIMIT)
+                    .filterNot { CustomizeKeys.series(it) in hidden.series.hiddenItems || (it.categoryId != null && it.categoryId in hidden.seriesCats) }
+            }
             val heroItems = buildHeroItems(items, liveWithTs, config)
             // The two guide slices read different channel sets and never depend on each other.
             val recentGuideAsync = async {
@@ -262,6 +276,8 @@ class HomeFeedReader(
                 continueSeries = series,
                 recentLive = live,
                 favoriteLive = favLive,
+                favoriteMovies = favMoviesAsync.await(),
+                favoriteSeries = favSeriesAsync.await(),
                 config = config,
                 recentGuide = recentGuideAsync.await(),
                 favoriteGuide = favoriteGuideAsync.await(),
@@ -485,3 +501,4 @@ private const val MAX_HERO_ITEMS = 10
 private const val SLICE_WINDOW_MS = 360 * 60_000L
 private const val HALF_HOUR_MS = 30 * 60_000L
 private const val RECENT_LIVE_ROW_LIMIT = 20
+private const val FAVORITE_VOD_ROW_LIMIT = 50

@@ -931,6 +931,8 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId = :sourceId AND remoteId = :remoteId LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId = :sourceId AND remoteId IN (:remoteIds)
 2	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds)
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND (remoteId IN (:tails) OR name IN (:tails))
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND LOWER(TRIM(epgChannelId)) IN (:epgKeys)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1 AND name LIKE '%' || :query || '%' ORDER BY name ASC
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1 ORDER BY name ASC
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1 ORDER BY sourceId ASC, sortOrder ASC, name ASC
@@ -1033,6 +1035,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/DownloadDao.kt	WHERE d.mediaType = 'EPISODE' AND e.seriesId = :seriesId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	AND startMs > :from - 86400000 AND stopMs > :from AND startMs < :to ORDER BY epgChannelId ASC, startMs ASC
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	AND startMs > :from - 86400000 AND stopMs > :from AND startMs < :to ORDER BY startMs ASC
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	AND title LIKE '%' || :query || '%' ORDER BY startMs ASC LIMIT :limit
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_channels WHERE sourceId = :sourceId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_channels WHERE sourceId = :sourceId AND epgChannelId IN (:epgChannelIds)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE epgChannelId = :epgChannelId
@@ -1043,7 +1046,8 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE sourceId = :sourceId AND epgChannelId IN (:epgChannelIds)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE startMs > :after
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE stopMs < :before
-2	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	NULL AS categories, NULL AS year, NULL AS rating, NULL AS lengthMin, NULL AS episode
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	FROM epg_programmes WHERE startMs > :from - 86400000 AND startMs < :to AND stopMs > :from
+3	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	NULL AS categories, NULL AS year, NULL AS rating, NULL AS lengthMin, NULL AS episode
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT (MAX(stopMs) - MIN(startMs)) / 86400000 FROM epg_programmes WHERE epgChannelId = :epgChannelId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT * FROM epg_programmes WHERE epgChannelId = :epgChannelId AND startMs <= :now AND stopMs > :now ORDER BY startMs DESC LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT * FROM epg_programmes WHERE epgChannelId = :epgChannelId AND stopMs <= :now ORDER BY stopMs DESC LIMIT 1
@@ -1061,7 +1065,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT epgChannelId, displayName, normName, normId FROM epg_channels LIMIT :limit
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT epgChannelId, iconUrl FROM epg_channels WHERE sourceId IN (:sourceIds) AND iconUrl IS NOT NULL AND iconUrl != ''
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT id, epgChannelId, startMs, contentHash FROM epg_programmes WHERE sourceId = :sourceId AND epgChannelId = :epgChannelId
-2	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, 0 AS contentHash,
+3	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, 0 AS contentHash,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	(:type = 'LIVE' AND itemId NOT IN (SELECT id FROM channels)) OR
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	(:type = 'MOVIE' AND itemId NOT IN (SELECT id FROM movies)) OR
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	(:type = 'SERIES' AND itemId NOT IN (SELECT id FROM series))
