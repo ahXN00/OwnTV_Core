@@ -299,6 +299,10 @@ interface ChannelDao {
     @Query("SELECT * FROM channels WHERE sourceId IN (:sourceIds) ORDER BY sourceId ASC, sortOrder ASC, name ASC LIMIT :limit")
     suspend fun snapshotAll(sourceIds: List<Long>, limit: Int): List<ChannelEntity>
 
+    /** Bounded snapshot of the Catch-up rail in provider order — the in-player category sheet's pick. */
+    @Query("SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1 ORDER BY sourceId ASC, sortOrder ASC, name ASC LIMIT :limit")
+    suspend fun snapshotCatchup(sourceIds: List<Long>, limit: Int): List<ChannelEntity>
+
     /** Bounded snapshot of Favorites in manual order, for the Move session's in-memory reorder. */
     @Query(
         "SELECT c.* FROM channels c " +

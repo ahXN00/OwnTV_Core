@@ -486,6 +486,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val SORT_LIVE = stringPreferencesKey("sort_live")
         val SORT_GUIDE = stringPreferencesKey("sort_guide")
         val GUIDE_SHOW_EMPTY = booleanPreferencesKey("guide_show_empty")
+        val GUIDE_PREVIEW = booleanPreferencesKey("guide_preview")
         val SORT_MOVIES = stringPreferencesKey("sort_movies")
         val SORT_SERIES = stringPreferencesKey("sort_series")
         val RESUME_MODE = stringPreferencesKey("resume_mode")
@@ -1517,6 +1518,12 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     val guideShowEmpty: Flow<Boolean> = prefsFlow { it[Keys.GUIDE_SHOW_EMPTY] ?: false }
     suspend fun setGuideShowEmpty(show: Boolean) {
         context.dataStore.edit { it[Keys.GUIDE_SHOW_EMPTY] = show }
+    }
+
+    /** The TV Guide plays the focused channel in its preview pane (Order ▾ › Show); off shows the logo only. */
+    val guidePreview: Flow<Boolean> = prefsFlow { it[Keys.GUIDE_PREVIEW] ?: true }
+    suspend fun setGuidePreview(show: Boolean) {
+        context.dataStore.edit { it[Keys.GUIDE_PREVIEW] = show }
     }
 
     // --- Video Player Settings ---
@@ -3137,7 +3144,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             // N4's saved-copy length; the reader accepts only its own choices.
             Keys.TIMESHIFT_WINDOW_MINUTES)
         val bools = listOf(
-            Keys.GUIDE_SHOW_EMPTY,
+            Keys.GUIDE_SHOW_EMPTY, Keys.GUIDE_PREVIEW,
             Keys.LIVE_PREVIEW, Keys.LIVE_PREVIEW_AUDIO, Keys.HERO_PREVIEW, Keys.HDR_ENABLED, Keys.AUTO_FRAME_RATE, Keys.AFR_MATCH_RESOLUTION, Keys.AUTO_FRAME_RATE_PROMPTED, Keys.ANDROID_TV_HOME, Keys.HW_DECODING,
             Keys.VOD_PREFER_EXO, Keys.MEASURED_STREAM_STATS, Keys.DETAILED_DIAGNOSTICS, Keys.DIRECT_TUNE, Keys.LIVE_LEFT_RIGHT_REWINDS, Keys.EXTERNAL_PLAYER,
             Keys.EXTERNAL_PLAYER_LIVE, Keys.EXTERNAL_PLAYER_MOVIES, Keys.EXTERNAL_PLAYER_SERIES, Keys.UPDATE_CHECK_ON_START, Keys.SURROUND_SOUND, Keys.AUTO_PLAY_NEXT, Keys.PROXY_ENABLED,

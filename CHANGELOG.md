@@ -19,6 +19,8 @@
 - **🔄 Auto refresh of playlists and guides shared by both apps**
 - **⚠️ String for the first-run restore warning when Sources is unticked**
 - **📊 Latest episode progress per series, for series poster progress bars**
+- **🎞️ Guide video preview setting, kept in backups**
+- **📋 Strings and the Catch-up list for the player's Stage channel, history and category lists**
 
 ### 🐛 Fixes
 
