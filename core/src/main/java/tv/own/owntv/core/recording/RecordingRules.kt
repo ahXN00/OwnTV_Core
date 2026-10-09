@@ -28,6 +28,12 @@ object RecordingRules {
     /** HTTP 458 — "your account's session is already in use", the same code the player treats as BUSY. */
     const val SESSION_LIMIT_CODE = 458
 
+    /**
+     * Less than this is not a recording. One six-second segment of even an audio-only channel is
+     * about 48 kB; #243's files of playlist text were 12 and 20 kB and were shown as ready to watch.
+     */
+    const val MIN_PLAYABLE_BYTES = 32L * 1024L
+
     /** True while there is still room to write. [freeBytes] is the target volume's usable space. */
     fun hasSpace(freeBytes: Long): Boolean = freeBytes > RESERVE_BYTES
 
@@ -65,16 +71,16 @@ object RecordingRules {
     /**
      * How a recording that actually ran should be closed out.
      *
-     * **Any bytes at all is a success.** A `.ts` file is playable to whatever point it reached, so
+     * **Any real amount of video is a success** — at least [MIN_PLAYABLE_BYTES]. A `.ts` file is playable to whatever point it reached, so
      * ten minutes of a programme that dropped is a recording the user can watch, not a failure — and
      * marking it FAILED would hide a file that is on disk. The one exception is running out of room,
      * which stays a failure however much was captured, because the user has to know why it is short.
      *
-     * Nothing written at all is a failure whatever the reason: there is no file to offer.
+     * Less than that is a failure whatever the reason: there is no programme to offer.
      */
     fun outcomeOf(bytes: Long, failure: RecordingFailure): Pair<RecordingStatus, RecordingFailure> = when {
         failure == RecordingFailure.NO_SPACE -> RecordingStatus.FAILED to RecordingFailure.NO_SPACE
-        bytes > 0 -> RecordingStatus.COMPLETED to RecordingFailure.NONE
+        bytes >= MIN_PLAYABLE_BYTES -> RecordingStatus.COMPLETED to RecordingFailure.NONE
         failure != RecordingFailure.NONE -> RecordingStatus.FAILED to failure
         else -> RecordingStatus.FAILED to RecordingFailure.STREAM_UNAVAILABLE
     }

@@ -23,8 +23,10 @@
 - **📋 Strings and the Catch-up list for the player's Stage channel, history and category lists**
 - **⭐ Favourite movies and series rows for Home**
 - **🔎 Programme search by title, the On TV group in Search**
+- **⏰ Schedule a recording by day and time on any channel, guide or not (#2)**
 
 ### 🐛 Fixes
+- **⏺️ Recordings of channels served as a quality list (master playlist) or AES-128 HLS now record the programme (#243)**
 
 - **📡 Live channels keep the last picture through a network outage and come back by themselves** (community PRs #12, #13, #17 by @tvdev-android)
 - **⏱️ A live reconnect no longer stalls behind a slow connection or DNS lookup** (community PR #14 by @tvdev-android)

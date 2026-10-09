@@ -339,7 +339,7 @@
     <!-- Translators: One-line description under the Recordings screen title. -->
     <string name="recording_description">Live TV saved on this device.</string>
     <!-- Translators: Empty-state message on the Recordings screen, directing the user to the TV guide. -->
-    <string name="recording_empty">Nothing recorded yet. Open the TV guide, pick a programme and press Record.</string>
+    <string name="recording_empty">Nothing recorded yet. Press Record on a programme in the TV guide, or long-press a channel to record it or schedule a time.</string>
     <!-- Translators: Section heading for recordings that are being written right now. -->
     <string name="recording_group_now">Recording now</string>
     <!-- Translators: Section heading for recordings set to happen later. -->
@@ -360,6 +360,18 @@
     <string name="recording_stop_series">Stop recording every showing</string>
     <!-- Translators: Button that records a programme which has already been broadcast, from the provider's catch-up archive. -->
     <string name="recording_from_archive">Record from catch-up</string>
+    <!-- Translators: Channel menu item and dialog title: record this channel between two times the user picks, even with no TV guide. -->
+    <string name="recording_schedule">Schedule recording…</string>
+    <!-- Translators: Body of the schedule-recording dialog. -->
+    <string name="recording_schedule_hint">Pick the day, the start and the end. It records even if this channel has no TV guide.</string>
+    <!-- Translators: Schedule-recording dialog: label over the start time. -->
+    <string name="recording_schedule_start">Start</string>
+    <!-- Translators: Schedule-recording dialog: label over the end time. -->
+    <string name="recording_schedule_end">End</string>
+    <!-- Translators: Schedule-recording dialog: shown under the end time when it falls on the day after the start (e.g. 23:00 to 01:00). -->
+    <string name="recording_schedule_next_day">next day</string>
+    <!-- Translators: Schedule-recording dialog: shown when the chosen time window has already ended. -->
+    <string name="recording_schedule_past">That time has already passed</string>
     <!-- Translators: Status line on a scheduled recording. "time" is a formatted date and time, e.g. "Sat 21:00". -->
     <string name="recording_scheduled_for">Will record <xliff:g id="time">%1$s</xliff:g></string>
     <!-- Translators: Short badge shown over the video while a recording is running. Keep it very short; many languages keep the English "REC". -->
@@ -398,7 +410,7 @@
     <!-- Translators: Downloads screen, Recordings card: nothing has been recorded so far. -->
     <string name="recording_card_empty_title">Nothing recorded yet</string>
     <!-- Translators: Downloads screen, Recordings card: how to record a programme. -->
-    <string name="recording_card_body">Pick any programme in the TV Guide and choose Record. It lands here, even while you watch something else.</string>
+    <string name="recording_card_body">Pick a programme in the TV Guide and choose Record, or long-press a channel and schedule a time. It lands here, even while you watch something else.</string>
     <!-- Translators: Downloads screen, Recordings card: button that opens the TV Guide. -->
     <string name="recording_open_guide">Open TV Guide</string>
     <!-- Translators: Downloads screen, Recordings card: how many recordings are stored. -->

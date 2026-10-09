@@ -39,6 +39,9 @@ private val LIVE_ACTIONS = listOf(
     // hide — a key that is not here is dropped by the arrangement, which is exactly what happened
     // to the phone's Record row while the television's happened to survive.
     MenuActionRef("record", R.string.recording_record),
+    // Record this channel between two times the user picks (#2) — the way to record ahead on a
+    // channel with no guide. Here for the same reason as `record`.
+    MenuActionRef("schedule_record", R.string.recording_schedule),
     // Keep this channel for the Multiview grid. Same reason as `record` above, and the same symptom:
     // absent from this list, the phone's row was silently dropped by the arrangement while the
     // television's survived — and it is the only way to *start* a grid from the channel list.

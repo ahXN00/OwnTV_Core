@@ -357,10 +357,11 @@ class RecordingEngine(
      * identified by their **media sequence number**, not by their URL, so a signature that changes
      * between polls does not make an old segment look new.
      *
-     * **Encrypted playlists are refused, not attempted** (§1.5). Writing `#EXT-X-KEY`-protected
-     * segments out unchanged produces a file of exactly the right size that will not play, and a
-     * recording the user only discovers is worthless when they sit down to watch it is worse than
-     * one that said no at the start.
+     * **AES-128 segments are decrypted as they are written** (#243): the key is a public URL every
+     * player fetches, so the file on disk is clear MPEG-TS. **Anything else encrypted is refused, not
+     * attempted** (§1.5) — SAMPLE-AES written out unchanged produces a file of exactly the right size
+     * that will not play, and a recording the user only discovers is worthless when they sit down to
+     * watch it is worse than one that said no at the start.
      */
     private suspend fun recordHls(
         row: RecordingEntity,
@@ -374,15 +375,33 @@ class RecordingEngine(
         // a fresh attempt re-reads it as "whatever the playlist offers now", which is correct — a
         // live window has moved on and there is nothing to catch up to.
         var lastSequence = -1L
+        // AES-128 keys by their resolved URL. A signed key URL changes with every poll, so this mostly
+        // saves refetching the same key for each segment of one cycle.
+        val keys = HashMap<String, ByteArray>()
         while (currentCoroutineContext().isActive) {
             if (RecordingRules.shouldStop(clock(), row.stopMs)) return RecordingFailure.NONE
             if (!RecordingRules.hasSpace(target.usableSpace())) {
                 android.util.Log.w(TAG, "recording stopped, disk reserve reached id=${row.id}")
                 return RecordingFailure.NO_SPACE
             }
-            val text = client.newCall(request(playlistUrl, userAgent, headers)).execute().use { response ->
+            var mediaUrl = playlistUrl
+            var text = client.newCall(request(playlistUrl, userAgent, headers)).execute().use { response ->
                 if (!response.isSuccessful) return RecordingFailure.STREAM_UNAVAILABLE
+                mediaUrl = response.request.url.toString()
                 response.body.string()
+            }
+            // A master playlist lists qualities, not segments (#243). Follow the best one — every
+            // cycle, because these providers sign the quality URLs too and a kept one expires.
+            if (HlsMediaPlaylist.isMaster(text)) {
+                val variant = HlsMediaPlaylist.bestVariant(text)?.let { absoluteUrl(mediaUrl, it) }
+                    ?: return RecordingFailure.STREAM_UNAVAILABLE
+                text = client.newCall(request(variant, userAgent, headers)).execute().use { response ->
+                    if (!response.isSuccessful) return RecordingFailure.STREAM_UNAVAILABLE
+                    mediaUrl = response.request.url.toString()
+                    response.body.string()
+                }
+                // A master inside a master is not HLS any provider serves; refuse rather than loop.
+                if (HlsMediaPlaylist.isMaster(text)) return RecordingFailure.STREAM_UNAVAILABLE
             }
             val playlist = HlsMediaPlaylist.parse(text)
             if (playlist.isEncrypted) {
@@ -398,11 +417,37 @@ class RecordingEngine(
                 if (lastSequence >= 0 && segment.sequence <= lastSequence) continue
                 if (RecordingRules.shouldStop(clock(), row.stopMs)) return RecordingFailure.NONE
                 if (!RecordingRules.hasSpace(target.usableSpace())) return RecordingFailure.NO_SPACE
-                val segmentUrl = absoluteUrl(playlistUrl, segment.uri) ?: continue
+                val segmentUrl = absoluteUrl(mediaUrl, segment.uri) ?: continue
+                // The key first, outside the segment request: without it nothing can be written.
+                val key = segment.key?.let { k ->
+                    val keyUrl = absoluteUrl(mediaUrl, k.uri) ?: return RecordingFailure.STREAM_UNAVAILABLE
+                    keys.getOrPut(keyUrl) {
+                        fetchKey(keyUrl, userAgent, headers) ?: run {
+                            android.util.Log.w(TAG, "recording stopped, AES key unavailable id=${row.id}")
+                            return RecordingFailure.STREAM_UNAVAILABLE
+                        }
+                    }
+                }
                 val ok = client.newCall(request(segmentUrl, userAgent, headers)).execute().use { response ->
                     if (!response.isSuccessful) return@use false
-                    target.openOutput(append = true).use { out ->
-                        response.body.byteStream().use { input -> input.copyTo(out, BUFFER_BYTES) }
+                    // Never write a playlist into the recording as if it were video (#243): stop
+                    // and say so instead of filling a file that cannot play.
+                    if (HlsMediaPlaylist.isPlaylistBody(response.peekBody(PLAYLIST_PEEK_BYTES).bytes())) {
+                        android.util.Log.w(TAG, "recording stopped, segment is a playlist id=${row.id}")
+                        return RecordingFailure.STREAM_UNAVAILABLE
+                    }
+                    if (key == null) {
+                        target.openOutput(append = true).use { out ->
+                            response.body.byteStream().use { input -> input.copyTo(out, BUFFER_BYTES) }
+                        }
+                    } else {
+                        // A wrong key fails the padding check rather than writing noise; say so.
+                        val clear = runCatching { HlsAes.decrypt(response.body.bytes(), key, HlsAes.ivFor(segment)) }
+                            .getOrElse {
+                                android.util.Log.w(TAG, "recording stopped, AES decrypt failed id=${row.id}")
+                                return RecordingFailure.STREAM_UNAVAILABLE
+                            }
+                        target.openOutput(append = true).use { out -> out.write(clear) }
                     }
                     true
                 }
@@ -709,6 +754,15 @@ class RecordingEngine(
         headers.forEach { (name, value) -> if (!name.equals("User-Agent", true)) builder.header(name, value) }
         return builder.build()
     }
+
+    /** An AES-128 key, or null when the server did not hand over exactly sixteen bytes. */
+    private fun fetchKey(url: String, userAgent: String, headers: Map<String, String>): ByteArray? =
+        runCatching {
+            client.newCall(request(url, userAgent, headers)).execute().use { response ->
+                if (!response.isSuccessful) return@use null
+                response.body.bytes().takeIf { it.size == HlsAes.KEY_BYTES }
+            }
+        }.getOrNull()
 
     /** A segment URI resolved against the playlist it came from; null when it is not a URL at all. */
     private fun absoluteUrl(base: String, uri: String): String? =

@@ -199,7 +199,7 @@ class DashFailureModesTest {
     /** But any bytes at all is a recording the user can watch. */
     @Test
     fun `a partial recording is still a recording`() {
-        val (status, reason) = RecordingRules.outcomeOf(bytes = 1, failure = RecordingFailure.NETWORK)
+        val (status, reason) = RecordingRules.outcomeOf(bytes = RecordingRules.MIN_PLAYABLE_BYTES, failure = RecordingFailure.NETWORK)
         assertEquals(RecordingStatus.COMPLETED, status)
         assertEquals(RecordingFailure.NONE, reason)
     }

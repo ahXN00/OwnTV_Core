@@ -16,6 +16,42 @@ class RecordingScheduleTest {
     private val nine = 1_757_710_800_000L
     private val ten = nine + 60 * minute
 
+    // --- A manual recording: a channel and two times, no guide (#2) ---
+
+    @Test
+    fun `a manual window ending after it starts is taken as it is`() {
+        assertEquals(nine..ten, RecordingSchedule.manualWindow(nine, ten, now = nine - 30 * minute))
+    }
+
+    @Test
+    fun `an end before the start rolls to the next day`() {
+        // 23:00 to 01:00: the user means tonight into tomorrow, not two hours back in time.
+        val eleven = nine + 120 * minute
+        val window = RecordingSchedule.manualWindow(eleven, eleven - 22 * 60 * minute, now = nine)
+        assertEquals(eleven..(eleven + 120 * minute), window)
+    }
+
+    @Test
+    fun `the same start and end is a whole day, the most allowed`() {
+        val window = RecordingSchedule.manualWindow(ten, ten, now = nine)
+        assertEquals(ten..(ten + 24 * 60 * minute), window)
+    }
+
+    @Test
+    fun `a manual window longer than a day is refused`() {
+        assertNull(RecordingSchedule.manualWindow(ten, ten + 24 * 60 * minute + minute, now = nine))
+    }
+
+    @Test
+    fun `a manual window already under way starts now`() {
+        assertEquals((nine + 10 * minute)..ten, RecordingSchedule.manualWindow(nine, ten, now = nine + 10 * minute))
+    }
+
+    @Test
+    fun `a manual window that has already ended is refused`() {
+        assertNull(RecordingSchedule.manualWindow(nine, ten, now = ten))
+    }
+
     // --- The recorded window ---
 
     @Test

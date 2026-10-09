@@ -2008,6 +2008,7 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	remove_from_category
 3	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	remove_history
 1	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	rename
+1	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	schedule_record
 2	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	set_tmdb_name
 3	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	tmdb_details
 1	empty	core/src/main/java/tv/own/owntv/core/metadata/HeadlineTitle.kt	\0
@@ -2613,16 +2614,25 @@
 1	technical	core/src/main/java/tv/own/owntv/core/recording/DashRemux.kt	audio/
 1	log	core/src/main/java/tv/own/owntv/core/recording/DashRemux.kt	mux failed into ${output.name}: ${e.message}
 1	technical	core/src/main/java/tv/own/owntv/core/recording/DashRemux.kt	video/
+1	technical	core/src/main/java/tv/own/owntv/core/recording/HlsAes.kt	0X
+1	technical	core/src/main/java/tv/own/owntv/core/recording/HlsAes.kt	0x
+1	technical	core/src/main/java/tv/own/owntv/core/recording/HlsAes.kt	AES
+1	technical	core/src/main/java/tv/own/owntv/core/recording/HlsAes.kt	AES/CBC/PKCS5Padding
 1	empty	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	\0
-1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#
+2	technical	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#
 1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#EXT-X-ENDLIST
 1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#EXT-X-KEY:
 1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#EXT-X-MEDIA-SEQUENCE:
+1	technical	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#EXT-X-STREAM-INF
 1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#EXT-X-TARGETDURATION:
 1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#EXTINF:
-1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#EXTM3U
+2	technical	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#EXTM3U
+1	technical	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	AES-128
+1	technical	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	BANDWIDTH
+1	technical	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	IV
 1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	METHOD
 1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	NONE
+1	technical	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	URI
 1	mime	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	m3u
 1	mime	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	mpegurl
 1	technical	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	$TEMP_PREFIX$id$MUXED_SUFFIX
@@ -2648,7 +2658,10 @@
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording refused, DRM-protected channel id=${row.id}
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording refused, encrypted playlist id=${row.id}
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording refused, protected manifest id=${row.id}
+1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording stopped, AES decrypt failed id=${row.id}
+1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording stopped, AES key unavailable id=${row.id}
 3	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording stopped, disk reserve reached id=${row.id}
+1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording stopped, segment is a playlist id=${row.id}
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording target unavailable id=$id path=${row.filePath}
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recovering interrupted dash recording id=${row.id} parts=${temps.size}
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	segment failed id=${row.id} rep=${track.id}: ${error.message}
