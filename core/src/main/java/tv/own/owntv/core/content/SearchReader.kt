@@ -8,13 +8,20 @@ import tv.own.owntv.core.customize.SectionCustomizations
 import tv.own.owntv.core.database.dao.CategoryDao
 import tv.own.owntv.core.database.dao.ChannelDao
 import tv.own.owntv.core.database.dao.ChannelSearchResult
+import tv.own.owntv.core.database.dao.EpgDao
 import tv.own.owntv.core.database.dao.MovieDao
 import tv.own.owntv.core.database.dao.ProfileDao
 import tv.own.owntv.core.database.dao.SeriesDao
+import tv.own.owntv.core.database.entity.ChannelEntity
+import tv.own.owntv.core.database.entity.EpgProgrammeEntity
 import tv.own.owntv.core.database.entity.MovieEntity
 import tv.own.owntv.core.database.entity.SeriesEntity
+import tv.own.owntv.core.epg.EpgDedupe
+import tv.own.owntv.core.epg.EpgShift
+import tv.own.owntv.core.live.epgKeyOf
 import tv.own.owntv.core.model.MediaType
 import tv.own.owntv.core.repository.ActiveProfileSources
+import tv.own.owntv.core.settings.SettingsRepository
 
 /** Combined results of a global query (each list bounded). */
 @Immutable
@@ -22,9 +29,18 @@ data class SearchResults(
     val channels: List<ChannelSearchResult> = emptyList(),
     val movies: List<MovieEntity> = emptyList(),
     val series: List<SeriesEntity> = emptyList(),
+    /** Programmes on now or later today whose title matches, on now first. Only from a typed query. */
+    val programmes: List<ProgrammeSearchResult> = emptyList(),
 ) {
-    val isEmpty: Boolean get() = channels.isEmpty() && movies.isEmpty() && series.isEmpty()
+    val isEmpty: Boolean get() = channels.isEmpty() && movies.isEmpty() && series.isEmpty() && programmes.isEmpty()
 }
+
+/** A programme found by its title, with the channel showing it; times are on the user's clock. */
+@Immutable
+data class ProgrammeSearchResult(
+    val programme: EpgProgrammeEntity,
+    val channel: ChannelEntity,
+)
 
 /** The curated lists offered when nothing has been typed yet. */
 enum class SearchIntent {
@@ -48,6 +64,8 @@ class SearchReader(
     private val seriesDao: SeriesDao,
     private val profileDao: ProfileDao,
     private val customize: CustomizationStore,
+    private val epgDao: EpgDao,
+    private val settings: SettingsRepository,
 ) {
 
     /**
@@ -105,7 +123,61 @@ class SearchReader(
                             (it.categoryId == null || it.categoryId !in hiddenSeriesCats)
                     }
                     .map { s -> custSeries.itemNames[CustomizeKeys.series(s)]?.let { s.copy(name = it) } ?: s },
+            programmes = if (sources.liveSourceIds.isEmpty()) emptyList() else
+                programmes(query.trim(), sources.liveSourceIds, custLive, hiddenLiveCats),
         )
+    }
+
+    /**
+     * Programmes whose title contains [query], from now until [PROGRAMME_HORIZON_MS] ahead, each on a
+     * channel this profile may see. Only the stored (XMLTV) guide is searched — the provider's own
+     * short EPG is fetched per channel and is never in the table.
+     *
+     * A channel reads its guide by its manual match first and its own id second (as the Guide does), so
+     * both are looked up. One feed carried by two playlists is one programme: it is listed once.
+     */
+    private suspend fun programmes(
+        query: String,
+        liveSourceIds: List<Long>,
+        cust: SectionCustomizations,
+        hiddenCats: Set<Long>,
+    ): List<ProgrammeSearchResult> {
+        val now = System.currentTimeMillis()
+        // The stored window is widened by [PROGRAMME_SHIFT_SLACK_MS] on both sides, so a shifted channel
+        // still finds its rows; the exact window is applied after the shift, on the user's clock. The
+        // slack stays small: rows that ended before it would use up [PROGRAMME_ROWS] and push out what
+        // is on now.
+        val rows = epgDao.searchTitles(
+            query,
+            now - PROGRAMME_SHIFT_SLACK_MS,
+            now + PROGRAMME_HORIZON_MS + PROGRAMME_SHIFT_SLACK_MS,
+            PROGRAMME_ROWS,
+        )
+        if (rows.isEmpty()) return emptyList()
+        val byKey = rows.groupBy { it.epgChannelId }
+        val keys = byKey.keys.toList()
+        val matchedTails = cust.epgMatches
+            .filterValues { it.trim().lowercase() in byKey }
+            .keys.map { CustomizeKeys.tailOf(it) }.filter { it.isNotEmpty() }.distinct()
+        val candidates = keys.chunked(KEY_CHUNK).flatMap { channelDao.byEpgKeys(liveSourceIds, it) } +
+            matchedTails.chunked(KEY_CHUNK).flatMap { channelDao.byRemoteIdsOrNames(liveSourceIds, it) }
+        val globalShift = settings.epgOffsetMinutes.first()
+        return candidates
+            .distinctBy { it.id }
+            .filter { CustomizeKeys.channel(it) !in cust.hiddenItems && (it.categoryId == null || it.categoryId !in hiddenCats) }
+            .sortedWith(compareBy({ liveSourceIds.indexOf(it.sourceId) }, { it.sortOrder }))
+            .flatMap { ch ->
+                val key = epgKeyOf(ch, cust) ?: return@flatMap emptyList()
+                val shift = EpgShift.minutesFor(cust, ch, globalShift)
+                val named = cust.itemNames[CustomizeKeys.channel(ch)]?.let { ch.copy(name = it) } ?: ch
+                EpgShift.apply(EpgDedupe.collapse(byKey[key].orEmpty()), shift)
+                    .filter { it.stopMs > now && it.startMs < now + PROGRAMME_HORIZON_MS }
+                    .map { key to ProgrammeSearchResult(it, named) }
+            }
+            .distinctBy { (key, found) -> Triple(key, found.programme.startMs, found.programme.title) }
+            .map { it.second }
+            .sortedWith(compareBy({ it.programme.startMs > now }, { it.programme.startMs }))
+            .take(PROGRAMME_LIMIT)
     }
 
     /** One of the curated lists shown before anything is typed. Bounded, and already source-filtered. */
@@ -159,6 +231,19 @@ class SearchReader(
     companion object {
         /** How many rows of each kind a search returns. */
         const val LIMIT = 40
+
+        /** How far ahead "On TV" looks, and how many programmes it lists. */
+        private const val PROGRAMME_HORIZON_MS = 12 * 60 * 60_000L
+        private const val PROGRAMME_LIMIT = 20
+
+        /** The largest guide shift "On TV" still allows for when reading stored times. */
+        private const val PROGRAMME_SHIFT_SLACK_MS = 2 * 60 * 60_000L
+
+        /** Raw rows read before mapping to channels; one programme can be on many guide channels. */
+        private const val PROGRAMME_ROWS = 300
+
+        /** Keys per IN (…) lookup, inside SQLite's variable limit. */
+        private const val KEY_CHUNK = 400
 
         /**
          * A sanitized FTS4 MATCH expression: each whitespace-separated token is stripped to letters

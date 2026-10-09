@@ -43,14 +43,15 @@
     <string name="search_movie">Film</string>
     <string name="search_series">Serier</string>
     <string name="search_channels">Kanaler</string>
+    <string name="search_on_tv">På tv</string>
     <string name="search_go_to_channel">Gå till kanal</string>
     <string name="search_go_to_movie">Gå till film</string>
     <string name="search_clear_recent">Rensa senaste sökningar</string>
     <string name="search_field_hint">Kanaler, filmer och serier</string>
     <string name="search_card_title">Hitta allt i dina spellistor</string>
-    <string name="search_card_body">Kanaler, filmer och serier från alla spellistor du visar. Välj ett resultat för att gå direkt dit och spela upp, ladda ner eller öppna alternativen där.</string>
+    <string name="search_card_body">Kanaler, filmer och serier från alla spellistor du visar. Välj ett resultat för att gå direkt dit och spela upp, ladda ner eller öppna alternativen där. Tv-program som sänds nu eller senare i dag hittas också på sin titel.</string>
     <string name="search_nothing_found">Inget hittades för ”<xliff:g id="query">%1$s</xliff:g>”</string>
-    <string name="search_nothing_found_body">Sökningen tittar på namnen på kanaler, filmer och serier i spellistorna du visar. Dolda kategorier söks inte igenom.</string>
+    <string name="search_nothing_found_body">Sökningen tittar på namnen på kanaler, filmer och serier i spellistorna du visar. Dolda kategorier söks inte igenom. Tv-program hittas på sin titel i den nedladdade tablån.</string>
     <string name="search_query_quoted">”<xliff:g id="query">%1$s</xliff:g>”</string>
     <plurals name="search_result_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> resultat</item>
@@ -89,12 +90,16 @@
     <string name="home_row_continue_series">Fortsätt titta på serier</string>
     <string name="home_row_recent_channels">Senaste kanalerna</string>
     <string name="home_row_favorite_channels">Favoritkanaler</string>
+    <string name="home_row_favorite_movies">Favoritfilmer</string>
+    <string name="home_row_favorite_series">Favoritserier</string>
     <string name="home_row_on_now">Sänds nu</string>
     <string name="home_row_hero_description">Den stora förhandsvisningsraden längst upp</string>
     <string name="home_row_continue_movies_description">Filmer med en sparad uppspelningsposition</string>
     <string name="home_row_continue_series_description">Avsnitt att återuppta eller spela härnäst</string>
     <string name="home_row_recent_description">Livekanaler du nyligen tittat på</string>
     <string name="home_row_favorite_description">Dina favoritkanaler på live-tv</string>
+    <string name="home_row_favorite_movies_description">Dina favoritfilmer</string>
+    <string name="home_row_favorite_series_description">Dina favoritserier</string>
     <string name="update_title">Appuppdatering</string>
     <string name="update_checking">Söker efter uppdateringar…</string>
     <string name="update_whats_new">Nyheter</string>
@@ -191,7 +196,7 @@
     <string name="recording_failed_unknown">Ingenting spelades in</string>
     <string name="recording_title">Inspelningar</string>
     <string name="recording_description">Direktsänd tv som sparats på den här enheten.</string>
-    <string name="recording_empty">Inget är inspelat än. Öppna tv-guiden, välj ett program och tryck på Spela in.</string>
+    <string name="recording_empty">Inget inspelat än. Tryck Spela in på ett program i tv-guiden, eller håll in en kanal för att spela in den eller schemalägga en tid.</string>
     <string name="recording_group_now">Spelar in nu</string>
     <string name="recording_group_scheduled">Schemalagd</string>
     <string name="recording_group_completed">Inspelat</string>
@@ -202,6 +207,12 @@
     <string name="recording_record_series">Spela in varje sändning</string>
     <string name="recording_stop_series">Sluta spela in varje sändning</string>
     <string name="recording_from_archive">Spela in från arkivet</string>
+    <string name="recording_schedule">Schemalägg inspelning…</string>
+    <string name="recording_schedule_hint">Välj dag, start och slut. Det spelas in även om kanalen saknar tv-guide.</string>
+    <string name="recording_schedule_start">Start</string>
+    <string name="recording_schedule_end">Slut</string>
+    <string name="recording_schedule_next_day">nästa dag</string>
+    <string name="recording_schedule_past">Den tiden har redan passerat</string>
     <string name="recording_scheduled_for">Spelar in <xliff:g id="time">%1$s</xliff:g></string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line">Spelar in <xliff:g id="title">%1$s</xliff:g></string>
@@ -222,7 +233,7 @@
     <string name="recording_failed_drm">Den här kanalen är DRM-skyddad, så den går att se men inte spela in. Skyddet kommer från din leverantör, inte från OwnTV.</string>
     <string name="recording_failed_metered">Spelades inte in via mobildata</string>
     <string name="recording_card_empty_title">Inget inspelat än</string>
-    <string name="recording_card_body">Välj ett program i tv-guiden och välj Spela in. Det hamnar här, även medan du tittar på något annat.</string>
+    <string name="recording_card_body">Välj ett program i tv-guiden och välj Spela in, eller håll in en kanal och schemalägg en tid. Det hamnar här, även medan du tittar på något annat.</string>
     <string name="recording_open_guide">Öppna tv-guiden</string>
     <plurals name="recording_card_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> inspelning</item>

@@ -9,16 +9,26 @@
 > in one bolded line of its own (e.g. **Database v46 · Backup v24 · Breaking**). The detail — what,
 > why, files and verification — belongs in the commit message, never here.
 
-## core-1.0.65 — unreleased
+## core-1.0.65 — 2026-10-09
 
 ### ✨ New features
 
 - **🔄 "Stream interrupted. Reconnecting…" while a live channel recovers by itself** (community PR #13 by @tvdev-android)
 - **↩️ Strings for restoring a category, or the playlists shown, to the playlist default** (community PR #11 by @tvdev-android)
 - **⏭️ Strings for the phone player's next / previous channel in list buttons**
+- **🔄 Auto refresh of playlists and guides shared by both apps**
+- **⚠️ String for the first-run restore warning when Sources is unticked**
+- **📊 Latest episode progress per series, for series poster progress bars**
+- **🎞️ Guide video preview setting, kept in backups**
+- **📋 Strings and the Catch-up list for the player's Stage channel, history and category lists**
+- **⭐ Favourite movies and series rows for Home**
+- **🔎 Programme search by title, the On TV group in Search**
+- **⏰ Schedule a recording by day and time on any channel, guide or not (#2)**
+- **🎞️ mpv engine 2026.10.2**
 
 ### 🐛 Fixes
 
+- **⏺️ Recordings of channels served as a quality list (master playlist) or AES-128 HLS now record the programme (#243)**
 - **📡 Live channels keep the last picture through a network outage and come back by themselves** (community PRs #12, #13, #17 by @tvdev-android)
 - **⏱️ A live reconnect no longer stalls behind a slow connection or DNS lookup** (community PR #14 by @tvdev-android)
 - **🎞️ A live channel ExoPlayer can't decode after it started playing moves to the other player** (community PR #20 by @tvdev-android)
@@ -28,13 +38,17 @@
 - **⏩ Channels with a pre-buffer start faster** (community PR #19 by @tvdev-android)
 - **🔊 Surround sound is no longer turned off by a muted preview** (community PR #21 by @tvdev-android)
 - **🔐 Stalker portals that reject a device as a "Device conflict" are retried with the box model** (community PR #22 by @atlasafford)
+- **🎬 An automatic playlist or guide refresh waits until playback stops**
+- **💾 A first-run backup restore opens the app only once everything is restored**
+- **🔄 Restored playlists download straight away after a restore**
 - **⏪ H.264 catch-up and films are no longer mistaken for video the hardware decoder can't play**
 - **🔁 Retrying a catch-up, or coming back to the app during one, keeps playing it as catch-up**
 - **🖼️ A catch-up that loses its picture recovers in seconds instead of staying black**
-- **🧊 Catch-up freezes on its first frame less often, and recovers by itself**
+- **🧊 Catch-up no longer freezes on its first frame on TVs with a Realtek chip**
 - **🎞️ Catch-up uses the hardware decoder again instead of falling back to software (#229)**
 - **📡 A catch-up of a programme still on air switches to live when the provider stops sending**
 - **⏱️ A short rewind on a catch-up channel no longer asks for a recording that doesn't exist yet**
+- **🏷️ Film and series headlines without a leading provider tag such as "|MULTI|"**
 
 ## core-1.0.64 — 2026-10-04
 

@@ -43,14 +43,15 @@
     <string name="search_movie">Filme</string>
     <string name="search_series">Série</string>
     <string name="search_channels">Canais</string>
+    <string name="search_on_tv">Na TV</string>
     <string name="search_go_to_channel">Ir para o canal</string>
     <string name="search_go_to_movie">Ir para o filme</string>
     <string name="search_clear_recent">Limpar pesquisas recentes</string>
     <string name="search_field_hint">Canais, filmes e séries</string>
     <string name="search_card_title">Encontre tudo nas suas playlists</string>
-    <string name="search_card_body">Canais, filmes e séries de todas as playlists exibidas. Escolha um resultado para ir direto até ele e, lá, reproduzir, baixar ou abrir as opções.</string>
+    <string name="search_card_body">Canais, filmes e séries de todas as playlists exibidas. Escolha um resultado para ir direto até ele e, lá, reproduzir, baixar ou abrir as opções. Também encontra pelo título os programas de TV passando agora ou mais tarde hoje.</string>
     <string name="search_nothing_found">Nada encontrado para “<xliff:g id="query">%1$s</xliff:g>”</string>
-    <string name="search_nothing_found_body">A pesquisa procura nos nomes de canais, filmes e séries das playlists exibidas. Categorias ocultas não são pesquisadas.</string>
+    <string name="search_nothing_found_body">A pesquisa procura nos nomes de canais, filmes e séries das playlists exibidas. Categorias ocultas não são pesquisadas. Os programas de TV são procurados pelo título no guia baixado.</string>
     <string name="search_query_quoted">“<xliff:g id="query">%1$s</xliff:g>”</string>
     <plurals name="search_result_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> resultado</item>
@@ -94,12 +95,16 @@
     <string name="home_row_continue_series">Continuar assistindo a séries</string>
     <string name="home_row_recent_channels">Canais recentes</string>
     <string name="home_row_favorite_channels">Canais favoritos</string>
+    <string name="home_row_favorite_movies">Filmes favoritos</string>
+    <string name="home_row_favorite_series">Séries favoritas</string>
     <string name="home_row_on_now">No ar agora</string>
     <string name="home_row_hero_description">A linha de visualização grande na parte superior</string>
     <string name="home_row_continue_movies_description">Filmes com uma posição salva</string>
     <string name="home_row_continue_series_description">Episódios para continuar ou reproduzir o próximo</string>
     <string name="home_row_recent_description">Canais ao vivo sintonizados recentemente</string>
     <string name="home_row_favorite_description">Seus canais ao vivo favoritos</string>
+    <string name="home_row_favorite_movies_description">Seus filmes favoritos</string>
+    <string name="home_row_favorite_series_description">Suas séries favoritas</string>
     <string name="update_title">Atualização do aplicativo</string>
     <string name="update_checking">Verificando atualizações…</string>
     <string name="update_whats_new">Novidades</string>
@@ -200,7 +205,7 @@
     <string name="recording_failed_unknown">Não foi gravado</string>
     <string name="recording_title">Gravações</string>
     <string name="recording_description">TV ao vivo salva neste dispositivo.</string>
-    <string name="recording_empty">Nada gravado ainda. Abra o guia de TV, escolha um programa e toque em Gravar.</string>
+    <string name="recording_empty">Nada gravado ainda. Toque em Gravar num programa do guia de TV ou mantenha um canal pressionado para gravá-lo ou agendar um horário.</string>
     <string name="recording_group_now">Gravando agora</string>
     <string name="recording_group_scheduled">Agendada</string>
     <string name="recording_group_completed">Gravado</string>
@@ -211,6 +216,12 @@
     <string name="recording_record_series">Gravar todas as exibições</string>
     <string name="recording_stop_series">Parar de gravar todas as exibições</string>
     <string name="recording_from_archive">Gravar do acervo</string>
+    <string name="recording_schedule">Agendar gravação…</string>
+    <string name="recording_schedule_hint">Escolha o dia, o início e o fim. Grava mesmo que este canal não tenha guia de TV.</string>
+    <string name="recording_schedule_start">Início</string>
+    <string name="recording_schedule_end">Fim</string>
+    <string name="recording_schedule_next_day">dia seguinte</string>
+    <string name="recording_schedule_past">Esse horário já passou</string>
     <string name="recording_scheduled_for">Vai gravar <xliff:g id="time">%1$s</xliff:g></string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line">Gravando <xliff:g id="title">%1$s</xliff:g></string>
@@ -232,7 +243,7 @@
     <string name="recording_failed_drm">Este canal é protegido por DRM, então pode ser assistido, mas não gravado. A proteção vem do seu provedor, não do OwnTV.</string>
     <string name="recording_failed_metered">Não gravado usando dados móveis</string>
     <string name="recording_card_empty_title">Nada gravado ainda</string>
-    <string name="recording_card_body">Escolha qualquer programa no Guia de TV e selecione Gravar. Ele aparece aqui, mesmo enquanto você assiste a outra coisa.</string>
+    <string name="recording_card_body">Escolha um programa no guia de TV e toque em Gravar, ou mantenha um canal pressionado e agende um horário. A gravação aparece aqui, mesmo enquanto você assiste a outra coisa.</string>
     <string name="recording_open_guide">Abrir Guia de TV</string>
     <plurals name="recording_card_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> gravação</item>

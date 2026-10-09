@@ -43,14 +43,15 @@
     <string name="search_movie">电影</string>
     <string name="search_series">剧集</string>
     <string name="search_channels">频道</string>
+    <string name="search_on_tv">电视节目</string>
     <string name="search_go_to_channel">前往频道</string>
     <string name="search_go_to_movie">前往电影</string>
     <string name="search_clear_recent">清除最近搜索</string>
     <string name="search_field_hint">频道、电影和剧集</string>
     <string name="search_card_title">在你的播放列表中查找任何内容</string>
-    <string name="search_card_body">来自你显示的所有播放列表的频道、电影和剧集。选择一个结果即可直接前往，然后在那里播放、下载或打开其选项。</string>
+    <string name="search_card_body">来自你显示的所有播放列表的频道、电影和剧集。选择一个结果即可直接前往，然后在那里播放、下载或打开其选项。正在播出或今天稍后播出的电视节目也可按标题找到。</string>
     <string name="search_nothing_found">未找到“<xliff:g id="query">%1$s</xliff:g>”的结果</string>
-    <string name="search_nothing_found_body">搜索会查找你显示的播放列表中的频道、电影和剧集名称。隐藏的分类不会被搜索。</string>
+    <string name="search_nothing_found_body">搜索会查找你显示的播放列表中的频道、电影和剧集名称。隐藏的分类不会被搜索。电视节目会在已下载的节目指南中按标题搜索。</string>
     <string name="search_query_quoted">“<xliff:g id="query">%1$s</xliff:g>”</string>
     <plurals name="search_result_count">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 个结果</item>
@@ -84,12 +85,16 @@
     <string name="home_row_continue_series">继续观看剧集</string>
     <string name="home_row_recent_channels">最近观看的频道</string>
     <string name="home_row_favorite_channels">收藏的频道</string>
+    <string name="home_row_favorite_movies">收藏的电影</string>
+    <string name="home_row_favorite_series">收藏的剧集</string>
     <string name="home_row_on_now">正在播出</string>
     <string name="home_row_hero_description">顶部的大型预览内容行</string>
     <string name="home_row_continue_movies_description">已保存播放位置的电影</string>
     <string name="home_row_continue_series_description">可继续播放或播放下一集的内容</string>
     <string name="home_row_recent_description">您最近观看的直播频道</string>
     <string name="home_row_favorite_description">您收藏的直播频道</string>
+    <string name="home_row_favorite_movies_description">您收藏的电影</string>
+    <string name="home_row_favorite_series_description">您收藏的剧集</string>
     <string name="update_title">应用更新</string>
     <string name="update_checking">正在检查更新…</string>
     <string name="update_whats_new">更新内容</string>
@@ -182,7 +187,7 @@
     <string name="recording_failed_unknown">未能录制</string>
     <string name="recording_title">录制</string>
     <string name="recording_description">保存在本设备上的直播电视。</string>
-    <string name="recording_empty">还没有任何录制。打开电视指南，选择一个节目并按“录制”。</string>
+    <string name="recording_empty">还没有录制内容。在电视指南中对节目按录制，或长按频道来录制它或预约时间。</string>
     <string name="recording_group_now">正在录制</string>
     <string name="recording_group_scheduled">已计划</string>
     <string name="recording_group_completed">已录制</string>
@@ -193,6 +198,12 @@
     <string name="recording_record_series">录制每一次播出</string>
     <string name="recording_stop_series">不再录制每一次播出</string>
     <string name="recording_from_archive">从回看录制</string>
+    <string name="recording_schedule">预约录制…</string>
+    <string name="recording_schedule_hint">选择日期、开始和结束时间。即使该频道没有电视指南也会录制。</string>
+    <string name="recording_schedule_start">开始</string>
+    <string name="recording_schedule_end">结束</string>
+    <string name="recording_schedule_next_day">次日</string>
+    <string name="recording_schedule_past">该时间已经过去</string>
     <string name="recording_scheduled_for">将于 <xliff:g id="time">%1$s</xliff:g> 录制</string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line">正在录制 <xliff:g id="title">%1$s</xliff:g></string>
@@ -212,7 +223,7 @@
     <string name="recording_failed_drm">此频道受 DRM 保护，可以观看但无法录制。该保护来自您的服务商，而非 OwnTV。</string>
     <string name="recording_failed_metered">未通过移动数据录制</string>
     <string name="recording_card_empty_title">还没有录制内容</string>
-    <string name="recording_card_body">在电视节目指南中选择任意节目，然后选择“录制”。即使你在看别的内容，录制内容也会出现在这里。</string>
+    <string name="recording_card_body">在电视指南中选择节目并选择录制，或长按频道并预约时间。即使你在看其他内容，录制也会出现在这里。</string>
     <string name="recording_open_guide">打开电视节目指南</string>
     <plurals name="recording_card_count">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 个录制内容</item>

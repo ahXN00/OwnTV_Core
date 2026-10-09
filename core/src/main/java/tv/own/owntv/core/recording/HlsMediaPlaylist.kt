@@ -22,11 +22,21 @@ data class HlsMediaPlaylist(
     /** The `METHOD` of `#EXT-X-KEY`, or null when the playlist is in the clear. */
     val encryptionMethod: String?,
 ) {
-    data class Segment(val uri: String, val durationSecs: Double, val sequence: Long)
+    /** [key] is the AES-128 key in force where the segment is listed; null when it is in the clear. */
+    data class Segment(val uri: String, val durationSecs: Double, val sequence: Long, val key: Key? = null)
 
-    /** True when the segments are encrypted in a way this recorder will not produce a playable file for. */
+    /** An `#EXT-X-KEY:METHOD=AES-128`: where the key is, and the IV when the playlist states one. */
+    data class Key(val uri: String, val iv: String?)
+
+    /**
+     * True when the segments are encrypted in a way this recorder will not produce a playable file
+     * for. AES-128 is not among them: its key is a public URL every player fetches, so the recorder
+     * decrypts it too (#243). SAMPLE-AES and anything unknown are refused.
+     */
     val isEncrypted: Boolean
-        get() = encryptionMethod != null && !encryptionMethod.equals(NO_ENCRYPTION, ignoreCase = true)
+        get() = encryptionMethod != null &&
+            !encryptionMethod.equals(NO_ENCRYPTION, ignoreCase = true) &&
+            !encryptionMethod.equals(AES_128, ignoreCase = true)
 
     /**
      * How long to wait before re-fetching. Half the target duration, so a segment is never missed
@@ -38,6 +48,7 @@ data class HlsMediaPlaylist(
 
     companion object {
         private const val NO_ENCRYPTION = "NONE"
+        private const val AES_128 = "AES-128"
 
         /**
          * Does this look like a playlist rather than a stream of video?
@@ -53,6 +64,42 @@ data class HlsMediaPlaylist(
                 } == true
 
         /**
+         * Is this a **master** playlist — a list of qualities, each its own media playlist — rather
+         * than a list of segments? Read as segments, its quality lines were fetched and written into
+         * the recording as text (#243).
+         */
+        fun isMaster(text: String): Boolean = text.lineSequence().any { it.trim().startsWith(STREAM_INF) }
+
+        /**
+         * The media playlist to record from a master: the highest `BANDWIDTH`, as the player picks
+         * by default. With no bandwidths stated, the first listed. Null for a media playlist.
+         */
+        fun bestVariant(text: String): String? {
+            var best: Pair<Long, String>? = null
+            var pendingBandwidth: Long? = null
+            text.lineSequence().forEach { raw ->
+                val line = raw.trim()
+                when {
+                    line.startsWith(STREAM_INF) ->
+                        pendingBandwidth = attribute(line.substringAfter(':'), "BANDWIDTH")?.toLongOrNull() ?: 0L
+                    line.isEmpty() || line.startsWith("#") -> Unit
+                    else -> pendingBandwidth?.let { bw ->
+                        if (best == null || bw > best!!.first) best = bw to line
+                        pendingBandwidth = null
+                    }
+                }
+            }
+            return best?.second
+        }
+
+        /**
+         * Does a downloaded "segment" start with `#EXTM3U`? Then it is a playlist, and writing it into
+         * a `.ts` file makes a recording that can never play. A UTF-8 BOM and leading blanks are skipped.
+         */
+        fun isPlaylistBody(head: ByteArray): Boolean =
+            String(head, Charsets.UTF_8).trimStart('\uFEFF', ' ', '\t', '\r', '\n').startsWith("#EXTM3U")
+
+        /**
          * Parse a media playlist. Unknown tags are ignored rather than refused: HLS gains tags all
          * the time and a recorder that stopped at one it had not seen would be broken by its own
          * strictness.
@@ -62,6 +109,7 @@ data class HlsMediaPlaylist(
             var targetDuration = DEFAULT_TARGET_SECS
             var endList = false
             var encryption: String? = null
+            var key: Key? = null
             var pendingDuration = 0.0
             val segments = mutableListOf<Segment>()
 
@@ -74,14 +122,23 @@ data class HlsMediaPlaylist(
                     line.startsWith("#EXT-X-TARGETDURATION:") ->
                         targetDuration = line.substringAfter(':').trim().toDoubleOrNull() ?: targetDuration
                     line.startsWith("#EXT-X-ENDLIST") -> endList = true
-                    line.startsWith("#EXT-X-KEY:") ->
-                        encryption = attribute(line.substringAfter(':'), "METHOD") ?: encryption
+                    line.startsWith("#EXT-X-KEY:") -> {
+                        val attrs = line.substringAfter(':')
+                        val method = attribute(attrs, "METHOD")
+                        // The strongest method seen decides the refusal; NONE never undoes SAMPLE-AES.
+                        if (method != null && (encryption == null || isEncryptedMethod(method))) encryption = method
+                        key = if (method.equals(AES_128, ignoreCase = true)) {
+                            attribute(attrs, "URI")?.let { Key(it, attribute(attrs, "IV")) }
+                        } else {
+                            null
+                        }
+                    }
                     line.startsWith("#EXTINF:") ->
                         pendingDuration = line.substringAfter(':').substringBefore(',').trim().toDoubleOrNull() ?: 0.0
                     // Any other tag is somebody else's business.
                     line.startsWith("#") -> Unit
                     else -> {
-                        segments += Segment(line, pendingDuration, mediaSequence + segments.size)
+                        segments += Segment(line, pendingDuration, mediaSequence + segments.size, key)
                         pendingDuration = 0.0
                     }
                 }
@@ -94,6 +151,9 @@ data class HlsMediaPlaylist(
                 encryptionMethod = encryption,
             )
         }
+
+        private fun isEncryptedMethod(method: String) =
+            !method.equals(NO_ENCRYPTION, ignoreCase = true) && !method.equals(AES_128, ignoreCase = true)
 
         /** `KEY=VALUE,KEY="VALUE"` attribute lists, as every `#EXT-X-` tag uses. */
         private fun attribute(attributes: String, name: String): String? {
@@ -118,5 +178,7 @@ data class HlsMediaPlaylist(
 
         /** What to assume when the playlist does not say. Six seconds is the usual live segment. */
         private const val DEFAULT_TARGET_SECS = 6.0
+
+        private const val STREAM_INF = "#EXT-X-STREAM-INF"
     }
 }

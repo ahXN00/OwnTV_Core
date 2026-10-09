@@ -931,9 +931,12 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId = :sourceId AND remoteId = :remoteId LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId = :sourceId AND remoteId IN (:remoteIds)
 2	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds)
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND (remoteId IN (:tails) OR name IN (:tails))
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND LOWER(TRIM(epgChannelId)) IN (:epgKeys)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1 AND name LIKE '%' || :query || '%' ORDER BY name ASC
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1 ORDER BY name ASC
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1 ORDER BY sourceId ASC, sortOrder ASC, name ASC
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1 ORDER BY sourceId ASC, sortOrder ASC, name ASC LIMIT :limit
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND epgChannelId IS NOT NULL AND epgChannelId != ''
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND name LIKE '%' || :query || '%' ORDER BY name ASC
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND name LIKE '%' || :query || '%' ORDER BY name ASC LIMIT :limit
@@ -1032,6 +1035,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/DownloadDao.kt	WHERE d.mediaType = 'EPISODE' AND e.seriesId = :seriesId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	AND startMs > :from - 86400000 AND stopMs > :from AND startMs < :to ORDER BY epgChannelId ASC, startMs ASC
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	AND startMs > :from - 86400000 AND stopMs > :from AND startMs < :to ORDER BY startMs ASC
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	AND title LIKE '%' || :query || '%' ORDER BY startMs ASC LIMIT :limit
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_channels WHERE sourceId = :sourceId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_channels WHERE sourceId = :sourceId AND epgChannelId IN (:epgChannelIds)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE epgChannelId = :epgChannelId
@@ -1042,7 +1046,8 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE sourceId = :sourceId AND epgChannelId IN (:epgChannelIds)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE startMs > :after
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	DELETE FROM epg_programmes WHERE stopMs < :before
-2	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	NULL AS categories, NULL AS year, NULL AS rating, NULL AS lengthMin, NULL AS episode
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	FROM epg_programmes WHERE startMs > :from - 86400000 AND startMs < :to AND stopMs > :from
+3	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	NULL AS categories, NULL AS year, NULL AS rating, NULL AS lengthMin, NULL AS episode
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT (MAX(stopMs) - MIN(startMs)) / 86400000 FROM epg_programmes WHERE epgChannelId = :epgChannelId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT * FROM epg_programmes WHERE epgChannelId = :epgChannelId AND startMs <= :now AND stopMs > :now ORDER BY startMs DESC LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT * FROM epg_programmes WHERE epgChannelId = :epgChannelId AND stopMs <= :now ORDER BY stopMs DESC LIMIT 1
@@ -1060,7 +1065,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT epgChannelId, displayName, normName, normId FROM epg_channels LIMIT :limit
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT epgChannelId, iconUrl FROM epg_channels WHERE sourceId IN (:sourceIds) AND iconUrl IS NOT NULL AND iconUrl != ''
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT id, epgChannelId, startMs, contentHash FROM epg_programmes WHERE sourceId = :sourceId AND epgChannelId = :epgChannelId
-2	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, 0 AS contentHash,
+3	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, 0 AS contentHash,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	(:type = 'LIVE' AND itemId NOT IN (SELECT id FROM channels)) OR
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	(:type = 'MOVIE' AND itemId NOT IN (SELECT id FROM movies)) OR
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	(:type = 'SERIES' AND itemId NOT IN (SELECT id FROM series))
@@ -1268,11 +1273,13 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	DELETE FROM playback_progress WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId AND (
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	DELETE FROM playback_progress WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId AND updatedAt <= :at
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	FROM playback_progress p
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	FROM playback_progress p JOIN episodes e ON e.id = p.itemId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	LEFT JOIN channels c ON p.mediaType = 'LIVE' AND p.itemId = c.id
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	LEFT JOIN episodes e ON p.mediaType = 'EPISODE' AND p.itemId = e.id
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	LEFT JOIN movies m ON p.mediaType = 'MOVIE' AND p.itemId = m.id
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	LEFT JOIN series episodeSeries ON e.seriesId = episodeSeries.id
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	LEFT JOIN series s ON p.mediaType = 'SERIES' AND p.itemId = s.id
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	MAX(p.updatedAt) AS updatedAt
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	ORDER BY updatedAt DESC LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT * FROM playback_progress
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT * FROM playback_progress WHERE profileId = :profileId
@@ -1280,11 +1287,13 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT * FROM playback_progress WHERE profileId = :profileId AND mediaType = 'MOVIE'
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT * FROM playback_progress WHERE profileId = :profileId AND mediaType = :type
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT * FROM playback_progress WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT e.seriesId AS seriesId, p.positionMs AS positionMs, p.durationMs AS durationMs,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT itemId FROM playback_progress
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT itemId FROM playback_progress WHERE profileId = :profileId AND mediaType = 'EPISODE'
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	SELECT p.profileId AS profileId, p.mediaType AS mediaType, p.itemId AS itemId,
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	UPDATE playback_progress SET positionMs = :positionMs, durationMs = :durationMs, updatedAt = :at
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	WHERE c.sourceId = :sourceId OR m.sourceId = :sourceId OR s.sourceId = :sourceId OR episodeSeries.sourceId = :sourceId
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	WHERE p.profileId = :profileId AND p.mediaType = 'EPISODE' GROUP BY e.seriesId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	WHERE profileId = :profileId AND mediaType = 'EPISODE'
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId AND updatedAt < :at
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ProgressDao.kt	e.seasonNumber AS seasonNumber, e.episodeNumber AS episodeNumber,
@@ -1999,8 +2008,11 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	remove_from_category
 3	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	remove_history
 1	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	rename
+1	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	schedule_record
 2	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	set_tmdb_name
 3	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	tmdb_details
+1	empty	core/src/main/java/tv/own/owntv/core/metadata/HeadlineTitle.kt	\0
+1	regex	core/src/main/java/tv/own/owntv/core/metadata/HeadlineTitle.kt	^\\s*\\|?\\s*[A-Z0-9+]{1,8}\\s*\\|\\s*
 3	url	core/src/main/java/tv/own/owntv/core/metadata/MetadataImages.kt	${TmdbProvider.IMAGE_BASE}/$size${it.ensureLeadingSlash()}
 1	url	core/src/main/java/tv/own/owntv/core/metadata/MetadataImages.kt	/
 1	url	core/src/main/java/tv/own/owntv/core/metadata/MetadataImages.kt	/$this
@@ -2602,16 +2614,25 @@
 1	technical	core/src/main/java/tv/own/owntv/core/recording/DashRemux.kt	audio/
 1	log	core/src/main/java/tv/own/owntv/core/recording/DashRemux.kt	mux failed into ${output.name}: ${e.message}
 1	technical	core/src/main/java/tv/own/owntv/core/recording/DashRemux.kt	video/
+1	technical	core/src/main/java/tv/own/owntv/core/recording/HlsAes.kt	0X
+1	technical	core/src/main/java/tv/own/owntv/core/recording/HlsAes.kt	0x
+1	technical	core/src/main/java/tv/own/owntv/core/recording/HlsAes.kt	AES
+1	technical	core/src/main/java/tv/own/owntv/core/recording/HlsAes.kt	AES/CBC/PKCS5Padding
 1	empty	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	\0
-1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#
+2	technical	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#
 1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#EXT-X-ENDLIST
 1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#EXT-X-KEY:
 1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#EXT-X-MEDIA-SEQUENCE:
+1	technical	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#EXT-X-STREAM-INF
 1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#EXT-X-TARGETDURATION:
 1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#EXTINF:
-1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#EXTM3U
+2	technical	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	#EXTM3U
+1	technical	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	AES-128
+1	technical	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	BANDWIDTH
+1	technical	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	IV
 1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	METHOD
 1	protocol	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	NONE
+1	technical	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	URI
 1	mime	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	m3u
 1	mime	core/src/main/java/tv/own/owntv/core/recording/HlsMediaPlaylist.kt	mpegurl
 1	technical	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	$TEMP_PREFIX$id$MUXED_SUFFIX
@@ -2637,7 +2658,10 @@
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording refused, DRM-protected channel id=${row.id}
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording refused, encrypted playlist id=${row.id}
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording refused, protected manifest id=${row.id}
+1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording stopped, AES decrypt failed id=${row.id}
+1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording stopped, AES key unavailable id=${row.id}
 3	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording stopped, disk reserve reached id=${row.id}
+1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording stopped, segment is a playlist id=${row.id}
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recording target unavailable id=$id path=${row.filePath}
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	recovering interrupted dash recording id=${row.id} parts=${temps.size}
 1	log	core/src/main/java/tv/own/owntv/core/recording/RecordingEngine.kt	segment failed id=${row.id} rep=${track.id}: ${error.message}
@@ -2863,6 +2887,7 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	glass_scope
 1	log	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	guide_days_to_keep
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	guide_density_pct
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	guide_preview
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	guide_show_empty
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	guide_view
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	guide_width_channels
@@ -3045,6 +3070,7 @@
 1	url	core/src/main/java/tv/own/owntv/core/setup/SourceImporter.kt	content://
 1	url	core/src/main/java/tv/own/owntv/core/setup/SourceImporter.kt	file://
 1	technical	core/src/main/java/tv/own/owntv/core/setup/SourceImporter.kt	fresh_add
+1	technical	core/src/main/java/tv/own/owntv/core/setup/SourceImporter.kt	restore
 2	technical	core/src/main/java/tv/own/owntv/core/stalker/StalkerAuthManager.kt	?
 1	log	core/src/main/java/tv/own/owntv/core/stalker/StalkerAuthManager.kt	StalkerAuth
 1	log	core/src/main/java/tv/own/owntv/core/stalker/StalkerAuthManager.kt	account_info unavailable sourceId=${creds.sourceId}: ${it.message}
@@ -3350,6 +3376,13 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/subtitles/SubtitleTrackLabel.kt	OS
 1	protocol	core/src/main/java/tv/own/owntv/core/subtitles/SubtitleTrackLabel.kt	·
 1	protocol	core/src/main/java/tv/own/owntv/core/subtitles/SubtitleTrackLabel.kt	…
+1	log	core/src/main/java/tv/own/owntv/core/sync/AutoRefresh.kt	OwnTVHome
+1	technical	core/src/main/java/tv/own/owntv/core/sync/AutoRefresh.kt	auto_refresh
+1	log	core/src/main/java/tv/own/owntv/core/sync/AutoRefresh.kt	checkAutoRefresh epg sourceId=${src.id} mode=$mode — enqueuing
+1	log	core/src/main/java/tv/own/owntv/core/sync/AutoRefresh.kt	checkAutoRefresh playlist sourceId=${source.id} mode=$mode — enqueuing
+1	log	core/src/main/java/tv/own/owntv/core/sync/AutoRefresh.kt	epgRefill check failed
+1	log	core/src/main/java/tv/own/owntv/core/sync/AutoRefresh.kt	epgRefill sourceId=${src.id} — synced before but guide is empty, re-fetching
+1	technical	core/src/main/java/tv/own/owntv/core/sync/AutoRefresh.kt	migration_refill
 1	log	core/src/main/java/tv/own/owntv/core/sync/CatalogPriority.kt	CatalogPriority
 1	log	core/src/main/java/tv/own/owntv/core/sync/CatalogPriority.kt	pagesLeft=${row.lastPage - row.nextPage + 1}
 1	log	core/src/main/java/tv/own/owntv/core/sync/CatalogPriority.kt	priority category sourceId=${row.sourceId} type=${row.mediaType} cat=${row.categoryRemoteId}
@@ -3663,6 +3696,7 @@
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	Trending Home visibility read failed sourceId=${source.id}; skip enqueue
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	Trending refresh enqueued sourceId=${source.id}
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	Trending settings read failed sourceId=${source.id}; skip enqueue
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	auto refresh waiting for playback to stop sourceId=$sourceId
 1	preference-key	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	baseItemCount
 1	preference-key	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	completesInitialSync
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	contentTypes=$contentTypes effective=$effective baseItemCount=$baseItemCount forcePrune=$forcePrune
@@ -3709,6 +3743,7 @@
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	EpgSyncWorker
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	Skipping stale EPG sync sourceId=$sourceId reason=$reason
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	Starting EPG sync sourceId=${source.id} reason=$reason
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	auto refresh waiting for playback to stop sourceId=$sourceId
 1	preference-key	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	baseProgrammes
 1	preference-key	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	channels
 1	preference-key	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	programmes
@@ -4664,6 +4699,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	auto-safe
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	av1
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	avc
+1	regex	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	both surface and native_window are null
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	c2.android
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	cache
 3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	cache-pause-initial

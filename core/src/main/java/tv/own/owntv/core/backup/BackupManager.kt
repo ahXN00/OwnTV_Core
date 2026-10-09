@@ -849,6 +849,8 @@ class BackupManager(
             val restoredAvatars = ArrayList<Pair<Long, JSONObject>>()
             val sourceIdMap = HashMap<Long, Long>()
             var epgIdMap: Map<Long, Long> = emptyMap()
+            // A device with no usable active profile (first run) adopts this one once everything is in.
+            var profileToAdopt: Long? = null
 
             val fileProfiles = root.optJSONArray("profiles") ?: JSONArray()
             val fileSources = root.optJSONArray("sources") ?: JSONArray()
@@ -1014,10 +1016,13 @@ class BackupManager(
                 // a merge restore must not switch the profile out from under someone mid-session.
                 // Which one it adopts now comes from the file (v17) instead of being whichever id the
                 // map happened to yield first; older files fall back to that same arbitrary pick.
+                // Only chosen here; it is applied at the very end. An active profile is what lets the
+                // app leave first-run setup, so adopting it now opened the app on a profile whose
+                // favourites, history and settings had not been written yet.
                 if (settings.activeProfileId.first() !in profileIds) {
                     val preferred = root.optLong("activeProfileId", -1L)
                         .takeIf { it > 0 }?.let { profileIdMap[it] }
-                    (preferred ?: profileIdMap.values.firstOrNull())?.let { settings.setActiveProfile(it) }
+                    profileToAdopt = preferred ?: profileIdMap.values.firstOrNull()
                 }
                 // Pre-v17 files carried these in the SOURCES block, so keep honouring that for them.
                 // v17+ files are handled in the SETTINGS block, where they now belong.
@@ -1271,6 +1276,9 @@ class BackupManager(
                     }.getOrDefault(0)
                 }
             }
+            // Before the marker is cleared: a restore killed in between still reports itself as
+            // interrupted rather than leaving a profile that looks complete.
+            profileToAdopt?.let { settings.setActiveProfile(it) }
             settings.clearRestoreMarker()
             // Locale writes are last by design: all restore work and the interrupted-restore marker
             // are complete before LocalizedContent can observe a script-family change and recreate

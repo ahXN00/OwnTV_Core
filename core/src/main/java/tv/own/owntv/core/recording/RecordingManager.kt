@@ -160,6 +160,39 @@ class RecordingManager(
     }
 
     /**
+     * Record [channel] between two times the user picked, guide or not (#2). The recording carries the
+     * channel's name as its title, and no paddings: the user chose the minutes. Returns null — and
+     * schedules nothing — when [RecordingSchedule.manualWindow] refuses the times.
+     */
+    suspend fun scheduleManual(
+        profileId: Long,
+        channel: ChannelEntity,
+        startMs: Long,
+        stopMs: Long,
+    ): RecordingEntity? {
+        val manual = RecordingSchedule.manualWindow(startMs, stopMs, System.currentTimeMillis()) ?: return null
+        val window = RecordingSchedule.windowFor(manual.first, manual.last, 0, 0, scheduler.canBeExact())
+        return schedule(
+            RecordingEntity(
+                profileId = profileId,
+                sourceId = channel.sourceId,
+                channelId = channel.id,
+                channelName = channel.name,
+                channelIconUrl = channel.logoUrl,
+                epgChannelId = channel.epgChannelId,
+                streamUrl = channel.streamUrl,
+                httpHeaders = channel.httpHeaders,
+                title = channel.name,
+                description = null,
+                programmeStartMs = manual.first,
+                programmeStopMs = manual.last,
+                startMs = window.first,
+                stopMs = window.last,
+            ),
+        )
+    }
+
+    /**
      * Record a programme that has **already aired**, from the provider's archive, starting now.
      *
      * This is the only way to record something that has already happened, and it costs almost

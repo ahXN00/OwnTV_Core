@@ -43,14 +43,15 @@
     <string name="search_movie">Film</string>
     <string name="search_series">Series</string>
     <string name="search_channels">Zenders</string>
+    <string name="search_on_tv">Op tv</string>
     <string name="search_go_to_channel">Naar zender</string>
     <string name="search_go_to_movie">Naar film</string>
     <string name="search_clear_recent">Recente zoekopdrachten wissen</string>
     <string name="search_field_hint">Zenders, films en series</string>
     <string name="search_card_title">Vind alles in je playlists</string>
-    <string name="search_card_body">Zenders, films en series uit alle playlists die je toont. Kies een resultaat om er direct heen te gaan en daar af te spelen, te downloaden of de opties te openen.</string>
+    <string name="search_card_body">Zenders, films en series uit alle playlists die je toont. Kies een resultaat om er direct heen te gaan en daar af te spelen, te downloaden of de opties te openen. Ook tv-programma’s die nu of later vandaag uitgezonden worden, vind je op hun titel.</string>
     <string name="search_nothing_found">Niets gevonden voor ‘<xliff:g id="query">%1$s</xliff:g>’</string>
-    <string name="search_nothing_found_body">Zoeken kijkt naar de namen van zenders, films en series in de playlists die je toont. Verborgen categorieën worden niet doorzocht.</string>
+    <string name="search_nothing_found_body">Zoeken kijkt naar de namen van zenders, films en series in de playlists die je toont. Verborgen categorieën worden niet doorzocht. Tv-programma’s worden op hun titel gezocht in de gedownloade gids.</string>
     <string name="search_query_quoted">‘<xliff:g id="query">%1$s</xliff:g>’</string>
     <plurals name="search_result_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> resultaat</item>
@@ -89,12 +90,16 @@
     <string name="home_row_continue_series">Series verder kijken</string>
     <string name="home_row_recent_channels">Recente zenders</string>
     <string name="home_row_favorite_channels">Favoriete zenders</string>
+    <string name="home_row_favorite_movies">Favoriete films</string>
+    <string name="home_row_favorite_series">Favoriete series</string>
     <string name="home_row_on_now">Nu te zien</string>
     <string name="home_row_hero_description">De grote voorbeeldrij bovenaan</string>
     <string name="home_row_continue_movies_description">Films met een opgeslagen afspeelpositie</string>
     <string name="home_row_continue_series_description">Afleveringen om te hervatten of als volgende af te spelen</string>
     <string name="home_row_recent_description">Livezenders waarop je onlangs hebt afgestemd</string>
     <string name="home_row_favorite_description">Je favoriete livezenders</string>
+    <string name="home_row_favorite_movies_description">Je favoriete films</string>
+    <string name="home_row_favorite_series_description">Je favoriete series</string>
     <string name="update_title">App-update</string>
     <string name="update_checking">Controleren op updates…</string>
     <string name="update_whats_new">Wat is er nieuw</string>
@@ -191,7 +196,7 @@
     <string name="recording_failed_unknown">Er is niets opgenomen</string>
     <string name="recording_title">Opnames</string>
     <string name="recording_description">Live tv die op dit apparaat is opgeslagen.</string>
-    <string name="recording_empty">Nog niets opgenomen. Open de tv-gids, kies een programma en druk op Opnemen.</string>
+    <string name="recording_empty">Nog niets opgenomen. Druk op Opnemen bij een programma in de tv-gids, of houd een zender ingedrukt om hem op te nemen of een tijd te plannen.</string>
     <string name="recording_group_now">Wordt nu opgenomen</string>
     <string name="recording_group_scheduled">Gepland</string>
     <string name="recording_group_completed">Opgenomen</string>
@@ -202,6 +207,12 @@
     <string name="recording_record_series">Elke uitzending opnemen</string>
     <string name="recording_stop_series">Niet meer elke uitzending opnemen</string>
     <string name="recording_from_archive">Opnemen uit het archief</string>
+    <string name="recording_schedule">Opname plannen…</string>
+    <string name="recording_schedule_hint">Kies de dag, het begin en het einde. Er wordt opgenomen, ook als deze zender geen tv-gids heeft.</string>
+    <string name="recording_schedule_start">Begin</string>
+    <string name="recording_schedule_end">Einde</string>
+    <string name="recording_schedule_next_day">volgende dag</string>
+    <string name="recording_schedule_past">Dat tijdstip is al voorbij</string>
     <string name="recording_scheduled_for">Neemt <xliff:g id="time">%1$s</xliff:g> op</string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line"><xliff:g id="title">%1$s</xliff:g> wordt opgenomen</string>
@@ -222,7 +233,7 @@
     <string name="recording_failed_drm">Dit kanaal is DRM-beveiligd en kan daarom wel worden bekeken, maar niet opgenomen. De beveiliging komt van je provider, niet van OwnTV.</string>
     <string name="recording_failed_metered">Niet opgenomen via mobiele data</string>
     <string name="recording_card_empty_title">Nog niets opgenomen</string>
-    <string name="recording_card_body">Kies een programma in de tv-gids en kies Opnemen. Het komt hier terecht, ook terwijl je iets anders kijkt.</string>
+    <string name="recording_card_body">Kies een programma in de tv-gids en kies Opnemen, of houd een zender ingedrukt en plan een tijd. Het komt hier terecht, ook terwijl je iets anders kijkt.</string>
     <string name="recording_open_guide">Tv-gids openen</string>
     <plurals name="recording_card_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> opname</item>

@@ -44,7 +44,7 @@ class RecordingDrmRefusalTest {
     /**
      * Kept separate from [RecordingFailure.ENCRYPTED] on purpose, and this is the test that stops
      * someone folding them together later. They are different findings with different messages:
-     * `ENCRYPTED` is HLS transport encryption (`#EXT-X-KEY`, usually plain AES-128) discovered *inside*
+     * `ENCRYPTED` is HLS transport encryption (`#EXT-X-KEY`, SAMPLE-AES — AES-128 is decrypted) found *inside*
      * a playlist we had to fetch first, while `DRM_PROTECTED` is declared by the playlist entry and is
      * known before a single byte is requested. Reusing one message for both would tell a user with an
      * AES-128 channel that it is DRM-protected, which is false.

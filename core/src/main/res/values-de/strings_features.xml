@@ -43,14 +43,15 @@
     <string name="search_movie">Film</string>
     <string name="search_series">Serien</string>
     <string name="search_channels">Sender</string>
+    <string name="search_on_tv">Im TV</string>
     <string name="search_go_to_channel">Zum Sender</string>
     <string name="search_go_to_movie">Zum Film</string>
     <string name="search_clear_recent">Letzte Suchanfragen löschen</string>
     <string name="search_field_hint">Sender, Filme und Serien</string>
     <string name="search_card_title">Finde alles in deinen Playlists</string>
-    <string name="search_card_body">Sender, Filme und Serien aus allen Playlists, die du anzeigst. Wähle ein Ergebnis, um direkt dorthin zu gehen – dort kannst du abspielen, herunterladen oder die Optionen öffnen.</string>
+    <string name="search_card_body">Sender, Filme und Serien aus allen Playlists, die du anzeigst. Wähle ein Ergebnis, um direkt dorthin zu gehen – dort kannst du abspielen, herunterladen oder die Optionen öffnen. Auch Sendungen, die jetzt oder später heute laufen, werden über ihren Titel gefunden.</string>
     <string name="search_nothing_found">Nichts gefunden für „<xliff:g id="query">%1$s</xliff:g>“</string>
-    <string name="search_nothing_found_body">Die Suche durchsucht die Namen von Sendern, Filmen und Serien in den angezeigten Playlists. Ausgeblendete Kategorien werden nicht durchsucht.</string>
+    <string name="search_nothing_found_body">Die Suche durchsucht die Namen von Sendern, Filmen und Serien in den angezeigten Playlists. Ausgeblendete Kategorien werden nicht durchsucht. Sendungen werden über ihren Titel im geladenen Programmführer gefunden.</string>
     <string name="search_query_quoted">„<xliff:g id="query">%1$s</xliff:g>“</string>
     <plurals name="search_result_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> Ergebnis</item>
@@ -89,12 +90,16 @@
     <string name="home_row_continue_series">Serien weiterschauen</string>
     <string name="home_row_recent_channels">Zuletzt angesehene Sender</string>
     <string name="home_row_favorite_channels">Favoritensender</string>
+    <string name="home_row_favorite_movies">Favoritenfilme</string>
+    <string name="home_row_favorite_series">Favoritenserien</string>
     <string name="home_row_on_now">Läuft jetzt</string>
     <string name="home_row_hero_description">Die große Vorschauzeile ganz oben</string>
     <string name="home_row_continue_movies_description">Filme mit gespeicherter Wiedergabeposition</string>
     <string name="home_row_continue_series_description">Fortzusetzende oder als Nächstes abzuspielende Folgen</string>
     <string name="home_row_recent_description">Kürzlich eingeschaltete Live-Sender</string>
     <string name="home_row_favorite_description">Deine Live-Sender in den Favoriten</string>
+    <string name="home_row_favorite_movies_description">Deine Filme in den Favoriten</string>
+    <string name="home_row_favorite_series_description">Deine Serien in den Favoriten</string>
     <string name="update_title">App-Update</string>
     <string name="update_checking">Suche nach Updates…</string>
     <string name="update_whats_new">Neuerungen</string>
@@ -191,7 +196,7 @@
     <string name="recording_failed_unknown">Es wurde nichts aufgenommen</string>
     <string name="recording_title">Aufnahmen</string>
     <string name="recording_description">Live-TV, das auf diesem Gerät gespeichert ist.</string>
-    <string name="recording_empty">Noch nichts aufgenommen. Öffne den TV-Guide, wähle eine Sendung und drücke Aufnehmen.</string>
+    <string name="recording_empty">Noch nichts aufgenommen. Drücke im TV-Guide bei einer Sendung auf Aufnehmen, oder halte einen Sender gedrückt, um ihn aufzunehmen oder eine Zeit zu planen.</string>
     <string name="recording_group_now">Wird jetzt aufgenommen</string>
     <string name="recording_group_scheduled">Geplant</string>
     <string name="recording_group_completed">Aufgenommen</string>
@@ -202,6 +207,12 @@
     <string name="recording_record_series">Jede Ausstrahlung aufnehmen</string>
     <string name="recording_stop_series">Nicht mehr jede Ausstrahlung aufnehmen</string>
     <string name="recording_from_archive">Aus der Mediathek aufnehmen</string>
+    <string name="recording_schedule">Aufnahme planen…</string>
+    <string name="recording_schedule_hint">Wähle Tag, Beginn und Ende. Es wird auch aufgenommen, wenn der Sender keinen TV-Guide hat.</string>
+    <string name="recording_schedule_start">Beginn</string>
+    <string name="recording_schedule_end">Ende</string>
+    <string name="recording_schedule_next_day">nächster Tag</string>
+    <string name="recording_schedule_past">Dieser Zeitpunkt ist schon vorbei</string>
     <string name="recording_scheduled_for">Nimmt <xliff:g id="time">%1$s</xliff:g> auf</string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line"><xliff:g id="title">%1$s</xliff:g> wird aufgenommen</string>
@@ -222,7 +233,7 @@
     <string name="recording_failed_drm">Dieser Sender ist DRM-geschützt und kann daher angesehen, aber nicht aufgenommen werden. Der Schutz stammt von Ihrem Anbieter, nicht von OwnTV.</string>
     <string name="recording_failed_metered">Nicht über mobile Daten aufgenommen</string>
     <string name="recording_card_empty_title">Noch nichts aufgenommen</string>
-    <string name="recording_card_body">Wähle im TV-Guide eine Sendung und dann „Aufnehmen“. Sie landet hier, auch während du etwas anderes schaust.</string>
+    <string name="recording_card_body">Wähle im TV-Guide eine Sendung und dann „Aufnehmen“, oder halte einen Sender gedrückt und plane eine Zeit. Sie landet hier, auch während du etwas anderes schaust.</string>
     <string name="recording_open_guide">TV-Guide öffnen</string>
     <plurals name="recording_card_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> Aufnahme</item>
