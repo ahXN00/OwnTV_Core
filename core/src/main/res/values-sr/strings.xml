@@ -87,4 +87,35 @@
     <string name="common_weather_celsius"><xliff:g id="temperatura">%1$d</xliff:g>°C</string>
     <string name="common_weather_city"><xliff:g id="temperatura">%1$s</xliff:g> · <xliff:g id="grad">%2$s</xliff:g></string>
     <string name="sync_status_trending_preparing">Priprema naziva pružalaca usluga za brzo uparivanje</string>
+    <plurals name="sync_warning_page_failures">
+        <item quantity="one"><xliff:g id="broj">%1$d</xliff:g> učitavanje izvorne stranice nije uspelo; deo sadržaja možda nedostaje do sledeće sinhronizacije.</item>
+        <item quantity="few"><xliff:g id="broj">%1$d</xliff:g> učitavanje izvornih stranica nije uspelo; deo sadržaja možda nedostaje do sledeće sinhronizacije.</item>
+    </plurals>
+    <string name="sync_status_trending_detail_series">Provereno serija: <xliff:g id="provereno">%1$d</xliff:g>/<xliff:g id="kandidati">%2$d</xliff:g> · poklapanja: <xliff:g id="poklopilo">%3$d</xliff:g>/<xliff:g id="cilj">%4$d</xliff:g></string>
+    <string name="sync_status_trending_detail_selected">Odabrano · Filmovi: <xliff:g id="filmovi">%1$d</xliff:g> · Serije: <xliff:g id="serije">%2$d</xliff:g> · Početna: <xliff:g id="početna">%3$d</xliff:g></string>
+    <string name="sync_status_trending_detail_completed">Odgovarati · Filmovi: <xliff:g id="filmo_odgovara">%1$d</xliff:g>/<xliff:g id="film_kandidati">%2$d</xliff:g> · Serije: <xliff:g id="serije_odgovara">%3$d</xliff:g>/<xliff:g id="serije_kandidati">%4$d</xliff:g></string>
+    <string name="sync_status_trending_matching_movies">Usklađivanje trenutnih hit filmova sa vašim provajderom</string>
+    <string name="sync_status_trending_matching_series">Usklađivanje popularnih serija sa vašim provajderom</string>
+    <string name="sync_status_trending_loading_seasons">Učitavanje sezona od pružalaca usluga</string>
+    <string name="sync_status_trending_detail_loading_seasons">Proverene serije: <xliff:g id="obradjeno">%1$d</xliff:g>/<xliff:g id="ukupno">%2$d</xliff:g></string>
+    <string name="sync_status_trending_preserved">Osvežavanje trendova nije dostupno – zadržani su prethodni rezultati</string>
+    <plurals name="sync_status_trending_received">
+        <item quantity="one">Poslednje učitano <xliff:g id="broj">%1$d</xliff:g> Popularni naslov</item>
+        <item quantity="few">Poslednje učitano <xliff:g id="count">%1$d</xliff:g> Popularni naslovi</item>
+    </plurals>
+    <string name="sync_phase_live">TV uživo</string>
+    <string name="sync_phase_movies">Filmovi</string>
+    <string name="sync_phase_series">Serije</string>
+    <plurals name="sync_count_channels">
+        <item quantity="one"><xliff:g id="broj">%1$s</xliff:g> kanal</item>
+        <item quantity="other"><xliff:g id="broj">%1$s</xliff:g> kanali</item>
+    </plurals>
+    <plurals name="sync_count_movies">
+        <item quantity="one"><xliff:g id="broj">%1$s</xliff:g> film</item>
+        <item quantity="few"><xliff:g id="broj">%1$s</xliff:g> filmovi</item>
+    </plurals>
+    <plurals name="sync_count_series">
+        <item quantity="one"><xliff:g id="broj">%1$s</xliff:g> serije</item>
+        <item quantity="other"><xliff:g id="broj">%1$s</xliff:g> serije</item>
+    </plurals>
 </resources>

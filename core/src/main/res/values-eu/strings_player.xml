@@ -76,7 +76,7 @@
     <string name="player_duration_minutes"><xliff:g id="minutes">%1$d</xliff:g> min</string>
     <string name="player_season_number"><xliff:g id="season">%1$d</xliff:g>. denboraldia</string>
     <string name="player_episode_number"><xliff:g id="episode">%1$d</xliff:g>. atala</string>
-    <string name="player_episode_context_title"><xliff:g id="title">%1$s</xliff:g> · <xliff:g id="season">%2$d</xliff:g>. denb. <xliff:g id="episode">%3$d</xliff:g>. atala</string>
+    <string name="player_episode_context_title"><xliff:g id="title">%1$s</xliff:g> · S<xliff:g id="season">%2$d</xliff:g>E<xliff:g id="episode">%3$d</xliff:g></string>
     <string name="player_channel_number">#<xliff:g id="number">%1$s</xliff:g></string>
     <string name="player_live">ZUZENEAN</string>
     <string name="player_subtitle_delay_zero">0.0 s</string>
@@ -162,7 +162,7 @@
     <string name="player_audio_mono">mono</string>
     <string name="player_audio_stereo">estereo</string>
     <plurals name="player_audio_channels">
-        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> kanal</item>
+        <item quantity="one">Kanal <xliff:g id="count">%1$d</xliff:g></item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> kanal</item>
     </plurals>
     <plurals name="player_stream_dropped_frames">
@@ -196,7 +196,7 @@
     <string name="player_subtitles_refresh">Freskatu</string>
     <string name="player_subtitles_sign_in_to_use">Erabili zure opensubtitles.com kontua. Bat sortzea doakoa da.</string>
     <plurals name="player_subtitles_remaining">
-        <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> deskarga geratzen da gaur <xliff:g id="total">%2$d</xliff:g>tik</item>
+        <item quantity="one">Deskarga <xliff:g id="remaining">%1$d</xliff:g> geratzen da gaur <xliff:g id="total">%2$d</xliff:g>tik</item>
         <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> deskarga geratzen dira gaur <xliff:g id="total">%2$d</xliff:g>tik</item>
     </plurals>
     <plurals name="player_subtitles_remaining_short">
@@ -225,12 +225,12 @@
     <string name="player_subtitles_sdh">SDH</string>
     <string name="player_subtitles_ai">IA</string>
     <plurals name="player_subtitles_download_count">
-        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> deskarga</item>
+        <item quantity="one">Deskarga <xliff:g id="count">%1$d</xliff:g></item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> deskarga</item>
     </plurals>
     <string name="player_subtitles_tags_separator">" · "</string>
     <string name="player_subtitles_search">Bilatu</string>
-    <string name="player_subtitles_connected_as">Konektatuta honela:</string>
+    <string name="player_subtitles_connected_as">Honela konektatuta</string>
     <string name="player_subtitles_connected_user"><xliff:g id="username">%1$s</xliff:g> gisa konektatuta</string>
     <string name="player_subtitles_resets">Berrezartzen da</string>
     <string name="player_subtitles_free_account">Doakoa</string>
@@ -308,4 +308,11 @@
     <string name="multiview_tile_sound_only">Soinua soilik</string>
     <string name="multiview_tile_show_picture">Erakutsi irudia</string>
     <string name="multiview_sound_only_note">Soinua soilik — zure hornitzailearen jarioetako bat da oraindik</string>
+    <string name="player_next_channel_in_list">Hurrengo kanala</string>
+    <string name="player_previous_channel_in_list">Zerrendako aurreko kanala</string>
+    <string name="player_reconnecting">Jarioa geldituta. Berriro konektatzen…</string>
+    <string name="player_trailer_skip">Salto 10s</string>
+    <string name="player_trailer_blocked_title">Trailer hau ezin da ikusi OwnTV-n</string>
+    <string name="player_trailer_blocked_body">Bere jabeak Youtuben ikustea ahalbidetzen du soilik.</string>
+    <string name="player_trailer_open_youtube">Ireki YouTuben</string>
 </resources>
