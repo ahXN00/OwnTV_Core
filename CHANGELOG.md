@@ -9,7 +9,7 @@
 > in one bolded line of its own (e.g. **Database v46 · Backup v24 · Breaking**). The detail — what,
 > why, files and verification — belongs in the commit message, never here.
 
-## core-1.0.65 — unreleased
+## core-1.0.65 — 2026-10-09
 
 ### ✨ New features
 
@@ -24,10 +24,11 @@
 - **⭐ Favourite movies and series rows for Home**
 - **🔎 Programme search by title, the On TV group in Search**
 - **⏰ Schedule a recording by day and time on any channel, guide or not (#2)**
+- **🎞️ mpv engine 2026.10.2**
 
 ### 🐛 Fixes
-- **⏺️ Recordings of channels served as a quality list (master playlist) or AES-128 HLS now record the programme (#243)**
 
+- **⏺️ Recordings of channels served as a quality list (master playlist) or AES-128 HLS now record the programme (#243)**
 - **📡 Live channels keep the last picture through a network outage and come back by themselves** (community PRs #12, #13, #17 by @tvdev-android)
 - **⏱️ A live reconnect no longer stalls behind a slow connection or DNS lookup** (community PR #14 by @tvdev-android)
 - **🎞️ A live channel ExoPlayer can't decode after it started playing moves to the other player** (community PR #20 by @tvdev-android)
