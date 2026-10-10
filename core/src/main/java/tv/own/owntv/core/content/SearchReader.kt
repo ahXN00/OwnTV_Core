@@ -78,7 +78,7 @@ class SearchReader(
         profileId: Long,
         sources: ActiveProfileSources,
         query: String,
-        limit: Int = LIMIT,
+        limit: Int = MATCH_LIMIT,
     ): SearchResults {
         if (profileId < 0 || !sources.hasAny) return SearchResults()
         val fts = ftsQuery(query)
@@ -229,8 +229,15 @@ class SearchReader(
     }
 
     companion object {
-        /** How many rows of each kind a search returns. */
+        /** How many rows of each kind a curated list returns. */
         const val LIMIT = 40
+
+        /**
+         * How many rows of each kind a typed search returns. High enough that a title search lists
+         * every match ("Spider" found more than 40 films, and the rest were never shown); the cap is
+         * only for a two-letter query that matches most of a 170k-row catalogue.
+         */
+        const val MATCH_LIMIT = 500
 
         /** How far ahead "On TV" looks, and how many programmes it lists. */
         private const val PROGRAMME_HORIZON_MS = 12 * 60 * 60_000L
@@ -246,16 +253,16 @@ class SearchReader(
         private const val KEY_CHUNK = 400
 
         /**
-         * A sanitized FTS4 MATCH expression: each whitespace-separated token is stripped to letters
-         * and digits and turned into a prefix term ("harry pot" → "harry* pot*", implicit AND).
+         * A sanitized FTS4 MATCH expression: the text is split at every character that is not a letter
+         * or digit and each word becomes a prefix term ("harry pot" → "harry* pot*", implicit AND). The
+         * index splits names at punctuation too, so "Spider-M" must be "Spider* M*" — stripping the
+         * hyphen instead gave "SpiderM*", which no indexed word starts with.
          * Null when nothing tokenizable remains (symbols-only input) — the caller then falls back to
          * the substring LIKE queries. Prefix terms match word starts rather than mid-word substrings,
          * which is the accepted trade-off for an index-served search over ~220k rows per keystroke.
          */
         fun ftsQuery(query: String): String? {
-            val tokens = query.split(Regex("\\s+"))
-                .map { t -> t.filter { it.isLetterOrDigit() } }
-                .filter { it.isNotEmpty() }
+            val tokens = query.split(Regex("[^\\p{L}\\p{Nd}]+")).filter { it.isNotEmpty() }
             if (tokens.isEmpty()) return null
             return tokens.joinToString(" ") { "$it*" }
         }

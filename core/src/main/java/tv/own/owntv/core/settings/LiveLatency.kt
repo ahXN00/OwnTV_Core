@@ -4,7 +4,7 @@ package tv.own.owntv.core.settings
  * How close to the live edge to play Live TV, trading latency against stability. Applied on the next
  * channel open (live streams only — VOD is unaffected):
  *  - ExoPlayer live → a `MediaItem.LiveConfiguration` target offset (the main HLS latency lever);
- *  - mpv live → `demuxer-readahead-secs`.
+ *  - mpv live → `demuxer-readahead-secs` and `cache-secs`, set alike.
  *
  * [BALANCED] is the default and applies no override — the engines keep their existing behaviour, so
  * it can never regress a stream that already works.

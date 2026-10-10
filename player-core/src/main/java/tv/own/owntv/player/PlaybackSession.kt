@@ -10,6 +10,7 @@ import android.media.AudioManager
 import android.media.MediaMetadata
 import android.media.session.MediaSession
 import android.media.session.PlaybackState
+import android.view.KeyEvent
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -215,6 +216,32 @@ class PlaybackSession(
 
     private fun createSession(): MediaSession = MediaSession(context, SESSION_TAG).apply {
         setCallback(object : MediaSession.Callback() {
+            // The platform acts on a transport key's DOWN only. On the TCL the system sometimes hands the
+            // session the UP alone (MediaSessionService logged only ACTION_UP for Play/Pause), and the
+            // press was lost: the remote's Play/Pause did nothing on a playing channel. An UP whose DOWN
+            // never came is acted on here; a normal DOWN + UP still goes the platform's way.
+            override fun onMediaButtonEvent(mediaButtonIntent: Intent): Boolean {
+                @Suppress("DEPRECATION")
+                val ev = mediaButtonIntent.getParcelableExtra<KeyEvent>(Intent.EXTRA_KEY_EVENT)
+                    ?: return super.onMediaButtonEvent(mediaButtonIntent)
+                if (ev.keyCode in TRANSPORT_KEYS) {
+                    if (ev.action == KeyEvent.ACTION_DOWN) {
+                        transportDown = ev.keyCode
+                    } else if (ev.action == KeyEvent.ACTION_UP) {
+                        val orphan = transportDown != ev.keyCode
+                        transportDown = null
+                        if (orphan) {
+                            when (ev.keyCode) {
+                                KeyEvent.KEYCODE_MEDIA_PLAY -> onPlay()
+                                KeyEvent.KEYCODE_MEDIA_PAUSE -> onPause()
+                                else -> if (engine?.isPlaying?.value == true) onPause() else onPlay()
+                            }
+                            return true
+                        }
+                    }
+                }
+                return super.onMediaButtonEvent(mediaButtonIntent)
+            }
             // Either transport button is the user speaking for themselves, so any resume this class
             // still owed is cancelled: their choice is newer than the interruption's.
             override fun onPlay() = withEngine { pausedByUs = false; if (!it.isPlaying.value) it.togglePlayPause() }
@@ -280,6 +307,9 @@ class PlaybackSession(
 
     /** Set while playback is paused *by this class* and is owed a resume — never while the user paused. */
     private var pausedByUs = false
+
+    /** The transport key whose DOWN the session has seen and whose UP is still to come. */
+    private var transportDown: Int? = null
 
     private fun pauseForInterruption() {
         withEngine {
@@ -395,6 +425,9 @@ class PlaybackSession(
 
     private companion object {
         const val SESSION_TAG = "OwnTV"
+        val TRANSPORT_KEYS = setOf(
+            KeyEvent.KEYCODE_MEDIA_PLAY, KeyEvent.KEYCODE_MEDIA_PAUSE, KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE,
+        )
         /** How far down a manual duck goes — quiet enough to talk over, loud enough not to look broken.
          *  In dB, so it is the same drop on every engine and from any starting volume (a quarter of
          *  the HUD number used to be −12 dB on ExoPlayer and −36 dB, effectively mute, on mpv). */

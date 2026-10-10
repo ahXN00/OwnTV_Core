@@ -636,13 +636,20 @@ class ExoSubtitleEngine(
             audioDelay = audioDelay,
             passthrough = passthroughAllowed,
         )
+        // D-L3 — Blu-ray `.m2ts` (the PGS case this engine exists for) carries DTS on HDMV stream types
+        // the stock TS reader skips; and a longer timestamp search finds the duration of files whose first
+        // PCR sits deep in (Media3's 600 packets is the floor; Just Player and Jellyfin use 1500–1800).
+        val extractors = androidx.media3.extractor.DefaultExtractorsFactory()
+            .setTsExtractorFlags(androidx.media3.extractor.ts.DefaultTsPayloadReaderFactory.FLAG_ENABLE_HDMV_DTS_AUDIO_STREAMS)
+            .setTsExtractorTimestampSearchBytes(TS_TIMESTAMP_SEARCH_PACKETS * androidx.media3.extractor.ts.TsExtractor.TS_PACKET_SIZE)
         return ExoPlayer.Builder(context)
             .setRenderersFactory(renderers)
-            .setMediaSourceFactory(DefaultMediaSourceFactory(dataSource))
+            .setMediaSourceFactory(DefaultMediaSourceFactory(dataSource, extractors))
             .setLoadControl(loadControl)
             .setTrackSelector(trackSelector)
             .build()
             .apply {
+                setWakeMode(if (backgroundPlayback) C.WAKE_MODE_NETWORK else C.WAKE_MODE_NONE)
                 // Media3's default ONLY_IF_SEAMLESS still issues Surface.setFrameRate() requests, and this
                 // engine plays whole movies — exactly where a 24 fps file on a 60 Hz panel judders. mpv and
                 // the live engine already follow the setting; this one used to ignore it in both directions.
@@ -770,6 +777,10 @@ class ExoSubtitleEngine(
 
     /** N8 + P14 — may this engine bitstream Dolby/DTS, pushed in by [OwnTVPlayer]; read at build time. */
     @Volatile var passthroughAllowed = true
+
+    /** D-M5 — Settings → background playback, pushed in by [OwnTVPlayer]; read at build time. On, the player
+     *  keeps the CPU and Wi-Fi awake while playing, so a phone with its screen off can still reconnect. */
+    @Volatile var backgroundPlayback = true
 
     /** Settings → Video player → Auto frame rate, pushed in by [OwnTVPlayer]; read at build time. */
     @Volatile var autoFrameRateEnabled = false
@@ -1163,6 +1174,8 @@ class ExoSubtitleEngine(
         const val TARGET_BUFFER_BYTES = 24 * 1024 * 1024
         const val LOW_RAM_TARGET_BYTES = 16 * 1024 * 1024
         const val BASE_BUFFER_MS = 30_000
+        /** TS packets searched for a timestamp in a film (D-L3). */
+        const val TS_TIMESTAMP_SEARCH_PACKETS = 1_500
         /** Armed at load, so it covers the open as well as the decode — see [NoFrameWatchdog] for why
          *  this matches the hero preview's budget rather than the live engine's 8 s. */
         const val NO_VIDEO_TIMEOUT_MS = 12_000L

@@ -465,7 +465,7 @@
 1	technical	core/src/main/java/tv/own/owntv/core/content/AirDate.kt	yyyy-MM-dd
 1	empty	core/src/main/java/tv/own/owntv/core/content/SearchReader.kt	\0
 1	sql	core/src/main/java/tv/own/owntv/core/content/SearchReader.kt	$it*
-1	regex	core/src/main/java/tv/own/owntv/core/content/SearchReader.kt	\\s+
+1	technical	core/src/main/java/tv/own/owntv/core/content/SearchReader.kt	[^\\p{L}\\p{Nd}]+
 1	empty	core/src/main/java/tv/own/owntv/core/customize/BulkRenameSession.kt	\0
 1	empty	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	\0
 1	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	${c.sourceId}:${c.remoteId ?: c.name}
@@ -4172,7 +4172,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/AudioDynamics.kt	:attack=${(NIGHT_ATTACK_SECS * 1000).toInt()}:release=${(NIGHT_RELEASE_SECS * 1000).toInt()}
 1	technical	player-core/src/main/java/tv/own/owntv/player/AudioDynamics.kt	:makeup=${fmt(NIGHT_MAKEUP.toDouble())}
 1	technical	player-core/src/main/java/tv/own/owntv/player/AudioDynamics.kt	acompressor=threshold=${fmt(NIGHT_THRESHOLD.toDouble())}:ratio=${NIGHT_RATIO.toInt()}
-1	technical	player-core/src/main/java/tv/own/owntv/player/AudioDynamics.kt	alimiter=limit=$CEILING
+1	technical	player-core/src/main/java/tv/own/owntv/player/AudioDynamics.kt	alimiter=limit=$CEILING:level=0
 1	technical	player-core/src/main/java/tv/own/owntv/player/AudioDynamics.kt	dynaudnorm=f=250:g=15:p=0.95:m=${fmt(LEVEL_MAX.toDouble())}:r=${fmt(TARGET_RMS)}
 1	technical	player-core/src/main/java/tv/own/owntv/player/AudioDynamics.kt	lavfi=[${chain.joinToString(",")}]
 1	empty	player-core/src/main/java/tv/own/owntv/player/AudioOutputPolicy.kt	\0
@@ -4595,8 +4595,14 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	timeshift: '${channel.name}' plays from its saved copy
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	tune '${channel.name}' -> ${route.why} [${route.preference.name}]
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	user chose compatibility mode
+1	technical	player-core/src/main/java/tv/own/owntv/player/MpvAudioChannels.kt	,
+1	technical	player-core/src/main/java/tv/own/owntv/player/MpvAudioChannels.kt	5.1
+1	technical	player-core/src/main/java/tv/own/owntv/player/MpvAudioChannels.kt	7.1
+1	technical	player-core/src/main/java/tv/own/owntv/player/MpvAudioChannels.kt	InlinedApi
+1	technical	player-core/src/main/java/tv/own/owntv/player/MpvAudioChannels.kt	auto-safe
+1	technical	player-core/src/main/java/tv/own/owntv/player/MpvAudioChannels.kt	stereo
 13	empty	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	\0
-1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	$STREAM_RECONNECT_OPTIONS,reconnect_at_eof=1
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	$STREAM_RECONNECT_OPTIONS,$LIVE_TS_RECONNECT_OPTIONS
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	$reason — archive rescue: reopening mid-GOP catch-up in software decode
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	$reason — rescue rung 1: hwdec=mediacodec-copy (GL compositing)
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	$reason — rescue rung 2: software decode
@@ -4630,7 +4636,6 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	16:10
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	16:9
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	21:9
-2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	30
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	48000
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	4:3
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	5.1
@@ -4694,7 +4699,9 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio filters: ${getPropertyString("af").orEmpty().ifEmpty { "none" }}
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio output produced no sound
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio-bitrate
-3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio-channels
+2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio-channels
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio-channels=$it
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio-channels=$value
 2	protocol	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio-codec-name
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio-delay
 3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio-format
@@ -4705,7 +4712,6 @@
 3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audio-samplerate
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	audiotrack
 4	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	auto
-1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	auto-safe
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	av1
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	avc
 1	regex	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	both surface and native_window are null
@@ -4713,7 +4719,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	cache
 3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	cache-pause-initial
 3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	cache-pause-wait
-2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	cache-secs
+3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	cache-secs
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	cache=${getPropertyString("demuxer-cache-duration")}s
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	catch-up path URL rejected — trying timeshift.php fallback
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	clip
@@ -4826,7 +4832,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live stall after ${item.liveStallReconnects} reconnects
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live stream didn't start — trying format fallback -> ${altFormat.substringAfterLast('.')}
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live=$isLiveContent; awaiting their END_FILEs
-1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live_buffer preroll=${prerollSecs}s readahead=${liveReadahead ?: budgetReadahead} latency=${effectiveLiveBufferSecs() ?: -1}
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live_buffer preroll=${prerollSecs}s readahead=${live.readahead} cache=${live.cache} latency=${effectiveLiveBufferSecs() ?: -1} net=${networkTimeout}s
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	load#=$mpvLoadCount freshSurface=$usedFreshSurface
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	loadfile
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	lowSpec=${budget.lowSpec} direct=${useDirect()} hwdec=${getPropertyString("hwdec")}
@@ -4892,6 +4898,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	quit
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	ranchu
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	reconnect=1,reconnect_streamed=1,reconnect_delay_max=8,reconnect_on_http_error=5xx
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	reconnect_at_eof=1,reconnect_on_http_error=[5xx,458],reconnect_max_retries=3
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	redirect
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	relative
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	replacement loadfile
@@ -4900,7 +4907,6 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	sans-serif
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	sdk
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	seek
-1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	seekable=1
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	seeking
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	select
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	setSurfaceSize
@@ -4911,7 +4917,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	smpte vc-1
 3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	speed
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	startLoad: mpv had no surface — re-attaching
-2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	stereo
+1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	stereo
 3	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	stop
 3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	stream-lavf-o
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	streamLavfO="${streamLavfOptionsFor(url, isLiveContent, effectiveHls)}"
@@ -5072,6 +5078,7 @@
 1	protocol	player-core/src/main/java/tv/own/owntv/player/PlaybackErrorLog.kt	wt
 1	file-path	player-core/src/main/java/tv/own/owntv/player/PlaybackErrorLog.kt	yyyy-MM-dd HH:mm:ss
 1	technical	player-core/src/main/java/tv/own/owntv/player/PlaybackErrorLog.kt	•
+1	technical	player-core/src/main/java/tv/own/owntv/player/PlaybackSession.kt	DEPRECATION
 1	technical	player-core/src/main/java/tv/own/owntv/player/PlaybackSession.kt	OwnTV
 1	compiler	player-core/src/main/java/tv/own/owntv/player/PlaybackSettings.kt	UNCHECKED_CAST
 1	log	player-core/src/main/java/tv/own/owntv/player/PlayerDiagnostics.kt	${e.tag}: ${e.text}

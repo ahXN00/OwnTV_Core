@@ -148,6 +148,8 @@ class LivePreviewEngine(
     override val videoQualities: StateFlow<List<Int>> = _videoQualities.asStateFlow()
     private val _videoQualityPick = MutableStateFlow<Int?>(null)
     override val videoQualityPick: StateFlow<Int?> = _videoQualityPick.asStateFlow()
+    /** D-M5 — Settings → background playback; picks the player's wake mode. */
+    @Volatile private var backgroundPlayback = true
     /** N19 — the setting, whether this engine may tunnel at all (a Multiview tile may not), and what the
      *  current player was built with. */
     @Volatile private var tunneledSetting = false
@@ -317,6 +319,12 @@ class LivePreviewEngine(
             .flatMapLatest { on -> if (on) connectivityNow.isMetered.drop(1) else emptyFlow() }
             .onEach { applyMaxVideoHeight() }
             .launchIn(settingsScope)
+        // D-M5 — with background playback on, keep the CPU and Wi-Fi awake while playing, so a phone with
+        // its screen off can still reconnect. Media3 holds the locks only while playing; applied in place.
+        playbackSettings.field { it.backgroundPlayback }.onEach { on ->
+            backgroundPlayback = on
+            player?.setWakeMode(if (on) C.WAKE_MODE_NETWORK else C.WAKE_MODE_NONE)
+        }.launchIn(settingsScope)
         // N19 — fixed at build, like the sink: rebuild when the playing channel's answer changes.
         playbackSettings.field { it.tunneledPlayback }.onEach { on ->
             tunneledSetting = on
@@ -3063,8 +3071,8 @@ class LivePreviewEngine(
      * the buffer and turns a recoverable hiccup into a dead channel. One short retry (a genuine blip),
      * then fatal so [maybeBackOffFromLiveEdge]/the reconnect ladder can act.
      *
-     * A live channel that has played and then loses its connection. As for raw TS
-     * ([progressiveLivePolicy]): Media3's stock count turns a connection failure fatal after three
+     * A live channel that has played and then loses its connection. As for raw TS and DASH
+     * ([playedLivePolicy]): Media3's stock count turns a connection failure fatal after three
      * retries, which drops the player to IDLE — measured on a 4K HLS channel, a ~97 s upstream outage
      * blanked the picture 28 s into the stall. Instead, segment and playlist connection failures retry a
      * second apart without turning fatal, so the last frame stays up and the first attempt after the
@@ -3103,41 +3111,44 @@ class LivePreviewEngine(
         }
 
     /**
-     * Raw TS (progressive live) once the channel has played. Media3's stock policy turns a connection
-     * failure fatal after three retries (six once it has classed the stream as live), which drops the
-     * player to IDLE: a black screen between reconnects
-     * (measured: an upstream outage of ~3 min blanked the picture at ~50 s, with retries 1–5 s apart).
-     * Instead, keep retrying connection-level failures a second apart: the last frame stays up, and the
-     * first attempt after the uplink returns is never more than about a second away. The engine's ladder
-     * still owns the verdict ([stallWatchdog] → [reconnect] → RECONNECT_GIVE_UP_MS).
+     * Raw TS (progressive live) and DASH (D-M2) once the channel has played — the two routes the default
+     * factory builds. Media3's stock policy turns a connection failure fatal after three retries (six once
+     * it has classed a raw TS stream as live), which drops the player to IDLE: a black screen between
+     * reconnects (measured on raw TS: an upstream outage of ~3 min blanked the picture at ~50 s, with
+     * retries 1–5 s apart). Instead, keep retrying connection-level failures a second apart: the last frame
+     * stays up, and the first attempt after the uplink returns is never more than about a second away. The
+     * engine's ladder still owns the verdict ([stallWatchdog] → [reconnect] → RECONNECT_GIVE_UP_MS).
      *
      * An HTTP status from the server is an answer, not an outage, and keeps the stock count. Before the
      * first frame everything keeps the stock behaviour, so a channel that never opens still fails fast to
      * the next rung.
      */
-    private val progressiveLivePolicy =
+    private val playedLivePolicy =
         object : androidx.media3.exoplayer.upstream.DefaultLoadErrorHandlingPolicy() {
-            // Not keyed on DATA_TYPE_MEDIA_PROGRESSIVE_LIVE: Media3 only learns a stream is live once it has
-            // parsed some of it, and a reconnect that cannot connect never gets that far. It stays plain
-            // DATA_TYPE_MEDIA with the stock three retries — measured, exactly what still blanked the screen.
             override fun getMinimumLoadableRetryCount(dataType: Int): Int =
-                if (playedRawTs && (dataType == C.DATA_TYPE_MEDIA || dataType == C.DATA_TYPE_MEDIA_PROGRESSIVE_LIVE)) {
+                if (playedLive && retriesOutageForever(activeRoute, dataType)) {
                     Int.MAX_VALUE
                 } else {
                     super.getMinimumLoadableRetryCount(dataType)
                 }
 
-            private val playedRawTs: Boolean
-                get() = activeRoute == StreamRoute.PROGRESSIVE && isLiveContent && tune.hasPlayed && !tune.gaveUp
+            private val playedLive: Boolean
+                get() = (activeRoute == StreamRoute.PROGRESSIVE || activeRoute == StreamRoute.DASH) &&
+                    isLiveContent && tune.hasPlayed && !tune.gaveUp
 
             override fun getRetryDelayMsFor(
                 loadErrorInfo: androidx.media3.exoplayer.upstream.LoadErrorHandlingPolicy.LoadErrorInfo,
             ): Long {
                 val stock = super.getRetryDelayMsFor(loadErrorInfo)
-                if (stock == C.TIME_UNSET || !playedRawTs) return stock
+                if (stock == C.TIME_UNSET || !playedLive) return stock
                 return if (httpStatusOf(loadErrorInfo.exception) != null) {
-                    // Answered with a status: the stock six tries, then fatal so the ladder can act.
-                    if (loadErrorInfo.errorCount > DEFAULT_MIN_LOADABLE_RETRY_COUNT_PROGRESSIVE_LIVE) C.TIME_UNSET else stock
+                    // Answered with a status: the stock count, then fatal so the ladder can act.
+                    val stockCount = if (activeRoute == StreamRoute.DASH) {
+                        DEFAULT_MIN_LOADABLE_RETRY_COUNT
+                    } else {
+                        DEFAULT_MIN_LOADABLE_RETRY_COUNT_PROGRESSIVE_LIVE
+                    }
+                    if (loadErrorInfo.errorCount > stockCount) C.TIME_UNSET else stock
                 } else {
                     minOf(stock, PROGRESSIVE_LIVE_RETRY_MS)
                 }
@@ -3162,6 +3173,11 @@ class LivePreviewEngine(
             // list to DefaultTsPayloadReaderFactory, and with the override flag that empty list is
             // returned verbatim (= zero CC tracks, even declared ones). The CEA-608 CC1 format must be
             // supplied explicitly via setTsSubtitleFormats.
+            // D-L2 — FLAG_DETECT_ACCESS_UNITS (raw TS and HLS alike): an H.264 feed without access-unit
+            // delimiters otherwise "appears stuck buffering" (Media3 FAQ); the cost is a little CPU. Not
+            // FLAG_ALLOW_NON_IDR_KEYFRAMES: a feed with no IDR raises no load error for a ladder rung to
+            // catch — it never renders a first frame, and that case already ends on mpv, which plays it.
+            val tsFlags = androidx.media3.extractor.ts.DefaultTsPayloadReaderFactory.FLAG_DETECT_ACCESS_UNITS
             val cc1 = androidx.media3.common.Format.Builder()
                 .setSampleMimeType(androidx.media3.common.MimeTypes.APPLICATION_CEA608)
                 .setAccessibilityChannel(1) // CC1 — the standard primary caption channel
@@ -3170,12 +3186,12 @@ class LivePreviewEngine(
                 cachedHttpDataSource!!,
                 androidx.media3.extractor.DefaultExtractorsFactory()
                     .setTsExtractorFlags(
-                        androidx.media3.extractor.ts.DefaultTsPayloadReaderFactory.FLAG_OVERRIDE_CAPTION_DESCRIPTORS,
+                        androidx.media3.extractor.ts.DefaultTsPayloadReaderFactory.FLAG_OVERRIDE_CAPTION_DESCRIPTORS or tsFlags,
                     )
                     .setTsSubtitleFormats(listOf(cc1)),
-            ).setLoadErrorHandlingPolicy(progressiveLivePolicy)
+            ).setLoadErrorHandlingPolicy(playedLivePolicy)
             cachedHlsCcFactory = HlsMediaSource.Factory(cachedHttpDataSource!!)
-                .setExtractorFactory(DefaultHlsExtractorFactory(0, true))
+                .setExtractorFactory(DefaultHlsExtractorFactory(tsFlags, true))
                 // Media3 defaults this to zero, which it documents as an *infinite* timeout: a rendition
                 // whose chunk can't be timestamp-aligned with the primary one parks its loading thread in
                 // an unbounded wait(), so that track never produces a sample and the player sits in
@@ -3345,6 +3361,7 @@ class LivePreviewEngine(
             .setLoadControl(loadControl)
             .build()
             .apply {
+                setWakeMode(if (backgroundPlayback) C.WAKE_MODE_NETWORK else C.WAKE_MODE_NONE)
                 // Media3's default ONLY_IF_SEAMLESS still issues Surface.setFrameRate() requests. Some
                 // vendor stacks advertise a seamless switch but visibly re-handshake HDMI, so Off must
                 // explicitly disable this second AFR mechanism as well as FrameRateController.
@@ -3413,9 +3430,22 @@ class LivePreviewEngine(
         private const val CONTENT_FAILURE_LIMIT = 2
         /** Bytes this recent mean a stream is already coming back (see [receivingData]). */
         private const val RECENT_BYTES_MS = 2_000L
-        /** How often a played live channel retries a connection failure (see [progressiveLivePolicy],
+        /** How often a played live channel retries a connection failure (see [playedLivePolicy],
          *  [edgeRefusalPolicy]). */
         private const val PROGRESSIVE_LIVE_RETRY_MS = 1_000L
+
+        /**
+         * Which loads [playedLivePolicy] retries through an outage once the channel has played. Raw TS: its
+         * one long request — not keyed on DATA_TYPE_MEDIA_PROGRESSIVE_LIVE alone, because Media3 only learns
+         * a stream is live once it has parsed some of it, and a reconnect that cannot connect never gets
+         * that far (measured: plain DATA_TYPE_MEDIA with the stock three retries still blanked the screen).
+         * DASH: its segments and the MPD it refreshes, whose fatal failure blanks a live channel the same way.
+         */
+        internal fun retriesOutageForever(route: StreamRoute, dataType: Int): Boolean = when (route) {
+            StreamRoute.PROGRESSIVE -> dataType == C.DATA_TYPE_MEDIA || dataType == C.DATA_TYPE_MEDIA_PROGRESSIVE_LIVE
+            StreamRoute.DASH -> dataType == C.DATA_TYPE_MEDIA || dataType == C.DATA_TYPE_MANIFEST
+            StreamRoute.HLS -> false
+        }
         /** Playback must hold this long before the reconnect ladder is considered recovered. */
         internal const val HEALTHY_MS = 60_000L
 

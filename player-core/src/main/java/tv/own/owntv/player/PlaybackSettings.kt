@@ -67,6 +67,8 @@ data class PlaybackSettings(
     val maxVideoHeight: Int,
     val mobileDataMaxVideoHeight: Int,
     val tunneledPlayback: Boolean,
+    /** D-M5 — keep CPU and Wi-Fi awake while ExoPlayer plays. */
+    val backgroundPlayback: Boolean,
 ) {
     companion object {
         @Volatile private var shared: Pair<SettingsRepository, StateFlow<PlaybackSettings?>>? = null
@@ -94,7 +96,7 @@ data class PlaybackSettings(
                 s.liveEnginePreference, s.liveTuneTimeoutSecs,
                 s.vodBufferSecs, s.vodNetworkTimeoutSecs, s.vodReconnects,
                 s.audioPassthrough, s.nightMode, s.volumeLevelling,
-                s.maxVideoHeight, s.mobileDataMaxVideoHeight, s.tunneledPlayback,
+                s.maxVideoHeight, s.mobileDataMaxVideoHeight, s.tunneledPlayback, s.backgroundPlayback,
             )
             return combine(sources) { v ->
                 PlaybackSettings(
@@ -130,6 +132,7 @@ data class PlaybackSettings(
                     maxVideoHeight = v[29] as Int,
                     mobileDataMaxVideoHeight = v[30] as Int,
                     tunneledPlayback = v[31] as Boolean,
+                    backgroundPlayback = v[32] as Boolean,
                 )
             }.stateIn(CoroutineScope(SupervisorJob() + Dispatchers.Default), SharingStarted.Eagerly, null)
         }

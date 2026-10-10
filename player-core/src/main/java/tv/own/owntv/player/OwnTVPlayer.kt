@@ -319,6 +319,10 @@ class OwnTVPlayer(
         // early enough that the tolerant reopen still gets several attempts before the error UI.
         const val TOLERANT_DEMUX_AFTER_RECONNECTS = 3
         const val LIVE_OPEN_TIMEOUT_MS = 10_000L // bound FFmpeg/network loops that never emit FILE_LOADED/END_FILE
+        // C-M2 — mpv's `network-timeout` for live (FFmpeg's connect and read wait). Films keep mpv's 60 s or
+        // their own setting; on live one hung HLS segment held the picture that long, where 10 s lets FFmpeg
+        // skip it — the same bound the open timeout and the stall watchdog already put on a channel.
+        const val LIVE_NETWORK_TIMEOUT_SECS = 10
 
         /** How long a statistics read may wait for [mpvExecutor] before it is abandoned as unknown. The
          *  executor can be busy with a real command (a load, a decoder switch) and no readout is worth
@@ -328,10 +332,20 @@ class OwnTVPlayer(
             "reconnect=1,reconnect_streamed=1,reconnect_delay_max=8,reconnect_on_http_error=5xx"
 
         /**
+         * C-M3 — live raw TS also retries `458` ("account busy"), so the buffer holds the picture while a
+         * one-connection panel lets the old session go, instead of a full reload. A later key replaces the
+         * earlier one in mpv, and `[…]` keeps FFmpeg's comma list in one value. FFmpeg retries on open too,
+         * and its 0+1+3+7 s back-off would outlast [LIVE_OPEN_TIMEOUT_MS], so three retries (4 s) is the cap
+         * — after that the END_FILE ladder's own busy back-off takes over, as before.
+         */
+        internal const val LIVE_TS_RECONNECT_OPTIONS =
+            "reconnect_at_eof=1,reconnect_on_http_error=[5xx,458],reconnect_max_retries=3"
+
+        /**
          * FFmpeg stream-layer options for one load. Every stream gets the plain reconnect set — that is
          * the long-shipped behaviour and providers depend on it.
          *
-         * The single exception is `reconnect_at_eof`, which keeps a CONTINUOUS stream alive across
+         * The exception is live raw TS ([LIVE_TS_RECONNECT_OPTIONS]): its 458 retry, and `reconnect_at_eof`, which keeps a CONTINUOUS stream alive across
          * mid-stream EOFs but also reconnects on the EOF that ends a *finite* HTTP response. On an HLS
          * playlist that means re-fetching the same ~2 KB manifest forever without ever demuxing, so it is
          * enabled only for live raw MPEG-TS. [hls] must be the *effective* answer (see
@@ -343,7 +357,7 @@ class OwnTVPlayer(
             // Path only — a `.ts` appearing in a query string says nothing about the transport, and the
             // effective-HLS test above already reads the path alone.
             live && !hls && url.substringBefore('?').contains(".ts", ignoreCase = true) ->
-                "$STREAM_RECONNECT_OPTIONS,reconnect_at_eof=1"
+                "$STREAM_RECONNECT_OPTIONS,$LIVE_TS_RECONNECT_OPTIONS"
             else -> STREAM_RECONNECT_OPTIONS
         }
 
@@ -358,9 +372,9 @@ class OwnTVPlayer(
          *
          * For [HttpRefusal.HARD] the ladder's backed-off retries are a request storm against a panel
          * already saying no, so the repeats are cut; the fallbacks that *change* the request —
-         * `.ts`↔`.m3u8`, the short `vlc` User-Agent — stay armed either way. (mpv surfaces only the
-         * status line, so a `Retry-After` header cannot be honoured here; the ladder's own back-off is
-         * what spaces the repeats.)
+         * `.ts`↔`.m3u8`, the short `vlc` User-Agent — stay armed either way. (FFmpeg's own retries honour
+         * `Retry-After`; the ladder sees only mpv's status line, so its own back-off is what spaces the
+         * repeats here.)
          */
         /**
          * The 4xx status in mpv's error line, or null when it doesn't carry one.
@@ -431,7 +445,6 @@ class OwnTVPlayer(
             }
             return buildList {
                 if (fflags.isNotEmpty()) add("fflags=$fflags")
-                if (trimmedRawTsProbe) add("seekable=1")
                 if (tolerant) add(TOLERANT_LAVF_OPTIONS)
             }.joinToString(",")
         }
@@ -767,14 +780,29 @@ class OwnTVPlayer(
         }
     }
 
-    /** mpv `audio-channels`: multichannel allowed → multichannel LPCM where the sink **unambiguously**
-     *  supports it (`auto-safe`), else a safe stereo downmix; Stereo only → force stereo. `auto-safe`
-     *  (not `auto`) because some sinks falsely claim 5.1/7.1. If a sink claims support but actually
+    /** mpv `audio-channels`: multichannel allowed → the layouts the current output's PCM really takes
+     *  ([MpvAudioChannels]); Stereo only → force stereo. If a sink claims support but actually
      *  mis-plays multichannel PCM (the "2× speed, no sound", #25) or goes silent, the failsafe latches
      *  [AudioOutputPolicy] and every engine forces stereo for the rest of the session. Always decoded
      *  PCM, so the audio clock stays alive. */
     private fun audioChannelsValue(): String =
-        if (AudioOutputPolicy.allowsMultichannel(surroundMode)) "auto-safe" else "stereo"
+        if (AudioOutputPolicy.allowsMultichannel(surroundMode)) {
+            MpvAudioChannels.listFor(MpvAudioChannels.outputPcmChannelCounts(context))
+        } else {
+            "stereo"
+        }
+
+    /** The `audio-channels` this mpv instance was last given; a write re-inits audio, so only a change is written. */
+    @Volatile private var appliedAudioChannels: String? = null
+
+    /** Follow the output (a soundbar switched on mid-session moves the route) — see [audioChannelsValue]. */
+    private fun MPVLib.applyAudioChannels() {
+        val value = audioChannelsValue()
+        if (value == appliedAudioChannels) return
+        setPropertyString("audio-channels", value)
+        appliedAudioChannels = value
+        android.util.Log.i(TAG, "audio-channels=$value")
+    }
 
     /** True when this load may use multichannel — the mode allows it and the session isn't latched. */
     private fun multichannelAllowed(): Boolean = AudioOutputPolicy.allowsMultichannel(surroundMode)
@@ -785,6 +813,7 @@ class OwnTVPlayer(
      * all tracks are detected. If a trimmed live load returns no audio, [ItemState.forceFullProbe] re-probes fully.
      */
     private fun MPVLib.applyProbeProfile(url: String) {
+        applyAudioChannels()
         val lower = url.lowercase()
         // Raw continuous MPEG-TS (Xtream live `…/id.ts`, catch-up timeshift `.ts` — though an archive is
         // never trimmed, see `trim` below). These probe fast and
@@ -807,34 +836,31 @@ class OwnTVPlayer(
         // forever during OPEN so the stream never starts. [streamLavfOptionsFor] owns that distinction and
         // is the single place stream-lavf-o is decided, for this path and the loadfile path alike.
         setPropertyString("stream-lavf-o", streamLavfOptionsFor(url, isLiveContent, effectiveHls))
-        // Live latency (#72): how far ahead the demuxer buffers. Live streams honour the user's choice
-        // (or the device budget default when Balanced); VOD always uses the budget default.
-        val budgetReadahead = playerBudget?.readaheadSecs ?: "30"
         // "Pre-buffer" (F07): mpv's own pre-roll gate — hold the picture until the cache
         // holds N seconds, and do the same after an underrun (which is what "pause 3-4 s then play
         // makes it smooth" was doing by hand). Live only; 0 restores mpv's defaults.
         val prerollSecs = effectivePrerollSecs()
-        // The readahead must be able to HOLD the pre-roll, or the gate could never be satisfied.
-        val liveReadahead = effectiveLiveBufferSecs()?.let { maxOf(it, prerollSecs) }
         // N18 — a film's own buffer and network timeout (Settings; 0 = Auto = the values used before).
         // Set on every load, live included, so a channel after a film gets the device's values back.
         // demuxer-max-bytes is not touched: memory stays the tier's, so a longer buffer is "up to".
         val film = playbackSettings.value?.takeIf { !isLiveContent }
-        val filmReadahead = playerBudget?.let { FilmNetwork.readaheadSecs(film?.vodBufferSecs ?: 0, it) } ?: budgetReadahead
-        setPropertyString("demuxer-readahead-secs", if (isLiveContent) (liveReadahead?.toString() ?: budgetReadahead) else filmReadahead)
+        val networkTimeout = if (isLiveContent) LIVE_NETWORK_TIMEOUT_SECS else FilmNetwork.mpvTimeoutSecs(film?.vodNetworkTimeoutSecs ?: 0)
+        setPropertyString("network-timeout", networkTimeout.toString())
         playerBudget?.let { budget ->
-            setPropertyString("cache-secs", FilmNetwork.bufferSecs(film?.vodBufferSecs ?: 0, budget).toString())
+            // Live latency (#72): a choice sets mpv's readahead AND its cache — see [MpvLiveBuffer].
+            val live = MpvLiveBuffer.resolve(effectiveLiveBufferSecs(), prerollSecs, budget)
+            setPropertyString("demuxer-readahead-secs", if (isLiveContent) live.readahead else FilmNetwork.readaheadSecs(film?.vodBufferSecs ?: 0, budget))
+            setPropertyString("cache-secs", if (isLiveContent) live.cache else FilmNetwork.bufferSecs(film?.vodBufferSecs ?: 0, budget).toString())
+            if (isLiveContent) {
+                android.util.Log.i(TAG, "live_buffer preroll=${prerollSecs}s readahead=${live.readahead} cache=${live.cache} latency=${effectiveLiveBufferSecs() ?: -1} net=${networkTimeout}s")
+            }
         }
-        setPropertyString("network-timeout", FilmNetwork.mpvTimeoutSecs(film?.vodNetworkTimeoutSecs ?: 0).toString())
         if (isLiveContent && prerollSecs > 0) {
             setPropertyString("cache-pause-initial", "yes")
             setPropertyString("cache-pause-wait", prerollSecs.toString())
         } else {
             setPropertyString("cache-pause-initial", "no")
             setPropertyString("cache-pause-wait", "1")
-        }
-        if (isLiveContent) {
-            android.util.Log.i(TAG, "live_buffer preroll=${prerollSecs}s readahead=${liveReadahead ?: budgetReadahead} latency=${effectiveLiveBufferSecs() ?: -1}")
         }
         // Broken-timestamp live streams (some IPTV 4K feeds send non-increasing/duplicate PTS): mpv is
         // strict about PTS and drops nearly every frame ("Invalid video timestamp: X -> X"), which looks
@@ -918,7 +944,7 @@ class OwnTVPlayer(
 
     // Escape-hatch toggle: when off, no live fps/bitrate measuring runs at all (declared values only).
     private var measuredStreamStats = settings.measuredStreamStatsDefault
-    // Live latency (#72): demuxer readahead seconds for live streams; null = keep the device budget
+    // Live latency (#72): mpv's live buffer seconds (see [MpvLiveBuffer]); null = keep the device budget
     // default (Balanced). Applied per-load in applyProbeProfile (live only, so VOD is never affected).
     @Volatile private var liveBufferSecs: Int? = null
     // "Pre-buffer" (F07): the global choice, plus the per-playlist override the current item
@@ -1092,7 +1118,7 @@ class OwnTVPlayer(
             if (initialized) {
                 mpvAsync {
                     val sur = multichannelAllowed() // AUTO or Surround; see the #25 pin in ensureInit
-                    setPropertyString("audio-channels", audioChannelsValue())
+                    applyAudioChannels()
                     setPropertyString("audio-format", if (sur) "s16" else "")
                     setPropertyString("audio-samplerate", if (sur) "48000" else "0")
                 }
@@ -1137,13 +1163,13 @@ class OwnTVPlayer(
             liveBufferSecs = it
             // Re-apply live to a playing live channel; VOD is untouched. Next-open covers the rest.
             // A playlist override outranks the global value, so a global change is not this tune's to apply.
-            if (initialized && isLiveContent && liveBufferOverride == null) {
-                val budgetReadahead = playerBudget?.readaheadSecs ?: "30"
-                // Keep the pre-roll floor from [applyProbeProfile]: a readahead below `cache-pause-wait`
-                // could never satisfy the gate.
-                val readahead = effectiveLiveBufferSecs()?.let { secs -> maxOf(secs, effectivePrerollSecs()).toString() }
-                    ?: budgetReadahead
-                mpvAsync { setPropertyString("demuxer-readahead-secs", readahead) }
+            val budget = playerBudget
+            if (initialized && isLiveContent && liveBufferOverride == null && budget != null) {
+                val live = MpvLiveBuffer.resolve(effectiveLiveBufferSecs(), effectivePrerollSecs(), budget)
+                mpvAsync {
+                    setPropertyString("demuxer-readahead-secs", live.readahead)
+                    setPropertyString("cache-secs", live.cache)
+                }
             }
         }.launchIn(scope)
         vodEngineStore.mpvUrls.onEach { vodPinnedMpv = it }.launchIn(scope)
@@ -1986,6 +2012,7 @@ class OwnTVPlayer(
             engine.filmBufferSecs = it.vodBufferSecs
             engine.filmTimeoutSecs = it.vodNetworkTimeoutSecs
             engine.filmReconnects = it.vodReconnects
+            engine.backgroundPlayback = it.backgroundPlayback
         }
         engine.qualityCap = qualityCap()
         engine.prefAudioLang = TrackLanguages.forEngine(prefAudioLang)
@@ -2498,11 +2525,14 @@ class OwnTVPlayer(
             setOptionString("ao", "audiotrack")
             // Surround sound (opt-in, default off): decode Dolby/DTS to MULTICHANNEL LPCM (5.1/7.1) over HDMI. The
             // AudioTrack stays a normal PCM track, so getTimestamp() keeps mpv's audio clock alive and the
-            // zero-copy mediacodec_embed 4K-HDR video path renders smoothly. The sink picks the layout
-            // (auto → stereo on a 2.0 TV, 5.1/7.1 on a capable receiver). Off → a plain stereo downmix.
+            // zero-copy mediacodec_embed 4K-HDR video path renders smoothly. The layouts are the ones the
+            // output's PCM reports ([MpvAudioChannels]), re-read on every load. Off → a plain stereo downmix.
             // (We never bitstream/spdif: on Realtek the passthrough AudioTrack reports no clock, which
             // stalls the direct VO into a ~2fps slideshow on Dolby/DTS content.)
-            setOptionString("audio-channels", audioChannelsValue())
+            appliedAudioChannels = audioChannelsValue().also {
+                setOptionString("audio-channels", it)
+                android.util.Log.i(TAG, "audio-channels=$it")
+            }
             // Compatibility for multichannel: some HALs choke on Float / 44.1 kHz 5.1 PCM (mis-sized buffer
             // → 2× drain, #25). Pin the universally-safe 16-bit/48 kHz output whenever multichannel is
             // allowed — that is AUTO (the default) as well as Surround, not only "when surround is on". On
@@ -3258,6 +3288,7 @@ class OwnTVPlayer(
             liveStallJob = scope.launch {
                 var lastPos = -1L
                 var stalls = 0
+                var lastCacheSecs = -1.0
                 // Audio-plays-no-video watchdog: position (audio clock) keeps advancing so the freeze
                 // check above never trips, yet mpv selected a video track (load.currentVideoCodec != null,
                 // set as soon as track selection happens) and never decoded a single frame
@@ -3289,10 +3320,21 @@ class OwnTVPlayer(
                         continue
                     }
                     // Only a genuinely-playing mpv live stream can "freeze". Skip while still opening
-                    // (load.expectingPlayback), while an error is shown, while paused/handed-off to ExoPlayer, or
-                    // while mpv itself is buffering (paused-for-cache already drives the spinner there).
+                    // (load.expectingPlayback), while an error is shown, or while paused/handed-off to ExoPlayer.
                     if (exoActive || load.expectingPlayback || _error.value != null || !_isPlaying.value) {
-                        stalls = 0; lastPos = -1L; noVideoStalls = 0
+                        stalls = 0; lastPos = -1L; noVideoStalls = 0; lastCacheSecs = -1.0
+                        health.reset()
+                        continue
+                    }
+                    // C-M1 — mpv refilling its cache (paused-for-cache; "Pre-buffer 10 s" needs ≥ 10 s of
+                    // wall-clock on a real-time feed, as long as this watchdog's limit) holds the position still
+                    // while the stream is alive. A growing cache is that proof; a dead socket grows nothing and
+                    // still trips. Not progress for the reconnect budget — playback is not holding yet.
+                    val cacheSecs = mpvCacheSecs
+                    val refilling = mpvPausedForCache && lastCacheSecs >= 0 && cacheSecs > lastCacheSecs
+                    lastCacheSecs = cacheSecs
+                    if (refilling) {
+                        stalls = 0
                         health.reset()
                         continue
                     }
@@ -4622,7 +4664,7 @@ class OwnTVPlayer(
         if (exoActive) return
         when (property) {
             "pause" -> _isPlaying.value = !value
-            "paused-for-cache" -> _buffering.value = value
+            "paused-for-cache" -> { mpvPausedForCache = value; _buffering.value = value }
         }
     }
 
@@ -4651,8 +4693,16 @@ class OwnTVPlayer(
         if (property == "container-fps" && value > 0) _videoFps.value = value.toFloat()
         // Seconds of demuxed data ahead of the playhead → an absolute media time, so the HUD's ghost
         // means the same thing on both engines.
-        if (property == "demuxer-cache-duration") _bufferedMs.value = _position.value + (value * 1000).toLong()
+        if (property == "demuxer-cache-duration") {
+            mpvCacheSecs = value
+            _bufferedMs.value = _position.value + (value * 1000).toLong()
+        }
     }
+
+    /** mpv's own `paused-for-cache` and `demuxer-cache-duration`, for the live stall watchdog (C-M1). The
+     *  spinner flag is not enough — the app raises it itself while it waits or reconnects. */
+    @Volatile private var mpvPausedForCache = false
+    @Volatile private var mpvCacheSecs = 0.0
 
     /**
      * libmpv `2026.09.2`+: the reason of the END_FILE that [event] is about to receive, on the same event
@@ -4824,7 +4874,7 @@ class OwnTVPlayer(
                             android.util.Log.w(TAG, "surround failsafe: $reason (est-vf-fps=$vfps container-fps=$cfps) — falling back to stereo")
                             AudioOutputPolicy.latchStereo("mpv: $reason")
                             PlaybackErrorLog.event(context, "mpv", isLiveContent, PlayerFailureReason.STEREO_FALLBACK, reason)
-                            setPropertyString("audio-channels", "stereo")
+                            applyAudioChannels() // latched → stereo
                             setPropertyString("audio-format", "")
                             setPropertyString("audio-samplerate", "0")
                             toast(toastRenderer.render(PlaybackFailure.Surround))
