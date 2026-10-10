@@ -1,0 +1,76 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "tv.own.owntv",
+    "module": "libmpv",
+    "version": "2026.09.2",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.7.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.2.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "libmpv-2026.09.2.aar",
+          "url": "libmpv-2026.09.2.aar",
+          "size": 36296438,
+          "sha512": "e23bcfe35d911365f066b54f13dd20e5874dec81977e935e70afb5fab1b21b2689bafa0245febe7f9a0bc4cf5daccdd22d740738f3aa967f5b6a40f6409d4b9e",
+          "sha256": "c6a0d87dcbacaa35db8d86ac3e92e12327715b048e1c5a34faf4a9a66d1755d1",
+          "sha1": "54848d030276f4b932d854dcbfe5eb64a6feaad3",
+          "md5": "cd7d9aacfb5129d15da11119cf39634d"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.2.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "libmpv-2026.09.2.aar",
+          "url": "libmpv-2026.09.2.aar",
+          "size": 36296438,
+          "sha512": "e23bcfe35d911365f066b54f13dd20e5874dec81977e935e70afb5fab1b21b2689bafa0245febe7f9a0bc4cf5daccdd22d740738f3aa967f5b6a40f6409d4b9e",
+          "sha256": "c6a0d87dcbacaa35db8d86ac3e92e12327715b048e1c5a34faf4a9a66d1755d1",
+          "sha1": "54848d030276f4b932d854dcbfe5eb64a6feaad3",
+          "md5": "cd7d9aacfb5129d15da11119cf39634d"
+        }
+      ]
+    }
+  ]
+}
