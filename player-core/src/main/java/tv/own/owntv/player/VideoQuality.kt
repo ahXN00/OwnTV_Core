@@ -35,7 +35,9 @@ object VideoQuality {
     /** The heights among [tracks]' playable video tracks — see [heights]. */
     fun heightsOf(tracks: Tracks): List<Int> = heights(
         tracks.groups.filter { it.type == C.TRACK_TYPE_VIDEO }.flatMap { g ->
-            (0 until g.length).filter { g.isTrackSupported(it) }.map { g.getTrackFormat(it).height }
+            // Exceeding the decoder's advertised limits counts as playable, as for audio
+            // ([ExoAudioGate.anyPlayableAudio]): some TV decoders under-report and hid their 4K variant.
+            (0 until g.length).filter { g.isTrackSupported(it, true) }.map { g.getTrackFormat(it).height }
         },
     )
 
@@ -44,7 +46,7 @@ object VideoQuality {
         for (g in tracks.groups) {
             if (g.type != C.TRACK_TYPE_VIDEO) continue
             val best = (0 until g.length)
-                .filter { g.isTrackSupported(it) && g.getTrackFormat(it).height == height }
+                .filter { g.isTrackSupported(it, true) && g.getTrackFormat(it).height == height }
                 .maxByOrNull { g.getTrackFormat(it).bitrate }
                 ?: continue
             return TrackSelectionOverride(g.mediaTrackGroup, best)

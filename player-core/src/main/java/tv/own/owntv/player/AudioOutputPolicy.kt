@@ -1,18 +1,24 @@
 package tv.own.owntv.player
 
 import android.content.Context
-import androidx.media3.common.C
+import android.os.Handler
 import androidx.media3.common.Format
 import androidx.media3.common.MimeTypes
+import androidx.media3.common.audio.ChannelMixingAudioProcessor
+import androidx.media3.common.audio.ChannelMixingMatrix
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.DefaultRenderersFactory
+import androidx.media3.exoplayer.Renderer
 import androidx.media3.exoplayer.analytics.AnalyticsListener
 import androidx.media3.exoplayer.audio.AudioCapabilities
+import androidx.media3.exoplayer.audio.AudioRendererEventListener
 import androidx.media3.exoplayer.audio.AudioSink
 import androidx.media3.exoplayer.audio.DefaultAudioSink
 import androidx.media3.exoplayer.audio.ForwardingAudioSink
+import androidx.media3.exoplayer.mediacodec.MediaCodecSelector
 import androidx.media3.exoplayer.mediacodec.MediaCodecUtil
 import tv.own.owntv.core.player.SurroundMode
+import tv.own.owntv.player.ffmpeg.FfmpegAudioRenderer
 
 /**
  * Session-wide state for the audio-output safety net, shared by **every** engine (mpv, the Live
@@ -84,6 +90,9 @@ object AudioOutputPolicy {
  * sound through untouched while both are off. With [passthrough] false the sink refuses encoded
  * Dolby/DTS that the device can decode ([DecodedOnlyAudioSink]), so it is decoded here — multichannel
  * PCM still, when the output takes it.
+ *
+ * Audio decoders: the device's MediaCodec ones first, then FFmpeg ([FfmpegAudio]) for what the chip
+ * cannot decode. Never FFmpeg first — it would software-decode AAC and take passthrough away.
  */
 @UnstableApi
 class OwnTVRenderersFactory(
@@ -105,6 +114,23 @@ class OwnTVRenderersFactory(
         return if (audioDelay != null) DelayedClockAudioSink(sink, audioDelay) else sink
     }
 
+    override fun buildAudioRenderers(
+        context: Context,
+        extensionRendererMode: Int,
+        mediaCodecSelector: MediaCodecSelector,
+        enableDecoderFallback: Boolean,
+        audioSink: AudioSink,
+        eventHandler: Handler,
+        eventListener: AudioRendererEventListener,
+        out: ArrayList<Renderer>,
+    ) {
+        super.buildAudioRenderers(
+            context, extensionRendererMode, mediaCodecSelector, enableDecoderFallback,
+            audioSink, eventHandler, eventListener, out,
+        )
+        if (FfmpegAudio.available) out.add(FfmpegAudioRenderer(eventHandler, eventListener, audioSink))
+    }
+
     private fun buildBaseAudioSink(
         context: Context,
         enableFloatOutput: Boolean,
@@ -123,7 +149,9 @@ class OwnTVRenderersFactory(
                 .setAudioCapabilities(AudioCapabilities.DEFAULT_AUDIO_CAPABILITIES)
                 .setEnableFloatOutput(enableFloatOutput)
                 .setEnableAudioOutputPlaybackParameters(enableAudioOutputPlaybackParams)
-                .setAudioProcessors(arrayOf(AudioDynamicsProcessor()))
+                // Capping the capabilities only removes passthrough: decoders still hand over 5.1 PCM
+                // (Media3 asks them for every channel they have), so mix it down here.
+                .setAudioProcessors(arrayOf(StereoDownmix.processor(), AudioDynamicsProcessor()))
                 .build()
         }.getOrElse {
             android.util.Log.w("AudioOutputPolicy", "stereo-only sink unavailable, using device capabilities", it)
@@ -133,9 +161,9 @@ class OwnTVRenderersFactory(
 }
 
 /**
- * N8 — a sink that will not take encoded audio the device has a decoder for, so the renderer decodes it
- * instead of bitstreaming it. A format with no decoder on this device is still passed through: sound
- * from the receiver beats silence (and on the live engine, "no decoder" is what hands a channel to mpv).
+ * N8 — a sink that will not take encoded audio the app can decode (a device decoder or FFmpeg), so the
+ * renderer decodes it instead of bitstreaming it. A format nothing here decodes is still passed through:
+ * sound from the receiver beats silence (and on the live engine, "no decoder" is what hands a channel to mpv).
  */
 @UnstableApi
 class DecodedOnlyAudioSink(sink: AudioSink) : ForwardingAudioSink(sink) {
@@ -147,15 +175,62 @@ class DecodedOnlyAudioSink(sink: AudioSink) : ForwardingAudioSink(sink) {
 
     private fun mustDecode(format: Format): Boolean {
         val mime = format.sampleMimeType ?: return false
-        if (mime == MimeTypes.AUDIO_RAW) return false
-        return decodable.getOrPut(mime) {
-            runCatching { MediaCodecUtil.getDecoderInfos(mime, false, false).isNotEmpty() }.getOrDefault(false)
-        }
+        return mustDecode(mime, deviceDecoder = { m ->
+            decodable.getOrPut(m) {
+                runCatching { MediaCodecUtil.getDecoderInfos(m, false, false).isNotEmpty() }.getOrDefault(false)
+            }
+        }, ffmpeg = FfmpegAudio::supports)
     }
 
-    private companion object {
-        val decodable = java.util.concurrent.ConcurrentHashMap<String, Boolean>()
+    companion object {
+        private val decodable = java.util.concurrent.ConcurrentHashMap<String, Boolean>()
+
+        /** Encoded [mime] must be decoded in the app: something here can decode it. PCM never. */
+        fun mustDecode(mime: String, deviceDecoder: (String) -> Boolean, ffmpeg: (String) -> Boolean): Boolean =
+            mime != MimeTypes.AUDIO_RAW && (deviceDecoder(mime) || ffmpeg(mime))
     }
+}
+
+/**
+ * "Stereo only": a channel mixer that folds any decoded layout down to two channels. A layout without a
+ * matrix would fail the sink outright, so every count a decoder can hand over (1–8) has one, in
+ * Android's channel order with Android's own downmix coefficients.
+ *
+ * Not Media3's `createForConstantPower`: in 1.11.1 its 3–6 channel arrays are written as a left row and
+ * a right row, but the mixer reads one row per *input* channel — 5.1 would put the LFE on the right
+ * speaker only and most of front-right on the left.
+ */
+@UnstableApi
+object StereoDownmix {
+    private const val H = 0.7071f
+    // Each channel's (left, right) share.
+    private val FL = 1f to 0f
+    private val FR = 0f to 1f
+    private val FC = H to H
+    private val LFE = 0.5f to 0.5f
+    private val BL = H to 0f
+    private val BR = 0f to H
+    private val BC = 0.5f to 0.5f
+    private val SL = H to 0f
+    private val SR = 0f to H
+
+    private fun layout(channels: Int): List<Pair<Float, Float>> = when (channels) {
+        1 -> listOf(H to H)
+        2 -> listOf(FL, FR)
+        3 -> listOf(FL, FR, FC)
+        4 -> listOf(FL, FR, BL, BR)
+        5 -> listOf(FL, FR, FC, BL, BR)
+        6 -> listOf(FL, FR, FC, LFE, BL, BR)
+        7 -> listOf(FL, FR, FC, LFE, BL, BR, BC)
+        else -> listOf(FL, FR, FC, LFE, BL, BR, SL, SR)
+    }
+
+    fun matrices(): List<ChannelMixingMatrix> = (1..8).map { n ->
+        ChannelMixingMatrix(n, 2, layout(n).flatMap { (l, r) -> listOf(l, r) }.toFloatArray())
+    }
+
+    fun processor(): ChannelMixingAudioProcessor =
+        ChannelMixingAudioProcessor().apply { matrices().forEach(::putChannelMixingMatrix) }
 }
 
 /**
@@ -386,7 +461,3 @@ class AudioWatchdog : AnalyticsListener {
         )
     }
 }
-
-/** Media3 channel-count cap that matches [mode]; [C.INDEX_UNSET] semantics are not used here. */
-fun maxAudioChannelsFor(mode: SurroundMode): Int =
-    if (AudioOutputPolicy.allowsMultichannel(mode)) Int.MAX_VALUE else 2

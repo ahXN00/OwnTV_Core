@@ -71,14 +71,6 @@ private val BITMAP_SUB_CODECS = setOf(
     "hdmv_pgs_subtitle", "pgssub", "dvd_subtitle", "dvdsub", "vobsub", "dvb_subtitle", "dvbsub", "xsub",
 )
 
-/** Audio codecs ExoPlayer can reliably decode (MediaCodec / built-in). If the active audio isn't one of
- *  these (e.g. DTS, TrueHD) we DON'T hand off — the handoff would just fail and bounce back to mpv. mpv
- *  decodes these in software via FFmpeg; ExoPlayer doesn't. Video is the same MediaCodec under both, so
- *  only audio gates the handoff. Matched against the mpv `codec` string with a prefix check. */
-private val EXO_SAFE_AUDIO_CODECS = setOf(
-    "aac", "ac3", "eac3", "mp3", "mp2", "opus", "vorbis", "flac", "pcm", "alac",
-)
-
 /** Metadata shown in the player HUD (breadcrumb path, year, channel logo). */
 @Immutable
 data class MediaMeta(
@@ -1693,30 +1685,32 @@ class OwnTVPlayer(
         override fun onEnded() { scope.launch { onExoEnded() } }
     }
 
-    /** ExoPlayer can decode this VOD's active audio? Always-safe codecs (AAC/AC3/…) pass immediately;
-     *  for others (DTS/TrueHD) we check whether THIS device actually has a hardware/software decoder for
-     *  it — many TVs do — and only block when it genuinely can't, so we don't fail+bounce. Unknown → try. */
+    /** ExoPlayer can play this VOD's active audio? The hand-off to ExoPlayer (image subtitle, fallback)
+     *  is refused when it cannot, so it doesn't fail and bounce back to mpv. Video is the same MediaCodec
+     *  under both, so only audio gates it — see [ExoAudioGate.verdict]. Unknown codec → try. */
     private fun audioCodecSafeForExo(): Boolean {
         val sel = _audioTrackList.value.firstOrNull { it.selected } ?: _audioTrackList.value.firstOrNull()
         val codec = sel?.codec?.lowercase() ?: return true
-        if (EXO_SAFE_AUDIO_CODECS.any { codec.startsWith(it) }) {
-            android.util.Log.i(TAG, "Exo codec gate: audio codec='$codec' → safe (allowlist)")
-            return true
-        }
-        val mime = audioMimeFor(codec)
-        val ok = mime != null && deviceHasAudioDecoder(mime)
-        android.util.Log.i(TAG, "Exo codec gate: audio codec='$codec' mime=$mime deviceDecoder=$ok")
-        return ok
+        // A receiver that takes DTS/TrueHD is a way to play it too — when the settings let it bitstream.
+        val passthrough = multichannelAllowed() && playbackSettings.value?.let {
+            AudioDynamics.passthroughAllowed(it.audioPassthrough, it.nightMode, it.volumeLevelling)
+        } != false
+        val verdict = ExoAudioGate.verdict(
+            codec,
+            deviceDecoder = ::deviceHasAudioDecoder,
+            ffmpeg = FfmpegAudio::supports,
+            passthrough = { passthrough && outputTakesPassthrough(it) },
+        )
+        android.util.Log.i(TAG, "Exo codec gate: audio codec='$codec' → $verdict")
+        return verdict.safe
     }
 
-    /** Map an mpv/FFmpeg audio codec name to the Android MIME used to look up a device decoder. */
-    private fun audioMimeFor(codec: String): String? = when {
-        codec.startsWith("ac3") || codec.startsWith("ac-3") -> "audio/ac3"
-        codec.startsWith("eac3") || codec.startsWith("e-ac-3") -> "audio/eac3"
-        codec.startsWith("dts") -> "audio/vnd.dts"
-        codec.startsWith("truehd") || codec.startsWith("mlp") -> "audio/true-hd"
-        else -> null
-    }
+    /** The current audio output (HDMI/ARC receiver) can bitstream [mime] undecoded. */
+    private fun outputTakesPassthrough(mime: String): Boolean = runCatching {
+        val attributes = androidx.media3.common.AudioAttributes.DEFAULT
+        androidx.media3.exoplayer.audio.AudioCapabilities.getCapabilities(context, attributes, null, emptyList())
+            .isPassthroughPlaybackSupported(androidx.media3.common.Format.Builder().setSampleMimeType(mime).build(), attributes)
+    }.getOrDefault(false)
 
     /** Does this device expose a (hardware or software) MediaCodec decoder for [mime]? */
     private fun deviceHasAudioDecoder(mime: String): Boolean = runCatching {

@@ -23,8 +23,8 @@ import kotlinx.coroutines.flow.first
  * - **A stream that opens its playlist and then delivers nothing.** No frame, no error. The engine's
  *   own stall watchdog is armed only *after* the first successful play, so nothing fires and the
  *   spinner sits there for ever.
- * - **No decodable audio track.** An AC3/E-AC3/DTS stream on a box without that decoder plays
- *   silently and forever.
+ * - **No decodable audio track.** Audio neither the box's decoders nor FFmpeg ([FfmpegAudio]) can
+ *   decode (or FFmpeg missing from an old engine) plays silently and forever.
  * - **Played, then froze.** The engine's reconnect ladder is deliberately patient — well over two
  *   minutes of frozen picture before it admits defeat — and mpv, which often plays the very same
  *   channel, was never given a turn.

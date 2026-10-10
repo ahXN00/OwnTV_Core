@@ -552,7 +552,7 @@ class LivePreviewEngine(
                 C.COLOR_TRANSFER_HLG -> StreamHdrMode.HLG
                 else -> null
             }?.let { out += StreamInfoRow(StreamInfoLabel.HDR, StreamInfoValue.Hdr(it)) }
-            out += bitrateRow(f, throughputTracker)
+            bitrateRow(f, throughputTracker)?.let { out += it }
         }
         out += StreamInfoRow(
             StreamInfoLabel.DECODER,
@@ -2854,10 +2854,7 @@ class LivePreviewEngine(
             )
         }
         // Audio exists but ExoPlayer can decode none of it → the VM will route this stream to mpv.
-        val anySupportedAudio = tracks.groups.any { g ->
-            g.type == androidx.media3.common.C.TRACK_TYPE_AUDIO && (0 until g.length).any { g.isTrackSupported(it) }
-        }
-        _audioUnsupported.value = audio.isNotEmpty() && !anySupportedAudio
+        _audioUnsupported.value = audio.isNotEmpty() && !ExoAudioGate.anyPlayableAudio(tracks)
     }
 
     /**
@@ -3333,7 +3330,13 @@ class LivePreviewEngine(
         val tunneled = wantTunneling().also { builtTunneled = it }
         if (tunneled) LiveDiagnosticsLog.event("building tunneled player (N19)")
         val trackSelector = androidx.media3.exoplayer.trackselection.DefaultTrackSelector(context).apply {
-            if (tunneled) setParameters(buildUponParameters().setTunnelingEnabled(true))
+            // A soundbar waking up or ARC renegotiating mid-channel changes what the output takes; let
+            // the selector re-pick passthrough vs decode instead of staying silent until the latch trips.
+            setParameters(
+                buildUponParameters()
+                    .setTunnelingEnabled(tunneled)
+                    .setAllowInvalidateSelectionsOnRendererCapabilitiesChange(true),
+            )
         }
         return ExoPlayer.Builder(context)
             .setRenderersFactory(renderers)

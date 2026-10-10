@@ -78,6 +78,9 @@ have numbers that can disagree.
 ### 🎬 Playback (`:player-core`)
 - **Dual engine** — libmpv (FFmpeg) for maximum codec compatibility, ExoPlayer (Media3) for
   near-instant Live TV, with an automatic fallback ladder between them
+- **Every sound format on both engines** — ExoPlayer falls back to the FFmpeg that ships with the mpv
+  engine for audio the device can't decode (DTS, TrueHD, MP2…), after the device's own decoders and
+  passthrough
 - **HLS, MPEG-DASH and raw MPEG-TS**, chosen from what the playlist declares, what the response
   actually is, and what the panel has already been caught doing — plus **Widevine / ClearKey** for
   channels that publish a licence server (ExoPlayer only; mpv has no CDM)

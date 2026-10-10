@@ -9,6 +9,20 @@
 > in one bolded line of its own (e.g. **Database v46 · Backup v24 · Breaking**). The detail — what,
 > why, files and verification — belongs in the commit message, never here.
 
+## core-1.0.66 — unreleased
+
+### ✨ New features
+
+- **🔊 ExoPlayer plays DTS, TrueHD, MP2 and other sound the TV can't decode (FFmpeg from the mpv engine; needs the next mpv engine)**
+
+### 🐛 Fixes
+
+- **🎧 "Stereo only" now sends two channels on ExoPlayer too**
+- **📺 Channels whose sound exceeds what the decoder advertises stay on ExoPlayer instead of moving to mpv**
+- **🔇 A film whose sound ExoPlayer can't play goes to mpv instead of playing silent**
+- **🔈 Sound switches between passthrough and decoding when a soundbar wakes up mid-play**
+- **📊 Stream info shows a film's real bitrate on ExoPlayer instead of 0 Mbps**
+
 ## core-1.0.65 — 2026-10-09
 
 ### ✨ New features

@@ -185,6 +185,7 @@ class ExoSubtitleEngine(
     val isActive: Boolean get() = player != null
 
     private val throughputTracker = ThroughputTracker()
+    private val fileBitrate = FileBitrate()
     private val fpsSample = FpsSample()
     private var dropsBaseline = 0
     private val analytics = object : androidx.media3.exoplayer.analytics.AnalyticsListener {
@@ -244,6 +245,15 @@ class ExoSubtitleEngine(
             player?.videoFormat?.frameRate?.let { if (it > 0f) callbacks.onVideoFps(it) }
         }
 
+        override fun onPositionDiscontinuity(
+            oldPosition: Player.PositionInfo,
+            newPosition: Player.PositionInfo,
+            reason: Int,
+        ) {
+            // A seek discards the buffer; bytes from before it describe media no longer counted.
+            if (reason == Player.DISCONTINUITY_REASON_SEEK) fileBitrate.restart()
+        }
+
         override fun onRenderedFirstFrame() {
             firstFrameSeen = true
             noVideoWatchdog.disarm()
@@ -255,6 +265,7 @@ class ExoSubtitleEngine(
         }
 
         override fun onTracksChanged(tracks: Tracks) {
+            if (reportUndecodableAudio(tracks)) return
             updateVideoTrackPresence(tracks)
             rebuildAudioTracks(tracks)
             rebuildTextTracks(tracks)
@@ -304,6 +315,26 @@ class ExoSubtitleEngine(
         }
     }
 
+    /**
+     * The file has audio but ExoPlayer can play none of it. Media3 then selects no audio track, so no
+     * format ever reaches [audioWatchdog] and the film would play silently with nothing noticing. Hand
+     * it back like any decode failure (mpv, or the both-engines error when mpv already failed). Once
+     * per item; true when it fired.
+     */
+    private fun reportUndecodableAudio(tracks: Tracks): Boolean {
+        if (undecodableAudioReported) return false
+        val audio = tracks.groups.filter { it.type == C.TRACK_TYPE_AUDIO }
+        if (audio.isEmpty() || ExoAudioGate.anyPlayableAudio(tracks)) return false
+        undecodableAudioReported = true
+        val formats = audio.flatMap { g -> (0 until g.length).map { g.getTrackFormat(it).sampleMimeType } }
+        android.util.Log.w(TAG, "no audio track ExoPlayer can play ($formats) — handing the film back")
+        callbacks.onError(
+            PlaybackFailure.ExoDecode(PlaybackException.getErrorCodeName(PlaybackException.ERROR_CODE_DECODING_FORMAT_UNSUPPORTED)),
+        )
+        return true
+    }
+    private var undecodableAudioReported = false
+
     /** Build (if needed) and start playback of [url] at [positionMs] on [surface], selecting the image
      *  subtitle identified by [subLang]/[subTypeIndex] (the track the user picked in mpv's list).
      *  [fallback] = engine-fallback playback after a terminal mpv failure: no subtitle is auto-selected
@@ -333,7 +364,8 @@ class ExoSubtitleEngine(
         subtitleApplied = false
         firstFrameSeen = false
         hasVideoTrack = true
-        throughputTracker.reset(); fpsSample.resetAll(); dropsBaseline = currentDroppedFrames(player)
+        undecodableAudioReported = false
+        throughputTracker.reset(); fileBitrate.restart(); fpsSample.resetAll(); dropsBaseline = currentDroppedFrames(player)
         audioWatchdog.reset()
         noVideoWatchdog.disarm()
         // Nothing to wait for while Audio Mode is on — the video track is deselected on purpose.
@@ -586,6 +618,8 @@ class ExoSubtitleEngine(
             parameters = buildUponParameters()
                 .setPreferredAudioLanguage(prefAudioLang.takeIf { it.isNotBlank() })
                 .setPreferredTextLanguage(prefSubLang.takeIf { it.isNotBlank() })
+                // Re-pick passthrough vs decode when the audio output changes mid-film (soundbar wakes).
+                .setAllowInvalidateSelectionsOnRendererCapabilitiesChange(true)
                 .build()
         }
         // Software decoding is a rescue, not the default. A catch-up archive starts mid-GOP and SOME
@@ -1036,7 +1070,9 @@ class ExoSubtitleEngine(
                 C.COLOR_TRANSFER_HLG -> StreamHdrMode.HLG
                 else -> null
             }?.let { out += StreamInfoRow(StreamInfoLabel.HDR, StreamInfoValue.Hdr(it)) }
-            out += bitrateRow(f, throughputTracker)
+            // A file: declared, else its real average — not the download speed ([FileBitrate]).
+            (f.bitrate.takeIf { it > 0 }?.toLong() ?: fileBitrate.bitsPerSecond(throughputTracker.totalBytes, p.bufferedPosition))
+                ?.let { out += StreamInfoRow(StreamInfoLabel.BITRATE, StreamInfoValue.Bitrate(it)) }
         }
         p.audioFormat?.let { f ->
             out += StreamInfoRow(
