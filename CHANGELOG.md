@@ -9,11 +9,11 @@
 > in one bolded line of its own (e.g. **Database v46 · Backup v24 · Breaking**). The detail — what,
 > why, files and verification — belongs in the commit message, never here.
 
-## core-1.0.66 — unreleased
+## core-1.0.66 — 2026-10-10
 
 ### ✨ New features
 
-- **🔊 ExoPlayer plays DTS, TrueHD, MP2 and other sound the TV can't decode (FFmpeg from the mpv engine; needs the next mpv engine)**
+- **🔊 ExoPlayer plays DTS, TrueHD, MP2 and other sound the TV can't decode (FFmpeg from the mpv engine)**
 
 ### 🐛 Fixes
 
