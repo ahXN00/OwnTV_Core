@@ -19,6 +19,11 @@ enum class MainSection(@param:StringRes val labelRes: Int) {
     SERIES(R.string.common_nav_series),
     DOWNLOADS(R.string.common_nav_downloads),
     EPG(R.string.common_nav_guide),
+    /**
+     * The sports hub: fixtures, live scores and standings (ESPN) matched against the user's own
+     * live channels via EPG, so one tap starts playback. Shown whenever live TV exists.
+     */
+    SPORT(R.string.common_nav_sport),
     SETTINGS(R.string.common_nav_settings), // pinned, not part of the browse set
 
     /**
@@ -36,9 +41,9 @@ enum class MainSection(@param:StringRes val labelRes: Int) {
 
     companion object {
         /** Fixed order of the browse items (Settings is pinned separately). */
-        val browseOrder: List<MainSection> = listOf(HOME, LIVE_TV, MOVIES, SERIES, DOWNLOADS, EPG)
+        val browseOrder: List<MainSection> = listOf(HOME, LIVE_TV, MOVIES, SERIES, DOWNLOADS, EPG, SPORT)
 
-        /** All six browse items — the default value, so a cold start shows a full nav rather than
+        /** All browse items — the default value, so a cold start shows a full nav rather than
          *  flickering through an empty one before the first real emission lands. */
         val allBrowse: Set<MainSection> = browseOrder.toSet()
 
@@ -49,7 +54,7 @@ enum class MainSection(@param:StringRes val labelRes: Int) {
          */
         fun dynamicVisible(hasLive: Boolean, hasMovies: Boolean, hasSeries: Boolean): Set<MainSection> = buildSet {
             add(HOME)
-            if (hasLive) { add(LIVE_TV); add(EPG) }
+            if (hasLive) { add(LIVE_TV); add(EPG); add(SPORT) }
             if (hasMovies) add(MOVIES)
             if (hasSeries) add(SERIES)
             if (hasMovies || hasSeries) add(DOWNLOADS)
