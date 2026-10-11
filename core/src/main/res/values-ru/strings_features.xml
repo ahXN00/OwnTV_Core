@@ -43,14 +43,15 @@
     <string name="search_movie">Фильм</string>
     <string name="search_series">Сериал</string>
     <string name="search_channels">Каналы</string>
+    <string name="search_on_tv">В эфире</string>
     <string name="search_go_to_channel">К каналу</string>
     <string name="search_go_to_movie">К фильму</string>
     <string name="search_clear_recent">Очистить недавние запросы</string>
     <string name="search_field_hint">Каналы, фильмы и сериалы</string>
     <string name="search_card_title">Находите всё в своих плейлистах</string>
-    <string name="search_card_body">Каналы, фильмы и сериалы из всех показываемых плейлистов. Выберите результат, чтобы сразу перейти к нему, а там — смотреть, скачать или открыть его параметры.</string>
+    <string name="search_card_body">Каналы, фильмы и сериалы из всех показываемых плейлистов. Выберите результат, чтобы сразу перейти к нему, а там — смотреть, скачать или открыть его параметры. Передачи, которые идут сейчас или позже сегодня, тоже находятся по названию.</string>
     <string name="search_nothing_found">Ничего не найдено по запросу «<xliff:g id="query">%1$s</xliff:g>»</string>
-    <string name="search_nothing_found_body">Поиск идёт по названиям каналов, фильмов и сериалов в показываемых плейлистах. Скрытые категории не просматриваются.</string>
+    <string name="search_nothing_found_body">Поиск идёт по названиям каналов, фильмов и сериалов в показываемых плейлистах. Скрытые категории не просматриваются. Передачи ищутся по названию в загруженной телепрограмме.</string>
     <string name="search_query_quoted">«<xliff:g id="query">%1$s</xliff:g>»</string>
     <plurals name="search_result_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> результат</item>
@@ -99,12 +100,16 @@
     <string name="home_row_continue_series">Продолжить просмотр сериалов</string>
     <string name="home_row_recent_channels">Недавние каналы</string>
     <string name="home_row_favorite_channels">Избранные каналы</string>
+    <string name="home_row_favorite_movies">Избранные фильмы</string>
+    <string name="home_row_favorite_series">Избранные сериалы</string>
     <string name="home_row_on_now">Сейчас в эфире</string>
     <string name="home_row_hero_description">Большой ряд предпросмотра в верхней части экрана</string>
     <string name="home_row_continue_movies_description">Фильмы с сохранённой позицией</string>
     <string name="home_row_continue_series_description">Серии, просмотр которых можно продолжить, или следующие серии</string>
     <string name="home_row_recent_description">Каналы прямого эфира, которые вы недавно смотрели</string>
     <string name="home_row_favorite_description">Ваши избранные каналы прямого эфира</string>
+    <string name="home_row_favorite_movies_description">Ваши избранные фильмы</string>
+    <string name="home_row_favorite_series_description">Ваши избранные сериалы</string>
     <string name="update_title">Обновление приложения</string>
     <string name="update_checking">Проверка обновлений…</string>
     <string name="update_whats_new">Что нового</string>
@@ -209,7 +214,7 @@
     <string name="recording_failed_unknown">Запись не выполнена</string>
     <string name="recording_title">Записи</string>
     <string name="recording_description">Прямой эфир, сохранённый на этом устройстве.</string>
-    <string name="recording_empty">Пока ничего не записано. Откройте телегид, выберите передачу и нажмите «Записать».</string>
+    <string name="recording_empty">Записей пока нет. Нажмите «Записать» у передачи в телегиде или удерживайте канал, чтобы записать его или запланировать время.</string>
     <string name="recording_group_now">Записывается сейчас</string>
     <string name="recording_group_scheduled">Запланировано</string>
     <string name="recording_group_completed">Записано</string>
@@ -220,6 +225,12 @@
     <string name="recording_record_series">Записывать каждый показ</string>
     <string name="recording_stop_series">Больше не записывать каждый показ</string>
     <string name="recording_from_archive">Записать из архива</string>
+    <string name="recording_schedule">Запланировать запись…</string>
+    <string name="recording_schedule_hint">Выберите день, начало и конец. Запись пройдёт, даже если у канала нет телегида.</string>
+    <string name="recording_schedule_start">Начало</string>
+    <string name="recording_schedule_end">Конец</string>
+    <string name="recording_schedule_next_day">следующий день</string>
+    <string name="recording_schedule_past">Это время уже прошло</string>
     <string name="recording_scheduled_for">Запишется <xliff:g id="time">%1$s</xliff:g></string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line">Идёт запись: <xliff:g id="title">%1$s</xliff:g></string>
@@ -242,7 +253,7 @@
     <string name="recording_failed_drm">Этот канал защищён технологией DRM, поэтому его можно смотреть, но нельзя записывать. Защиту устанавливает ваш провайдер, а не OwnTV.</string>
     <string name="recording_failed_metered">Не записано через мобильный интернет</string>
     <string name="recording_card_empty_title">Записей пока нет</string>
-    <string name="recording_card_body">Выберите любую передачу в телегиде и нажмите «Записать». Запись появится здесь, даже пока вы смотрите что-то другое.</string>
+    <string name="recording_card_body">Выберите передачу в телегиде и нажмите «Записать» или удерживайте канал и запланируйте время. Запись появится здесь, даже пока вы смотрите что-то другое.</string>
     <string name="recording_open_guide">Открыть телегид</string>
     <plurals name="recording_card_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> запись</item>

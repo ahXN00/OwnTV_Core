@@ -10,6 +10,9 @@
     <!-- Core does all of the networking: playlist/EPG sync, metadata, subtitles, downloads. -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- ExoPlayer's network wake mode (background playback) holds a wake lock and a Wi-Fi lock while
+         playing. WorkManager happens to merge WAKE_LOCK in too; core uses it, so core declares it. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <!-- Core owns CatalogSyncWorker and DownloadManager, so it owns the foreground service they run
          in. POST_NOTIFICATIONS is only asked for by the system on API 33+; if it is denied the

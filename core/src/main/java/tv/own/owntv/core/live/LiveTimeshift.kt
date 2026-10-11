@@ -107,7 +107,7 @@ class LiveTimeshift(
      */
     fun beginAt(ch: ChannelEntity, offsetSec: Int) {
         if (!canRewind(ch)) return
-        val off = offsetSec.coerceIn(1, reachSec(ch).coerceAtLeast(1))
+        val off = archiveFloor(ch, offsetSec.coerceIn(1, reachSec(ch).coerceAtLeast(1)), towardLive = false)
         _offsetSec.value = off
         scheduleLoad(ch, off)
     }
@@ -119,7 +119,7 @@ class LiveTimeshift(
      */
     fun scrub(ch: ChannelEntity, deltaSec: Int) {
         if (!canRewind(ch)) return
-        val next = ((_offsetSec.value ?: 0) + deltaSec).coerceIn(0, reachSec(ch))
+        val next = archiveFloor(ch, ((_offsetSec.value ?: 0) + deltaSec).coerceIn(0, reachSec(ch)), towardLive = deltaSec < 0)
         if (next == 0) { onLiveEdge(); return }
         _offsetSec.value = next
         scheduleLoad(ch, next)
@@ -153,6 +153,18 @@ class LiveTimeshift(
         _offsetSec.value = null
         archiveBaseWall = null
         _watchingWallMs.value = null
+    }
+
+    /**
+     * A provider archive is never asked for less than [CatchupJumps.MIN_OFFSET_SEC] behind live: one 30 s
+     * rewind, floored to the current minute, asked the panel for a recording not yet written — a stream
+     * that starts with no picture (#229). Inside that last minute a step back lands on the minimum and a
+     * step forward goes live, so the forward key always reaches the edge. The saved copy has no such gap.
+     */
+    private fun archiveFloor(ch: ChannelEntity, offsetSec: Int, towardLive: Boolean): Int = when {
+        !ch.catchup || offsetSec == 0 || offsetSec >= CatchupJumps.MIN_OFFSET_SEC -> offsetSec
+        towardLive -> 0
+        else -> CatchupJumps.MIN_OFFSET_SEC
     }
 
     /** How far back a jump or scrub may go: the archive's depth, or what the saved copy holds now. */

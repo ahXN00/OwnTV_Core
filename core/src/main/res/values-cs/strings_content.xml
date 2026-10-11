@@ -69,6 +69,23 @@
     <string name="content_mark_watched">Označit jako zhlédnuté</string>
     <string name="content_mark_unwatched">Označit jako nezhlédnuté</string>
     <string name="content_move">Přesunout</string>
+    <string name="content_category_restore_playlist">Obnovit výchozí stav</string>
+    <string name="content_category_restore_custom">Obnovit výchozí stav</string>
+    <string name="content_category_restore_question">Provede se:</string>
+    <plurals name="content_category_restore_hidden">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> skrytá položka se znovu zobrazí</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> skryté položky se znovu zobrazí</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> skrytých položek se znovu zobrazí</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> skrytých položek se znovu zobrazí</item>
+    </plurals>
+    <plurals name="content_category_restore_moved">
+        <item quantity="one">Vrátí se <xliff:g id="count">%1$d</xliff:g> přesunutá položka</item>
+        <item quantity="few">Vrátí se <xliff:g id="count">%1$d</xliff:g> přesunuté položky</item>
+        <item quantity="many">Vrátí se <xliff:g id="count">%1$d</xliff:g> přesunutých položek</item>
+        <item quantity="other">Vrátí se <xliff:g id="count">%1$d</xliff:g> přesunutých položek</item>
+    </plurals>
+    <string name="content_category_restore_order">Vlastní pořadí se vymaže</string>
+    <string name="content_category_restore_nothing">Kategorie už má výchozí stav playlistu</string>
     <string name="content_move_to_category">Přesunout do kategorie…</string>
     <string name="content_remove_from_category">Odebrat z této kategorie</string>
     <string name="content_download">Stáhnout</string>
@@ -391,9 +408,12 @@
     <string name="content_key_menu">Nabídka</string>
     <string name="content_key_enter">Vstoupit</string>
     <string name="content_key_select">Vybrat</string>
+    <string name="content_key_page">Stránka</string>
+    <string name="content_history_overlay_hint">Naposledy sledované kanály, od nejnovějších</string>
     <string name="content_watched_duration">zhlédnuto <xliff:g id="value">%1$s</xliff:g></string>
     <string name="content_menu_group_show">Zobrazit</string>
     <string name="content_epg_show_empty">Kanály bez průvodce</string>
+    <string name="content_epg_show_preview">Náhled videa</string>
     <string name="content_vod_providers">Poskytovatelé</string>
     <string name="content_sort_movies_title">Řadit filmy</string>
     <string name="content_sort_series_title">Řadit seriály</string>

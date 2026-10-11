@@ -77,16 +77,30 @@ class RecordingRulesTest {
     // --- How a recording is closed out ---
 
     @Test
-    fun `any bytes at all is a completed recording`() {
+    fun `any real amount of video is a completed recording`() {
         // A ts file is playable to whatever point it reached, so a programme cut short is still a
         // recording the user can watch — marking it failed would hide a file that is on disk.
         assertEquals(
             RecordingStatus.COMPLETED to RecordingFailure.NONE,
-            RecordingRules.outcomeOf(bytes = 1, failure = RecordingFailure.NONE),
+            RecordingRules.outcomeOf(bytes = RecordingRules.MIN_PLAYABLE_BYTES, failure = RecordingFailure.NONE),
         )
         assertEquals(
             RecordingStatus.COMPLETED to RecordingFailure.NONE,
             RecordingRules.outcomeOf(bytes = 900_000_000, failure = RecordingFailure.NETWORK),
+        )
+    }
+
+    @Test
+    fun `a few kilobytes is not a recording`() {
+        // #243: 12 and 20 kB files of playlist text were shown as "Ready to watch". Less than one
+        // segment of even an audio-only channel cannot be a programme.
+        assertEquals(
+            RecordingStatus.FAILED to RecordingFailure.STREAM_UNAVAILABLE,
+            RecordingRules.outcomeOf(bytes = 20_890, failure = RecordingFailure.NONE),
+        )
+        assertEquals(
+            RecordingStatus.FAILED to RecordingFailure.NETWORK,
+            RecordingRules.outcomeOf(bytes = 12_650, failure = RecordingFailure.NETWORK),
         )
     }
 

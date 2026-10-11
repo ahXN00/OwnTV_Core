@@ -24,14 +24,25 @@ class ThroughputTracker : TransferListener {
     val bitsPerSecond: Long
         get() = readAndReset()
 
+    /** Every byte counted since [reset], for averages that must not be steered by when they are read
+     *  ([FileBitrate]); [bitsPerSecond] reads and clears its own count. */
+    @Volatile var totalBytes = 0L
+        private set
+
     override fun onTransferInitializing(source: DataSource, dataSpec: DataSpec, isNetwork: Boolean) {}
     override fun onTransferStart(source: DataSource, dataSpec: DataSpec, isNetwork: Boolean) {}
     override fun onTransferEnd(source: DataSource, dataSpec: DataSpec, isNetwork: Boolean) {}
 
+    /** When bytes last arrived (elapsedRealtime), tracked even while disabled — the reconnect logic uses
+     *  it to tell a stream that is already coming back from one that is still dead. 0 = never. */
+    @Volatile var lastBytesAtMs = 0L
+        private set
+
     override fun onBytesTransferred(source: DataSource, dataSpec: DataSpec, isNetwork: Boolean, bytesTransferred: Int) {
+        if (isNetwork) lastBytesAtMs = SystemClock.elapsedRealtime()
         if (!enabled) return
         everTransferred = true
-        synchronized(this) { pendingBytes += bytesTransferred }
+        synchronized(this) { pendingBytes += bytesTransferred; totalBytes += bytesTransferred }
     }
 
     @Synchronized
@@ -57,6 +68,7 @@ class ThroughputTracker : TransferListener {
     @Synchronized
     fun reset() {
         pendingBytes = 0L
+        totalBytes = 0L
         lastReadMs = 0L
         everTransferred = false
     }

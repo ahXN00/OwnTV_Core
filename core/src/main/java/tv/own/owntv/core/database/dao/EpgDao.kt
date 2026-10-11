@@ -138,6 +138,19 @@ interface EpgDao {
     )
     suspend fun programmeSummariesForChannels(epgKeys: List<String>, from: Long, to: Long): List<EpgProgrammeEntity>
 
+    /**
+     * Programmes whose title contains [query] and that are on between [from] and [to] — what Search's
+     * "On TV" group is drawn from. Bounded by start time, so it reads through the `(startMs, stopMs)`
+     * index rather than the whole guide.
+     */
+    @Query(
+        "SELECT id, sourceId, epgChannelId, startMs, stopMs, title, NULL AS description, 0 AS contentHash, " +
+            "NULL AS categories, NULL AS year, NULL AS rating, NULL AS lengthMin, NULL AS episode " +
+            "FROM epg_programmes WHERE startMs > :from - 86400000 AND startMs < :to AND stopMs > :from " +
+            "AND title LIKE '%' || :query || '%' ORDER BY startMs ASC LIMIT :limit",
+    )
+    suspend fun searchTitles(query: String, from: Long, to: Long, limit: Int): List<EpgProgrammeEntity>
+
     /** How many programmes are stored for these sources (to tell "no guide yet" from "empty window"). */
     @Query("SELECT COUNT(*) FROM epg_programmes WHERE sourceId IN (:sourceIds)")
     suspend fun countForSources(sourceIds: List<Long>): Int

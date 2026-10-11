@@ -43,14 +43,15 @@
     <string name="search_movie">Film</string>
     <string name="search_series">Sorozatok</string>
     <string name="search_channels">Csatornák</string>
+    <string name="search_on_tv">A tévében</string>
     <string name="search_go_to_channel">Ugrás a csatornára</string>
     <string name="search_go_to_movie">Ugrás a filmre</string>
     <string name="search_clear_recent">Legutóbbi keresések törlése</string>
     <string name="search_field_hint">Csatornák, filmek és sorozatok</string>
     <string name="search_card_title">Találj meg mindent a lejátszási listáidban</string>
-    <string name="search_card_body">Csatornák, filmek és sorozatok az összes megjelenített lejátszási listából. Válassz egy találatot, hogy egyenesen oda ugorj, és ott lejátszd, letöltsd vagy megnyisd a beállításait.</string>
+    <string name="search_card_body">Csatornák, filmek és sorozatok az összes megjelenített lejátszási listából. Válassz egy találatot, hogy egyenesen oda ugorj, és ott lejátszd, letöltsd vagy megnyisd a beállításait. A most vagy ma később futó tévéműsorokat is megtalálja a címük alapján.</string>
     <string name="search_nothing_found">Nincs találat erre: „<xliff:g id="query">%1$s</xliff:g>”</string>
-    <string name="search_nothing_found_body">A keresés a megjelenített lejátszási listák csatorna-, film- és sorozatneveiben keres. A rejtett kategóriákban nem keres.</string>
+    <string name="search_nothing_found_body">A keresés a megjelenített lejátszási listák csatorna-, film- és sorozatneveiben keres. A rejtett kategóriákban nem keres. A tévéműsorokat a letöltött műsorújságban a címük alapján keresi.</string>
     <string name="search_query_quoted">„<xliff:g id="query">%1$s</xliff:g>”</string>
     <plurals name="search_result_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> találat</item>
@@ -89,12 +90,16 @@
     <string name="home_row_continue_series">Sorozatok folytatása</string>
     <string name="home_row_recent_channels">Legutóbb nézett csatornák</string>
     <string name="home_row_favorite_channels">Kedvenc csatornák</string>
+    <string name="home_row_favorite_movies">Kedvenc filmek</string>
+    <string name="home_row_favorite_series">Kedvenc sorozatok</string>
     <string name="home_row_on_now">Most megy</string>
     <string name="home_row_hero_description">A nagy előnézeti sor legfelül</string>
     <string name="home_row_continue_movies_description">Filmek mentett lejátszási pozícióval</string>
     <string name="home_row_continue_series_description">Folytatható vagy következő epizódok</string>
     <string name="home_row_recent_description">Nemrég nézett élő csatornák</string>
     <string name="home_row_favorite_description">A kedvencekhez adott élő csatornáid</string>
+    <string name="home_row_favorite_movies_description">A kedvencekhez adott filmjeid</string>
+    <string name="home_row_favorite_series_description">A kedvencekhez adott sorozataid</string>
     <string name="update_title">Alkalmazásfrissítés</string>
     <string name="update_checking">Frissítések keresése…</string>
     <string name="update_whats_new">Újdonságok</string>
@@ -191,7 +196,7 @@
     <string name="recording_failed_unknown">Nem készült felvétel</string>
     <string name="recording_title">Felvételek</string>
     <string name="recording_description">Az eszközre mentett élő TV.</string>
-    <string name="recording_empty">Még nincs felvétel. Nyisd meg a műsorújságot, válassz egy műsort, és nyomd meg a Felvétel gombot.</string>
+    <string name="recording_empty">Még nincs felvétel. Nyomd meg a Felvétel gombot egy műsoron a műsorújságban, vagy tartsd nyomva egy csatornát a felvételhez vagy egy időpont ütemezéséhez.</string>
     <string name="recording_group_now">Most rögzít</string>
     <string name="recording_group_scheduled">Ütemezve</string>
     <string name="recording_group_completed">Rögzítve</string>
@@ -202,6 +207,12 @@
     <string name="recording_record_series">Minden adás felvétele</string>
     <string name="recording_stop_series">Ne vegye fel minden adását</string>
     <string name="recording_from_archive">Felvétel az archívumból</string>
+    <string name="recording_schedule">Felvétel ütemezése…</string>
+    <string name="recording_schedule_hint">Válaszd ki a napot, a kezdést és a véget. Akkor is felvesz, ha a csatornának nincs műsorújságja.</string>
+    <string name="recording_schedule_start">Kezdés</string>
+    <string name="recording_schedule_end">Vége</string>
+    <string name="recording_schedule_next_day">másnap</string>
+    <string name="recording_schedule_past">Ez az időpont már elmúlt</string>
     <string name="recording_scheduled_for">Rögzíti: <xliff:g id="time">%1$s</xliff:g></string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line"><xliff:g id="title">%1$s</xliff:g> rögzítése</string>
@@ -222,7 +233,7 @@
     <string name="recording_failed_drm">Ez a csatorna DRM-védett, ezért megnézhető, de nem rögzíthető. A védelmet a szolgáltatója alkalmazza, nem az OwnTV.</string>
     <string name="recording_failed_metered">Nem készült felvétel mobiladaton</string>
     <string name="recording_card_empty_title">Még nincs felvétel</string>
-    <string name="recording_card_body">Válassz egy műsort a műsorújságban, majd a Felvétel lehetőséget. Ide kerül, akkor is, ha közben mást nézel.</string>
+    <string name="recording_card_body">Válassz egy műsort a műsorújságban, és válaszd a Felvételt, vagy tartsd nyomva egy csatornát, és ütemezz egy időpontot. Ide kerül, akkor is, ha közben mást nézel.</string>
     <string name="recording_open_guide">Műsorújság megnyitása</string>
     <plurals name="recording_card_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> felvétel</item>

@@ -89,6 +89,8 @@
     <string name="search_series">Series</string>
     <!-- Translators: Content type label in search results. -->
     <string name="search_channels">Channels</string>
+    <!-- Translators: Search results heading for TV programmes whose title matches, with the channel showing them. -->
+    <string name="search_on_tv">On TV</string>
     <!-- Translators: Key hint on a channel search result: OK takes you to the channel in Live TV (it does not play it). -->
     <string name="search_go_to_channel">Go to channel</string>
     <!-- Translators: Key hint on a movie search result: OK takes you to the movie in Movies (it does not play it). -->
@@ -100,11 +102,11 @@
     <!-- Translators: Title of the card shown on the empty search page. -->
     <string name="search_card_title">Find anything in your playlists</string>
     <!-- Translators: Text of the card shown on the empty search page. -->
-    <string name="search_card_body">Channels, movies and series from every playlist you show. Pick a result to go straight to it, then play, download or open its options there.</string>
+    <string name="search_card_body">Channels, movies and series from every playlist you show. Pick a result to go straight to it, then play, download or open its options there. TV programs on now or later today are found by their title too.</string>
     <!-- Translators: Title when a search finds nothing. "query" is the typed text, in quotes. -->
     <string name="search_nothing_found">Nothing found for “<xliff:g id="query">%1$s</xliff:g>”</string>
     <!-- Translators: Line under "Nothing found" explaining what search looks in. -->
-    <string name="search_nothing_found_body">Search looks in channel, movie and series names in the playlists you show. Hidden categories are not searched.</string>
+    <string name="search_nothing_found_body">Search looks in channel, movie and series names in the playlists you show. Hidden categories are not searched. TV programs are found by their title in the downloaded guide.</string>
     <!-- Translators: The typed search text shown in quotes next to the page title. Use your language's quotation marks. -->
     <string name="search_query_quoted">“<xliff:g id="query">%1$s</xliff:g>”</string>
     <!-- Translators: Number of search results next to the page title. -->
@@ -169,6 +171,10 @@
     <string name="home_row_recent_channels">Recent channels</string>
     <!-- Translators: Home row name in Settings for the "Favorite Channels" row. -->
     <string name="home_row_favorite_channels">Favorite channels</string>
+    <!-- Translators: Home row name for the movies the user marked as favorite. -->
+    <string name="home_row_favorite_movies">Favorite movies</string>
+    <!-- Translators: Home row name for the series the user marked as favorite. -->
+    <string name="home_row_favorite_series">Favorite series</string>
     <!-- Translators: Home row name in Settings for the "On Now" row. -->
     <string name="home_row_on_now">On now</string>
     <!-- Translators: Home row description in Settings for the hero row. -->
@@ -245,6 +251,10 @@
     <string name="home_row_recent_description">Live channels you tuned recently</string>
     <!-- Translators: Home row description in Settings for "Favorite Channels". -->
     <string name="home_row_favorite_description">Your favorited live channels</string>
+    <!-- Translators: Home row description in Settings for "Favorite movies". -->
+    <string name="home_row_favorite_movies_description">Your favorited movies</string>
+    <!-- Translators: Home row description in Settings for "Favorite series". -->
+    <string name="home_row_favorite_series_description">Your favorited series</string>
 
 
     <!-- Translators: Screen title for the app update dialog. -->
@@ -329,7 +339,7 @@
     <!-- Translators: One-line description under the Recordings screen title. -->
     <string name="recording_description">Live TV saved on this device.</string>
     <!-- Translators: Empty-state message on the Recordings screen, directing the user to the TV guide. -->
-    <string name="recording_empty">Nothing recorded yet. Open the TV guide, pick a programme and press Record.</string>
+    <string name="recording_empty">Nothing recorded yet. Press Record on a programme in the TV guide, or long-press a channel to record it or schedule a time.</string>
     <!-- Translators: Section heading for recordings that are being written right now. -->
     <string name="recording_group_now">Recording now</string>
     <!-- Translators: Section heading for recordings set to happen later. -->
@@ -350,6 +360,18 @@
     <string name="recording_stop_series">Stop recording every showing</string>
     <!-- Translators: Button that records a programme which has already been broadcast, from the provider's catch-up archive. -->
     <string name="recording_from_archive">Record from catch-up</string>
+    <!-- Translators: Channel menu item and dialog title: record this channel between two times the user picks, even with no TV guide. -->
+    <string name="recording_schedule">Schedule recording…</string>
+    <!-- Translators: Body of the schedule-recording dialog. -->
+    <string name="recording_schedule_hint">Pick the day, the start and the end. It records even if this channel has no TV guide.</string>
+    <!-- Translators: Schedule-recording dialog: label over the start time. -->
+    <string name="recording_schedule_start">Start</string>
+    <!-- Translators: Schedule-recording dialog: label over the end time. -->
+    <string name="recording_schedule_end">End</string>
+    <!-- Translators: Schedule-recording dialog: shown under the end time when it falls on the day after the start (e.g. 23:00 to 01:00). -->
+    <string name="recording_schedule_next_day">next day</string>
+    <!-- Translators: Schedule-recording dialog: shown when the chosen time window has already ended. -->
+    <string name="recording_schedule_past">That time has already passed</string>
     <!-- Translators: Status line on a scheduled recording. "time" is a formatted date and time, e.g. "Sat 21:00". -->
     <string name="recording_scheduled_for">Will record <xliff:g id="time">%1$s</xliff:g></string>
     <!-- Translators: Short badge shown over the video while a recording is running. Keep it very short; many languages keep the English "REC". -->
@@ -388,7 +410,7 @@
     <!-- Translators: Downloads screen, Recordings card: nothing has been recorded so far. -->
     <string name="recording_card_empty_title">Nothing recorded yet</string>
     <!-- Translators: Downloads screen, Recordings card: how to record a programme. -->
-    <string name="recording_card_body">Pick any programme in the TV Guide and choose Record. It lands here, even while you watch something else.</string>
+    <string name="recording_card_body">Pick a programme in the TV Guide and choose Record, or long-press a channel and schedule a time. It lands here, even while you watch something else.</string>
     <!-- Translators: Downloads screen, Recordings card: button that opens the TV Guide. -->
     <string name="recording_open_guide">Open TV Guide</string>
     <!-- Translators: Downloads screen, Recordings card: how many recordings are stored. -->

@@ -25,6 +25,7 @@ class KoinWorkerFactory : WorkerFactory() {
                 koin.get(),
                 koin.get(),
                 koin.get(),
+                koin.get(),
             )
             TrendingRefreshWorker::class.java.name -> TrendingRefreshWorker(
                 appContext,
@@ -36,6 +37,7 @@ class KoinWorkerFactory : WorkerFactory() {
             CatalogSyncWorker::class.java.name -> CatalogSyncWorker(
                 appContext,
                 workerParameters,
+                koin.get(),
                 koin.get(),
                 koin.get(),
                 koin.get(),

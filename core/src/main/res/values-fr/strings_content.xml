@@ -65,6 +65,21 @@
     <string name="content_mark_watched">Marquer comme vu</string>
     <string name="content_mark_unwatched">Marquer comme non vu</string>
     <string name="content_move">Déplacer</string>
+    <string name="content_category_restore_playlist">Rétablir par défaut</string>
+    <string name="content_category_restore_custom">Rétablir par défaut</string>
+    <string name="content_category_restore_question">Cela va :</string>
+    <plurals name="content_category_restore_hidden">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> élément masqué sera de nouveau affiché</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> éléments masqués seront de nouveau affichés</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> éléments masqués seront de nouveau affichés</item>
+    </plurals>
+    <plurals name="content_category_restore_moved">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> élément déplacé reviendra</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> éléments déplacés reviendront</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> éléments déplacés reviendront</item>
+    </plurals>
+    <string name="content_category_restore_order">Votre ordre personnalisé sera effacé</string>
+    <string name="content_category_restore_nothing">La catégorie est déjà conforme à la liste de lecture</string>
     <string name="content_move_to_category">Déplacer vers une catégorie…</string>
     <string name="content_remove_from_category">Retirer de cette catégorie</string>
     <string name="content_download">Télécharger</string>
@@ -376,9 +391,12 @@
     <string name="content_key_menu">Menu</string>
     <string name="content_key_enter">Entrer</string>
     <string name="content_key_select">Sélectionner</string>
+    <string name="content_key_page">Page</string>
+    <string name="content_history_overlay_hint">Les chaînes regardées récemment, les plus récentes en premier</string>
     <string name="content_watched_duration">Vu : <xliff:g id="value">%1$s</xliff:g></string>
     <string name="content_menu_group_show">Afficher</string>
     <string name="content_epg_show_empty">Chaînes sans guide</string>
+    <string name="content_epg_show_preview">Aperçu vidéo</string>
     <string name="content_vod_providers">Fournisseurs</string>
     <string name="content_sort_movies_title">Trier les films</string>
     <string name="content_sort_series_title">Trier les séries</string>

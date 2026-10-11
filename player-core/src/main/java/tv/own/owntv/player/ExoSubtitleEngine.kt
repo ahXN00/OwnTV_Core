@@ -185,6 +185,7 @@ class ExoSubtitleEngine(
     val isActive: Boolean get() = player != null
 
     private val throughputTracker = ThroughputTracker()
+    private val fileBitrate = FileBitrate()
     private val fpsSample = FpsSample()
     private var dropsBaseline = 0
     private val analytics = object : androidx.media3.exoplayer.analytics.AnalyticsListener {
@@ -244,6 +245,15 @@ class ExoSubtitleEngine(
             player?.videoFormat?.frameRate?.let { if (it > 0f) callbacks.onVideoFps(it) }
         }
 
+        override fun onPositionDiscontinuity(
+            oldPosition: Player.PositionInfo,
+            newPosition: Player.PositionInfo,
+            reason: Int,
+        ) {
+            // A seek discards the buffer; bytes from before it describe media no longer counted.
+            if (reason == Player.DISCONTINUITY_REASON_SEEK) fileBitrate.restart()
+        }
+
         override fun onRenderedFirstFrame() {
             firstFrameSeen = true
             noVideoWatchdog.disarm()
@@ -255,6 +265,7 @@ class ExoSubtitleEngine(
         }
 
         override fun onTracksChanged(tracks: Tracks) {
+            if (reportUndecodableAudio(tracks)) return
             updateVideoTrackPresence(tracks)
             rebuildAudioTracks(tracks)
             rebuildTextTracks(tracks)
@@ -304,6 +315,26 @@ class ExoSubtitleEngine(
         }
     }
 
+    /**
+     * The file has audio but ExoPlayer can play none of it. Media3 then selects no audio track, so no
+     * format ever reaches [audioWatchdog] and the film would play silently with nothing noticing. Hand
+     * it back like any decode failure (mpv, or the both-engines error when mpv already failed). Once
+     * per item; true when it fired.
+     */
+    private fun reportUndecodableAudio(tracks: Tracks): Boolean {
+        if (undecodableAudioReported) return false
+        val audio = tracks.groups.filter { it.type == C.TRACK_TYPE_AUDIO }
+        if (audio.isEmpty() || ExoAudioGate.anyPlayableAudio(tracks)) return false
+        undecodableAudioReported = true
+        val formats = audio.flatMap { g -> (0 until g.length).map { g.getTrackFormat(it).sampleMimeType } }
+        android.util.Log.w(TAG, "no audio track ExoPlayer can play ($formats) — handing the film back")
+        callbacks.onError(
+            PlaybackFailure.ExoDecode(PlaybackException.getErrorCodeName(PlaybackException.ERROR_CODE_DECODING_FORMAT_UNSUPPORTED)),
+        )
+        return true
+    }
+    private var undecodableAudioReported = false
+
     /** Build (if needed) and start playback of [url] at [positionMs] on [surface], selecting the image
      *  subtitle identified by [subLang]/[subTypeIndex] (the track the user picked in mpv's list).
      *  [fallback] = engine-fallback playback after a terminal mpv failure: no subtitle is auto-selected
@@ -333,7 +364,8 @@ class ExoSubtitleEngine(
         subtitleApplied = false
         firstFrameSeen = false
         hasVideoTrack = true
-        throughputTracker.reset(); fpsSample.resetAll(); dropsBaseline = currentDroppedFrames(player)
+        undecodableAudioReported = false
+        throughputTracker.reset(); fileBitrate.restart(); fpsSample.resetAll(); dropsBaseline = currentDroppedFrames(player)
         audioWatchdog.reset()
         noVideoWatchdog.disarm()
         // Nothing to wait for while Audio Mode is on — the video track is deselected on purpose.
@@ -586,6 +618,8 @@ class ExoSubtitleEngine(
             parameters = buildUponParameters()
                 .setPreferredAudioLanguage(prefAudioLang.takeIf { it.isNotBlank() })
                 .setPreferredTextLanguage(prefSubLang.takeIf { it.isNotBlank() })
+                // Re-pick passthrough vs decode when the audio output changes mid-film (soundbar wakes).
+                .setAllowInvalidateSelectionsOnRendererCapabilitiesChange(true)
                 .build()
         }
         // Software decoding is a rescue, not the default. A catch-up archive starts mid-GOP and SOME
@@ -602,13 +636,20 @@ class ExoSubtitleEngine(
             audioDelay = audioDelay,
             passthrough = passthroughAllowed,
         )
+        // D-L3 — Blu-ray `.m2ts` (the PGS case this engine exists for) carries DTS on HDMV stream types
+        // the stock TS reader skips; and a longer timestamp search finds the duration of files whose first
+        // PCR sits deep in (Media3's 600 packets is the floor; Just Player and Jellyfin use 1500–1800).
+        val extractors = androidx.media3.extractor.DefaultExtractorsFactory()
+            .setTsExtractorFlags(androidx.media3.extractor.ts.DefaultTsPayloadReaderFactory.FLAG_ENABLE_HDMV_DTS_AUDIO_STREAMS)
+            .setTsExtractorTimestampSearchBytes(TS_TIMESTAMP_SEARCH_PACKETS * androidx.media3.extractor.ts.TsExtractor.TS_PACKET_SIZE)
         return ExoPlayer.Builder(context)
             .setRenderersFactory(renderers)
-            .setMediaSourceFactory(DefaultMediaSourceFactory(dataSource))
+            .setMediaSourceFactory(DefaultMediaSourceFactory(dataSource, extractors))
             .setLoadControl(loadControl)
             .setTrackSelector(trackSelector)
             .build()
             .apply {
+                setWakeMode(if (backgroundPlayback) C.WAKE_MODE_NETWORK else C.WAKE_MODE_NONE)
                 // Media3's default ONLY_IF_SEAMLESS still issues Surface.setFrameRate() requests, and this
                 // engine plays whole movies — exactly where a 24 fps file on a 60 Hz panel judders. mpv and
                 // the live engine already follow the setting; this one used to ignore it in both directions.
@@ -718,10 +759,16 @@ class ExoSubtitleEngine(
         // latches to stereo and the owner restarts this item — the sink's capabilities are decided at
         // construction, so nothing short of a rebuild can undo a bad choice.
         audioWatchdog.poll(p.isPlaying)?.let { reason ->
+            // Already plain stereo PCM: the latch cannot change this output, so restart without it.
+            if (audioWatchdog.outputWasStereoPcm) {
+                android.util.Log.w("ExoSubtitleEngine", "audio watchdog: $reason — already stereo PCM, restarting without the stereo latch")
+                onAudioFallback?.invoke(false)
+                return
+            }
             android.util.Log.w("ExoSubtitleEngine", "audio watchdog: $reason — forcing stereo for this session")
             AudioOutputPolicy.latchStereo("exo/vod: $reason")
             PlaybackErrorLog.event(context, "ExoPlayer", live = false, reason = PlayerFailureReason.STEREO_FALLBACK, detail = reason)
-            onAudioFallback?.invoke()
+            onAudioFallback?.invoke(true)
         }
     }
 
@@ -730,6 +777,10 @@ class ExoSubtitleEngine(
 
     /** N8 + P14 — may this engine bitstream Dolby/DTS, pushed in by [OwnTVPlayer]; read at build time. */
     @Volatile var passthroughAllowed = true
+
+    /** D-M5 — Settings → background playback, pushed in by [OwnTVPlayer]; read at build time. On, the player
+     *  keeps the CPU and Wi-Fi awake while playing, so a phone with its screen off can still reconnect. */
+    @Volatile var backgroundPlayback = true
 
     /** Settings → Video player → Auto frame rate, pushed in by [OwnTVPlayer]; read at build time. */
     @Volatile var autoFrameRateEnabled = false
@@ -790,8 +841,9 @@ class ExoSubtitleEngine(
         }
     }
 
-    /** Fired once when the audio watchdog forces stereo; the owner shows the message and restarts. */
-    var onAudioFallback: (() -> Unit)? = null
+    /** Fired once when the audio watchdog finds the output dead; the owner restarts the item. [stereoLatched]
+     *  says whether the session was also forced to stereo — only then is there a fallback to announce. */
+    var onAudioFallback: ((stereoLatched: Boolean) -> Unit)? = null
 
     /** Fired when this item failed on the hardware decoder and the software rung is still available;
      *  the owner restarts it here with `preferSoftware`. [fromStart] when the item must restart at 0
@@ -1029,7 +1081,9 @@ class ExoSubtitleEngine(
                 C.COLOR_TRANSFER_HLG -> StreamHdrMode.HLG
                 else -> null
             }?.let { out += StreamInfoRow(StreamInfoLabel.HDR, StreamInfoValue.Hdr(it)) }
-            out += bitrateRow(f, throughputTracker)
+            // A file: declared, else its real average — not the download speed ([FileBitrate]).
+            (f.bitrate.takeIf { it > 0 }?.toLong() ?: fileBitrate.bitsPerSecond(throughputTracker.totalBytes, p.bufferedPosition))
+                ?.let { out += StreamInfoRow(StreamInfoLabel.BITRATE, StreamInfoValue.Bitrate(it)) }
         }
         p.audioFormat?.let { f ->
             out += StreamInfoRow(
@@ -1120,6 +1174,8 @@ class ExoSubtitleEngine(
         const val TARGET_BUFFER_BYTES = 24 * 1024 * 1024
         const val LOW_RAM_TARGET_BYTES = 16 * 1024 * 1024
         const val BASE_BUFFER_MS = 30_000
+        /** TS packets searched for a timestamp in a film (D-L3). */
+        const val TS_TIMESTAMP_SEARCH_PACKETS = 1_500
         /** Armed at load, so it covers the open as well as the decode — see [NoFrameWatchdog] for why
          *  this matches the hero preview's budget rather than the live engine's 8 s. */
         const val NO_VIDEO_TIMEOUT_MS = 12_000L

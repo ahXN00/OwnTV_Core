@@ -43,14 +43,15 @@
     <string name="search_movie">फ़िल्म</string>
     <string name="search_series">सीरीज़</string>
     <string name="search_channels">चैनल</string>
+    <string name="search_on_tv">टीवी पर</string>
     <string name="search_go_to_channel">चैनल पर जाएँ</string>
     <string name="search_go_to_movie">फ़िल्म पर जाएँ</string>
     <string name="search_clear_recent">हाल की खोजें साफ़ करें</string>
     <string name="search_field_hint">चैनल, फ़िल्में और सीरीज़</string>
     <string name="search_card_title">अपनी प्लेलिस्ट में कुछ भी खोजें</string>
-    <string name="search_card_body">आपकी दिखाई गई सभी प्लेलिस्ट से चैनल, फ़िल्में और सीरीज़। सीधे वहाँ जाने के लिए कोई परिणाम चुनें, फिर वहीं चलाएँ, डाउनलोड करें या उसके विकल्प खोलें।</string>
+    <string name="search_card_body">आपकी दिखाई गई सभी प्लेलिस्ट से चैनल, फ़िल्में और सीरीज़। सीधे वहाँ जाने के लिए कोई परिणाम चुनें, फिर वहीं चलाएँ, डाउनलोड करें या उसके विकल्प खोलें। अभी या आज बाद में आने वाले टीवी कार्यक्रम भी उनके शीर्षक से मिलते हैं।</string>
     <string name="search_nothing_found">“<xliff:g id="query">%1$s</xliff:g>” के लिए कुछ नहीं मिला</string>
-    <string name="search_nothing_found_body">खोज आपकी दिखाई गई प्लेलिस्ट में चैनल, फ़िल्म और सीरीज़ के नामों में देखती है। छिपी हुई श्रेणियाँ नहीं खोजी जातीं।</string>
+    <string name="search_nothing_found_body">खोज आपकी दिखाई गई प्लेलिस्ट में चैनल, फ़िल्म और सीरीज़ के नामों में देखती है। छिपी हुई श्रेणियाँ नहीं खोजी जातीं। टीवी कार्यक्रम डाउनलोड की गई गाइड में उनके शीर्षक से खोजे जाते हैं।</string>
     <string name="search_query_quoted">“<xliff:g id="query">%1$s</xliff:g>”</string>
     <plurals name="search_result_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> परिणाम</item>
@@ -89,12 +90,16 @@
     <string name="home_row_continue_series">सीरीज़ देखना जारी रखें</string>
     <string name="home_row_recent_channels">हाल के चैनल</string>
     <string name="home_row_favorite_channels">पसंदीदा चैनल</string>
+    <string name="home_row_favorite_movies">पसंदीदा फ़िल्में</string>
+    <string name="home_row_favorite_series">पसंदीदा सीरीज़</string>
     <string name="home_row_on_now">अभी प्रसारित</string>
     <string name="home_row_hero_description">सबसे ऊपर मौजूद बड़ी पूर्वावलोकन पंक्ति</string>
     <string name="home_row_continue_movies_description">सेव की गई स्थिति वाली फ़िल्में</string>
     <string name="home_row_continue_series_description">जारी रखने या अगला चलाने वाले एपिसोड</string>
     <string name="home_row_recent_description">वे लाइव चैनल जिन्हें आपने हाल में देखा</string>
     <string name="home_row_favorite_description">आपके पसंदीदा लाइव चैनल</string>
+    <string name="home_row_favorite_movies_description">आपकी पसंदीदा फ़िल्में</string>
+    <string name="home_row_favorite_series_description">आपकी पसंदीदा सीरीज़</string>
     <string name="update_title">ऐप अपडेट</string>
     <string name="update_checking">अपडेट की जाँच की जा रही है…</string>
     <string name="update_whats_new">नया क्या है</string>
@@ -191,7 +196,7 @@
     <string name="recording_failed_unknown">रिकॉर्ड नहीं हुआ</string>
     <string name="recording_title">रिकॉर्डिंग</string>
     <string name="recording_description">इस डिवाइस पर सहेजा गया लाइव टीवी।</string>
-    <string name="recording_empty">अभी कुछ रिकॉर्ड नहीं हुआ। टीवी गाइड खोलें, कोई कार्यक्रम चुनें और रिकॉर्ड दबाएँ।</string>
+    <string name="recording_empty">अभी तक कुछ रिकॉर्ड नहीं हुआ। टीवी गाइड में किसी कार्यक्रम पर रिकॉर्ड करें दबाएँ, या किसी चैनल को देर तक दबाकर उसे रिकॉर्ड करें या समय शेड्यूल करें।</string>
     <string name="recording_group_now">अभी रिकॉर्ड हो रहा है</string>
     <string name="recording_group_scheduled">निर्धारित</string>
     <string name="recording_group_completed">रिकॉर्ड हो गया</string>
@@ -202,6 +207,12 @@
     <string name="recording_record_series">हर प्रसारण रिकॉर्ड करें</string>
     <string name="recording_stop_series">हर प्रसारण रिकॉर्ड करना बंद करें</string>
     <string name="recording_from_archive">आर्काइव से रिकॉर्ड करें</string>
+    <string name="recording_schedule">रिकॉर्डिंग शेड्यूल करें…</string>
+    <string name="recording_schedule_hint">दिन, शुरू और खत्म होने का समय चुनें। इस चैनल का टीवी गाइड न हो तब भी रिकॉर्डिंग होगी।</string>
+    <string name="recording_schedule_start">शुरू</string>
+    <string name="recording_schedule_end">खत्म</string>
+    <string name="recording_schedule_next_day">अगला दिन</string>
+    <string name="recording_schedule_past">वह समय पहले ही बीत चुका है</string>
     <string name="recording_scheduled_for"><xliff:g id="time">%1$s</xliff:g> को रिकॉर्ड होगा</string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line"><xliff:g id="title">%1$s</xliff:g> रिकॉर्ड हो रहा है</string>
@@ -222,7 +233,7 @@
     <string name="recording_failed_drm">यह चैनल DRM-सुरक्षित है, इसलिए इसे देखा जा सकता है लेकिन रिकॉर्ड नहीं किया जा सकता। यह सुरक्षा आपके प्रोवाइडर की ओर से है, OwnTV की ओर से नहीं।</string>
     <string name="recording_failed_metered">मोबाइल डेटा पर रिकॉर्ड नहीं हुआ</string>
     <string name="recording_card_empty_title">अभी तक कुछ रिकॉर्ड नहीं हुआ</string>
-    <string name="recording_card_body">टीवी गाइड में कोई भी कार्यक्रम चुनें और रिकॉर्ड चुनें। वह यहाँ आ जाएगा, भले ही आप कुछ और देख रहे हों।</string>
+    <string name="recording_card_body">टीवी गाइड में कोई कार्यक्रम चुनें और रिकॉर्ड करें चुनें, या किसी चैनल को देर तक दबाकर समय शेड्यूल करें। आप कुछ और देख रहे हों तब भी यह यहाँ आ जाता है।</string>
     <string name="recording_open_guide">टीवी गाइड खोलें</string>
     <plurals name="recording_card_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> रिकॉर्डिंग</item>

@@ -39,4 +39,24 @@ object CatchupContinue {
         nextStartMs <= nowMs -> Next.Live
         else -> Next.Stop
     }
+
+    /**
+     * The archive on screen stopped arriving while it was playing (the player's `archiveStalled`):
+     * should the viewer be handed to the live stream?
+     *
+     * Yes when the replayed programme ([programmeStopMs], on the user's clock) is still on air — its
+     * archive is being written as it airs and the provider may stop serving it partway, as one did on
+     * the TCL 13 minutes behind live; the live stream is that programme. Yes for a rewind
+     * ([programmeStopMs] null) watched within [LIVE_EDGE_MS] of now ([watchingWallMs]) — it has run into
+     * the end of the recording. Otherwise no: a finished programme's archive is complete, so its stall
+     * is a network fault the player's own recovery owns, and live is not what the viewer asked for.
+     */
+    fun liveAfterStall(programmeStopMs: Long?, watchingWallMs: Long?, nowMs: Long): Boolean = when {
+        programmeStopMs != null -> programmeStopMs > nowMs
+        watchingWallMs != null -> nowMs - watchingWallMs <= LIVE_EDGE_MS
+        else -> false
+    }
+
+    /** How close to now a rewind counts as having reached the end of the recording. */
+    const val LIVE_EDGE_MS = 3 * 60_000L
 }

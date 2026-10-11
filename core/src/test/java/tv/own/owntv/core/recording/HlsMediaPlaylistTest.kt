@@ -71,7 +71,7 @@ class HlsMediaPlaylistTest {
     }
 
     @Test
-    fun `an encrypted playlist is recognised and a clear one is not`() {
+    fun `an AES-128 playlist is recordable and a cleared one is clear`() {
         val encrypted = HlsMediaPlaylist.parse(
             """
             #EXTM3U
@@ -81,7 +81,8 @@ class HlsMediaPlaylistTest {
             a.ts
             """.trimIndent(),
         )
-        assertTrue(encrypted.isEncrypted)
+        // AES-128 is plain HLS encryption with a public key: recorded and decrypted (#243), not refused.
+        assertFalse(encrypted.isEncrypted)
         assertEquals("AES-128", encrypted.encryptionMethod)
 
         // METHOD=NONE is a playlist that explicitly turned encryption off. Refusing it would be wrong.
@@ -171,4 +172,115 @@ class HlsMediaPlaylistTest {
         assertFalse(HlsMediaPlaylist.looksLikePlaylist("video/mp2t", "G@"))
         assertFalse(HlsMediaPlaylist.looksLikePlaylist(null, "binary rubbish"))
     }
+
+    // --- Master playlists (#243): a list of qualities, not of segments ---
+
+    /** The shape the Australian 7/9/10 channels serve: qualities, each its own media playlist. */
+    private val master = """
+        #EXTM3U
+        #EXT-X-VERSION:3
+        #EXT-X-INDEPENDENT-SEGMENTS
+        #EXT-X-STREAM-INF:BANDWIDTH=1400000,RESOLUTION=960x540,CODECS="avc1.4d401f,mp4a.40.2"
+        540/index.m3u8?hdnts=exp=1~hmac=aa
+        #EXT-X-STREAM-INF:BANDWIDTH=5200000,RESOLUTION=1920x1080,CODECS="avc1.640028,mp4a.40.2"
+        1080/index.m3u8?hdnts=exp=1~hmac=bb
+        #EXT-X-STREAM-INF:BANDWIDTH=2800000,RESOLUTION=1280x720,CODECS="avc1.4d401f,mp4a.40.2"
+        720/index.m3u8?hdnts=exp=1~hmac=cc
+    """.trimIndent()
+
+    @Test
+    fun `a master playlist is recognised as one`() {
+        assertTrue(HlsMediaPlaylist.isMaster(master))
+        assertFalse(HlsMediaPlaylist.isMaster(live))
+    }
+
+    @Test
+    fun `the best quality of a master playlist is the one recorded`() {
+        assertEquals("1080/index.m3u8?hdnts=exp=1~hmac=bb", HlsMediaPlaylist.bestVariant(master))
+    }
+
+    @Test
+    fun `a master playlist without bandwidths still gives a quality, the first listed`() {
+        val bare = "#EXTM3U\n#EXT-X-STREAM-INF:PROGRAM-ID=1\nlow.m3u8\n#EXT-X-STREAM-INF:PROGRAM-ID=1\nhigh.m3u8"
+        assertEquals("low.m3u8", HlsMediaPlaylist.bestVariant(bare))
+    }
+
+    @Test
+    fun `a media playlist has no quality to choose`() {
+        assertNull(HlsMediaPlaylist.bestVariant(live))
+    }
+
+    @Test
+    fun `a segment body that is a playlist is never video`() {
+        // What #243 wrote into its recordings: the quality playlists, read as if they were segments.
+        assertTrue(HlsMediaPlaylist.isPlaylistBody("#EXTM3U\n#EXTINF:6,\nseg.ts".toByteArray()))
+        assertTrue(HlsMediaPlaylist.isPlaylistBody("\uFEFF  #EXTM3U".toByteArray()))
+        assertFalse(HlsMediaPlaylist.isPlaylistBody(byteArrayOf(0x47, 0x40, 0x11, 0x10)))
+        assertFalse(HlsMediaPlaylist.isPlaylistBody(ByteArray(0)))
+    }
+
+    // --- AES-128 (#243): the key, the IV, and the bytes ---
+
+    private val aes = """
+        #EXTM3U
+        #EXT-X-TARGETDURATION:5
+        #EXT-X-MEDIA-SEQUENCE:40
+        #EXT-X-KEY:METHOD=AES-128,URI="k1.key?hdnts=a",IV=0x387A266BFD8447B98DDD55B1420DCD60
+        #EXTINF:5.0,
+        a.ts
+        #EXT-X-KEY:METHOD=AES-128,URI="k2.key"
+        #EXTINF:5.0,
+        b.ts
+        #EXT-X-KEY:METHOD=NONE
+        #EXTINF:5.0,
+        c.ts
+    """.trimIndent()
+
+    @Test
+    fun `each segment carries the key in force where it is listed`() {
+        val segments = HlsMediaPlaylist.parse(aes).segments
+        assertEquals("k1.key?hdnts=a", segments[0].key?.uri)
+        assertEquals("k2.key", segments[1].key?.uri)
+        // A key rotated mid-window applies from that line on; METHOD=NONE ends encryption.
+        assertNull(segments[2].key)
+    }
+
+    @Test
+    fun `a stated IV is used as written`() {
+        val segment = HlsMediaPlaylist.parse(aes).segments[0]
+        assertEquals("387a266bfd8447b98ddd55b1420dcd60", HlsAes.ivFor(segment).toHex())
+    }
+
+    @Test
+    fun `with no IV the segment's sequence number is the IV`() {
+        // RFC 8216 5.2: the media sequence number as a 128-bit big-endian integer. b.ts is 41.
+        val segment = HlsMediaPlaylist.parse(aes).segments[1]
+        assertEquals("00000000000000000000000000000029", HlsAes.ivFor(segment).toHex())
+    }
+
+    @Test
+    fun `a segment decrypts back to the transport stream it was`() {
+        val key = ByteArray(16) { (it * 7).toByte() }
+        val iv = ByteArray(16) { (0xA0 + it).toByte() }
+        val ts = ByteArray(188 * 3) { if (it % 188 == 0) 0x47 else (it % 251).toByte() }
+        val cipher = javax.crypto.Cipher.getInstance("AES/CBC/PKCS5Padding")
+        cipher.init(javax.crypto.Cipher.ENCRYPT_MODE, javax.crypto.spec.SecretKeySpec(key, "AES"), javax.crypto.spec.IvParameterSpec(iv))
+        val encrypted = cipher.doFinal(ts)
+        assertTrue(ts.contentEquals(HlsAes.decrypt(encrypted, key, iv)))
+    }
+
+    @Test
+    fun `sample-aes is still refused`() {
+        val playlist = HlsMediaPlaylist.parse(
+            """
+            #EXTM3U
+            #EXT-X-KEY:METHOD=SAMPLE-AES,URI="k"
+            #EXTINF:5,
+            a.ts
+            """.trimIndent(),
+        )
+        assertTrue(playlist.isEncrypted)
+    }
+
+    private fun ByteArray.toHex() = joinToString("") { "%02x".format(it) }
 }

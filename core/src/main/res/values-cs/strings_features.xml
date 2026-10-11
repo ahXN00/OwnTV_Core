@@ -43,14 +43,15 @@
     <string name="search_movie">Film</string>
     <string name="search_series">Seriál</string>
     <string name="search_channels">Kanály</string>
+    <string name="search_on_tv">V televizi</string>
     <string name="search_go_to_channel">Přejít na kanál</string>
     <string name="search_go_to_movie">Přejít na film</string>
     <string name="search_clear_recent">Vymazat nedávná hledání</string>
     <string name="search_field_hint">Kanály, filmy a seriály</string>
     <string name="search_card_title">Najděte cokoli ve svých playlistech</string>
-    <string name="search_card_body">Kanály, filmy a seriály ze všech zobrazených playlistů. Vyberte výsledek a přejděte rovnou k němu – tam ho přehrajete, stáhnete nebo otevřete jeho možnosti.</string>
+    <string name="search_card_body">Kanály, filmy a seriály ze všech zobrazených playlistů. Vyberte výsledek a přejděte rovnou k němu – tam ho přehrajete, stáhnete nebo otevřete jeho možnosti. Najde i televizní pořady, které běží teď nebo později dnes, podle jejich názvu.</string>
     <string name="search_nothing_found">Pro „<xliff:g id="query">%1$s</xliff:g>“ nic nenalezeno</string>
-    <string name="search_nothing_found_body">Hledání prochází názvy kanálů, filmů a seriálů v zobrazených playlistech. Skryté kategorie se neprohledávají.</string>
+    <string name="search_nothing_found_body">Hledání prochází názvy kanálů, filmů a seriálů v zobrazených playlistech. Skryté kategorie se neprohledávají. Televizní pořady se hledají podle názvu ve staženém programu.</string>
     <string name="search_query_quoted">„<xliff:g id="query">%1$s</xliff:g>“</string>
     <plurals name="search_result_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> výsledek</item>
@@ -99,12 +100,16 @@
     <string name="home_row_continue_series">Pokračovat ve sledování seriálů</string>
     <string name="home_row_recent_channels">Nedávno sledované kanály</string>
     <string name="home_row_favorite_channels">Oblíbené kanály</string>
+    <string name="home_row_favorite_movies">Oblíbené filmy</string>
+    <string name="home_row_favorite_series">Oblíbené seriály</string>
     <string name="home_row_on_now">Právě vysíláme</string>
     <string name="home_row_hero_description">Velký řádek s náhledem nahoře</string>
     <string name="home_row_continue_movies_description">Filmy s uloženou pozicí</string>
     <string name="home_row_continue_series_description">Epizody, v jejichž přehrávání lze pokračovat, nebo přehrát další</string>
     <string name="home_row_recent_description">Kanály živého vysílání, které jste nedávno sledovali</string>
     <string name="home_row_favorite_description">Vaše oblíbené kanály živého vysílání</string>
+    <string name="home_row_favorite_movies_description">Vaše oblíbené filmy</string>
+    <string name="home_row_favorite_series_description">Vaše oblíbené seriály</string>
     <string name="update_title">Aktualizace aplikace</string>
     <string name="update_checking">Kontrola aktualizací…</string>
     <string name="update_whats_new">Co je nového</string>
@@ -209,7 +214,7 @@
     <string name="recording_failed_unknown">Nenahrálo se</string>
     <string name="recording_title">Nahrávky</string>
     <string name="recording_description">Živé vysílání uložené v tomto zařízení.</string>
-    <string name="recording_empty">Zatím nic nenahráno. Otevřete TV průvodce, vyberte pořad a stiskněte Nahrát.</string>
+    <string name="recording_empty">Zatím nic nenahráno. Stiskněte Nahrát u pořadu v TV průvodci, nebo dlouze stiskněte kanál a nahrajte ho či naplánujte čas.</string>
     <string name="recording_group_now">Právě se nahrává</string>
     <string name="recording_group_scheduled">Naplánováno</string>
     <string name="recording_group_completed">Nahráno</string>
@@ -220,6 +225,12 @@
     <string name="recording_record_series">Nahrávat každé uvedení</string>
     <string name="recording_stop_series">Přestat nahrávat každé uvedení</string>
     <string name="recording_from_archive">Nahrát z archivu</string>
+    <string name="recording_schedule">Naplánovat nahrávání…</string>
+    <string name="recording_schedule_hint">Vyberte den, začátek a konec. Nahraje se i tehdy, když kanál nemá TV průvodce.</string>
+    <string name="recording_schedule_start">Začátek</string>
+    <string name="recording_schedule_end">Konec</string>
+    <string name="recording_schedule_next_day">další den</string>
+    <string name="recording_schedule_past">Tento čas už uplynul</string>
     <string name="recording_scheduled_for">Nahraje se <xliff:g id="time">%1$s</xliff:g></string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line">Nahrává se <xliff:g id="title">%1$s</xliff:g></string>
@@ -242,7 +253,7 @@
     <string name="recording_failed_drm">Tento kanál je chráněný technologií DRM, takže jej lze sledovat, ale ne nahrávat. Ochranu uplatňuje váš poskytovatel, nikoli OwnTV.</string>
     <string name="recording_failed_metered">Nenahráno přes mobilní data</string>
     <string name="recording_card_empty_title">Zatím nic nenahráno</string>
-    <string name="recording_card_body">Vyberte v TV průvodci libovolný pořad a zvolte Nahrát. Objeví se tady, i když se mezitím díváte na něco jiného.</string>
+    <string name="recording_card_body">Vyberte pořad v TV průvodci a zvolte Nahrát, nebo dlouze stiskněte kanál a naplánujte čas. Nahrávka se objeví zde, i když sledujete něco jiného.</string>
     <string name="recording_open_guide">Otevřít TV průvodce</string>
     <plurals name="recording_card_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> nahrávka</item>

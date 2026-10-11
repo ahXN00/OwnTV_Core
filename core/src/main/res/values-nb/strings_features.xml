@@ -43,14 +43,15 @@
     <string name="search_movie">Film</string>
     <string name="search_series">Serier</string>
     <string name="search_channels">Kanaler</string>
+    <string name="search_on_tv">På TV</string>
     <string name="search_go_to_channel">Gå til kanal</string>
     <string name="search_go_to_movie">Gå til film</string>
     <string name="search_clear_recent">Tøm nylige søk</string>
     <string name="search_field_hint">Kanaler, filmer og serier</string>
     <string name="search_card_title">Finn alt i spillelistene dine</string>
-    <string name="search_card_body">Kanaler, filmer og serier fra alle spillelistene du viser. Velg et treff for å gå rett dit og spille av, laste ned eller åpne valgene der.</string>
+    <string name="search_card_body">Kanaler, filmer og serier fra alle spillelistene du viser. Velg et treff for å gå rett dit og spille av, laste ned eller åpne valgene der. TV-programmer som går nå eller senere i dag, finnes også på tittelen.</string>
     <string name="search_nothing_found">Ingen treff for «<xliff:g id="query">%1$s</xliff:g>»</string>
-    <string name="search_nothing_found_body">Søket ser i navnene på kanaler, filmer og serier i spillelistene du viser. Skjulte kategorier blir ikke søkt i.</string>
+    <string name="search_nothing_found_body">Søket ser i navnene på kanaler, filmer og serier i spillelistene du viser. Skjulte kategorier blir ikke søkt i. TV-programmer finnes på tittelen i den nedlastede programoversikten.</string>
     <string name="search_query_quoted">«<xliff:g id="query">%1$s</xliff:g>»</string>
     <plurals name="search_result_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> treff</item>
@@ -89,12 +90,16 @@
     <string name="home_row_continue_series">Fortsett å se serier</string>
     <string name="home_row_recent_channels">Nylige kanaler</string>
     <string name="home_row_favorite_channels">Favorittkanaler</string>
+    <string name="home_row_favorite_movies">Favorittfilmer</string>
+    <string name="home_row_favorite_series">Favorittserier</string>
     <string name="home_row_on_now">Vises nå</string>
     <string name="home_row_hero_description">Den store forhåndsvisningsraden øverst</string>
     <string name="home_row_continue_movies_description">Filmer med lagret avspillingsposisjon</string>
     <string name="home_row_continue_series_description">Episoder du kan fortsette med eller spille av som neste</string>
     <string name="home_row_recent_description">Direktekanaler du nylig har sett på</string>
     <string name="home_row_favorite_description">Direktekanalene du har merket som favoritter</string>
+    <string name="home_row_favorite_movies_description">Filmene du har merket som favoritter</string>
+    <string name="home_row_favorite_series_description">Seriene du har merket som favoritter</string>
     <string name="update_title">Appoppdatering</string>
     <string name="update_checking">Ser etter oppdateringer…</string>
     <string name="update_whats_new">Dette er nytt</string>
@@ -191,7 +196,7 @@
     <string name="recording_failed_unknown">Det ble ikke tatt opp</string>
     <string name="recording_title">Opptak</string>
     <string name="recording_description">Direkte-TV lagret på denne enheten.</string>
-    <string name="recording_empty">Ingenting er tatt opp ennå. Åpne TV-guiden, velg et program og trykk Ta opp.</string>
+    <string name="recording_empty">Ingenting tatt opp ennå. Trykk Ta opp på et program i TV-guiden, eller hold inne en kanal for å ta den opp eller planlegge et tidspunkt.</string>
     <string name="recording_group_now">Tar opp nå</string>
     <string name="recording_group_scheduled">Planlagt</string>
     <string name="recording_group_completed">Tatt opp</string>
@@ -202,6 +207,12 @@
     <string name="recording_record_series">Ta opp alle visninger</string>
     <string name="recording_stop_series">Slutt å ta opp alle visninger</string>
     <string name="recording_from_archive">Ta opp fra arkivet</string>
+    <string name="recording_schedule">Planlegg opptak…</string>
+    <string name="recording_schedule_hint">Velg dag, start og slutt. Det tas opp selv om kanalen ikke har TV-guide.</string>
+    <string name="recording_schedule_start">Start</string>
+    <string name="recording_schedule_end">Slutt</string>
+    <string name="recording_schedule_next_day">neste dag</string>
+    <string name="recording_schedule_past">Det tidspunktet har allerede passert</string>
     <string name="recording_scheduled_for">Tar opp <xliff:g id="time">%1$s</xliff:g></string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line">Tar opp <xliff:g id="title">%1$s</xliff:g></string>
@@ -222,7 +233,7 @@
     <string name="recording_failed_drm">Denne kanalen er DRM-beskyttet, så den kan ses, men ikke tas opp. Beskyttelsen kommer fra leverandøren din, ikke fra OwnTV.</string>
     <string name="recording_failed_metered">Ikke tatt opp på mobildata</string>
     <string name="recording_card_empty_title">Ingenting tatt opp ennå</string>
-    <string name="recording_card_body">Velg et program i TV-guiden, og velg Ta opp. Det havner her, også mens du ser på noe annet.</string>
+    <string name="recording_card_body">Velg et program i TV-guiden og velg Ta opp, eller hold inne en kanal og planlegg et tidspunkt. Det havner her, også mens du ser på noe annet.</string>
     <string name="recording_open_guide">Åpne TV-guide</string>
     <plurals name="recording_card_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> opptak</item>

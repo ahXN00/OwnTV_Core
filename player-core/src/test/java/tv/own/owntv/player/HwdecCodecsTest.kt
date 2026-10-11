@@ -31,4 +31,29 @@ class HwdecCodecsTest {
         assertNull(OwnTVPlayer.hwdecCovers(null))
         assertNull(OwnTVPlayer.hwdecCovers("  "))
     }
+
+    /** Current mpv reports only FFmpeg's long description ("H.264 / AVC / …"), with no short name first (#229). */
+    @Test
+    fun `mpv's long codec description is read as its FFmpeg name`() {
+        mapOf(
+            "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10" to "h264",
+            "H.265 / HEVC (High Efficiency Video Coding)" to "hevc",
+            "MPEG-2 video" to "mpeg2video",
+            "MPEG-4 part 2" to "mpeg4",
+            "SMPTE VC-1" to "vc1",
+            "Google VP9" to "vp9",
+            "On2 VP8" to "vp8",
+            "Alliance for Open Media AV1" to "av1",
+        ).forEach { (desc, name) ->
+            assertEquals(desc, name, OwnTVPlayer.ffmpegCodecName(desc))
+            assertEquals(desc, true, OwnTVPlayer.hwdecCovers(desc))
+        }
+    }
+
+    @Test
+    fun `a long description outside the list is unknown, not a no`() {
+        // MPEG-4 part 2's Microsoft variant is msmpeg4v3, which is not mpeg4.
+        assertNull(OwnTVPlayer.hwdecCovers("MPEG-4 part 2 Microsoft variant version 3"))
+        assertNull(OwnTVPlayer.hwdecCovers("Motion JPEG"))
+    }
 }

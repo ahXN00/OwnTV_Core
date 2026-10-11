@@ -4,6 +4,7 @@ import android.util.Log
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 
 /**
  * Which playlist the user is watching right now, so background work can step out of its way.
@@ -59,6 +60,11 @@ class WatchSession {
     }
 
     fun isWatching(sourceId: Long): Boolean = sourceId in _watching.value
+
+    /** Suspends until nothing is playing — how an automatic refresh waits out a film. */
+    suspend fun awaitIdle() {
+        _watching.first { it.isEmpty() }
+    }
 
     private companion object {
         const val TAG = "WatchSession"

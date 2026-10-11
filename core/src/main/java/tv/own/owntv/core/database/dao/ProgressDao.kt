@@ -151,6 +151,20 @@ interface ProgressDao {
     fun observeMovieProgress(profileId: Long): Flow<List<PlaybackProgressEntity>>
 
     /**
+     * Per series, the resume position of the episode this profile watched most recently, reactively —
+     * the progress bar on a show's poster. SQLite takes the bare columns from the row holding
+     * `MAX(updatedAt)`, so each row is that one episode's position, not a mix. Like
+     * [observeMovieProgress] this is small: only series with a started episode have a row.
+     */
+    @Query(
+        "SELECT e.seriesId AS seriesId, p.positionMs AS positionMs, p.durationMs AS durationMs, " +
+            "MAX(p.updatedAt) AS updatedAt " +
+            "FROM playback_progress p JOIN episodes e ON e.id = p.itemId " +
+            "WHERE p.profileId = :profileId AND p.mediaType = 'EPISODE' GROUP BY e.seriesId",
+    )
+    fun observeLatestEpisodeProgressPerSeries(profileId: Long): Flow<List<SeriesProgressRow>>
+
+    /**
      * Drops resume positions orphaned by a re-sync (see FavoriteDao.purgeOrphans). Episodes are
      * excluded — they load lazily, so episode progress is kept and re-attached when the show opens.
      */
@@ -162,3 +176,11 @@ interface ProgressDao {
     )
     suspend fun purgeOrphans()
 }
+
+/** One row of [ProgressDao.observeLatestEpisodeProgressPerSeries]. */
+data class SeriesProgressRow(
+    val seriesId: Long,
+    val positionMs: Long,
+    val durationMs: Long,
+    val updatedAt: Long,
+)

@@ -154,6 +154,10 @@ class HttpClient(private val client: OkHttpClient) {
             // Strip userinfo credentials from a `scheme://user:pass@host` URL (e.g. a proxy URL handed
             // to mpv, or any source URL with embedded creds) so they never reach a log line.
             .replace(Regex("(?i)(://)([^/@:]+)(:[^/@]*)?@"), "$1***@")
+
+        /** Mask a bare hostname for display (logs, errors), as [redactUrl] masks a URL's credentials: the
+         *  provider's host identifies the account's panel as surely as the credentials do. */
+        fun redactHost(hostname: String): String = "•••"
     }
 }
 

@@ -201,11 +201,12 @@ class GuideReader(
     suspend fun description(programmeId: Long): String? =
         withContext(Dispatchers.IO) { runCatching { epgDao.programmeDescription(programmeId) }.getOrNull() }
 
-    /** The guide id this channel really reads from: a manual match wins over the channel's own. */
-    private fun epgKeyOf(channel: ChannelEntity, cust: SectionCustomizations): String? =
-        (cust.epgMatchResolver.epgIdFor(channel) ?: channel.epgChannelId)
-            ?.trim()?.lowercase()?.takeIf { it.isNotEmpty() }
 }
+
+/** The guide id this channel really reads from: a manual match wins over the channel's own. */
+internal fun epgKeyOf(channel: ChannelEntity, cust: SectionCustomizations): String? =
+    (cust.epgMatchResolver.epgIdFor(channel) ?: channel.epgChannelId)
+        ?.trim()?.lowercase()?.takeIf { it.isNotEmpty() }
 
 /** What is on a channel now, and what follows it — both already on the user's clock. */
 data class GuideSlot(val now: EpgProgrammeEntity?, val next: EpgProgrammeEntity?)

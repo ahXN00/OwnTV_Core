@@ -54,4 +54,27 @@ class CatchupContinueTest {
             CatchupContinue.decide(now + hour, now + 2 * hour, now),
         )
     }
+
+    /** Seen on the TCL: a programme still on air, opened from its start, stopped arriving 13 min behind now. */
+    @Test
+    fun `a stalled replay of a programme still on air goes live`() {
+        assertEquals(true, CatchupContinue.liveAfterStall(programmeStopMs = now + 2 * 60_000, watchingWallMs = now - 13 * 60_000, nowMs = now))
+    }
+
+    /** A finished programme's archive is complete: a stall there is the network's, and live is not what was asked for. */
+    @Test
+    fun `a stalled replay of a finished programme stays`() {
+        assertEquals(false, CatchupContinue.liveAfterStall(programmeStopMs = now - hour, watchingWallMs = now - 2 * hour, nowMs = now))
+    }
+
+    @Test
+    fun `a stalled rewind close to now goes live, one far back stays`() {
+        assertEquals(true, CatchupContinue.liveAfterStall(programmeStopMs = null, watchingWallMs = now - 60_000, nowMs = now))
+        assertEquals(false, CatchupContinue.liveAfterStall(programmeStopMs = null, watchingWallMs = now - hour, nowMs = now))
+    }
+
+    @Test
+    fun `nothing known about the replay stays`() {
+        assertEquals(false, CatchupContinue.liveAfterStall(programmeStopMs = null, watchingWallMs = null, nowMs = now))
+    }
 }

@@ -155,7 +155,8 @@ class AudioDynamics(private val sampleRate: Int, private val channels: Int) {
                         ":attack=${(NIGHT_ATTACK_SECS * 1000).toInt()}:release=${(NIGHT_RELEASE_SECS * 1000).toInt()}" +
                         ":makeup=${fmt(NIGHT_MAKEUP.toDouble())}",
                 )
-                add("alimiter=limit=$CEILING")
+                // level=0: alimiter's default scales its output back up by 1/limit, to full scale.
+                add("alimiter=limit=$CEILING:level=0")
             }
             return "lavfi=[${chain.joinToString(",")}]"
         }

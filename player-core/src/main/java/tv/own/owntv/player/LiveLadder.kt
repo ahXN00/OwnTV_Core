@@ -142,6 +142,15 @@ class LiveLadder {
     }
 
     /**
+     * Give the tune a fresh [budgetMs] from [nowMs] (none when it has no budget). For a channel that DID
+     * open and later turned out unplayable on its engine: the budget bounds how long a tune may take to
+     * show a picture, and this one did, so the next rung must not be refused for time spent watching it.
+     */
+    fun restartDeadline(nowMs: Long, budgetMs: Long) {
+        deadlineAtMs = if (budgetMs <= NO_BUDGET) null else nowMs + budgetMs
+    }
+
+    /**
      * The next untried rung, marked spent, or null when the ladder is exhausted (the caller then leaves
      * the failure on screen — there is genuinely nothing left).
      *

@@ -62,6 +62,17 @@ object RecordingSchedule {
     }
 
     /**
+     * The window for a **manual** recording — a channel and two clock times the user picked, with no
+     * guide behind them (#2). An end at or before the start means the next day ("23:00 to 01:00"), so
+     * the longest is a whole day. A window already under way starts now; one already over is null.
+     */
+    fun manualWindow(startMs: Long, stopMs: Long, now: Long): LongRange? {
+        val stop = if (stopMs <= startMs) stopMs + DAY_MS else stopMs
+        if (stop - startMs > DAY_MS || stop <= now) return null
+        return maxOf(startMs, now)..stop
+    }
+
+    /**
      * Do these two windows contend for the same connection? The usual half-open test: one starts
      * before the other ends, and ends after it starts. Touching at a single instant is not a clash —
      * the 21:00 programme's recording starting exactly as the 20:00 one's stops is the normal case.

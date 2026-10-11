@@ -64,6 +64,14 @@ interface ChannelDao {
     @Query("SELECT * FROM channels WHERE sourceId = :sourceId AND name = :name LIMIT 1")
     suspend fun findByName(sourceId: Long, name: String): ChannelEntity?
 
+    /** Channels whose own guide id is one of [epgKeys] (normalised lower+trim) — Search's "On TV". */
+    @Query("SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND LOWER(TRIM(epgChannelId)) IN (:epgKeys)")
+    suspend fun byEpgKeys(sourceIds: List<Long>, epgKeys: List<String>): List<ChannelEntity>
+
+    /** Channels a stored manual guide match may name, by its key's tail: the provider id, or the name. */
+    @Query("SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND (remoteId IN (:tails) OR name IN (:tails))")
+    suspend fun byRemoteIdsOrNames(sourceIds: List<Long>, tails: List<String>): List<ChannelEntity>
+
     /** Channels that carry an EPG id (so the guide grid only lists channels that can have a schedule). */
     @Query(
         "SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND epgChannelId IS NOT NULL AND epgChannelId != '' " +
@@ -298,6 +306,10 @@ interface ChannelDao {
      *  channel-list fallback for a channel that has no category of its own. */
     @Query("SELECT * FROM channels WHERE sourceId IN (:sourceIds) ORDER BY sourceId ASC, sortOrder ASC, name ASC LIMIT :limit")
     suspend fun snapshotAll(sourceIds: List<Long>, limit: Int): List<ChannelEntity>
+
+    /** Bounded snapshot of the Catch-up rail in provider order — the in-player category sheet's pick. */
+    @Query("SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1 ORDER BY sourceId ASC, sortOrder ASC, name ASC LIMIT :limit")
+    suspend fun snapshotCatchup(sourceIds: List<Long>, limit: Int): List<ChannelEntity>
 
     /** Bounded snapshot of Favorites in manual order, for the Move session's in-memory reorder. */
     @Query(

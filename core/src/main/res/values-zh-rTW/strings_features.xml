@@ -43,14 +43,15 @@
     <string name="search_movie">電影</string>
     <string name="search_series">影集</string>
     <string name="search_channels">頻道</string>
+    <string name="search_on_tv">電視節目</string>
     <string name="search_go_to_channel">前往頻道</string>
     <string name="search_go_to_movie">前往電影</string>
     <string name="search_clear_recent">清除最近搜尋</string>
     <string name="search_field_hint">頻道、電影和影集</string>
     <string name="search_card_title">在你的播放清單中尋找任何內容</string>
-    <string name="search_card_body">來自你顯示的所有播放清單的頻道、電影和影集。選擇一個結果即可直接前往，並在那裡播放、下載或開啟其選項。</string>
+    <string name="search_card_body">來自你顯示的所有播放清單的頻道、電影和影集。選擇一個結果即可直接前往，並在那裡播放、下載或開啟其選項。正在播出或今天稍後播出的電視節目也能依標題找到。</string>
     <string name="search_nothing_found">找不到「<xliff:g id="query">%1$s</xliff:g>」的結果</string>
-    <string name="search_nothing_found_body">搜尋會查找你顯示的播放清單中的頻道、電影和影集名稱。隱藏的分類不會被搜尋。</string>
+    <string name="search_nothing_found_body">搜尋會查找你顯示的播放清單中的頻道、電影和影集名稱。隱藏的分類不會被搜尋。電視節目會在已下載的節目表中依標題搜尋。</string>
     <string name="search_query_quoted">「<xliff:g id="query">%1$s</xliff:g>」</string>
     <plurals name="search_result_count">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 個結果</item>
@@ -84,12 +85,16 @@
     <string name="home_row_continue_series">繼續觀看影集</string>
     <string name="home_row_recent_channels">最近觀看的頻道</string>
     <string name="home_row_favorite_channels">最愛頻道</string>
+    <string name="home_row_favorite_movies">最愛電影</string>
+    <string name="home_row_favorite_series">最愛影集</string>
     <string name="home_row_on_now">現正播出</string>
     <string name="home_row_hero_description">頂端的大型預覽列</string>
     <string name="home_row_continue_movies_description">有已儲存播放進度的電影</string>
     <string name="home_row_continue_series_description">可繼續播放或播放下一集的內容</string>
     <string name="home_row_recent_description">您最近收看的直播頻道</string>
     <string name="home_row_favorite_description">已加入我的最愛的直播頻道</string>
+    <string name="home_row_favorite_movies_description">已加入我的最愛的電影</string>
+    <string name="home_row_favorite_series_description">已加入我的最愛的影集</string>
     <string name="update_title">應用程式更新</string>
     <string name="update_checking">正在檢查更新…</string>
     <string name="update_whats_new">更新內容</string>
@@ -182,7 +187,7 @@
     <string name="recording_failed_unknown">未能錄製</string>
     <string name="recording_title">錄影</string>
     <string name="recording_description">儲存在本裝置上的直播電視。</string>
-    <string name="recording_empty">尚未錄製任何內容。開啟電視指南，選擇一個節目並按「錄影」。</string>
+    <string name="recording_empty">尚無錄影。在電視節目表中對節目按錄影，或長按頻道來錄影或預約時間。</string>
     <string name="recording_group_now">正在錄影</string>
     <string name="recording_group_scheduled">已排程</string>
     <string name="recording_group_completed">已錄影</string>
@@ -193,6 +198,12 @@
     <string name="recording_record_series">錄下每一次播出</string>
     <string name="recording_stop_series">不再錄下每一次播出</string>
     <string name="recording_from_archive">從回看錄影</string>
+    <string name="recording_schedule">預約錄影…</string>
+    <string name="recording_schedule_hint">選擇日期、開始和結束時間。即使此頻道沒有電視節目表也會錄影。</string>
+    <string name="recording_schedule_start">開始</string>
+    <string name="recording_schedule_end">結束</string>
+    <string name="recording_schedule_next_day">隔天</string>
+    <string name="recording_schedule_past">該時間已經過了</string>
     <string name="recording_scheduled_for">將於 <xliff:g id="time">%1$s</xliff:g> 錄影</string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line">正在錄影 <xliff:g id="title">%1$s</xliff:g></string>
@@ -212,7 +223,7 @@
     <string name="recording_failed_drm">此頻道受 DRM 保護，可以觀看但無法錄製。此保護來自你的服務供應商，而非 OwnTV。</string>
     <string name="recording_failed_metered">未透過行動數據錄影</string>
     <string name="recording_card_empty_title">尚無錄影</string>
-    <string name="recording_card_body">在電視節目表中選擇任一節目，然後選擇「錄影」。即使你正在看其他內容，錄影也會出現在這裡。</string>
+    <string name="recording_card_body">在電視節目表中選擇節目並選擇錄影，或長按頻道並預約時間。即使你在看其他內容，錄影也會出現在這裡。</string>
     <string name="recording_open_guide">開啟電視節目表</string>
     <plurals name="recording_card_count">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 個錄影</item>

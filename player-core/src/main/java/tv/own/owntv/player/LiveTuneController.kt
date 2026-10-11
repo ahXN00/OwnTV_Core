@@ -297,8 +297,16 @@ class LiveTuneController(
         // A pinned substitute starts on ExoPlayer anyway: mpv is one shared player, so the safest handover
         // is the one the ladder already uses — ExoPlayer claims the surface, mpv lets go of it first. The
         // ladder is armed as usual, so a substitute that ExoPlayer cannot play still reaches mpv.
-        if (route.onMpv && !replacing) startOnMpv(channel, source, route.why, resolved = resolved)
-        else switchOrStartOnExo(channel, source, resolved, replacing)
+        when {
+            route.onMpv && !replacing -> startOnMpv(channel, source, route.why, resolved = resolved)
+            // The preview already found that ExoPlayer can't open this channel. Promoting it put the
+            // preview's error on screen for ~1 s while the ladder moved on to mpv: go there directly.
+            previewedChannelId == channel.id && engines.exoFailed -> {
+                engineLog("'${channel.name}' — its ExoPlayer preview had already failed; trying the next engine")
+                advance(channel, source, "the ExoPlayer preview had already failed", aboutFormat = false)
+            }
+            else -> switchOrStartOnExo(channel, source, resolved, replacing)
+        }
     }
 
     /** The ExoPlayer start a tune needs: an ordinary first open, or a handover from the previous
@@ -310,6 +318,20 @@ class LiveTuneController(
         replacing: Boolean,
     ) {
         if (replacing) switchToExo(channel, source) else startOnExo(channel, source, resolved)
+    }
+
+    /** The channel the preview pane last asked ExoPlayer for (see [expectPromotion]). */
+    private var previewedChannelId: Long? = null
+
+    /**
+     * The user is opening [channel] full screen. When ExoPlayer is already previewing it, say so at once,
+     * before the full-screen player is first drawn: it then shows ExoPlayer's surface from the start
+     * instead of building mpv's and swapping it out when [start] gets there. Measured on a 4K channel:
+     * ~4 s of black on opening, with the engine pill reading "MPV" meanwhile. [start] still decides the
+     * engine, and turns this off again if that is mpv.
+     */
+    fun expectPromotion(channel: ChannelEntity) {
+        if (previewedChannelId == channel.id && engines.exoUrl != null && !engines.exoFailed) _liveOnExo.value = true
     }
 
     /**
@@ -346,7 +368,13 @@ class LiveTuneController(
      * stays silent and [previewBlockedSingleSession] says why.
      */
     fun preview(channel: ChannelEntity, muted: Boolean) {
-        if (_liveOnExo.value) return
+        if (_liveOnExo.value) {
+            if (current != null) return
+            // An [expectPromotion] no tune followed (an external player, a refused channel): the pane is
+            // still the pane, and must not stay frozen on the last channel.
+            _liveOnExo.value = false
+        }
+        previewedChannelId = channel.id
         ts?.let { session ->
             // The pane already shows this channel from its saved copy (Back from full screen): it keeps
             // saving, because the user has not left the channel.
@@ -892,18 +920,42 @@ class LiveTuneController(
      * place the ladder is climbed, from either engine's watcher — which is what makes "each rung at most
      * once" hold, and that finiteness is what stops a channel bouncing between the engines for ever.
      */
-    private suspend fun advance(channel: ChannelEntity, source: SourceEntity?, reason: String) {
+    private suspend fun advance(
+        channel: ChannelEntity,
+        source: SourceEntity?,
+        reason: String,
+        /** Whether the failure says anything about the stream's format; by default, unless it was a refusal. */
+        aboutFormat: Boolean = !isRequestRefusal(reason),
+    ) {
         if (!ladder.owns(channel.streamUrl)) return // a newer tune owns the ladder now
         val nowMs = host.nowMs()
+        // ExoPlayer played this channel, then found its content unplayable (not a connection problem).
+        // The opening budget is long spent by then, which would refuse mpv, the engine most likely to
+        // play it: give this handover a fresh one.
+        if (_liveOnExo.value && engines.exoContentBroken) ladder.restartDeadline(nowMs, armedBudgetMs)
         val outOfTime = ladder.expired(nowMs)
         // A panel refusing the *request* (a busy 458, a 403, a rate limit) says nothing about the format,
         // so nothing may be learned from it.
-        val next = ladder.advance(failureWasAboutFormat = !isRequestRefusal(reason), nowMs = nowMs) ?: run {
+        val next = ladder.advance(failureWasAboutFormat = aboutFormat, nowMs = nowMs) ?: run {
             // Smart Provider (phase 4): out of engines and formats on THIS provider. The channel itself is
             // not out of options — another playlist may carry it, and the walk's deadline may still have
             // room — so before this tune is declared dead it is worth one whole try elsewhere, serially.
+            // Asked before the reconnect guard below, and the two cannot disagree: a channel that has
+            // already played has no walk left to consult — its picture ended the walk, so the walk refuses
+            // without a word — while one that never opened gets its try elsewhere before ExoPlayer's own
+            // reconnects are left to run. Neither may report the same provider twice: the alarm that could
+            // ask again was stood down when the picture appeared.
             if (failOverToNextProvider(channel, reason, outOfTime) != ProviderStep.REFUSED) return
             val detail = if (outOfTime) "$reason — gave up after ${armedBudgetMs / 1000}s" else reason
+            // Nowhere to go, but ExoPlayer is still reconnecting a channel that played. Abandoning here
+            // sets its gaveUp flag, which stops those reconnects: measured on an upstream outage of ~50s
+            // with the link still up (so no "network restored" to resume on), the next connect failure
+            // left a black screen until the user pressed Retry. The engine reports "Lost connection"
+            // itself once its own ladder is spent.
+            if (_liveOnExo.value && engines.exoStillReconnecting) {
+                engineLog("'${channel.name}' — no fallback left ($detail); leaving ExoPlayer's own reconnects running")
+                return
+            }
             engineLog("'${channel.name}' — no fallback left ($detail)")
             host.recordLadderEvent(_liveOnExo.value, PlayerFailureReason.LIVE_NO_FALLBACK, "'${channel.name}': $detail")
             // The tune is over, and nothing may act on it again. The alarm outlives this failure — this

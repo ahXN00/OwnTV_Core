@@ -414,6 +414,7 @@ class SourceImporter(
     ): Boolean =
         backup.import(file, sections, backupPassword = password, deviceSettings = deviceSettings).fold(
             onSuccess = { summary ->
+                if (BackupManager.Section.SOURCES in sections) syncRestoredSources()
                 _state.value = ImportState.Success(
                     restoredItems = summary.items,
                     passwordsOmitted = password.isNullOrBlank(),
@@ -431,6 +432,24 @@ class SourceImporter(
                 false
             },
         )
+
+    /**
+     * A restore brings back playlists, not their catalogues, and favourites and history only show once
+     * a catalogue is there to relink to. So every playlist with nothing in it yet is fetched now, as an
+     * ordinary background sync — instead of an app that opens empty until someone thinks to re-sync.
+     * Playlists that already hold content (a restore onto a set-up device) are left alone.
+     */
+    private suspend fun syncRestoredSources() {
+        sourceDao.getAllOnce().forEach { source ->
+            val counts = importFinalizer.contentCounts(source.id)
+            if (counts.channels + counts.movies + counts.series > 0) return@forEach
+            catalogSyncScheduler.enqueueSync(
+                source.id,
+                reason = "restore",
+                contentTypes = tv.own.owntv.core.sync.SyncContentTypes.enabledOf(source),
+            )
+        }
+    }
 
     private suspend fun ensureFallbackProfile(): Long {
         if (createdProfileId > 0) return createdProfileId

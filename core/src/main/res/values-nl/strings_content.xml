@@ -61,6 +61,19 @@
     <string name="content_mark_watched">Markeren als bekeken</string>
     <string name="content_mark_unwatched">Markeren als niet bekeken</string>
     <string name="content_move">Verplaatsen</string>
+    <string name="content_category_restore_playlist">Standaard herstellen</string>
+    <string name="content_category_restore_custom">Standaard herstellen</string>
+    <string name="content_category_restore_question">Dit zorgt ervoor dat:</string>
+    <plurals name="content_category_restore_hidden">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> verborgen item weer zichtbaar wordt</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> verborgen items weer zichtbaar worden</item>
+    </plurals>
+    <plurals name="content_category_restore_moved">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> verplaatst item terugkomt</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> verplaatste items terugkomen</item>
+    </plurals>
+    <string name="content_category_restore_order">je eigen volgorde wordt gewist</string>
+    <string name="content_category_restore_nothing">De categorie staat al op de standaard van de afspeellijst</string>
     <string name="content_move_to_category">Verplaatsen naar categorie…</string>
     <string name="content_remove_from_category">Uit deze categorie verwijderen</string>
     <string name="content_download">Downloaden</string>
@@ -361,9 +374,12 @@
     <string name="content_key_menu">Menu</string>
     <string name="content_key_enter">Openen</string>
     <string name="content_key_select">Selecteren</string>
+    <string name="content_key_page">Pagina</string>
+    <string name="content_history_overlay_hint">De zenders die je het laatst keek, nieuwste eerst</string>
     <string name="content_watched_duration"><xliff:g id="value">%1$s</xliff:g> bekeken</string>
     <string name="content_menu_group_show">Tonen</string>
     <string name="content_epg_show_empty">Zenders zonder gids</string>
+    <string name="content_epg_show_preview">Videovoorbeeld</string>
     <string name="content_vod_providers">Aanbieders</string>
     <string name="content_sort_movies_title">Films sorteren</string>
     <string name="content_sort_series_title">Series sorteren</string>

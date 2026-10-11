@@ -43,14 +43,15 @@
     <string name="search_movie">映画</string>
     <string name="search_series">シリーズ</string>
     <string name="search_channels">チャンネル</string>
+    <string name="search_on_tv">テレビ番組</string>
     <string name="search_go_to_channel">チャンネルへ移動</string>
     <string name="search_go_to_movie">映画へ移動</string>
     <string name="search_clear_recent">最近の検索を消去</string>
     <string name="search_field_hint">チャンネル、映画、シリーズ</string>
     <string name="search_card_title">プレイリストのすべてを検索</string>
-    <string name="search_card_body">表示しているすべてのプレイリストのチャンネル、映画、シリーズ。結果を選ぶとその場所へ直接移動し、そこで再生、ダウンロード、オプションの表示ができます。</string>
+    <string name="search_card_body">表示しているすべてのプレイリストのチャンネル、映画、シリーズ。結果を選ぶとその場所へ直接移動し、そこで再生、ダウンロード、オプションの表示ができます。放送中や今日この後のテレビ番組もタイトルで見つかります。</string>
     <string name="search_nothing_found">「<xliff:g id="query">%1$s</xliff:g>」 は見つかりませんでした</string>
-    <string name="search_nothing_found_body">表示しているプレイリストのチャンネル名、映画名、シリーズ名を検索します。非表示のカテゴリは検索されません。</string>
+    <string name="search_nothing_found_body">表示しているプレイリストのチャンネル名、映画名、シリーズ名を検索します。非表示のカテゴリは検索されません。テレビ番組はダウンロード済みの番組表からタイトルで検索します。</string>
     <string name="search_query_quoted">「<xliff:g id="query">%1$s</xliff:g>」</string>
     <plurals name="search_result_count">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g>件の結果</item>
@@ -84,12 +85,16 @@
     <string name="home_row_continue_series">シリーズの視聴を続ける</string>
     <string name="home_row_recent_channels">最近視聴したチャンネル</string>
     <string name="home_row_favorite_channels">お気に入りのチャンネル</string>
+    <string name="home_row_favorite_movies">お気に入りの映画</string>
+    <string name="home_row_favorite_series">お気に入りのシリーズ</string>
     <string name="home_row_on_now">放送中</string>
     <string name="home_row_hero_description">上部に表示される大きなプレビュー行</string>
     <string name="home_row_continue_movies_description">再生位置が保存されている映画</string>
     <string name="home_row_continue_series_description">再生を再開する、または次に再生するエピソード</string>
     <string name="home_row_recent_description">最近視聴したライブチャンネル</string>
     <string name="home_row_favorite_description">お気に入りに追加したライブチャンネル</string>
+    <string name="home_row_favorite_movies_description">お気に入りに追加した映画</string>
+    <string name="home_row_favorite_series_description">お気に入りに追加したシリーズ</string>
     <string name="update_title">アプリの更新</string>
     <string name="update_checking">更新を確認しています…</string>
     <string name="update_whats_new">新機能</string>
@@ -182,7 +187,7 @@
     <string name="recording_failed_unknown">録画されませんでした</string>
     <string name="recording_title">録画</string>
     <string name="recording_description">この端末に保存されたライブTV。</string>
-    <string name="recording_empty">まだ録画はありません。番組表を開いて番組を選び、「録画」を押してください。</string>
+    <string name="recording_empty">まだ録画はありません。番組表で番組の録画を押すか、チャンネルを長押しして録画または時刻を予約してください。</string>
     <string name="recording_group_now">録画中</string>
     <string name="recording_group_scheduled">予約済み</string>
     <string name="recording_group_completed">録画済み</string>
@@ -193,6 +198,12 @@
     <string name="recording_record_series">毎回録画する</string>
     <string name="recording_stop_series">毎回録画するのをやめる</string>
     <string name="recording_from_archive">見逃し配信から録画</string>
+    <string name="recording_schedule">録画を予約…</string>
+    <string name="recording_schedule_hint">日付、開始、終了を選びます。番組表がないチャンネルでも録画できます。</string>
+    <string name="recording_schedule_start">開始</string>
+    <string name="recording_schedule_end">終了</string>
+    <string name="recording_schedule_next_day">翌日</string>
+    <string name="recording_schedule_past">その時刻はすでに過ぎています</string>
     <string name="recording_scheduled_for"><xliff:g id="time">%1$s</xliff:g> に録画します</string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line"><xliff:g id="title">%1$s</xliff:g> を録画中</string>
@@ -212,7 +223,7 @@
     <string name="recording_failed_drm">このチャンネルはDRMで保護されているため、視聴はできますが録画はできません。この保護はプロバイダーによるもので、OwnTVによるものではありません。</string>
     <string name="recording_failed_metered">モバイルデータでは録画しませんでした</string>
     <string name="recording_card_empty_title">まだ録画はありません</string>
-    <string name="recording_card_body">番組表で番組を選び、［録画］を選択します。ほかの番組を見ている間も、ここに保存されます。</string>
+    <string name="recording_card_body">番組表で番組を選んで録画を選ぶか、チャンネルを長押しして時刻を予約します。ほかのものを見ている間もここに保存されます。</string>
     <string name="recording_open_guide">番組表を開く</string>
     <plurals name="recording_card_count">
         <item quantity="other">録画 <xliff:g id="count">%1$d</xliff:g> 件</item>

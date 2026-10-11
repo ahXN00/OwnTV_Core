@@ -75,6 +75,18 @@ class LiveReconnectLadderTest {
     }
 
     @Test
+    fun `a played DASH channel rides out an outage on segments and the MPD, like raw TS`() {
+        assertTrue(LivePreviewEngine.retriesOutageForever(StreamRoute.DASH, C.DATA_TYPE_MEDIA))
+        assertTrue(LivePreviewEngine.retriesOutageForever(StreamRoute.DASH, C.DATA_TYPE_MANIFEST))
+        assertTrue(LivePreviewEngine.retriesOutageForever(StreamRoute.PROGRESSIVE, C.DATA_TYPE_MEDIA))
+        assertTrue(LivePreviewEngine.retriesOutageForever(StreamRoute.PROGRESSIVE, C.DATA_TYPE_MEDIA_PROGRESSIVE_LIVE))
+        // Licence and init loads keep the stock count; HLS has its own policy.
+        assertFalse(LivePreviewEngine.retriesOutageForever(StreamRoute.DASH, C.DATA_TYPE_DRM))
+        assertFalse(LivePreviewEngine.retriesOutageForever(StreamRoute.PROGRESSIVE, C.DATA_TYPE_MANIFEST))
+        assertFalse(LivePreviewEngine.retriesOutageForever(StreamRoute.HLS, C.DATA_TYPE_MEDIA))
+    }
+
+    @Test
     fun `a refused segment is retried once, not hammered until fatal`() {
         assertEquals(LivePreviewEngine.EDGE_REFUSAL_RETRY_MS, LivePreviewEngine.edgeRefusalRetryDelayMs(1))
         assertEquals(C.TIME_UNSET, LivePreviewEngine.edgeRefusalRetryDelayMs(2))
@@ -90,7 +102,7 @@ class LiveReconnectLadderTest {
             OwnTVPlayer.streamLavfOptionsFor("http://panel/live/7.m3u8?token=x", live = true, hls = true),
         )
         assertEquals(
-            "${OwnTVPlayer.STREAM_RECONNECT_OPTIONS},reconnect_at_eof=1",
+            "${OwnTVPlayer.STREAM_RECONNECT_OPTIONS},${OwnTVPlayer.LIVE_TS_RECONNECT_OPTIONS}",
             OwnTVPlayer.streamLavfOptionsFor("http://panel/live/7.ts", live = true, hls = false),
         )
         assertEquals(
@@ -100,11 +112,22 @@ class LiveReconnectLadderTest {
     }
 
     @Test
+    fun `live raw TS retries 458 in FFmpeg, and gives up inside the open timeout`() {
+        val opts = OwnTVPlayer.LIVE_TS_RECONNECT_OPTIONS
+        // `[…]` keeps FFmpeg's comma list as one mpv value; unquoted, `458` would become a key of its own.
+        assertTrue(opts.contains("reconnect_on_http_error=[5xx,458]"))
+        // FFmpeg sleeps 0, 1, 3, 7… s between tries (delay = 1 + 2 × previous).
+        val retries = Regex("reconnect_max_retries=(\\d+)").find(opts)!!.groupValues[1].toInt()
+        val sleptMs = generateSequence(0) { 1 + 2 * it }.take(retries).sum() * 1000L
+        assertTrue("$sleptMs ms", sleptMs < OwnTVPlayer.LIVE_OPEN_TIMEOUT_MS)
+    }
+
+    @Test
     fun `a redirecting ts URL is treated as HLS by mpv, not as a raw stream`() {
         // The permanent-black-screen case: mpv reconnected to the same 1.8 KB manifest forever because
         // the URL said `.ts`. Nothing about the URL changes — only what we learned about the panel.
         assertEquals(
-            "${OwnTVPlayer.STREAM_RECONNECT_OPTIONS},reconnect_at_eof=1",
+            "${OwnTVPlayer.STREAM_RECONNECT_OPTIONS},${OwnTVPlayer.LIVE_TS_RECONNECT_OPTIONS}",
             OwnTVPlayer.streamLavfOptionsFor("http://panel/live/7.ts", live = true, hls = false),
         )
         // Learned to be HLS → the manifest's EOF is legitimate, so no reconnect_at_eof.
@@ -167,7 +190,7 @@ class LiveReconnectLadderTest {
             OwnTVPlayer.demuxerLavfOptionsFor(trimmedRawTsProbe = false, tolerant = false),
         )
         assertEquals(
-            "fflags=+nobuffer+genpts,seekable=1",
+            "fflags=+nobuffer+genpts",
             OwnTVPlayer.demuxerLavfOptionsFor(trimmedRawTsProbe = true, tolerant = false),
         )
     }
@@ -183,7 +206,7 @@ class LiveReconnectLadderTest {
         )
         // Combined with the fast-zap trimmed probe: one fflags list, both option sets kept.
         assertEquals(
-            "fflags=+nobuffer+genpts+discardcorrupt,seekable=1,err_detect=ignore_err",
+            "fflags=+nobuffer+genpts+discardcorrupt,err_detect=ignore_err",
             OwnTVPlayer.demuxerLavfOptionsFor(trimmedRawTsProbe = true, tolerant = true),
         )
         assertEquals(3, OwnTVPlayer.TOLERANT_DEMUX_AFTER_RECONNECTS)
