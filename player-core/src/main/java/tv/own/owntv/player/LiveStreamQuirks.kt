@@ -248,9 +248,24 @@ object LiveStreamQuirks {
      * whole "mpv works but ExoPlayer doesn't" (and the reverse) symptom. Panel-wide, because the limit is
      * on the *account*, not the channel.
      */
-    fun rememberSessionLimit(url: String) { singleSessionHosts += hostKey(url) }
+    fun rememberSessionLimit(url: String) { singleSessionHosts += sessionKey(url) }
 
-    fun isSingleSession(url: String): Boolean = hostKey(url) in singleSessionHosts
+    fun isSingleSession(url: String): Boolean = sessionKey(url) in singleSessionHosts
+
+    /**
+     * Host failover (R7/G2): every server of one account's pool shares that account's session limit, so
+     * the "one session" lesson is keyed by the pool, not by whichever server taught it. Other lessons
+     * (User-Agent, HLS redirects) stay per server: those are the server's own behaviour.
+     */
+    private val poolKeys = ConcurrentHashMap<String, String>()
+
+    /** Register a source's server pool (origins) under [poolKey]; an empty pool removes nothing. */
+    fun registerPool(poolKey: String, origins: List<String>) {
+        if (origins.size < 2) return
+        origins.forEach { poolKeys[hostKey(it)] = poolKey }
+    }
+
+    private fun sessionKey(url: String): String = hostKey(url).let { poolKeys[it] ?: it }
 
     /**
      * Record that mpv can't trust this stream's video timestamps, so its next open starts on free-running
@@ -432,5 +447,6 @@ object LiveStreamQuirks {
         noHlsVariantStreams.clear(); noHlsVariantMpvStreams.clear(); prerollDefeatedStreams.clear()
         tolerantDemuxStreams.clear()
         uaBlockingHosts.clear(); providerMessages.clear()
+        poolKeys.clear()
     }
 }

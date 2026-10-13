@@ -2,6 +2,8 @@ package tv.own.owntv.player
 
 import android.content.ComponentCallbacks2
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import tv.own.owntv.player.PlaybackEngines.Pressure
 
@@ -16,6 +18,20 @@ class PlaybackEnginesTest {
         assertEquals(Pressure.NONE, PlaybackEngines.pressureOf(ComponentCallbacks2.TRIM_MEMORY_BACKGROUND))
         assertEquals(Pressure.NONE, PlaybackEngines.pressureOf(ComponentCallbacks2.TRIM_MEMORY_MODERATE))
         assertEquals(Pressure.NONE, PlaybackEngines.pressureOf(ComponentCallbacks2.TRIM_MEMORY_RUNNING_MODERATE))
+    }
+
+    @Test
+    fun `handled resume restores neither engine`() {
+        val plan = PlaybackEngines.resumePlan(true)
+        assertFalse(plan.restorePlayer)
+        assertFalse(plan.restorePreview)
+    }
+
+    @Test
+    fun `unhandled resume restores both engines`() {
+        val plan = PlaybackEngines.resumePlan(false)
+        assertTrue(plan.restorePlayer)
+        assertTrue(plan.restorePreview)
     }
 
     @Test

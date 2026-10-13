@@ -58,6 +58,7 @@ class LiveTuneControllerTest {
             onOpened: () -> Unit,
             postponeDeadline: (Long) -> Unit,
             log: (String) -> Unit,
+            openTimeoutMs: Long,
         ) {
             val d = CompletableDeferred<String?>().also { exoWatch = it }
             val reason = d.await()

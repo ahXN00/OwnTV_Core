@@ -25,6 +25,8 @@ import tv.own.owntv.core.database.entity.withDetails
 import tv.own.owntv.core.epg.FeedDedupe
 import tv.own.owntv.core.database.transaction
 import tv.own.owntv.core.model.SourceType
+import tv.own.owntv.core.network.HostPool
+import tv.own.owntv.core.network.HostSelector
 import tv.own.owntv.core.network.HttpClient
 import tv.own.owntv.core.parser.XmltvParser
 import tv.own.owntv.core.parser.XtreamClient
@@ -48,6 +50,10 @@ class EpgRepository(
     private val sourceDao: tv.own.owntv.core.database.dao.SourceDao,
     private val stalkerEpg: tv.own.owntv.core.stalker.StalkerEpgLoader,
 ) {
+
+    private val hostSelector by lazy {
+        org.koin.core.context.GlobalContext.getOrNull()?.getOrNull<HostSelector>()
+    }
 
     /** Where a source's downloaded XMLTV is cached, so a later smart-match can top up programmes from it
      *  without re-hitting the network (see [storeProgrammesForIdsFromCache]). */
@@ -289,6 +295,12 @@ class EpgRepository(
      */
     fun guideUrls(source: SourceEntity): List<String> = splitGuideUrls(guideUrl(source))
 
+    /** Request URLs for [url]: in-use server first, up to 3. Stored URL stays the identity. */
+    internal suspend fun guideHostUrls(url: String): List<String> {
+        val selector = hostSelector ?: return listOf(url)
+        return guideHostUrlsFor(url, sourceDao.getAllOnce(), selector::apiHosts)
+    }
+
     fun hasGuide(source: SourceEntity): Boolean = guideUrl(source) != null
 
     /**
@@ -300,7 +312,8 @@ class EpgRepository(
      */
     suspend fun refresh(source: SourceEntity, onProgress: (channels: Int, programmes: Int) -> Unit = { _, _ -> }): Int {
         val url = guideUrls(source).firstOrNull() ?: return 0
-        return refreshUrl(source.id, url, source.userAgent, onProgress)
+        // The guide's identity stays the stored URL; the download goes to the in-use server (A4).
+        return refreshUrl(source.id, xtream.requestUrl(source, url), source.userAgent, onProgress)
     }
 
     /**
@@ -392,8 +405,8 @@ class EpgRepository(
                 eligible = globallyEmpty,
                 ftsOnly = false,
             ) {
-                tmpFile.outputStream().use { out ->
-                    http.get(url, userAgent, maxAttempts = EPG_DOWNLOAD_ATTEMPTS) { input ->
+                val urls = guideHostUrls(url)
+                suspend fun consume(input: java.io.InputStream, out: java.io.OutputStream) {
                         XmltvParser.parse(
                             TeeInputStream(input, out),
                             onChannel = { id, name, icon ->
@@ -460,6 +473,20 @@ class EpgRepository(
                             },
                             channelFilter = needed,
                         )
+                }
+                if (urls.size < 2) {
+                    tmpFile.outputStream().use { out ->
+                        http.get(urls.first(), userAgent, maxAttempts = EPG_DOWNLOAD_ATTEMPTS) { input ->
+                            consume(input, out)
+                        }
+                    }
+                } else {
+                    HostSelector.tryHosts(urls) { u ->
+                        tmpFile.outputStream().use { out ->
+                            http.get(u, userAgent, maxAttempts = 1) { input ->
+                                consume(input, out)
+                            }
+                        }
                     }
                 }
                 if (buffer.isNotEmpty()) {
@@ -976,6 +1003,17 @@ private class ProgrammeHashTracker(
  * value is only treated as a list when every part is itself an absolute http(s) address — which also
  * keeps the Stalker portal marker URL intact. Whitespace is trimmed and duplicates dropped.
  */
+/** Request URLs for [url]: matching source's API hosts, rewritten; foreign or empty stays [url]. */
+internal fun guideHostUrlsFor(
+    url: String,
+    sources: List<SourceEntity>,
+    apiHosts: (SourceEntity) -> List<String>,
+): List<String> {
+    val origin = HostPool.origin(url) ?: return listOf(url)
+    val source = sources.firstOrNull { origin in HostPool.pool(it) } ?: return listOf(url)
+    return apiHosts(source).map { HostPool.forRequest(url, source, it) }.ifEmpty { listOf(url) }
+}
+
 fun splitGuideUrls(raw: String?): List<String> {
     val url = raw?.trim()?.takeIf { it.isNotBlank() } ?: return emptyList()
     if (',' !in url) return listOf(url)

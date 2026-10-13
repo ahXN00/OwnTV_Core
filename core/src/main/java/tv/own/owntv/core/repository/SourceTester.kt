@@ -5,6 +5,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import tv.own.owntv.core.database.entity.SourceEntity
 import tv.own.owntv.core.model.SourceType
+import tv.own.owntv.core.network.HostPool
+import tv.own.owntv.core.network.HostPreflight
+import tv.own.owntv.core.network.HostSelector
 import tv.own.owntv.core.network.HttpClient
 import tv.own.owntv.core.parser.XtreamClient
 import tv.own.owntv.core.stalker.StalkerAuthManager
@@ -47,6 +50,43 @@ sealed interface SourceTestResult {
     data class Unreachable(val detail: String?) : SourceTestResult
 }
 
+/** One server's line in Test all servers (design §9). */
+data class HostTestRow(
+    /** The server, an origin from the pool. */
+    val host: String,
+    /** 1-based place in the list (the primary is 1). */
+    val position: Int,
+    val status: HostTestStatus,
+    /** Time to the panel's answer, for [HostTestStatus.OK] only. */
+    val ms: Long? = null,
+)
+
+enum class HostTestStatus {
+    OK,
+    UNREACHABLE,
+
+    /**
+     * Our own network, proxy or DoH failed. Says nothing about the server.
+     * Never picked by Use fastest.
+     */
+    NETWORK_PROBLEM,
+
+    /** A 200 that isn't a panel (HTML, parked domain): never picked by Use fastest. */
+    INVALID_RESPONSE,
+
+    /** A Cloudflare challenge: never picked. */
+    BLOCKED,
+    AUTH_FAILED,
+    EXPIRED,
+
+    /** Skip pressed before this server's turn. */
+    NOT_TESTED,
+    ;
+
+    /** Only a server that answered as a panel may be chosen (OK on a row, Use fastest). */
+    val choosable: Boolean get() = this == OK
+}
+
 /**
  * One-shot reachability + subscription check for a saved source, behind the Test button on the
  * playlist row.
@@ -63,7 +103,54 @@ class SourceTester(
     private val http: HttpClient,
     private val xtreamClient: XtreamClient,
     private val stalkerAuth: StalkerAuthManager,
+    private val hostSelector: HostSelector? = null,
+    private val isOnline: () -> Boolean = { true },
 ) {
+
+    /**
+     * Test all servers (design §9): every server of [source]'s pool, **one request at a time**, in list
+     * order, each bounded at [HostPreflight.TIMEOUT_MS]. The caller must already have stopped playback
+     * through the release gate. Holds [HostSelector.probeLock] so a connection measurement can't run
+     * beside it; returns null without testing anything when one is running. [skip] stops the run before
+     * the next server and keeps the rows so far (U3); the rest come back [HostTestStatus.NOT_TESTED].
+     */
+    suspend fun testAll(
+        source: SourceEntity,
+        skip: () -> Boolean = { false },
+        onProgress: (position: Int, total: Int, host: String) -> Unit = { _, _, _ -> },
+    ): List<HostTestRow>? = withContext(Dispatchers.IO) {
+        val pool = HostPool.pool(source)
+        if (pool.isEmpty()) return@withContext emptyList()
+        val lock = hostSelector?.probeLock
+        if (lock != null && !lock.tryLock()) return@withContext null
+        try {
+            runSequential(pool, skip, onProgress) { host -> probeHost(source, host) }.also { rows ->
+                Log.i(TAG, "testAll sourceId=${source.id} " + rows.joinToString(" ") { "${it.position}/${pool.size}=${it.status}" })
+            }
+        } finally {
+            lock?.unlock()
+        }
+    }
+
+    private suspend fun probeHost(source: SourceEntity, host: String): Pair<HostTestStatus, Long?> {
+        if (!isOnline()) return HostTestStatus.NETWORK_PROBLEM to null
+        return when (val r = HostPreflight.run(xtreamClient, source, host)) {
+            is HostPreflight.Result.Ok -> HostTestStatus.OK to r.ms
+            // Every stream in use is still a panel answering for this account.
+            is HostPreflight.Result.Busy -> HostTestStatus.OK to r.ms.takeIf { it >= 0 }
+            // Dropped mid-call: still our network, not this host.
+            is HostPreflight.Result.Down ->
+                (if (!isOnline()) HostTestStatus.NETWORK_PROBLEM else HostTestStatus.UNREACHABLE) to null
+            // Proxy or DoH failed, not the server. Nothing is persisted from it.
+            is HostPreflight.Result.LocalPath -> HostTestStatus.NETWORK_PROBLEM to null
+            HostPreflight.Result.Invalid -> HostTestStatus.INVALID_RESPONSE to null
+            HostPreflight.Result.Blocked -> HostTestStatus.BLOCKED to null
+            is HostPreflight.Result.AccountEnded ->
+                (if (r.reason == HostPreflight.Reason.EXPIRED) HostTestStatus.EXPIRED else HostTestStatus.AUTH_FAILED) to null
+            // A 403/404 and the like: the server answered, but not as a usable panel for this line.
+            is HostPreflight.Result.Other -> HostTestStatus.AUTH_FAILED to null
+        }
+    }
 
     suspend fun test(source: SourceEntity): SourceTestResult = withContext(Dispatchers.IO) {
         val result = when (source.type) {
@@ -83,6 +170,8 @@ class SourceTester(
         val expired = info.status?.equals("Expired", ignoreCase = true) == true ||
             (expiry != null && expiry <= System.currentTimeMillis())
         when {
+            // R2: a 200 that isn't a panel (a parked domain's page) used to read as "Connection OK".
+            info.reply == XtreamClient.AccountReply.NOT_JSON -> SourceTestResult.Unreachable("not a panel reply")
             !info.authOk -> SourceTestResult.AuthFailed
             expired -> SourceTestResult.Expired(info.expiryMs)
             else -> SourceTestResult.Ok(
@@ -150,6 +239,9 @@ class SourceTester(
     }
 
     private fun classify(e: Exception): SourceTestResult = when {
+        // A Cloudflare challenge is not a login problem; the one-server test reports it as unreachable
+        // rather than telling the user their password is wrong. Test all names it "Blocked".
+        e is HttpClient.HttpStatusException && e.cloudflareChallenge -> SourceTestResult.Unreachable(e.message)
         // The host answered — it just said no. That is an account answer, not a network one.
         e is HttpClient.HttpStatusException && (e.code == 401 || e.code == 403) -> SourceTestResult.AuthFailed
         // Same answer from a portal. 403 is a throttle while *crawling* a portal (see
@@ -162,7 +254,34 @@ class SourceTester(
     private fun Map<String, String>.firstIntOf(vararg keys: String): Int =
         keys.firstNotNullOfOrNull { this[it]?.trim()?.toIntOrNull()?.takeIf { n -> n > 0 } } ?: 0
 
-    private companion object {
+    internal companion object {
+        /**
+         * The loop behind [testAll], apart so the "strictly one in flight" rule can be tested with a fake
+         * probe: each [probe] call is awaited before the next one starts.
+         */
+        internal suspend fun runSequential(
+            pool: List<String>,
+            skip: () -> Boolean,
+            onProgress: (Int, Int, String) -> Unit,
+            probe: suspend (String) -> Pair<HostTestStatus, Long?>,
+        ): List<HostTestRow> {
+            val rows = ArrayList<HostTestRow>(pool.size)
+            for ((i, host) in pool.withIndex()) {
+                if (skip()) {
+                    pool.drop(i).forEachIndexed { j, h -> rows += HostTestRow(h, i + j + 1, HostTestStatus.NOT_TESTED) }
+                    break
+                }
+                onProgress(i + 1, pool.size, host)
+                val (status, ms) = probe(host)
+                rows += HostTestRow(host, i + 1, status, ms.takeIf { status == HostTestStatus.OK })
+            }
+            return rows
+        }
+
+        /** The fastest choosable row, or null when none answered. */
+        fun fastest(rows: List<HostTestRow>): HostTestRow? =
+            rows.filter { it.status.choosable && it.ms != null }.minByOrNull { it.ms!! }
+
         const val TAG = "SourceTester"
         const val PLAYLIST_PROBE_BYTES = 1024
     }

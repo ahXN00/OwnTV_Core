@@ -54,6 +54,15 @@ data class DnsConfig(
  * URLs were once used with works on Cloudflare only: Google and Quad9 answer it with HTTP 400 on
  * `/dns-query` (tested 2026-09-23).
  */
+/**
+ * Our own DNS-over-HTTPS resolver failed, not the server.
+ */
+class DohLookupException(cause: Throwable) : java.net.UnknownHostException("DoH lookup failed") {
+    init {
+        initCause(cause)
+    }
+}
+
 object DohPresets {
     val GOOGLE = "https://dns.google/dns-query"
     val CLOUDFLARE = "https://cloudflare-dns.com/dns-query"
@@ -159,7 +168,7 @@ class DnsConfigHolder(
                 Dns.SYSTEM.lookup(hostname)
             }
         } catch (e: Exception) {
-            if (!fallbackToSystem) throw e
+            if (!fallbackToSystem) throw DohLookupException(e)
             Log.w(TAG, "DoH lookup failed for $hostname, falling back to system DNS", e)
             Dns.SYSTEM.lookup(hostname)
         }

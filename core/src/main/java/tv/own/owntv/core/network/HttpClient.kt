@@ -23,7 +23,12 @@ import java.io.InputStream
 class HttpClient(private val client: OkHttpClient) {
 
     /** Non-2xx response. Thrown before the body block runs, so retrying it never re-emits parsed items. */
-    class HttpStatusException(val code: Int, message: String) : IOException(message)
+    class HttpStatusException(
+        val code: Int,
+        message: String,
+        /** A Cloudflare challenge page (403 + `cf-mitigated: challenge` or "Just a moment…"): "Blocked". */
+        val cloudflareChallenge: Boolean = false,
+    ) : IOException(message)
 
     suspend fun <T> get(
         url: String,
@@ -59,7 +64,15 @@ class HttpClient(private val client: OkHttpClient) {
                 call.execute().use { response ->
                     responseReceived = true
                     val headersAt = SystemClock.elapsedRealtime()
-                    if (!response.isSuccessful) throw HttpStatusException(response.code, "HTTP ${response.code} for ${redact(url)}")
+                    if (!response.isSuccessful) {
+                        // Only a 403 is worth a peek: it is the one code Cloudflare's challenge reuses.
+                        val challenge = response.code == 403 && HostFailure.isCloudflareChallenge(
+                            response.code,
+                            response.header("cf-mitigated"),
+                            runCatching { response.peekBody(CHALLENGE_PEEK_BYTES).string() }.getOrNull(),
+                        )
+                        throw HttpStatusException(response.code, "HTTP ${response.code} for ${redact(url)}", challenge)
+                    }
                     val body = response.body
                     val totalBytes = body.contentLength().takeIf { it >= 0 }
                     // Info, not debug, and deliberately so: release builds strip Log.d, and this one
@@ -122,6 +135,7 @@ class HttpClient(private val client: OkHttpClient) {
 
     companion object {
         private const val TAG = "HttpClient"
+        private const val CHALLENGE_PEEK_BYTES = 2048L
 
         /** Player-style UA that IPTV panels broadly accept. Overridable per-source in Phase 12. */
         const val DEFAULT_USER_AGENT = "VLC/3.0.20 LibVLC/3.0.20"

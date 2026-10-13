@@ -1,5 +1,6 @@
 package tv.own.owntv.core.repository
 
+import tv.own.owntv.core.network.HostPool
 import android.os.SystemClock
 import android.util.Log
 import kotlinx.coroutines.flow.Flow
@@ -28,6 +29,8 @@ class SourceRepository(
     private val categoryDao: tv.own.owntv.core.database.dao.CategoryDao,
     private val playbackQuirkDao: tv.own.owntv.core.database.dao.PlaybackQuirkDao,
     private val playbackPrefsDao: tv.own.owntv.core.database.dao.PlaybackPrefsDao,
+    /** Told when a row is edited or deleted, so this process stops using a server it remembered. */
+    private val hosts: tv.own.owntv.core.network.HostSelector? = null,
 ) {
     fun observeSources(profileId: Long): Flow<List<SourceEntity>> = sourceDao.observeForProfile(profileId)
 
@@ -39,6 +42,8 @@ class SourceRepository(
         syncLive: Boolean = true, syncMovies: Boolean = true, syncSeries: Boolean = true,
         preferHls: Boolean = false,
         httpReferer: String? = null,
+        backupUrls: List<String> = emptyList(),
+        failoverEnabled: Boolean = true,
     ): SourceEntity = addAndLink(
         profileId,
         SourceEntity(
@@ -46,6 +51,8 @@ class SourceRepository(
             username = username, password = password, userAgent = userAgent, epgUrl = epgUrl,
             syncLive = syncLive, syncMovies = syncMovies, syncSeries = syncSeries,
             preferHls = preferHls, httpReferer = httpReferer,
+            backupUrls = HostPool.encode(HostPool.sanitize(backupUrls, serverUrl)),
+            failoverEnabled = failoverEnabled,
         ),
     )
 
@@ -87,6 +94,7 @@ class SourceRepository(
      */
     suspend fun deleteSource(source: SourceEntity) {
         sourceDao.delete(source)
+        hosts?.forget(source.id)
         runCatching { playbackQuirkDao.deleteBySource(source.id) }
         runCatching { playbackPrefsDao.deleteBySource(source.id) }
     }
@@ -106,7 +114,18 @@ class SourceRepository(
             .forEach { categoryDao.clear(sourceId, it) }
     }
 
-    suspend fun updateSource(source: SourceEntity) = sourceDao.update(source)
+    /**
+     * Writes an edited row. The in-use server is re-read rather than taken from [source], which may be a
+     * stale snapshot from before a switch; it resets to the primary when Server URL changed or that server
+     * left the backup list. The backup list itself is normalised here too, whoever wrote it.
+     */
+    suspend fun updateSource(source: SourceEntity) {
+        val stored = sourceDao.getById(source.id)
+        val backups = HostPool.encode(HostPool.sanitize(HostPool.decode(source.backupUrls), source.url))
+        val cleaned = source.copy(backupUrls = backups)
+        sourceDao.update(cleaned.copy(activeUrl = HostPool.reconcileActive(cleaned, stored)))
+        hosts?.forget(source.id)
+    }
 
     /**
      * [onProgress] is deliberately **last**: Kotlin binds a trailing lambda to the final parameter,

@@ -77,6 +77,7 @@
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	avatarFile
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	avatarId
 1	file-path	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	background_${System.currentTimeMillis()}.$ext
+4	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	backupUrls
 1	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	backup_finalize_failed
 1	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	backup_invalid
 5	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	c
@@ -98,6 +99,7 @@
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	epgSources
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	epgUrl
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	epgUseLogos
+3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	failoverEnabled
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	fav
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	file
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	fileName
@@ -549,6 +551,9 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `series` ADD COLUMN `contentHash` INTEGER NOT NULL DEFAULT 0
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `series` ADD COLUMN `episodesSyncedAt` INTEGER NOT NULL DEFAULT 0
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `sources` ADD COLUMN `$column` $type
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `sources` ADD COLUMN `activeUrl` TEXT
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `sources` ADD COLUMN `backupUrls` TEXT
+1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `sources` ADD COLUMN `failoverEnabled` INTEGER NOT NULL DEFAULT 1
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `sources` ADD COLUMN `importPortalEpg` INTEGER NOT NULL DEFAULT 1
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `sources` ADD COLUMN `livePrerollSecs` INTEGER NOT NULL DEFAULT -1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	ALTER TABLE `sources` ADD COLUMN `mac` TEXT
@@ -825,8 +830,10 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`volumeBoost` INTEGER,
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`year` INTEGER,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	`zoomMode` TEXT,
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	activeUrl
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	addedAt
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	audioLang
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	backupUrls
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	catchup
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	catchupDays
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	catchupOffsetMin
@@ -843,6 +850,7 @@
 3	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	episodes
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	episodesSyncedAt
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	episodes_fts
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	failoverEnabled
 3	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	httpHeaders
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	httpReferer
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	iconUrl
@@ -862,7 +870,7 @@
 5	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	series
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	series_fts
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	sourceId
-17	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	sources
+20	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	sources
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	stalkerDeviceId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	stalkerDeviceId2
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	stalkerSerialNumber
@@ -1431,6 +1439,10 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	SELECT profileId FROM profile_source WHERE sourceId = :sourceId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	SELECT s.* FROM sources s
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	SELECT sourceId FROM profile_source WHERE profileId = :profileId
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET activeUrl = :activeUrl WHERE id = :id
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET activeUrl = NULL WHERE activeUrl IS NOT NULL
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET activeUrl = NULL WHERE id = :id
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET backupUrls = :backupUrls, failoverEnabled = :failoverEnabled WHERE id = :id
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET catchupTimezone = :mode, catchupOffsetMin = :offsetMin WHERE id = :id
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET hlsSupported = :hlsSupported WHERE id = :id
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET httpReferer = :referer WHERE id = :id
@@ -1536,7 +1548,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/MetadataEntities.kt	metadata_match
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/MetadataEntities.kt	tmdbId
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/MetadataEntities.kt	updatedAt
-1	sql	core/src/main/java/tv/own/owntv/core/database/entity/ProfileEntities.kt	1
+2	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/ProfileEntities.kt	1
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/ProfileEntities.kt	id
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/ProfileEntities.kt	profileId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/ProfileEntities.kt	profile_source
@@ -2176,6 +2188,7 @@
 1	url	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	$base${if ('?' in base) '&' else '?'}dns=$query
 1	technical	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	${cfg.dohUrl}|${cfg.host}:${cfg.port}|$hostname
 2	technical	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	Accept
+1	log	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	DoH lookup failed
 1	log	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	DoH lookup failed for $hostname, falling back to system DNS
 1	log	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	DoH lookup returned no addresses for $hostname, falling back to system DNS
 1	log	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	UDP DNS lookup failed for $hostname via $server:$port, falling back to system DNS
@@ -2189,6 +2202,67 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/network/ExtraTrustAnchors.kt	X.509
 1	log	core/src/main/java/tv/own/owntv/core/network/FirstRead.kt	$name setting not read after ${timeoutMs}ms; going on without it
 1	log	core/src/main/java/tv/own/owntv/core/network/FirstRead.kt	OwnTV-Network
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	broken pipe
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	certificate verify failed
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	challenge
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	connect
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	connection refused
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	connection reset by peer
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	connection timed out
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	end of file
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	failed to resolve hostname
+1	regex	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	http error (\\d{3})
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	invalid data found when processing input
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	just a moment
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	max connections
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	maximum connections
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	name or service not known
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	network is unreachable
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	no address associated with hostname
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	no bytes yet
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	no route to host
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	read timed out
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	reset
+1	regex	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	server returned (\\d{3})\\b
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	ssl_do_handshake
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	stream ends prematurely
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	tls handshake failed
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	too many connections
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	unable to verify the first certificate
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	unrecognized file format
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostFailure.kt	will reconnect at
+2	empty	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	\0
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	$scheme://$h
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	$scheme://$h:$port
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	${schemeOf(primary)}://$raw
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	/
+3	protocol	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	://
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	[$it]
+1	regex	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	[\\s,;]+
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	get.php
+2	protocol	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	http
+3	protocol	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	http://
+1	technical	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	http://x
+3	protocol	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	https
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	live
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	localhost
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	movie
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	panel_api.php
+1	technical	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	password
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	player_api.php
+1	technical	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	pool:$sourceId
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	series
+1	log	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	server ${position(pool, host)} of ${pool.size} (${HttpClient.redactHost(host.orEmpty())})
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	timeshift
+1	technical	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	username
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostPool.kt	xmltv.php
+1	log	core/src/main/java/tv/own/owntv/core/network/HostPreflight.kt	Unexpected response code for CONNECT
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostPreflight.kt	banned
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostPreflight.kt	disabled
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HostPreflight.kt	expired
+1	log	core/src/main/java/tv/own/owntv/core/network/HostPreflight.kt	no answer in ${TIMEOUT_MS / 1000} s
+3	empty	core/src/main/java/tv/own/owntv/core/network/HostSelector.kt	\0
+1	assertion	core/src/main/java/tv/own/owntv/core/network/HostSelector.kt	no host tried
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	\0
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	$1***@
 2	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	$1=***
@@ -2209,6 +2283,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	Transfer-Encoding
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	User-Agent
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	VLC/3.0.20 LibVLC/3.0.20
+1	protocol	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	cf-mitigated
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	contentEncoding=${response.header("Content-Encoding").orEmpty()}
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	deltaBytes=$bytesDelta deltaMs=$timeDelta kbps=$kbps
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	elapsedMs=${now - startedAt}
@@ -2339,16 +2414,17 @@
 2	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvTime.kt	\0
 7	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	\0
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	#EXTM3U
-1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/live/${s.username}/${s.password}/$streamId.m3u8
-1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/live/${s.username}/${s.password}/$streamId.ts
-1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/movie/${s.username}/${s.password}/$streamId.${ext ?: "mp4"}
-1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/player_api.php?username=$u&password=$p
-1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/player_api.php?username=$u&password=$p&action=$action$extra
-1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/series/${s.username}/${s.password}/$episodeId.${ext ?: "mp4"}
-1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/xmltv.php?username=$u&password=$p
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	$base/player_api.php?username=$u&password=$p
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${activeBase(s)}/live/${s.username}/${s.password}/$streamId.m3u8
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${activeBase(s)}/timeshift/${s.username}/${s.password}/$durationMinutes/${fmt.format(java.util.Date(startMs))}/$streamId.$ext
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${canonicalBase(s)}/live/${s.username}/${s.password}/$streamId.ts
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${canonicalBase(s)}/movie/${s.username}/${s.password}/$streamId.${ext ?: "mp4"}
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${canonicalBase(s)}/series/${s.username}/${s.password}/$episodeId.${ext ?: "mp4"}
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${canonicalBase(s)}/xmltv.php?username=$u&password=$p
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	&category_id=$it
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	&series_id=$seriesId
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	&stream_id=$streamId&limit=$limit
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	/player_api.php?username=$u&password=$p&action=$action$extra
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	0
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	1
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	Stream truncated after $count items label=$label — partial list kept
@@ -2778,15 +2854,19 @@
 1	log	core/src/main/java/tv/own/owntv/core/repository/SourceRepository.kt	userData export sourceId=${source.id} rows=${it.length()} ${it.typeCounts()} ms=${SystemClock.elapsedRealtime() - snapshotStartedAt}
 1	log	core/src/main/java/tv/own/owntv/core/repository/SourceRepository.kt	userData relink failed sourceId=${source.id} ms=${SystemClock.elapsedRealtime() - relinkStartedAt}
 1	log	core/src/main/java/tv/own/owntv/core/repository/SourceRepository.kt	userData relink sourceId=${source.id} rows=${snapshot?.length() ?: 0} purge=$purge ms=${SystemClock.elapsedRealtime() - relinkStartedAt}
+1	empty	core/src/main/java/tv/own/owntv/core/repository/SourceTester.kt	\0
 1	protocol	core/src/main/java/tv/own/owntv/core/repository/SourceTester.kt	#EXTM3U
+1	log	core/src/main/java/tv/own/owntv/core/repository/SourceTester.kt	${it.position}/${pool.size}=${it.status}
 1	protocol	core/src/main/java/tv/own/owntv/core/repository/SourceTester.kt	Expired
 1	log	core/src/main/java/tv/own/owntv/core/repository/SourceTester.kt	SourceTester
 1	protocol	core/src/main/java/tv/own/owntv/core/repository/SourceTester.kt	http
 1	json	core/src/main/java/tv/own/owntv/core/repository/SourceTester.kt	max_connections
 1	json	core/src/main/java/tv/own/owntv/core/repository/SourceTester.kt	max_online
+1	log	core/src/main/java/tv/own/owntv/core/repository/SourceTester.kt	not a panel reply
 1	json	core/src/main/java/tv/own/owntv/core/repository/SourceTester.kt	num_of_devices
 1	json	core/src/main/java/tv/own/owntv/core/repository/SourceTester.kt	status
 1	log	core/src/main/java/tv/own/owntv/core/repository/SourceTester.kt	test sourceId=${source.id} type=${source.type} -> ${result::class.simpleName}
+1	log	core/src/main/java/tv/own/owntv/core/repository/SourceTester.kt	testAll sourceId=${source.id}
 3	empty	core/src/main/java/tv/own/owntv/core/settings/ClockColors.kt	\0
 1	technical	core/src/main/java/tv/own/owntv/core/settings/ClockColors.kt	accent
 1	protocol	core/src/main/java/tv/own/owntv/core/settings/RemoteShortcuts.kt	$keyCode:${press.name}
@@ -4570,22 +4650,39 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	${channel.sourceId}:${channel.id}
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' falling back to $label ($reason)
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' opened on mpv
-2	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — giving up: $detail
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — $detail; checking the server
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — $it
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — ${HostPool.describe(pool, failedServer)} check: ${check::class.simpleName}
+3	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — giving up: $detail
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — its ExoPlayer preview had already failed; trying the next engine
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — no fallback left ($detail)
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — no fallback left ($detail); leaving ExoPlayer's own reconnects running
-4	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}': $detail
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — not retrying ${HostPool.describe(pool, pendingServer)}: ${gate.why.name.lowercase()} in progress
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — not switching servers: ${gate.why.name.lowercase()} in progress
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — opening on ${HostPool.describe(pool, next.server)}
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — playing on ${HostPool.describe(pool, server)}
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — reconnects spent; checking the server
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — retrying ${HostPool.describe(pool, pendingServer)} (session still held)
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' — session still held on ${HostPool.describe(pool, pendingServer)}
+5	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}': $detail
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}': $label — $reason
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}': ${HostPool.describe(pool, next.server)}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	ExoPlayer
 1	technical	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	LiveEngine
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	after ${HostFailover.SESSION_WAIT_MS / 1000}s
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	all ${next.total} servers failed
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	engine toggle '${channel.name}' -> ${if (goToMpv) "mpv" else "exoplayer"}
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	engine toggle ignored: switching servers
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	engine: $message
 1	technical	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	exoplayer
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	lost connection
 2	technical	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	mpv
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	mpv couldn't play it: ${outcome.error}
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	mpv handoff for '${channel.name}' abandoned — the channel changed while ExoPlayer released
-1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	mpv never opened it (${MPV_OPEN_TIMEOUT_MS / 1000}s, no picture and no error)
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	mpv never opened it (${timeoutMs / 1000}s, no picture and no error)
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	no picture within ${armedBudgetMs / 1000}s of tuning
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	resume: re-tuning '${ch.name}'
+1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	server switch cancelled: app in background
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	stalker reconnect re-resolve failed '${channel.name}'
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	stalker resolve failed
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	starting mpv for '${channel.name}' — reason=$reason
@@ -5144,6 +5241,10 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/PlayerDiagnostics.kt	timed out
 1	log	player-core/src/main/java/tv/own/owntv/player/PlayerDiagnostics.kt	timeout
 1	log	player-core/src/main/java/tv/own/owntv/player/PlayerDiagnostics.kt	unrecognized file format
+1	log	player-core/src/main/java/tv/own/owntv/player/ReleaseGate.kt	engine: $message
+1	log	player-core/src/main/java/tv/own/owntv/player/ReleaseGate.kt	release gate: mpv did not let go in time — destroying the instance
+1	log	player-core/src/main/java/tv/own/owntv/player/ReleaseGate.kt	release gate: refused (${it.name.lowercase()})
+1	log	player-core/src/main/java/tv/own/owntv/player/ReleaseGate.kt	release gate: released (mpvDestroyed=$destroyed quiet=$quiet)
 1	technical	player-core/src/main/java/tv/own/owntv/player/ResolutionLabel.kt	${height}p
 1	technical	player-core/src/main/java/tv/own/owntv/player/ResolutionLabel.kt	1080p
 1	technical	player-core/src/main/java/tv/own/owntv/player/ResolutionLabel.kt	1440p
@@ -5154,6 +5255,14 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/ResponseDeadline.kt	owntv-response-deadline
 1	log	player-core/src/main/java/tv/own/owntv/player/ScreenOff.kt	ScreenOff
 1	log	player-core/src/main/java/tv/own/owntv/player/ScreenOff.kt	lockNow failed
+1	log	player-core/src/main/java/tv/own/owntv/player/ServerRound.kt	${HostPool.describe(pool, failed)}: ${check::class.simpleName}
+1	log	player-core/src/main/java/tv/own/owntv/player/ServerRound.kt	${HostPool.describe(pool, step.host)}: ${check::class.simpleName}
+1	log	player-core/src/main/java/tv/own/owntv/player/ServerRound.kt	offline after a failed check: not counting it
+1	log	player-core/src/main/java/tv/own/owntv/player/ServerRound.kt	offline: round paused, no server used
+1	log	player-core/src/main/java/tv/own/owntv/player/ServerRound.kt	the DNS-over-HTTPS resolver failed
+1	log	player-core/src/main/java/tv/own/owntv/player/ServerRound.kt	the provider ended the account (${check.reason.name.lowercase()})
+1	log	player-core/src/main/java/tv/own/owntv/player/ServerRound.kt	the provider's server is behind a challenge page
+1	log	player-core/src/main/java/tv/own/owntv/player/ServerRound.kt	the proxy failed
 1	empty	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	\0
 1	protocol	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	DASH
 1	protocol	player-core/src/main/java/tv/own/owntv/player/StreamFormatLabels.kt	HLS
@@ -5245,6 +5354,9 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/SubtitleShift.kt	webvtt
 2	technical	player-core/src/main/java/tv/own/owntv/player/SurfaceFrameRate.kt	DEPRECATION
 1	technical	player-core/src/main/java/tv/own/owntv/player/VideoQuality.kt	video/
+1	log	player-core/src/main/java/tv/own/owntv/player/VodFailover.kt	VOD $it
+1	log	player-core/src/main/java/tv/own/owntv/player/VodFailover.kt	VOD ${HostPool.describe(HostPool.pool(source), failed)} check: ${check::class.simpleName}
+1	log	player-core/src/main/java/tv/own/owntv/player/VodFailover.kt	release gate refused:
 1	log	player-core/src/main/java/tv/own/owntv/player/VolumeBoost.kt	volume boost failed: ${it.javaClass.simpleName}
 1	log	player-core/src/main/java/tv/own/owntv/player/VolumeBoost.kt	volume boost unavailable: ${it.javaClass.simpleName}
 1	log	player-core/src/main/java/tv/own/owntv/player/ZapTiming.kt	(zap key press to first frame ${it}ms)

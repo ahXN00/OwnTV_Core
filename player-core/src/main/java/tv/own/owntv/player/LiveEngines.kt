@@ -1,5 +1,6 @@
 package tv.own.owntv.player
 
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withTimeoutOrNull
@@ -54,6 +55,7 @@ interface LiveEngines {
         onOpened: () -> Unit,
         postponeDeadline: (Long) -> Unit,
         log: (String) -> Unit,
+        openTimeoutMs: Long = LiveExoWatchdog.OPEN_TIMEOUT_MS,
     )
 
     fun mpvPlay(url: String, request: LiveRequest)
@@ -64,8 +66,10 @@ interface LiveEngines {
     /**
      * Wait up to [timeoutMs] for mpv to open or fail; null when it did neither.
      *
-     * **"Opened" is a decoded picture or the spinner clearing — never `isPlaying`.** mpv seeds that flag
-     * true at load time, so it says nothing about whether the stream ever arrived.
+     * **"Opened" is an mpv signal from this load only** — first frame, playback-restart, or advancing
+     * time-pos, tied to the load generation captured at [mpvPlay]. Never the app's own buffering flag,
+     * and never mpv's paused-for-cache: both are stale or seeded true at load and say nothing about
+     * whether this stream arrived. Covers audio-only and radio. An error wins.
      */
     suspend fun awaitMpvOutcome(timeoutMs: Long): MpvOutcome?
 
@@ -74,6 +78,20 @@ interface LiveEngines {
 
     /** How far into its current stream the live engine on screen is — for a saved copy's clock (N4). */
     fun positionMs(onExo: Boolean): Long = 0L
+
+    // --- Host failover (design §5, §8) ---
+
+    /** What ExoPlayer's current failure says about the server (typed, A5). */
+    val exoHostFailure: tv.own.owntv.core.network.HostFailureClass get() = tv.own.owntv.core.network.HostFailureClass.UNKNOWN
+
+    /** The last mpv/FFmpeg error line of the current load, for the A5 message table; null if none. */
+    val mpvLastError: String? get() = null
+
+    /** Wait until a channel that had played on ExoPlayer has used up its own reconnects. */
+    suspend fun awaitExoReconnectsExhausted() { kotlinx.coroutines.awaitCancellation() }
+
+    /** Wait until mpv gives a live channel that had played up as lost (its stall budget is spent). */
+    suspend fun awaitMpvLiveLost() { kotlinx.coroutines.awaitCancellation() }
 }
 
 /** Start [url] on a live ExoPlayer engine with everything [request] carries — a tune, or a Multiview tile. */
@@ -89,6 +107,29 @@ internal fun LivePreviewEngine.play(url: String, muted: Boolean, request: LiveRe
     manifestType = request.manifestType,
     directSource = request.directSource,
 )
+
+/**
+ * Opened only on an mpv signal from THIS load (first frame, playback-restart or advancing time-pos,
+ * tied to [loadGeneration]); never the app's own buffering flag nor mpv's paused-for-cache, which are
+ * stale or seeded at load. Covers audio-only and radio. An error wins.
+ *
+ * mpv's own retry/format ladder reloads bump the generation, which is monotonic, so a later load of
+ * the same tune counts (stop/zap is covered by the controller's isStillMpv).
+ */
+internal suspend fun awaitMpvOutcomeOf(
+    loadGeneration: Int,
+    startedGeneration: Flow<Int>,
+    error: Flow<Any?>,
+    timeoutMs: Long,
+): MpvOutcome? = withTimeoutOrNull(timeoutMs) {
+    combine(startedGeneration, error) { started, err ->
+        when {
+            err != null -> MpvOutcome(opened = false, error = err.toString())
+            started >= loadGeneration -> MpvOutcome(opened = true, error = null)
+            else -> null
+        }
+    }.first { it != null }
+}
 
 /** The real engines: the live ExoPlayer engine and the process-wide mpv player. */
 class EnginePair(private val exo: LivePreviewEngine, private val mpv: OwnTVPlayer) : LiveEngines {
@@ -113,8 +154,9 @@ class EnginePair(private val exo: LivePreviewEngine, private val mpv: OwnTVPlaye
         onOpened: () -> Unit,
         postponeDeadline: (Long) -> Unit,
         log: (String) -> Unit,
+        openTimeoutMs: Long,
     ) {
-        LiveExoWatchdog(exo, stillOurs, handOver, onOpened, postponeDeadline, log).watch(channelName)
+        LiveExoWatchdog(exo, stillOurs, handOver, onOpened, postponeDeadline, log, openTimeoutMs).watch(channelName)
     }
 
     override fun mpvPlay(url: String, request: LiveRequest) = mpv.play(
@@ -137,14 +179,9 @@ class EnginePair(private val exo: LivePreviewEngine, private val mpv: OwnTVPlaye
     override suspend fun mpvStopAndAwaitRelease() { mpv.stopAndAwaitRelease() }
     override fun mpvAbandon(reason: String) = mpv.abandonLive(reason)
 
-    override suspend fun awaitMpvOutcome(timeoutMs: Long): MpvOutcome? = withTimeoutOrNull(timeoutMs) {
-        combine(mpv.videoRes, mpv.buffering, mpv.error) { res, buffering, error ->
-            when {
-                error != null -> MpvOutcome(opened = false, error = error.toString())
-                res != null || !buffering -> MpvOutcome(opened = true, error = null)
-                else -> null
-            }
-        }.first { it != null }
+    override suspend fun awaitMpvOutcome(timeoutMs: Long): MpvOutcome? {
+        val gen = mpv.currentLoadGeneration
+        return awaitMpvOutcomeOf(gen, mpv.mpvStartedGeneration, mpv.error, timeoutMs)
     }
 
     override fun setReconnectProvider(provider: ReconnectUrlProvider?) {
@@ -153,4 +190,13 @@ class EnginePair(private val exo: LivePreviewEngine, private val mpv: OwnTVPlaye
     }
 
     override fun positionMs(onExo: Boolean): Long = if (onExo) exo.livePositionMs() else mpv.position.value
+
+    override val exoHostFailure: tv.own.owntv.core.network.HostFailureClass get() = exo.hostFailure
+    override val mpvLastError: String? get() = mpv.lastErrorLine
+
+    override suspend fun awaitExoReconnectsExhausted() { exo.reconnectsExhausted.first() }
+
+    override suspend fun awaitMpvLiveLost() {
+        mpv.error.first { it == PlaybackFailure.LostConnection }
+    }
 }

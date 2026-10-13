@@ -140,6 +140,9 @@ class SourceImporter(
         preferHls: Boolean = false,
         makeDefault: Boolean = false,
         httpReferer: String = "",
+        /** Backup servers typed in the form (origins); sanitised again on save. */
+        backupUrls: List<String> = emptyList(),
+        failoverEnabled: Boolean = true,
     ) {
         val enabled = SyncContentTypes.fromChoices(live, movies, series)
         val priority = SyncContentTypes.priorityFromChoices(live, movies, series)
@@ -158,6 +161,8 @@ class SourceImporter(
                 syncLive = enabled.live, syncMovies = enabled.movies, syncSeries = enabled.series,
                 preferHls = preferHls,
                 httpReferer = httpReferer.trim().takeIf { it.isNotBlank() },
+                backupUrls = backupUrls,
+                failoverEnabled = failoverEnabled,
             )
         }
     }

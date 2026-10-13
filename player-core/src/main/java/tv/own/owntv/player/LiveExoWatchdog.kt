@@ -56,6 +56,8 @@ class LiveExoWatchdog(
     private val postponeDeadline: (Long) -> Unit,
     /** One line per decision, for the support log. */
     private val log: (String) -> Unit,
+    /** How long a channel may take to show its first frame, on top of any requested pre-buffer. */
+    private val openTimeoutMs: Long = OPEN_TIMEOUT_MS,
 ) {
 
     /**
@@ -79,7 +81,7 @@ class LiveExoWatchdog(
         // Bounded, because "neither" is a real outcome. A pre-buffer is requested silence: 10s of it
         // means the first frame is *supposed* to be ~10s out, so the deadline moves with it or every
         // pre-buffered channel looks stuck.
-        val openBudgetMs = OPEN_TIMEOUT_MS + engine.activePrerollSecs.coerceAtLeast(0) * 1000L
+        val openBudgetMs = openTimeoutMs + engine.activePrerollSecs.coerceAtLeast(0) * 1000L
         var terminal: LivePreviewEngine.State?
         var waitsSeen = 0
         while (true) {
@@ -200,7 +202,7 @@ class LiveExoWatchdog(
          * panel legitimately spends several seconds on the first segment plus decoder setup, and
          * bouncing those off the faster engine costs more than the extra seconds save.
          */
-        const val OPEN_TIMEOUT_MS = 12_000L
+        const val OPEN_TIMEOUT_MS = tv.own.owntv.core.network.HostFailover.HOST_BUDGET_MS
 
         /**
          * How long a channel that HAS played may stay stalled before it goes to the other engine.

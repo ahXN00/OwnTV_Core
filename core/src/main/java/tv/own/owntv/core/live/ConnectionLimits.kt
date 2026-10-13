@@ -1,6 +1,7 @@
 package tv.own.owntv.core.live
 
 import android.util.Log
+import kotlinx.coroutines.sync.withLock
 import tv.own.owntv.core.database.dao.SourceDao
 import tv.own.owntv.core.database.entity.SourceEntity
 
@@ -40,6 +41,8 @@ class ConnectionLimits(
     private val probe: ConnectionProbe,
     private val channels: ProbeChannelSource,
     private val tester: tv.own.owntv.core.repository.SourceTester,
+    /** Host failover: measure on the in-use server, and never beside Test all servers or a switch (§9). */
+    private val hosts: tv.own.owntv.core.network.HostSelector? = null,
 ) {
 
     /** What is already known, with no network and no measuring. */
@@ -93,11 +96,15 @@ class ConnectionLimits(
             Log.i(TAG, "no playable channels for source ${source.id}")
             return store(source.id, ConnectionProbeResult.Unknown)
         }
-        val result = probe.measure(
-            channels = { index -> urls.getOrNull(index) },
-            userAgent = source.userAgent,
-            onProgress = onProgress,
-        )
+        val measure: suspend () -> ConnectionProbeResult = {
+            probe.measure(
+                channels = { index -> urls.getOrNull(index)?.let { hosts?.forRequest(it, source) ?: it } },
+                userAgent = source.userAgent,
+                onProgress = onProgress,
+            )
+        }
+        val lock = hosts?.probeLock
+        val result = if (lock == null) measure() else lock.withLock { measure() }
         Log.i(TAG, "measured source ${source.id}: $result")
         return store(source.id, result)
     }

@@ -9,6 +9,15 @@
 > in one bolded line of its own (e.g. **Database v46 · Backup v24 · Breaking**). The detail — what,
 > why, files and verification — belongs in the commit message, never here.
 
+## Unreleased
+
+**Database v48 · Backup format carries backup servers**
+
+### ✨ New features
+
+- **🔁 Backup servers with automatic failover for Xtream playlists**
+- **⚡ Test all servers with Use fastest**
+
 ## core-1.0.66 — 2026-10-10
 
 ### ✨ New features

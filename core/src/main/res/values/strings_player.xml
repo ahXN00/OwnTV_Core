@@ -600,4 +600,18 @@
     <string name="player_trailer_blocked_body">Its owner only allows it to be played on YouTube.</string>
     <!-- Translators: Popup button: open the trailer in the YouTube app instead. Keep "YouTube" as is. -->
     <string name="player_trailer_open_youtube">Open in YouTube</string>
+    <!-- Translators: Short notice when the player moved to another server of the same playlist. "number" is its position, "total" the number of servers, "server" its address (not translated). -->
+    <string name="player_server_switched">Switched to server <xliff:g id="number">%1$d</xliff:g> of <xliff:g id="total">%2$d</xliff:g> · <xliff:g id="server">%3$s</xliff:g></string>
+    <!-- Translators: Title of the player error when every server of the playlist was tried. "count" is the number of servers. Use the plural form. -->
+    <plurals name="player_all_servers_failed">
+        <item quantity="one">All <xliff:g id="count">%1$d</xliff:g> server failed</item>
+        <item quantity="other">All <xliff:g id="count">%1$d</xliff:g> servers failed</item>
+    </plurals>
+    <!-- Translators: Explanation under that title. -->
+    <string name="player_all_servers_failed_detail">None of this playlist\'s servers answered. Check your internet connection, or ask your provider whether the servers have changed.</string>
+    <!-- Translators: Shown while the player is moving to another server of the same playlist. The ellipsis is intentional. -->
+    <string name="player_switching_servers">Switching servers…</string>
+    <string name="player_no_network">No network</string>
+    <!-- Translators: Toast when a live channel would switch servers, but a local timeshift buffer is on, so switching stays off. -->
+    <string name="player_failover_off_timeshift">Server switching is off while live pause is on.</string>
 </resources>

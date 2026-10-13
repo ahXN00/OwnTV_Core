@@ -65,6 +65,8 @@ class RecordingEngine(
     private val connectivity: ConnectivityObserver,
     private val activityTracker: RecordingActivityTracker,
     private val clock: () -> Long = System::currentTimeMillis,
+    /** Host failover: a recording reads the in-use server but never switches it (design §4). */
+    private val hosts: tv.own.owntv.core.network.HostSelector? = null,
 ) {
     /** Recordings currently running, so one can be stopped precisely without touching the others. */
     private val active = ConcurrentHashMap<Long, Job>()
@@ -838,7 +840,8 @@ class RecordingEngine(
     private suspend fun resolveTarget(row: RecordingEntity): Pair<String, String> {
         val source = sourceDao.getById(row.sourceId)
         if (source == null || !streamUrlResolver.needsResolve(source)) {
-            return row.streamUrl to (source?.userAgent?.takeIf { it.isNotBlank() } ?: HttpClient.DEFAULT_USER_AGENT)
+            val url = if (source != null) hosts?.forRequest(row.streamUrl, source) ?: row.streamUrl else row.streamUrl
+            return url to (source?.userAgent?.takeIf { it.isNotBlank() } ?: HttpClient.DEFAULT_USER_AGENT)
         }
         val ua = source.userAgent?.takeIf { it.isNotBlank() } ?: StalkerClient.DEFAULT_MAG_USER_AGENT
         return streamUrlResolver.resolve(source, row.streamUrl, vod = false) to ua

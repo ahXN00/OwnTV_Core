@@ -154,6 +154,16 @@ data class SourceEntity(
     val liveTuneTimeoutSecs: Int? = null,
     /** An HTTP `Referer` this provider's streams require (N16). */
     val httpReferer: String? = null,
+    // --- v48: host failover (Xtream only). See tv.own.owntv.core.network.HostPool.
+    /** Backup servers for the same account: newline-separated origins in the user's order; null = none. */
+    val backupUrls: String? = null,
+    /**
+     * The server that last played (an origin from the pool); null = the primary [url]. Device-local: never
+     * exported, written only by `HostSelector`. Stored stream URLs keep [url]'s origin regardless.
+     */
+    val activeUrl: String? = null,
+    /** "Switch servers automatically" for this playlist (D1: on by default; only acts when backups exist). */
+    @ColumnInfo(defaultValue = "1") val failoverEnabled: Boolean = true,
 )
 
 /** Many-to-many link letting a source be shared across profiles (hybrid model). */

@@ -408,6 +408,9 @@ class OwnTVPlayer(
         /** Longest an engine switch waits for mpv to finish tearing its stream down. */
         internal const val MPV_RELEASE_TIMEOUT_MS = 1_500L
 
+        /** Bound on waiting for a destroyed instance's teardown (the release gate's last resort). */
+        internal const val MPV_DESTROY_TIMEOUT_MS = 3_000L
+
         /**
          * FFmpeg's error-tolerance switches: drop corrupted packets instead of ending the file, and
          * synthesise the timestamps a damaged mux is missing. This is what a forgiving player (VLC, whose
@@ -1250,6 +1253,19 @@ class OwnTVPlayer(
     @Volatile private var item = ItemState()
 
     @Volatile private var loadGeneration = 0
+
+    /**
+     * The [loadGeneration] whose mpv load produced a first frame, a playback-restart or an advancing
+     * time-pos. Never set from the app's own buffering flag.
+     */
+    private val _mpvStartedGeneration = MutableStateFlow(-1)
+    val mpvStartedGeneration: StateFlow<Int> = _mpvStartedGeneration.asStateFlow()
+    val currentLoadGeneration: Int get() = loadGeneration
+
+    private fun markMpvStarted() {
+        if (exoActive || !load.fileLoaded) return
+        _mpvStartedGeneration.value = loadGeneration
+    }
     // App-issued loadfile/stop commands can leave a cleanup END_FILE behind. Track those separately
     // so mpv's event thread can classify them as STOP instead of startup failure or reconnect.
     private val pendingStopEndFiles = PendingStopCredits(MAX_PENDING_STOP_CREDITS)
@@ -3846,6 +3862,12 @@ class OwnTVPlayer(
         _error.value = PlayerErrors.visibleFailure(reason, url, PlaybackFailure.Channel)
     }
 
+    /** A film or episode the app gave up on (host failover's film cap): stop and show the film's own error, the same one a mid-film connection loss shows (with Retry). */
+    fun failVod() {
+        stop()
+        _error.value = vodErrorMessage(PlaybackFailure.LostConnection)
+    }
+
     /** True while mpv owns a stream (loaded or loading) — i.e. while it may still hold a provider session. */
     val hasActiveStream: Boolean get() = currentUrl != null || pendingUrl != null
 
@@ -3910,7 +3932,29 @@ class OwnTVPlayer(
         hardReset()
     }
 
-    private fun hardReset() {
+    /**
+     * Host failover's release gate (A6 step 2): [stop] and wait for mpv to let go; when that times out —
+     * typical while mpv is blocked reading a dead server — destroy the instance and wait for the destroy,
+     * so no FFmpeg socket can still be open when the next server is asked. Returns true when it had to
+     * destroy. Main thread, like [stop].
+     */
+    suspend fun stopReleaseOrDestroy(timeoutMs: Long = MPV_RELEASE_TIMEOUT_MS): Boolean {
+        if (stopAndAwaitRelease(timeoutMs)) return false
+        destroyAndAwait()
+        return true
+    }
+
+    /** Destroy the mpv instance on the hardReset path and wait (bounded) for the destroy to finish. */
+    suspend fun destroyAndAwait() {
+        if (!initialized && mpv == null) return
+        val destroyer = hardReset()
+        withContext(Dispatchers.IO) { destroyer.join(MPV_DESTROY_TIMEOUT_MS) }
+    }
+
+    /** The last error line mpv/FFmpeg logged for the current load, for the host-failure table. */
+    val lastErrorLine: String? get() = load.lastMpvError
+
+    private fun hardReset(): Thread {
         val oldMpv = mpv
         mpv = null
         initialized = false
@@ -3923,7 +3967,7 @@ class OwnTVPlayer(
         pendingStopEndFiles.reset()
         // Destroy on a dedicated thread — mpvExecutor is blocked, so we CAN'T use mpvAsync here.
         // destroy() aborts the stuck HTTP read synchronously, freeing the core.
-        Thread({
+        val destroyer = Thread({
             runCatching {
                 oldMpv?.let {
                     it.removeObserver(this)
@@ -3931,11 +3975,12 @@ class OwnTVPlayer(
                 }
             }
             android.util.Log.i(TAG, "hardReset: old mpv instance destroyed — core unblocked")
-        }, "owntv-mpv-destroy").start()
+        }, "owntv-mpv-destroy").also { it.start() }
         // Force the UI to recreate the SurfaceView, so the fresh mpv instance gets a clean decoder binding
         // (the old MediaCodec was left dirty by the abort — a back-to-back 4K load on the same Surface
         // would throw Realtek 0x80001000).
         _surfaceResetToken.value++
+        return destroyer
     }
 
     /**
@@ -4585,7 +4630,10 @@ class OwnTVPlayer(
         when (property) {
             "time-pos" -> {
                 _position.value = value * 1000
-                if (value > 0) load.expectingPlayback = false // playback actually started
+                if (value > 0) {
+                    load.expectingPlayback = false // playback actually started
+                    markMpvStarted()
+                }
                 logLiveFirstPosition()
             }
             "duration" -> _duration.value = value * 1000
@@ -4597,6 +4645,7 @@ class OwnTVPlayer(
                 _videoRes.value = resolutionLabel(value.toInt())
                 load.currentHeightPx = value.toInt()
                 if (value > 0) {
+                    markMpvStarted()
                     // After this load's FILE_LOADED only, like the first position: an earlier size is the old file's.
                     if (load.firstVideoAt == 0L && load.fileLoaded) load.firstVideoAt = System.currentTimeMillis()
                     lastVideoHeightPx = value.toInt() // remember for recovery decisions on a later failed load
@@ -5050,6 +5099,7 @@ class OwnTVPlayer(
             // old file's END_FILE can arrive after the next loadfile, and only a credit absorbs it. With
             // none left, mpv's own reason still identifies a command of ours (STOP), which is never a
             // failure — the case the capped credit count used to misread.
+            MPVLib.MpvEvent.MPV_EVENT_PLAYBACK_RESTART -> markMpvStarted()
             MPVLib.MpvEvent.MPV_EVENT_END_FILE -> {
                 val reason = endFileReason.also { endFileReason = -1 }
                 if (consumePendingStopEndFile()) return

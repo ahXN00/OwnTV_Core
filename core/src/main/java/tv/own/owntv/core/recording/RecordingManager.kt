@@ -22,6 +22,7 @@ import tv.own.owntv.core.live.StreamPurpose
 import tv.own.owntv.core.live.connectionBudget
 import tv.own.owntv.core.database.dao.SourceDao
 import tv.own.owntv.core.live.OpenStreamRegistry
+import tv.own.owntv.core.network.HostPool
 import tv.own.owntv.core.model.RecordingFailure
 import tv.own.owntv.core.model.RecordingStatus
 import tv.own.owntv.core.settings.SettingsRepository
@@ -229,7 +230,7 @@ class RecordingManager(
                 channelName = channel.name,
                 channelIconUrl = channel.logoUrl,
                 epgChannelId = channel.epgChannelId,
-                streamUrl = url,
+                streamUrl = storedArchiveUrl(url, source),
                 httpHeaders = channel.httpHeaders,
                 title = programme.title,
                 description = programme.description,
@@ -469,6 +470,9 @@ class RecordingManager(
  * times are still going to change.
  */
 private const val RULE_HORIZON_MS = 14L * 24 * 60 * 60 * 1000
+
+/** Persist the primary origin. RecordingEngine rewrites onto the in-use server at start. */
+internal fun storedArchiveUrl(url: String, source: SourceEntity): String = HostPool.canonical(url, source)
 
 /** Free/total space on the volume recordings are written to, and the floor they stop at (D8). */
 data class RecordingStorageInfo(val freeBytes: Long, val totalBytes: Long, val reserveBytes: Long) {

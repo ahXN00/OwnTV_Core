@@ -146,8 +146,12 @@ class BackupV17ScopingTest {
             "maxConnections", "maxConnectionsProbedAt",
             // v44: the four per-playlist overrides of owner decision 12 (five columns).
             "catchupTimezone", "catchupOffsetMin", "vodEnginePreference", "liveTuneTimeoutSecs", "httpReferer",
+            // v25: the backup servers and the auto-switch setting (BackupV25Test).
+            "backupUrls", "failoverEnabled",
         )
-        val deliberatelyExcluded = emptySet<String>()
+        // The in-use server describes this device's network, not the account: a restore starts on the
+        // primary and HostSelector finds its own way from there.
+        val deliberatelyExcluded = setOf("activeUrl")
         // Not a field of the entity at all: the Compose compiler adds `$stable` as a static, and
         // Kotlin does not flag it synthetic.
         val compilerGenerated = setOf("\$stable")

@@ -18,6 +18,7 @@ import tv.own.owntv.core.database.entity.ProfileSourceCrossRef
 import tv.own.owntv.core.database.entity.SourceEntity
 import tv.own.owntv.core.database.transaction
 import tv.own.owntv.core.model.SourceType
+import tv.own.owntv.core.network.HostPool
 import tv.own.owntv.core.stalker.StalkerClient
 import tv.own.owntv.core.settings.SettingsRepository
 
@@ -107,7 +108,7 @@ class BackupManager(
             val seal: ((String) -> JSONObject)? = key?.let { k -> { plain -> BackupCrypto.encrypt(k, plain) } }
 
             val root = JSONObject().apply {
-                put("version", 24) // v24: "preferredLanguages" — each profile's preferred audio/subtitle language ({ "<profileId>": { "a", "s" } }); the shared pref_audio_lang/pref_sub_lang settings stay as the fallback for a profile with no entry. v23: "playbackQuirks" — what a stream needs, shared by every profile (sound-only marks and audio delays; the engine pins stay in compatMode so older readers still get them), and playbackPrefs carry the remembered track languages ("al"/"sl"). A playbackPrefs "d" from an older file restores into the shared delay. v22: sources carry the measured stream limit (maxConnections + maxConnectionsProbedAt), because measuring it costs minutes and interrupts playback and the answer belongs to the account, not the device. v21: "tombstones" — the user data the user DELETED, so a merge (restore or local sync) does not reinstate it. Older readers ignore the block and behave exactly as they do today. v20: playbackPrefs carry the per-item A/V-sync offset. v19: sources carry the per-playlist Live TV engine and Live latency overrides. v18: per-profile specific-channel startup targets. v17: startupModes/customizePins moved SOURCES→SETTINGS (readers accept both); PIN hashes and legacy URL-shaped player keys are encrypted-only; sources carry preferHls/livePrerollSecs/hlsSupported; source-keyed blocks scoped to the ticked profiles' sources. v16: optional Stalker serial/device IDs/signature. v15: custom category membership (issue #87) rides userData as kind "member"; customCategories blobs pass through unremapped. v14: .own container (wallpaper rides along). v13: sources.syncLive/Movies/Series. v12: per-profile OpenSubtitles login (encrypted-only). v11: profile-scoped export. v10: sources.mac. v9: custom TMDB names, encrypted TMDB key
+                put("version", 25) // v25: sources carry the backup servers ("backupUrls", an array of credential-free origins) and "failoverEnabled"; the in-use server stays on the device. v24: "preferredLanguages" — each profile's preferred audio/subtitle language ({ "<profileId>": { "a", "s" } }); the shared pref_audio_lang/pref_sub_lang settings stay as the fallback for a profile with no entry. v23: "playbackQuirks" — what a stream needs, shared by every profile (sound-only marks and audio delays; the engine pins stay in compatMode so older readers still get them), and playbackPrefs carry the remembered track languages ("al"/"sl"). A playbackPrefs "d" from an older file restores into the shared delay. v22: sources carry the measured stream limit (maxConnections + maxConnectionsProbedAt), because measuring it costs minutes and interrupts playback and the answer belongs to the account, not the device. v21: "tombstones" — the user data the user DELETED, so a merge (restore or local sync) does not reinstate it. Older readers ignore the block and behave exactly as they do today. v20: playbackPrefs carry the per-item A/V-sync offset. v19: sources carry the per-playlist Live TV engine and Live latency overrides. v18: per-profile specific-channel startup targets. v17: startupModes/customizePins moved SOURCES→SETTINGS (readers accept both); PIN hashes and legacy URL-shaped player keys are encrypted-only; sources carry preferHls/livePrerollSecs/hlsSupported; source-keyed blocks scoped to the ticked profiles' sources. v16: optional Stalker serial/device IDs/signature. v15: custom category membership (issue #87) rides userData as kind "member"; customCategories blobs pass through unremapped. v14: .own container (wallpaper rides along). v13: sources.syncLive/Movies/Series. v12: per-profile OpenSubtitles login (encrypted-only). v11: profile-scoped export. v10: sources.mac. v9: custom TMDB names, encrypted TMDB key
                 put("sections", JSONArray().apply { sections.forEach { put(it.name) } })
                 if (salt != null) put("crypto", BackupCrypto.cryptoBlock(salt))
                 // Ticked profiles always ride (backup is profile-based); restore needs SOURCES to apply them.
@@ -978,7 +979,7 @@ class BackupManager(
                                         // the device's own last answer wins, and UNKNOWN adopts the
                                         // file's so a fresh row is not left blank until the next sync.
                                         hlsSupported = if (existing.hlsSupported == HlsSupport.UNKNOWN) incoming.hlsSupported else existing.hlsSupported,
-                                    ),
+                                    ).let { mergeFailover(it, srcJson) },
                                 )
                             }
                             sourceIdMap[incoming.id] = existing.id
@@ -1569,6 +1570,7 @@ class BackupManager(
         // measurement only runs on a playlist's first sync, which a restored playlist has already had.
         put("maxConnections", s.maxConnections)
         put("maxConnectionsProbedAt", s.maxConnectionsProbedAt)
+        writeFailover(this, s)
         put("hlsSupported", s.hlsSupported.code)
         put("createdAt", s.createdAt); put("lastSyncAt", s.lastSyncAt ?: JSONObject.NULL)
     }
@@ -1626,10 +1628,39 @@ class BackupManager(
             hlsSupported = HlsSupport.fromCode(o.optInt("hlsSupported", HlsSupport.UNKNOWN.code)),
             createdAt = o.optLong("createdAt", System.currentTimeMillis()),
             lastSyncAt = if (o.isNull("lastSyncAt")) null else o.optLong("lastSyncAt"),
-        )
+        ).let { mergeFailover(it, o) }
     }
 
     companion object {
+        /**
+         * v25: the backup servers and the auto-switch setting. Plain text like `url`, which is only safe
+         * because the list holds origins without logins (HostPool). The in-use server is never written:
+         * it describes this device's network, not the account.
+         */
+        internal fun writeFailover(o: JSONObject, s: SourceEntity) {
+            o.put("backupUrls", JSONArray().apply { HostPool.decode(s.backupUrls).forEach { put(it) } })
+            o.put("failoverEnabled", s.failoverEnabled)
+        }
+
+        /**
+         * [s] with the file's backup servers applied, `has()` semantics: a file without the keys (pre-v25)
+         * leaves [s]'s values alone. Every entry is normalised again — a hand-edited or foreign file can't
+         * smuggle a login, a path or a 51st server in — and the in-use server resets to the primary when
+         * it is no longer in the merged list.
+         */
+        internal fun mergeFailover(s: SourceEntity, o: JSONObject): SourceEntity {
+            val backups = if (o.has("backupUrls")) {
+                val arr = o.optJSONArray("backupUrls")
+                val entries = if (arr != null) List(arr.length()) { arr.optString(it) } else HostPool.decode(o.optString("backupUrls"))
+                HostPool.encode(HostPool.sanitize(entries, s.url))
+            } else {
+                HostPool.encode(HostPool.sanitize(HostPool.decode(s.backupUrls), s.url))
+            }
+            val enabled = if (o.has("failoverEnabled")) o.optBoolean("failoverEnabled", true) else s.failoverEnabled
+            val merged = s.copy(backupUrls = backups, failoverEnabled = enabled)
+            return merged.copy(activeUrl = HostPool.reconcileActive(merged, s))
+        }
+
         internal const val TAG = "BackupManager"
 
         /**

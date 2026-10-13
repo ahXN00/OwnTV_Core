@@ -2,6 +2,7 @@ package tv.own.owntv.player
 
 import android.content.ComponentCallbacks2
 import androidx.media3.common.util.UnstableApi
+import java.util.concurrent.CopyOnWriteArrayList
 
 /**
  * Every playback engine an app holds, so the app's lifecycle reaches all of them from one call
@@ -23,6 +24,33 @@ class PlaybackEngines(
     private val heroPreview: HeroPreviewEngine? = null,
 ) {
 
+    private val backgroundListeners = CopyOnWriteArrayList<() -> Unit>()
+    private val foregroundHandlers = CopyOnWriteArrayList<() -> Boolean>()
+
+    /**
+     * Called from [onAppBackgrounded] before any engine is stopped. Used to cancel server switches
+     * that would otherwise open a stream while the app is invisible.
+     */
+    fun addBackgroundListener(l: () -> Unit) {
+        backgroundListeners.add(l)
+    }
+
+    fun removeBackgroundListener(l: () -> Unit) {
+        backgroundListeners.remove(l)
+    }
+
+    /**
+     * Called from [onAppForegrounded] before engines restore. A live tune is resumed by its controller
+     * so failover state and the in-use server apply. Return true when that handler resumed the channel.
+     */
+    fun addForegroundHandler(h: () -> Boolean) {
+        foregroundHandlers.add(h)
+    }
+
+    fun removeForegroundHandler(h: () -> Boolean) {
+        foregroundHandlers.remove(h)
+    }
+
     /** How hard the OS is squeezing, from an `onTrimMemory` level. */
     enum class Pressure { NONE, LOW, CRITICAL }
 
@@ -39,20 +67,33 @@ class PlaybackEngines(
 
     /** Television: Home / screensaver / another app. Every engine remembers what it had and frees it. */
     fun onAppBackgrounded() {
+        for (l in backgroundListeners) runCatching { l() }
         player.onAppBackgrounded()
         livePreview.onAppBackgrounded()
         pool.onAppBackgrounded()
         heroPreview?.stop()
     }
 
-    /** Television: back in front. Paired with [onAppBackgrounded]; a no-op on a fresh launch. */
+    /**
+     * Television: back in front. Paired with [onAppBackgrounded]; a no-op on a fresh launch.
+     * A live tune is resumed by its controller so failover state and the in-use server apply.
+     * When that handler took the resume, neither engine reopens its saved stream — the handler
+     * only schedules start(), so discard the saved reopen before anything else can open it.
+     */
     fun onAppForegrounded() {
-        player.onAppForegrounded()
-        livePreview.onAppForegrounded()
+        val handled = foregroundHandlers.map { runCatching { it() }.getOrDefault(false) }.any { it }
+        val plan = resumePlan(handled)
+        if (plan.restorePlayer) player.onAppForegrounded() else player.discardBackgroundRestore()
+        if (plan.restorePreview) livePreview.onAppForegrounded() else livePreview.discardBackgroundRestore()
         pool.onAppForegrounded()
     }
 
     companion object {
+        /** Whether each engine should reopen its saved stream. A handled resume restores neither. */
+        internal data class ResumePlan(val restorePlayer: Boolean, val restorePreview: Boolean)
+
+        internal fun resumePlan(handled: Boolean) = ResumePlan(!handled, !handled)
+
         /**
          * `RUNNING_LOW` shrinks mpv's cache; `RUNNING_CRITICAL` and `COMPLETE` also move the ExoPlayer
          * engines to the low-RAM buffer. `UI_HIDDEN` fires on every Home press and is deliberately

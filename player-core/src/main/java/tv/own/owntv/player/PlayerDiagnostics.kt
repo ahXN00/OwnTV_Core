@@ -337,4 +337,43 @@ object PlayerErrors {
     }
 
     fun reasonFor(raw: String): PlayerFailureReason? = classify(raw)
+
+    /**
+     * Host failover's typed classifier for ExoPlayer (A5). Walks the cause chain instead of matching text:
+     * an HTTP status comes from `InvalidResponseCodeException.responseCode`; a timeout counts as the
+     * server's only while *opening* ([HttpDataSource.HttpDataSourceException.TYPE_OPEN]) with no response
+     * headers seen yet — after headers it is a slow stream, not a dead server. Format, decoder and DRM
+     * failures are never the server's.
+     */
+    fun hostFailureOf(error: androidx.media3.common.PlaybackException, headersSeen: Boolean): tv.own.owntv.core.network.HostFailureClass {
+        var responseCode: Int? = null
+        var opening: Boolean? = null
+        var cause: Throwable? = error.cause
+        var depth = 0
+        while (cause != null && depth++ < 12 && responseCode == null) {
+            when (cause) {
+                is androidx.media3.datasource.HttpDataSource.InvalidResponseCodeException -> responseCode = cause.responseCode
+                is androidx.media3.datasource.HttpDataSource.HttpDataSourceException ->
+                    if (opening == null) opening = cause.type == androidx.media3.datasource.HttpDataSource.HttpDataSourceException.TYPE_OPEN
+            }
+            cause = cause.cause
+        }
+        return hostFailureOf(error.errorCode, responseCode, opening, error.cause, headersSeen)
+    }
+
+    /** The pure half of [hostFailureOf], on what was read out of the exception (testable without Media3 data specs). */
+    fun hostFailureOf(
+        errorCode: Int,
+        responseCode: Int?,
+        opening: Boolean?,
+        cause: Throwable?,
+        headersSeen: Boolean,
+    ): tv.own.owntv.core.network.HostFailureClass {
+        if (errorCode in androidx.media3.common.PlaybackException.ERROR_CODE_PARSING_CONTAINER_MALFORMED..androidx.media3.common.PlaybackException.ERROR_CODE_PARSING_MANIFEST_UNSUPPORTED ||
+            errorCode in androidx.media3.common.PlaybackException.ERROR_CODE_DECODER_INIT_FAILED..androidx.media3.common.PlaybackException.ERROR_CODE_DECODING_RESOURCES_RECLAIMED ||
+            errorCode in androidx.media3.common.PlaybackException.ERROR_CODE_DRM_UNSPECIFIED..androidx.media3.common.PlaybackException.ERROR_CODE_DRM_LICENSE_EXPIRED
+        ) return tv.own.owntv.core.network.HostFailureClass.NEVER
+        if (responseCode != null) return tv.own.owntv.core.network.HostFailure.classifyCode(responseCode)
+        return tv.own.owntv.core.network.HostFailure.classify(cause, beforeHeaders = opening == true && !headersSeen)
+    }
 }

@@ -494,6 +494,34 @@ class LivePreviewEngine(
     private val activeIsHls: Boolean get() = activeRoute == StreamRoute.HLS
     /** Actual media-source route for the current load, including runtime `.ts` -> HLS detection. */
     val isHlsStream: Boolean get() = activeIsHls
+
+    /**
+     * What this load's failure says about the server (host failover, A5): typed from the last player
+     * error's cause chain, or — when nothing failed but nothing answered either — host-class once no
+     * request of the load ever got response headers.
+     */
+    val hostFailure: tv.own.owntv.core.network.HostFailureClass
+        get() {
+            val raw = when {
+                tune.hostFailure != tv.own.owntv.core.network.HostFailureClass.UNKNOWN -> tune.hostFailure
+                currentUrl != null && !tune.headersSeen -> tv.own.owntv.core.network.HostFailureClass.HOST
+                else -> tv.own.owntv.core.network.HostFailureClass.UNKNOWN
+            }
+            // A CDN or other redirect target is not the panel. Before the first frame the ladder's other
+            // engine rejoins through the panel URL; after a picture, the engine's own reconnects are that
+            // rejoin and the tune controller only reads this once they are spent (A5).
+            return tv.own.owntv.core.network.HostFailure.forPoolOrigin(
+                raw,
+                openedOrigin = currentUrl?.let { tv.own.owntv.core.network.HostPool.origin(it) },
+                hopOrigin = tune.failedHopOrigin,
+                rejoined = tune.hasPlayed,
+            )
+        }
+
+    private val _reconnectsExhausted = kotlinx.coroutines.flow.MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+
+    /** A channel that had played has used up its own reconnects (A5): host failover may act now. */
+    val reconnectsExhausted: kotlinx.coroutines.flow.SharedFlow<Unit> = _reconnectsExhausted
     /** Distinct live segments this load has been refused — the evidence behind [segmentsRefused]. */
     private val refusedSegments = mutableSetOf<String>()
     private val _segmentsRefused = MutableStateFlow(false)
@@ -1264,6 +1292,7 @@ class LivePreviewEngine(
 
         override fun onPlayerError(error: PlaybackException) {
             android.util.Log.w(LiveDiagnosticsLog.TAG, "ExoPlayer error: ${error.errorCodeName}", error)
+            tune.hostFailure = PlayerErrors.hostFailureOf(error, headersSeen = tune.headersSeen)
             LiveDiagnosticsLog.event("player_error code=${error.errorCodeName} hasPlayed=${tune.hasPlayed}")
             // A decoder or audio-output failure while tunneled is the tunnel's (N19); a network one is not.
             if (tunneledNow && error.errorCode in TUNNEL_FAILURE_CODES) { tunnelingFailed(error.errorCodeName); return }
@@ -1909,6 +1938,8 @@ class LivePreviewEngine(
             val failingSecs = if (tune.failingSinceMs > 0L) (nowMs - tune.failingSinceMs) / 1000 else 0L
             LiveDiagnosticsLog.event("reconnect exhausted ($reason) at ${tune.retryCount}/$MAX_RECONNECTS after ${failingSecs}s — giving up")
             tune.gaveUp = true
+            // Host failover (A5 post-first-frame rule): only now may a mid-play failure count against the server.
+            if (tune.hasPlayed) _reconnectsExhausted.tryEmit(Unit)
             _stalledSinceMs.value = null
             _state.value = State.ERROR; _isPlaying.value = false; _buffering.value = false
             // The err: line under the error. With nothing more specific to show, say what happened rather
@@ -2923,6 +2954,7 @@ class LivePreviewEngine(
                 val request = chain.request()
                 try {
                     val response = chain.proceed(request)
+                    tune.headersSeen = true
                     val finalUrl = response.request.url.toString()
                     if (isHlsResponse(finalUrl, response.header("Content-Type"))) {
                         tune.responseWasHls = true
@@ -2944,6 +2976,7 @@ class LivePreviewEngine(
                     // user hitting that wall has no reason to have turned logging on first.
                     val requested = request.url.toString()
                     val failed = !response.isSuccessful
+                    if (failed) tune.failedHopOrigin = tv.own.owntv.core.network.HostPool.origin(request.url.toString())
                     val prefix = if (failed || LiveDiagnosticsLog.enabled) {
                         runCatching { response.peekBody(564).bytes() }.getOrDefault(byteArrayOf())
                     } else {
@@ -2984,6 +3017,7 @@ class LivePreviewEngine(
                     }
                     response
                 } catch (t: Throwable) {
+                    tune.failedHopOrigin = tv.own.owntv.core.network.HostPool.origin(request.url.toString())
                     if (LiveDiagnosticsLog.enabled) {
                         LiveDiagnosticsLog.event(
                             "http_failure type=${t.javaClass.simpleName} message=${HttpClient.redactUrl(t.message.orEmpty())} " +
@@ -3776,6 +3810,12 @@ internal data class TuneState(
     var prerollRetunePending: Boolean = false,
     /** The top-level request ended at an HLS manifest even though the submitted URL looked like raw TS. */
     @field:Volatile var responseWasHls: Boolean = false,
+    /** Some request of this load got response headers back: the server is alive (host failover, R1). */
+    @field:Volatile var headersSeen: Boolean = false,
+    /** What the last player error says about the server (host failover, A5). */
+    @field:Volatile var hostFailure: tv.own.owntv.core.network.HostFailureClass = tv.own.owntv.core.network.HostFailureClass.UNKNOWN,
+    /** Origin of the hop that last failed. Differs from the opened URL when a redirect target died. */
+    @field:Volatile var failedHopOrigin: String? = null,
     var forceHlsForCurrentLoad: Boolean = false,
     var redirectedHlsRetryDone: Boolean = false,
     /** This load went to the HLS parser only because the panel was learned as redirecting `.ts` to a

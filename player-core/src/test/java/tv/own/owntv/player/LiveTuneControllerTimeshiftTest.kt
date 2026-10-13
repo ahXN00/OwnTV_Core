@@ -18,6 +18,11 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import tv.own.owntv.core.database.entity.ChannelEntity
 import tv.own.owntv.core.database.entity.SourceEntity
+import tv.own.owntv.core.model.SourceType
+import tv.own.owntv.core.network.HostFailureClass
+import tv.own.owntv.core.network.HostPool
+import tv.own.owntv.core.network.HostPreflight
+import tv.own.owntv.core.network.HostSelector
 import tv.own.owntv.core.player.EnginePreference
 import tv.own.owntv.core.stalker.ReconnectUrlProvider
 import tv.own.owntv.core.timeshift.TimeshiftManager
@@ -69,6 +74,7 @@ class LiveTuneControllerTimeshiftTest {
         manager.closeAll()
         provider.close()
         runCatching { dir.deleteRecursively() }
+        LiveStreamQuirks.clearForTest()
     }
 
     private class Engines : LiveEngines {
@@ -77,7 +83,10 @@ class LiveTuneControllerTimeshiftTest {
         override val exoIsHls = false
         override var exoFailed = false
         override var mpvHasStream = false
+        override var exoHostFailure = HostFailureClass.UNKNOWN
+        override var mpvLastError: String? = null
         var exoWatch: CompletableDeferred<String?>? = null
+        var mpvWatch: CompletableDeferred<MpvOutcome>? = null
 
         override fun exoPlay(url: String, muted: Boolean, request: LiveRequest) { exoUrl = url; log += "exo:$url" }
         override fun exoSetMuted(muted: Boolean) { log += if (muted) "exo-mute" else "exo-unmute" }
@@ -91,6 +100,7 @@ class LiveTuneControllerTimeshiftTest {
             onOpened: () -> Unit,
             postponeDeadline: (Long) -> Unit,
             log: (String) -> Unit,
+            openTimeoutMs: Long,
         ) {
             val reason = CompletableDeferred<String?>().also { exoWatch = it }.await()
             if (reason == null) onOpened() else if (stillOurs()) handOver(reason)
@@ -100,7 +110,7 @@ class LiveTuneControllerTimeshiftTest {
         override suspend fun mpvStopAndAwaitRelease() { mpvHasStream = false }
         override fun mpvAbandon(reason: String) { log += "mpv-abandon" }
         override suspend fun awaitMpvOutcome(timeoutMs: Long): MpvOutcome? = withTimeoutOrNull(timeoutMs) {
-            CompletableDeferred<MpvOutcome>().await()
+            CompletableDeferred<MpvOutcome>().also { mpvWatch = it }.await()
         }
         override fun setReconnectProvider(provider: ReconnectUrlProvider?) {}
     }
@@ -109,7 +119,12 @@ class LiveTuneControllerTimeshiftTest {
         val resumeMode: tv.own.owntv.core.settings.SettingsRepository.ResumeMode =
             tv.own.owntv.core.settings.SettingsRepository.ResumeMode.ASK,
     ) : LiveTuneController.Host {
-        override suspend fun sourceOf(sourceId: Long): SourceEntity? = null
+        var failoverSource: SourceEntity? = null
+        var selector: HostSelector? = null
+        var timeshiftNotices = 0
+        val preflights = mutableListOf<String>()
+
+        override suspend fun sourceOf(sourceId: Long): SourceEntity? = failoverSource
         override fun needsResolve(source: SourceEntity?) = false
         override suspend fun resolve(source: SourceEntity, cmd: String): String? = null
         override suspend fun enginePin(channel: ChannelEntity): Boolean? = null
@@ -121,6 +136,12 @@ class LiveTuneControllerTimeshiftTest {
         override val timeshift: TimeshiftManager get() = manager
         override suspend fun timeshiftWindowMinutes(): Int? = 15
         override suspend fun timeshiftResumeMode() = resumeMode
+        override val hostSelector get() = selector
+        override suspend fun preflight(source: SourceEntity, server: String): HostPreflight.Result {
+            preflights += server
+            return HostPreflight.Result.Other(null)
+        }
+        override fun onFailoverOffForTimeshift() { timeshiftNotices++ }
     }
 
     private fun channel(id: Long, catchup: Boolean = false) = ChannelEntity(
@@ -189,6 +210,47 @@ class LiveTuneControllerTimeshiftTest {
         c.tune(channel(first))
         awaitLog(engines) { log -> log.count { it.startsWith("exo:") } >= 3 }
         return c to engines
+    }
+
+    @Test
+    fun `AC31 timeshift keeps failover off and notifies once`() = runBlocking {
+        val engines = Engines()
+        val host = Host().apply {
+            failoverSource = SourceEntity(
+                id = 1,
+                name = "X",
+                type = SourceType.XTREAM,
+                url = "http://a.example.top",
+                username = "u",
+                password = "p",
+                backupUrls = HostPool.encode(listOf("http://b.example.top")),
+            )
+            selector = HostSelector { _, _ -> }
+        }
+        val c = LiveTuneController(scope, engines, host)
+        c.tune(channel(40))
+        awaitLog(engines) { log -> log.any { it.startsWith("exo:") } }
+        val exo = engines.log.first { it.startsWith("exo:") }.removePrefix("exo:")
+        assertTrue(TimeshiftServer.isLocal(exo))
+
+        engines.exoHostFailure = HostFailureClass.HOST
+        awaitLog(engines) { engines.exoWatch != null }
+        val exoWatch = engines.exoWatch!!
+        exoWatch.complete("connection refused")
+        awaitLog(engines) { log -> log.any { it.startsWith("mpv:") } }
+        assertEquals(1, host.timeshiftNotices)
+
+        engines.mpvLastError = "connection refused"
+        awaitLog(engines) { engines.mpvWatch != null }
+        val mpvWatch = engines.mpvWatch!!
+        mpvWatch.complete(MpvOutcome(opened = false, error = "connection refused"))
+        awaitLog(engines) { log -> log.any { it == "mpv-abandon" } }
+
+        assertEquals(1, host.timeshiftNotices)
+        assertTrue(host.preflights.isEmpty())
+        assertFalse(engines.log.any { it.contains("b.example") })
+        assertEquals(exo, engines.log.first { it.startsWith("mpv:") }.removePrefix("mpv:"))
+        assertNotNull(c.localTimeshift.value)
     }
 
     @Test

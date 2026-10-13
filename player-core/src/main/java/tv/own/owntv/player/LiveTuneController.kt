@@ -3,7 +3,9 @@ package tv.own.owntv.player
 import android.content.Context
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,6 +24,15 @@ import tv.own.owntv.core.settings.LiveBuffer
 import tv.own.owntv.core.settings.LiveLatency
 import tv.own.owntv.core.settings.SettingsRepository
 import tv.own.owntv.core.settings.SourceOverrides
+import tv.own.owntv.core.live.OpenStreamRegistry
+import tv.own.owntv.core.live.StreamPurpose
+import tv.own.owntv.core.network.HostFailover
+import tv.own.owntv.core.network.HostFailure
+import tv.own.owntv.core.network.HostFailureClass
+import tv.own.owntv.core.network.HostPool
+import tv.own.owntv.core.network.HostPreflight
+import tv.own.owntv.core.network.HostPreflight.isHostClass
+import tv.own.owntv.core.network.HostSelector
 import tv.own.owntv.core.network.HttpClient
 import tv.own.owntv.core.network.StreamHeaders
 import tv.own.owntv.core.stalker.ReconnectUrlProvider
@@ -82,6 +93,32 @@ class LiveTuneController(
         suspend fun timeshiftResumeMode(): SettingsRepository.ResumeMode = SettingsRepository.ResumeMode.ASK
         /** N11 — Settings → Maximum video quality, for the variant a buffer saves; null for none. */
         suspend fun maxVideoHeight(): Int? = null
+
+        // --- Host failover (design §4-§8). Defaults = no failover, exactly the old behaviour. ---
+
+        /** The one owner of each source's in-use server; null = never switch, never rewrite. */
+        val hostSelector: HostSelector? get() = null
+        /** One bounded `player_api` call against [server] (an origin), after the release gate. */
+        suspend fun preflight(source: SourceEntity, server: String): HostPreflight.Result = HostPreflight.Result.Other(null)
+        /** Everything outside this controller that can hold a stream (A6), stopped and awaited. */
+        suspend fun releaseAllStreams(sourceId: Long): ReleaseGate.Result = ReleaseGate.Result.Released(mpvDestroyed = false, quiet = true)
+        /** A new server played: the one toast per switch ("Switched to server k of N · host"). */
+        fun onServerSwitched(source: SourceEntity, position: Int, total: Int, server: String) {}
+        /** Every server failed in one round ("All N servers failed"); no automatic retry follows. */
+        fun onServersExhausted(source: SourceEntity, total: Int) {}
+        /** False while the device has no path out: the failover round pauses and spends no host (L1). */
+        fun isOnline(): Boolean = true
+        /** Suspends until [isOnline] is true again. */
+        suspend fun awaitOnline() {}
+        /** Called once when a failover round pauses because the device is offline. */
+        fun onNoNetwork() {}
+        /** Live failover stayed off because a local timeshift buffer is on (L2). Once per tune. */
+        fun onFailoverOffForTimeshift() {}
+        /**
+         * Hold a [StreamPurpose.WATCHING] claim from the release gate until the engine opens.
+         * A recording must not take the only connection in that gap. Returns the release; no-op by default.
+         */
+        fun reserveWatching(sourceId: Long): () -> Unit = { {} }
     }
 
     /**
@@ -140,6 +177,8 @@ class LiveTuneController(
 
     private val ladder = LiveLadder()
     private var armedBudgetMs: Long = LiveLadder.NO_BUDGET
+    /** Resolved "Give up after" seconds from [arm]; 0 or less is Never. Non-suspending so [serverCapMs] can read it. */
+    private var armedBudgetSecs: Int = 0
 
     /**
      * The channel whose ExoPlayer rung is the explicit `.ts` one. Keyed by channel, not a bare flag: the
@@ -162,6 +201,41 @@ class LiveTuneController(
     private var mpvOutcomeJob: Job? = null
     private var mpvHandoffJob: Job? = null
     private var deadlineJob: Job? = null
+
+    // --- Host failover state: one round per tune, the server waiting for its first frame. ---
+    private var failoverJob: Job? = null
+    private var midPlayJob: Job? = null
+    private var round: HostFailover? = null
+    private var pendingServer: String? = null
+    private var pendingSourceId: Long? = null
+    /** How long a post-switch 458/407/509 has already been waited out on [pendingServer] (R4). */
+    private var sessionWaitedMs = 0L
+    /** Set while a failover re-opens the channel on the next server, so [start] keeps the round. */
+    private var restartingOnServer = false
+
+    /** A cancelled switch must not leave [HostSelector.attempt] in memory. */
+    private fun dropPendingServer() {
+        val id = pendingSourceId
+        val sel = host.hostSelector
+        if (pendingServer != null && id != null && sel != null) {
+            scope.launch { host.sourceOf(id)?.let { sel.abandon(it) } }
+        }
+        pendingServer = null
+        pendingSourceId = null
+    }
+
+    /** Same as [dropPendingServer], but [HostSelector.abandon] finishes before the next URL resolve. */
+    private suspend fun dropPendingServerNow() {
+        val id = pendingSourceId
+        val sel = host.hostSelector
+        if (pendingServer != null && id != null && sel != null) {
+            host.sourceOf(id)?.let { sel.abandon(it) }
+        }
+        pendingServer = null
+        pendingSourceId = null
+    }
+    /** The timeshift-blocks-failover toast already fired for this tune. */
+    private var toldFailoverOffForTimeshift = false
 
     // --- Entry points -----------------------------------------------------------------------------
 
@@ -188,6 +262,16 @@ class LiveTuneController(
     suspend fun start(channel: ChannelEntity, source: SourceEntity?, resolved: String? = null) {
         previewJob?.cancel()
         cancelLadderJobs()
+        if (!restartingOnServer) {
+            // A new tune (or Retry) starts a fresh round from the in-use server (AC8).
+            failoverJob?.cancel()
+            round = null
+            sessionWaitedMs = 0L
+            toldFailoverOffForTimeshift = false
+            // A zap before the first frame is a cancelled switch: abandon the unconfirmed server.
+            dropPendingServerNow()
+        }
+        source?.let { s -> HostPool.pool(s).takeIf { it.size > 1 }?.let { LiveStreamQuirks.registerPool(HostPool.poolKey(s.id), it + s.url) } }
         current = channel
         recall.onWatched(channel)
         _previewBlocked.value = false
@@ -229,17 +313,51 @@ class LiveTuneController(
         if (previewedChannelId == channel.id && engines.exoUrl != null && !engines.exoFailed) _liveOnExo.value = true
     }
 
+    /** True while a server switch or a 458 session wait runs; the engine toggle is ignored then. */
+    val isSwitchingServers: Boolean get() = failoverJob?.isActive == true
+
+    /** App went invisible mid-switch: drop the round so it cannot open a stream later. */
+    fun cancelFailover() {
+        val active = failoverJob?.isActive == true || midPlayJob?.isActive == true
+        dropPendingServer()
+        if (!active) return
+        failoverJob?.cancel()
+        midPlayJob?.cancel()
+        failoverJob = null
+        midPlayJob = null
+        engineLog("server switch cancelled: app in background")
+    }
+
+    /**
+     * Television came back: re-tune the channel on screen through [start], the one entry that cancels
+     * stale jobs. Failover state and the in-use server then apply. False when nothing is on screen.
+     */
+    fun resumeAfterBackground(): Boolean {
+        val ch = current ?: return false
+        engineLog("resume: re-tuning '${ch.name}'")
+        launch { start(ch, host.sourceOf(ch.sourceId)) }
+        return true
+    }
+
     /**
      * The HUD's engine button: flip the channel on screen between the two engines and pin the choice.
+     * Returns false when there is no channel, the channel is protected, or a server switch is in flight.
+     *
+     * Ignored mid-switch: cancelling could leave the old socket open mid-gate, and awaiting would replay
+     * a stale press.
      *
      * For THIS tune the ladder is armed "only" on the engine the user just named — bouncing them off it
      * seconds later makes the control look broken. The next tune of the channel reads the pin and gets
      * the full ladder back. The app refuses first while a catch-up or a rewind is on screen.
      */
-    fun toggleEngine() {
-        val channel = current ?: return
+    fun toggleEngine(): Boolean {
+        val channel = current ?: return false
         // A protected channel has only one engine that can obtain its key.
-        if (channel.drmConfig != null) return
+        if (channel.drmConfig != null) return false
+        if (failoverJob?.isActive == true) {
+            engineLog("engine toggle ignored: switching servers")
+            return false
+        }
         val goToMpv = _liveOnExo.value
         // On a saved copy the other engine continues at the moment on screen, not at the live edge.
         ts?.let { session ->
@@ -253,6 +371,7 @@ class LiveTuneController(
             if (goToMpv) startOnMpv(channel, source, "user chose compatibility mode")
             else switchToExo(channel, source)
         }
+        return true
     }
 
     /**
@@ -331,6 +450,8 @@ class LiveTuneController(
      */
     fun detach() {
         tuneJob?.cancel()
+        failoverJob?.cancel()
+        dropPendingServer()
         cancelLadderJobs()
         current = null
         _liveOnExo.value = false
@@ -363,6 +484,7 @@ class LiveTuneController(
      */
     fun releaseForArchive() {
         parkTimeshift()
+        failoverJob?.cancel()
         cancelLadderJobs()
         current = null
         _liveOnExo.value = false
@@ -373,6 +495,7 @@ class LiveTuneController(
     fun stop() {
         cancelTune()
         releaseForArchive()
+        dropPendingServer()
         engines.mpvStop()
         host.timeshift?.watching(null)
     }
@@ -453,7 +576,7 @@ class LiveTuneController(
             url = {
                 val first = minted
                 when {
-                    !stalker -> channel.streamUrl
+                    !stalker -> serverUrl(channel.streamUrl, source)
                     // The tune's own link first; every reconnect mints a fresh one (a link is single-use).
                     first != null -> first.also { minted = null }
                     else -> host.resolve(source!!, channel.streamUrl)
@@ -668,7 +791,7 @@ class LiveTuneController(
         }
         val stalker = host.needsResolve(source)
         val raw = when {
-            !stalker -> channel.streamUrl
+            !stalker -> serverUrl(channel.streamUrl, source)
             resolved != null -> resolved
             else -> host.resolve(source!!, channel.streamUrl) ?: return
         }
@@ -718,10 +841,15 @@ class LiveTuneController(
                 stillOurs = { isStillExo(channel) },
                 // Into the ladder rather than straight to mpv: the ladder decides what "next" means.
                 handOver = { reason -> advance(channel, source, reason) },
-                onOpened = ::standDownAlarm,
+                onOpened = {
+                    standDownAlarm()
+                    onServerPlayed(channel, source, onExo = true)
+                },
                 // A provider back-off is a wait OwnTV agreed to; it is not charged to the budget.
                 postponeDeadline = { ladder.postponeDeadline(it) },
                 log = ::engineLog,
+                openTimeoutMs = if (failoverApplies(source) == null) LiveExoWatchdog.OPEN_TIMEOUT_MS
+                    else HostFailover.capMs(armedBudgetSecs),
             )
         }
     }
@@ -730,13 +858,15 @@ class LiveTuneController(
     private fun watchMpv(channel: ChannelEntity, source: SourceEntity?) {
         mpvOutcomeJob?.cancel()
         mpvOutcomeJob = scope.launch {
-            val outcome = engines.awaitMpvOutcome(MPV_OPEN_TIMEOUT_MS)
+            val timeoutMs = serverCapMs(source)?.let { minOf(MPV_OPEN_TIMEOUT_MS, it) } ?: MPV_OPEN_TIMEOUT_MS
+            val outcome = engines.awaitMpvOutcome(timeoutMs)
             if (!isStillMpv(channel)) return@launch
             val reason = when {
-                outcome == null -> "mpv never opened it (${MPV_OPEN_TIMEOUT_MS / 1000}s, no picture and no error)"
+                outcome == null -> "mpv never opened it (${timeoutMs / 1000}s, no picture and no error)"
                 outcome.opened -> {
                     engineLog("'${channel.name}' opened on mpv")
                     standDownAlarm()
+                    onServerPlayed(channel, source, onExo = false)
                     return@launch
                 }
                 else -> "mpv couldn't play it: ${outcome.error}"
@@ -750,12 +880,13 @@ class LiveTuneController(
     private suspend fun arm(channel: ChannelEntity, source: SourceEntity?, preference: EnginePreference) {
         forceTsFor = null
         val secs = SourceOverrides.liveTuneTimeoutSecsOf(source) ?: host.globalBudgetSecs()
+        armedBudgetSecs = secs
         armedBudgetMs = if (secs <= 0) LiveLadder.NO_BUDGET else secs * 1000L
         ladder.arm(channel.streamUrl, preference, budgetMs = armedBudgetMs, nowMs = host.nowMs()) {
             // A saved copy is one address; the ladder is only the two engines.
             ts == null && hasHlsAlternative(channel, source)
         }
-        startAlarm(channel)
+        startAlarm(channel, source)
     }
 
     /**
@@ -763,8 +894,11 @@ class LiveTuneController(
      * decision to climb another rung: a rung entered at 24 s with a 35 s timeout of its own would
      * otherwise run to 59 s. The deadline is re-read on each pass, so a postponement moves the alarm.
      * A channel that opens stands the alarm down — later stalls belong to the watchdogs.
+     *
+     * Re-armed by [arm] on every [start], including a server switch, so the budget is per server.
+     * With failover still open, a spent budget verifies this server and switches instead of giving up.
      */
-    private fun startAlarm(channel: ChannelEntity) {
+    private fun startAlarm(channel: ChannelEntity, source: SourceEntity?) {
         deadlineJob?.cancel()
         deadlineJob = scope.launch {
             while (ladder.owns(channel.streamUrl)) {
@@ -777,6 +911,18 @@ class LiveTuneController(
             if (!ladder.owns(channel.streamUrl)) return@launch
             if (!isStillExo(channel) && !isStillMpv(channel)) return@launch
             val detail = "no picture within ${armedBudgetMs / 1000}s of tuning"
+            val sel = failoverApplies(source)
+            if (sel != null && source != null && round?.exhausted != true) {
+                val failed = sel.current(source)
+                if (failed != null) {
+                    engineLog("'${channel.name}' — $detail; checking the server")
+                    failoverJob?.cancel()
+                    failoverJob = scope.launch {
+                        runFailover(channel, source, sel, failed, verify = true, reason = detail, aboutFormat = false)
+                    }
+                    return@launch
+                }
+            }
             engineLog("'${channel.name}' — giving up: $detail")
             host.recordLadderEvent(_liveOnExo.value, PlayerFailureReason.LIVE_NO_FALLBACK, "'${channel.name}': $detail")
             exoWatchJob?.cancel()
@@ -805,6 +951,13 @@ class LiveTuneController(
         aboutFormat: Boolean = !isRequestRefusal(reason),
     ) {
         if (!ladder.owns(channel.streamUrl)) return // a newer tune owns the ladder now
+        // A dead server is not a format problem: switch servers instead of walking the format rungs (AC3).
+        if (startFailover(channel, source, reason, aboutFormat)) return
+        climbLadder(channel, source, reason, aboutFormat)
+    }
+
+    private suspend fun climbLadder(channel: ChannelEntity, source: SourceEntity?, reason: String, aboutFormat: Boolean) {
+        if (!ladder.owns(channel.streamUrl)) return
         val nowMs = host.nowMs()
         // ExoPlayer played this channel, then found its content unplayable (not a connection problem).
         // The opening budget is long spent by then, which would refuse mpv, the engine most likely to
@@ -858,6 +1011,244 @@ class LiveTuneController(
         mpvOutcomeJob?.cancel()
         mpvHandoffJob?.cancel()
         deadlineJob?.cancel()
+        midPlayJob?.cancel()
+    }
+
+    // --- Host failover ----------------------------------------------------------------------------
+
+    /** What the engine on screen says about the server (A5). An mpv load with no error line is unknown. */
+    private fun currentHostFailure(): HostFailureClass =
+        if (_liveOnExo.value) engines.exoHostFailure
+        else engines.mpvLastError?.let(HostFailure::classifyMpv) ?: HostFailureClass.UNKNOWN
+
+    /**
+     * Per-server open cap when failover is on: [HostFailover.capMs] plus this playlist's pre-buffer.
+     * Null when failover does not apply.
+     */
+    private fun serverCapMs(source: SourceEntity?): Long? {
+        if (failoverApplies(source) == null) return null
+        val preBufferMs = (source?.livePrerollSecs ?: 0).coerceAtLeast(0) * 1000L
+        return HostFailover.capMs(armedBudgetSecs) + preBufferMs
+    }
+
+    /** Failover is on for this tune: an Xtream pool with the switch on, and no timeshift buffer saving it (§4). */
+    private fun failoverApplies(source: SourceEntity?): HostSelector? {
+        val sel = host.hostSelector ?: return null
+        if (source == null || !HostPool.failoverActive(source)) return null
+        if (ts != null) return null
+        return sel
+    }
+
+    /**
+     * Hand a failure to host failover when it is the server's (true = handled). Host-class goes straight
+     * to the next server; an unclassified mpv failure gets one preflight of the current server after the
+     * release gate and switches only if that says the server is down (G4). Everything else — refusals,
+     * 503, session limits, format and decoder trouble — is the ladder's, exactly as before.
+     */
+    private fun startFailover(channel: ChannelEntity, source: SourceEntity?, reason: String, aboutFormat: Boolean): Boolean {
+        val sel = failoverApplies(source)
+        if (sel == null) {
+            // Off only because a timeshift buffer is saving this channel (L2): say so once, then the ladder.
+            val cls = currentHostFailure()
+            if (ts != null && host.hostSelector != null && source != null && HostPool.failoverActive(source) &&
+                (cls == HostFailureClass.HOST || cls == HostFailureClass.UNKNOWN) &&
+                !toldFailoverOffForTimeshift
+            ) {
+                toldFailoverOffForTimeshift = true
+                host.onFailoverOffForTimeshift()
+            }
+            return false
+        }
+        val cls = currentHostFailure()
+        // A session-limit answer on the server we just opened waits there (R4). It never climbs the
+        // format ladder and never opens the next server: both would be a second socket on the account.
+        if (cls == HostFailureClass.WAIT && pendingServer != null && source != null) {
+            failoverJob?.cancel()
+            failoverJob = scope.launch { waitOutSession(channel, source, reason) }
+            return true
+        }
+        val verify = when {
+            cls == HostFailureClass.HOST -> false
+            cls == HostFailureClass.UNKNOWN && !_liveOnExo.value -> true
+            else -> return false
+        }
+        if (round?.exhausted == true) return false
+        val failed = sel.current(source!!) ?: return false
+        failoverJob?.cancel()
+        // Detached, like the mpv handoff: the release gate cancels the watcher this was called from.
+        failoverJob = scope.launch { runFailover(channel, source, sel, failed, verify, reason, aboutFormat) }
+        return true
+    }
+
+    /**
+     * The new server answered 458/407/509 (the panel still counts the socket we just closed). Stop,
+     * wait [ServerRound.SESSION_RECHECK_MS], and open the **same** server again, up to
+     * [HostFailover.SESSION_WAIT_MS]. Nothing else is opened.
+     */
+    private suspend fun waitOutSession(channel: ChannelEntity, source: SourceEntity, reason: String) {
+        val pool = HostPool.pool(source)
+        if (sessionWaitedMs >= HostFailover.SESSION_WAIT_MS) {
+            cancelLadderJobs()
+            stopExoEngine()
+            engines.mpvStop()
+            engineLog(
+                "'${channel.name}' — session still held on ${HostPool.describe(pool, pendingServer)} " +
+                    "after ${HostFailover.SESSION_WAIT_MS / 1000}s",
+            )
+            abandon(channel, reason)
+            return
+        }
+        cancelLadderJobs()
+        setReconnect(null, null)
+        stopExoEngine()
+        engines.mpvStop()
+        val gate = host.releaseAllStreams(source.id)
+        if (gate is ReleaseGate.Result.Refused) {
+            engineLog("'${channel.name}' — not retrying ${HostPool.describe(pool, pendingServer)}: ${gate.why.name.lowercase()} in progress")
+            abandon(channel, reason)
+            return
+        }
+        val release = host.reserveWatching(source.id)
+        try {
+            if (!isCurrent(channel)) return
+            ladder.postponeDeadline(ServerRound.SESSION_RECHECK_MS)
+            delay(ServerRound.SESSION_RECHECK_MS)
+            sessionWaitedMs += ServerRound.SESSION_RECHECK_MS
+            if (!isCurrent(channel)) return
+            engineLog("'${channel.name}' — retrying ${HostPool.describe(pool, pendingServer)} (session still held)")
+            restartingOnServer = true
+            try {
+                start(channel, source)
+            } finally {
+                restartingOnServer = false
+            }
+        } finally {
+            release()
+        }
+    }
+
+    /** Arm the mid-play watch: once the engine's own reconnects are spent (A5), the server may be at fault. */
+    private fun watchMidPlay(channel: ChannelEntity, source: SourceEntity?, onExo: Boolean) {
+        val sel = failoverApplies(source) ?: return
+        midPlayJob?.cancel()
+        midPlayJob = scope.launch {
+            if (onExo) engines.awaitExoReconnectsExhausted() else engines.awaitMpvLiveLost()
+            if (!isCurrent(channel) || _liveOnExo.value != onExo) return@launch
+            val cls = currentHostFailure()
+            if (cls != HostFailureClass.HOST && !(cls == HostFailureClass.UNKNOWN && !onExo)) return@launch
+            val failed = sel.current(source!!) ?: return@launch
+            engineLog("'${channel.name}' — reconnects spent; checking the server")
+            round = null // a mid-play outage starts its own round from the server that was playing
+            failoverJob?.cancel()
+            failoverJob = scope.launch {
+                runFailover(channel, source, sel, failed, verify = cls == HostFailureClass.UNKNOWN, reason = "lost connection", aboutFormat = false)
+            }
+        }
+    }
+
+    /**
+     * One switch (design §7): release gate → backoff → preflight → open, repeated over the round until a
+     * server answers as a panel. Never two servers at once: the gate proves every stream of ours is closed
+     * before the first preflight, and nothing opens again until a preflight said OK.
+     */
+    private suspend fun runFailover(
+        channel: ChannelEntity,
+        source: SourceEntity,
+        sel: HostSelector,
+        failedServer: String,
+        verify: Boolean,
+        reason: String,
+        aboutFormat: Boolean,
+    ) {
+        val pool = HostPool.pool(source)
+        cancelLadderJobs()
+        setReconnect(null, null)
+        stopExoEngine()
+        val gate = host.releaseAllStreams(source.id)
+        if (gate is ReleaseGate.Result.Refused) {
+            // A recording, a download or a measurement holds the account: the error shows as before.
+            engineLog("'${channel.name}' — not switching servers: ${gate.why.name.lowercase()} in progress")
+            abandon(channel, reason)
+            return
+        }
+        val release = host.reserveWatching(source.id)
+        try {
+            if (!isCurrent(channel)) return
+            if (verify) {
+                val check = host.preflight(source, failedServer)
+                engineLog("'${channel.name}' — ${HostPool.describe(pool, failedServer)} check: ${check::class.simpleName}")
+                if (!check.isHostClass()) {
+                    // The server answers: not the server's failure. Back to the ladder, engines already stopped.
+                    climbLadder(channel, source, reason, aboutFormat)
+                    return
+                }
+            }
+            val r = round ?: HostFailover(pool, failedServer).also { round = it }
+            val next = ServerRound.next(
+                round = r,
+                source = source,
+                failed = failedServer,
+                preflight = host::preflight,
+                stillCurrent = { isCurrent(channel) },
+                log = { engineLog("'${channel.name}' — $it") },
+                isOnline = host::isOnline,
+                awaitOnline = host::awaitOnline,
+                onOffline = host::onNoNetwork,
+            )
+            when (next) {
+                ServerRound.Next.Superseded -> return
+                is ServerRound.Next.Exhausted, is ServerRound.Next.Refused -> {
+                    sel.abandon(source)
+                    val detail = if (next is ServerRound.Next.Exhausted) "all ${next.total} servers failed" else (next as ServerRound.Next.Refused).detail
+                    engineLog("'${channel.name}' — giving up: $detail")
+                    host.recordLadderEvent(_liveOnExo.value, PlayerFailureReason.LIVE_NO_FALLBACK, "'${channel.name}': $detail")
+                    if (next is ServerRound.Next.Exhausted) host.onServersExhausted(source, next.total)
+                    abandon(channel, detail)
+                }
+                is ServerRound.Next.Open -> {
+                    try {
+                        sel.attempt(source, next.server)
+                        pendingServer = next.server
+                        pendingSourceId = source.id
+                        engineLog("'${channel.name}' — opening on ${HostPool.describe(pool, next.server)}")
+                        host.recordLadderEvent(_liveOnExo.value, PlayerFailureReason.LIVE_FALLBACK, "'${channel.name}': ${HostPool.describe(pool, next.server)}")
+                        restartingOnServer = true
+                        try {
+                            start(channel, source)
+                        } finally {
+                            restartingOnServer = false
+                        }
+                    } catch (e: kotlinx.coroutines.CancellationException) {
+                        withContext(NonCancellable) { dropPendingServerNow() }
+                        throw e
+                    }
+                }
+            }
+        } finally {
+            release()
+        }
+    }
+
+    /** First frame on a server: persist it once if it was a switch, toast it, then watch for a later outage. */
+    private fun onServerPlayed(channel: ChannelEntity, source: SourceEntity?, onExo: Boolean) {
+        val sel = host.hostSelector
+        val server = pendingServer
+        if (sel != null && source != null && server != null && source.id == pendingSourceId) {
+            pendingServer = null
+            pendingSourceId = null
+            if (sel.current(source) != server) {
+                // Something else moved the server since (Use first, a VOD round): nothing to confirm here.
+                watchMidPlay(channel, source, onExo)
+                return
+            }
+            round = null
+            sessionWaitedMs = 0L
+            val pool = HostPool.pool(source)
+            engineLog("'${channel.name}' — playing on ${HostPool.describe(pool, server)}")
+            scope.launch { sel.confirm(source, server) }
+            host.onServerSwitched(source, HostPool.position(pool, server), pool.size, server)
+        }
+        watchMidPlay(channel, source, onExo)
     }
 
     // --- Small helpers ----------------------------------------------------------------------------
@@ -883,9 +1274,20 @@ class LiveTuneController(
      * Which of the channel's two addresses ExoPlayer should ask for: the "Prefer HLS" `.m3u8`, except on
      * the ladder's `.ts` rung or a channel already caught this session having no working `.m3u8`.
      */
-    private fun exoUrlFor(channel: ChannelEntity, source: SourceEntity?): String =
+    private fun exoUrlFor(channel: ChannelEntity, source: SourceEntity?): String = serverUrl(
         if (forceTsFor == channel.streamUrl || LiveStreamQuirks.lacksHlsVariant(channel.streamUrl)) channel.streamUrl
-        else channel.playStreamUrl(source)
+        else channel.playStreamUrl(source),
+        source,
+    )
+
+    /**
+     * [url] (as stored, on the primary) moved onto the source's in-use server for the request. Identity
+     * without backups. Every lesson and key stays on the stored URL (R7: never persist a rewritten one).
+     */
+    private fun serverUrl(url: String, source: SourceEntity?): String {
+        val sel = host.hostSelector ?: return url
+        return if (source == null) url else sel.forRequest(url, source)
+    }
 
     /** Whether "Prefer HLS" rewrites this channel's URL at all; if not, HLS and TS rungs are one
      *  attempt and the ladder drops the HLS ones. A Stalker command is not a URL. */
@@ -953,6 +1355,14 @@ class LiveTuneController(
         private val sourceLookup: (suspend (Long) -> SourceEntity?)? = null,
         private val engineStarted: () -> Unit = {},
         private val backToLiveEdge: () -> Unit = {},
+        /** Host failover: a new server played (k of N, the server's origin, for the toast). */
+        private val serverSwitched: (SourceEntity, Int, Int, String) -> Unit = { _, _, _, _ -> },
+        /** Host failover: every server failed in one round. */
+        private val serversExhausted: (SourceEntity, Int) -> Unit = { _, _ -> },
+        /** Host failover: the round paused because the device is offline (L1). */
+        private val noNetwork: () -> Unit = {},
+        /** Host failover stayed off because local timeshift is on (L2). */
+        private val failoverOffForTimeshift: () -> Unit = {},
     ) : Host {
         override suspend fun sourceOf(sourceId: Long): SourceEntity? =
             sourceLookup?.invoke(sourceId) ?: sourceDao.getById(sourceId)
@@ -1003,6 +1413,51 @@ class LiveTuneController(
         override val timeshift: TimeshiftManager? by lazy {
             org.koin.core.context.GlobalContext.getOrNull()?.getOrNull<TimeshiftManager>()
         }
+
+        override val hostSelector: HostSelector? by lazy {
+            org.koin.core.context.GlobalContext.getOrNull()?.getOrNull<HostSelector>()
+        }
+
+        private val xtream: tv.own.owntv.core.parser.XtreamClient? by lazy {
+            org.koin.core.context.GlobalContext.getOrNull()?.getOrNull<tv.own.owntv.core.parser.XtreamClient>()
+        }
+
+        private val releaseGate: ReleaseGate? by lazy {
+            org.koin.core.context.GlobalContext.getOrNull()?.getOrNull<ReleaseGate>()
+        }
+
+        private val openStreams: OpenStreamRegistry? by lazy {
+            org.koin.core.context.GlobalContext.getOrNull()?.getOrNull<OpenStreamRegistry>()
+        }
+
+        override fun reserveWatching(sourceId: Long): () -> Unit {
+            val registry = openStreams ?: return {}
+            val claim = registry.claim(sourceId, StreamPurpose.WATCHING)
+            return { registry.release(claim) }
+        }
+
+        override suspend fun preflight(source: SourceEntity, server: String): HostPreflight.Result =
+            xtream?.let { HostPreflight.run(it, source, server) } ?: HostPreflight.Result.Other(null)
+
+        override suspend fun releaseAllStreams(sourceId: Long): ReleaseGate.Result =
+            releaseGate?.stopAllStreamsAndAwait(sourceId) ?: ReleaseGate.Result.Released(mpvDestroyed = false, quiet = true)
+
+        override fun onServerSwitched(source: SourceEntity, position: Int, total: Int, server: String) =
+            serverSwitched(source, position, total, server)
+
+        override fun onServersExhausted(source: SourceEntity, total: Int) = serversExhausted(source, total)
+
+        private val connectivity by lazy { tv.own.owntv.core.network.ConnectivityObserver(context) }
+
+        override fun isOnline(): Boolean = connectivity.isOnlineNow()
+
+        override suspend fun awaitOnline() {
+            connectivity.isOnline.first { it }
+        }
+
+        override fun onNoNetwork() = noNetwork()
+
+        override fun onFailoverOffForTimeshift() = failoverOffForTimeshift()
 
         override suspend fun timeshiftWindowMinutes(): Int? =
             if (settings.timeshiftEnabled.first()) settings.timeshiftWindowMinutes.first() else null

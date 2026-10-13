@@ -45,6 +45,8 @@ class DownloadEngine(
     private val seriesDao: SeriesDao,
     private val streamUrlResolver: StreamUrlResolver,
     private val activityTracker: DownloadActivityTracker,
+    /** Host failover: a download reads the in-use server but never switches it (design §4). */
+    private val hosts: tv.own.owntv.core.network.HostSelector? = null,
 ) {
     /** Jobs of transfers currently running, so pause/delete/retry can stop one precisely. */
     private val active = ConcurrentHashMap<Long, Job>()
@@ -219,7 +221,8 @@ class DownloadEngine(
         }
         val source = sourceId?.let { sourceDao.getById(it) }
         if (source == null || !streamUrlResolver.needsResolve(source)) {
-            return d.streamUrl to HttpClient.DEFAULT_USER_AGENT
+            val url = if (source != null) hosts?.forRequest(d.streamUrl, source) ?: d.streamUrl else d.streamUrl
+            return url to HttpClient.DEFAULT_USER_AGENT
         }
         val ua = source.userAgent?.takeIf { it.isNotBlank() } ?: StalkerClient.DEFAULT_MAG_USER_AGENT
         return streamUrlResolver.resolve(source, d.streamUrl, vod = true, episode = episode) to ua

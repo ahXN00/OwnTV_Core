@@ -3,6 +3,7 @@ package tv.own.owntv.core.network
 import kotlinx.coroutines.flow.emptyFlow
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThrows
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class DnsConfigHolderTest {
@@ -31,8 +32,9 @@ class DnsConfigHolderTest {
             fallbackToSystem = false,
         )
 
-        assertThrows(IllegalArgumentException::class.java) {
+        val ex = assertThrows(DohLookupException::class.java) {
             holder.dns.lookup("dns.google")
         }
+        assertTrue(ex.cause is IllegalArgumentException)
     }
 }

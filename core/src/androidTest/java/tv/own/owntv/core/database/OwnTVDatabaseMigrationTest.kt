@@ -705,6 +705,65 @@ class OwnTVDatabaseMigrationTest {
         }
     }
 
+    /** v48 adds host failover to `sources`: an Xtream and an M3U row come through untouched, defaults null/null/1. */
+    @Test
+    fun migrateVersion47To48_addsFailoverColumns_keepingSources() {
+        context.deleteDatabase(DB_NAME)
+        val db47 = context.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null)
+        val cols = "id, name, type, url, username, password, syncLive, syncMovies, syncSeries, hlsSupported, preferHls, " +
+            "livePrerollSecs, liveLatencyCustomSecs, maxConnections, maxConnectionsProbedAt, createdAt, lastSyncAt"
+        try {
+            executeSchemaQueries(db47, "tv.own.owntv.core.database.OwnTVDatabase/47.json")
+            db47.execSQL(
+                "INSERT INTO sources ($cols) VALUES (10, 'Xtream', '${SourceType.XTREAM.name}', 'http://pro.example.test:8080', " +
+                    "'user', 'pass', 1, 1, 0, 2, 1, 3, -1, 1, 0, 2, 3)",
+            )
+            db47.execSQL(
+                "INSERT INTO sources ($cols) VALUES (11, 'M3U', '${SourceType.M3U.name}', 'https://example.test/list.m3u', " +
+                    "NULL, NULL, 1, 1, 1, 0, 0, -1, -1, 0, 0, 4, NULL)",
+            )
+            db47.version = 47
+        } finally {
+            db47.close()
+        }
+
+        val db = openWithAllMigrations()
+        try {
+            val sqlite = openForAssertions(db)
+            listOf("backupUrls", "activeUrl", "failoverEnabled").forEach { assertColumnExists(sqlite, "sources", it) }
+            assertCount(sqlite, "sources", 2)
+            sqlite.prepare("SELECT id, name, type, url, username, password, syncSeries, hlsSupported, livePrerollSecs, maxConnections, " +
+                "createdAt, lastSyncAt, backupUrls, activeUrl, failoverEnabled FROM sources ORDER BY id").use {
+                assertTrue(it.step())
+                assertEquals(10L, it.getLong(0))
+                assertEquals("Xtream", it.getText(1))
+                assertEquals(SourceType.XTREAM.name, it.getText(2))
+                assertEquals("http://pro.example.test:8080", it.getText(3))
+                assertEquals("user", it.getText(4))
+                assertEquals("pass", it.getText(5))
+                assertEquals(0L, it.getLong(6))
+                assertEquals(2L, it.getLong(7))
+                assertEquals(3L, it.getLong(8))
+                assertEquals(1L, it.getLong(9))
+                assertEquals(2L, it.getLong(10))
+                assertEquals(3L, it.getLong(11))
+                assertTrue(it.isNull(12))
+                assertTrue(it.isNull(13))
+                assertEquals(1L, it.getLong(14))
+                assertTrue(it.step())
+                assertEquals(11L, it.getLong(0))
+                assertEquals("https://example.test/list.m3u", it.getText(3))
+                assertTrue(it.isNull(4))
+                assertTrue(it.isNull(11))
+                assertTrue(it.isNull(12))
+                assertTrue(it.isNull(13))
+                assertEquals(1L, it.getLong(14))
+            }
+        } finally {
+            db.close()
+        }
+    }
+
     private fun normNameOf(db: SQLiteConnection, epgChannelId: String): String? =
         db.prepare("SELECT normName FROM epg_channels WHERE epgChannelId = ?").use {
             it.bindText(1, epgChannelId)

@@ -1603,6 +1603,123 @@
     <string name="settings_sources_probe_unknown">OwnTV could not work out how many channels this provider allows.</string>
     <!-- Translators: Button that abandons the connection measurement while it is running. -->
     <string name="settings_sources_probe_skip">Skip</string>
+    <!-- Translators: Title of the playlist form row and screen that list the extra server addresses a provider gives for the same account. -->
+    <string name="settings_sources_backup_title">Backup servers</string>
+    <!-- Translators: Description of that row when no backup server has been added. -->
+    <string name="settings_sources_backup_summary_none">None. Add servers your provider gives you</string>
+    <!-- Translators: Description of that row. "count" is how many backup servers are listed. Use the plural form. -->
+    <plurals name="settings_sources_backup_summary_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> server</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> servers</item>
+    </plurals>
+    <!-- Translators: Description of that row. "count" is how many backup servers are listed, "server" the address of the one in use (not translated). Use the plural form. -->
+    <plurals name="settings_sources_backup_summary_active">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> server · in use: <xliff:g id="server">%2$s</xliff:g></item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> servers · in use: <xliff:g id="server">%2$s</xliff:g></item>
+    </plurals>
+    <!-- Translators: Text field at the top of the Backup servers screen where addresses are typed or pasted. -->
+    <string name="settings_sources_backup_add">Add servers</string>
+    <!-- Translators: Help text for that field. -->
+    <string name="settings_sources_backup_add_help">Type or paste one or more addresses, separated by spaces or new lines.</string>
+    <!-- Translators: Help line on the Backup servers screens: backups must be the same account. -->
+    <string name="settings_sources_backup_same_login">Backup servers must be the same provider and accept the same username and password.</string>
+    <!-- Translators: Unsaved-changes dialog on the playlist edit form. -->
+    <string name="settings_sources_backup_save_hint">Press Save on the previous screen to keep these changes.</string>
+    <string name="settings_sources_unsaved_title">Save changes to this playlist?</string>
+    <string name="settings_sources_unsaved_body">You have changes that haven\'t been saved.</string>
+    <string name="settings_sources_unsaved_save">Save</string>
+    <string name="settings_sources_unsaved_discard">Discard</string>
+    <string name="settings_sources_unsaved_keep">Keep editing</string>
+    <!-- Translators: Shown on the Backup servers screen when the list is empty. Keep the example address as is. -->
+    <string name="settings_sources_backup_empty">No backup servers yet. Paste or type addresses, e.g. http://host:8080</string>
+    <!-- Translators: First row of the server list: the playlist's own Server URL. "server" is its address (not translated). -->
+    <string name="settings_sources_backup_primary">Primary · <xliff:g id="server">%1$s</xliff:g></string>
+    <!-- Translators: Help text for the primary row: it can only be changed in the Server URL field of the form. -->
+    <string name="settings_sources_backup_primary_help">Change it in Server URL.</string>
+    <!-- Translators: Description of a backup server row. "number" is its position in the list. -->
+    <string name="settings_sources_backup_row_desc">Backup <xliff:g id="number">%1$d</xliff:g></string>
+    <!-- Translators: Badge on the server the app is using now. All caps is intentional. -->
+    <string name="settings_sources_backup_in_use">IN USE</string>
+    <!-- Translators: Description added to the row of the server in use. -->
+    <string name="settings_sources_backup_in_use_desc">Last server that worked</string>
+    <!-- Translators: Title of the overlay that moves a server up or down the list. -->
+    <string name="settings_sources_backup_move_title">Move server</string>
+    <!-- Translators: Action on a backup server row: move it to the top of the backups and use it. -->
+    <string name="settings_sources_backup_use_first">Use first</string>
+    <!-- Translators: Help text for the Use first action. -->
+    <string name="settings_sources_backup_use_first_desc">Move this server to the top of your backups and use it now.</string>
+    <!-- Translators: Error under the Add servers field. "text" is what was typed (not translated). -->
+    <string name="settings_sources_backup_invalid">Not a server address: “<xliff:g id="text">%1$s</xliff:g>”</string>
+    <!-- Translators: Result after pasting several addresses. "added" were added (this is the quantity), "duplicates" were already listed, "invalid" were not addresses. Use the plural form. -->
+    <plurals name="settings_sources_backup_added">
+        <item quantity="one">Added <xliff:g id="added">%1$d</xliff:g> server. Skipped <xliff:g id="duplicates">%2$d</xliff:g> already in the list and <xliff:g id="invalid">%3$d</xliff:g> that aren\'t addresses.</item>
+        <item quantity="other">Added <xliff:g id="added">%1$d</xliff:g> servers. Skipped <xliff:g id="duplicates">%2$d</xliff:g> already in the list and <xliff:g id="invalid">%3$d</xliff:g> that aren\'t addresses.</item>
+    </plurals>
+    <!-- Translators: Error when the list already holds the most servers allowed. "max" is that limit. Use the plural form. -->
+    <plurals name="settings_sources_backup_full">
+        <item quantity="one">You can add up to <xliff:g id="max">%1$d</xliff:g> backup server.</item>
+        <item quantity="other">You can add up to <xliff:g id="max">%1$d</xliff:g> backup servers.</item>
+    </plurals>
+    <!-- Translators: Title of the switch that lets the app move to the next server by itself. -->
+    <string name="settings_sources_backup_auto_title">Switch servers automatically</string>
+    <!-- Translators: Description of that switch. -->
+    <string name="settings_sources_backup_auto_desc">If a server stops answering, try the next one in your list.</string>
+    <!-- Translators: Note under the automatic server-switch setting. Live TV does not switch servers while a local timeshift buffer is recording. -->
+    <string name="settings_sources_backup_auto_timeshift_note">Live TV doesn\'t switch servers while live pause is on.</string>
+    <!-- Translators: Added to a playlist row in Manage playlists when it plays from a backup server. "number" is that server's position, "total" the number of backups. -->
+    <string name="settings_sources_backup_row_line">On backup server <xliff:g id="number">%1$d</xliff:g> of <xliff:g id="total">%2$d</xliff:g></string>
+    <!-- Translators: Line in the playlist's side panel. "server" is the address in use (not translated). -->
+    <string name="settings_sources_backup_panel_in_use">In use: <xliff:g id="server">%1$s</xliff:g></string>
+    <!-- Translators: Button in the playlist test dialog that checks every server of the playlist. -->
+    <string name="settings_sources_backup_test_all">Test all servers</string>
+    <!-- Translators: Title of the confirmation before testing every server. "count" is how many servers will be checked. Use the plural form. -->
+    <plurals name="settings_sources_backup_test_all_title">
+        <item quantity="one">Test <xliff:g id="count">%1$d</xliff:g> server?</item>
+        <item quantity="other">Test all <xliff:g id="count">%1$d</xliff:g> servers?</item>
+    </plurals>
+    <!-- Translators: Body of that confirmation. It must be clear that playback stops and that the order of the list is kept. -->
+    <string name="settings_sources_backup_test_all_warning">OwnTV checks each server one at a time, so anything playing now will stop. This takes up to 3 minutes. Your server order won\'t change.</string>
+    <!-- Translators: Confirm button of that dialog. -->
+    <string name="settings_sources_backup_test_all_confirm">Test all</string>
+    <!-- Translators: Progress while testing servers. "current" is the server being checked, "total" the number of servers, "server" its address (not translated). -->
+    <string name="settings_sources_backup_testing">Testing server <xliff:g id="current">%1$d</xliff:g> of <xliff:g id="total">%2$d</xliff:g>… <xliff:g id="server">%3$s</xliff:g></string>
+    <!-- Translators: Badge on the quickest server in the test results. All caps is intentional. -->
+    <string name="settings_sources_backup_fastest">FASTEST</string>
+    <!-- Translators: Button that switches to the quickest server found by the test. -->
+    <string name="settings_sources_backup_use_fastest">Use fastest</string>
+    <!-- Translators: Confirmation after picking a server. "number" is its position in the list. -->
+    <string name="settings_sources_backup_now_using">Now using server <xliff:g id="number">%1$d</xliff:g></string>
+    <!-- Translators: Result of a server test: how long it took to answer, in milliseconds. -->
+    <string name="settings_sources_backup_result_ms"><xliff:g id="ms">%1$d</xliff:g> ms</string>
+    <!-- Translators: Result of a server test: the server did not answer. -->
+    <string name="settings_sources_backup_result_unreachable">Unreachable</string>
+    <!-- Translators: Result of a server test: our own network, proxy or DNS-over-HTTPS failed. This says nothing about the server. -->
+    <string name="settings_sources_backup_result_network">Network problem</string>
+    <!-- Translators: Result of a server test: the server refused the username or password. -->
+    <string name="settings_sources_backup_result_auth">Auth failed</string>
+    <!-- Translators: Result of a server test: the server answered with something that is not an IPTV panel. -->
+    <string name="settings_sources_backup_result_invalid">Invalid response</string>
+    <!-- Translators: Result of a server test: a firewall or anti-bot page blocked the request. -->
+    <string name="settings_sources_backup_result_blocked">Blocked</string>
+    <!-- Translators: Result of a server test that was skipped before it ran. -->
+    <string name="settings_sources_backup_result_skipped">Not tested</string>
+    <!-- Translators: Shown when Test all servers is pressed while the connection measurement is running. -->
+    <string name="settings_sources_backup_busy">Wait for the connection test to finish.</string>
+    <string name="settings_sources_backup_busy_recording">A recording is running on this playlist. Test all servers when it finishes.</string>
+    <string name="settings_sources_backup_busy_download">A download is running on this playlist. Test all servers when it finishes.</string>
+    <string name="settings_sources_backup_busy_timeshift">Live pause is still using this playlist. Stop it, then try again.</string>
+    <!-- Translators: Badge on a backup server that uses plain HTTP while the playlist's own server uses HTTPS. All caps is intentional. -->
+    <string name="settings_sources_backup_not_secure">NOT SECURE</string>
+    <!-- Translators: Help text for that badge. -->
+    <string name="settings_sources_backup_not_secure_desc">This server doesn\'t use HTTPS, so your login is sent without encryption.</string>
+    <!-- Translators: Description of the Backup servers row when the Server URL has a path after the address. -->
+    <string name="settings_sources_backup_path_note">Backup servers need a server address without a path</string>
+    <!-- Translators: Longer note on the Backup servers screen for that case. -->
+    <string name="settings_sources_backup_path_note_detail">Automatic switching is off for this playlist until Server URL has no path.</string>
+    <!-- Translators: A server in the Test all servers results. "number" is its position in the list, "server" its address (not translated). -->
+    <string name="settings_sources_backup_result_title"><xliff:g id="number">%1$d</xliff:g>. <xliff:g id="server">%2$s</xliff:g></string>
+    <!-- Translators: Joins the parts of a server row read out by the screen reader (TalkBack), e.g. "Backup 3, host, in use". -->
+    <string name="settings_sources_backup_talkback_separator">", "</string>
     <!-- Translators: Auto-refresh mode display. 'mode' is the refresh mode. The circular arrow is a visual indicator. -->
     <string name="settings_sources_auto_refresh">⟳ <xliff:g id="mode">%1$s</xliff:g></string>
     <!-- Translators: Badge indicating the default source. All caps is intentional. -->

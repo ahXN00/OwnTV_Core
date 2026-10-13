@@ -73,7 +73,11 @@ data class XtEpgEntry(val title: String, val description: String?, val startMs: 
  * stream lists are streamed object-by-object with [android.util.JsonReader] and pushed to a callback,
  * so a 340k-channel response never sits fully in memory.
  */
-class XtreamClient(private val http: HttpClient) {
+class XtreamClient(
+    private val http: HttpClient,
+    /** Owner of each source's in-use server (host failover); null in tests and tools = always the primary. */
+    private val hosts: tv.own.owntv.core.network.HostSelector? = null,
+) {
 
     // --- Categories ---
     suspend fun liveCategories(s: SourceEntity, onProgress: ((Long, Long?) -> Unit)? = null) = categories(s, "get_live_categories", onProgress)
@@ -82,7 +86,7 @@ class XtreamClient(private val http: HttpClient) {
 
     private suspend fun categories(s: SourceEntity, action: String, onProgress: ((Long, Long?) -> Unit)? = null): List<XtCategory> {
         val out = ArrayList<XtCategory>()
-        http.get(api(s, action), s.userAgent, onProgress, maxAttempts = CATEGORY_MAX_ATTEMPTS) { input ->
+        apiGet(s, apiPath(s, action), onProgress, maxAttempts = CATEGORY_MAX_ATTEMPTS) { input ->
             streamObjects(input) { m ->
                 val id = m["category_id"] ?: return@streamObjects
                 out.add(XtCategory(id, m["category_name"] ?: id))
@@ -130,7 +134,7 @@ class XtreamClient(private val http: HttpClient) {
         onItem: suspend (T) -> Unit,
         onProgress: ((Long, Long?) -> Unit)? = null,
     ): Boolean {
-        return http.get(api(s, "get_live_streams", categoryParam(categoryId)), s.userAgent, onProgress) { input ->
+        return apiGet(s, apiPath(s, "get_live_streams", categoryParam(categoryId)), onProgress) { input ->
             streamItems("get_live_streams", input, { reader -> readLiveStreamAs(reader, transform) }, onItem)
         }
     }
@@ -167,7 +171,7 @@ class XtreamClient(private val http: HttpClient) {
         onItem: suspend (T) -> Unit,
         onProgress: ((Long, Long?) -> Unit)? = null,
     ): Boolean {
-        return http.get(api(s, "get_vod_streams", categoryParam(categoryId)), s.userAgent, onProgress) { input ->
+        return apiGet(s, apiPath(s, "get_vod_streams", categoryParam(categoryId)), onProgress) { input ->
             streamItems("get_vod_streams", input, { reader -> readVodAs(reader, transform) }, onItem)
         }
     }
@@ -205,7 +209,7 @@ class XtreamClient(private val http: HttpClient) {
         onItem: suspend (T) -> Unit,
         onProgress: ((Long, Long?) -> Unit)? = null,
     ): Boolean {
-        return http.get(api(s, "get_series", categoryParam(categoryId)), s.userAgent, onProgress) { input ->
+        return apiGet(s, apiPath(s, "get_series", categoryParam(categoryId)), onProgress) { input ->
             streamItems("get_series", input, { reader -> readSeriesAs(reader, transform) }, onItem)
         }
     }
@@ -218,7 +222,7 @@ class XtreamClient(private val http: HttpClient) {
      */
     suspend fun getSeriesInfo(s: SourceEntity, seriesId: String): XtSeriesInfo {
         val episodes = ArrayList<XtEpisode>()
-        http.get(api(s, "get_series_info", "&series_id=$seriesId"), s.userAgent) { input ->
+        apiGet(s, apiPath(s, "get_series_info", "&series_id=$seriesId")) { input ->
             JsonReader(input.reader(Charsets.UTF_8)).use { reader ->
                 reader.isLenient = true
                 if (reader.peek() != JsonToken.BEGIN_OBJECT) { reader.skipValue(); return@use }
@@ -358,7 +362,7 @@ class XtreamClient(private val http: HttpClient) {
      */
     suspend fun getShortEpg(s: SourceEntity, streamId: String, limit: Int = 6): List<XtEpgEntry> {
         val out = ArrayList<XtEpgEntry>()
-        http.get(api(s, "get_short_epg", "&stream_id=$streamId&limit=$limit"), s.userAgent) { input ->
+        apiGet(s, apiPath(s, "get_short_epg", "&stream_id=$streamId&limit=$limit")) { input ->
             JsonReader(input.reader(Charsets.UTF_8)).use { reader ->
                 reader.isLenient = true
                 if (reader.peek() != JsonToken.BEGIN_OBJECT) { reader.skipValue(); return@use }
@@ -410,7 +414,7 @@ class XtreamClient(private val http: HttpClient) {
     // Live uses the raw MPEG-TS endpoint (.ts) — the universal Xtream live format. The .m3u8/HLS
     // wrapper isn't served by every panel (mpegts-only providers 404 on it, so channels won't load),
     // whereas every panel serves .ts and mpv plays it natively.
-    fun liveUrl(s: SourceEntity, streamId: String) = "${base(s)}/live/${s.username}/${s.password}/$streamId.ts"
+    fun liveUrl(s: SourceEntity, streamId: String) = "${canonicalBase(s)}/live/${s.username}/${s.password}/$streamId.ts"
 
     /**
      * Catch-up (timeshift) URL for a past programme:
@@ -419,12 +423,12 @@ class XtreamClient(private val http: HttpClient) {
      */
     fun timeshiftUrl(s: SourceEntity, streamId: String, startMs: Long, durationMinutes: Int, tz: java.util.TimeZone = java.util.TimeZone.getTimeZone("UTC"), ext: String = "ts"): String {
         val fmt = java.text.SimpleDateFormat("yyyy-MM-dd:HH-mm", java.util.Locale.US).apply { timeZone = tz }
-        return "${base(s)}/timeshift/${s.username}/${s.password}/$durationMinutes/${fmt.format(java.util.Date(startMs))}/$streamId.$ext"
+        return "${activeBase(s)}/timeshift/${s.username}/${s.password}/$durationMinutes/${fmt.format(java.util.Date(startMs))}/$streamId.$ext"
     }
     fun movieUrl(s: SourceEntity, streamId: String, ext: String?) =
-        "${base(s)}/movie/${s.username}/${s.password}/$streamId.${ext ?: "mp4"}"
+        "${canonicalBase(s)}/movie/${s.username}/${s.password}/$streamId.${ext ?: "mp4"}"
     fun seriesEpisodeUrl(s: SourceEntity, episodeId: String, ext: String?) =
-        "${base(s)}/series/${s.username}/${s.password}/$episodeId.${ext ?: "mp4"}"
+        "${canonicalBase(s)}/series/${s.username}/${s.password}/$episodeId.${ext ?: "mp4"}"
 
     /** Full XMLTV guide for the whole account (all channels) — the bulk EPG used by the guide grid. */
     data class XtAccountDetails(
@@ -442,7 +446,24 @@ class XtreamClient(private val http: HttpClient) {
         val authOk: Boolean = true,
         /** `user_info.is_trial` — "1" on a trial line. */
         val trial: Boolean = false,
+        /**
+         * What the reply looked like. Only [AccountReply.USER_INFO] proves a live panel answered for this
+         * account; the other fields keep their defaults otherwise, so `authOk = true` alone means nothing.
+         */
+        val reply: AccountReply = AccountReply.USER_INFO,
     )
+
+    /** Shape of a `player_api.php` account reply (R2: a parked domain's HTML page must not read as OK). */
+    enum class AccountReply {
+        /** An object with a `user_info` object: a real answer. */
+        USER_INFO,
+
+        /** `[]`, `{}` or an empty body: what panels send for an unknown or deleted line. */
+        EMPTY,
+
+        /** HTML, a captive portal, a parked page, broken JSON: not a panel. */
+        NOT_JSON,
+    }
 
     /**
      * Account details (expiry + HLS support) from the bare `player_api.php` call
@@ -464,10 +485,11 @@ class XtreamClient(private val http: HttpClient) {
      * "Test source" has to tell "the host never answered" apart from "the host said no", and a null
      * cannot carry that difference.
      */
-    suspend fun fetchAccountStatus(s: SourceEntity): XtAccountDetails {
+    suspend fun fetchAccountStatus(s: SourceEntity, host: String? = null): XtAccountDetails {
         val u = URLEncoder.encode(s.username.orEmpty(), "UTF-8")
         val p = URLEncoder.encode(s.password.orEmpty(), "UTF-8")
-        return http.get("${base(s)}/player_api.php?username=$u&password=$p", s.userAgent) { input ->
+        val base = host?.let { baseFor(s, it) } ?: activeBase(s)
+        return http.get("$base/player_api.php?username=$u&password=$p", s.userAgent) { input ->
             var expSec: Long? = null
             var hlsSupported = false
             var maxConnections = 0
@@ -475,12 +497,19 @@ class XtreamClient(private val http: HttpClient) {
             var status: String? = null
             var authOk = true
             var trial = false
+            var reply = AccountReply.EMPTY
+            try {
             JsonReader(java.io.InputStreamReader(input, Charsets.UTF_8)).use { r ->
                 r.isLenient = true
-                if (r.peek() != JsonToken.BEGIN_OBJECT) return@use
+                when (r.peek()) {
+                    JsonToken.BEGIN_OBJECT -> Unit
+                    JsonToken.BEGIN_ARRAY, JsonToken.END_DOCUMENT -> return@use
+                    else -> { reply = AccountReply.NOT_JSON; return@use }
+                }
                 r.beginObject()
                 while (r.hasNext()) {
                     if (r.nextName() == "user_info" && r.peek() == JsonToken.BEGIN_OBJECT) {
+                        reply = AccountReply.USER_INFO
                         r.beginObject()
                         while (r.hasNext()) {
                             when (r.nextName()) {
@@ -557,6 +586,13 @@ class XtreamClient(private val http: HttpClient) {
                 }
                 r.endObject()
             }
+            } catch (_: java.io.EOFException) {
+                // Empty body: keep the reply EMPTY unless user_info had already been read.
+            } catch (_: android.util.MalformedJsonException) {
+                if (reply != AccountReply.USER_INFO) reply = AccountReply.NOT_JSON
+            } catch (_: IllegalStateException) {
+                if (reply != AccountReply.USER_INFO) reply = AccountReply.NOT_JSON
+            }
             XtAccountDetails(
                 expiryMs = expSec?.takeIf { it > 0 }?.times(1000),
                 hlsSupported = hlsSupported,
@@ -565,6 +601,7 @@ class XtreamClient(private val http: HttpClient) {
                 status = status,
                 authOk = authOk,
                 trial = trial,
+                reply = reply,
             )
         }
     }
@@ -614,7 +651,7 @@ class XtreamClient(private val http: HttpClient) {
      * and never plays anything, so it costs one short request.
      */
     suspend fun probeHls(s: SourceEntity, streamId: String): HlsProbe {
-        val url = "${base(s)}/live/${s.username}/${s.password}/$streamId.m3u8"
+        val url = "${activeBase(s)}/live/${s.username}/${s.password}/$streamId.m3u8"
         return try {
             http.get(url, s.userAgent) { input ->
                 val head = ByteArray(HLS_PROBE_BYTES)
@@ -659,7 +696,7 @@ class XtreamClient(private val http: HttpClient) {
      * "your provider doesn't do HLS" when it means nothing of the sort.
      */
     private suspend fun probeTsPlayable(s: SourceEntity, streamId: String): Boolean = try {
-        http.get(liveUrl(s, streamId), s.userAgent) { input -> input.read() == 0x47 }
+        http.get(hosts?.forRequest(liveUrl(s, streamId), s) ?: liveUrl(s, streamId), s.userAgent) { input -> input.read() == 0x47 }
     } catch (c: kotlin.coroutines.cancellation.CancellationException) {
         throw c
     } catch (e: Exception) {
@@ -691,16 +728,53 @@ class XtreamClient(private val http: HttpClient) {
     fun xmltvUrl(s: SourceEntity): String {
         val u = URLEncoder.encode(s.username.orEmpty(), "UTF-8")
         val p = URLEncoder.encode(s.password.orEmpty(), "UTF-8")
-        return "${base(s)}/xmltv.php?username=$u&password=$p"
+        return "${canonicalBase(s)}/xmltv.php?username=$u&password=$p"
     }
 
     // --- helpers ---
-    private fun base(s: SourceEntity) = s.url.trimEnd('/')
+    /**
+     * The primary's base, **only** for the three builders whose output sync stores ([liveUrl], [movieUrl],
+     * [seriesEpisodeUrl]) and for identities such as [xmltvUrl] (A4). A stored URL never carries a backup
+     * server, so a switch never rewrites the catalogue or its content hashes.
+     */
+    private fun canonicalBase(s: SourceEntity) = s.url.trimEnd('/')
 
-    private fun api(s: SourceEntity, action: String, extra: String = ""): String {
+    /** [url] (stored, on the primary) moved onto [s]'s in-use server for a request made now. */
+    fun requestUrl(s: SourceEntity, url: String): String = hosts?.forRequest(url, s) ?: url
+
+    /** The in-use server's base, for every request made now (API, account status, timeshift, probes). */
+    private fun activeBase(s: SourceEntity) = hosts?.activeBase(s) ?: canonicalBase(s)
+
+    /** Base for a specific pool server [host] (an origin); the primary keeps its exact text. */
+    private fun baseFor(s: SourceEntity, host: String): String {
+        val pool = tv.own.owntv.core.network.HostPool.pool(s)
+        return if (pool.size < 2 || host == pool.first()) canonicalBase(s) else host
+    }
+
+    /** `/player_api.php?…` for [action]: the path only, so [apiGet] can put any server in front of it. */
+    private fun apiPath(s: SourceEntity, action: String, extra: String = ""): String {
         val u = URLEncoder.encode(s.username.orEmpty(), "UTF-8")
         val p = URLEncoder.encode(s.password.orEmpty(), "UTF-8")
-        return "${base(s)}/player_api.php?username=$u&password=$p&action=$action$extra"
+        return "/player_api.php?username=$u&password=$p&action=$action$extra"
+    }
+
+    /**
+     * A panel API GET. With failover on, it may try the next servers when the in-use one is down
+     * (R6: at most three, one attempt each, no new one after 60 s, one request in flight), without ever
+     * moving the playback server. Without backups it is exactly the old single call.
+     */
+    private suspend fun <T> apiGet(
+        s: SourceEntity,
+        path: String,
+        onProgress: ((Long, Long?) -> Unit)? = null,
+        maxAttempts: Int = 1,
+        block: suspend (InputStream) -> T,
+    ): T {
+        val candidates = hosts?.apiHosts(s).orEmpty()
+        if (candidates.size < 2) return http.get(activeBase(s) + path, s.userAgent, onProgress, maxAttempts, block = block)
+        return tv.own.owntv.core.network.HostSelector.tryHosts(candidates) { host ->
+            http.get(baseFor(s, host) + path, s.userAgent, onProgress, maxAttempts = 1, block = block)
+        }
     }
 
     /** `&category_id=X` query suffix (server-side filter), or "" when fetching everything. */

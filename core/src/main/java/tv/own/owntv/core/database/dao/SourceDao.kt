@@ -53,6 +53,21 @@ interface SourceDao {
     @Query("UPDATE sources SET maxConnections = :maxConnections WHERE id = :id")
     suspend fun updateMaxConnections(id: Long, maxConnections: Int)
 
+    /** The server that last played (host failover). Only `HostSelector` calls this, once per switch. */
+    @Query("UPDATE sources SET activeUrl = :activeUrl WHERE id = :id")
+    suspend fun updateActiveUrl(id: Long, activeUrl: String?)
+
+    @Query("UPDATE sources SET activeUrl = NULL WHERE id = :id")
+    suspend fun clearActiveUrl(id: Long)
+
+    /** App start: every playlist goes back to its main server (failover is per session). */
+    @Query("UPDATE sources SET activeUrl = NULL WHERE activeUrl IS NOT NULL")
+    suspend fun clearAllActiveUrls()
+
+    /** The backup list and the auto-switch setting, without touching anything else on the row. */
+    @Query("UPDATE sources SET backupUrls = :backupUrls, failoverEnabled = :failoverEnabled WHERE id = :id")
+    suspend fun updateBackupHosts(id: Long, backupUrls: String?, failoverEnabled: Boolean)
+
     /**
      * Record a *measured* limit and when it was measured.
      *

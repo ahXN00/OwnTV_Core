@@ -40,6 +40,15 @@ val dataModule = module {
     single {
         val proxyHolder = get<tv.own.owntv.core.network.ProxyConfigHolder>()
         val dnsHolder = get<tv.own.owntv.core.network.DnsConfigHolder>()
+        tv.own.owntv.core.network.HostPreflight.localPath = {
+            val p = proxyHolder.snapshot()
+            val d = dnsHolder.snapshot()
+            tv.own.owntv.core.network.HostPreflight.LocalPathConfig(
+                proxyHost = p.host.takeIf { p.usable },
+                proxyPort = p.port,
+                dohOn = d.dohUsable,
+            )
+        }
         val trust = tv.own.owntv.core.network.ExtraTrustAnchors(
             androidContext().resources.openRawResource(tv.own.owntv.core.R.raw.isrg_extra_roots),
         )
@@ -102,7 +111,12 @@ val dataModule = module {
     // store, sourceDao, epgRepository
     single { tv.own.owntv.core.epg.EpgMigration(get(), get(), get()) }
     single { M3uParser() }
-    single { XtreamClient(get()) }
+    // The one owner of each source's in-use server (host failover, design §4). Only it writes activeUrl.
+    single {
+        val dao = get<tv.own.owntv.core.database.dao.SourceDao>()
+        tv.own.owntv.core.network.HostSelector { id, url -> dao.updateActiveUrl(id, url) }
+    }
+    single { XtreamClient(get(), get()) }
     // Stalker portal (plan Phase A/B): protocol client on the shared OkHttpClient + in-memory sessions.
     single { tv.own.owntv.core.stalker.StalkerClient(get()) }
     single { tv.own.owntv.core.stalker.StalkerAuthManager(get()) }
@@ -110,11 +124,14 @@ val dataModule = module {
     // The portal's own guide — the only EPG a Stalker portal that publishes no XMLTV has.
     single { tv.own.owntv.core.stalker.StalkerEpgLoader(get(), get()) }
     // http, xtreamClient, stalkerAuth — the Test button behind each saved playlist row.
-    single { tv.own.owntv.core.repository.SourceTester(get(), get(), get()) }
+    single {
+        val online = get<tv.own.owntv.core.network.ConnectivityObserver>()
+        tv.own.owntv.core.repository.SourceTester(get(), get(), get(), get(), isOnline = { online.isOnlineNow() })
+    }
     // Measuring how many streams a provider really allows, for the ones that never say.
     single { tv.own.owntv.core.live.ConnectionProbe(get()) }
     single { tv.own.owntv.core.live.ProbeChannelSource(get(), get(), get(), get(), get()) }
-    single { tv.own.owntv.core.live.ConnectionLimits(get(), get(), get(), get()) }
+    single { tv.own.owntv.core.live.ConnectionLimits(get(), get(), get(), get(), get()) }
     // TMDB metadata enrichment (plan §4): one provider, three tiers resolved from SettingsRepository.
     // Opaque per-install id sent to the default Worker only, so one abusive install can be capped
     // without blocking the IP address a whole household/carrier NAT shares.
@@ -181,7 +198,7 @@ val dataModule = module {
     // the delete in the same transaction. db, favoriteDao, historyDao, progressDao, customCategoryDao, userData
     single { tv.own.owntv.core.backup.UserDataWriter(get(), get(), get(), get(), get(), get()) }
     // sourceDao, syncManager, userDataResolver, channelDao, movieDao, seriesDao, categoryDao
-    single { SourceRepository(get(), get(), get(), get(), get(), get(), get(), playbackQuirkDao = get(), playbackPrefsDao = get()) }
+    single { SourceRepository(get(), get(), get(), get(), get(), get(), get(), playbackQuirkDao = get(), playbackPrefsDao = get(), hosts = get()) }
     // settings, sourceRepository, channelDao, movieDao, seriesDao
     single { tv.own.owntv.core.nav.NavVisibility(get(), get(), get(), get(), get()) }
     single {
@@ -252,7 +269,7 @@ val dataModule = module {
     single { tv.own.owntv.core.download.DownloadActivityTracker() }
     // downloadDao, okHttpClient, sourceDao, movieDao, seriesDao, streamUrlResolver, activityTracker
     // (the middle four are D-3: Stalker downloads resolve the stored cmd at download-start time)
-    single { DownloadEngine(androidContext(), get(), get(), get(), get(), get(), get(), get()) }
+    single { DownloadEngine(androidContext(), get(), get(), get(), get(), get(), get(), get(), hosts = get()) }
     // context, downloadDao, settings, engine
     single { DownloadManager(androidContext(), get(), get(), get()) }
     // The recording half of the same idea: several can run at once (D10), so the tracker keeps a
@@ -262,7 +279,7 @@ val dataModule = module {
     // connectivity (the metered check that turns "not over mobile data" into a MISSED row rather
     // than a silent wait), tracker
     single {
-        tv.own.owntv.core.recording.RecordingEngine(androidContext(), get(), get(), get(), get(), get(), get(), get(), get(), get())
+        tv.own.owntv.core.recording.RecordingEngine(androidContext(), get(), get(), get(), get(), get(), get(), get(), get(), get(), hosts = get())
     }
     // context, recordingDao — the AlarmManager half. Exact alarms where the user allows them,
     // inexact plus a bigger head start where they do not.
