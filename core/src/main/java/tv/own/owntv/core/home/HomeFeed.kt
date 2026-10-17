@@ -300,9 +300,9 @@ class HomeFeedReader(
     }
 
     private suspend fun hiddenState(profileId: Long, sourceIds: List<Long>): HiddenState {
-        val live = customize.observe(profileId, MediaType.LIVE).first()
-        val movie = customize.observe(profileId, MediaType.MOVIE).first()
-        val series = customize.observe(profileId, MediaType.SERIES).first()
+        val live = customize.observeVisible(profileId, MediaType.LIVE).first()
+        val movie = customize.observeVisible(profileId, MediaType.MOVIE).first()
+        val series = customize.observeVisible(profileId, MediaType.SERIES).first()
         val isKidsProfile = profileDao.getById(profileId)?.isKids == true
         suspend fun catIds(type: MediaType, hiddenKeys: Set<String>): Set<Long> {
             if ((hiddenKeys.isEmpty() && !isKidsProfile) || sourceIds.isEmpty()) return emptySet()

@@ -8,7 +8,10 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import kotlinx.coroutines.coroutineScope
+import tv.own.owntv.core.customize.LockedNotificationTitles
 import tv.own.owntv.core.i18n.LocaleStore
+import tv.own.owntv.core.util.LatestOnly
 
 /**
  * Runs the download queue as a foreground service so transfers keep going once the user leaves
@@ -22,22 +25,32 @@ class DownloadWorker(
     params: WorkerParameters,
     private val engine: DownloadEngine,
     private val localeStore: LocaleStore,
+    private val lockedTitles: LockedNotificationTitles,
 ) : CoroutineWorker(appContext, params) {
 
-    override suspend fun doWork(): Result {
+    override suspend fun doWork(): Result = coroutineScope {
         setForeground(DownloadNotifications.foregroundInfo(applicationContext, null, localeStore))
+        // One update at a time, only the newest waiting: the lock check can be slow, and an older one finishing
+        // last would put a stale title or progress back in the shade.
+        val notification = LatestOnly<DownloadProgress>(this) { progress ->
+            val showTitle = !lockedTitles.hidesDownload(progress.id)
+            runCatching {
+                setForegroundAsync(
+                    DownloadNotifications.foregroundInfo(applicationContext, progress, localeStore, showTitle),
+                )
+            }
+        }
         var lastTick = 0L
         engine.drainQueue { progress ->
             // The transfer reports twice a second; the notification does not need that.
             val now = System.currentTimeMillis()
             if (now - lastTick > NOTIFICATION_INTERVAL_MS) {
                 lastTick = now
-                runCatching {
-                    setForegroundAsync(DownloadNotifications.foregroundInfo(applicationContext, progress, localeStore))
-                }
+                notification.offer(progress)
             }
         }
-        return Result.success()
+        notification.close()
+        Result.success()
     }
 
     companion object {

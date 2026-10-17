@@ -123,6 +123,19 @@
     <string name="content_category_restore_order">Custom order cleared</string>
     <!-- Translators: Confirmation text when the category has no changes to undo (the only button is Cancel). -->
     <string name="content_category_restore_nothing">Category is already at the playlist default</string>
+    <!-- Translators: Long-press menu entry on a category: put it behind the profile's Customize PIN. -->
+    <string name="content_category_lock">Lock with PIN</string>
+    <!-- Translators: Long-press menu entry on a locked category: take the PIN lock off (asks for the PIN). -->
+    <string name="content_category_unlock">Remove lock</string>
+    <!-- Translators: Shown instead of a locked category's channels, movies or series until the PIN is entered. -->
+    <string name="content_category_locked_placeholder">This category is locked</string>
+    <!-- Translators: Button under a locked category's placeholder: opens the PIN prompt that unlocks it. -->
+    <string name="content_category_enter_pin">Enter PIN</string>
+    <!-- Translators: PIN prompt title after too many wrong PINs. "count" is how many seconds are left before the next try. -->
+    <plurals name="content_category_pin_wait">
+        <item quantity="one">Too many wrong PINs. Try again in <xliff:g id="count">%1$d</xliff:g> second</item>
+        <item quantity="other">Too many wrong PINs. Try again in <xliff:g id="count">%1$d</xliff:g> seconds</item>
+    </plurals>
     <!-- Translators: Context-menu option that opens the picker for moving an item into a combined category. -->
     <string name="content_move_to_category">Move to category…</string>
     <!-- Translators: Context-menu option on a channel inside a category the user created: take it out of that category only. The channel itself and its own provider category are unaffected. -->

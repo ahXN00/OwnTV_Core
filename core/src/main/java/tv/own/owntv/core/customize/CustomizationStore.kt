@@ -10,8 +10,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import org.json.JSONArray
-import org.json.JSONObject
 import java.util.UUID
 import tv.own.owntv.core.database.entity.CategoryEntity
 import tv.own.owntv.core.epg.EpgMatcher
@@ -138,6 +136,17 @@ data class SectionCustomizations(
      *  folder — that's what makes a "sidebar of only my folders" possible. Stable keys, so a re-sync
      *  that re-lists the item does not undo the move. */
     val movedFromOrigin: Map<String, String> = emptyMap(),
+    /** Categories behind the profile's Customize PIN (stable keys, custom ids included). They stay
+     *  on the rail with a lock; see [CategoryLockView] for what they hide until the PIN opens them.
+     *  The lock follows the key, so a renamed or re-added provider group comes back unlocked. */
+    val lockedCategories: Set<String> = emptySet(),
+    /** Derived, never stored: the locked categories the PIN has not opened this session, hidden or
+     *  not. [CategoryLockView] folds them into [hiddenCategories]. */
+    val sealedCategories: Set<String> = emptySet(),
+    /** Derived, never stored: the part of [sealedCategories] the fold added, i.e. not hidden by the user. */
+    val sealHidden: Set<String> = emptySet(),
+    /** Derived, never stored: DB ids of the provider folders among [sealedCategories]. */
+    val sealedCategoryIds: Set<Long> = emptySet(),
 ) {
     /**
      * The match lookup for this snapshot, built once and reused.
@@ -151,7 +160,8 @@ data class SectionCustomizations(
     val isEmpty: Boolean
         get() = hiddenCategories.isEmpty() && hiddenItems.isEmpty() && categoryNames.isEmpty() &&
             itemNames.isEmpty() && categoryOrder.isEmpty() && epgMatches.isEmpty() &&
-            epgShifts.isEmpty() && customCategories.isEmpty() && movedFromOrigin.isEmpty()
+            epgShifts.isEmpty() && customCategories.isEmpty() && movedFromOrigin.isEmpty() &&
+            lockedCategories.isEmpty()
 }
 
 /**
@@ -159,21 +169,34 @@ data class SectionCustomizations(
  * DataStore — deliberately NOT a Room table, so no schema change (the DB uses destructive
  * migrations) and edits survive every re-sync via [CustomizeKeys].
  */
-class CustomizationStore(private val context: Context) {
+class CustomizationStore(private val context: Context, private val locks: CategoryLockView) {
 
     private fun key(profileId: Long, type: MediaType) =
         stringPreferencesKey("cust_${profileId}_${type.name}")
 
     fun observe(profileId: Long, type: MediaType): Flow<SectionCustomizations> =
         context.customizeStore.data
-            .map { prefs -> parse(prefs[key(profileId, type)]) }
+            .map { prefs -> CustomizationJson.parse(prefs[key(profileId, type)]) }
             .distinctUntilChanged()
+
+    /** What browsing shows: [observe] with the locked categories the PIN has not opened this session
+     *  counted as hidden. Customize and the store's own edits keep using [observe]. */
+    fun observeVisible(profileId: Long, type: MediaType): Flow<SectionCustomizations> =
+        locks.visible(profileId, type, observe(profileId, type))
+
+    /** True when [categoryId]'s category is locked and, unless [anySession], not opened this session. */
+    suspend fun sealsCategory(profileId: Long, categoryId: Long?, anySession: Boolean = false): Boolean =
+        sealsItem(profileId, ItemCategory.Found(categoryId), anySession)
+
+    /** [sealsCategory] for a row that names its item by local id, which a re-sync can leave unresolved. */
+    suspend fun sealsItem(profileId: Long, item: ItemCategory, anySession: Boolean = false): Boolean =
+        locks.seals(profileId, item, anySession) { type -> observe(profileId, type).first() }
 
     suspend fun update(profileId: Long, type: MediaType, transform: (SectionCustomizations) -> SectionCustomizations) {
         context.customizeStore.edit { prefs ->
             val k = key(profileId, type)
-            val next = transform(parse(prefs[k]))
-            if (next.isEmpty) prefs.remove(k) else prefs[k] = serialize(next)
+            val next = transform(CustomizationJson.parse(prefs[k]))
+            if (next.isEmpty) prefs.remove(k) else prefs[k] = CustomizationJson.serialize(next)
         }
     }
 
@@ -183,6 +206,17 @@ class CustomizationStore(private val context: Context) {
         update(profileId, type) {
             it.copy(hiddenCategories = if (hidden) it.hiddenCategories + catKey else it.hiddenCategories - catKey)
         }
+
+    /** Put a category behind the Customize PIN, or take it out. The caller owns the PIN check. */
+    suspend fun setCategoryLocked(profileId: Long, type: MediaType, catKey: String, locked: Boolean) =
+        update(profileId, type) {
+            it.copy(lockedCategories = if (locked) it.lockedCategories + catKey else it.lockedCategories - catKey)
+        }
+
+    /** Drops every category lock of the profile, in every section — removing the PIN does this. */
+    suspend fun clearCategoryLocks(profileId: Long) {
+        MediaType.entries.forEach { type -> update(profileId, type) { it.copy(lockedCategories = emptySet()) } }
+    }
 
     /** Hide/show a whole span of categories in one atomic edit (range select in Customize). */
     suspend fun setCategoriesHidden(profileId: Long, type: MediaType, catKeys: Collection<String>, hidden: Boolean) =
@@ -282,6 +316,7 @@ class CustomizationStore(private val context: Context) {
             it.copy(
                 customCategories = it.customCategories.filterNot { c -> c.id == id },
                 hiddenCategories = it.hiddenCategories - id,
+                lockedCategories = it.lockedCategories - id,
                 categoryNames = it.categoryNames - id,
                 categoryOrder = it.categoryOrder - id,
                 movedFromOrigin = it.movedFromOrigin - restoreOriginItemKeys,
@@ -312,68 +347,6 @@ class CustomizationStore(private val context: Context) {
             entries.forEach { (k, v) -> if (k.startsWith("cust_")) prefs[stringPreferencesKey(k)] = v }
         }
     }
-
-    // --- JSON (org.json, matching BackupManager's style) ---
-
-    private fun parse(raw: String?): SectionCustomizations {
-        if (raw.isNullOrBlank()) return SectionCustomizations()
-        return runCatching {
-            val o = JSONObject(raw)
-            SectionCustomizations(
-                hiddenCategories = o.optJSONArray("hiddenCats").toStringSet(),
-                hiddenItems = o.optJSONObject("hiddenItems").toStringMap(),
-                categoryNames = o.optJSONObject("catNames").toStringMap(),
-                itemNames = o.optJSONObject("itemNames").toStringMap(),
-                categoryOrder = o.optJSONArray("catOrder").toStringList(),
-                epgMatches = o.optJSONObject("epgMatch").toStringMap(),
-                epgShifts = o.optJSONObject("epgShift").toStringMap(),
-                customCategories = o.optJSONArray("customCats").toCustomCategories(),
-                movedFromOrigin = o.optJSONObject("movedFrom").toStringMap(),
-            )
-        }.getOrDefault(SectionCustomizations())
-    }
-
-    private fun serialize(c: SectionCustomizations): String = JSONObject().apply {
-        put("hiddenCats", JSONArray(c.hiddenCategories.toList()))
-        put("hiddenItems", JSONObject(c.hiddenItems as Map<*, *>))
-        put("catNames", JSONObject(c.categoryNames as Map<*, *>))
-        put("itemNames", JSONObject(c.itemNames as Map<*, *>))
-        put("catOrder", JSONArray(c.categoryOrder))
-        put("epgMatch", JSONObject(c.epgMatches as Map<*, *>))
-        put("epgShift", JSONObject(c.epgShifts as Map<*, *>))
-        put("movedFrom", JSONObject(c.movedFromOrigin as Map<*, *>))
-        put(
-            "customCats",
-            JSONArray(c.customCategories.map {
-                JSONObject().put("id", it.id).put("name", it.name).put("icon", it.icon)
-            }),
-        )
-    }.toString()
-
-    private fun JSONArray?.toStringList(): List<String> =
-        if (this == null) emptyList() else (0 until length()).map { getString(it) }
-
-    private fun JSONArray?.toStringSet(): Set<String> = toStringList().toSet()
-
-    private fun JSONObject?.toStringMap(): Map<String, String> {
-        if (this == null) return emptyMap()
-        val out = HashMap<String, String>()
-        keys().forEach { k -> out[k] = getString(k) }
-        return out
-    }
-
-    private fun JSONArray?.toCustomCategories(): List<CustomCategory> {
-        if (this == null) return emptyList()
-        return (0 until length()).mapNotNull { i ->
-            val o = optJSONObject(i) ?: return@mapNotNull null
-            val id = o.optString("id").takeIf { it.isNotEmpty() } ?: return@mapNotNull null
-            CustomCategory(
-                id = id,
-                name = o.optString("name"),
-                icon = o.optString("icon").ifEmpty { null },
-            )
-        }
-    }
 }
 
 /**
@@ -402,6 +375,9 @@ data class CustomizedCategory(
     val displayName: String,
     val categoryId: Long? = null,
     val customId: String? = null,
+    /** Behind the Customize PIN; [sealed] while this session has not opened it (see [withLocks]). */
+    val locked: Boolean = false,
+    val sealed: Boolean = false,
 )
 
 /**
@@ -428,12 +404,17 @@ fun List<CategoryEntity>.applyCustomizationsWithCustoms(
             key = cc.id,
             displayName = c.categoryNames[cc.id] ?: cc.name,
             customId = cc.id,
+            locked = cc.id in c.lockedCategories,
+            sealed = cc.id in c.sealedCategories,
         )
     } + visibleCats.map { cat ->
+        val key = CustomizeKeys.category(cat)
         CustomizedCategory(
-            key = CustomizeKeys.category(cat),
-            displayName = c.categoryNames[CustomizeKeys.category(cat)] ?: cat.name,
+            key = key,
+            displayName = c.categoryNames[key] ?: cat.name,
             categoryId = cat.id,
+            locked = key in c.lockedCategories,
+            sealed = key in c.sealedCategories,
         )
     }
     val orderIndex = c.categoryOrder.withIndex().associate { (i, k) -> k to i }

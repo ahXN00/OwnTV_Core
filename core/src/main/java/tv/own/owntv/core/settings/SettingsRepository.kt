@@ -3426,7 +3426,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
 
     private fun normalizeCustomizePin(value: String): String {
         val trimmed = value.trim()
-        return if (CUSTOMIZE_PIN_HASH_REGEX.matches(trimmed)) trimmed else Pin.hash(trimmed)
+        return if (Pin.isHashed(trimmed)) trimmed else Pin.hash(trimmed)
     }
 
     companion object {
@@ -3457,8 +3457,6 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             prefs[Keys.GLASS_PRESET] = tv.own.owntv.core.theme.GlassPreset.CUSTOM.name
             prefs[Keys.BG_STYLE] = tv.own.owntv.core.theme.BackgroundStyle.STAGE.name
         }
-
-        private val CUSTOMIZE_PIN_HASH_REGEX = Regex("^[0-9a-fA-F]{16}:[0-9a-fA-F]{64}$")
 
         /** Backup payload field name for the UI locale tag (read from / written to [LocaleStore]). */
         private const val UI_LANGUAGE_KEY = "ui_language"

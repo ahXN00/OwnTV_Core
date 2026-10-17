@@ -295,6 +295,20 @@ interface MovieDao {
     )
     fun countHistory(profileId: Long, sourceIds: List<Long>): Flow<Int>
 
+    /** [countFavorites] without the films filed under [excluded] (locked categories). */
+    @Query(
+        "SELECT COUNT(*) FROM favorites f INNER JOIN movies m ON m.id = f.itemId WHERE f.profileId = :profileId " +
+            "AND f.mediaType = 'MOVIE' AND m.sourceId IN (:sourceIds) AND (m.categoryId IS NULL OR m.categoryId NOT IN (:excluded))",
+    )
+    fun countFavoritesExcluding(profileId: Long, sourceIds: List<Long>, excluded: List<Long>): Flow<Int>
+
+    /** [countHistory] without the films filed under [excluded] (locked categories). */
+    @Query(
+        "SELECT COUNT(*) FROM watch_history h INNER JOIN movies m ON m.id = h.itemId WHERE h.profileId = :profileId " +
+            "AND h.mediaType = 'MOVIE' AND m.sourceId IN (:sourceIds) AND (m.categoryId IS NULL OR m.categoryId NOT IN (:excluded))",
+    )
+    fun countHistoryExcluding(profileId: Long, sourceIds: List<Long>, excluded: List<Long>): Flow<Int>
+
     @Query(
         "SELECT m.* FROM movies m " +
             "INNER JOIN watch_history h ON h.itemId = m.id AND h.mediaType = 'MOVIE' " +

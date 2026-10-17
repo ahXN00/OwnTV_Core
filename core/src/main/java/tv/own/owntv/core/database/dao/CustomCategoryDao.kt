@@ -97,6 +97,26 @@ interface CustomCategoryDao {
         sourceIds: List<Long>,
     ): Flow<List<CustomCategoryCount>>
 
+    /** [observeCountsByContexts] without the items filed under [excluded] (locked categories). */
+    @Query(
+        "SELECT contextKey, COUNT(*) AS count FROM custom_category_members " +
+            "WHERE profileId = :profileId AND mediaType = :type AND contextKey IN (:contextKeys) AND (" +
+            "(:type = 'LIVE' AND itemId IN (SELECT id FROM channels WHERE sourceId IN (:sourceIds) " +
+            "AND (categoryId IS NULL OR categoryId NOT IN (:excluded)))) OR " +
+            "(:type = 'MOVIE' AND itemId IN (SELECT id FROM movies WHERE sourceId IN (:sourceIds) " +
+            "AND (categoryId IS NULL OR categoryId NOT IN (:excluded)))) OR " +
+            "(:type = 'SERIES' AND itemId IN (SELECT id FROM series WHERE sourceId IN (:sourceIds) " +
+            "AND (categoryId IS NULL OR categoryId NOT IN (:excluded))))" +
+            ") GROUP BY contextKey",
+    )
+    fun observeCountsByContextsExcluding(
+        profileId: Long,
+        type: MediaType,
+        contextKeys: List<String>,
+        sourceIds: List<Long>,
+        excluded: List<Long>,
+    ): Flow<List<CustomCategoryCount>>
+
     /** Everything, for Backup & Restore / re-sync snapshotting. */
     @Query("SELECT * FROM custom_category_members")
     suspend fun getAllOnce(): List<CustomCategoryMemberEntity>
@@ -237,6 +257,19 @@ interface CustomCategoryDao {
             "AND COALESCE(c.sourceId, mv.sourceId, s.sourceId) IN (:sourceIds)",
     )
     fun countMembers(profileId: Long, type: MediaType, contextKey: String, sourceIds: List<Long>): Flow<Int>
+
+    /** [countMembers] without the items filed under [excluded] (locked categories). */
+    @Query(
+        "SELECT COUNT(*) FROM custom_category_members m " +
+            "LEFT JOIN channels c ON m.mediaType = 'LIVE' AND m.itemId = c.id " +
+            "LEFT JOIN movies mv ON m.mediaType = 'MOVIE' AND m.itemId = mv.id " +
+            "LEFT JOIN series s ON m.mediaType = 'SERIES' AND m.itemId = s.id " +
+            "WHERE m.profileId = :profileId AND m.mediaType = :type AND m.contextKey = :contextKey " +
+            "AND COALESCE(c.sourceId, mv.sourceId, s.sourceId) IN (:sourceIds) " +
+            "AND (COALESCE(c.categoryId, mv.categoryId, s.categoryId) IS NULL " +
+            "OR COALESCE(c.categoryId, mv.categoryId, s.categoryId) NOT IN (:excluded))",
+    )
+    fun countMembersExcluding(profileId: Long, type: MediaType, contextKey: String, sourceIds: List<Long>, excluded: List<Long>): Flow<Int>
 
     /** Content ids in one custom category. The Guide already holds its bounded channel window in
      *  memory, so this small projection lets it apply a custom-category filter without another

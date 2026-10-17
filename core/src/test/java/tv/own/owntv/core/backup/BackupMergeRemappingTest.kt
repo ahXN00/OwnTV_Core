@@ -202,6 +202,14 @@ class BackupMergeRemappingTest {
     }
 
     @Test
+    fun `locked category keys move with their playlist and custom ids pass through`() {
+        val raw = JSONObject().put("lockedCats", JSONArray(listOf("10:live:adult", "custom:abc"))).toString()
+        val out = JSONObject(remapCustomizationValue(raw, mapOf(10L to 200L))).getJSONArray("lockedCats")
+        assertEquals("200:live:adult", out.getString(0))
+        assertEquals("custom:abc", out.getString(1))
+    }
+
+    @Test
     fun `moved origin remaps both the item key and provider category value`() {
         val raw = JSONObject()
             .put("movedFrom", JSONObject().put("10:movie:99", "10:category:7"))

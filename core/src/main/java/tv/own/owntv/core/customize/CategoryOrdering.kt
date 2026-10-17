@@ -25,7 +25,7 @@ fun List<CategoryEntity>.railCategories(
     val customs =
         if (kids) c.customCategories.filterNot { AdultCategoryClassifier.isAdult(it.name) }
         else c.customCategories
-    return cats.applyCustomizationsWithCustoms(c, customs, alphaRest)
+    return cats.applyCustomizationsWithCustoms(c.forRail(), customs, alphaRest)
 }
 
 /**

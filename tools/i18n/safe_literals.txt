@@ -474,21 +474,31 @@
 1	sql	core/src/main/java/tv/own/owntv/core/content/SearchReader.kt	$it*
 1	technical	core/src/main/java/tv/own/owntv/core/content/SearchReader.kt	[^\\p{L}\\p{Nd}]+
 1	empty	core/src/main/java/tv/own/owntv/core/customize/BulkRenameSession.kt	\0
+2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationJson.kt	catNames
+2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationJson.kt	catOrder
+2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationJson.kt	customCats
+2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationJson.kt	epgMatch
+2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationJson.kt	epgShift
+2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationJson.kt	hiddenCats
+2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationJson.kt	hiddenItems
+2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationJson.kt	icon
+2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationJson.kt	id
+2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationJson.kt	itemNames
+2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationJson.kt	lockedCats
+2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationJson.kt	movedFrom
+2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationJson.kt	name
 1	empty	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	\0
 1	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	${c.sourceId}:${c.remoteId ?: c.name}
 1	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	${ch.sourceId}:${ch.remoteId ?: ch.name}
 1	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	${m.sourceId}:${m.remoteId ?: m.name}
 1	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	${s.sourceId}:${s.remoteId ?: s.name}
-2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	catNames
-2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	catOrder
 2	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	cust_
 1	preference-key	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	cust_${profileId}_${type.name}
-2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	epgMatch
-2	preference-key	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	epgShift
-2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	hiddenCats
-2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	hiddenItems
-2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	itemNames
 1	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	owntv_customizations
+1	log	core/src/main/java/tv/own/owntv/core/customize/LockedNotificationTitles.kt	$what: unable to check its category lock, so its title stays hidden
+1	log	core/src/main/java/tv/own/owntv/core/customize/LockedNotificationTitles.kt	LockedNotificationTitles
+1	log	core/src/main/java/tv/own/owntv/core/customize/LockedNotificationTitles.kt	download $id
+1	log	core/src/main/java/tv/own/owntv/core/customize/LockedNotificationTitles.kt	recording $id
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/BulkInsertHelper.kt	\0
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/BulkInsertHelper.kt	$msg — no canonical indexes for ${state.table}, indexes were dropped and NOT restored
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/BulkInsertHelper.kt	+ FTS
@@ -911,10 +921,13 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	) ORDER BY number ASC, name ASC LIMIT :limit
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	AND (:query = '' OR name LIKE '%' || :query || '%')
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	AND (:query = '' OR name LIKE '%' || :query || '%') ORDER BY number ASC, name ASC LIMIT :limit
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	AND (categoryId IS NULL OR categoryId NOT IN (:excluded))
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	AND (categoryId IS NULL OR categoryId NOT IN (:excludedCategoryIds))
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	AND LOWER(TRIM(epgChannelId)) IN (
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	AND LOWER(TRIM(epgChannelId)) NOT IN (SELECT DISTINCT epgChannelId FROM epg_programmes)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	AND c.id IN (SELECT rowid FROM channels_fts WHERE channels_fts MATCH :ftsQuery)
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	AND f.mediaType = 'LIVE' AND c.sourceId IN (:sourceIds) AND (c.categoryId IS NULL OR c.categoryId NOT IN (:excluded))
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	AND h.mediaType = 'LIVE' AND c.sourceId IN (:sourceIds) AND (c.categoryId IS NULL OR c.categoryId NOT IN (:excluded))
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	AND id IN (SELECT rowid FROM channels_fts WHERE channels_fts MATCH :query) ORDER BY name ASC
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	DELETE FROM channels WHERE sourceId = :sourceId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	DELETE FROM channels WHERE sourceId = :sourceId AND remoteId IN (:remoteIds)
@@ -962,9 +975,11 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT COUNT(*) FROM channels WHERE categoryId = :categoryId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT COUNT(*) FROM channels WHERE sourceId = :sourceId
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT COUNT(*) FROM channels WHERE sourceId IN (:sourceIds)
-1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT COUNT(*) FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1
+3	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT COUNT(*) FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT COUNT(*) FROM favorites f INNER JOIN channels c ON c.id = f.itemId
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT COUNT(*) FROM favorites f INNER JOIN channels c ON c.id = f.itemId WHERE f.profileId = :profileId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT COUNT(*) FROM watch_history h INNER JOIN channels c ON c.id = h.itemId
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT COUNT(*) FROM watch_history h INNER JOIN channels c ON c.id = h.itemId WHERE h.profileId = :profileId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT DISTINCT LOWER(TRIM(epgChannelId)) FROM channels
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT DISTINCT LOWER(TRIM(epgChannelId)) FROM channels WHERE epgChannelId IS NOT NULL AND epgChannelId != ''
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT DISTINCT epgChannelId FROM epg_programmes WHERE sourceId IN (:sourceIds)
@@ -1019,23 +1034,40 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	SELECT o.profileId AS profileId, o.mediaType AS mediaType, o.itemId AS itemId,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	WHERE c.sourceId = :sourceId OR m.sourceId = :sourceId OR s.sourceId = :sourceId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	o.contextKey AS contextKey, o.position AS position,
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	(:type = 'LIVE' AND itemId IN (SELECT id FROM channels WHERE sourceId IN (:sourceIds)
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	(:type = 'MOVIE' AND itemId IN (SELECT id FROM movies WHERE sourceId IN (:sourceIds)
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	(:type = 'SERIES' AND itemId IN (SELECT id FROM series WHERE sourceId IN (:sourceIds)
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	) GROUP BY contextKey
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	AND (COALESCE(c.categoryId, mv.categoryId, s.categoryId) IS NULL
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	AND (categoryId IS NULL OR categoryId NOT IN (:excluded))))
+2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	AND (categoryId IS NULL OR categoryId NOT IN (:excluded)))) OR
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	AND COALESCE(c.sourceId, mv.sourceId, s.sourceId) IN (:sourceIds)
 4	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	INNER JOIN custom_category_members m ON m.itemId = c.id AND m.profileId = :profileId AND m.mediaType = 'LIVE' AND m.contextKey = :contextKey
 4	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	INNER JOIN custom_category_members m ON m.itemId = mv.id AND m.profileId = :profileId AND m.mediaType = 'MOVIE' AND m.contextKey = :contextKey
 4	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	INNER JOIN custom_category_members m ON m.itemId = s.id AND m.profileId = :profileId AND m.mediaType = 'SERIES' AND m.contextKey = :contextKey
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	LEFT JOIN channels c ON m.mediaType = 'LIVE' AND m.itemId = c.id
 3	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	LEFT JOIN content_order o ON o.itemId = c.id AND o.profileId = :profileId AND o.mediaType = 'LIVE' AND o.contextKey = :contextKey
 3	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	LEFT JOIN content_order o ON o.itemId = mv.id AND o.profileId = :profileId AND o.mediaType = 'MOVIE' AND o.contextKey = :contextKey
 3	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	LEFT JOIN content_order o ON o.itemId = s.id AND o.profileId = :profileId AND o.mediaType = 'SERIES' AND o.contextKey = :contextKey
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	LEFT JOIN movies mv ON m.mediaType = 'MOVIE' AND m.itemId = mv.id
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	LEFT JOIN series s ON m.mediaType = 'SERIES' AND m.itemId = s.id
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	OR COALESCE(c.categoryId, mv.categoryId, s.categoryId) NOT IN (:excluded))
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, c.name
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, mv.name
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, s.name
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT COUNT(*) FROM custom_category_members m
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT DISTINCT contextKey FROM custom_category_members WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT EXISTS(SELECT 1 FROM custom_category_members WHERE profileId = :profileId AND mediaType = :type AND contextKey = :contextKey AND itemId = :itemId)
 4	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT c.* FROM channels c
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT contextKey, COUNT(*) AS count FROM custom_category_members
 4	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT mv.* FROM movies mv
 4	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT s.* FROM series s
 2	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	UNION ALL
 3	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE c.sourceId IN (:sourceIds)
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE m.profileId = :profileId AND m.mediaType = 'LIVE' AND m.contextKey = :contextKey
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE m.profileId = :profileId AND m.mediaType = :type AND m.contextKey = :contextKey
 3	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE mv.sourceId IN (:sourceIds)
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE profileId = :profileId AND mediaType = :type AND contextKey IN (:contextKeys) AND (
 3	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE s.sourceId IN (:sourceIds)
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	m.contextKey AS contextKey, m.position AS position,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/DownloadDao.kt	SELECT * FROM downloads WHERE id = :id
@@ -1168,6 +1200,8 @@
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/MetadataDao.kt	SELECT * FROM metadata_match WHERE localKey IN (:keys)
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	(SELECT rowid FROM movies_fts WHERE movies_fts MATCH :ftsQuery)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	AND (categoryId IS NULL OR categoryId NOT IN (:excludedCategoryIds))
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	AND f.mediaType = 'MOVIE' AND m.sourceId IN (:sourceIds) AND (m.categoryId IS NULL OR m.categoryId NOT IN (:excluded))
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	AND h.mediaType = 'MOVIE' AND m.sourceId IN (:sourceIds) AND (m.categoryId IS NULL OR m.categoryId NOT IN (:excluded))
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	AND id IN (SELECT rowid FROM movies_fts WHERE movies_fts MATCH :ftsQuery) ORDER BY name ASC LIMIT :limit
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	AND id IN (SELECT rowid FROM movies_fts WHERE movies_fts MATCH :query) ORDER BY name ASC
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	DELETE FROM movies WHERE sourceId = :sourceId
@@ -1206,11 +1240,13 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	SELECT * FROM movies WHERE sourceId IN (:sourceIds) ORDER BY rating DESC, name ASC
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	SELECT * FROM movies WHERE sourceId IN (:sourceIds) ORDER BY sourceId ASC, sortOrder ASC, name ASC
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	SELECT COUNT(*) FROM favorites f INNER JOIN movies m ON m.id = f.itemId
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	SELECT COUNT(*) FROM favorites f INNER JOIN movies m ON m.id = f.itemId WHERE f.profileId = :profileId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	SELECT COUNT(*) FROM movies WHERE categoryId = :categoryId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	SELECT COUNT(*) FROM movies WHERE sourceId = :sourceId
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	SELECT COUNT(*) FROM movies WHERE sourceId = :sourceId AND titleSignature = ''
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	SELECT COUNT(*) FROM movies WHERE sourceId IN (:sourceIds)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	SELECT COUNT(*) FROM watch_history h INNER JOIN movies m ON m.id = h.itemId
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	SELECT COUNT(*) FROM watch_history h INNER JOIN movies m ON m.id = h.itemId WHERE h.profileId = :profileId
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	SELECT categoryId, COUNT(*) AS itemCount FROM movies
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	SELECT categoryId, COUNT(*) AS itemCount FROM movies WHERE sourceId = :sourceId AND categoryId IS NOT NULL GROUP BY categoryId
 2	sql	core/src/main/java/tv/own/owntv/core/database/dao/MovieDao.kt	SELECT id, sourceId, categoryId, name, year, remoteId, sortOrder, canonicalTitle,
@@ -1341,6 +1377,8 @@
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ReminderDao.kt	SELECT * FROM programme_reminders WHERE profileId = :profileId ORDER BY startMs ASC
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	(SELECT rowid FROM series_fts WHERE series_fts MATCH :ftsQuery)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	AND (categoryId IS NULL OR categoryId NOT IN (:excludedCategoryIds))
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	AND f.mediaType = 'SERIES' AND s.sourceId IN (:sourceIds) AND (s.categoryId IS NULL OR s.categoryId NOT IN (:excluded))
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	AND h.mediaType = 'SERIES' AND s.sourceId IN (:sourceIds) AND (s.categoryId IS NULL OR s.categoryId NOT IN (:excluded))
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	AND id IN (SELECT rowid FROM series_fts WHERE series_fts MATCH :ftsQuery) ORDER BY name ASC LIMIT :limit
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	AND id IN (SELECT rowid FROM series_fts WHERE series_fts MATCH :query) ORDER BY name ASC
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	DELETE FROM episodes WHERE id IN (:ids)
@@ -1388,11 +1426,13 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	SELECT * FROM series WHERE sourceId IN (:sourceIds) ORDER BY sourceId ASC, sortOrder ASC, name ASC
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	SELECT COUNT(*) FROM episodes WHERE seriesId = :seriesId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	SELECT COUNT(*) FROM favorites f INNER JOIN series s ON s.id = f.itemId
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	SELECT COUNT(*) FROM favorites f INNER JOIN series s ON s.id = f.itemId WHERE f.profileId = :profileId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	SELECT COUNT(*) FROM series WHERE categoryId = :categoryId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	SELECT COUNT(*) FROM series WHERE sourceId = :sourceId
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	SELECT COUNT(*) FROM series WHERE sourceId = :sourceId AND titleSignature = ''
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	SELECT COUNT(*) FROM series WHERE sourceId IN (:sourceIds)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	SELECT COUNT(*) FROM watch_history h INNER JOIN series s ON s.id = h.itemId
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	SELECT COUNT(*) FROM watch_history h INNER JOIN series s ON s.id = h.itemId WHERE h.profileId = :profileId
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	SELECT COUNT(DISTINCT seasonNumber) FROM episodes WHERE seriesId = :seriesId AND seasonNumber > 0
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	SELECT categoryId, COUNT(*) AS itemCount FROM series
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SeriesDao.kt	SELECT categoryId, COUNT(*) AS itemCount FROM series WHERE sourceId = :sourceId AND categoryId IS NOT NULL GROUP BY categoryId
@@ -2877,7 +2917,6 @@
 1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	OFF
 1	log	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	OwnTV-Settings
 1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	UNCHECKED_CAST
-1	regex	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	^[0-9a-fA-F]{16}:[0-9a-fA-F]{64}$
 3	json	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	a
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	accent_color
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	accent_custom
@@ -4900,6 +4939,7 @@
 1	technical	core/src/main/java/tv/own/owntv/core/ui/stage/StageGlyph.kt	M6 6l12 12M18 6 6 18
 1	technical	core/src/main/java/tv/own/owntv/core/ui/stage/StageGlyph.kt	M6 8.5H18A3 3 0 0 1 21 11.5V18A3 3 0 0 1 18 21H6A3 3 0 0 1 3 18V11.5A3 3 0 0 1 6 8.5zM5.5 5.2h13M8 2.2h8
 1	technical	core/src/main/java/tv/own/owntv/core/ui/stage/StageGlyph.kt	M6 9l6 6 6-6
+1	technical	core/src/main/java/tv/own/owntv/core/ui/stage/StageGlyph.kt	M7 11H17A2 2 0 0 1 19 13V19A2 2 0 0 1 17 21H7A2 2 0 0 1 5 19V13A2 2 0 0 1 7 11zM8 11V7a4 4 0 0 1 8 0v4
 1	technical	core/src/main/java/tv/own/owntv/core/ui/stage/StageGlyph.kt	M7 4.5v15l12.5-7.5z
 1	technical	core/src/main/java/tv/own/owntv/core/ui/stage/StageGlyph.kt	M8 12a4 4 0 1 0 8 0a4 4 0 1 0 -8 0zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4
 1	technical	core/src/main/java/tv/own/owntv/core/ui/stage/StageGlyph.kt	M8 4h8v4.5a4 4 0 0 1-8 0zM16 6h3v1.5a3.5 3.5 0 0 1-3.3 3.5M8 6H5v1.5A3.5 3.5 0 0 0 8.3 11M12 13v4M9 20h6v-2a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1z
@@ -4990,6 +5030,7 @@
 1	technical	core/src/main/java/tv/own/owntv/core/util/Pin.kt	%02x
 1	technical	core/src/main/java/tv/own/owntv/core/util/Pin.kt	:
 1	technical	core/src/main/java/tv/own/owntv/core/util/Pin.kt	SHA-256
+1	regex	core/src/main/java/tv/own/owntv/core/util/Pin.kt	^[0-9a-fA-F]{16}:[0-9a-fA-F]{64}$
 1	protocol	core/src/main/java/tv/own/owntv/core/weather/WeatherData.kt	clearNight
 2	protocol	core/src/main/java/tv/own/owntv/core/weather/WeatherData.kt	cloudy
 1	protocol	core/src/main/java/tv/own/owntv/core/weather/WeatherData.kt	drizzle

@@ -299,6 +299,20 @@ interface SeriesDao {
     )
     fun countHistory(profileId: Long, sourceIds: List<Long>): Flow<Int>
 
+    /** [countFavorites] without the shows filed under [excluded] (locked categories). */
+    @Query(
+        "SELECT COUNT(*) FROM favorites f INNER JOIN series s ON s.id = f.itemId WHERE f.profileId = :profileId " +
+            "AND f.mediaType = 'SERIES' AND s.sourceId IN (:sourceIds) AND (s.categoryId IS NULL OR s.categoryId NOT IN (:excluded))",
+    )
+    fun countFavoritesExcluding(profileId: Long, sourceIds: List<Long>, excluded: List<Long>): Flow<Int>
+
+    /** [countHistory] without the shows filed under [excluded] (locked categories). */
+    @Query(
+        "SELECT COUNT(*) FROM watch_history h INNER JOIN series s ON s.id = h.itemId WHERE h.profileId = :profileId " +
+            "AND h.mediaType = 'SERIES' AND s.sourceId IN (:sourceIds) AND (s.categoryId IS NULL OR s.categoryId NOT IN (:excluded))",
+    )
+    fun countHistoryExcluding(profileId: Long, sourceIds: List<Long>, excluded: List<Long>): Flow<Int>
+
     @Query(
         "SELECT s.* FROM series s INNER JOIN watch_history h ON h.itemId = s.id AND h.mediaType = 'SERIES' " +
             "WHERE h.profileId = :profileId AND s.sourceId IN (:sourceIds) ORDER BY h.watchedAt DESC",

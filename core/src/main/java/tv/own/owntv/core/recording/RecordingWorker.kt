@@ -8,7 +8,10 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import kotlinx.coroutines.coroutineScope
+import tv.own.owntv.core.customize.LockedNotificationTitles
 import tv.own.owntv.core.i18n.LocaleStore
+import tv.own.owntv.core.util.LatestOnly
 
 /**
  * Runs whatever is due to record, in a **`mediaPlayback`** foreground service so it keeps going once
@@ -27,23 +30,31 @@ class RecordingWorker(
     params: WorkerParameters,
     private val engine: RecordingEngine,
     private val localeStore: LocaleStore,
+    private val lockedTitles: LockedNotificationTitles,
 ) : CoroutineWorker(appContext, params) {
 
-    override suspend fun doWork(): Result {
+    override suspend fun doWork(): Result = coroutineScope {
         setForeground(RecordingNotifications.foregroundInfo(applicationContext, null, localeStore))
+        // One update at a time, only the newest waiting: the lock check can be slow, and an older one finishing
+        // last would put a stale title or progress back in the shade.
+        val notification = LatestOnly<RecordingProgress>(this) { progress ->
+            val showTitle = !lockedTitles.hidesRecording(progress.id)
+            runCatching {
+                setForegroundAsync(
+                    RecordingNotifications.foregroundInfo(applicationContext, progress, localeStore, showTitle),
+                )
+            }
+        }
         var lastTick = 0L
         engine.drainQueue { progress ->
             val now = System.currentTimeMillis()
             if (now - lastTick > NOTIFICATION_INTERVAL_MS) {
                 lastTick = now
-                runCatching {
-                    setForegroundAsync(
-                        RecordingNotifications.foregroundInfo(applicationContext, progress, localeStore),
-                    )
-                }
+                notification.offer(progress)
             }
         }
-        return Result.success()
+        notification.close()
+        Result.success()
     }
 
     companion object {

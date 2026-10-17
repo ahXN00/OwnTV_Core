@@ -350,6 +350,13 @@ interface ChannelDao {
     @Query("SELECT COUNT(*) FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1")
     fun observeCatchupCount(sourceIds: List<Long>): Flow<Int>
 
+    /** [observeCatchupCount] without the channels filed under [excluded] (locked categories). */
+    @Query(
+        "SELECT COUNT(*) FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1 " +
+            "AND (categoryId IS NULL OR categoryId NOT IN (:excluded))",
+    )
+    fun observeCatchupCountExcluding(sourceIds: List<Long>, excluded: List<Long>): Flow<Int>
+
     // --- Search (FTS4) ---
     @Query(
         "SELECT * FROM channels WHERE sourceId IN (:sourceIds) " +
@@ -432,6 +439,20 @@ interface ChannelDao {
             "WHERE h.profileId = :profileId AND h.mediaType = 'LIVE' AND c.sourceId IN (:sourceIds)",
     )
     fun countHistory(profileId: Long, sourceIds: List<Long>): Flow<Int>
+
+    /** [countFavorites] without the channels filed under [excluded] (locked categories). */
+    @Query(
+        "SELECT COUNT(*) FROM favorites f INNER JOIN channels c ON c.id = f.itemId WHERE f.profileId = :profileId " +
+            "AND f.mediaType = 'LIVE' AND c.sourceId IN (:sourceIds) AND (c.categoryId IS NULL OR c.categoryId NOT IN (:excluded))",
+    )
+    fun countFavoritesExcluding(profileId: Long, sourceIds: List<Long>, excluded: List<Long>): Flow<Int>
+
+    /** [countHistory] without the channels filed under [excluded] (locked categories). */
+    @Query(
+        "SELECT COUNT(*) FROM watch_history h INNER JOIN channels c ON c.id = h.itemId WHERE h.profileId = :profileId " +
+            "AND h.mediaType = 'LIVE' AND c.sourceId IN (:sourceIds) AND (c.categoryId IS NULL OR c.categoryId NOT IN (:excluded))",
+    )
+    fun countHistoryExcluding(profileId: Long, sourceIds: List<Long>, excluded: List<Long>): Flow<Int>
 
     @Query(
         "SELECT c.* FROM channels c " +

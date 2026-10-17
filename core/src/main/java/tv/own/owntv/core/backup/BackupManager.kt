@@ -1828,7 +1828,7 @@ internal fun remapCustomizationValue(raw: String, sourceIdMap: Map<Long, Long>):
                     for (i in 0 until v.length()) {
                         val e = v.opt(i)
                         when (e) {
-                            // Keyed list (hiddenCats, catOrder): remap content keys; custom keys pass through.
+                            // Keyed list (hiddenCats, catOrder, lockedCats): remap content keys; custom keys pass through.
                             is String -> put(remapContentKey(e))
                             // customCats objects: ids are "custom:<uuid>" (never remapped); copy verbatim.
                             is JSONObject -> put(e)

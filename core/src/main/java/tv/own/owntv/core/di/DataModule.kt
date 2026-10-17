@@ -91,7 +91,12 @@ val dataModule = module {
     }
     single { HttpClient(get()) }
     single { ConnectivityObserver(androidContext()) }
-    single { CustomizationStore(androidContext()) }
+    // Category locks: the in-memory unlocks of this session, and the view that applies them (settings,
+    // session, categoryDao).
+    single { tv.own.owntv.core.customize.CategoryUnlockSession() }
+    single { tv.own.owntv.core.customize.CategoryLockView(get(), get(), get()) }
+    single { CustomizationStore(androidContext(), get()) }
+    single { tv.own.owntv.core.customize.LockedNotificationTitles(get(), get(), get(), get(), get(), get()) }
     single { tv.own.owntv.core.epg.EpgSourceStore(androidContext()) }
     single { tv.own.owntv.core.player.ForceMpvStore(androidContext(), get()) }
     single { tv.own.owntv.core.player.ArchiveDecodeStore(androidContext()) }
@@ -270,9 +275,9 @@ val dataModule = module {
     // seriesDao, sourceDao, xtreamClient, userDataResolver, stalkerClient, stalkerAuthManager
     single { SeriesRepository(get(), get(), get(), get(), get(), get()) }
     // sourceDao, movieDao, seriesDao, progressDao
-    single { LauncherRecommendationPlanner(get(), get(), get(), get(), get(), get()) }
+    single { LauncherRecommendationPlanner(get(), get(), get(), get(), get(), get(), get()) }
     // sourceDao, channelDao, movieDao, seriesDao, progressDao
-    single { LauncherLaunchResolver(get(), get(), get(), get(), get(), get(), get()) }
+    single { LauncherLaunchResolver(get(), get(), get(), get(), get(), get(), get(), get()) }
     // context, sourceDao, channelDao, movieDao, seriesDao, progressDao, tvProviderProgramDao, customize, settings, localeStore
     single { TvHomeRepository(androidContext(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), LiveLogoPosterArt(androidContext(), get())) }
     // planner, resolver, tvHomeRepository

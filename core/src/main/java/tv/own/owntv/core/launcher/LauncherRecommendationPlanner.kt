@@ -5,6 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
+import tv.own.owntv.core.customize.CustomizationStore
 import tv.own.owntv.core.database.dao.MovieDao
 import tv.own.owntv.core.database.dao.ProgressDao
 import tv.own.owntv.core.database.dao.SeriesDao
@@ -27,6 +28,7 @@ class LauncherRecommendationPlanner(
     private val progressDao: ProgressDao,
     private val categoryDao: CategoryDao,
     private val profileDao: ProfileDao,
+    private val customize: CustomizationStore,
 ) {
     companion object {
         private const val WATCH_NEXT_MIN_POSITION_MS = 10_000L
@@ -136,7 +138,8 @@ class LauncherRecommendationPlanner(
     }
 
     suspend fun isCategoryVisibleToProfile(profileId: Long, categoryId: Long?): Boolean =
-        tv.own.owntv.core.content.AdultCategoryClassifier.allows(profileId, categoryId, profileDao, categoryDao)
+        tv.own.owntv.core.content.AdultCategoryClassifier.allows(profileId, categoryId, profileDao, categoryDao) &&
+            !customize.sealsCategory(profileId, categoryId, anySession = true)
 
     /**
      * The one-shot query, not `episodesBySeries(...).first()`. Both run the same SQL with the same
