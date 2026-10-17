@@ -1061,7 +1061,6 @@
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	FROM epg_programmes WHERE startMs > :from - 86400000 AND startMs < :to AND stopMs > :from
 3	sql	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	NULL AS categories, NULL AS year, NULL AS rating, NULL AS lengthMin, NULL AS episode
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT (MAX(stopMs) - MIN(startMs)) / 86400000 FROM epg_programmes WHERE epgChannelId = :epgChannelId
-1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT * FROM epg_programmes WHERE epgChannelId = :epgChannelId AND startMs <= :now AND stopMs > :now ORDER BY startMs DESC LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT * FROM epg_programmes WHERE epgChannelId = :epgChannelId AND stopMs <= :now ORDER BY stopMs DESC LIMIT 1
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT * FROM epg_programmes WHERE epgChannelId = :epgChannelId AND stopMs > :now ORDER BY startMs ASC LIMIT :limit
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/EpgDao.kt	SELECT * FROM epg_programmes WHERE epgChannelId = :epgKey
@@ -1892,18 +1891,18 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/EpgMatcher.kt	vip
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/EpgMatcher.kt	wales
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/EpgMatcher.kt	za
+3	json	core/src/main/java/tv/own/owntv/core/epg/EpgSourceJson.kt	at
+2	json	core/src/main/java/tv/own/owntv/core/epg/EpgSourceJson.kt	err
+2	json	core/src/main/java/tv/own/owntv/core/epg/EpgSourceJson.kt	id
+2	json	core/src/main/java/tv/own/owntv/core/epg/EpgSourceJson.kt	name
+2	json	core/src/main/java/tv/own/owntv/core/epg/EpgSourceJson.kt	ua
+2	json	core/src/main/java/tv/own/owntv/core/epg/EpgSourceJson.kt	url
 1	technical	core/src/main/java/tv/own/owntv/core/epg/EpgSourceStore.kt	EPG
 1	technical	core/src/main/java/tv/own/owntv/core/epg/EpgSourceStore.kt	[]
-3	json	core/src/main/java/tv/own/owntv/core/epg/EpgSourceStore.kt	at
-2	json	core/src/main/java/tv/own/owntv/core/epg/EpgSourceStore.kt	err
-2	json	core/src/main/java/tv/own/owntv/core/epg/EpgSourceStore.kt	id
 1	preference-key	core/src/main/java/tv/own/owntv/core/epg/EpgSourceStore.kt	migrated_v1
-2	json	core/src/main/java/tv/own/owntv/core/epg/EpgSourceStore.kt	name
 1	preference-key	core/src/main/java/tv/own/owntv/core/epg/EpgSourceStore.kt	next_id
 1	technical	core/src/main/java/tv/own/owntv/core/epg/EpgSourceStore.kt	owntv_epg_sources
 1	preference-key	core/src/main/java/tv/own/owntv/core/epg/EpgSourceStore.kt	sources
-2	json	core/src/main/java/tv/own/owntv/core/epg/EpgSourceStore.kt	ua
-2	json	core/src/main/java/tv/own/owntv/core/epg/EpgSourceStore.kt	url
 2	empty	core/src/main/java/tv/own/owntv/core/epg/GuideCandidates.kt	\0
 1	log	core/src/main/java/tv/own/owntv/core/epg/GuideCandidates.kt	Guide candidate limit $limit reached (named=${named.size} withProgrammes=${withProgrammes.size}) — list truncated
 1	log	core/src/main/java/tv/own/owntv/core/epg/GuideCandidates.kt	GuideCandidates
@@ -1981,16 +1980,16 @@
 1	log	core/src/main/java/tv/own/owntv/core/live/GuideReader.kt	rows=${stored.size} collapsed=${collapsed.size}
 1	log	core/src/main/java/tv/own/owntv/core/live/GuideReader.kt	shiftGroups=${keyed.groupBy { it.third }.size} chunks=$chunks rows=$rowsRead
 2	log	core/src/main/java/tv/own/owntv/core/live/GuideReader.kt	totalMs=${SystemClock.elapsedRealtime() - startedAt}
-1	log	core/src/main/java/tv/own/owntv/core/live/LiveEpgReader.kt	OwnTVHome
-1	log	core/src/main/java/tv/own/owntv/core/live/LiveEpgReader.kt	Stalker catch-up resolve failed channelId=${ch.id}
-1	log	core/src/main/java/tv/own/owntv/core/live/LiveEpgReader.kt	Stalker rewind resolve failed channelId=${ch.id}
+1	log	core/src/main/java/tv/own/owntv/core/live/LiveArchiveUrls.kt	OwnTVHome
+1	log	core/src/main/java/tv/own/owntv/core/live/LiveArchiveUrls.kt	Stalker catch-up resolve failed channelId=${ch.id}
+1	log	core/src/main/java/tv/own/owntv/core/live/LiveArchiveUrls.kt	Stalker rewind resolve failed channelId=${ch.id}
+1	uri	core/src/main/java/tv/own/owntv/core/live/LiveArchiveUrls.kt	ts
+1	protocol	core/src/main/java/tv/own/owntv/core/live/LiveArchiveUrls.kt	xc
+1	protocol	core/src/main/java/tv/own/owntv/core/live/LiveArchiveUrls.kt	xtream
 1	log	core/src/main/java/tv/own/owntv/core/live/LiveEpgReader.kt	fromStored=$fromStored fromCache=${result.size - fromStored}
 1	log	core/src/main/java/tv/own/owntv/core/live/LiveEpgReader.kt	keys=${channelKeys.map { it.second }.distinct().size} chunks=$chunks
 1	log	core/src/main/java/tv/own/owntv/core/live/LiveEpgReader.kt	live_nowplaying channels=${channels.size} keyed=${channelKeys.size}
 1	log	core/src/main/java/tv/own/owntv/core/live/LiveEpgReader.kt	totalMs=${android.os.SystemClock.elapsedRealtime() - startedAt}
-1	uri	core/src/main/java/tv/own/owntv/core/live/LiveEpgReader.kt	ts
-1	protocol	core/src/main/java/tv/own/owntv/core/live/LiveEpgReader.kt	xc
-1	protocol	core/src/main/java/tv/own/owntv/core/live/LiveEpgReader.kt	xtream
 2	preference-key	core/src/main/java/tv/own/owntv/core/live/LiveKey.kt	ALL
 2	preference-key	core/src/main/java/tv/own/owntv/core/live/LiveKey.kt	CATCHUP
 2	preference-key	core/src/main/java/tv/own/owntv/core/live/LiveKey.kt	CUSTOM:

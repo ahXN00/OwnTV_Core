@@ -9,7 +9,6 @@ import tv.own.owntv.core.database.dao.EpgDao
 import tv.own.owntv.core.database.dao.SourceDao
 import tv.own.owntv.core.database.entity.ChannelEntity
 import tv.own.owntv.core.database.entity.EpgProgrammeEntity
-import tv.own.owntv.core.epg.EpgDedupe
 import tv.own.owntv.core.epg.EpgShift
 import tv.own.owntv.core.epg.EpgSourceStore
 
@@ -93,7 +92,7 @@ class GuideReader(
                 .map { EpgShift.apply(it, shift) }
         }
         if (stored.isNotEmpty()) {
-            return@withContext EpgDedupe.collapse(stored).also { collapsed ->
+            return@withContext epgSourceStore.priority().resolve(stored).also { collapsed ->
                 CorePerf.log {
                     "guide_row source=stored channelId=${channel.id} key=$epgKey shift=$shift " +
                         "rows=${stored.size} collapsed=${collapsed.size} " +
@@ -143,6 +142,7 @@ class GuideReader(
         var chunks = 0
         var rowsRead = 0
         val collected = HashMap<Long, List<EpgProgrammeEntity>>()
+        val priority = epgSourceStore.priority()
         for ((shift, group) in keyed.groupBy { it.third }) {
             val rowsByKey = group
                 .map { it.second }.distinct()
@@ -158,7 +158,7 @@ class GuideReader(
                 .groupBy { it.epgChannelId }
             for ((channelId, epgKey, _) in group) {
                 rowsByKey[epgKey]?.takeIf { it.isNotEmpty() }
-                    ?.let { collected[channelId] = EpgShift.apply(EpgDedupe.collapse(it), shift) }
+                    ?.let { collected[channelId] = EpgShift.apply(priority.resolve(it), shift) }
             }
         }
         val ordered = LinkedHashMap<Long, List<EpgProgrammeEntity>>(collected.size)

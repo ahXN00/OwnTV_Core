@@ -1560,6 +1560,8 @@
     <string name="settings_epg_sources_auto_refresh_description">Off, on startup, or when data is stale</string>
     <!-- Translators: Status text when the EPG source has not been synced yet. -->
     <string name="settings_epg_sources_not_synced">Not synced yet</string>
+    <!-- Translators: Line in an EPG source's panel giving its place in the list, which decides whose guide is shown when two sources list the same channel. 'position' is this source's place (1 = top), 'total' is how many sources there are. -->
+    <string name="settings_epg_sources_priority">Guide priority <xliff:g id="position">%1$d</xliff:g> of <xliff:g id="total">%2$d</xliff:g>. When two sources list the same channel, the one higher in this list is used.</string>
     <!-- Translators: EPG refresh interval: every 1 hour. -->
     <string name="settings_epg_refresh_1h">1 hour</string>
     <!-- Translators: EPG refresh interval: every 3 hours. -->

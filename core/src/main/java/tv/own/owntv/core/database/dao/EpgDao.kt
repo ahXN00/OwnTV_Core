@@ -56,15 +56,11 @@ interface EpgDao {
     @Query("DELETE FROM epg_programmes WHERE epgChannelId = :epgChannelId AND sourceId IN (:sourceIds)")
     suspend fun clearChannelForSources(epgChannelId: String, sourceIds: List<Long>)
 
-    /** The programme airing at [now] on a given EPG channel. */
-    @Query("SELECT * FROM epg_programmes WHERE epgChannelId = :epgChannelId AND startMs <= :now AND stopMs > :now ORDER BY startMs DESC LIMIT 1")
-    suspend fun nowPlaying(epgChannelId: String, now: Long): EpgProgrammeEntity?
-
     /** The most recently FINISHED programme on a channel (the "Before" slot in the player overlay). */
     @Query("SELECT * FROM epg_programmes WHERE epgChannelId = :epgChannelId AND stopMs <= :now ORDER BY stopMs DESC LIMIT 1")
     suspend fun previousProgramme(epgChannelId: String, now: Long): EpgProgrammeEntity?
 
-    /** Now + upcoming programmes for a channel (now/next and a short guide). */
+    /** Now + upcoming programmes for a channel (now/next and a short guide); Now is read from these too. */
     @Query("SELECT * FROM epg_programmes WHERE epgChannelId = :epgChannelId AND stopMs > :now ORDER BY startMs ASC LIMIT :limit")
     fun upcoming(epgChannelId: String, now: Long, limit: Int): Flow<List<EpgProgrammeEntity>>
 
@@ -79,14 +75,15 @@ interface EpgDao {
     // two attempts at it. A channel's guide is identified by its `epgChannelId`; which playlist or EPG
     // feed happened to deliver a row is not part of that identity. Filtering on it meant that a row
     // whose source had since been deleted, or re-added and given a new id, became invisible — while
-    // `nowPlaying`/`upcoming` above, which never filtered, still found it. So the preview pane showed a
+    // `upcoming` above, which never filtered, still found it. So the preview pane showed a
     // full guide and the grid and the channel row beside it stayed blank, permanently, for every
     // affected channel.
     //
     // The list had already been widened once (playlists PLUS EPG feeds) after the same class of report.
     // Widening it a third time would only move the boundary; removing it is what makes all three reads
     // answer identically. Two feeds carrying one channel now both come back, which is what
-    // [tv.own.owntv.core.epg.EpgDedupe] collapses.
+    // [tv.own.owntv.core.epg.GuidePriority] settles: the feed higher in the EPG Sources list wins, and
+    // [tv.own.owntv.core.epg.EpgDedupe] collapses what is left.
 
     // `programmesInWindowPage` used to live here — the keyset-paged read behind GuideReader.window().
     // Both are gone. It could never use an index: keysetting on `id` walks the table in rowid order,
