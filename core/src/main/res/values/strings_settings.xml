@@ -600,6 +600,16 @@
     <string name="settings_update_startup">Check updates on startup</string>
     <!-- Translators: Description of the auto-update-check setting. -->
     <string name="settings_update_startup_description">Look for a new version when the app opens</string>
+    <!-- Translators: Toggle label: open the app by itself after the TV device has started up (booted). -->
+    <string name="settings_auto_start_boot">Auto start on boot</string>
+    <!-- Translators: Description of the auto-start-on-boot toggle. OwnTV is a brand name. -->
+    <string name="settings_auto_start_boot_description">Open OwnTV when the TV is switched on</string>
+    <!-- Translators: Toggle label: open the app by itself each time the TV wakes up from sleep (standby). -->
+    <string name="settings_auto_start_wake">Auto start on wake-up</string>
+    <!-- Translators: Description of the auto-start-on-wake-up toggle. OwnTV is a brand name. -->
+    <string name="settings_auto_start_wake_description">Open OwnTV when the TV wakes from sleep</string>
+    <!-- Translators: Shown under an auto-start toggle that is on but cannot work yet, because Android has not allowed the app to display over other apps. Use the wording of the Android permission screen. -->
+    <string name="settings_auto_start_needs_overlay">Needs “Display over other apps”</string>
     <!-- Translators: Settings navigation label for the About screen. -->
     <string name="settings_about">About</string>
     <!-- Translators: Setting label for the live stream latency setting. -->
@@ -819,6 +829,8 @@
     <string name="settings_search_keywords_updates">github release version</string>
     <!-- Translators: Hidden keyword bag for the auto-update check settings. Translate as individual search terms. -->
     <string name="settings_search_keywords_update_auto">auto update new version</string>
+    <!-- Translators: Hidden keyword bag for the auto-start settings. Translate as individual search terms. -->
+    <string name="settings_search_keywords_auto_start">boot power on wake sleep standby launch automatically</string>
     <!-- Translators: Hidden keyword bag for the About settings. Translate as individual search terms. -->
     <!-- Translators: Language option to use the default (English) language. -->
     <string name="settings_language_default">Default (English)</string>
@@ -2795,6 +2807,10 @@
     <string name="settings_help_check_updates">Looks on GitHub for a newer OwnTV now and offers to install it. Your playlists, favorites and settings stay as they are.</string>
     <!-- Translators: Explanation shown in the panel beside the Settings rows while this setting has focus. -->
     <string name="settings_help_update_startup">Looks for a new version each time OwnTV starts and tells you when there is one. Nothing is installed without asking.</string>
+    <!-- Translators: Explanation shown in the panel beside the Settings rows while this setting has focus. OwnTV is a brand name; App startup is the name of another setting. -->
+    <string name="settings_help_auto_start_boot">Opens OwnTV by itself once the TV has started up, on the screen chosen in App startup. Android only lets an app open by itself when it may display over other apps, so OwnTV asks for that permission when you turn this on.</string>
+    <!-- Translators: Explanation shown in the panel beside the Settings rows while this setting has focus. OwnTV is a brand name. -->
+    <string name="settings_help_auto_start_wake">Opens OwnTV each time the TV wakes from sleep. To notice the wake-up, OwnTV keeps a small background service with a silent notification while this is on. Like auto start on boot, it needs permission to display over other apps.</string>
     <!-- Translators: Explanation shown in the panel beside the Settings rows while this setting has focus. -->
     <string name="settings_help_dns">Looks up your provider’s addresses with a DNS server of your choice instead of your network’s own — useful when your network blocks or redirects them.</string>
     <!-- Translators: Explanation shown in the panel beside the Settings rows while this setting has focus. -->
