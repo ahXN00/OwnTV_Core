@@ -1,0 +1,201 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "tv.own.owntv",
+    "module": "player-core",
+    "version": "1.0.65",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.7.1"
+    }
+  },
+  "variants": [
+    {
+      "name": "releaseVariantReleaseApiPublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "tv.own.owntv",
+          "module": "libmpv",
+          "version": {
+            "requires": "2026.10.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.4.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "player-core-1.0.65.aar",
+          "url": "player-core-1.0.65.aar",
+          "size": 1070092,
+          "sha512": "8111d713dcf56152698affe88904e13083c873b8f5a29c9b895f65e405add0b23e907d905cbaebdf8a77aae826a8a905e653bf8f2dadb355c2ccb67880ebfdcb",
+          "sha256": "cf1da2dee3a9ed1ab7d82667af1b912d8682b2b39e081eacf26f492e36928a2b",
+          "sha1": "8228300beaec7699a437d8cbe0261eae9ef7c7c4",
+          "md5": "433390db3738ca18f59382499ec9b0a0"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseRuntimePublication",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.libraryelements": "aar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "tv.own.owntv",
+          "module": "core",
+          "version": {
+            "requires": "1.0.65"
+          }
+        },
+        {
+          "group": "androidx.core",
+          "module": "core-ktx",
+          "version": {
+            "requires": "1.19.0"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlinx",
+          "module": "kotlinx-coroutines-android",
+          "version": {
+            "requires": "1.11.0"
+          }
+        },
+        {
+          "group": "androidx.media3",
+          "module": "media3-exoplayer",
+          "version": {
+            "requires": "1.11.1"
+          }
+        },
+        {
+          "group": "androidx.media3",
+          "module": "media3-exoplayer-hls",
+          "version": {
+            "requires": "1.11.1"
+          }
+        },
+        {
+          "group": "androidx.media3",
+          "module": "media3-exoplayer-dash",
+          "version": {
+            "requires": "1.11.1"
+          }
+        },
+        {
+          "group": "androidx.media3",
+          "module": "media3-ui",
+          "version": {
+            "requires": "1.11.1"
+          }
+        },
+        {
+          "group": "androidx.media3",
+          "module": "media3-datasource-okhttp",
+          "version": {
+            "requires": "1.11.1"
+          }
+        },
+        {
+          "group": "com.squareup.okhttp3",
+          "module": "okhttp",
+          "version": {
+            "requires": "5.5.0"
+          }
+        },
+        {
+          "group": "io.insert-koin",
+          "module": "koin-bom",
+          "version": {
+            "requires": "4.2.2"
+          },
+          "attributes": {
+            "org.gradle.category": "platform"
+          }
+        },
+        {
+          "group": "io.insert-koin",
+          "module": "koin-android"
+        },
+        {
+          "group": "androidx.compose",
+          "module": "compose-bom",
+          "version": {
+            "requires": "2026.08.00"
+          },
+          "attributes": {
+            "org.gradle.category": "platform"
+          }
+        },
+        {
+          "group": "androidx.compose.runtime",
+          "module": "runtime"
+        },
+        {
+          "group": "tv.own.owntv",
+          "module": "libmpv",
+          "version": {
+            "requires": "2026.10.2"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "2.4.20"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "player-core-1.0.65.aar",
+          "url": "player-core-1.0.65.aar",
+          "size": 1070092,
+          "sha512": "8111d713dcf56152698affe88904e13083c873b8f5a29c9b895f65e405add0b23e907d905cbaebdf8a77aae826a8a905e653bf8f2dadb355c2ccb67880ebfdcb",
+          "sha256": "cf1da2dee3a9ed1ab7d82667af1b912d8682b2b39e081eacf26f492e36928a2b",
+          "sha1": "8228300beaec7699a437d8cbe0261eae9ef7c7c4",
+          "md5": "433390db3738ca18f59382499ec9b0a0"
+        }
+      ]
+    },
+    {
+      "name": "releaseVariantReleaseSourcePublication",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "player-core-1.0.65-sources.jar",
+          "url": "player-core-1.0.65-sources.jar",
+          "size": 319189,
+          "sha512": "36e1092b4a4720ea5d96d69853c556897382d3dd0ce7375cfc91c1b8a942cbdbe3a6880c53a9cbe950918bc2052fd05cf4b5e3818d953cda33e8ce8e37384da0",
+          "sha256": "8bb85d11c3dd3ed91a4b0e86e19d97c268efe7631d173efe039f46aec827c28c",
+          "sha1": "40bcb7cf1eb446209a203f72b99dfc219b96a83c",
+          "md5": "dd4544368665a9398bd3d88e76fc8d05"
+        }
+      ]
+    }
+  ]
+}
