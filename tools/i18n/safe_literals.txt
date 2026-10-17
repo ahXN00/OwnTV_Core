@@ -973,11 +973,13 @@
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT c.*, cat.name AS categoryName FROM channels c
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT c.*, h.watchedAt FROM channels c
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT categoryId, COUNT(*) AS itemCount FROM channels
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT id, remoteId, sortOrder, number FROM channels WHERE sourceId = :sourceId ORDER BY sortOrder ASC, id ASC
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT remoteId FROM channels WHERE sourceId = :sourceId AND categoryId IN (:categoryIds) AND remoteId IS NOT NULL
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT remoteId FROM channels WHERE sourceId = :sourceId AND remoteId IS NOT NULL
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT remoteId FROM channels WHERE sourceId = :sourceId AND remoteId IS NOT NULL LIMIT 1
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT remoteId, epgChannelId FROM channels WHERE sourceId = :sourceId AND remoteId IS NOT NULL AND epgChannelId IS NOT NULL
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT remoteId, id, contentHash, sortOrder FROM channels WHERE sourceId = :sourceId AND remoteId IS NOT NULL
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	UPDATE channels SET number = :number WHERE id = :id
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	UPDATE channels SET sortOrder = :sortOrder WHERE id = :id
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	UPDATE channels SET sortOrder = sortOrder + :delta WHERE sourceId = :sourceId AND sortOrder BETWEEN :fromSortOrder AND :toSortOrder
 3	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	WHERE c.categoryId = :categoryId
@@ -4234,6 +4236,12 @@
 1	log	core/src/main/java/tv/own/owntv/core/sync/ImportFinalizer.kt	ensureContentIndexes start
 2	technical	core/src/main/java/tv/own/owntv/core/sync/ImportFinalizer.kt	movies
 2	technical	core/src/main/java/tv/own/owntv/core/sync/ImportFinalizer.kt	series
+2	technical	core/src/main/java/tv/own/owntv/core/sync/LocalPlaylistFile.kt	/
+2	url	core/src/main/java/tv/own/owntv/core/sync/LocalPlaylistFile.kt	content://
+2	url	core/src/main/java/tv/own/owntv/core/sync/LocalPlaylistFile.kt	file://
+2	protocol	core/src/main/java/tv/own/owntv/core/sync/LocalPlaylistFile.kt	playlist_file_unavailable
+1	protocol	core/src/main/java/tv/own/owntv/core/sync/LocalPlaylistFile.kt	playlist_path_unsupported
+1	technical	core/src/main/java/tv/own/owntv/core/sync/LocalPlaylistFile.kt	r
 1	preference-key	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	
 1	technical	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	$base$KEY_SEPARATOR#$n
 1	log	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	$label hash map loaded sourceId=$sourceId size=${it.size} ms=${SystemClock.elapsedRealtime() - start}
@@ -4244,7 +4252,7 @@
 1	regex	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	(?i)\\b(\\d{1,2})x(\\d{1,3})\\b
 1	regex	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	(?i)\\bS(\\d{1,4})\\s*[.\\-_ ]?\\s*E(\\d{1,4})\\b
 1	regex	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	(?i)\\bSeason\\s*(\\d{1,4})\\s*[.,:\\-_ ]*\\s*(?:Episode|Ep\\.?)\\s*(\\d{1,4})\\b
-3	technical	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	/
+1	technical	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	/
 1	log	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	M3U categories flush sourceId=${s.id} rows=${pendingCategories.size} ms=${SystemClock.elapsedRealtime() - start}
 1	log	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	M3U channel flush sourceId=${s.id} rows=${channels.size} dbInserted=${upsert.inserted}
 3	technical	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	M3U live
@@ -4252,21 +4260,19 @@
 3	technical	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	M3U movies
 1	log	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	M3U phase end sourceId=${s.id} processed=$processed movies=$moviesProcessed series=$seriesProcessed ms=${SystemClock.elapsedRealtime() - elapsedStart}
 1	log	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	M3U phase start sourceId=${s.id} local=$isLocal fresh=$freshSource bytesTotal=${localBytes ?: -1}
+1	log	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	M3U playlist numbering sourceId=${s.id} providerNumbered=$providerNumbered renumbered=$renumbered
 3	technical	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	M3U series
 1	log	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	M3U series flush sourceId=${s.id} final=$final shows=${shows.size} dbInserted=${inserts.size}
 1	log	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	M3U truncated-name rescue: ${rescued.size} row(s) relinked to their full name
 3	technical	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	channels
 1	technical	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	channels_fts
-3	url	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	content://
+1	url	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	content://
 1	log	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	dbUpdated=${changed.size} dbAppended=${appended.size} dbSkipped=$skipped episodes=$episodesWritten
 1	log	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	dbUpdated=${upsert.updated} dbSkipped=${upsert.skippedUnchanged} processed=$moviesProcessed
 1	log	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	dbUpdated=${upsert.updated} dbSkipped=${upsert.skippedUnchanged} processed=$processed
-3	url	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	file://
+1	url	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	file://
 1	technical	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	movies
 2	log	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	ms=${SystemClock.elapsedRealtime() - start}
-2	protocol	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	playlist_file_unavailable
-1	protocol	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	playlist_path_unsupported
-1	technical	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	r
 1	technical	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	series
 1	log	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	totalShows=$seriesProcessed ms=${SystemClock.elapsedRealtime() - start}
 2	empty	core/src/main/java/tv/own/owntv/core/sync/StalkerSyncer.kt	\0

@@ -10,6 +10,7 @@ import androidx.room.Transaction
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import tv.own.owntv.core.database.entity.ChannelEntity
+import tv.own.owntv.core.database.entity.ChannelNumberProjection
 import tv.own.owntv.core.database.entity.ContentHashProjection
 
 /** A channel plus its category name, for richer global-search results ("category · #number"). */
@@ -195,6 +196,19 @@ interface ChannelDao {
     @Transaction
     suspend fun applyPositionMoves(ids: List<Long>, sortOrders: List<Int>) {
         for (i in ids.indices) setSortOrder(ids[i], sortOrders[i])
+    }
+
+    /** Every channel of a source in playlist order, with its number — what `PlaylistNumbering` works from. */
+    @Query("SELECT id, remoteId, sortOrder, number FROM channels WHERE sourceId = :sourceId ORDER BY sortOrder ASC, id ASC")
+    suspend fun numbersForSource(sourceId: Long): List<ChannelNumberProjection>
+
+    /** Sets only the number, for the same reason [setSortOrder] sets only the position. */
+    @Query("UPDATE channels SET number = :number WHERE id = :id")
+    suspend fun setNumber(id: Long, number: Int?)
+
+    @Transaction
+    suspend fun applyNumbers(ids: List<Long>, numbers: List<Int?>) {
+        for (i in ids.indices) setNumber(ids[i], numbers[i])
     }
 
     /**
