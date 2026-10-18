@@ -109,6 +109,9 @@ internal class M3uSyncer(
             val seenChannelKeys = HashSet<String>()
             val seenMovieKeys = HashSet<String>()
             val seenSeriesKeys = HashSet<String>()
+            // Live-style keys of the entries delivered as movies/series, for [M3uReclassifiedLive].
+            val vodLiveKeyCounters = HashMap<String, Int>()
+            val seenAsVodKeys = HashSet<String>()
             val seenGroupsByType = HashMap<MediaType, MutableSet<String>>()
             val newCategoriesByType = HashMap<MediaType, MutableList<CategoryEntity>>()
 
@@ -407,6 +410,7 @@ internal class M3uSyncer(
             }
 
             val onEntry: suspend (tv.own.owntv.core.parser.M3uEntry) -> Unit = { e ->
+                if (e.isSeries || e.isVod) seenAsVodKeys.add(stableKey(vodLiveKeyCounters, e.name, e.groupTitle))
                 when {
                     // type="series" / tvg-type="series" → grouped into the Series tab.
                     e.isSeries -> {
@@ -464,6 +468,8 @@ internal class M3uSyncer(
             // whose VOD section failed to parse) never wipes previously-imported rows of other types.
             // Runs only after a fully successful parse (an exception above skips it), and also drops
             // legacy null-remoteId rows from the clear-then-insert era (one-time upgrade cleanup).
+            // Live rows whose entry now arrives as a movie/series go first, whatever the live count.
+            M3uReclassifiedLive.prune(s.id, seenChannelKeys, seenAsVodKeys, channelDao, categoryDao)
             if (processed > 0) {
                 support.pruneRemoteIds("M3U live", s.id, seenChannelKeys, stats, { channelDao.remoteIdsForSource(it) }) { src, ids ->
                     channelDao.deleteByRemoteIds(src, ids)
