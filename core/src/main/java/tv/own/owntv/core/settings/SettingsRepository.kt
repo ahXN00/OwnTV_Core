@@ -363,6 +363,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val EPG_AUTO_REFRESH = stringPreferencesKey("epg_auto_refresh")
         // Per-EPG-source: use that feed's own <icon src> channel logos instead of the playlist's.
         val EPG_USE_LOGOS = stringPreferencesKey("epg_use_logos")
+        val M3U_VOD_RESORT_CHECKED = booleanPreferencesKey("m3u_vod_resort_checked")
         val REFRESH_MIGRATED = booleanPreferencesKey("refresh_migration_done")
         val EPG_REFILL_CHECKED = booleanPreferencesKey("epg_refill_checked")
         // Set while a backup restore is applying, cleared only when it completes. A value that
@@ -2309,6 +2310,13 @@ class SettingsRepository(private val context: Context, private val localeStore: 
 
     suspend fun markEpgRefillChecked() {
         context.dataStore.edit { prefs -> prefs[Keys.EPG_REFILL_CHECKED] = true }
+    }
+
+    /** Whether the one-time re-sort of playlists saved before video files went to Movies ran ([tv.own.owntv.core.sync.M3uVodResort]). */
+    val m3uVodResortChecked: Flow<Boolean> = prefsFlow { it[Keys.M3U_VOD_RESORT_CHECKED] == true }
+
+    suspend fun markM3uVodResortChecked() {
+        context.dataStore.edit { prefs -> prefs[Keys.M3U_VOD_RESORT_CHECKED] = true }
     }
 
     /**

@@ -43,9 +43,14 @@ data class M3uEntry(
     /** Tagged as series content — per-episode entries like "Show S01E05" grouped into shows. */
     val isSeries: Boolean get() = type == "series" || tvgType == "series"
 
-    /** True when the entry is explicitly tagged as VOD (movie or series), not a live channel. */
+    /**
+     * True for VOD (movie or series), not a live channel: tagged as such, or carrying no tag at all
+     * and pointing at a single video file ([ProgressiveVideoUrl]). Any tag wins over the URL, so an
+     * entry tagged `tvg-type="live"` stays live whatever its extension.
+     */
     val isVod: Boolean get() =
-        isSeries || type == "vod" || type == "movie" || tvgType == "vod" || tvgType == "movie"
+        isSeries || type == "vod" || type == "movie" || tvgType == "vod" || tvgType == "movie" ||
+            (type == null && tvgType == null && ProgressiveVideoUrl.matches(streamUrl))
 }
 
 /** Header info from the `#EXTM3U` line (notably the `url-tvg` EPG URL). */

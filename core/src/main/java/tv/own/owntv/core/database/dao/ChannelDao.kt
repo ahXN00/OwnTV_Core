@@ -156,6 +156,9 @@ interface ChannelDao {
     @Query("SELECT remoteId FROM channels WHERE sourceId = :sourceId AND remoteId IS NOT NULL")
     suspend fun remoteIdsForSource(sourceId: Long): List<String>
 
+    @Query("SELECT streamUrl FROM channels WHERE sourceId = :sourceId")
+    suspend fun streamUrlsForSource(sourceId: Long): List<String>
+
     /**
      * Each channel's provider id alongside the guide key it is actually stored under — what a Stalker
      * portal's own guide needs to line up.

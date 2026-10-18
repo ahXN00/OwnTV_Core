@@ -978,6 +978,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT remoteId FROM channels WHERE sourceId = :sourceId AND remoteId IS NOT NULL LIMIT 1
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT remoteId, epgChannelId FROM channels WHERE sourceId = :sourceId AND remoteId IS NOT NULL AND epgChannelId IS NOT NULL
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT remoteId, id, contentHash, sortOrder FROM channels WHERE sourceId = :sourceId AND remoteId IS NOT NULL
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT streamUrl FROM channels WHERE sourceId = :sourceId
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	UPDATE channels SET sortOrder = :sortOrder WHERE id = :id
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	UPDATE channels SET sortOrder = sortOrder + :delta WHERE sourceId = :sourceId AND sortOrder BETWEEN :fromSortOrder AND :toSortOrder
 3	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	WHERE c.categoryId = :categoryId
@@ -2319,6 +2320,19 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/M3uParser.kt	url-tvg
 2	protocol	core/src/main/java/tv/own/owntv/core/parser/M3uParser.kt	vod
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/M3uParser.kt	x-tvg-url
+1	technical	core/src/main/java/tv/own/owntv/core/parser/ProgressiveVideoUrl.kt	://
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/ProgressiveVideoUrl.kt	avi
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/ProgressiveVideoUrl.kt	file
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/ProgressiveVideoUrl.kt	http
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/ProgressiveVideoUrl.kt	https
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/ProgressiveVideoUrl.kt	m4v
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/ProgressiveVideoUrl.kt	mkv
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/ProgressiveVideoUrl.kt	mov
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/ProgressiveVideoUrl.kt	mp4
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/ProgressiveVideoUrl.kt	mpeg
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/ProgressiveVideoUrl.kt	mpg
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/ProgressiveVideoUrl.kt	webm
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/ProgressiveVideoUrl.kt	wmv
 1	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvDetails.kt	$s $v
 1	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvDetails.kt	E${episode + 1}
 1	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvDetails.kt	S${season + 1}
@@ -2974,6 +2988,7 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_stage_sheet
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_tune_timeout_secs
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	live_view
+1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	m3u_vod_resort_checked
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	main_font_family
 1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	max_video_height
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	measured_stream_stats
@@ -4234,6 +4249,8 @@
 1	log	core/src/main/java/tv/own/owntv/core/sync/ImportFinalizer.kt	ensureContentIndexes start
 2	technical	core/src/main/java/tv/own/owntv/core/sync/ImportFinalizer.kt	movies
 2	technical	core/src/main/java/tv/own/owntv/core/sync/ImportFinalizer.kt	series
+1	log	core/src/main/java/tv/own/owntv/core/sync/M3uReclassifiedLive.kt	M3U reclassified live prune sourceId=$sourceId removed=${stale.size} ms=${SystemClock.elapsedRealtime() - start}
+1	log	core/src/main/java/tv/own/owntv/core/sync/M3uReclassifiedLive.kt	M3uReclassified
 1	preference-key	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	
 1	technical	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	$base$KEY_SEPARATOR#$n
 1	log	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	$label hash map loaded sourceId=$sourceId size=${it.size} ms=${SystemClock.elapsedRealtime() - start}
@@ -4269,6 +4286,9 @@
 1	technical	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	r
 1	technical	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	series
 1	log	core/src/main/java/tv/own/owntv/core/sync/M3uSyncer.kt	totalShows=$seriesProcessed ms=${SystemClock.elapsedRealtime() - start}
+1	log	core/src/main/java/tv/own/owntv/core/sync/M3uVodResort.kt	OwnTVHome
+1	log	core/src/main/java/tv/own/owntv/core/sync/M3uVodResort.kt	m3uVodResort check failed
+1	log	core/src/main/java/tv/own/owntv/core/sync/M3uVodResort.kt	m3uVodResort sourceId=${source.id} — video files in Live TV, re-syncing
 2	empty	core/src/main/java/tv/own/owntv/core/sync/StalkerSyncer.kt	\0
 1	log	core/src/main/java/tv/own/owntv/core/sync/StalkerSyncer.kt	$label backfill cat=${row.categoryRemoteId} page=$p
 1	log	core/src/main/java/tv/own/owntv/core/sync/StalkerSyncer.kt	$label backfill cat=${row.categoryRemoteId} page=$p failed (${e.message})
