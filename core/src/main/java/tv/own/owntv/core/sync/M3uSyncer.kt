@@ -450,7 +450,7 @@ internal class M3uSyncer(
             val header = if (isLocal) {
                 openLocalPlaylist(s.url).use { input -> m3u.parse(input, onEntry) }
             } else {
-                http.get(s.url, s.userAgent, reportBytes) { input -> m3u.parse(input, onEntry) }
+                http.get(s.url, s.userAgent, reportBytes, maxAttempts = M3U_DOWNLOAD_ATTEMPTS) { input -> m3u.parse(input, onEntry) }
             }
             if (buffer.isNotEmpty()) {
                 flushChannels()
@@ -615,6 +615,14 @@ internal class M3uSyncer(
 
         /** Separates name from group in synthesized keys; unlikely in real channel names. */
         private const val KEY_SEPARATOR = "\u0001"
+
+        /**
+         * One retry for the playlist download. The shared client leaves connection-failure recovery to
+         * its callers, so a server that closed the kept-alive socket while it sat in the pool fails the
+         * next refresh at once with "unexpected end of stream", before any byte arrives. [HttpClient]
+         * only retries when no response came back, so nothing parsed is ever emitted twice.
+         */
+        internal const val M3U_DOWNLOAD_ATTEMPTS = 2
 
         /**
          * Synthesized stable id for an M3U item: `name␁group`, with an `␁#n` suffix for the 2nd+
