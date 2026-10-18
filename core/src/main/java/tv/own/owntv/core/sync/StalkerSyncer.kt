@@ -122,7 +122,7 @@ internal class StalkerSyncer(
         bulkInsertHelper.withOptimizedBulkInsert("channels", "channels_fts", eligible = freshSource, ftsOnly = true) {
             support.chunked<ChannelEntity, Unit>(ctx, SyncPhase.LIVE, label, progress, insertFn, total, remoteIds, adapter.remoteIdOf, chunkSize) { add ->
                 val emit: suspend (StalkerClient.Channel, String?) -> Unit = { ch, fallbackGenreId ->
-                    val entity = ChannelEntity(
+                    val entity = tv.own.owntv.core.customize.ChannelNameCleanup.apply(s, ChannelEntity(
                             sourceId = s.id,
                             // A channel's own tv_genre_id wins; fall back to the genre we asked for.
                             categoryId = ch.genreId?.let { catMap[it] } ?: fallbackGenreId?.let { catMap[it] },
@@ -139,7 +139,7 @@ internal class StalkerSyncer(
                             sortOrder = order++,
                             catchup = ch.archive,
                             catchupDays = ch.archiveDuration,
-                    )
+                    ))
                     if (fieldDiffSample.size < FIELD_DIFF_SAMPLE) fieldDiffSample.add(entity)
                     add(entity)
                 }

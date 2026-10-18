@@ -84,6 +84,8 @@
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	cache
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	catchupOffsetMin
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	catchupTimezone
+3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	channelNameStrip
+3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	cleanChannelNames
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	compatMode
 4	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	createdAt
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	crypto
@@ -473,6 +475,13 @@
 1	sql	core/src/main/java/tv/own/owntv/core/content/SearchReader.kt	$it*
 1	technical	core/src/main/java/tv/own/owntv/core/content/SearchReader.kt	[^\\p{L}\\p{Nd}]+
 1	empty	core/src/main/java/tv/own/owntv/core/customize/BulkRenameSession.kt	\0
+1	regex	core/src/main/java/tv/own/owntv/core/customize/ChannelNameCleanup.kt	$SEPARATORS(?<![\\p{L}\\p{N}])(?:$words)$SEPARATORS$
+1	regex	core/src/main/java/tv/own/owntv/core/customize/ChannelNameCleanup.kt	${RenameRules.COUNTRY_TAG_PATTERN}$SEPARATORS
+1	regex	core/src/main/java/tv/own/owntv/core/customize/ChannelNameCleanup.kt	(?:$SEPARATORS(?<![\\p{L}\\p{N}])[\\[(]?(?:$QUALITY_TOKENS)[\\])]?)+$SEPARATORS$
+1	regex	core/src/main/java/tv/own/owntv/core/customize/ChannelNameCleanup.kt	4K|8K|UHD|FHD|QHD|HD|SD|HDR|HEVC|H265|H264|2160P|1080P|1080I|720P|576P|480P
+1	regex	core/src/main/java/tv/own/owntv/core/customize/ChannelNameCleanup.kt	[\\s|:\\-–—·]*
+1	regex	core/src/main/java/tv/own/owntv/core/customize/ChannelNameCleanup.kt	^$SEPARATORS(?:$words)(?![\\p{L}\\p{N}])$SEPARATORS
+1	regex	core/src/main/java/tv/own/owntv/core/customize/ChannelNameCleanup.kt	|
 1	empty	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	\0
 1	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	${c.sourceId}:${c.remoteId ?: c.name}
 1	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	${ch.sourceId}:${ch.remoteId ?: ch.name}
@@ -488,6 +497,8 @@
 2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	hiddenItems
 2	json	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	itemNames
 1	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	owntv_customizations
+1	technical	core/src/main/java/tv/own/owntv/core/customize/RenameRules.kt	c$pattern
+1	technical	core/src/main/java/tv/own/owntv/core/customize/RenameRules.kt	i$pattern
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/BulkInsertHelper.kt	\0
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/BulkInsertHelper.kt	$msg — no canonical indexes for ${state.table}, indexes were dropped and NOT restored
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/BulkInsertHelper.kt	+ FTS
@@ -511,6 +522,14 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/BulkInsertHelper.kt	movies_fts
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/BulkInsertHelper.kt	room_fts_content_sync_${it}_AFTER_INSERT
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/BulkInsertHelper.kt	series_fts
+1	sql	core/src/main/java/tv/own/owntv/core/database/Migration49To50.kt	ALTER TABLE `channels` ADD COLUMN `providerName` TEXT
+1	sql	core/src/main/java/tv/own/owntv/core/database/Migration49To50.kt	ALTER TABLE `sources` ADD COLUMN `channelNameStrip` TEXT
+1	sql	core/src/main/java/tv/own/owntv/core/database/Migration49To50.kt	ALTER TABLE `sources` ADD COLUMN `cleanChannelNames` INTEGER NOT NULL DEFAULT 0
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/Migration49To50.kt	channelNameStrip
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/Migration49To50.kt	channels
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/Migration49To50.kt	cleanChannelNames
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/Migration49To50.kt	providerName
+2	room-schema	core/src/main/java/tv/own/owntv/core/database/Migration49To50.kt	sources
 18	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	)
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	?
@@ -1442,6 +1461,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	SELECT s.* FROM sources s
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	SELECT sourceId FROM profile_source WHERE profileId = :profileId
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET catchupTimezone = :mode, catchupOffsetMin = :offsetMin WHERE id = :id
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET cleanChannelNames = :enabled, channelNameStrip = :strip WHERE id = :id
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET hlsSupported = :hlsSupported WHERE id = :id
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET lastSyncAt = :timestamp WHERE id = :id
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/SourceDao.kt	UPDATE sources SET livePrerollSecs = :secs WHERE id = :id
@@ -1543,6 +1563,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/MetadataEntities.kt	metadata_match
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/MetadataEntities.kt	tmdbId
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/MetadataEntities.kt	updatedAt
+1	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/ProfileEntities.kt	0
 1	sql	core/src/main/java/tv/own/owntv/core/database/entity/ProfileEntities.kt	1
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/ProfileEntities.kt	id
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/entity/ProfileEntities.kt	profileId

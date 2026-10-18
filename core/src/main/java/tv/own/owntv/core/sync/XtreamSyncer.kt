@@ -82,7 +82,7 @@ internal class XtreamSyncer(
                         archiveDays: Int,
                         directSource: String? ->
                         seenCategory(categoryId)
-                        ChannelEntity(
+                        tv.own.owntv.core.customize.ChannelNameCleanup.apply(s, ChannelEntity(
                             sourceId = s.id, categoryId = catMap[categoryId], name = name,
                             logoUrl = icon, streamUrl = xtream.liveUrl(s, streamId),
                             epgChannelId = epgChannelId, number = num, remoteId = streamId,
@@ -91,7 +91,7 @@ internal class XtreamSyncer(
                             // Stored, never tuned — the last-resort retry only. See the field's KDoc for
                             // why preferring it over `liveUrl` would break working channels.
                             directSource = directSource?.takeIf { it != xtream.liveUrl(s, streamId) },
-                        )
+                        ))
                     }
                     XtreamStreams(
                         bulk = { add -> xtream.streamLive(s, transform = toChannel, onItem = add, onProgress = SyncSupport.IgnoreByteProgress) },

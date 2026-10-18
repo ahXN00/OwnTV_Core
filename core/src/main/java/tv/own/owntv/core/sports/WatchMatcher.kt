@@ -2,6 +2,7 @@ package tv.own.owntv.core.sports
 
 import tv.own.owntv.core.catalog.ProviderCatalogMetadataParser
 import tv.own.owntv.core.database.entity.ChannelEntity
+import tv.own.owntv.core.database.entity.matchName
 import tv.own.owntv.core.epg.EpgMatcher
 import tv.own.owntv.core.live.ProviderTags
 import tv.own.owntv.core.sports.model.Match
@@ -50,7 +51,7 @@ data class WatchOption(
     val channel: ChannelEntity,
     val tier: WatchTier,
     val guideTitle: String? = null,
-    val facets: ChannelFacets = ChannelFacets.of(channel.name),
+    val facets: ChannelFacets = ChannelFacets.of(channel.matchName),
 )
 
 /**

@@ -162,6 +162,11 @@ data class SourceEntity(
      * Catch-up's Automatic time zone uses it.
      */
     val serverTimeZone: String? = null,
+    /** "Clean channel names" (v50): tidy this playlist's channel names at sync, see
+     *  [tv.own.owntv.core.customize.ChannelNameCleanup]. The user's choice, so it is backed up. */
+    @ColumnInfo(defaultValue = "0") val cleanChannelNames: Boolean = false,
+    /** The user's own words [cleanChannelNames] also removes, `;`-separated (v50). Null = none. */
+    val channelNameStrip: String? = null,
 )
 
 /** Many-to-many link letting a source be shared across profiles (hybrid model). */

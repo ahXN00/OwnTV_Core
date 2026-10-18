@@ -94,6 +94,11 @@ interface SourceDao {
     @Query("UPDATE sources SET liveTuneTimeoutSecs = :secs WHERE id = :id")
     suspend fun updateLiveTuneTimeout(id: Long, secs: Int?)
 
+    /** Per-playlist "Clean channel names" and the user's own words to remove (`null` = none). Takes
+     *  effect at the playlist's next sync, which rewrites the names it changes. */
+    @Query("UPDATE sources SET cleanChannelNames = :enabled, channelNameStrip = :strip WHERE id = :id")
+    suspend fun updateChannelNameCleanup(id: Long, enabled: Boolean, strip: String?)
+
     // --- profile <-> source links (hybrid model) ---
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

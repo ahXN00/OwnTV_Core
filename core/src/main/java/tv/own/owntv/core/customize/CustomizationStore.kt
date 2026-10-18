@@ -17,6 +17,7 @@ import tv.own.owntv.core.database.entity.CategoryEntity
 import tv.own.owntv.core.epg.EpgMatcher
 import tv.own.owntv.core.database.entity.ChannelEntity
 import tv.own.owntv.core.database.entity.MovieEntity
+import tv.own.owntv.core.database.entity.matchName
 import tv.own.owntv.core.database.entity.SeriesEntity
 import tv.own.owntv.core.model.MediaType
 
@@ -81,7 +82,7 @@ class EpgMatchResolver(private val matches: Map<String, String>) {
         val key = CustomizeKeys.channel(channel)
         matches[key]?.let { return it }
         byTail[CustomizeKeys.tailOf(key)]?.let { return it }
-        return byName[EpgMatcher.normalizeForEpg(channel.name)]
+        return byName[EpgMatcher.normalizeForEpg(channel.matchName)]
     }
 
     /** Groups the stored matches by [keyOf], keeping only groups that agree on one guide id. */

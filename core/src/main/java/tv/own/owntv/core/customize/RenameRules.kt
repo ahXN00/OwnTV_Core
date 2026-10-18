@@ -49,6 +49,26 @@ object RenameRules {
     /** Leading/trailing leftovers cleaned after every rule when the option is enabled. */
     private const val EDGE_SEPARATORS = "[\\s|\\-–—·:._,]+"
 
+    /** Country/provider tags in the agreed tagged forms only: XX|, |XX|, [XX], (XX). */
+    internal const val COUNTRY_TAG_PATTERN = "^(?:\\|?[A-Za-z]{2,4}\\s*\\||\\[[A-Za-z]{2,4}]|\\([A-Za-z]{2,4}\\))"
+
+    private val SPACE_RUNS = Regex(" {2,}")
+    private val LEADING_LEFTOVERS = Regex("^$EDGE_SEPARATORS")
+    private val TRAILING_LEFTOVERS = Regex("${EDGE_SEPARATORS}\\z")
+
+    /** Compiled rule regexes. A standing cleanup runs the same few rules over every channel of a
+     *  playlist at each sync ([ChannelNameCleanup]), so compiling them per name would dominate. */
+    private const val REGEX_CACHE_MAX = 256
+    private val regexCache = java.util.concurrent.ConcurrentHashMap<String, Regex>()
+
+    private fun regex(pattern: String, ignoreCase: Boolean): Regex {
+        if (regexCache.size > REGEX_CACHE_MAX) regexCache.clear()
+        val key = if (ignoreCase) "i$pattern" else "c$pattern"
+        return regexCache.getOrPut(key) {
+            if (ignoreCase) Regex(pattern, RegexOption.IGNORE_CASE) else Regex(pattern)
+        }
+    }
+
     /**
      * The bulk-rename entry point: applies [rules] to [original] and returns the proposed name.
      * Never returns a blank name — a blank result falls back to the original with changed=false.
@@ -100,8 +120,7 @@ object RenameRules {
      * Space collapse comes from [Options.trimLeftovers], on by default.
      */
     fun autoCleanupRules(): List<Rule> {
-        // Country/provider tags in the agreed tagged forms only: XX|, |XX|, [XX], (XX).
-        val country = "^(?:\\|?[A-Za-z]{2,4}\\s*\\||\\[[A-Za-z]{2,4}]|\\([A-Za-z]{2,4}\\))"
+        val country = COUNTRY_TAG_PATTERN
         // Quality/codec tags are the auto-cleanup exception to boundary-only user rules: remove
         // them anywhere as standalone tokens, including their optional []/() wrappers.
         val quality =
@@ -141,17 +160,16 @@ object RenameRules {
         placement: Placement,
         options: Options,
     ): String {
-        val flags = if (options.ignoreCase) setOf(RegexOption.IGNORE_CASE) else emptySet()
         tokens.forEach { token ->
             val escaped = Regex.escape(token)
             val wrapped = "(?:\\[$escaped\\]|\\($escaped\\)|$escaped)"
             // A bare token must also be a complete boundary component. Without this guard a
             // suffix rule for "MAN" would rename "BATMAN" to "BAT". Wrapped tokens are naturally
             // delimited by their closing bracket; the look-around remains valid for them too.
-            val regex = Regex(
+            val regex = regex(
                 if (placement == Placement.PREFIX) "^$wrapped(?![\\p{L}\\p{N}])"
                 else "(?<![\\p{L}\\p{N}])$wrapped$",
-                flags,
+                options.ignoreCase,
             )
             if (regex.containsMatchIn(name)) return regex.replaceFirst(name, "")
         }
@@ -160,14 +178,12 @@ object RenameRules {
 
     /** Auto-cleanup-only regex removal. Unlike user REMOVE rules, this intentionally applies
      *  anywhere because quality/codec tags are specified as anywhere noise. */
-    private fun removePatternAnywhere(name: String, pattern: String, options: Options): String {
-        val flags = if (options.ignoreCase) setOf(RegexOption.IGNORE_CASE) else emptySet()
-        return Regex(pattern, flags).replace(name, "")
-    }
+    private fun removePatternAnywhere(name: String, pattern: String, options: Options): String =
+        regex(pattern, options.ignoreCase).replace(name, "")
 
     /** Collapse repeated spaces and strip only edge separators; interior punctuation is preserved. */
     private fun cleanLeftovers(name: String): String =
-        name.replace(Regex(" {2,}"), " ")
-            .replace(Regex("^$EDGE_SEPARATORS"), "")
-            .replace(Regex("${EDGE_SEPARATORS}\\z"), "")
+        name.replace(SPACE_RUNS, " ")
+            .replace(LEADING_LEFTOVERS, "")
+            .replace(TRAILING_LEFTOVERS, "")
 }

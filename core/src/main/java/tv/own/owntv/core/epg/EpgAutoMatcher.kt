@@ -8,6 +8,7 @@ import tv.own.owntv.core.customize.CustomizeKeys
 import tv.own.owntv.core.customize.SectionCustomizations
 import tv.own.owntv.core.database.dao.ChannelDao
 import tv.own.owntv.core.database.entity.ChannelEntity
+import tv.own.owntv.core.database.entity.matchName
 
 /** A guide channel proposed for a channel the matcher was not confident enough to link on its own. */
 data class AutoMatchSuggestion(
@@ -82,7 +83,7 @@ class EpgAutoMatcher(
             // Narrow before scoring: the scan is channels × candidates, which is millions of
             // comparisons on a full lineup and minutes of spinner on TV silicon if it runs unfiltered.
             val unmatched = channels.filter { needsMatch(it, cust, idsWithProgrammes) }
-            val best = EpgMatcher.bestEpgMatchBulk(unmatched.map { it.name }, prepared)
+            val best = EpgMatcher.bestEpgMatchBulk(unmatched.map { it.matchName }, prepared)
 
             val applied = mutableListOf<Pair<String, String>>()
             val review = mutableListOf<AutoMatchSuggestion>()
@@ -128,7 +129,7 @@ class EpgAutoMatcher(
         if (candidates.isEmpty()) return null
         val hasProgrammesById = candidates.associate { it.epgChannelId to it.hasProgrammes }
         return withContext(Dispatchers.Default) {
-            val best = EpgMatcher.bestEpgMatchPrepared(channel.name, prepareWithProgrammesFirst(candidates))
+            val best = EpgMatcher.bestEpgMatchPrepared(channel.matchName, prepareWithProgrammesFirst(candidates))
             best?.toSuggestion(channel, hasProgrammesById[best.epgChannelId] == true)
         }
     }
