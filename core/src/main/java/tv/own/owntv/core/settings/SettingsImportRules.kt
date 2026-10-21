@@ -33,6 +33,8 @@ internal object SettingsImportRules {
     fun string(name: String, v: String): String? = when (name) {
         "live_latency_mode" -> v.takeIf { value -> LiveLatency.entries.any { it.name == value } }
         "mini_player_position" -> v.takeIf { value -> MiniPlayerPosition.entries.any { it.name == value } }
+        "player_hold_ok" -> v.takeIf { value -> PlayerHoldOkAction.entries.any { it.name == value } }
+        "player_short_ok" -> v.takeIf { value -> PlayerShortOkAction.entries.any { it.name == value } }
         else -> v
     }
 
