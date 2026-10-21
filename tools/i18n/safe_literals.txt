@@ -1687,17 +1687,20 @@
 1	uri	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	$base&$body
 1	uri	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	$base?$body
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	${g[1]}/streaming/timeshift.php?username=${g[2]}&password=${g[3]}&stream=${g[4]}
-1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	${g[1]}/streaming/timeshift.php?username=${g[2]}&password=${g[3]}&stream=${g[6]}&start=${g[5]}&duration=${g[4]}
+1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	${g[1]}/streaming/timeshift.php?username=${queryValue(g[2])}&password=${queryValue(g[3])}&stream=${g[6]}&start=${g[5]}&duration=${g[4]}
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	${prefix}archive-$startS-$durationS.ts$query
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	${prefix}timeshift_abs-$startS.m3u8$query
+1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	%2B
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	&
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	&start=$start&duration=$durationMin
+1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	+
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	.m3u8
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	.ts
 1	uri	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	?
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	?$it
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	?utc={utc}&lutc={lutc}
 2	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	UTC
+2	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	UTF-8
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	YmdHMS
 1	regex	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	\\$?\\{([A-Za-z_][A-Za-z0-9_-]*)(?::([^}]*))?\\}
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	^(.+?)/timeshift/([^/]+)/([^/]+)/([^/]+)/([^/]+)/([^/.]+)\\.(?:ts|m3u8)$
@@ -2218,12 +2221,13 @@
 1	log	core/src/main/java/tv/own/owntv/core/network/FirstRead.kt	OwnTV-Network
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	\0
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	$1***@
-2	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	$1=***
+1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	$1=***
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	$1•••/•••/
+1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	$1•••/•••/$2
+1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	(://[^/\\s]+/)[^/\\s?#]+/[^/\\s?#]+/(\\d+(?:\\.[A-Za-z0-9]+)?)(?=$|[?#:\\s"'),;\\]>])
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	(?i)(://)([^/@:]+)(:[^/@]*)?@
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	(?i)(://[^/]+/(?:live|movie|series|vod|timeshift)/)([^/]+)/([^/]+)/
-1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	(?i)(username|password|user|pass|token)=[^&]*
-1	technical	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	(?i)(username|password|user|pass|token|data|auth|signature|sig|key)=[^&]*
+1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	(?i)(username|password|user|pass|token|data|auth|signature|sig|key|mac)=[^&]*
 2	protocol	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	Content-Encoding
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	GET body done url=$safeUrl totalMs=${SystemClock.elapsedRealtime() - startedAt}
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	GET body progress url=$label bytes=$bytesRead total=${totalBytes ?: -1}
@@ -2231,7 +2235,7 @@
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	GET failed url=$safeUrl attempt=$attempt/$attempts totalMs=${SystemClock.elapsedRealtime() - startedAt}
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	GET headers url=$safeUrl code=${response.code} contentLength=${totalBytes ?: -1}
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	GET start url=$safeUrl ua=${ua.take(48)} attempt=$attempt/$attempts
-1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	HTTP ${response.code} for ${redact(url)}
+1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	HTTP ${response.code} for ${redactUrl(url)}
 2	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	HttpClient
 1	protocol	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	Transfer-Encoding
 1	log	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	User-Agent
@@ -2369,17 +2373,21 @@
 2	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvTime.kt	\0
 7	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	\0
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	#EXTM3U
-1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/live/${s.username}/${s.password}/$streamId.m3u8
-1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/live/${s.username}/${s.password}/$streamId.ts
-1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/movie/${s.username}/${s.password}/$streamId.${ext ?: "mp4"}
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/live/${credentials(s)}/$streamId.m3u8
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/live/${credentials(s)}/$streamId.ts
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/movie/${credentials(s)}/$streamId.${ext ?: "mp4"}
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/player_api.php?username=$u&password=$p
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/player_api.php?username=$u&password=$p&action=$action$extra
-1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/series/${s.username}/${s.password}/$episodeId.${ext ?: "mp4"}
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/series/${credentials(s)}/$episodeId.${ext ?: "mp4"}
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/timeshift/${credentials(s)}/$durationMinutes/${fmt.format(java.util.Date(startMs))}/$streamId.$ext
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/xmltv.php?username=$u&password=$p
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${xtreamPathSegment(s.username)}/${xtreamPathSegment(s.password)}
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	&category_id=$it
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	&series_id=$seriesId
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	&stream_id=$streamId&limit=$limit
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	-._~!$&'()*+,;=:@
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	0
+1	technical	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	0123456789ABCDEF
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	1
 1	technical	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	GMT$sign${(minutes / 60).toString().padStart(2, '0')}:${(minutes % 60).toString().padStart(2, '0')}
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	Stream truncated after $count items label=$label — partial list kept

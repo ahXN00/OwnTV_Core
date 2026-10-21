@@ -44,7 +44,7 @@ class HttpClient(private val client: OkHttpClient) {
 
         val coroutineContext = currentCoroutineContext()
         val startedAt = SystemClock.elapsedRealtime()
-        val safeUrl = redact(url)
+        val safeUrl = redactUrl(url)
         val attempts = maxAttempts.coerceAtLeast(1)
         var attempt = 1
         while (attempt <= attempts) {
@@ -59,7 +59,7 @@ class HttpClient(private val client: OkHttpClient) {
                 call.execute().use { response ->
                     responseReceived = true
                     val headersAt = SystemClock.elapsedRealtime()
-                    if (!response.isSuccessful) throw HttpStatusException(response.code, "HTTP ${response.code} for ${redact(url)}")
+                    if (!response.isSuccessful) throw HttpStatusException(response.code, "HTTP ${response.code} for ${redactUrl(url)}")
                     val body = response.body
                     val totalBytes = body.contentLength().takeIf { it >= 0 }
                     // Info, not debug, and deliberately so: release builds strip Log.d, and this one
@@ -109,10 +109,6 @@ class HttpClient(private val client: OkHttpClient) {
         throw IOException("GET failed for $safeUrl")
     }
 
-    /** Mask credentials in a URL before it appears in an error/log — Xtream embeds user/pass in the query. */
-    private fun redact(url: String): String =
-        url.replace(Regex("(?i)(username|password|user|pass|token)=[^&]*"), "$1=***")
-
     /** Convenience for small responses (e.g. Xtream category lists). */
     suspend fun getText(
         url: String,
@@ -145,12 +141,18 @@ class HttpClient(private val client: OkHttpClient) {
         private const val MAX_RETRY_DELAY_MS = 3_000L
 
         /** Mask credentials for display (info overlay / logs): query params AND Xtream `/type/user/pass/`
-         *  path segments, which is where live URLs embed them. */
+         *  and `/user/pass/{id}` path segments, which is where live URLs embed them. Safe on free text
+         *  (an error message with a URL in it), not just on a bare URL. */
         fun redactUrl(url: String): String = url
-        .replace(Regex("(?i)(username|password|user|pass|token|data|auth|signature|sig|key)=[^&]*"), "$1=***")
+            // `mac` is a Stalker portal's credential (`…/play/live.php?mac=…`).
+            .replace(Regex("(?i)(username|password|user|pass|token|data|auth|signature|sig|key|mac)=[^&]*"), "$1=***")
             // `timeshift` is the catch-up/archive form (/timeshift/user/pass/duration/start/id.ts) — it
             // embeds the same credentials as a live URL, so it must be masked here too.
             .replace(Regex("(?i)(://[^/]+/(?:live|movie|series|vod|timeshift)/)([^/]+)/([^/]+)/"), "$1•••/•••/")
+            // The short form an Xtream `get.php` playlist uses for live channels: `host/user/pass/{id}`,
+            // no type segment. A numeric last segment right after two others is that shape; the odd
+            // non-Xtream path of the same shape loses two segments of a log line, never a secret.
+            .replace(SHORT_XTREAM_PATH, "$1•••/•••/$2")
             // Strip userinfo credentials from a `scheme://user:pass@host` URL (e.g. a proxy URL handed
             // to mpv, or any source URL with embedded creds) so they never reach a log line.
             .replace(Regex("(?i)(://)([^/@:]+)(:[^/@]*)?@"), "$1***@")
@@ -158,6 +160,9 @@ class HttpClient(private val client: OkHttpClient) {
         /** Mask a bare hostname for display (logs, errors), as [redactUrl] masks a URL's credentials: the
          *  provider's host identifies the account's panel as surely as the credentials do. */
         fun redactHost(hostname: String): String = "•••"
+
+        private val SHORT_XTREAM_PATH =
+            Regex("(://[^/\\s]+/)[^/\\s?#]+/[^/\\s?#]+/(\\d+(?:\\.[A-Za-z0-9]+)?)(?=$|[?#:\\s\"'),;\\]>])")
     }
 }
 

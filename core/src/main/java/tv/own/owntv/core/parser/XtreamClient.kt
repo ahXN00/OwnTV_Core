@@ -40,6 +40,30 @@ data class XtEpisode(
 data class XtSeriesInfo(val episodes: List<XtEpisode>)
 
 /**
+ * [value] as one URL path segment, for the Xtream stream paths (`…/live/{user}/{pass}/{id}.ts`).
+ * Only what a segment cannot hold raw is percent-encoded — `/ ? # %`, spaces, other ASCII outside
+ * RFC 3986's `pchar`, and non-ASCII bytes — so a credential made of letters, digits and the usual
+ * punctuation keeps exactly the URL it always had, while one with a `#` or `/` no longer cuts the
+ * URL short. The `player_api.php` calls already encode the same values, as query parameters.
+ */
+internal fun xtreamPathSegment(value: String?): String {
+    val bytes = value.orEmpty().toByteArray(Charsets.UTF_8)
+    val out = StringBuilder(bytes.size)
+    for (b in bytes) {
+        val c = b.toInt() and 0xFF
+        if (c < 0x80 && c.toChar().let { it.isLetterOrDigit() || it in PATH_SEGMENT_SAFE }) {
+            out.append(c.toChar())
+        } else {
+            out.append('%').append(HEX[c shr 4]).append(HEX[c and 0x0F])
+        }
+    }
+    return out.toString()
+}
+
+private const val PATH_SEGMENT_SAFE = "-._~!$&'()*+,;=:@"
+private const val HEX = "0123456789ABCDEF"
+
+/**
  * An episode whose `episode_num` the panel left blank (or 0) takes its position within its season
  * instead — panels still list them in order, and otherwise every one of them reads as "episode 0"
  * (other Xtream clients lost such shows outright). Numbered episodes are left exactly as sent.
@@ -494,7 +518,7 @@ class XtreamClient(private val http: HttpClient) {
     // Live uses the raw MPEG-TS endpoint (.ts) — the universal Xtream live format. The .m3u8/HLS
     // wrapper isn't served by every panel (mpegts-only providers 404 on it, so channels won't load),
     // whereas every panel serves .ts and mpv plays it natively.
-    fun liveUrl(s: SourceEntity, streamId: String) = "${base(s)}/live/${s.username}/${s.password}/$streamId.ts"
+    fun liveUrl(s: SourceEntity, streamId: String) = "${base(s)}/live/${credentials(s)}/$streamId.ts"
 
     /**
      * Catch-up (timeshift) URL for a past programme:
@@ -503,12 +527,12 @@ class XtreamClient(private val http: HttpClient) {
      */
     fun timeshiftUrl(s: SourceEntity, streamId: String, startMs: Long, durationMinutes: Int, tz: java.util.TimeZone = java.util.TimeZone.getTimeZone("UTC"), ext: String = "ts"): String {
         val fmt = java.text.SimpleDateFormat("yyyy-MM-dd:HH-mm", java.util.Locale.US).apply { timeZone = tz }
-        return "${base(s)}/timeshift/${s.username}/${s.password}/$durationMinutes/${fmt.format(java.util.Date(startMs))}/$streamId.$ext"
+        return "${base(s)}/timeshift/${credentials(s)}/$durationMinutes/${fmt.format(java.util.Date(startMs))}/$streamId.$ext"
     }
     fun movieUrl(s: SourceEntity, streamId: String, ext: String?) =
-        "${base(s)}/movie/${s.username}/${s.password}/$streamId.${ext ?: "mp4"}"
+        "${base(s)}/movie/${credentials(s)}/$streamId.${ext ?: "mp4"}"
     fun seriesEpisodeUrl(s: SourceEntity, episodeId: String, ext: String?) =
-        "${base(s)}/series/${s.username}/${s.password}/$episodeId.${ext ?: "mp4"}"
+        "${base(s)}/series/${credentials(s)}/$episodeId.${ext ?: "mp4"}"
 
     /** Full XMLTV guide for the whole account (all channels) — the bulk EPG used by the guide grid. */
     data class XtAccountDetails(
@@ -734,7 +758,7 @@ class XtreamClient(private val http: HttpClient) {
      * and never plays anything, so it costs one short request.
      */
     suspend fun probeHls(s: SourceEntity, streamId: String): HlsProbe {
-        val url = "${base(s)}/live/${s.username}/${s.password}/$streamId.m3u8"
+        val url = "${base(s)}/live/${credentials(s)}/$streamId.m3u8"
         return try {
             http.get(url, s.userAgent) { input ->
                 val head = ByteArray(HLS_PROBE_BYTES)
@@ -816,6 +840,9 @@ class XtreamClient(private val http: HttpClient) {
 
     // --- helpers ---
     private fun base(s: SourceEntity) = s.url.trimEnd('/')
+
+    /** The `{user}/{pass}` pair of a stream path, each encoded as a path segment. */
+    private fun credentials(s: SourceEntity) = "${xtreamPathSegment(s.username)}/${xtreamPathSegment(s.password)}"
 
     private fun api(s: SourceEntity, action: String, extra: String = ""): String {
         val u = URLEncoder.encode(s.username.orEmpty(), "UTF-8")
