@@ -2221,6 +2221,33 @@
     <string name="local_sync_already_paired">Already paired</string>
     <!-- Translators: A device name followed by a short code, used only when two paired devices are the same model and share a name. %1$s is the device name, %2$s a four-character code. -->
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <!-- Auto-sync: a device that syncs with its paired devices without anybody being there. -->
+    <!-- Translators: Title of the Auto-sync settings screen, and of its row on the Local sync screen. -->
+    <string name="local_auto_sync_title">Auto-sync</string>
+    <!-- Translators: Heading of the sheet where the automatic sync is set up. -->
+    <string name="local_auto_sync_settings_title">Auto-sync settings</string>
+    <!-- Translators: Description at the top of the Auto-sync settings screen. -->
+    <string name="local_auto_sync_description">Keep your content up to date across your devices. Select what content to sync and when to do it.</string>
+    <!-- Translators: Heading above the list of things that can be synced automatically. -->
+    <string name="local_auto_sync_what_to_sync">What to sync</string>
+    <!-- Translators: Heading above the list of times an automatic sync can happen. -->
+    <string name="local_auto_sync_when">When</string>
+    <!-- Translators: Timing option: never sync by itself. -->
+    <string name="local_auto_sync_timing_off">Never</string>
+    <!-- Translators: Timing option: sync as soon as the app is running and the network is there. -->
+    <string name="local_auto_sync_timing_immediately">Immediately</string>
+    <!-- Translators: Timing option: sync every six hours. -->
+    <string name="local_auto_sync_timing_6h">Every 6 hours</string>
+    <!-- Translators: Timing option: sync once a day. -->
+    <string name="local_auto_sync_timing_daily">Daily</string>
+    <!-- Translators: Timing option: sync once a week. -->
+    <string name="local_auto_sync_timing_weekly">Weekly</string>
+    <!-- Translators: Button that saves the auto-sync settings. -->
+    <string name="local_auto_sync_save">Save settings</string>
+    <!-- Translators: Note at the bottom of the Auto-sync settings, saying what an automatic sync needs from the other device. -->
+    <string name="local_auto_sync_note">An automatic sync needs the other device to answer, on the same Wi-Fi. If it is not there, the sync is skipped and tried again at the next tick.</string>
+    <!-- Translators: Line under the Auto-sync row: when the last automatic sync ran. %1$s is a relative time such as “2 hours ago”. -->
+    <string name="local_auto_sync_last_run">Last auto-sync: <xliff:g id="when">%1$s</xliff:g></string>
     <!-- Translators: Label for the date of the most recent backup, in the More screen's Backup preview pane. -->
     <string name="more_pane_last_backup">Last backup</string>
     <!-- Translators: Shown beside a backup file size when that backup is password-encrypted. -->
