@@ -383,6 +383,78 @@ class LocalSyncManager(
             .onFailure { _progress.value = SyncProgress.Failed(failureFor(it)) }
     }
 
+    // --- unattended -----------------------------------------------------------------------------
+
+    /**
+     * One automatic pass: every paired device the config names, reached and synced, with nobody
+     * there to press anything.
+     *
+     * This is the manual flow's three steps — fetch, apply, send — run without a screen. The one
+     * thing it does *not* do is ask: a container that arrives is merged rather than previewed, and
+     * that is the whole point of the setting, because a preview nobody answers is a preview that
+     * never becomes data. Everything it does is something the user agreed to when they turned
+     * auto-sync on, and the sections and the profiles they left unticked stay unticked: what leaves
+     * this device is scoped at the export, exactly as a manual backup is.
+     *
+     * The far device has to be answering. The pull needs it to be hosting, and the push needs the
+     * same, so on a phone that means its own auto-sync agent — which is why this is a setting on
+     * both devices rather than one. A device that is not there is reported as unreachable and the
+     * pass moves on: one phone switched off is not a reason to skip the other one.
+     */
+    suspend fun runAutoSync(config: LocalAutoSyncConfig): LocalAutoSyncReport = withContext(Dispatchers.IO) {
+        val startedAt = System.currentTimeMillis()
+        val all = paired.current()
+        val targets = if (config.deviceIds.isEmpty()) all else all.filter { it.id in config.deviceIds }
+        val reports = targets.map { syncOne(it, config) }
+        LocalAutoSyncReport(reports, startedAt, System.currentTimeMillis())
+    }
+
+    /** One device's share of a pass. */
+    private suspend fun syncOne(device: PairedDevice, config: LocalAutoSyncConfig): LocalAutoSyncDeviceReport {
+        // The config's empty set means "every profile"; [send] spells that as null.
+        val profiles = config.profileIds.takeIf { it.isNotEmpty() }
+        if (config.direction == SyncDirection.SEND) {
+            val sent = send(device, config.sections, profiles)
+            return LocalAutoSyncDeviceReport(
+                deviceId = device.id,
+                name = device.name,
+                outcome = if (sent.isSuccess) LocalAutoSyncOutcome.SYNCED else outcomeFor(sent.exceptionOrNull()),
+            )
+        }
+        val fetched = fetch(device, config.sections)
+        if (fetched.isFailure) {
+            return LocalAutoSyncDeviceReport(device.id, device.name, outcomeFor(fetched.exceptionOrNull()))
+        }
+        val payload = fetched.getOrThrow()
+        val applied = apply(payload.file, config.sections, payload.password)
+        // The container is a copy of the other device's data sitting in the cache; it is not needed
+        // again and must not be left where the next export could pick it up.
+        payload.file.delete()
+        if (applied.isFailure) {
+            return LocalAutoSyncDeviceReport(device.id, device.name, outcomeFor(applied.exceptionOrNull()))
+        }
+        // MERGE sends this device's own data back afterwards, so both ends end up with everything.
+        // A send that fails does not undo what was received: a merge is a merge, not a transaction,
+        // and the next pass will send it again.
+        if (config.direction == SyncDirection.MERGE) send(device, config.sections, profiles)
+        return LocalAutoSyncDeviceReport(
+            deviceId = device.id,
+            name = device.name,
+            outcome = LocalAutoSyncOutcome.SYNCED,
+            items = applied.getOrThrow().items,
+        )
+    }
+
+    /** The same reading of a failure as [failureFor], in the words a pass reports it in. */
+    private fun outcomeFor(t: Throwable?): LocalAutoSyncOutcome = when {
+        t == null -> LocalAutoSyncOutcome.UNKNOWN
+        t is LocalSyncHttpException && t.code == 401 -> LocalAutoSyncOutcome.NOT_AUTHORIZED
+        t is LocalSyncHttpException -> LocalAutoSyncOutcome.BAD_PAYLOAD
+        t is BackupManager.WrongPasswordException -> LocalAutoSyncOutcome.BAD_PAYLOAD
+        t is java.io.IOException -> LocalAutoSyncOutcome.UNREACHABLE
+        else -> LocalAutoSyncOutcome.UNKNOWN
+    }
+
     fun clearProgress() {
         _progress.value = SyncProgress.Idle
     }

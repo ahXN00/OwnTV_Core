@@ -4652,6 +4652,15 @@
 1	log	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	succeeded=${outcome.succeededCategoryRemoteIds.size} aborted=${outcome.aborted} stoppedEarly=${outcome.stoppedEarly}
 1	log	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	succeeded=${succeeded.size}/${categories.size} aborted=$aborted stoppedEarly=$stoppedEarly
 1	technical	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	unknown
+3	technical	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	,
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	devices
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	direction
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	lastRunAt
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	lastSuccessAt
+1	technical	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	owntv_local_auto_sync
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	profiles
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	sections
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	timing
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	/backup
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	/backup.own
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	/sync/hello
@@ -4812,6 +4821,18 @@
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	series rules not applied after EPG sync: ${it.message}
 1	preference-key	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	sourceId
 1	technical	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	unknown
+1	technical	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncScheduler.kt	local-auto-sync
+1	technical	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncScheduler.kt	owntv-local-auto-sync-now
+1	technical	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncScheduler.kt	owntv-local-auto-sync-periodic
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncStarter.kt	LocalAutoSync
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncStarter.kt	could not watch the network
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncStarter.kt	network back: asking for a run now
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncStarter.kt	schedule restored: ${config.timing}
+1	empty	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncWorker.kt	\0
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncWorker.kt	(${synced.sumOf { it.items }} items)
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncWorker.kt	LocalAutoSync
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncWorker.kt	run finished: ${synced.size}/${report.devices.size} devices synced
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncWorker.kt	skipped: auto-sync is off
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/TrendingRefreshWorker.kt	Finished sourceId=$sourceId outcome=${outcome.diagnosticName()}
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/TrendingRefreshWorker.kt	TrendingRefreshWorker
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/TrendingRefreshWorker.kt	Unexpected refresh failure sourceId=$sourceId; preserving snapshot
