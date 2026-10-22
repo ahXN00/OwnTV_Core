@@ -393,7 +393,8 @@ class LocalSyncManager(
      * thing it does *not* do is ask: a container that arrives is merged rather than previewed, and
      * that is the whole point of the setting, because a preview nobody answers is a preview that
      * never becomes data. Everything it does is something the user agreed to when they turned
-     * auto-sync on, and the sections they left unticked stay unticked.
+     * auto-sync on, and the sections and the profiles they left unticked stay unticked: what leaves
+     * this device is scoped at the export, exactly as a manual backup is.
      *
      * The far device has to be answering. The pull needs it to be hosting, and the push needs the
      * same, so on a phone that means its own auto-sync agent — which is why this is a setting on
@@ -410,8 +411,10 @@ class LocalSyncManager(
 
     /** One device's share of a pass. */
     private suspend fun syncOne(device: PairedDevice, config: LocalAutoSyncConfig): LocalAutoSyncDeviceReport {
+        // The config's empty set means "every profile"; [send] spells that as null.
+        val profiles = config.profileIds.takeIf { it.isNotEmpty() }
         if (config.direction == SyncDirection.SEND) {
-            val sent = send(device, config.sections)
+            val sent = send(device, config.sections, profiles)
             return LocalAutoSyncDeviceReport(
                 deviceId = device.id,
                 name = device.name,
@@ -433,7 +436,7 @@ class LocalSyncManager(
         // MERGE sends this device's own data back afterwards, so both ends end up with everything.
         // A send that fails does not undo what was received: a merge is a merge, not a transaction,
         // and the next pass will send it again.
-        if (config.direction == SyncDirection.MERGE) send(device, config.sections)
+        if (config.direction == SyncDirection.MERGE) send(device, config.sections, profiles)
         return LocalAutoSyncDeviceReport(
             deviceId = device.id,
             name = device.name,
