@@ -46,9 +46,11 @@ import tv.own.owntv.core.theme.UiZoom
 import tv.own.owntv.core.timeshift.TimeshiftRules
 
 /** Per-profile startup landing. LAST_CHANNEL also covers "auto-play my channel" since
- *  it's always the one you last watched. */
+ *  it's always the one you last watched. LAST_CHANNEL_GUIDE and LAST_CHANNEL_LIVE open the TV Guide
+ *  or Live TV instead, on that channel's category with the channel focused in the preview.
+ *  Saved by name, so the order here is only the order the choices are listed in. */
 enum class StartupMode {
-    HOME, LAST_CHANNEL, FAVORITES, SPECIFIC_CHANNEL
+    HOME, LAST_CHANNEL, LAST_CHANNEL_GUIDE, LAST_CHANNEL_LIVE, FAVORITES, SPECIFIC_CHANNEL
 }
 
 data class StartupChannelRef(
