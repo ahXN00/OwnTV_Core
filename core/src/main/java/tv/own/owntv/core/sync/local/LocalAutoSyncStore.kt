@@ -16,6 +16,7 @@ private val Context.localAutoSyncStore: DataStore<Preferences> by preferencesDat
 
 private val TIMING_KEY = stringPreferencesKey("timing")
 private val SECTIONS_KEY = stringPreferencesKey("sections")
+private val PROFILES_KEY = stringPreferencesKey("profiles")
 private val DIRECTION_KEY = stringPreferencesKey("direction")
 private val DEVICES_KEY = stringPreferencesKey("devices")
 private val LAST_RUN_KEY = longPreferencesKey("lastRunAt")
@@ -50,6 +51,7 @@ class LocalAutoSyncStore(context: Context) {
         store.edit { prefs ->
             prefs[TIMING_KEY] = config.timing.name
             prefs[SECTIONS_KEY] = config.sections.joinToString(",") { it.name }
+            prefs[PROFILES_KEY] = config.profileIds.joinToString(",")
             prefs[DIRECTION_KEY] = config.direction.name
             prefs[DEVICES_KEY] = config.deviceIds.joinToString(",")
         }
@@ -82,6 +84,12 @@ class LocalAutoSyncStore(context: Context) {
                 .mapNotNull { name -> BackupManager.Section.entries.firstOrNull { it.name == name } }
                 .toSet()
         } ?: BackupManager.Section.entries.toSet()
+        // The same reading as the sections above: an absent key is "never saved" and means every
+        // profile, while a key that is there is taken at its word. A profile deleted since it was
+        // ticked simply stops matching anything, which is the right answer — it no longer exists.
+        val profiles = prefs[PROFILES_KEY]
+            ?.let { raw -> raw.split(',').mapNotNull { it.toLongOrNull() }.toSet() }
+            ?: emptySet()
         val direction = prefs[DIRECTION_KEY]
             ?.let { name -> SyncDirection.entries.firstOrNull { it.name == name } }
             ?: SyncDirection.MERGE
@@ -91,6 +99,7 @@ class LocalAutoSyncStore(context: Context) {
         return LocalAutoSyncConfig(
             timing = timing,
             sections = sections,
+            profileIds = profiles,
             direction = direction,
             deviceIds = devices,
             lastRunAt = prefs[LAST_RUN_KEY] ?: 0,

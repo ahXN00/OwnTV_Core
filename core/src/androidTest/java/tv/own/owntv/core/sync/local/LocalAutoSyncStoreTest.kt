@@ -41,13 +41,14 @@ class LocalAutoSyncStoreTest {
         assertFalse("auto-sync must not be on by default", config.enabled)
     }
 
-    /** The timing, the sections and the devices all come back as they were left. */
+    /** The timing, the sections, the profiles and the devices all come back as they were left. */
     @Test
     fun whatWasSavedIsWhatComesBack() = runBlocking {
         store.save(
             LocalAutoSyncConfig(
                 timing = LocalAutoSyncTiming.HOURS_24,
                 sections = setOf(BackupManager.Section.SOURCES, BackupManager.Section.FAVORITES),
+                profileIds = setOf(2L, 5L),
                 direction = SyncDirection.RECEIVE,
                 deviceIds = setOf("phone-1"),
             ),
@@ -55,8 +56,22 @@ class LocalAutoSyncStoreTest {
         val config = store.current()
         assertEquals(LocalAutoSyncTiming.HOURS_24, config.timing)
         assertEquals(setOf(BackupManager.Section.SOURCES, BackupManager.Section.FAVORITES), config.sections)
+        assertEquals(setOf(2L, 5L), config.profileIds)
         assertEquals(SyncDirection.RECEIVE, config.direction)
         assertEquals(setOf("phone-1"), config.deviceIds)
+    }
+
+    /**
+     * Nothing ticked in a list is a real answer, and it is not "everything".
+     *
+     * The config reads an empty set as "all", which is the right default for a device that was
+     * never asked. A user who ticks nothing has answered, and the answer is "none" — writing that
+     * down as "all" would sync the one thing they asked not to.
+     */
+    @Test
+    fun nothingTickedSurvivesAsNothingTicked() = runBlocking {
+        store.save(LocalAutoSyncConfig(timing = LocalAutoSyncTiming.HOURS_24, sections = emptySet()))
+        assertEquals(emptySet<BackupManager.Section>(), store.current().sections)
     }
 
     /** Saving the settings does not roll back the record of the last run. */
