@@ -20,6 +20,7 @@ import tv.own.owntv.core.CoreBuildInfo
 import tv.own.owntv.core.backup.BackupManager
 import tv.own.owntv.core.companion.CompanionController
 import tv.own.owntv.core.companion.CompanionLink
+import tv.own.owntv.core.sync.work.LocalAutoSyncScheduler
 
 /** Which way the data goes. Always the user's explicit choice — never inferred. */
 enum class SyncDirection {
@@ -91,6 +92,8 @@ class LocalSyncManager(
     private val paired: PairedDeviceStore,
     private val client: LocalSyncClient,
     private val discovery: LocalSyncDiscovery,
+    private val autoSync: LocalAutoSyncStore,
+    private val scheduler: LocalAutoSyncScheduler,
 ) {
     private val appContext = context.applicationContext
 
@@ -274,7 +277,18 @@ class LocalSyncManager(
         return Result.success(device)
     }
 
-    suspend fun unpair(id: String) = paired.remove(id)
+    /**
+     * Forgets a device, and ends that device's schedule with it.
+     *
+     * The settings for it are kept on disk — re-pairing the same device should bring its answer
+     * back — but they no longer count as paired, so the timer stops being derived from them and a
+     * pass stops including them. A timer left running for a device that is no longer there wakes up
+     * to find nothing to do, and keeps waking up.
+     */
+    suspend fun unpair(id: String) {
+        paired.remove(id)
+        scheduler.schedule(autoSync.current())
+    }
 
     // --- transferring ----------------------------------------------------------------------------
 
@@ -386,8 +400,13 @@ class LocalSyncManager(
     // --- unattended -----------------------------------------------------------------------------
 
     /**
-     * One automatic pass: every paired device the config names, reached and synced, with nobody
-     * there to press anything.
+     * One automatic pass: every device in [configs], each with its own answer, reached and synced,
+     * with nobody there to press anything.
+     *
+     * One device's settings do not touch another's: what syncs with the television is whatever the
+     * user chose on the television's row, and what syncs with the tablet is whatever they chose on
+     * the tablet's row. The caller decides who is due — the worker does, from the timings and the
+     * last run — and this only carries out that decision.
      *
      * This is the manual flow's three steps — fetch, apply, send — run without a screen. The one
      * thing it does *not* do is ask: a container that arrives is merged rather than previewed, and
@@ -401,11 +420,15 @@ class LocalSyncManager(
      * both devices rather than one. A device that is not there is reported as unreachable and the
      * pass moves on: one phone switched off is not a reason to skip the other one.
      */
-    suspend fun runAutoSync(config: LocalAutoSyncConfig): LocalAutoSyncReport = withContext(Dispatchers.IO) {
+    suspend fun runAutoSync(
+        configs: Map<String, LocalAutoSyncConfig>,
+    ): LocalAutoSyncReport = withContext(Dispatchers.IO) {
         val startedAt = System.currentTimeMillis()
-        val all = paired.current()
-        val targets = if (config.deviceIds.isEmpty()) all else all.filter { it.id in config.deviceIds }
-        val reports = targets.map { syncOne(it, config) }
+        val all = paired.current().associateBy { it.id }
+        // A device that is not paired is not synced, whatever the settings still say about it.
+        val reports = configs.mapNotNull { (id, config) ->
+            all[id]?.let { device -> syncOne(device, config) }
+        }
         LocalAutoSyncReport(reports, startedAt, System.currentTimeMillis())
     }
 

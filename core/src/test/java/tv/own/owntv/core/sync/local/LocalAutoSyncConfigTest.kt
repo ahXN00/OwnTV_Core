@@ -38,10 +38,4 @@ class LocalAutoSyncConfigTest {
     fun `the default direction is a merge`() {
         assertEquals(SyncDirection.MERGE, LocalAutoSyncConfig().direction)
     }
-
-    /** No device named means every paired device, not none. */
-    @Test
-    fun `no device named means all of them`() {
-        assertTrue(LocalAutoSyncConfig().deviceIds.isEmpty())
-    }
 }

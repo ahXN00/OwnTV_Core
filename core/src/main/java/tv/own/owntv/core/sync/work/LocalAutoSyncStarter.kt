@@ -9,7 +9,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import tv.own.owntv.core.sync.local.LocalAutoSyncStore
-import tv.own.owntv.core.sync.local.LocalAutoSyncTiming
 
 /**
  * Keeps the auto-sync promise at the moments it promises.
@@ -19,7 +18,8 @@ import tv.own.owntv.core.sync.local.LocalAutoSyncTiming
  *  - **The app starts.** A timer is not kept by the process: a television that was rebooted, or an
  *    app the system killed, comes back with no work scheduled at all. So the schedule is put back
  *    in front of WorkManager here, from the saved settings, rather than only when the user changes
- *    them.
+ *    them. It is put back even when every device is off, because that is also the moment to clear a
+ *    timer left behind by a scheduling bug or by an older build.
  *  - **The network comes back.** "Immediately" is the one timing that cares, because its promise is
  *    that the content is current *now* — and the moment the Wi-Fi comes back is the moment the other
  *    device can be reached.
@@ -44,18 +44,17 @@ class LocalAutoSyncStarter(
         if (started) return
         started = true
         scope.launch {
-            val config = store.current()
-            if (!config.enabled) return@launch
-            scheduler.schedule(config)
-            Log.i(TAG, "schedule restored: ${config.timing}")
+            // [LocalAutoSyncScheduler.schedule] also triggers the "immediately" devices, which is
+            // exactly what the app starting is.
+            val settings = store.current()
+            scheduler.schedule(settings)
+            Log.i(TAG, "schedule restored: ${settings.byDevice.size} device(s)")
         }
         val manager = appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager ?: return
         val callback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 scope.launch {
-                    val config = store.current()
-                    if (!config.enabled) return@launch
-                    if (config.timing != LocalAutoSyncTiming.STARTUP) return@launch
+                    if (!store.current().hasStartup) return@launch
                     scheduler.trigger()
                     Log.i(TAG, "network back: asking for a run now")
                 }

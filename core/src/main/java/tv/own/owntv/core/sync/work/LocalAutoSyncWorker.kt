@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import tv.own.owntv.core.sync.local.LocalAutoSyncOutcome
 import tv.own.owntv.core.sync.local.LocalAutoSyncStore
 import tv.own.owntv.core.sync.local.LocalSyncManager
 
@@ -13,6 +14,10 @@ import tv.own.owntv.core.sync.local.LocalSyncManager
  * It runs with the app's own dependencies handed to it by [KoinWorkerFactory], so the pass uses
  * exactly the same manager the screen does — one set of rules about what a container is and how a
  * merge behaves, whichever way the data was asked for.
+ *
+ * Which devices take part is decided here, from the settings as they are when the job actually
+ * starts, not from what was true when it was queued: a job can outlive the setting that asked for
+ * it, and a device turned off in the meantime must not sync because a timer remembered it.
  */
 class LocalAutoSyncWorker(
     context: Context,
@@ -22,16 +27,29 @@ class LocalAutoSyncWorker(
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        val config = store.current()
-        // The job can outlive the setting that asked for it: a run queued an hour ago may start
-        // after the user turned auto-sync off. Off means off, even here.
-        if (!config.enabled) {
-            Log.i(TAG, "skipped: auto-sync is off")
+        val settings = store.current()
+        val due = when (inputData.getString(LocalAutoSyncScheduler.KEY_MODE)) {
+            // The one-off run is the "immediately" devices' turn, whoever they are now.
+            LocalAutoSyncScheduler.MODE_STARTUP -> settings.startups()
+            // The timer wakes for the shortest interval any device wanted; each device still only
+            // runs when its own interval has elapsed.
+            else -> settings.dueAt(System.currentTimeMillis())
+        }
+        if (due.isEmpty()) {
+            Log.i(TAG, "skipped: no device is due")
             return Result.success()
         }
-        val report = sync.runAutoSync(config)
+        val report = sync.runAutoSync(due)
+        // Each device keeps its own history, because each device has its own schedule: one phone
+        // that was switched off must not make the next tick think the television is not due yet.
+        report.devices.forEach { device ->
+            store.recordRun(
+                deviceId = device.deviceId,
+                at = report.finishedAt,
+                success = device.outcome == LocalAutoSyncOutcome.SYNCED,
+            )
+        }
         val synced = report.synced
-        store.recordRun(report.finishedAt, success = synced.isNotEmpty())
         Log.i(
             TAG,
             "run finished: ${synced.size}/${report.devices.size} devices synced" +

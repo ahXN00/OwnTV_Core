@@ -4,106 +4,162 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
+import org.json.JSONArray
+import org.json.JSONObject
 import tv.own.owntv.core.backup.BackupManager
 
 private val Context.localAutoSyncStore: DataStore<Preferences> by preferencesDataStore(name = "owntv_local_auto_sync")
 
-private val TIMING_KEY = stringPreferencesKey("timing")
-private val SECTIONS_KEY = stringPreferencesKey("sections")
-private val PROFILES_KEY = stringPreferencesKey("profiles")
-private val DIRECTION_KEY = stringPreferencesKey("direction")
-private val DEVICES_KEY = stringPreferencesKey("devices")
-private val LAST_RUN_KEY = longPreferencesKey("lastRunAt")
-private val LAST_SUCCESS_KEY = longPreferencesKey("lastSuccessAt")
+/** One key per paired device, holding that device's whole answer. */
+private const val DEVICE_PREFIX = "device:"
+
+private fun deviceKey(deviceId: String) = stringPreferencesKey("$DEVICE_PREFIX$deviceId")
 
 /**
- * The auto-sync settings, on disk.
+ * The auto-sync settings, on disk: one record per paired device.
  *
  * Its own file, beside [PairedDeviceStore]'s rather than inside it: a pairing is a credential and
  * a sync schedule is a preference, and one of them must be able to be thrown away without touching
- * the other. DataStore rather than the settings repository for the same reason the pairings are not
- * in the database — this is a handful of values with no query behind them.
+ * the other. It is read against [PairedDeviceStore] all the same, because an answer only means
+ * something for a device that is still there — a record left behind by an unpaired device is kept
+ * (re-pairing the same device should bring its schedule back) but never reaches the scheduler or a
+ * pass.
+ *
+ * One key per device rather than a list in one value, so saving one device's settings rewrites one
+ * record: the device the user is editing cannot roll back the last run of the one next to it.
  */
-class LocalAutoSyncStore(context: Context) {
+class LocalAutoSyncStore(context: Context, private val paired: PairedDeviceStore) {
 
     private val store = context.applicationContext.localAutoSyncStore
 
-    /** The saved settings, read once and kept up to date. */
-    val config: Flow<LocalAutoSyncConfig> = store.data.map { read(it) }
+    /** Every paired device's answer, kept up to date as either side changes. */
+    val settings: Flow<LocalAutoSyncSettings> =
+        combine(store.data, paired.devices) { prefs, devices ->
+            read(prefs).only(devices.mapTo(mutableSetOf()) { it.id })
+        }
 
-    /** The saved settings as they are right now. */
-    suspend fun current(): LocalAutoSyncConfig = read(store.data.first())
+    /** The answers as they are right now. */
+    suspend fun current(): LocalAutoSyncSettings = settings.first()
 
     /**
-     * Writes the settings.
+     * Writes one device's answer.
      *
      * The last run is not written here: it belongs to the pass, not to the settings, and a save
      * that carried it along would let a settings screen roll the record back to whatever it was
-     * before the last sync.
+     * before the last sync. Whatever is already recorded for this device stays recorded.
      */
-    suspend fun save(config: LocalAutoSyncConfig) {
+    suspend fun save(deviceId: String, config: LocalAutoSyncConfig) {
         store.edit { prefs ->
-            prefs[TIMING_KEY] = config.timing.name
-            prefs[SECTIONS_KEY] = config.sections.joinToString(",") { it.name }
-            prefs[PROFILES_KEY] = config.profileIds.joinToString(",")
-            prefs[DIRECTION_KEY] = config.direction.name
-            prefs[DEVICES_KEY] = config.deviceIds.joinToString(",")
+            val key = deviceKey(deviceId)
+            val recorded = prefs[key]?.let { decode(it) }
+            prefs[key] = encode(
+                config.copy(
+                    lastRunAt = recorded?.lastRunAt ?: 0,
+                    lastSuccessAt = recorded?.lastSuccessAt ?: 0,
+                ),
+            )
         }
     }
 
     /**
-     * Notes that a pass happened.
+     * Notes that a pass with one device happened.
      *
-     * A failed pass still moves [lastRunAt] forward — it did happen, and the user watching the
-     * screen afterwards should not be told it never ran — but it leaves [lastSuccessAt] alone,
-     * because nothing was synced.
+     * A failed pass still moves [LocalAutoSyncConfig.lastRunAt] forward — it did happen, and the
+     * user watching the screen afterwards should not be told it never ran — but it leaves
+     * [LocalAutoSyncConfig.lastSuccessAt] alone, because nothing was synced.
      */
-    suspend fun recordRun(at: Long = System.currentTimeMillis(), success: Boolean) {
+    suspend fun recordRun(
+        deviceId: String,
+        at: Long = System.currentTimeMillis(),
+        success: Boolean,
+    ) {
         store.edit { prefs ->
-            prefs[LAST_RUN_KEY] = at
-            if (success) prefs[LAST_SUCCESS_KEY] = at
+            val key = deviceKey(deviceId)
+            // Nothing was ever configured for this device, so there is no record to stamp. A
+            // device without settings is a device that never auto-syncs, and inventing an entry
+            // for it would turn "off" into "off, but with a history".
+            val config = prefs[key]?.let { decode(it) } ?: return@edit
+            prefs[key] = encode(
+                config.copy(
+                    lastRunAt = at,
+                    lastSuccessAt = if (success) at else config.lastSuccessAt,
+                ),
+            )
         }
     }
 
-    private fun read(prefs: Preferences): LocalAutoSyncConfig {
-        val timing = prefs[TIMING_KEY]
-            ?.let { name -> LocalAutoSyncTiming.entries.firstOrNull { it.name == name } }
-            ?: LocalAutoSyncTiming.DEFAULT
-        // An absent key means "never saved", and that means everything. A key that IS there is
-        // taken at its word, even when it is empty: "the user ticked nothing" and "the user never
-        // said" are different answers, and reading the second one as the first would give a user
-        // who unticked everything the opposite of what they asked for.
-        val sections = prefs[SECTIONS_KEY]?.let { raw ->
-            raw.split(',')
-                .mapNotNull { name -> BackupManager.Section.entries.firstOrNull { it.name == name } }
-                .toSet()
-        } ?: BackupManager.Section.entries.toSet()
-        // The same reading as the sections above: an absent key is "never saved" and means every
-        // profile, while a key that is there is taken at its word. A profile deleted since it was
-        // ticked simply stops matching anything, which is the right answer — it no longer exists.
-        val profiles = prefs[PROFILES_KEY]
-            ?.let { raw -> raw.split(',').mapNotNull { it.toLongOrNull() }.toSet() }
-            ?: emptySet()
-        val direction = prefs[DIRECTION_KEY]
-            ?.let { name -> SyncDirection.entries.firstOrNull { it.name == name } }
-            ?: SyncDirection.MERGE
-        val devices = prefs[DEVICES_KEY]
-            ?.let { raw -> raw.split(',').filter { it.isNotBlank() }.toSet() }
-            ?: emptySet()
-        return LocalAutoSyncConfig(
-            timing = timing,
-            sections = sections,
-            profileIds = profiles,
-            direction = direction,
-            deviceIds = devices,
-            lastRunAt = prefs[LAST_RUN_KEY] ?: 0,
-            lastSuccessAt = prefs[LAST_SUCCESS_KEY] ?: 0,
+    private fun read(prefs: Preferences): LocalAutoSyncSettings =
+        LocalAutoSyncSettings(
+            byDevice = buildMap {
+                prefs.asMap().forEach { (key, value) ->
+                    val name = key.name
+                    if (!name.startsWith(DEVICE_PREFIX) || value !is String) return@forEach
+                    val config = decode(value) ?: return@forEach
+                    put(name.removePrefix(DEVICE_PREFIX), config)
+                }
+            },
         )
+
+    private fun encode(config: LocalAutoSyncConfig): String = JSONObject().apply {
+        put(FIELD_TIMING, config.timing.name)
+        put(FIELD_SECTIONS, JSONArray(config.sections.map { it.name }))
+        put(FIELD_PROFILES, JSONArray(config.profileIds.toList()))
+        put(FIELD_DIRECTION, config.direction.name)
+        put(FIELD_LAST_RUN, config.lastRunAt)
+        put(FIELD_LAST_SUCCESS, config.lastSuccessAt)
+    }.toString()
+
+    /**
+     * One record back, or null when it cannot be read at all.
+     *
+     * A field that makes no sense falls back to the same reading an absent key gets — an unknown
+     * timing is off, an unknown section is simply not one — rather than dropping the record: losing
+     * the user's profiles because one enum was renamed would be worse than losing that one field.
+     */
+    private fun decode(raw: String): LocalAutoSyncConfig? = runCatching {
+        val json = JSONObject(raw)
+        LocalAutoSyncConfig(
+            timing = json.optString(FIELD_TIMING)
+                .let { name -> LocalAutoSyncTiming.entries.firstOrNull { it.name == name } }
+                ?: LocalAutoSyncTiming.DEFAULT,
+            // An absent list means "never saved", and that means everything. A list that IS there
+            // is taken at its word, even when it is empty: "the user ticked nothing" and "the user
+            // never said" are different answers, and reading the second one as the first would give
+            // a user who unticked everything the opposite of what they asked for.
+            sections = json.optJSONArray(FIELD_SECTIONS)?.let { array ->
+                (0 until array.length())
+                    .mapNotNull { index ->
+                        val name = array.optString(index)
+                        BackupManager.Section.entries.firstOrNull { it.name == name }
+                    }
+                    .toSet()
+            } ?: BackupManager.Section.entries.toSet(),
+            // The same reading as the sections above. A profile deleted since it was ticked simply
+            // stops matching anything, which is the right answer — it no longer exists.
+            profileIds = json.optJSONArray(FIELD_PROFILES)?.let { array ->
+                (0 until array.length())
+                    .mapNotNull { index -> (array.opt(index) as? Number)?.toLong() }
+                    .toSet()
+            } ?: emptySet(),
+            direction = json.optString(FIELD_DIRECTION)
+                .let { name -> SyncDirection.entries.firstOrNull { it.name == name } }
+                ?: SyncDirection.MERGE,
+            lastRunAt = json.optLong(FIELD_LAST_RUN, 0),
+            lastSuccessAt = json.optLong(FIELD_LAST_SUCCESS, 0),
+        )
+    }.getOrNull()
+
+    private companion object {
+        const val FIELD_TIMING = "timing"
+        const val FIELD_SECTIONS = "sections"
+        const val FIELD_PROFILES = "profiles"
+        const val FIELD_DIRECTION = "direction"
+        const val FIELD_LAST_RUN = "lastRunAt"
+        const val FIELD_LAST_SUCCESS = "lastSuccessAt"
     }
 }
