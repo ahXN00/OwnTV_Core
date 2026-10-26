@@ -20,6 +20,10 @@ import tv.own.owntv.core.backup.BackupManager
  * quietly forgetting itself. It is now one answer per device, so the test also has to show that one
  * device's save does not touch the one beside it.
  *
+ * The same file keeps the other half of the agreement: the consents this device granted to the
+ * devices that asked to sync with it automatically. They are read against the live pairing list in
+ * the same way, so both answers stop counting when the device is gone.
+ *
  * The test names are camelCase and not sentences in backticks, unlike the unit tests beside them:
  * a name with spaces becomes part of the name of the classes the compiler generates inside it, and
  * dex has no room for spaces in a class name before API 30.
@@ -47,7 +51,7 @@ class LocalAutoSyncStoreTest {
         assertFalse("auto-sync must not be on by default", config.enabled)
     }
 
-    /** The timing, the sections, the profiles and the direction all come back as they were left. */
+    /** The timing, the sections and the profiles all come back as they were left. */
     @Test
     fun whatWasSavedIsWhatComesBack() = runBlocking {
         store.save(
@@ -56,14 +60,40 @@ class LocalAutoSyncStoreTest {
                 timing = LocalAutoSyncTiming.HOURS_24,
                 sections = setOf(BackupManager.Section.SOURCES, BackupManager.Section.FAVORITES),
                 profileIds = setOf(2L, 5L),
-                direction = SyncDirection.RECEIVE,
             ),
         )
         val config = store.current()[device.id]
         assertEquals(LocalAutoSyncTiming.HOURS_24, config.timing)
         assertEquals(setOf(BackupManager.Section.SOURCES, BackupManager.Section.FAVORITES), config.sections)
         assertEquals(setOf(2L, 5L), config.profileIds)
-        assertEquals(SyncDirection.RECEIVE, config.direction)
+    }
+
+    /**
+     * A consent is an answer of its own: accepting a device is not the same as scheduling with it.
+     *
+     * The two live in the same file but mean opposite things — "that device may sync with this one"
+     * versus "this one syncs with that one" — so granting one must be visible to the server and
+     * revoking it must take it away again.
+     */
+    @Test
+    fun acceptingADeviceAllowsItUntilRevoked() = runBlocking {
+        assertFalse(store.allows(device.id))
+        store.grantConsent(device.id)
+        assertTrue(store.allows(device.id))
+        assertTrue(store.currentConsents().contains(device.id))
+        store.revokeConsent(device.id)
+        assertFalse(store.allows(device.id))
+    }
+
+    /** A consent for a device that is no longer paired stops counting, like a schedule does. */
+    @Test
+    fun anUnpairedDeviceIsNotAllowedEvenWithAConsent() = runBlocking {
+        store.grantConsent(device.id)
+        paired.remove(device.id)
+        assertFalse(store.allows(device.id))
+        assertFalse(store.currentConsents().contains(device.id))
+        paired.put(device)
+        assertTrue("re-pairing brings the consent back with the device", store.allows(device.id))
     }
 
     /** Two devices, two answers: "the television nightly, the tablet weekly" is a thing to ask for. */

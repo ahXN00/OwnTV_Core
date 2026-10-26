@@ -22,6 +22,11 @@ import tv.own.owntv.core.backup.BackupManager
  * exactly as a manual backup's is: it decides what leaves this device, while what arrives is
  * decided by the other device's own answer. Empty means every profile of this device.
  *
+ * There is no direction. An automatic pass is always a merge, because that is what the two devices
+ * agreed to when auto-sync was turned on: the far side's data comes here and this device's data goes
+ * there. A "send only" or "receive only" schedule would be a different promise than the one the
+ * other device accepted, and nobody is there to ask which one was meant.
+ *
  * Per device rather than one setting for the household, because "keep the television current but
  * leave the tablet alone" is a thing a household wants, and a list of exceptions to one global
  * answer is one more place for the two to disagree.
@@ -31,7 +36,6 @@ data class LocalAutoSyncConfig(
     val sections: Set<BackupManager.Section> = BackupManager.Section.entries.toSet(),
     /** Empty = every profile on this device. */
     val profileIds: Set<Long> = emptySet(),
-    val direction: SyncDirection = SyncDirection.MERGE,
     /** When the last automatic pass with this device started, whatever came of it. */
     val lastRunAt: Long = 0,
     /** When the last automatic pass with this device actually moved something. */

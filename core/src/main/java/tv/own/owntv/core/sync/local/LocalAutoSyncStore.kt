@@ -21,6 +21,17 @@ private const val DEVICE_PREFIX = "device:"
 private fun deviceKey(deviceId: String) = stringPreferencesKey("$DEVICE_PREFIX$deviceId")
 
 /**
+ * One key per paired device that may sync here automatically. A value rather than a list so
+ * granting or revoking one device rewrites one entry.
+ */
+private const val CONSENT_PREFIX = "consent:"
+
+private fun consentKey(deviceId: String) = stringPreferencesKey("$CONSENT_PREFIX$deviceId")
+
+/** Only the presence of the key matters; the value is never read. */
+private const val CONSENT_VALUE = "1"
+
+/**
  * The auto-sync settings, on disk: one record per paired device.
  *
  * Its own file, beside [PairedDeviceStore]'s rather than inside it: a pairing is a credential and
@@ -32,6 +43,11 @@ private fun deviceKey(deviceId: String) = stringPreferencesKey("$DEVICE_PREFIX$d
  *
  * One key per device rather than a list in one value, so saving one device's settings rewrites one
  * record: the device the user is editing cannot roll back the last run of the one next to it.
+ *
+ * The same file holds **consents**: the paired devices this one has accepted to be synced with
+ * automatically. A schedule says "this device syncs with that one"; a consent says "that one may
+ * sync with this one". The device that runs a pass holds a schedule; the device that only answers
+ * holds a consent. Both are read against the live pairing list, so neither outlives a pairing.
  */
 class LocalAutoSyncStore(context: Context, private val paired: PairedDeviceStore) {
 
@@ -93,6 +109,39 @@ class LocalAutoSyncStore(context: Context, private val paired: PairedDeviceStore
         }
     }
 
+    /**
+     * The paired devices this one has accepted for automatic sync.
+     *
+     * What a consent *means* is decided by the pass that checks it
+     * ([tv.own.owntv.core.sync.local.LocalSyncManager.runAutoSync] sends the marker, and the server
+     * refuses an unconsented one); this is only where the answer is kept.
+     */
+    val consents: Flow<Set<String>> =
+        combine(store.data, paired.devices) { prefs, devices ->
+            val known = devices.mapTo(mutableSetOf()) { it.id }
+            prefs.asMap().mapNotNull { (key, value) ->
+                val name = key.name
+                if (value !is String || !name.startsWith(CONSENT_PREFIX)) return@mapNotNull null
+                name.removePrefix(CONSENT_PREFIX).takeIf { it in known }
+            }.toSet()
+        }
+
+    /** Records that [deviceId] may sync with this device automatically. */
+    suspend fun grantConsent(deviceId: String) {
+        store.edit { prefs -> prefs[consentKey(deviceId)] = CONSENT_VALUE }
+    }
+
+    /** Withdraws [deviceId]'s permission. Its next automatic pass is refused. */
+    suspend fun revokeConsent(deviceId: String) {
+        store.edit { prefs -> prefs.remove(consentKey(deviceId)) }
+    }
+
+    /** The consents as they are right now. */
+    suspend fun currentConsents(): Set<String> = consents.first()
+
+    /** True when [deviceId] is still paired and this device has accepted it. */
+    suspend fun allows(deviceId: String): Boolean = currentConsents().contains(deviceId)
+
     private fun read(prefs: Preferences): LocalAutoSyncSettings =
         LocalAutoSyncSettings(
             byDevice = buildMap {
@@ -109,7 +158,6 @@ class LocalAutoSyncStore(context: Context, private val paired: PairedDeviceStore
         put(FIELD_TIMING, config.timing.name)
         put(FIELD_SECTIONS, JSONArray(config.sections.map { it.name }))
         put(FIELD_PROFILES, JSONArray(config.profileIds.toList()))
-        put(FIELD_DIRECTION, config.direction.name)
         put(FIELD_LAST_RUN, config.lastRunAt)
         put(FIELD_LAST_SUCCESS, config.lastSuccessAt)
     }.toString()
@@ -146,9 +194,6 @@ class LocalAutoSyncStore(context: Context, private val paired: PairedDeviceStore
                     .mapNotNull { index -> (array.opt(index) as? Number)?.toLong() }
                     .toSet()
             } ?: emptySet(),
-            direction = json.optString(FIELD_DIRECTION)
-                .let { name -> SyncDirection.entries.firstOrNull { it.name == name } }
-                ?: SyncDirection.MERGE,
             lastRunAt = json.optLong(FIELD_LAST_RUN, 0),
             lastSuccessAt = json.optLong(FIELD_LAST_SUCCESS, 0),
         )
@@ -158,7 +203,6 @@ class LocalAutoSyncStore(context: Context, private val paired: PairedDeviceStore
         const val FIELD_TIMING = "timing"
         const val FIELD_SECTIONS = "sections"
         const val FIELD_PROFILES = "profiles"
-        const val FIELD_DIRECTION = "direction"
         const val FIELD_LAST_RUN = "lastRunAt"
         const val FIELD_LAST_SUCCESS = "lastSuccessAt"
     }

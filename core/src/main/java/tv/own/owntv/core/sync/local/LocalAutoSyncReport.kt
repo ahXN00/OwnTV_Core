@@ -42,6 +42,13 @@ enum class LocalAutoSyncOutcome {
     /** It answered, but did not recognise the pairing any more. */
     NOT_AUTHORIZED,
 
+    /**
+     * It answered and knows this device, but the acceptance this device is running on has been
+     * withdrawn there. The schedule to it is turned off when this comes back, because a permission
+     * that no longer exists is not a schedule worth waking up for.
+     */
+    CONSENT_REVOKED,
+
     /** It answered with something that was not an OwnTV backup. */
     BAD_PAYLOAD,
 

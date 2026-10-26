@@ -32,10 +32,4 @@ class LocalAutoSyncConfigTest {
     fun `the default is every section`() {
         assertEquals(BackupManager.Section.entries.toSet(), LocalAutoSyncConfig().sections)
     }
-
-    /** A merge is a merge: both ends end up with everything. */
-    @Test
-    fun `the default direction is a merge`() {
-        assertEquals(SyncDirection.MERGE, LocalAutoSyncConfig().direction)
-    }
 }

@@ -38,8 +38,10 @@ data class LocalAutoSyncSettings(
     /**
      * The devices whose own timer has elapsed by [now].
      *
-     * A device that has never run is due as soon as its interval is: "daily" set an hour ago means
-     * a run tomorrow, not a run now, because nobody asked for now.
+     * A device that has never run has a zero [LocalAutoSyncConfig.lastRunAt], so its interval has
+     * long since passed and it is due at the first tick of the shared timer: turning auto-sync on is
+     * a request for it, and a fresh setup that waited a full interval before its first pass would
+     * look broken. Afterwards the interval is measured from that device's own last run.
      */
     fun dueAt(now: Long): Map<String, LocalAutoSyncConfig> = byDevice.filterValues { config ->
         val interval = config.timing.intervalMs ?: return@filterValues false
