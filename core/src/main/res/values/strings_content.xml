@@ -247,6 +247,12 @@
     <string name="content_catchup_jump_exact">Choose exact time…</string>
     <!-- Translators: TV remote instructions in the exact-time picker. "OK" is the select/enter button on the remote; keep whatever name that button is given elsewhere in this app. -->
     <string name="content_catchup_jump_hint">Press OK on the day, hour or minute, change it with up and down, then press OK again.</string>
+    <!-- Translators: First row of the catch-up time list: go back to the start of the programme on air. "title" is the programme's name from the TV guide. -->
+    <string name="content_catchup_jump_programme_start">Start of “<xliff:g id="title">%1$s</xliff:g>”</string>
+    <!-- Translators: Same row as content_catchup_jump_programme_start, when the TV guide gives the programme no name. -->
+    <string name="content_catchup_jump_programme_start_untitled">Start of the programme</string>
+    <!-- Translators: Second line of the "Start of …" row in the catch-up time list. "time" is the clock time the programme began, formatted for the active UI locale. -->
+    <string name="content_catchup_jump_programme_start_at">Began at <xliff:g id="time">%1$s</xliff:g></string>
     <!-- Translators: Prompt in the EPG match dialog. "channel" is the channel name to match. -->
     <string name="content_epg_match_prompt">Pick the guide channel for \u201c<xliff:g id="channel">%1$s</xliff:g>\u201d.</string>
     <!-- Translators: Prompt in the EPG match dialog showing the current match. "match" is the current guide channel name. -->
