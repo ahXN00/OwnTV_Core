@@ -8,22 +8,29 @@ import androidx.room.useReaderConnection
 import androidx.room.useWriterConnection
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import tv.own.owntv.core.CorePerf
 import tv.own.owntv.core.database.BulkInsertHelper
 import tv.own.owntv.core.customize.CustomizationStore
+import tv.own.owntv.core.customize.SectionCustomizations
 import tv.own.owntv.core.database.dao.ChannelDao
 import tv.own.owntv.core.database.dao.EpgDao
 import tv.own.owntv.core.model.MediaType
 import tv.own.owntv.core.settings.SettingsRepository
+import tv.own.owntv.core.database.entity.ChannelEntity
 import tv.own.owntv.core.database.entity.EpgChannelEntity
+import tv.own.owntv.core.epg.ArchiveGuidePlan
 import tv.own.owntv.core.epg.EpgMatcher
 import tv.own.owntv.core.database.entity.EpgProgrammeEntity
 import tv.own.owntv.core.database.entity.SourceEntity
 import tv.own.owntv.core.database.entity.computeContentHash
 import tv.own.owntv.core.database.entity.withDetails
 import tv.own.owntv.core.epg.FeedDedupe
+import tv.own.owntv.core.live.epgKeyOf
 import tv.own.owntv.core.model.SourceType
 import tv.own.owntv.core.network.HttpClient
 import tv.own.owntv.core.parser.XmltvParser
@@ -856,6 +863,85 @@ class EpgRepository(
 
     /** Per-source fingerprint of the last gap fill that found nothing — see [fillGuideGapsForSource]. */
     private val futileGapFills = java.util.concurrent.ConcurrentHashMap<Long, String>()
+
+    /** When each channel's archive schedule was last asked for — see [fillArchiveGuide]. Memory only. */
+    private val archiveTries = java.util.concurrent.ConcurrentHashMap<Long, Long>()
+
+    private val _archiveGuideAdded = MutableSharedFlow<Long>(extraBufferCapacity = 8)
+
+    /** Ids of channels whose past programmes [fillArchiveGuide] just changed, so an open guide can re-read them. */
+    val archiveGuideAdded: SharedFlow<Long> = _archiveGuideAdded.asSharedFlow()
+
+    /**
+     * Add the past of a catch-up Xtream [channel] that its guide feed does not carry, from the
+     * provider's own schedule of that channel ([XtreamClient.getArchiveSchedule]).
+     *
+     * Many `xmltv.php` feeds stop about a day back while the archive keeps up to a week, so most of
+     * what catch-up could replay never shows in the guide. One API call for one channel, at most once
+     * every few hours per channel ([ArchiveGuidePlan]). The rows only ever end where the feeds' own
+     * rows begin, and are stored under a guide store of their own ([ArchiveGuidePlan.storeId]): not
+     * the playlist's id, whose guide sync would delete them as missing from its feed. Being no EPG
+     * source, that store ranks below all of them ([tv.own.owntv.core.epg.GuidePriority]). Each fill
+     * replaces the channel's rows there as a whole. Retention keeps them, as the past of every
+     * catch-up channel is kept.
+     *
+     * Returns how many programmes the channel now has from its archive when they changed, 0 when
+     * they did not (or the request failed), and null when the provider was not asked at all (not a
+     * catch-up Xtream channel, or asked too recently), so a caller pacing its requests can skip ahead.
+     */
+    suspend fun fillArchiveGuide(channel: ChannelEntity, cust: SectionCustomizations): Int? = withContext(Dispatchers.IO) {
+        if (!channel.catchup) return@withContext null
+        val streamId = channel.remoteId?.takeIf { it.isNotBlank() } ?: return@withContext null
+        // Trimmed and lower-cased, the way the guide stores and reads its ids.
+        val key = epgKeyOf(channel, cust) ?: return@withContext null
+        val now = System.currentTimeMillis()
+        synchronized(archiveTries) {
+            if (!ArchiveGuidePlan.due(archiveTries[channel.id], now)) return@withContext null
+            archiveTries[channel.id] = now
+        }
+        val stored = try {
+            val source = sourceDao.getById(channel.sourceId)?.takeIf { it.type == SourceType.XTREAM }
+                ?: return@withContext null
+            val listings = xtream.getArchiveSchedule(source, streamId)
+            val from = ArchiveGuidePlan.windowStart(now, channel.catchupDays, WINDOW_BACK_MS)
+            val store = ArchiveGuidePlan.storeId(channel.sourceId)
+            val (own, feeds) = epgDao.programmeSummariesForChannel(key, from, Long.MAX_VALUE)
+                .partition { it.sourceId == store }
+            val keep = ArchiveGuidePlan.toStore(
+                listings,
+                guideStartMs = feeds.minOfOrNull { it.startMs },
+                windowStartMs = from,
+                nowMs = now,
+            )
+            val changed = ArchiveGuidePlan.changed(keep, own.map { it.startMs })
+            if (changed) {
+                own.map { it.id }.chunked(QUERY_CHUNK).forEach { epgDao.deleteProgrammesByIds(it) }
+                writeProgrammes(
+                    keep.map {
+                        EpgProgrammeEntity(
+                            sourceId = store,
+                            epgChannelId = key,
+                            startMs = it.startMs,
+                            stopMs = it.stopMs,
+                            title = it.title,
+                            description = it.description,
+                        ).let { p -> p.copy(contentHash = p.computeContentHash()) }
+                    },
+                )
+            }
+            Log.i("EpgRepository", "archive guide channelId=${channel.id} listed=${listings.size} kept=${keep.size} changed=$changed")
+            if (changed) _archiveGuideAdded.tryEmit(channel.id)
+            if (changed) keep.size else 0
+        } catch (c: CancellationException) {
+            throw c
+        } catch (e: Exception) {
+            // A provider that hiccuped is asked again sooner than one that answered.
+            archiveTries[channel.id] = ArchiveGuidePlan.failedAt(now)
+            Log.w("EpgRepository", "archive guide failed channelId=${channel.id}: ${e.javaClass.simpleName}")
+            0
+        }
+        stored
+    }
 
     /** Identifies the current set of usable cache files, so a new/refreshed guide invalidates a skip. */
     private fun cacheFingerprint(): String {

@@ -2501,6 +2501,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${xtreamPathSegment(s.username)}/${xtreamPathSegment(s.password)}
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	&category_id=$it
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	&series_id=$seriesId
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	&stream_id=$streamId
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	&stream_id=$streamId&limit=$limit
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	-._~!$&'()*+,;=:@
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	0
@@ -2523,7 +2524,7 @@
 2	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	description
 1	json	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	direct_source
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	epg_channel_id
-1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	epg_listings
+2	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	epg_listings
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	episode_num
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	episodes
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	exp_date
@@ -2534,6 +2535,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	get_series_categories
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	get_series_info
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	get_short_epg
+1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	get_simple_data_table
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	get_vod_categories
 2	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	get_vod_streams
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	id
@@ -2901,7 +2903,7 @@
 1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	EPG programme prune sourceId=$sourceId stale=${staleIds.size} overflowed=${tracker.overflowed} ms=${SystemClock.elapsedRealtime() - startedAt}
 1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	EPG prune sourceId=$storeId ms=${SystemClock.elapsedRealtime() - pruneStartedAt}
 1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	EPG sync incomplete — keeping partial (written=$writtenCount accepted=$processedCount inserted=$inserted updated=$updated skipped=$skipped)
-29	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	EpgRepository
+31	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	EpgRepository
 1	protocol	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	Guide channels match no playlist channel
 1	protocol	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	Guide has no programmes in the guide window
 1	room-schema	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	INSERT OR IGNORE INTO `epg_keep_history` VALUES (?)
@@ -2918,6 +2920,8 @@
 1	sql	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	`contentHash`,`categories`,`year`,`rating`,`lengthMin`,`episode`) VALUES (nullif(?, 0),?,?,?,?,?,?,?,?,?,?,?,?)
 1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	accepted=$processedCount written=$writtenCount ms=${SystemClock.elapsedRealtime() - startedAt}
 1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	analyzeMs=${totalMs - (parsedAt - startedAt) - pruneMs} totalMs=$totalMs
+1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	archive guide channelId=${channel.id} listed=${listings.size} kept=${keep.size} changed=$changed
+1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	archive guide failed channelId=${channel.id}: ${e.javaClass.simpleName}
 1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	cacheFill parse failed storeId=$storeId (other sources unaffected)
 1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	channelsIn=${channels.size} accepted=$processedCount written=$writtenCount
 1	log	core/src/main/java/tv/own/owntv/core/repository/EpgRepository.kt	ensureEpgIndexes ms=${SystemClock.elapsedRealtime() - startedAt}

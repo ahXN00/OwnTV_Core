@@ -484,7 +484,32 @@ class XtreamClient(private val http: HttpClient) {
         return out.sortedBy { it.startMs }
     }
 
-    private fun readEpgListings(reader: JsonReader, out: MutableList<XtEpgEntry>) {
+    /**
+     * A live channel's whole schedule as the provider keeps it, via `get_simple_data_table`: past
+     * programmes as far back as its archive goes, which is often several days more than `xmltv.php`
+     * carries. Same entry format as [getShortEpg]; untitled entries are left out. Sorted by start.
+     */
+    suspend fun getArchiveSchedule(s: SourceEntity, streamId: String): List<XtEpgEntry> {
+        val out = ArrayList<XtEpgEntry>()
+        http.get(api(s, "get_simple_data_table", "&stream_id=$streamId"), s.userAgent) { input ->
+            JsonReader(input.reader(Charsets.UTF_8)).use { reader ->
+                reader.isLenient = true
+                if (reader.peek() != JsonToken.BEGIN_OBJECT) { reader.skipValue(); return@use }
+                reader.beginObject()
+                while (reader.hasNext()) {
+                    if (reader.nextName() == "epg_listings" && reader.peek() == JsonToken.BEGIN_ARRAY) {
+                        readEpgListings(reader, out, keepUntitled = false)
+                    } else {
+                        reader.skipValue()
+                    }
+                }
+                reader.endObject()
+            }
+        }
+        return out.sortedBy { it.startMs }
+    }
+
+    private fun readEpgListings(reader: JsonReader, out: MutableList<XtEpgEntry>, keepUntitled: Boolean = true) {
         reader.beginArray()
         while (reader.hasNext()) {
             var title = ""
@@ -504,7 +529,7 @@ class XtreamClient(private val http: HttpClient) {
                 }
             }
             reader.endObject()
-            if (startTs > 0 && stopTs > startTs) {
+            if (startTs > 0 && stopTs > startTs && (keepUntitled || title.isNotBlank())) {
                 out.add(XtEpgEntry(title.ifBlank { "—" }, desc, startTs * 1000, stopTs * 1000))
             }
         }
