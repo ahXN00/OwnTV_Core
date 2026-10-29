@@ -377,7 +377,7 @@
 2	empty	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	\0
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	/background
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	/backup
-1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	1
+2	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	1
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	Body ended at $total of $declared bytes
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	OFF
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	application/json
@@ -424,9 +424,10 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	userAgent
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	user_agent
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	username
+1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	x-owntv-auto-sync
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	yes
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	{
-7	empty	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	\0
+10	empty	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	\0
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	"
 2	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/background
@@ -437,6 +438,8 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/lora.ttf
 2	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/m3u
 2	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/stalker
+1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/sync/auto-sync
+1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/sync/auto-sync/revoke
 1	uri	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/sync/hello
 1	uri	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/sync/pair
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/xtream
@@ -452,15 +455,18 @@
 2	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	Content-Length:
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	Content-Type:
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	Content-Type: application/json; charset=utf-8
+1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	Forbidden
 4	uri	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	GET
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	HTTP/1.1
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	HTTP/1.1 200 OK
+1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	Internal Server Error
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	Not Found
 2	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	OK
-6	uri	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	POST
+8	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	POST
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	Payload Too Large
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	Unauthorized
 1	regex	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	^data:image/([a-zA-Z0-9.+-]+);base64,
+1	json	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	accepted
 1	uri	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	application/json; charset=utf-8
 2	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	bmp
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	content-type
@@ -471,11 +477,12 @@
 1	uri	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	name
 2	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	pin
 2	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	png
+1	json	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	revoked
 1	uri	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	secret
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	text/html; charset=utf-8
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	text/plain; charset=utf-8
 2	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	webp
-7	uri	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	x-companion-pin
+9	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	x-companion-pin
 3	uri	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	{}
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionLink.kt	10.
 2	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionLink.kt	127.0.0.1
@@ -4799,8 +4806,21 @@
 1	log	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	succeeded=${outcome.succeededCategoryRemoteIds.size} aborted=${outcome.aborted} stoppedEarly=${outcome.stoppedEarly}
 1	log	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	succeeded=${succeeded.size}/${categories.size} aborted=$aborted stoppedEarly=$stoppedEarly
 1	technical	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	unknown
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	$CONSENT_PREFIX$deviceId
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	$DEVICE_PREFIX$deviceId
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	1
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	consent:
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	device:
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	lastRunAt
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	lastSuccessAt
+1	technical	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	owntv_local_auto_sync
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	profiles
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	sections
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	timing
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	/backup
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	/backup.own
+1	technical	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	/sync/auto-sync
+1	technical	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	/sync/auto-sync/revoke
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	/sync/hello
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	/sync/pair
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	Content-Type
@@ -4812,8 +4832,10 @@
 1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	No secret in pairing response
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	POST
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	X-Companion-Pin
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	accepted
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	app
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	application/x-www-form-urlencoded
+1	technical	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	ask
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	data:application/octet-stream;base64,$encoded
 1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	device
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	http://
@@ -4822,9 +4844,10 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	name
 1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	name=${enc(myName)}&id=${enc(myId)}
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	payload
+1	technical	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	revoke
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	secret
 1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	session
-1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	text/plain
+3	mime	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	text/plain
 1	empty	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	\0
 1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	Could not announce this device for local sync (error $errorCode)
 1	compiler	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	DEPRECATION
@@ -4835,6 +4858,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	_owntv._tcp.
 1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	id
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	${Build.MANUFACTURER} ${Build.MODEL}
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	Dropped an unreadable automatic sync container
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	LocalSyncManager
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	OwnTV
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	Pairing failed on the host side
@@ -4959,6 +4983,21 @@
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	series rules not applied after EPG sync: ${it.message}
 1	preference-key	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	sourceId
 1	technical	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	unknown
+1	technical	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncScheduler.kt	local-auto-sync
+1	technical	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncScheduler.kt	mode
+1	technical	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncScheduler.kt	owntv-local-auto-sync-now
+1	technical	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncScheduler.kt	owntv-local-auto-sync-periodic
+1	technical	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncScheduler.kt	periodic
+1	technical	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncScheduler.kt	startup
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncStarter.kt	LocalAutoSync
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncStarter.kt	could not watch the network
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncStarter.kt	network back: asking for a run now
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncStarter.kt	schedule restored: ${settings.byDevice.size} device(s)
+1	empty	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncWorker.kt	\0
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncWorker.kt	(${synced.sumOf { it.items }} items)
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncWorker.kt	LocalAutoSync
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncWorker.kt	run finished: ${synced.size}/${report.devices.size} devices synced
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncWorker.kt	skipped: no device is due
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/TrendingRefreshWorker.kt	Finished sourceId=$sourceId outcome=${outcome.diagnosticName()}
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/TrendingRefreshWorker.kt	TrendingRefreshWorker
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/TrendingRefreshWorker.kt	Unexpected refresh failure sourceId=$sourceId; preserving snapshot

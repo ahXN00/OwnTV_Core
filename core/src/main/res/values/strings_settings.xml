@@ -2271,6 +2271,8 @@
     <string name="local_sync_error_unreachable">This device could not be reached. On it, open OwnTV → More → Local sync and turn Sync mode on. Both devices must be on the same Wi-Fi.</string>
     <!-- Translators: Failure reason: wrong PIN, or the pairing was removed on the other device. -->
     <string name="local_sync_error_unauthorized">The other device refused. The PIN may be wrong, or it may have forgotten this device.</string>
+    <!-- Translators: Failure when an automatic sync reaches a device where its acceptance has been withdrawn. -->
+    <string name="local_sync_error_auto_sync_revoked">The other device turned auto-sync off.</string>
     <!-- Translators: Failure reason: what arrived could not be read. -->
     <string name="local_sync_error_bad_payload">What arrived could not be read. If you used a password, check it is the same on both devices.</string>
     <!-- Translators: Failure reason: anything else. -->
@@ -2287,6 +2289,55 @@
     <string name="local_sync_already_paired">Already paired</string>
     <!-- Translators: A device name followed by a short code, used only when two paired devices are the same model and share a name. %1$s is the device name, %2$s a four-character code. -->
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <!-- Auto-sync: a device that syncs with its paired devices without anybody being there. -->
+    <!-- Translators: Title of the Auto-sync settings screen, and of the button that opens it on a paired device's row. -->
+    <string name="local_auto_sync_title">Auto-sync</string>
+    <!-- Translators: Heading of the sheet where the automatic sync is set up. -->
+    <string name="local_auto_sync_settings_title">Auto-sync settings</string>
+    <!-- Translators: Body of the sheet where one paired device's automatic sync is set up. %1$s is the name the user gave that device. -->
+    <string name="local_auto_sync_for_device">What syncs with <xliff:g id="device">%1$s</xliff:g>, and how often.</string>
+    <!-- Translators: First row of the sheet: the switch that allows this device to sync with the named one automatically. -->
+    <string name="local_auto_sync_enable">Enable auto-sync</string>
+    <!-- Translators: Shown under the auto-sync switch while it is off, explaining that the other device has to agree. -->
+    <string name="local_auto_sync_enable_hint">The other device must accept first. Until it does, nothing else here can be changed.</string>
+    <!-- Translators: Shown while waiting for the other device to answer the auto-sync request. %1$s is the device name. -->
+    <string name="local_auto_sync_waiting">Waiting for <xliff:g id="device">%1$s</xliff:g> to accept…</string>
+    <!-- Translators: The other device refused automatic sync. %1$s is the device name. -->
+    <string name="local_auto_sync_declined"><xliff:g id="device">%1$s</xliff:g> did not accept. Auto-sync stays off.</string>
+    <!-- Translators: Title of the question shown on the device that is being asked to allow automatic sync. -->
+    <string name="local_auto_sync_accept_title">Allow auto-sync?</string>
+    <!-- Translators: Body of that question. %1$s is the name of the device that asked. -->
+    <string name="local_auto_sync_accept_body"><xliff:g id="device">%1$s</xliff:g> wants to sync with this device automatically. It will merge in the background without asking again.</string>
+    <!-- Translators: Button that accepts automatic sync from the other device. -->
+    <string name="local_auto_sync_accept">Allow</string>
+    <!-- Translators: Button that refuses automatic sync from the other device. -->
+    <string name="local_auto_sync_decline">Don\'t allow</string>
+    <!-- Translators: Shown on the device that accepted. %1$s is the name of the device syncing with it automatically. -->
+    <string name="local_auto_sync_allowed_by"><xliff:g id="device">%1$s</xliff:g> syncs with this device automatically.</string>
+    <!-- Translators: Row that withdraws an earlier acceptance of automatic sync. -->
+    <string name="local_auto_sync_revoke">Stop allowing automatic sync</string>
+    <!-- Translators: Heading above the list of things that can be synced automatically. -->
+    <string name="local_auto_sync_what_to_sync">What to sync</string>
+    <!-- Translators: Heading above the list of viewer profiles an automatic sync may share. -->
+    <string name="local_auto_sync_what_profiles">Which profiles</string>
+    <!-- Translators: Heading above the list of times an automatic sync can happen. -->
+    <string name="local_auto_sync_when">When</string>
+    <!-- Translators: Timing option: never sync by itself. -->
+    <string name="local_auto_sync_timing_off">Never</string>
+    <!-- Translators: Timing option: sync as soon as the app is running and the network is there. -->
+    <string name="local_auto_sync_timing_immediately">Immediately</string>
+    <!-- Translators: Timing option: sync every six hours. -->
+    <string name="local_auto_sync_timing_6h">Every 6 hours</string>
+    <!-- Translators: Timing option: sync once a day. -->
+    <string name="local_auto_sync_timing_daily">Daily</string>
+    <!-- Translators: Timing option: sync once a week. -->
+    <string name="local_auto_sync_timing_weekly">Weekly</string>
+    <!-- Translators: Button that saves the auto-sync settings. -->
+    <string name="local_auto_sync_save">Save settings</string>
+    <!-- Translators: Note at the bottom of one device's Auto-sync settings, saying what an automatic sync does and needs from the other device. -->
+    <string name="local_auto_sync_note">Auto-sync always merges: what you tick here travels to the other device, and its changes come back here. It runs in the background without asking, and needs the other device to answer on the same Wi-Fi (Sync mode on).</string>
+    <!-- Translators: Line under the Auto-sync row: when the last automatic sync ran. %1$s is a relative time such as “2 hours ago”. -->
+    <string name="local_auto_sync_last_run">Last auto-sync: <xliff:g id="when">%1$s</xliff:g></string>
     <!-- Translators: Label for the date of the most recent backup, in the More screen's Backup preview pane. -->
     <string name="more_pane_last_backup">Last backup</string>
     <!-- Translators: Shown beside a backup file size when that backup is password-encrypted. -->

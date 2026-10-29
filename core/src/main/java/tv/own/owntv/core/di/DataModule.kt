@@ -220,6 +220,20 @@ val dataModule = module {
             paired = get(),
             client = get(),
             discovery = get(),
+            autoSync = get(),
+            scheduler = get(),
+        )
+    }
+    // The auto-sync schedule and the job that runs it. The settings live in their own store so
+    // that turning auto-sync off is one write, and the scheduler is a singleton so that a change
+    // of timing replaces the old timer instead of adding a second one.
+    single { tv.own.owntv.core.sync.local.LocalAutoSyncStore(androidContext(), get()) }
+    single { tv.own.owntv.core.sync.work.LocalAutoSyncScheduler(androidContext()) }
+    single {
+        tv.own.owntv.core.sync.work.LocalAutoSyncStarter(
+            context = androidContext(),
+            store = get(),
+            scheduler = get(),
         )
     }
     single { BulkInsertHelper(get()) }

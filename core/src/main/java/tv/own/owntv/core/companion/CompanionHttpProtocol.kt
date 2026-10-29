@@ -19,6 +19,10 @@ internal object CompanionHttpProtocol {
     /** PIN posts and source forms — a few hundred bytes in practice. */
     const val FORM_BODY_LIMIT = 64 * 1024
 
+    /** Marks a request that belongs to an automatic pass; the host refuses an unconsented one. */
+    const val AUTO_SYNC_HEADER = "x-owntv-auto-sync"
+    const val AUTO_SYNC_MARKER = "1"
+
     private const val INITIAL_BODY_BUFFER = 64 * 1024
     private const val BODY_CHUNK = 16 * 1024
 

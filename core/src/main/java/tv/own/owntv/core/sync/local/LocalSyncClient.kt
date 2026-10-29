@@ -8,6 +8,7 @@ import java.net.URL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
+import tv.own.owntv.core.companion.CompanionHttpProtocol
 
 /** What the other device says about itself when asked. */
 data class RemoteDevice(
@@ -67,11 +68,50 @@ class LocalSyncClient {
             }
         }
 
-    /** Downloads the other device's export into [into]. The file is a backup container, unchanged. */
-    suspend fun fetch(address: String, port: Int, credential: String, into: File): Result<File> =
+    /**
+     * Asks the device at [address] to allow automatic sync, and waits for the person there to
+     * answer.
+     *
+     * The answer belongs to that person, not to a schedule: `true` means they accepted, `false`
+     * means they declined or nobody answered before the wait ran out. A device that is not hosting
+     * is not reachable at all and comes back as an [java.io.IOException], like any other missing
+     * device.
+     */
+    suspend fun requestAutoSync(address: String, port: Int, credential: String): Result<Boolean> =
         withContext(Dispatchers.IO) {
             runCatching {
-                val bytes = get(url(address, port, "/backup.own"), credential)
+                val response = post(url(address, port, "/sync/auto-sync"), credential, "ask", "text/plain")
+                JSONObject(response).optBoolean("accepted", false)
+            }
+        }
+
+    /**
+     * Tells the device at [address] that this one has stopped syncing with it automatically.
+     *
+     * Best effort by design: the answer that matters is kept where the pass is checked, so a device
+     * that is not there simply keeps a stale note until its own user clears it. Failing to deliver
+     * this must never make turning auto-sync off fail.
+     */
+    suspend fun revokeAutoSync(address: String, port: Int, credential: String): Result<Unit> =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                post(url(address, port, "/sync/auto-sync/revoke"), credential, "revoke", "text/plain")
+                Unit
+            }
+        }
+
+    /** Downloads the other device's export into [into]. The file is a backup container, unchanged. */
+    suspend fun fetch(
+        address: String,
+        port: Int,
+        credential: String,
+        into: File,
+        /** True when this is an automatic pass, so the host can check it still has a consent. */
+        autoSync: Boolean = false,
+    ): Result<File> =
+        withContext(Dispatchers.IO) {
+            runCatching {
+                val bytes = get(url(address, port, "/backup.own"), credential, autoSync)
                 if (bytes.isEmpty()) error("Empty payload")
                 into.writeBytes(bytes)
                 into
@@ -85,11 +125,18 @@ class LocalSyncClient {
      * that path is text-only by design (see `CompanionController.onBackupUploaded`). It costs a third
      * more bytes on a LAN transfer, which is a fair price for not forking the protocol.
      */
-    suspend fun send(address: String, port: Int, credential: String, file: File): Result<Unit> =
+    suspend fun send(
+        address: String,
+        port: Int,
+        credential: String,
+        file: File,
+        /** True when this is an automatic pass, so the host can check it still has a consent. */
+        autoSync: Boolean = false,
+    ): Result<Unit> =
         withContext(Dispatchers.IO) {
             runCatching {
                 val encoded = Base64.encodeToString(file.readBytes(), Base64.NO_WRAP)
-                post(url(address, port, "/backup"), credential, "data:application/octet-stream;base64,$encoded", "text/plain")
+                post(url(address, port, "/backup"), credential, "data:application/octet-stream;base64,$encoded", "text/plain", autoSync)
                 Unit
             }
         }
@@ -100,14 +147,20 @@ class LocalSyncClient {
         return URL("http://$host:$port$path")
     }
 
-    private fun get(url: URL, credential: String): ByteArray = open(url, credential).run {
+    private fun get(url: URL, credential: String, autoSync: Boolean = false): ByteArray = open(url, credential, autoSync).run {
         requestMethod = "GET"
         connectOrThrow(this)
         inputStream.use { it.readBytes() }.also { disconnect() }
     }
 
-    private fun post(url: URL, credential: String, body: String, contentType: String): String =
-        open(url, credential).run {
+    private fun post(
+        url: URL,
+        credential: String,
+        body: String,
+        contentType: String,
+        autoSync: Boolean = false,
+    ): String =
+        open(url, credential, autoSync).run {
             requestMethod = "POST"
             doOutput = true
             setRequestProperty("Content-Type", contentType)
@@ -118,13 +171,16 @@ class LocalSyncClient {
             inputStream.use { it.readBytes() }.toString(Charsets.UTF_8).also { disconnect() }
         }
 
-    private fun open(url: URL, credential: String): HttpURLConnection =
+    private fun open(url: URL, credential: String, autoSync: Boolean = false): HttpURLConnection =
         (url.openConnection() as HttpURLConnection).apply {
             connectTimeout = CONNECT_TIMEOUT_MS
             readTimeout = READ_TIMEOUT_MS
             instanceFollowRedirects = false
             // The header, not the query string: a PIN or a secret in a URL ends up in logs.
             setRequestProperty("X-Companion-Pin", credential)
+            // Not a credential: a marker. The host resolves who is calling from the secret above and
+            // refuses the request if that device has not accepted automatic sync.
+            if (autoSync) setRequestProperty(CompanionHttpProtocol.AUTO_SYNC_HEADER, CompanionHttpProtocol.AUTO_SYNC_MARKER)
         }
 
     private fun connectOrThrow(connection: HttpURLConnection) {
