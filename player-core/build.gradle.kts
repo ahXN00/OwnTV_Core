@@ -19,7 +19,7 @@ android {
     }
 
     defaultConfig {
-        minSdk = 26
+        minSdk = 25
         consumerProguardFiles("consumer-rules.pro")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -37,6 +37,7 @@ android {
     }
 
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -83,6 +84,8 @@ publishing {
 }
 
 dependencies {
+    // java.time / java.util.Base64 are API 26+; desugared so Android 7.1 (Fire OS 6) can run them.
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
     // The engine reads settings, playback preferences and DB entities, and reports into core's
     // hooks. The arrow points this way only: :core never sees :player-core.
     implementation(project(":core"))

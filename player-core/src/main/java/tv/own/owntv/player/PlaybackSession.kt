@@ -10,6 +10,7 @@ import android.media.AudioManager
 import android.media.MediaMetadata
 import android.media.session.MediaSession
 import android.media.session.PlaybackState
+import android.os.Build
 import android.view.KeyEvent
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CoroutineScope
@@ -363,7 +364,8 @@ class PlaybackSession(
         runCatching { context.unregisterReceiver(noisyReceiver) }
     }
 
-    private val focusRequest by lazy {
+    @androidx.annotation.RequiresApi(Build.VERSION_CODES.O)
+    private fun buildFocusRequest(): AudioFocusRequest =
         AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
             .setAudioAttributes(
                 AudioAttributes.Builder()
@@ -377,14 +379,23 @@ class PlaybackSession(
             .setWillPauseWhenDucked(focusPolicy == FocusPolicy.PAUSE)
             .setOnAudioFocusChangeListener(focusListener)
             .build()
-    }
+
+    // AudioFocusRequest is API 26+; Android 7.x (Fire OS 6) uses the stream-based API instead.
+    private val focusRequest by lazy { if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) buildFocusRequest() else null }
 
     private fun requestFocus() {
         if (hasFocus) return
         // An engine playing somewhere else is making no sound here, so there is nothing to hold focus
         // for — and holding it would duck or lock out every other app on this device for nothing.
         if (engine?.playsLocally == false) return
-        val granted = runCatching { audioManager.requestAudioFocus(focusRequest) }
+        val granted = runCatching {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                audioManager.requestAudioFocus(focusRequest!!)
+            } else {
+                @Suppress("DEPRECATION")
+                audioManager.requestAudioFocus(focusListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)
+            }
+        }
             .getOrDefault(AudioManager.AUDIOFOCUS_REQUEST_FAILED) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED
         // A refusal is not a reason to refuse to play: some TV builds deny focus to background-capable
         // apps and playing silently-unmanaged is still better than not playing.
@@ -394,7 +405,14 @@ class PlaybackSession(
     private fun abandonFocus() {
         if (!hasFocus) return
         hasFocus = false
-        runCatching { audioManager.abandonAudioFocusRequest(focusRequest) }
+        runCatching {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                audioManager.abandonAudioFocusRequest(focusRequest!!)
+            } else {
+                @Suppress("DEPRECATION")
+                audioManager.abandonAudioFocus(focusListener)
+            }
+        }
     }
 
     // --- Ducking ----------------------------------------------------------------------------------

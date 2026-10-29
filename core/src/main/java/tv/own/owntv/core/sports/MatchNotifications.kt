@@ -45,6 +45,8 @@ class MatchNotifications(private val context: Context, private val localeStore: 
     /** (Re)creates the channels in the app's language; Android keeps the user's per-channel choices. */
     fun ensureChannels(l: Context = localized()) {
         val manager = context.getSystemService(NotificationManager::class.java) ?: return
+        // Notification channels exist only from Android 8 (API 26); on 7.x notifications work without them.
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
         manager.createNotificationChannels(
             listOf(
                 NotificationChannel(CHANNEL_GOALS, l.getString(R.string.sports_channel_goal_alerts), NotificationManager.IMPORTANCE_HIGH),

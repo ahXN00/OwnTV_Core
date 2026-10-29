@@ -93,6 +93,8 @@ internal object EpgSyncNotifications {
 
     private fun ensureChannel(context: Context, localized: Context) {
         val manager = context.getSystemService(NotificationManager::class.java) ?: return
+        // Notification channels exist only from Android 8 (API 26); on 7.x notifications work without them.
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
         val effectiveLocale = localized.resources.configuration.locales[0]?.toLanguageTag().orEmpty()
         val key = "$effectiveLocale:${localized.getString(R.string.common_nav_guide)}"
         if (key == lastChannelLocaleKey) return
