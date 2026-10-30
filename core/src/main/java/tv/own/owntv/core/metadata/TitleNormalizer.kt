@@ -48,6 +48,11 @@ object TitleNormalizer {
     // real-word codes (IT, US) are deliberately excluded.
     private val TRAILING_LANG_TAG = Regex("""\s+(?:FR|EN|DE|ES|PT|NL|PL|TR|AR|RU|LAT|SUB|DUB|MULTI)$""")
 
+    // Trailing upper-case cinema-recording tag after a dash ("Tum Mere Ho - CAM", "Film - HDTS"): a bare
+    // "CAM" is not a QUALITY_MARKER because it is a real word ("Cam", "Cam Girl"), so only the
+    // dash-separated, upper-case form at the very end is treated as a tag.
+    private val TRAILING_RELEASE_TAG = Regex("""\s+[-–—]\s+(?:CAM|TS|HDTS|TC|PRE-?DVD)$""")
+
     // A 4-digit year, optionally in parens/brackets: (2021), [1999], 2015.
     private val YEAR = Regex("""[\[(]?\b(19\d{2}|20\d{2})\b[\])]?""")
 
@@ -78,7 +83,10 @@ object TitleNormalizer {
         // 3b. Peel trailing season/episode tails and language tags (repeatedly — "Show S01 FR"),
         //     but never down to an empty query (a title that IS just "S01E01" stays as-is).
         val beforeTails = s
-        do { prev = s; s = s.trimEnd().replace(SEASON_EPISODE_TAIL, "").replace(TRAILING_LANG_TAG, "") } while (s != prev)
+        do {
+            prev = s
+            s = s.trimEnd().replace(SEASON_EPISODE_TAIL, "").replace(TRAILING_LANG_TAG, "").replace(TRAILING_RELEASE_TAG, "")
+        } while (s != prev)
         if (s.isBlank()) s = beforeTails
 
         // 4. Collapse separators/whitespace and trim edge junk.
