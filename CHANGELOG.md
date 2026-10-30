@@ -11,7 +11,7 @@
 
 ## core-1.0.70 — unreleased
 
-**Database v52 · Backup: two new playlist fields**
+**Database v52 · Backup v26 · Backup: two new playlist fields · Moved items keep their place**
 
 ### ✨ New features
 
@@ -30,6 +30,9 @@
 
 ### 🐛 Fixes
 
+- **🗑️ Delete confirmation strings for downloads and recordings**
+- **↕️ A Move keeps only the moved items' positions; A–Z sorts everything else (TV #312)**
+- **🔁 Older saved list orders are dropped once, Favorites kept**
 - **TV guide sync up to 14× faster: adding a guide takes minutes, not a quarter of an hour**
 - **M3U entries the playlist now tags as films or series leave Live TV** (community PR #36 by @Kevsosmooth)
 - **M3U download retried once after a dropped connection** (community PR #44 by @Kevsosmooth)

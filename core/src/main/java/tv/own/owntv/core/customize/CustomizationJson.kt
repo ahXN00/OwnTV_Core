@@ -15,7 +15,9 @@ internal object CustomizationJson {
                 hiddenItems = o.optJSONObject("hiddenItems").toStringMap(),
                 categoryNames = o.optJSONObject("catNames").toStringMap(),
                 itemNames = o.optJSONObject("itemNames").toStringMap(),
-                categoryOrder = o.optJSONArray("catOrder").toStringList(),
+                // An older "catOrder" list held every category of the rail, so nothing could follow the
+                // sort chip; it is dropped and only moves made from now on keep a position.
+                categoryPositions = o.optJSONObject("catPos").toIntMap(),
                 epgMatches = o.optJSONObject("epgMatch").toStringMap(),
                 epgShifts = o.optJSONObject("epgShift").toStringMap(),
                 customCategories = o.optJSONArray("customCats").toCustomCategories(),
@@ -30,7 +32,7 @@ internal object CustomizationJson {
         put("hiddenItems", JSONObject(c.hiddenItems as Map<*, *>))
         put("catNames", JSONObject(c.categoryNames as Map<*, *>))
         put("itemNames", JSONObject(c.itemNames as Map<*, *>))
-        put("catOrder", JSONArray(c.categoryOrder))
+        put("catPos", JSONObject(c.categoryPositions as Map<*, *>))
         put("epgMatch", JSONObject(c.epgMatches as Map<*, *>))
         put("epgShift", JSONObject(c.epgShifts as Map<*, *>))
         put("movedFrom", JSONObject(c.movedFromOrigin as Map<*, *>))
@@ -52,6 +54,13 @@ internal object CustomizationJson {
         if (this == null) return emptyMap()
         val out = HashMap<String, String>()
         keys().forEach { k -> out[k] = getString(k) }
+        return out
+    }
+
+    private fun JSONObject?.toIntMap(): Map<String, Int> {
+        if (this == null) return emptyMap()
+        val out = HashMap<String, Int>()
+        keys().forEach { k -> out[k] = getInt(k) }
         return out
     }
 
