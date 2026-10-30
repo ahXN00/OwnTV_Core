@@ -123,7 +123,17 @@ class CatalogSyncScheduler(private val context: Context) {
         android.util.Log.i("ConnectionMeasurement", "measurement enqueued sourceId=$sourceId")
     }
 
-    fun enqueueCatalogBackfill(sourceId: Long, initialDelayMinutes: Long = 0) {
+    /**
+     * [policy] KEEP never stacks a second drain on a pending one. A drain rescheduling *itself* must
+     * not use it: its own run is still unfinished work under the same name, so KEEP drops the request
+     * and the drain stops for good after its first pause. It passes APPEND_OR_REPLACE instead, which
+     * queues the next pass behind the one ending.
+     */
+    fun enqueueCatalogBackfill(
+        sourceId: Long,
+        initialDelayMinutes: Long = 0,
+        policy: ExistingWorkPolicy = ExistingWorkPolicy.KEEP,
+    ) {
         val request = OneTimeWorkRequestBuilder<CatalogBackfillWorker>()
             .setInputData(workDataOf(CatalogBackfillWorker.KEY_SOURCE_ID to sourceId))
             .setConstraints(
@@ -141,12 +151,12 @@ class CatalogSyncScheduler(private val context: Context) {
             .build()
         WorkManager.getInstance(context).enqueueUniqueWork(
             CatalogBackfillWorker.workName(sourceId),
-            ExistingWorkPolicy.KEEP,
+            policy,
             request,
         )
         android.util.Log.i(
             "CatalogBackfillWorker",
-            "backfill enqueued sourceId=$sourceId delayMinutes=$initialDelayMinutes",
+            "backfill enqueued sourceId=$sourceId delayMinutes=$initialDelayMinutes policy=$policy",
         )
     }
 
