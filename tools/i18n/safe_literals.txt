@@ -947,11 +947,15 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	syncMovies
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	syncSeries
 1	sql	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	vodEnginePreference
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CatalogBackfillDao.kt	(SELECT COUNT(*) FROM series WHERE sourceId IN (:sourceIds) AND sourceId IN
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CatalogBackfillDao.kt	(SELECT sourceId FROM catalog_backfill WHERE done = 0))
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CatalogBackfillDao.kt	(SELECT sourceId FROM catalog_backfill WHERE done = 0)) +
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CatalogBackfillDao.kt	AND categoryRemoteId = :categoryRemoteId
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CatalogBackfillDao.kt	AND done = 0 ORDER BY sortBase ASC
 3	sql	core/src/main/java/tv/own/owntv/core/database/dao/CatalogBackfillDao.kt	AND mediaType = :mediaType AND categoryRemoteId = :categoryRemoteId
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CatalogBackfillDao.kt	DELETE FROM catalog_backfill WHERE sourceId = :sourceId AND mediaType = :mediaType
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CatalogBackfillDao.kt	ORDER BY sortBase ASC
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CatalogBackfillDao.kt	SELECT (SELECT COUNT(*) FROM movies WHERE sourceId IN (:sourceIds) AND sourceId IN
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CatalogBackfillDao.kt	SELECT * FROM catalog_backfill WHERE categoryDbId = :categoryDbId LIMIT 1
 3	sql	core/src/main/java/tv/own/owntv/core/database/dao/CatalogBackfillDao.kt	SELECT * FROM catalog_backfill WHERE sourceId = :sourceId AND mediaType = :mediaType
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CatalogBackfillDao.kt	SELECT COALESCE(SUM(totalItems), 0) FROM catalog_backfill WHERE sourceId = :sourceId AND mediaType = :mediaType
@@ -4869,6 +4873,7 @@
 1	technical	core/src/main/java/tv/own/owntv/core/sync/work/CatalogBackfillWorker.kt	catalog-backfill
 1	technical	core/src/main/java/tv/own/owntv/core/sync/work/CatalogBackfillWorker.kt	catalog-backfill-source-$sourceId
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogBackfillWorker.kt	failedCategories=${outcome.failedCategories} paused=${outcome.paused}
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogBackfillWorker.kt	mid-backfill trending enqueue failed sourceId=$sourceId
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogBackfillWorker.kt	pending=${outcome.pendingCategories}
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogBackfillWorker.kt	post-backfill index refresh failed sourceId=$sourceId
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogBackfillWorker.kt	post-backfill trending enqueue failed sourceId=$sourceId
@@ -4887,7 +4892,6 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncScheduler.kt	trending-source-$sourceId
 1	technical	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	Cancelled
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	CatalogSyncWorker
-1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	Catalogue completeness read failed sourceId=${source.id}; skip enqueue
 1	technical	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	Failed
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	Guide gap fill failed sourceId=${source.id}
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/CatalogSyncWorker.kt	Guide gap fill sourceId=${source.id} channels=$it ms=${SystemClock.elapsedRealtime() - gapFillStartedAt}

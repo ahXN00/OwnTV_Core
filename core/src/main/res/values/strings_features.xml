@@ -129,6 +129,13 @@
     <string name="launcher_movie_type">Movie</string>
     <!-- Translators: Episode number display for the Android TV home screen. "episode" is the episode number. -->
     <string name="launcher_episode_number">Episode <xliff:g id="episode">%1$d</xliff:g></string>
+    <!-- Translators: Home banner while a large playlist keeps loading in the background after setup. "count" is the number of movies and series stored so far, already formatted (e.g. "34,120"). -->
+    <plurals name="home_library_loading">
+        <item quantity="one">Loading your library · <xliff:g id="count">%1$s</xliff:g> title so far</item>
+        <item quantity="other">Loading your library · <xliff:g id="count">%1$s</xliff:g> titles so far</item>
+    </plurals>
+    <!-- Translators: Second line of the Home loading banner when the Now Trending row is not showing yet. -->
+    <string name="home_library_loading_trending">Now Trending appears as it fills in.</string>
     <!-- Translators: Empty-state message on the Home screen when nothing is available to preview. -->
     <string name="home_no_preview">Nothing to preview yet.</string>
     <!-- Translators: Empty-state message when all Home rows are hidden. -->

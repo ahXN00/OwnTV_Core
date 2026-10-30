@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 import tv.own.owntv.core.database.entity.CatalogBackfillEntity
 import tv.own.owntv.core.model.MediaType
 
@@ -96,6 +97,20 @@ interface CatalogBackfillDao {
      */
     @Query("SELECT COUNT(*) FROM catalog_backfill WHERE sourceId = :sourceId AND done = 0")
     suspend fun pendingCountForSource(sourceId: Long): Int
+
+    /**
+     * Titles stored so far for whichever of [sourceIds] are still filling in, or 0 when none is — what
+     * Home shows while a lazily-added catalogue drains, so a part-filled library reads as loading rather
+     * than broken. A count, not a percentage: the portal's per-category totals count a title once per
+     * category it is listed in, so a percentage against them stalls short of 100 on a whole catalogue.
+     */
+    @Query(
+        "SELECT (SELECT COUNT(*) FROM movies WHERE sourceId IN (:sourceIds) AND sourceId IN " +
+            "(SELECT sourceId FROM catalog_backfill WHERE done = 0)) + " +
+            "(SELECT COUNT(*) FROM series WHERE sourceId IN (:sourceIds) AND sourceId IN " +
+            "(SELECT sourceId FROM catalog_backfill WHERE done = 0))",
+    )
+    fun observeTitlesWhileFilling(sourceIds: List<Long>): Flow<Int>
 
     /** The phase's reconciliation target: the sum of the portal's own per-category totals. */
     @Query("SELECT COALESCE(SUM(totalItems), 0) FROM catalog_backfill WHERE sourceId = :sourceId AND mediaType = :mediaType")
