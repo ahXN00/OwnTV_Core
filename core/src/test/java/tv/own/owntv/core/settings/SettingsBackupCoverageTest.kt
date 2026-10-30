@@ -97,4 +97,14 @@ class SettingsBackupCoverageTest {
         // Current keys are always exported.
         assertTrue(BackupKeys.exports(Keys.MULTIVIEW_ENABLED, mutablePreferencesOf()))
     }
+
+    @Test
+    fun `the Live TV category switches are backed up and restored (TV #322)`() {
+        // Export and import both iterate BackupKeys.bools.
+        listOf(Keys.LIVE_SHOW_ALL_RAIL to "live_show_all_rail", Keys.LIVE_SHOW_CATCHUP_RAIL to "live_show_catchup_rail").forEach { (key, name) ->
+            assertTrue(key.name in BackupKeys.bools.map { it.name })
+            assertTrue(BackupKeys.exports(key, mutablePreferencesOf(key to false)))
+            assertEquals(name, key.name)
+        }
+    }
 }
