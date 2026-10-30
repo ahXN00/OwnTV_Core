@@ -107,7 +107,7 @@ class BackupManager(
             val seal: ((String) -> JSONObject)? = key?.let { k -> { plain -> BackupCrypto.encrypt(k, plain) } }
 
             val root = JSONObject().apply {
-                put("version", 25) // v25: "sportsConfigs" — each profile's Settings → Sports blob ({ "<profileId>": { ... } }: followed leagues and teams, filters, alerts, remembered channels by portable name); a file without it restores with the defaults. v24: "preferredLanguages" — each profile's preferred audio/subtitle language ({ "<profileId>": { "a", "s" } }); the shared pref_audio_lang/pref_sub_lang settings stay as the fallback for a profile with no entry. v23: "playbackQuirks" — what a stream needs, shared by every profile (sound-only marks and audio delays; the engine pins stay in compatMode so older readers still get them), and playbackPrefs carry the remembered track languages ("al"/"sl"). A playbackPrefs "d" from an older file restores into the shared delay. v22: sources carry the measured stream limit (maxConnections + maxConnectionsProbedAt), because measuring it costs minutes and interrupts playback and the answer belongs to the account, not the device. v21: "tombstones" — the user data the user DELETED, so a merge (restore or local sync) does not reinstate it. Older readers ignore the block and behave exactly as they do today. v20: playbackPrefs carry the per-item A/V-sync offset. v19: sources carry the per-playlist Live TV engine and Live latency overrides. v18: per-profile specific-channel startup targets. v17: startupModes/customizePins moved SOURCES→SETTINGS (readers accept both); PIN hashes and legacy URL-shaped player keys are encrypted-only; sources carry preferHls/livePrerollSecs/hlsSupported; source-keyed blocks scoped to the ticked profiles' sources. v16: optional Stalker serial/device IDs/signature. v15: custom category membership rides userData as kind "member"; customCategories blobs pass through unremapped. v14: .own container (wallpaper rides along). v13: sources.syncLive/Movies/Series. v12: per-profile OpenSubtitles login (encrypted-only). v11: profile-scoped export. v10: sources.mac. v9: custom TMDB names, encrypted TMDB key
+                put("version", 26) // v26: a Move keeps only the moved items' positions (customizations "catPos" for categories, userData "order" rows for items); older files saved every item of a list, so their folder item orders and category orders ("catOrder") are dropped on import, Favorites kept. v25: "sportsConfigs" — each profile's Settings → Sports blob ({ "<profileId>": { ... } }: followed leagues and teams, filters, alerts, remembered channels by portable name); a file without it restores with the defaults. v24: "preferredLanguages" — each profile's preferred audio/subtitle language ({ "<profileId>": { "a", "s" } }); the shared pref_audio_lang/pref_sub_lang settings stay as the fallback for a profile with no entry. v23: "playbackQuirks" — what a stream needs, shared by every profile (sound-only marks and audio delays; the engine pins stay in compatMode so older readers still get them), and playbackPrefs carry the remembered track languages ("al"/"sl"). A playbackPrefs "d" from an older file restores into the shared delay. v22: sources carry the measured stream limit (maxConnections + maxConnectionsProbedAt), because measuring it costs minutes and interrupts playback and the answer belongs to the account, not the device. v21: "tombstones" — the user data the user DELETED, so a merge (restore or local sync) does not reinstate it. Older readers ignore the block and behave exactly as they do today. v20: playbackPrefs carry the per-item A/V-sync offset. v19: sources carry the per-playlist Live TV engine and Live latency overrides. v18: per-profile specific-channel startup targets. v17: startupModes/customizePins moved SOURCES→SETTINGS (readers accept both); PIN hashes and legacy URL-shaped player keys are encrypted-only; sources carry preferHls/livePrerollSecs/hlsSupported; source-keyed blocks scoped to the ticked profiles' sources. v16: optional Stalker serial/device IDs/signature. v15: custom category membership rides userData as kind "member"; customCategories blobs pass through unremapped. v14: .own container (wallpaper rides along). v13: sources.syncLive/Movies/Series. v12: per-profile OpenSubtitles login (encrypted-only). v11: profile-scoped export. v10: sources.mac. v9: custom TMDB names, encrypted TMDB key
                 put("sections", JSONArray().apply { sections.forEach { put(it.name) } })
                 if (salt != null) put("crypto", BackupCrypto.cryptoBlock(salt))
                 // Ticked profiles always ride (backup is profile-based); restore needs SOURCES to apply them.
@@ -717,6 +717,7 @@ class BackupManager(
             }
 
             val kinds = kindsFor(sections)
+            val fileVersion = root.optInt("version", 0)
             val counts = HashMap<String, Int>()
             var deletions = 0
             if (kinds.isNotEmpty()) {
@@ -725,6 +726,7 @@ class BackupManager(
                         val e = arr.getJSONObject(i)
                         val kind = e.optString("kind")
                         if (kind !in kinds) continue
+                        if (isOldListOrder(e, fileVersion)) continue
                         val pid = profileIdByFileId[e.optLong("p", -1)] ?: continue
                         sourceIdByFileId[e.optLong("src", -1)]?.let { e.put("src", it) }
                         if (!userData.wouldAdd(pid, kind, e)) continue
@@ -1135,7 +1137,7 @@ class BackupManager(
                 // are recorded here, so the very next step cannot re-insert what this one removed.
                 root.optJSONArray("tombstones")?.let { userData.applyTombstones(remapUserData(it)) }
                 root.optJSONArray("userData")?.let { arr ->
-                    val filtered = remapUserData(arr)
+                    val filtered = remapUserData(arr).withoutOldListOrders(fileVersion)
                     // Refused records were dropped for good, not queued — counting them is what let a
                     // restore report "N items restored" having reinstated none of them.
                     val refused = userData.importAll(filtered)
@@ -1818,6 +1820,23 @@ internal fun remapContentContextKey(contextKey: String, sourceIdMap: Map<Long, L
  * verbatim. The `customCats` array holds OBJECTS (id/name/icon) rather than strings, so the array
  * branch handles both element kinds; without this the whole blob fell back unremapped.
  */
+/**
+ * True for a manual item order from a file older than v26. Those files saved the whole list on every Move, so
+ * each item would keep a fixed place and the sort chip could never sort the list again; they are dropped and
+ * the list starts from the playlist's order. Favorites has no sort chip, so its order is kept.
+ */
+internal fun isOldListOrder(record: JSONObject, fileVersion: Int): Boolean =
+    fileVersion < 26 && record.optString("kind") == "order" &&
+        record.optString("ctx") != tv.own.owntv.core.database.entity.ContentOrderEntity.FAV_CONTEXT
+
+/** [this] without the records [isOldListOrder] drops. */
+internal fun JSONArray.withoutOldListOrders(fileVersion: Int): JSONArray {
+    if (fileVersion >= 26) return this
+    val out = JSONArray()
+    for (i in 0 until length()) optJSONObject(i)?.let { if (!isOldListOrder(it, fileVersion)) out.put(it) }
+    return out
+}
+
 internal fun remapCustomizationValue(raw: String, sourceIdMap: Map<Long, Long>): String {
     if (sourceIdMap.isEmpty()) return raw
     fun remapContentKey(k: String): String {

@@ -7,6 +7,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import tv.own.owntv.core.database.entity.ContentOrderEntity
+import tv.own.owntv.core.customize.pinnedAfterMove
 import tv.own.owntv.core.model.MediaType
 
 /**
@@ -34,10 +35,35 @@ interface ContentOrderDao {
         if (rows.isNotEmpty()) insertAll(rows)
     }
 
+    /**
+     * Saves a Move of one list: [order] is the list as the move left it, [carried] the items the user
+     * moved. Only those and the items moved before keep a position — the rest go on following the sort
+     * chip around them (see `placePinned`). Favorites has no sort chip, so its whole order is kept.
+     */
+    @Transaction
+    suspend fun saveMove(profileId: Long, type: MediaType, contextKey: String, order: List<Long>, carried: Set<Long>) {
+        val positions =
+            if (contextKey == ContentOrderEntity.FAV_CONTEXT) order.withIndex().associate { (i, id) -> id to i }
+            else pinnedAfterMove(order, movedItemIds(profileId, type, contextKey).toSet(), carried)
+        replaceContext(
+            profileId, type, contextKey,
+            positions.map { (id, pos) -> ContentOrderEntity(profileId = profileId, mediaType = type, contextKey = contextKey, itemId = id, position = pos) },
+        )
+    }
+
+    /** Drops every list order except [keep] (Favorites). Run once: orders saved by older versions held every
+     *  item of the list, so nothing in it could follow the sort chip. */
+    @Query("DELETE FROM content_order WHERE contextKey != :keep")
+    suspend fun dropListOrdersExcept(keep: String)
+
     /** Everything, for Backup & Restore / re-sync snapshotting. */
     /** Does this row already exist? The dry run before a sync counts what is genuinely new. */
     @Query("SELECT EXISTS(SELECT 1 FROM content_order WHERE profileId = :profileId AND mediaType = :type AND contextKey = :contextKey AND itemId = :itemId)")
     suspend fun exists(profileId: Long, type: MediaType, contextKey: String, itemId: Long): Boolean
+
+    /** The items of one list that the user moved by hand (they keep a saved position). */
+    @Query("SELECT itemId FROM content_order WHERE profileId = :profileId AND mediaType = :type AND contextKey = :contextKey")
+    suspend fun movedItemIds(profileId: Long, type: MediaType, contextKey: String): List<Long>
 
     @Query("SELECT * FROM content_order")
     suspend fun getAllOnce(): List<ContentOrderEntity>

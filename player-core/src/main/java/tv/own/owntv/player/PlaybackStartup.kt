@@ -3,7 +3,10 @@ package tv.own.owntv.player
 import android.content.Context
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.koin.core.context.GlobalContext
 import tv.own.owntv.core.CoreBuildInfo
+import tv.own.owntv.core.database.dao.ContentOrderDao
+import tv.own.owntv.core.database.entity.ContentOrderEntity
 import tv.own.owntv.core.settings.SettingsRepository
 import tv.own.owntv.core.timeshift.TimeshiftStorage
 
@@ -36,6 +39,16 @@ object PlaybackStartup {
             }
         }
         scope.launch { settings.runOneTimeMigrations() }
+        // Once: list orders saved by older versions held every item of the list, so the sort chip could not
+        // sort it. They are dropped (Favorites kept); the lists start again from the playlist's order.
+        scope.launch {
+            runCatching {
+                if (!settings.listOrdersReset()) {
+                    GlobalContext.get().get<ContentOrderDao>().dropListOrdersExcept(ContentOrderEntity.FAV_CONTEXT)
+                    settings.markListOrdersReset()
+                }
+            }
+        }
         // Timeshift buffers never outlive the run that wrote them.
         scope.launch { TimeshiftStorage.clearAll(context) }
     }

@@ -372,6 +372,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val LIVE_LATENCY_RESET_416 = booleanPreferencesKey("live_latency_reset_416")
         // Stage (2026-09-30): moved a saved System Sans to Plus Jakarta Sans once. Device-local, never backed up.
         val FONT_JAKARTA_MIGRATED = booleanPreferencesKey("font_jakarta_migrated")
+        val LIST_ORDERS_RESET = booleanPreferencesKey("list_orders_reset")
         // Stage (2026-10-02): the TV app's new-UI defaults written once (applyStageDefaults). Device-local.
         val STAGE_DEFAULTS_APPLIED = booleanPreferencesKey("stage_defaults_applied")
         val PREFER_SDR = booleanPreferencesKey("prefer_sdr")
@@ -2778,6 +2779,13 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         runCatching { migrateAutoFrameRatePre12() }
         runCatching { migrateLiveLatency416() }
         runCatching { migrateSystemSansToJakarta() }
+    }
+
+    /** Whether the one-time drop of old list orders (see `ContentOrderDao.dropListOrdersExcept`) has run. */
+    suspend fun listOrdersReset(): Boolean = context.dataStore.data.first()[Keys.LIST_ORDERS_RESET] == true
+
+    suspend fun markListOrdersReset() {
+        context.dataStore.edit { it[Keys.LIST_ORDERS_RESET] = true }
     }
 
     /**

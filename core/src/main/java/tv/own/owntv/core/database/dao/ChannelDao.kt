@@ -291,26 +291,21 @@ interface ChannelDao {
     @Query("SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1 ORDER BY sourceId ASC, sortOrder ASC, name ASC")
     fun pagingCatchupOriginal(sourceIds: List<Long>): PagingSource<Int, ChannelEntity>
 
-    // --- Manual order (Move) — LEFT JOIN content_order; items with a row come first in their saved
-    //     position, the rest fall back to provider/playlist order. ---
+    // --- Manual order (Move) — LEFT JOIN content_order; a row with a saved position keeps it, the rest
+    //     follow A–Z or the provider/playlist order around it. ---
+    /** Moved rows keep their saved position; the rest follow [alpha] (A–Z) or the playlist order
+     *  around them — the same rule as `placePinned` for categories. */
     @Query(
-        "SELECT c.* FROM channels c " +
+            "WITH base AS (SELECT c.id AS id, c.sortOrder AS so, c.name AS nm, 0 AS mp, o.position AS pos " +
+            "FROM channels c " +
             "LEFT JOIN content_order o ON o.itemId = c.id AND o.profileId = :profileId AND o.mediaType = 'LIVE' AND o.contextKey = :contextKey " +
-            "WHERE c.categoryId = :categoryId " +
-            "ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, c.sortOrder, c.name",
+            "WHERE c.categoryId = :categoryId), " +
+            "slots AS (SELECT id, pos - (ROW_NUMBER() OVER (ORDER BY pos, id) - 1) AS slot, 0 AS grp, pos AS tie FROM base WHERE pos IS NOT NULL " +
+            "UNION ALL SELECT id, ROW_NUMBER() OVER (ORDER BY CASE WHEN :alpha THEN nm END, mp, so, nm) - 1 AS slot, 1 AS grp, 0 AS tie FROM base WHERE pos IS NULL) " +
+            "SELECT c.* FROM channels c INNER JOIN slots sl ON sl.id = c.id ORDER BY sl.slot, sl.grp, sl.tie",
     )
-    fun pagingByCategoryManual(categoryId: Long, profileId: Long, contextKey: String): PagingSource<Int, ChannelEntity>
+    fun pagingByCategoryManual(categoryId: Long, profileId: Long, contextKey: String, alpha: Boolean): PagingSource<Int, ChannelEntity>
 
-    /** A–Z variant of [pagingByCategoryManual]: manually placed channels keep their saved position,
-     *  the rest sort by name instead of falling back to provider order — the same "manual order wins,
-     *  the rest goes A–Z" convention the folder list itself uses (see `alphaRest`). */
-    @Query(
-        "SELECT c.* FROM channels c " +
-            "LEFT JOIN content_order o ON o.itemId = c.id AND o.profileId = :profileId AND o.mediaType = 'LIVE' AND o.contextKey = :contextKey " +
-            "WHERE c.categoryId = :categoryId " +
-            "ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, c.name",
-    )
-    fun pagingByCategoryManualAlpha(categoryId: Long, profileId: Long, contextKey: String): PagingSource<Int, ChannelEntity>
 
     @Query(
         "SELECT c.* FROM channels c " +
@@ -321,14 +316,18 @@ interface ChannelDao {
     )
     fun pagingFavoritesManual(profileId: Long, contextKey: String, sourceIds: List<Long>): PagingSource<Int, ChannelEntity>
 
-    /** Bounded snapshot of a folder in manual order, for the Move session's in-memory reorder. */
+    /** Bounded snapshot of a folder in manual order, for the Move session's in-memory reorder. Moved rows keep their saved position; the rest follow
+     *  [alpha] (A–Z) or the playlist order around them. */
     @Query(
-        "SELECT c.* FROM channels c " +
+            "WITH base AS (SELECT c.id AS id, c.sortOrder AS so, c.name AS nm, 0 AS mp, o.position AS pos " +
+            "FROM channels c " +
             "LEFT JOIN content_order o ON o.itemId = c.id AND o.profileId = :profileId AND o.mediaType = 'LIVE' AND o.contextKey = :contextKey " +
-            "WHERE c.categoryId = :categoryId " +
-            "ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, c.sortOrder, c.name LIMIT :limit",
+            "WHERE c.categoryId = :categoryId), " +
+            "slots AS (SELECT id, pos - (ROW_NUMBER() OVER (ORDER BY pos, id) - 1) AS slot, 0 AS grp, pos AS tie FROM base WHERE pos IS NOT NULL " +
+            "UNION ALL SELECT id, ROW_NUMBER() OVER (ORDER BY CASE WHEN :alpha THEN nm END, mp, so, nm) - 1 AS slot, 1 AS grp, 0 AS tie FROM base WHERE pos IS NULL) " +
+            "SELECT c.* FROM channels c INNER JOIN slots sl ON sl.id = c.id ORDER BY sl.slot, sl.grp, sl.tie LIMIT :limit",
     )
-    suspend fun snapshotByCategoryManual(categoryId: Long, profileId: Long, contextKey: String, limit: Int): List<ChannelEntity>
+    suspend fun snapshotByCategoryManual(categoryId: Long, profileId: Long, contextKey: String, alpha: Boolean, limit: Int): List<ChannelEntity>
 
     /** Bounded snapshot across all of a profile's playlists, in provider order — the in-player zap /
      *  channel-list fallback for a channel that has no category of its own. */
