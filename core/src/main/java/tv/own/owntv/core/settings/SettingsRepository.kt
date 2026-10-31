@@ -621,6 +621,9 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val REMEMBER_CAT_LIVE = booleanPreferencesKey("remember_cat_live")
         val REMEMBER_CAT_MOVIES = booleanPreferencesKey("remember_cat_movies")
         val REMEMBER_CAT_SERIES = booleanPreferencesKey("remember_cat_series")
+        // Live TV rail: show the built-in All channels / Catch-up entries (TV #322). Default ON = today's rail.
+        val LIVE_SHOW_ALL_RAIL = booleanPreferencesKey("live_show_all_rail")
+        val LIVE_SHOW_CATCHUP_RAIL = booleanPreferencesKey("live_show_catchup_rail")
         val LAST_MOVIES_CATEGORY = stringPreferencesKey("last_movies_category")
         val LAST_SERIES_CATEGORY = stringPreferencesKey("last_series_category")
 
@@ -803,6 +806,16 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     val rememberCategorySeries: Flow<Boolean> = prefsFlow { it[Keys.REMEMBER_CAT_SERIES] ?: true }
     suspend fun setRememberCategorySeries(enabled: Boolean) {
         context.dataStore.edit { it[Keys.REMEMBER_CAT_SERIES] = enabled }
+    }
+
+    // --- Built-in Live TV rail entries (default ON each — today's rail). ---
+    val liveShowAllRail: Flow<Boolean> = prefsFlow { it[Keys.LIVE_SHOW_ALL_RAIL] ?: true }
+    suspend fun setLiveShowAllRail(enabled: Boolean) {
+        context.dataStore.edit { it[Keys.LIVE_SHOW_ALL_RAIL] = enabled }
+    }
+    val liveShowCatchupRail: Flow<Boolean> = prefsFlow { it[Keys.LIVE_SHOW_CATCHUP_RAIL] ?: true }
+    suspend fun setLiveShowCatchupRail(enabled: Boolean) {
+        context.dataStore.edit { it[Keys.LIVE_SHOW_CATCHUP_RAIL] = enabled }
     }
 
     // --- Per-section "remember last ITEM per category" (default OFF each).
@@ -3147,6 +3160,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             Keys.DNS_ENABLED,
             Keys.REMEMBER_LAST_LIVE, Keys.REMEMBER_LAST_MOVIES, Keys.REMEMBER_LAST_SERIES,
             Keys.REMEMBER_CAT_LIVE, Keys.REMEMBER_CAT_MOVIES, Keys.REMEMBER_CAT_SERIES,
+            Keys.LIVE_SHOW_ALL_RAIL, Keys.LIVE_SHOW_CATCHUP_RAIL,
             Keys.SUB_STYLE_ENABLED, Keys.SUB_SEARCH_FILTER,
                 Keys.PANEL_W_LIVE_ON, Keys.PANEL_W_MOVIES_ON, Keys.PANEL_W_SERIES_ON, Keys.GUIDE_WIDTH_ON,
             Keys.AMBIENT_GLOW_ENABLED, Keys.AMBIENT_GLOW_PULSE,
