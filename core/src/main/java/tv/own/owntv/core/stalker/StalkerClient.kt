@@ -86,6 +86,9 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
         // Epoch ms for the "Date added" sort, from Ministra's `video.added` column. Null on trimmed
         // reseller panels that omit it — the sort then falls through to playlist order.
         val addedAt: Long?,
+        // `is_series`: a show filed in the VOD module. Portals with no `type=series` module list their
+        // shows here, beside the films. (`is_movie` says nothing — such portals set it on shows too.)
+        val isSeries: Boolean = false,
     )
 
     /** One page of `get_ordered_list`: the items plus the totals needed to page through the rest. */
@@ -104,6 +107,19 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
         val seasonNumber: Int?,
         val episodes: List<Int>,
     )
+
+    /**
+     * A season of a show filed in the VOD module (`type=vod&movie_id=<show>`). Unlike [SeasonItem] it
+     * carries no episode list and no cmd: the episodes are one request further down
+     * ([getVodEpisodes]), and each episode's playable file one more ([getVodEpisodeFileCmd]).
+     */
+    data class VodSeason(val id: String, val number: Int?, val name: String?)
+
+    /** An episode row of a [VodSeason]: `series_number` is its number, `series_name` its own title. */
+    data class VodEpisode(val id: String, val number: Int?, val title: String?)
+
+    /** Where a [VodEpisode]'s file is listed: the parts of a [vodEpisodeRef]. */
+    data class VodEpisodeRef(val movieId: String, val seasonId: String, val episodeId: String)
 
     /** One programme from `get_short_epg` — times in epoch ms. */
     data class ShortEpgEntry(val title: String, val description: String?, val startMs: Long, val stopMs: Long)
@@ -431,6 +447,71 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
         return request(url, mac, token, userAgent) { readSeasonPage(it) }
     }
 
+    /** `?type=vod&action=get_ordered_list&movie_id=<show>&p=<page>` → the seasons of a VOD-filed show. */
+    open suspend fun getVodSeasons(
+        apiBase: String, mac: String, token: String, userAgent: String?, movieId: String, page: Int,
+    ): Page<VodSeason> {
+        val url = "$apiBase?type=vod&action=get_ordered_list&movie_id=${enc(movieId)}&season_id=0&episode_id=0&p=$page&JsHttpRequest=1-xml"
+        return request(url, mac, token, userAgent) { reader ->
+            readScalarPage(reader) { f ->
+                val id = f["id"]?.takeIf { it.isNotBlank() } ?: return@readScalarPage null
+                VodSeason(id, f["season_number"]?.trim()?.toIntOrNull(), (f["season_name"] ?: f["name"])?.takeIf { it.isNotBlank() })
+            }
+        }
+    }
+
+    /** `…&movie_id=<show>&season_id=<season>&p=<page>` → one page of that season's episodes. */
+    open suspend fun getVodEpisodes(
+        apiBase: String, mac: String, token: String, userAgent: String?, movieId: String, seasonId: String, page: Int,
+    ): Page<VodEpisode> {
+        val url = "$apiBase?type=vod&action=get_ordered_list&movie_id=${enc(movieId)}&season_id=${enc(seasonId)}&episode_id=0&p=$page&JsHttpRequest=1-xml"
+        return request(url, mac, token, userAgent) { reader ->
+            readScalarPage(reader) { f ->
+                val id = f["id"]?.takeIf { it.isNotBlank() } ?: return@readScalarPage null
+                VodEpisode(id, f["series_number"]?.trim()?.toIntOrNull(), f["series_name"]?.takeIf { it.isNotBlank() })
+            }
+        }
+    }
+
+    /**
+     * `…&movie_id=<show>&season_id=<season>&episode_id=<episode>` → the episode's files. Returns the
+     * first file's cmd (`/media/file_<id>.mpg`), which [createLink] turns into a URL like a film's.
+     */
+    open suspend fun getVodEpisodeFileCmd(
+        apiBase: String, mac: String, token: String, userAgent: String?, movieId: String, seasonId: String, episodeId: String,
+    ): String? {
+        val url = "$apiBase?type=vod&action=get_ordered_list&movie_id=${enc(movieId)}&season_id=${enc(seasonId)}&episode_id=${enc(episodeId)}&p=1&JsHttpRequest=1-xml"
+        val files = request(url, mac, token, userAgent) { reader -> readScalarPage(reader) { f -> f["cmd"]?.takeIf { it.isNotBlank() } } }
+        return files.items.firstOrNull()
+    }
+
+    /** A `get_ordered_list` page whose rows only need their scalar fields; [row] drops a row by returning null. */
+    private fun <T> readScalarPage(reader: JsonReader, row: (Map<String, String>) -> T?): Page<T> {
+        var total = 0
+        var maxPer = 0
+        val items = ArrayList<T>()
+        if (reader.peek() != JsonToken.BEGIN_OBJECT) { reader.skipValue(); return Page(0, 0, items) }
+        reader.beginObject()
+        while (reader.hasNext()) {
+            when (reader.nextName()) {
+                "total_items" -> total = nextIntLenient(reader) ?: 0
+                "max_page_items" -> maxPer = nextIntLenient(reader) ?: 0
+                "data" -> if (reader.peek() == JsonToken.BEGIN_ARRAY) {
+                    reader.beginArray()
+                    while (reader.hasNext()) {
+                        if (reader.peek() == JsonToken.BEGIN_OBJECT) row(readScalarFields(reader))?.let { items.add(it) } else reader.skipValue()
+                    }
+                    reader.endArray()
+                } else {
+                    reader.skipValue()
+                }
+                else -> reader.skipValue()
+            }
+        }
+        reader.endObject()
+        return Page(total, maxPer, items)
+    }
+
     private fun readSeasonPage(reader: JsonReader): Page<SeasonItem> {
         var total = 0
         var maxPer = 0
@@ -545,6 +626,7 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
             rating = (f["rating_imdb"] ?: f["rating"])?.trim()?.toDoubleOrNull()?.takeIf { it > 0 },
             categoryId = (f["category_id"] ?: f["category"])?.takeIf { it.isNotBlank() && it != "*" },
             addedAt = parseAddedAt(f["added"]),
+            isSeries = f["is_series"]?.trim().let { it == "1" || it.equals("true", ignoreCase = true) },
         )
     }
 
@@ -1088,6 +1170,24 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
          * out of the comparison only; the newest token is still stored (see [hasPlayToken]).
          */
         fun withoutPlayToken(cmd: String): String = cmd.replace(PLAY_TOKEN, "")
+
+        /**
+         * What an episode of a VOD-filed show stores as its stream URL. Such an episode has no cmd of
+         * its own until its file is listed, and that listing is a request per episode — so the
+         * listing stores where the file is, and [StreamUrlResolver] fetches it at play time.
+         */
+        fun vodEpisodeRef(movieId: String, seasonId: String, episodeId: String): String =
+            "$VOD_EPISODE_SCHEME$movieId/$seasonId/$episodeId"
+
+        /** The parts of a [vodEpisodeRef], or null for any other stored URL. */
+        fun parseVodEpisodeRef(stored: String): VodEpisodeRef? {
+            if (!stored.startsWith(VOD_EPISODE_SCHEME)) return null
+            val parts = stored.removePrefix(VOD_EPISODE_SCHEME).split('/')
+            if (parts.size != 3 || parts.any { it.isBlank() }) return null
+            return VodEpisodeRef(parts[0], parts[1], parts[2])
+        }
+
+        private const val VOD_EPISODE_SCHEME = "stalker-vod-episode://"
 
         /** True when [cmd] carries a `play_token`, so its stored copy is renewed on each re-sync. */
         fun hasPlayToken(cmd: String): Boolean = PLAY_TOKEN.containsMatchIn(cmd)

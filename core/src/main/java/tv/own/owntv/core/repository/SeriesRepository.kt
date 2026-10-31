@@ -13,6 +13,7 @@ import tv.own.owntv.core.network.HttpClient
 import tv.own.owntv.core.parser.XtreamClient
 import tv.own.owntv.core.stalker.StalkerAuthManager
 import tv.own.owntv.core.stalker.StalkerClient
+import tv.own.owntv.core.stalker.StalkerClient.StalkerAuthException
 import tv.own.owntv.core.stalker.StalkerCredentials
 import tv.own.owntv.core.stalker.stalkerCredentials
 
@@ -143,20 +144,38 @@ class SeriesRepository(
     private suspend fun fetchStalkerEpisodes(series: SeriesEntity, source: SourceEntity, remoteId: String): List<EpisodeEntity>? {
         val mac = source.mac?.let { StalkerClient.canonicalizeMac(it) } ?: return null
         val creds = source.stalkerCredentials(mac)
+        if (source.id in vodShowSources) return fetchStalkerVodEpisodes(series, mac, creds, remoteId)
         val seasons = ArrayList<StalkerClient.SeasonItem>()
-        var page = 1
-        while (page <= MAX_SEASON_PAGES) {
-            val p = stalkerAuth.withAuthRetry(creds) { session ->
-                stalkerClient.getSeriesSeasons(
-                    session.apiBase, mac, session.token, creds.userAgent,
-                    categoryId = null, movieId = remoteId, page = page,
-                )
+        try {
+            var page = 1
+            while (page <= MAX_SEASON_PAGES) {
+                val p = stalkerAuth.withAuthRetry(creds) { session ->
+                    stalkerClient.getSeriesSeasons(
+                        session.apiBase, mac, session.token, creds.userAgent,
+                        categoryId = null, movieId = remoteId, page = page,
+                    )
+                }
+                seasons += p.items
+                val maxPer = p.maxPageItems.takeIf { it > 0 } ?: p.items.size
+                val pages = if (maxPer > 0) (p.totalItems + maxPer - 1) / maxPer else 1
+                if (p.items.isEmpty() || page >= pages) break
+                page++
             }
-            seasons += p.items
-            val maxPer = p.maxPageItems.takeIf { it > 0 } ?: p.items.size
-            val pages = if (maxPer > 0) (p.totalItems + maxPer - 1) / maxPer else 1
-            if (p.items.isEmpty() || page >= pages) break
-            page++
+        } catch (e: StalkerAuthException) {
+            // A portal with no `type=series` module answers `{"js":false}`, which reads as an expired
+            // token even after a fresh one. The show may be filed in the VOD module instead; if that
+            // does not answer either, the original failure stands.
+            return try {
+                fetchStalkerVodEpisodes(series, mac, creds, remoteId).also { vodShowSources += source.id }
+            } catch (c: CancellationException) {
+                throw c
+            } catch (_: Exception) {
+                throw e
+            }
+        }
+        // No seasons from the series module: the show may be filed in the VOD module instead.
+        if (seasons.isEmpty()) {
+            return fetchStalkerVodEpisodes(series, mac, creds, remoteId).also { if (it.isNotEmpty()) vodShowSources += source.id }
         }
         val episodes = ArrayList<EpisodeEntity>()
         seasons.forEachIndexed { index, season ->
@@ -185,6 +204,68 @@ class SeriesRepository(
         )
         return episodes
     }
+
+    /**
+     * Stalker, for a show filed in the VOD module (`is_series` on a `type=vod` row, on portals with no
+     * `type=series` module): seasons from `type=vod&movie_id=`, then each season's episodes from
+     * `…&season_id=`. These rows carry the episode's own title. Each stores a [StalkerClient.vodEpisodeRef];
+     * its file is listed, and its URL minted, at play time.
+     */
+    private suspend fun fetchStalkerVodEpisodes(
+        series: SeriesEntity, mac: String, creds: StalkerCredentials, remoteId: String,
+    ): List<EpisodeEntity> {
+        suspend fun <T> pages(fetch: suspend (Int) -> StalkerClient.Page<T>): List<T> {
+            val out = ArrayList<T>()
+            var page = 1
+            while (page <= MAX_SEASON_PAGES) {
+                val p = fetch(page)
+                out += p.items
+                val maxPer = p.maxPageItems.takeIf { it > 0 } ?: p.items.size
+                val total = if (maxPer > 0) (p.totalItems + maxPer - 1) / maxPer else 1
+                if (p.items.isEmpty() || page >= total) break
+                page++
+            }
+            return out
+        }
+        val seasons = pages { page ->
+            stalkerAuth.withAuthRetry(creds) { s -> stalkerClient.getVodSeasons(s.apiBase, mac, s.token, creds.userAgent, remoteId, page) }
+        }
+        val episodes = ArrayList<EpisodeEntity>()
+        seasons.forEachIndexed { index, season ->
+            val seasonNo = season.number ?: StalkerClient.seasonNumberOf(season.id, season.name) ?: (index + 1)
+            val rows = pages { page ->
+                stalkerAuth.withAuthRetry(creds) { s ->
+                    stalkerClient.getVodEpisodes(s.apiBase, mac, s.token, creds.userAgent, remoteId, season.id, page)
+                }
+            }
+            rows.forEachIndexed { i, ep ->
+                episodes.add(
+                    EpisodeEntity(
+                        seriesId = series.id,
+                        seasonId = null,
+                        seasonNumber = seasonNo,
+                        episodeNumber = ep.number ?: (i + 1),
+                        name = ep.title.orEmpty(),
+                        streamUrl = StalkerClient.vodEpisodeRef(remoteId, season.id, ep.id),
+                        containerExt = null,
+                        remoteId = ep.id,
+                    )
+                )
+            }
+        }
+        android.util.Log.i(
+            TAG,
+            "stalker vod episodes seriesId=${series.id} remoteId=$remoteId seasons=${seasons.size} episodes=${episodes.size}",
+        )
+        return episodes
+    }
+
+    /**
+     * Stalker sources whose shows turned out to be filed in the VOD module. Asking the series module
+     * first costs such a portal a refused request and a re-handshake on every show opened; once one
+     * show has answered from the VOD module, the rest of the session goes there directly.
+     */
+    private val vodShowSources: MutableSet<Long> = java.util.concurrent.ConcurrentHashMap.newKeySet()
 
     private companion object {
         const val TAG = "SeriesRepository"

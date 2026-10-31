@@ -22,6 +22,7 @@ import tv.own.owntv.core.model.MediaType
 import tv.own.owntv.core.parser.XtCategory
 import tv.own.owntv.core.stalker.StalkerAuthManager
 import tv.own.owntv.core.stalker.StalkerClient
+import tv.own.owntv.core.stalker.StalkerClient.StalkerAuthException
 import tv.own.owntv.core.stalker.StalkerCredentials
 import tv.own.owntv.core.stalker.StalkerSession
 import tv.own.owntv.core.stalker.stalkerCredentials
@@ -70,10 +71,57 @@ internal class StalkerSyncer(
         // the burst that earns a 403, and live is the phase everybody syncs.
         val budget = AdaptivePortalLimiter(isThrottle = ::isPortalThrottle)
         if (contentTypes.live) syncLive(s, progress, stats, creds, budget)
-        coroutineScope {
-            if (contentTypes.movies) launch { guardStep("movies", stats) { syncMovies(s, progress, stats, creds, budget) } }
-            if (contentTypes.series) launch { guardStep("series", stats) { syncSeries(s, progress, stats, creds, budget) } }
+        // Decided once, before either phase starts: both must agree, or a show would land in both
+        // tabs or in neither.
+        val vodSeries = if (contentTypes.series) {
+            seriesFiledInVod(s, creds) ?: run {
+                // Unknown, so neither phase can be filed correctly. Skipping them keeps what is stored;
+                // guessing could file every show as a film, or prune them all from Series.
+                Log.w(TAG, "VOD phases skipped sourceId=${s.id} — could not tell where the portal files its shows")
+                return
+            }
+        } else {
+            false
         }
+        coroutineScope {
+            if (contentTypes.movies) launch { guardStep("movies", stats) { syncMovies(s, progress, stats, creds, budget, vodSeries) } }
+            if (contentTypes.series) launch { guardStep("series", stats) { syncSeries(s, progress, stats, creds, budget, vodSeries) } }
+        }
+    }
+
+    /**
+     * True when the portal has no `type=series` module and files its shows in the VOD module,
+     * flagged `is_series` (#61); before this every such show was imported as a film. Null when that
+     * cannot be told — the caller must then leave the VOD phases alone.
+     *
+     * Such a portal answers `type=series&action=get_categories` with `{"js":false}`, which the client
+     * reads as an expired token ([StalkerAuthException]), or with no categories. Either counts only once
+     * the VOD module answers the same session: then the session is fine and the series module is
+     * genuinely missing. A failure of any other kind is not that answer, so a portal that has a series
+     * module and hiccups never has its shows looked for among the films (finding none, and pruning them).
+     */
+    private suspend fun seriesFiledInVod(s: SourceEntity, creds: StalkerCredentials): Boolean? {
+        val seriesCats = try {
+            auth.withAuthRetry(creds) { client.getSeriesCategories(it.apiBase, creds.mac, it.token, creds.userAgent) }
+        } catch (c: CancellationException) {
+            throw c
+        } catch (e: StalkerAuthException) {
+            emptyList()
+        } catch (e: Exception) {
+            Log.w(TAG, "series module probe failed sourceId=${s.id} (${e.message})")
+            return null
+        }
+        if (seriesCats.any { it.id.isNotBlank() && it.id != "*" }) return false
+        val vodAnswers = try {
+            auth.withAuthRetry(creds) { client.getVodCategories(it.apiBase, creds.mac, it.token, creds.userAgent) }.isNotEmpty()
+        } catch (c: CancellationException) {
+            throw c
+        } catch (e: Exception) {
+            Log.w(TAG, "VOD module probe failed sourceId=${s.id} (${e.message})")
+            return null
+        }
+        if (vodAnswers) Log.i(TAG, "series module absent sourceId=${s.id} — shows are read from the VOD module (is_series)")
+        return vodAnswers
     }
 
     private suspend fun syncLive(
@@ -314,14 +362,20 @@ internal class StalkerSyncer(
         }
     }
 
-    private suspend fun syncMovies(s: SourceEntity, progress: SyncCounters, stats: SyncStatsCollector, creds: StalkerCredentials, budget: AdaptivePortalLimiter) =
+    private suspend fun syncMovies(
+        s: SourceEntity, progress: SyncCounters, stats: SyncStatsCollector, creds: StalkerCredentials, budget: AdaptivePortalLimiter,
+        vodSeries: Boolean,
+    ) {
         syncPagedCatalog(
             s, progress, stats, creds, budget,
             phase = SyncPhase.MOVIES, mediaType = MediaType.MOVIE,
             table = "movies", ftsTable = "movies_fts", countsKey = "movies",
             adapter = support.movieAdapter,
             fetchCategories = { auth.withAuthRetry(creds) { client.getVodCategories(it.apiBase, creds.mac, it.token, creds.userAgent) } },
-            fetchPage = { catId, page -> auth.withAuthRetry(creds) { client.getVodPage(it.apiBase, creds.mac, it.token, creds.userAgent, catId, page) } },
+            fetchPage = { catId, page ->
+                val p = auth.withAuthRetry(creds) { client.getVodPage(it.apiBase, creds.mac, it.token, creds.userAgent, catId, page) }
+                if (vodSeries) keepingKind(p, series = false, page = page) else p
+            },
             map = { item, catDbId, order ->
                 MovieEntity(
                     sourceId = s.id, categoryId = catDbId, name = item.name,
@@ -333,15 +387,25 @@ internal class StalkerSyncer(
                 )
             },
         )
+        if (vodSeries) support.dropEmptyCategories(s.id, MediaType.MOVIE, SyncPhase.MOVIES.name)
+    }
 
-    private suspend fun syncSeries(s: SourceEntity, progress: SyncCounters, stats: SyncStatsCollector, creds: StalkerCredentials, budget: AdaptivePortalLimiter) =
+    private suspend fun syncSeries(
+        s: SourceEntity, progress: SyncCounters, stats: SyncStatsCollector, creds: StalkerCredentials, budget: AdaptivePortalLimiter,
+        vodSeries: Boolean,
+    ) {
         syncPagedCatalog(
             s, progress, stats, creds, budget,
             phase = SyncPhase.SERIES, mediaType = MediaType.SERIES,
             table = "series", ftsTable = "series_fts", countsKey = "series",
             adapter = support.seriesAdapter,
-            fetchCategories = { auth.withAuthRetry(creds) { client.getSeriesCategories(it.apiBase, creds.mac, it.token, creds.userAgent) } },
-            fetchPage = { catId, page -> auth.withAuthRetry(creds) { client.getSeriesPage(it.apiBase, creds.mac, it.token, creds.userAgent, catId, page) } },
+            // No series module: the shows are the `is_series` rows of the VOD module's own categories.
+            fetchCategories = if (vodSeries) {
+                { auth.withAuthRetry(creds) { client.getVodCategories(it.apiBase, creds.mac, it.token, creds.userAgent) } }
+            } else {
+                { auth.withAuthRetry(creds) { client.getSeriesCategories(it.apiBase, creds.mac, it.token, creds.userAgent) } }
+            },
+            fetchPage = seriesPageFetcher(creds, vodSeries),
             // SHOW rows only — episodes are listed lazily when a show is opened.
             map = { item, catDbId, order ->
                 SeriesEntity(
@@ -353,6 +417,21 @@ internal class StalkerSyncer(
                 )
             },
         )
+        if (vodSeries) support.dropEmptyCategories(s.id, MediaType.SERIES, SyncPhase.SERIES.name)
+    }
+
+    /** A series page: the series module's, or with no module, the `is_series` rows of the VOD one. */
+    private fun seriesPageFetcher(creds: StalkerCredentials, vodSeries: Boolean): suspend (String, Int) -> StalkerClient.Page<StalkerClient.VodItem> =
+        if (vodSeries) {
+            { catId, page ->
+                keepingKind(
+                    auth.withAuthRetry(creds) { client.getVodPage(it.apiBase, creds.mac, it.token, creds.userAgent, catId, page) },
+                    series = true, page = page,
+                )
+            }
+        } else {
+            { catId, page -> auth.withAuthRetry(creds) { client.getSeriesPage(it.apiBase, creds.mac, it.token, creds.userAgent, catId, page) } }
+        }
 
     /**
      * Generic per-category paged importer for VOD/series (Stalker has no bulk endpoint for them):
@@ -640,9 +719,23 @@ internal class StalkerSyncer(
         // Its own budget, not the sync's: a drain runs long after that one is gone, and it must learn
         // the portal's tolerance for *background* paging on its own terms.
         val budget = AdaptivePortalLimiter(isThrottle = ::isPortalThrottle)
+        // The same decision the sync made, and for the same reason: the films' pages and the shows'
+        // pages are the same VOD pages, read twice, and each drain must keep only its own kind.
+        val vodSeries = if (s.syncSeries) {
+            seriesFiledInVod(s, creds) ?: return BackfillOutcome(
+                paused = true,
+                pendingCategories = catalogBackfillDao.pendingCount(s.id, MediaType.MOVIE) +
+                    catalogBackfillDao.pendingCount(s.id, MediaType.SERIES),
+            )
+        } else {
+            false
+        }
         val movies = backfillPaged(
             s, MediaType.MOVIE, SyncPhase.MOVIES.name, "movies", "movies_fts", support.movieAdapter, budget, yieldToUser,
-            fetchPage = { catId, page -> auth.withAuthRetry(creds) { client.getVodPage(it.apiBase, creds.mac, it.token, creds.userAgent, catId, page) } },
+            fetchPage = { catId, page ->
+                val p = auth.withAuthRetry(creds) { client.getVodPage(it.apiBase, creds.mac, it.token, creds.userAgent, catId, page) }
+                if (vodSeries) keepingKind(p, series = false, page = page) else p
+            },
             map = { item, catDbId, order ->
                 MovieEntity(
                     sourceId = s.id, categoryId = catDbId, name = item.name,
@@ -654,7 +747,7 @@ internal class StalkerSyncer(
         )
         val series = backfillPaged(
             s, MediaType.SERIES, SyncPhase.SERIES.name, "series", "series_fts", support.seriesAdapter, budget, yieldToUser,
-            fetchPage = { catId, page -> auth.withAuthRetry(creds) { client.getSeriesPage(it.apiBase, creds.mac, it.token, creds.userAgent, catId, page) } },
+            fetchPage = seriesPageFetcher(creds, vodSeries),
             map = { item, catDbId, order ->
                 SeriesEntity(
                     sourceId = s.id, categoryId = catDbId, name = item.name,
@@ -990,6 +1083,32 @@ internal class StalkerSyncer(
          * walk this short finishes inside the setup the user is already watching.
          */
         private const val LAZY_MIN_DEFERRED_PAGES = 200
+
+        /**
+         * One VOD page with only the films ([series] false) or only the shows, for a portal that files
+         * both there (see `seriesFiledInVod`). Each phase reads the same pages and keeps its own kind.
+         *
+         * The totals are adjusted so the page-1 sweep plans correctly. A first page holding none of the
+         * wanted kind reports an empty category, so neither the setup walk nor the background drain
+         * pages through a category of the other kind; its category is dropped as empty after the phase.
+         * A single-dump page (the whole catalogue at once) reports what it kept, so the bulk fast path
+         * still recognises it. Otherwise the portal's total stands: a mixed category is walked by both
+         * phases. The one miss is a mixed category whose first page holds only the other kind — its
+         * wanted rows on later pages are not fetched. Portals file films and shows in separate
+         * categories in practice, which this trades for not reading every page of the catalogue twice.
+         */
+        internal fun keepingKind(
+            vodPage: StalkerClient.Page<StalkerClient.VodItem>, series: Boolean, page: Int,
+        ): StalkerClient.Page<StalkerClient.VodItem> {
+            val kept = vodPage.items.filter { it.isSeries == series }
+            if (kept.size == vodPage.items.size) return vodPage
+            val total = when {
+                vodPage.totalItems in 1..vodPage.items.size -> kept.size
+                page == 1 && kept.isEmpty() -> 0
+                else -> vodPage.totalItems
+            }
+            return vodPage.copy(totalItems = total, items = kept)
+        }
 
         /**
          * Whether setup should stop after the page-1 sweep and leave the rest to the background drain.

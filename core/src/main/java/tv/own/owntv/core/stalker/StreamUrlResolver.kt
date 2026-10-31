@@ -33,6 +33,7 @@ class StreamUrlResolver(
      */
     suspend fun resolve(source: SourceEntity, storedUrl: String, vod: Boolean = false, episode: Int? = null): String {
         if (source.type != SourceType.STALKER) return storedUrl
+        StalkerClient.parseVodEpisodeRef(storedUrl)?.let { return resolveVodEpisode(source, it) }
         // Many portals embed the full playable URL right in the channel cmd — play it as-is. Only a
         // placeholder cmd (localhost / no query) needs create_link (which on the former kind blanks
         // the stream id → HTTP 405). Series episodes are the exception: the season cmd is shared by
@@ -46,6 +47,22 @@ class StreamUrlResolver(
                 session.apiBase, mac, session.token, creds.userAgent, storedUrl,
                 type = if (vod) "vod" else "itv", episode = episode,
             )
+        }
+    }
+
+    /**
+     * An episode of a show filed in the VOD module: list the episode's files for its cmd, then
+     * `create_link` it as a film. The episode number is not sent — the file is already the episode.
+     */
+    private suspend fun resolveVodEpisode(source: SourceEntity, ref: StalkerClient.VodEpisodeRef): String {
+        val mac = source.mac?.let { StalkerClient.canonicalizeMac(it) }
+            ?: throw java.io.IOException("Stalker source ${source.id} has no valid MAC")
+        val creds = source.stalkerCredentials(mac)
+        return stalkerAuth.withAuthRetry(creds) { session ->
+            val cmd = stalkerClient.getVodEpisodeFileCmd(
+                session.apiBase, mac, session.token, creds.userAgent, ref.movieId, ref.seasonId, ref.episodeId,
+            ) ?: throw java.io.IOException("Portal listed no file for episode ${ref.episodeId}")
+            stalkerClient.createLink(session.apiBase, mac, session.token, creds.userAgent, cmd, type = "vod")
         }
     }
 

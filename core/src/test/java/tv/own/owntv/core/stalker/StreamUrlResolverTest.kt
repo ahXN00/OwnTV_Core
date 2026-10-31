@@ -57,6 +57,40 @@ class StreamUrlResolverTest {
         assertEquals("create_link must not run for a direct-play cmd", 0, client.createLinkCalls)
     }
 
+    // --- An episode of a show filed in the VOD module (#61) ---
+
+    @Test fun resolve_vodEpisodeListsItsFileThenLinksItAsAFilm() = runBlocking {
+        val client = RecordingClient(resolved = "http://realhost/ep/playlist.m3u8?token=fresh")
+        val r = resolver(client = client)
+        val stored = StalkerClient.vodEpisodeRef("45258", "31971", "998626")
+        // Callers pass the episode number for every Stalker episode; the file is already the episode,
+        // so it must not reach create_link as `series=`.
+        assertEquals("http://realhost/ep/playlist.m3u8?token=fresh", r.resolve(stalkerSource(stored), stored, vod = true, episode = 11))
+        assertEquals(listOf("45258", "31971", "998626"), client.lastVodEpisodeQuery)
+        assertEquals("/media/file_998882.mpg", client.lastCmd)
+        assertEquals("vod", client.lastType)
+        assertNull(client.lastEpisode)
+    }
+
+    @Test fun resolve_vodEpisodeWithNoFileFails() {
+        val client = RecordingClient().apply { vodEpisodeFile = null }
+        val r = resolver(client = client)
+        val stored = StalkerClient.vodEpisodeRef("1", "2", "3")
+        val failure = runCatching { runBlocking { r.resolve(stalkerSource(stored), stored, vod = true, episode = 1) } }.exceptionOrNull()
+        assertTrue(failure is java.io.IOException)
+        assertEquals("no file → nothing to link", 0, client.createLinkCalls)
+    }
+
+    @Test fun vodEpisodeRef_roundTripsAndRejectsOtherUrls() {
+        assertEquals(
+            StalkerClient.VodEpisodeRef("45258", "31971", "998626"),
+            StalkerClient.parseVodEpisodeRef(StalkerClient.vodEpisodeRef("45258", "31971", "998626")),
+        )
+        assertNull(StalkerClient.parseVodEpisodeRef("/media/file_998882.mpg"))
+        assertNull(StalkerClient.parseVodEpisodeRef("ffmpeg http://localhost/ch/12345_"))
+        assertNull(StalkerClient.parseVodEpisodeRef("stalker-vod-episode://45258/31971"))
+    }
+
     // --- Stalker placeholder cmd (localhost → create_link) ---
 
     @Test fun resolve_stalkerPlaceholderCallsCreateLink() = runBlocking {
@@ -326,6 +360,17 @@ class StreamUrlResolverTest {
             lastEpisode = episode
             // stripCmdPrefix on the way out, mirroring the real client.
             return stripCmdPrefix(resolved)
+        }
+
+        /** The file the fake portal lists for any VOD-filed episode; null lists none. */
+        var vodEpisodeFile: String? = "/media/file_998882.mpg"
+        var lastVodEpisodeQuery: List<String>? = null
+
+        override suspend fun getVodEpisodeFileCmd(
+            apiBase: String, mac: String, token: String, userAgent: String?, movieId: String, seasonId: String, episodeId: String,
+        ): String? {
+            lastVodEpisodeQuery = listOf(movieId, seasonId, episodeId)
+            return vodEpisodeFile
         }
 
         var shortEpgEntries: List<ShortEpgEntry> = emptyList()

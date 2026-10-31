@@ -171,6 +171,20 @@ internal class SyncSupport(
         Log.i(TAG, "$label category prune sourceId=$sourceId type=$type stale=${stale.size} ms=${SystemClock.elapsedRealtime() - start}")
     }
 
+    /**
+     * Drops the source's categories of [type] that hold nothing. Only for a pass that files one
+     * provider list under two tabs (Stalker shows in the VOD module): each tab receives every
+     * category, and the ones holding only the other kind would sit there empty.
+     */
+    suspend fun dropEmptyCategories(sourceId: Long, type: MediaType, label: String) {
+        val dropped = when (type) {
+            MediaType.MOVIE -> categoryDao.deleteEmptyMovieCategories(sourceId)
+            MediaType.SERIES -> categoryDao.deleteEmptySeriesCategories(sourceId)
+            else -> 0
+        }
+        Log.i(TAG, "$label empty categories dropped sourceId=$sourceId type=$type count=$dropped")
+    }
+
     suspend fun pruneRemoteIds(
         label: String,
         sourceId: Long,

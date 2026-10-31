@@ -48,4 +48,18 @@ interface CategoryDao {
 
     @Query("DELETE FROM categories WHERE sourceId = :sourceId AND mediaType = :type AND remoteId IN (:remoteIds)")
     suspend fun deleteByRemoteIds(sourceId: Long, type: MediaType, remoteIds: List<String>)
+
+    /** A source's film categories that hold no film. Returns how many went. */
+    @Query(
+        "DELETE FROM categories WHERE sourceId = :sourceId AND mediaType = 'MOVIE' " +
+            "AND NOT EXISTS (SELECT 1 FROM movies WHERE movies.categoryId = categories.id)",
+    )
+    suspend fun deleteEmptyMovieCategories(sourceId: Long): Int
+
+    /** A source's series categories that hold no show. Returns how many went. */
+    @Query(
+        "DELETE FROM categories WHERE sourceId = :sourceId AND mediaType = 'SERIES' " +
+            "AND NOT EXISTS (SELECT 1 FROM series WHERE series.categoryId = categories.id)",
+    )
+    suspend fun deleteEmptySeriesCategories(sourceId: Long): Int
 }
