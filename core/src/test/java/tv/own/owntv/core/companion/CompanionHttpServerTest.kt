@@ -65,6 +65,13 @@ class CompanionHttpServerTest {
     }
 
     @Test
+    fun `an edit may leave the password empty`() {
+        val p = protocol.parsePayload(form, "type=xtream&server=http://h&user=u&pass=", SourceType.XTREAM, requireFields = false)!!
+        assertEquals("", p.pass)
+        assertEquals("u", p.user)
+    }
+
+    @Test
     fun `legacy boolean sync fields map to Now or Off`() {
         val off = protocol.parsePayload(
             form,
