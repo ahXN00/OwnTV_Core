@@ -278,6 +278,11 @@
     <string name="settings_check_updates_description">GitHub Releasesから最新バージョンを取得</string>
     <string name="settings_update_startup">起動時に更新を確認</string>
     <string name="settings_update_startup_description">アプリを開いたときに新しいバージョンを確認</string>
+    <string name="settings_auto_start_boot">起動時に自動で開く</string>
+    <string name="settings_auto_start_boot_description">テレビの電源が入ったら OwnTV を開きます</string>
+    <string name="settings_auto_start_wake">スリープ解除時に自動で開く</string>
+    <string name="settings_auto_start_wake_description">テレビがスリープから復帰したら OwnTV を開きます</string>
+    <string name="settings_auto_start_needs_overlay">「他のアプリの上に重ねて表示」が必要です</string>
     <string name="settings_about">アプリについて</string>
     <string name="settings_live_latency">ライブ遅延</string>
     <string name="settings_no_settings_match">「<xliff:g id="query">%1$s</xliff:g>」に一致する設定はありません</string>
@@ -387,6 +392,7 @@
     <string name="settings_search_keywords_startup">起動 開く 開始画面</string>
     <string name="settings_search_keywords_updates">GitHub リリース バージョン</string>
     <string name="settings_search_keywords_update_auto">自動 更新 新しいバージョン</string>
+    <string name="settings_search_keywords_auto_start">起動 電源 スリープ 復帰 スタンバイ 自動 開く</string>
     <string name="settings_language_default">デフォルト（英語）</string>
     <string name="settings_language_device">デバイスの言語</string>
     <string name="settings_language_arabic">アラビア語</string>
@@ -1471,6 +1477,8 @@
     <string name="settings_help_startup">OwnTV の起動時に表示するもの：ホーム、最後に見たチャンネル、お気に入り、または選んだチャンネル。</string>
     <string name="settings_help_check_updates">GitHub で新しい OwnTV を今すぐ探し、インストールを提案します。プレイリスト、お気に入り、設定はそのまま残ります。</string>
     <string name="settings_help_update_startup">OwnTV の起動ごとに新しいバージョンを探し、あれば知らせます。確認なしにインストールされることはありません。</string>
+    <string name="settings_help_auto_start_boot">テレビの起動が終わると、アプリ起動時で選んだ画面で OwnTV を自動で開きます。Android では、他のアプリの上に重ねて表示できるアプリしか自分で開けないため、オンにするとその権限の画面が開きます。この権限がないテレビでは自動起動は使えません。</string>
+    <string name="settings_help_auto_start_wake">テレビがスリープから復帰するたびに OwnTV を開きます。別のアプリのために復帰させた場合も同じです。アプリ起動時でチャンネルを開く設定にしていると、復帰のたびにそのストリームが始まります。オンの間は、OwnTV が音の出ない通知とともに小さなバックグラウンドサービスを動かします。起動時の自動起動と同じく、他のアプリの上に重ねて表示する権限が必要です。</string>
     <string name="settings_help_dns">ネットワーク既定の DNS ではなく、選んだ DNS サーバーでプロバイダーのアドレスを調べます。ネットワークがアドレスをブロックしたり転送したりするときに役立ちます。</string>
     <string name="settings_help_live_engine">ExoPlayer はチャンネルをずっと速く開き、ライブ字幕に対応する唯一のプレーヤーです。mpv は ExoPlayer で再生できないチャンネルや、一部の珍しい音声も再生します。組み合わせの選択肢では、最初のプレーヤーが失敗するともう一方を試します。</string>
     <string name="settings_help_hw">テレビのハードウェアデコーダーを使います。4K がなめらかになり、発熱も減ります。一部のストリームがカクついたりブロックが出たりする場合だけオフにしてください。その場合はソフトウェアデコーダーが処理します。</string>
@@ -1561,6 +1569,8 @@
     <string name="settings_remote_scan">読み取るかブラウザーで開く</string>
     <string name="settings_remote_or_open">または開く</string>
     <string name="settings_remote_details_note">詳細はここに表示されます。インポートはリモコンで開始します。</string>
+    <string name="settings_remote_edit_note">変更は編集画面に入力されます。「保存」はリモコンで押します。</string>
+    <string name="settings_help_edit_from_phone">同じ Wi-Fi にあるスマートフォン、タブレット、パソコンのブラウザでこのプレイリストを開きます。パスワード、MAC アドレス、M3U プレイリストのアドレスはそこには表示されません。空欄のままにすると保持されます。送信した内容はこの画面に入力され、「保存」を押すまで何も変わりません。</string>
     <string name="settings_key_stop_back">停止して戻る</string>
     <string name="settings_source_type">種類</string>
     <string name="settings_line_source_type">Xtream、M3U、Stalker ポータル</string>

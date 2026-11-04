@@ -284,6 +284,11 @@
     <string name="settings_check_updates_description">Pobierz najnowszą wersję z GitHub Releases</string>
     <string name="settings_update_startup">Sprawdzaj aktualizacje przy uruchamianiu</string>
     <string name="settings_update_startup_description">Szukaj nowej wersji po otwarciu aplikacji</string>
+    <string name="settings_auto_start_boot">Autostart po włączeniu</string>
+    <string name="settings_auto_start_boot_description">Otwieraj OwnTV po włączeniu telewizora</string>
+    <string name="settings_auto_start_wake">Autostart po wybudzeniu</string>
+    <string name="settings_auto_start_wake_description">Otwieraj OwnTV, gdy telewizor wybudza się z uśpienia</string>
+    <string name="settings_auto_start_needs_overlay">Wymaga „Wyświetlanie nad innymi aplikacjami”</string>
     <string name="settings_about">O aplikacji</string>
     <string name="settings_live_latency">Opóźnienie transmisji na żywo</string>
     <string name="settings_no_settings_match">Brak ustawień pasujących do „<xliff:g id="query">%1$s</xliff:g>”</string>
@@ -393,6 +398,7 @@
     <string name="settings_search_keywords_startup">uruchom otwórz ekran początkowy</string>
     <string name="settings_search_keywords_updates">github wydanie wersja</string>
     <string name="settings_search_keywords_update_auto">automatyczna aktualizacja nowa wersja</string>
+    <string name="settings_search_keywords_auto_start">uruchamianie włączanie wybudzenie uśpienie czuwanie autostart otwieranie</string>
     <string name="settings_language_default">Domyślny (angielski)</string>
     <string name="settings_language_device">Język urządzenia</string>
     <string name="settings_language_arabic">Arabski</string>
@@ -1555,6 +1561,8 @@
     <string name="settings_help_startup">Co OwnTV pokazuje po uruchomieniu: stronę główną, ostatnio oglądany kanał, ulubione lub wybrany kanał.</string>
     <string name="settings_help_check_updates">Sprawdza teraz na GitHubie, czy jest nowsza wersja OwnTV, i proponuje instalację. Playlisty, ulubione i ustawienia pozostają bez zmian.</string>
     <string name="settings_help_update_startup">Przy każdym uruchomieniu OwnTV szuka nowej wersji i informuje, gdy jest dostępna. Nic nie jest instalowane bez pytania.</string>
+    <string name="settings_help_auto_start_boot">Otwiera OwnTV samodzielnie po uruchomieniu telewizora, na ekranie wybranym w Uruchamianie aplikacji. Android pozwala aplikacji otworzyć się samej tylko wtedy, gdy może wyświetlać się nad innymi aplikacjami, dlatego włączenie tej opcji otwiera ekran tego uprawnienia. Niektóre telewizory go nie oferują i tam autostart nie zadziała.</string>
+    <string name="settings_help_auto_start_wake">Otwiera OwnTV za każdym razem, gdy telewizor wybudza się z uśpienia, także gdy wybudzono go dla innej aplikacji. Jeśli Uruchamianie aplikacji otwiera kanał, każde wybudzenie uruchamia ten strumień. Gdy ta opcja jest włączona, OwnTV utrzymuje małą usługę w tle z cichym powiadomieniem. Podobnie jak autostart po włączeniu wymaga uprawnienia do wyświetlania nad innymi aplikacjami.</string>
     <string name="settings_help_dns">Wyszukuje adresy dostawcy przez wybrany serwer DNS zamiast serwera Twojej sieci — przydatne, gdy sieć je blokuje lub przekierowuje.</string>
     <string name="settings_help_live_engine">ExoPlayer otwiera kanały dużo szybciej i jako jedyny obsługuje napisy na żywo. mpv odtwarza kanały, z którymi ExoPlayer sobie nie radzi, w tym nietypowy dźwięk. Opcje łączone próbują drugiego odtwarzacza, gdy pierwszy zawiedzie.</string>
     <string name="settings_help_hw">Używa sprzętowego dekodera telewizora: płynne 4K i mniej ciepła. Wyłącz tylko wtedy, gdy niektóre strumienie się zacinają lub pokazują bloki; wtedy pracę przejmuje dekoder programowy.</string>
@@ -1663,6 +1671,8 @@
     <string name="settings_remote_scan">Zeskanuj lub otwórz w przeglądarce</string>
     <string name="settings_remote_or_open">lub otwórz</string>
     <string name="settings_remote_details_note">Dane pojawią się tutaj; import rozpoczynasz pilotem.</string>
+    <string name="settings_remote_edit_note">Zmiany wypełnią ekran edycji; Zapisz naciskasz pilotem.</string>
+    <string name="settings_help_edit_from_phone">Otwiera tę playlistę w przeglądarce na telefonie, tablecie lub komputerze w tej samej sieci Wi-Fi. Hasła, adresy MAC i adresy playlist M3U nigdy nie są tam pokazywane: zostaw je puste, aby je zachować. To, co wyślesz, wypełni ten ekran, a nic się nie zmieni, dopóki nie naciśniesz Zapisz.</string>
     <string name="settings_key_stop_back">Zatrzymaj i wróć</string>
     <string name="settings_source_type">Typ</string>
     <string name="settings_line_source_type">Xtream, M3U lub portal Stalker</string>

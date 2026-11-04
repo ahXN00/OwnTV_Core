@@ -280,6 +280,11 @@
     <string name="settings_check_updates_description">Hent den nyeste versjonen fra GitHub Releases</string>
     <string name="settings_update_startup">Se etter oppdateringer ved oppstart</string>
     <string name="settings_update_startup_description">Se etter en ny versjon når appen åpnes</string>
+    <string name="settings_auto_start_boot">Start automatisk ved påslag</string>
+    <string name="settings_auto_start_boot_description">Åpne OwnTV når TV-en slås på</string>
+    <string name="settings_auto_start_wake">Start automatisk ved oppvåkning</string>
+    <string name="settings_auto_start_wake_description">Åpne OwnTV når TV-en våkner fra hvilemodus</string>
+    <string name="settings_auto_start_needs_overlay">Krever «Vis over andre apper»</string>
     <string name="settings_about">Om</string>
     <string name="settings_live_latency">Direkteforsinkelse</string>
     <string name="settings_no_settings_match">Ingen innstillinger samsvarer med «<xliff:g id="query">%1$s</xliff:g>»</string>
@@ -389,6 +394,7 @@
     <string name="settings_search_keywords_startup">start åpne landingsside</string>
     <string name="settings_search_keywords_updates">GitHub utgivelse versjon</string>
     <string name="settings_search_keywords_update_auto">automatisk oppdatering ny versjon</string>
+    <string name="settings_search_keywords_auto_start">oppstart påslag oppvåkning hvilemodus standby automatisk åpne</string>
     <string name="settings_language_default">Standard (engelsk)</string>
     <string name="settings_language_device">Enhetsspråk</string>
     <string name="settings_language_arabic">Arabisk</string>
@@ -1499,6 +1505,8 @@
     <string name="settings_help_startup">Hva OwnTV viser ved oppstart: Hjem, kanalen du så sist, favorittene dine eller en kanal du velger.</string>
     <string name="settings_help_check_updates">Ser etter en nyere OwnTV på GitHub nå og tilbyr å installere den. Spillelistene, favorittene og innstillingene dine forblir som de er.</string>
     <string name="settings_help_update_startup">Ser etter en ny versjon hver gang OwnTV starter, og sier fra når det finnes en. Ingenting installeres uten å spørre.</string>
+    <string name="settings_help_auto_start_boot">Åpner OwnTV av seg selv når TV-en har startet, på skjermen som er valgt i Oppstart av appen. Android lar bare en app åpne seg selv hvis den får vises over andre apper, så når du slår på dette, åpnes skjermen for den tillatelsen. Noen TV-er tilbyr den ikke, og der kan automatisk start ikke fungere.</string>
+    <string name="settings_help_auto_start_wake">Åpner OwnTV hver gang TV-en våkner fra hvilemodus, også når du vekket den for en annen app. Hvis Oppstart av appen åpner en kanal, starter hver oppvåkning den strømmen. Så lenge dette er på, holder OwnTV en liten bakgrunnstjeneste i gang med et lydløst varsel. Som automatisk start ved påslag trenger den tillatelse til å vises over andre apper.</string>
     <string name="settings_help_dns">Slår opp leverandørens adresser med en DNS-server du velger i stedet for nettverkets egen — nyttig når nettverket blokkerer eller omdirigerer dem.</string>
     <string name="settings_help_live_engine">ExoPlayer åpner kanaler mye raskere og er den eneste med direkteteksting. mpv spiller kanaler ExoPlayer ikke klarer, også noe uvanlig lyd. De kombinerte valgene prøver den andre spilleren når den første mislykkes.</string>
     <string name="settings_help_hw">Bruker TV-ens maskinvaredekoder: jevn 4K og mindre varme. Slå den bare av hvis noen strømmer hakker eller viser blokker; da gjør programvaredekoderen jobben.</string>
@@ -1595,6 +1603,8 @@
     <string name="settings_remote_scan">Skann eller åpne i en nettleser</string>
     <string name="settings_remote_or_open">eller åpne</string>
     <string name="settings_remote_details_note">Opplysningene vises her; du starter importen med fjernkontrollen.</string>
+    <string name="settings_remote_edit_note">Endringene fyller redigeringsskjermen; du trykker på Lagre med fjernkontrollen.</string>
+    <string name="settings_help_edit_from_phone">Åpner denne spillelisten i en nettleser på en telefon, et nettbrett eller en datamaskin på samme wifi. Passord, MAC-adresser og adresser til M3U-spillelister vises aldri der: la dem stå tomme for å beholde dem. Det du sender, fyller denne skjermen, og ingenting endres før du trykker på Lagre.</string>
     <string name="settings_key_stop_back">Stopp og gå tilbake</string>
     <string name="settings_source_type">Type</string>
     <string name="settings_line_source_type">Xtream, M3U eller Stalker-portal</string>

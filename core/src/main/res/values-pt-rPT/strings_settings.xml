@@ -282,6 +282,11 @@
     <string name="settings_check_updates_description">Obter a versão mais recente através do GitHub Releases</string>
     <string name="settings_update_startup">Procurar atualizações ao iniciar</string>
     <string name="settings_update_startup_description">Procurar uma nova versão quando a aplicação abrir</string>
+    <string name="settings_auto_start_boot">Iniciar ao ligar</string>
+    <string name="settings_auto_start_boot_description">Abrir o OwnTV quando a TV é ligada</string>
+    <string name="settings_auto_start_wake">Iniciar ao despertar</string>
+    <string name="settings_auto_start_wake_description">Abrir o OwnTV quando a TV sai do modo de espera</string>
+    <string name="settings_auto_start_needs_overlay">Requer “Sobrepor a outras apps”</string>
     <string name="settings_about">Acerca de</string>
     <string name="settings_live_latency">Latência da transmissão em direto</string>
     <string name="settings_no_settings_match">Nenhuma definição corresponde a “<xliff:g id="query">%1$s</xliff:g>”</string>
@@ -391,6 +396,7 @@
     <string name="settings_search_keywords_startup">iniciar abrir arranque</string>
     <string name="settings_search_keywords_updates">github lançamento versão</string>
     <string name="settings_search_keywords_update_auto">automático atualização nova versão</string>
+    <string name="settings_search_keywords_auto_start">arranque ligar despertar suspensão espera abrir automaticamente</string>
     <string name="settings_language_default">Predefinição (inglês)</string>
     <string name="settings_language_device">Idioma do dispositivo</string>
     <string name="settings_language_arabic">Árabe</string>
@@ -1527,6 +1533,8 @@
     <string name="settings_help_startup">O que o OwnTV mostra ao iniciar: o Início, o último canal que viu, os seus favoritos ou um canal à sua escolha.</string>
     <string name="settings_help_check_updates">Procura agora no GitHub uma versão mais recente do OwnTV e propõe instalá-la. As suas playlists, favoritos e definições ficam como estão.</string>
     <string name="settings_help_update_startup">Procura uma nova versão sempre que o OwnTV inicia e avisa quando existir. Nada é instalado sem perguntar.</string>
+    <string name="settings_help_auto_start_boot">Abre o OwnTV sozinho quando a TV termina de arrancar, no ecrã escolhido em Arranque da aplicação. O Android só deixa uma app abrir-se sozinha se puder sobrepor-se a outras apps, por isso ativar esta opção abre o ecrã dessa permissão. Algumas TVs não a oferecem e, nelas, o início automático não funciona.</string>
+    <string name="settings_help_auto_start_wake">Abre o OwnTV sempre que a TV sai do modo de espera, mesmo que a tenha despertado para outra app. Se Arranque da aplicação abrir um canal, cada despertar inicia essa transmissão. Enquanto estiver ativo, o OwnTV mantém um pequeno serviço em segundo plano com uma notificação silenciosa. Tal como o início ao ligar, precisa da permissão para se sobrepor a outras apps.</string>
     <string name="settings_help_dns">Consulta os endereços do seu fornecedor com um servidor DNS à sua escolha em vez do da sua rede — útil quando a rede os bloqueia ou redireciona.</string>
     <string name="settings_help_live_engine">O ExoPlayer abre os canais muito mais depressa e é o único com legendas em direto. O mpv reproduz canais que o ExoPlayer não consegue, incluindo algum áudio invulgar. As opções combinadas tentam o outro leitor quando o primeiro falha.</string>
     <string name="settings_help_hw">Usa o descodificador de hardware da TV: 4K fluido e menos calor. Desligue só se algumas emissões soluçarem ou mostrarem blocos; aí é o descodificador de software que trabalha.</string>
@@ -1629,6 +1637,8 @@
     <string name="settings_remote_scan">Ler ou abrir num navegador</string>
     <string name="settings_remote_or_open">ou abra</string>
     <string name="settings_remote_details_note">Os dados aparecem aqui; inicia a importação com o comando.</string>
+    <string name="settings_remote_edit_note">As alterações preenchem o ecrã de edição; prime Guardar com o comando.</string>
+    <string name="settings_help_edit_from_phone">Abre esta playlist num navegador de um telemóvel, tablet ou computador na mesma rede Wi-Fi. Palavras-passe, endereços MAC e endereços de playlists M3U nunca são mostrados aí: deixe-os vazios para os manter. O que enviar preenche este ecrã, e nada muda até premir Guardar.</string>
     <string name="settings_key_stop_back">Parar e voltar</string>
     <string name="settings_source_type">Tipo</string>
     <string name="settings_line_source_type">Xtream, M3U ou portal Stalker</string>

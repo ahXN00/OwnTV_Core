@@ -100,6 +100,16 @@ class PlaybackEngines(
         pool.onAppForegrounded()
     }
 
+    /**
+     * Television: forget what [onAppForegrounded] would bring back, in every engine — the profile gate is
+     * about to take the screen, and nothing of the session before it may play again behind it.
+     */
+    fun discardBackgroundRestore() {
+        player.discardBackgroundRestore()
+        livePreview.discardBackgroundRestore()
+        pool.discardBackgroundRestore()
+    }
+
     companion object {
         /**
          * `RUNNING_LOW` shrinks mpv's cache; `RUNNING_CRITICAL` and `COMPLETE` also move the ExoPlayer

@@ -278,6 +278,11 @@
     <string name="settings_check_updates_description">從 GitHub Releases 取得最新版本</string>
     <string name="settings_update_startup">啟動時檢查更新</string>
     <string name="settings_update_startup_description">應用程式開啟時檢查是否有新版本</string>
+    <string name="settings_auto_start_boot">開機時自動啟動</string>
+    <string name="settings_auto_start_boot_description">電視開機後開啟 OwnTV</string>
+    <string name="settings_auto_start_wake">喚醒時自動啟動</string>
+    <string name="settings_auto_start_wake_description">電視從待機喚醒後開啟 OwnTV</string>
+    <string name="settings_auto_start_needs_overlay">需要「在其他應用程式上層顯示」</string>
     <string name="settings_about">關於</string>
     <string name="settings_live_latency">直播延遲</string>
     <string name="settings_no_settings_match">沒有符合「<xliff:g id="query">%1$s</xliff:g>」的設定</string>
@@ -387,6 +392,7 @@
     <string name="settings_search_keywords_startup">啟動 開啟 起始頁</string>
     <string name="settings_search_keywords_updates">GitHub 發行版本 版本</string>
     <string name="settings_search_keywords_update_auto">自動 更新 新版本</string>
+    <string name="settings_search_keywords_auto_start">開機 啟動 喚醒 休眠 待機 自動 開啟</string>
     <string name="settings_language_default">預設（英文）</string>
     <string name="settings_language_device">裝置語言</string>
     <string name="settings_language_arabic">阿拉伯文</string>
@@ -1471,6 +1477,8 @@
     <string name="settings_help_startup">OwnTV 啟動時顯示的內容：首頁、上次觀看的頻道、你的收藏，或你指定的頻道。</string>
     <string name="settings_help_check_updates">立即在 GitHub 上尋找較新的 OwnTV 並提示安裝。你的播放清單、收藏和設定都會保留。</string>
     <string name="settings_help_update_startup">每次啟動 OwnTV 時尋找新版本，有新版本時會告訴你。未經詢問不會安裝任何內容。</string>
+    <string name="settings_help_auto_start_boot">電視啟動完成後自動開啟 OwnTV，並顯示應用程式啟動中選擇的畫面。Android 只允許可在其他應用程式上層顯示的應用程式自行開啟，因此開啟此選項會開啟該權限的設定畫面。部分電視沒有這項權限，在這些電視上無法自動啟動。</string>
+    <string name="settings_help_auto_start_wake">每次電視從待機喚醒時開啟 OwnTV，即使你是為了使用其他應用程式而喚醒電視。如果應用程式啟動設為開啟某個頻道，每次喚醒都會開始播放該串流。開啟期間，OwnTV 會保留一個帶有靜音通知的小型背景服務。與開機時自動啟動相同，它需要在其他應用程式上層顯示的權限。</string>
     <string name="settings_help_dns">使用你選擇的 DNS 伺服器（而不是網路內建的）解析供應商的位址——當你的網路封鎖或重新導向這些位址時很有用。</string>
     <string name="settings_help_live_engine">ExoPlayer 開啟頻道快得多，也是唯一支援直播字幕的播放器。mpv 能播放 ExoPlayer 無法播放的頻道，包括一些特殊音訊。組合選項會在第一個播放器失敗時嘗試另一個。</string>
     <string name="settings_help_hw">使用電視的硬體解碼器：4K 流暢、發熱更少。只有在部分串流卡頓或出現馬賽克時才關閉，屆時由軟體解碼器處理。</string>
@@ -1561,6 +1569,8 @@
     <string name="settings_remote_scan">掃描或在瀏覽器中開啟</string>
     <string name="settings_remote_or_open">或開啟</string>
     <string name="settings_remote_details_note">詳細資料會顯示在這裡；用遙控器開始匯入。</string>
+    <string name="settings_remote_edit_note">變更會填入編輯畫面；由你用遙控器按「儲存」。</string>
+    <string name="settings_help_edit_from_phone">在同一 Wi-Fi 下的手機、平板或電腦瀏覽器中開啟此播放清單。密碼、MAC 位址和 M3U 播放清單位址絕不會顯示在那裡：留空即可保留。你傳送的內容會填入此畫面，在你按「儲存」之前不會有任何變更。</string>
     <string name="settings_key_stop_back">停止並返回</string>
     <string name="settings_source_type">類型</string>
     <string name="settings_line_source_type">Xtream、M3U 或 Stalker 入口網站</string>

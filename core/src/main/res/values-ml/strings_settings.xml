@@ -280,6 +280,11 @@
     <string name="settings_check_updates_description">GitHub Releases-ൽ നിന്ന് ഏറ്റവും പുതിയ പതിപ്പ് നേടുക</string>
     <string name="settings_update_startup">ആരംഭിക്കുമ്പോൾ അപ്‌ഡേറ്റുകൾ പരിശോധിക്കുക</string>
     <string name="settings_update_startup_description">ആപ്പ് തുറക്കുമ്പോൾ പുതിയ പതിപ്പിനായി പരിശോധിക്കുക</string>
+    <string name="settings_auto_start_boot">ഓണാകുമ്പോൾ സ്വയം തുറക്കുക</string>
+    <string name="settings_auto_start_boot_description">ടിവി ഓണാകുമ്പോൾ OwnTV തുറക്കുക</string>
+    <string name="settings_auto_start_wake">ഉണരുമ്പോൾ സ്വയം തുറക്കുക</string>
+    <string name="settings_auto_start_wake_description">ടിവി സ്ലീപ്പിൽ നിന്ന് ഉണരുമ്പോൾ OwnTV തുറക്കുക</string>
+    <string name="settings_auto_start_needs_overlay">“മറ്റ് ആപ്പുകൾക്ക് മുകളിൽ പ്രദർശിപ്പിക്കുക” ആവശ്യമാണ്</string>
     <string name="settings_about">ആപ്പിനെക്കുറിച്ച്</string>
     <string name="settings_live_latency">തത്സമയ കാലതാമസം</string>
     <string name="settings_no_settings_match">“<xliff:g id="query">%1$s</xliff:g>” എന്നതിനോട് പൊരുത്തപ്പെടുന്ന ക്രമീകരണങ്ങളില്ല</string>
@@ -389,6 +394,7 @@
     <string name="settings_search_keywords_startup">ആരംഭിക്കുക തുറക്കുക പ്രവേശനം</string>
     <string name="settings_search_keywords_updates">GitHub റിലീസ് പതിപ്പ്</string>
     <string name="settings_search_keywords_update_auto">സ്വയം അപ്‌ഡേറ്റ് പുതിയ പതിപ്പ്</string>
+    <string name="settings_search_keywords_auto_start">ബൂട്ട് ഓൺ ഉണരൽ സ്ലീപ്പ് സ്റ്റാൻഡ്ബൈ സ്വയം തുറക്കുക</string>
     <string name="settings_language_default">ഡിഫോൾട്ട് (ഇംഗ്ലീഷ്)</string>
     <string name="settings_language_device">ഉപകരണത്തിന്റെ ഭാഷ</string>
     <string name="settings_language_arabic">അറബിക്</string>
@@ -1499,6 +1505,8 @@
     <string name="settings_help_startup">OwnTV തുടങ്ങുമ്പോൾ എന്ത് കാണിക്കണം: ഹോം, അവസാനം കണ്ട ചാനൽ, നിങ്ങളുടെ പ്രിയപ്പെട്ടവ, അല്ലെങ്കിൽ നിങ്ങൾ തിരഞ്ഞെടുക്കുന്ന ചാനൽ.</string>
     <string name="settings_help_check_updates">ഇപ്പോൾ തന്നെ GitHub-ൽ പുതിയ OwnTV തിരഞ്ഞ് ഇൻസ്റ്റാൾ ചെയ്യാൻ നിർദ്ദേശിക്കും. നിങ്ങളുടെ പ്ലേലിസ്റ്റുകളും പ്രിയപ്പെട്ടവയും ക്രമീകരണങ്ങളും അതേപടി തുടരും.</string>
     <string name="settings_help_update_startup">OwnTV തുടങ്ങുമ്പോഴെല്ലാം പുതിയ പതിപ്പ് തിരഞ്ഞ്, ഉണ്ടെങ്കിൽ അറിയിക്കും. ചോദിക്കാതെ ഒന്നും ഇൻസ്റ്റാൾ ചെയ്യില്ല.</string>
+    <string name="settings_help_auto_start_boot">ടിവി ആരംഭിച്ചുകഴിഞ്ഞാൽ, ആപ്പ് ആരംഭിക്കൽ ക്രമീകരണത്തിൽ തിരഞ്ഞെടുത്ത സ്ക്രീനിൽ OwnTV സ്വയം തുറക്കുന്നു. മറ്റ് ആപ്പുകൾക്ക് മുകളിൽ പ്രദർശിപ്പിക്കാൻ അനുമതിയുള്ള ആപ്പിനെ മാത്രമേ Android സ്വയം തുറക്കാൻ അനുവദിക്കൂ, അതിനാൽ ഇത് ഓണാക്കുമ്പോൾ ആ അനുമതിയുടെ സ്ക്രീൻ തുറക്കും. ചില ടിവികളിൽ ഈ അനുമതിയില്ല, അവിടെ സ്വയം തുറക്കൽ പ്രവർത്തിക്കില്ല.</string>
+    <string name="settings_help_auto_start_wake">ടിവി സ്ലീപ്പിൽ നിന്ന് ഉണരുമ്പോഴെല്ലാം OwnTV തുറക്കുന്നു, മറ്റൊരു ആപ്പിനായി ഉണർത്തിയാലും. ആപ്പ് ആരംഭിക്കൽ ഒരു ചാനൽ തുറക്കുന്നതാണെങ്കിൽ, ഓരോ ഉണരലും ആ സ്ട്രീം ആരംഭിക്കും. ഇത് ഓണായിരിക്കുമ്പോൾ, ശബ്ദമില്ലാത്ത ഒരു അറിയിപ്പോടെ OwnTV ഒരു ചെറിയ പശ്ചാത്തല സേവനം നിലനിർത്തുന്നു. ഓണാകുമ്പോൾ സ്വയം തുറക്കുന്നതുപോലെ, ഇതിനും മറ്റ് ആപ്പുകൾക്ക് മുകളിൽ പ്രദർശിപ്പിക്കാനുള്ള അനുമതി വേണം.</string>
     <string name="settings_help_dns">നിങ്ങളുടെ നെറ്റ്‌വർക്കിന്റെ സ്വന്തം DNS-ന് പകരം നിങ്ങൾ തിരഞ്ഞെടുക്കുന്ന DNS സെർവർ ഉപയോഗിച്ച് ദാതാവിന്റെ വിലാസങ്ങൾ കണ്ടെത്തുന്നു — നെറ്റ്‌വർക്ക് അവ തടയുകയോ തിരിച്ചുവിടുകയോ ചെയ്യുമ്പോൾ ഉപകാരപ്പെടും.</string>
     <string name="settings_help_live_engine">ExoPlayer ചാനലുകൾ വളരെ വേഗം തുറക്കും, ലൈവ് സബ്ടൈറ്റിലുകൾ ഉള്ളത് ഇതിൽ മാത്രം. ExoPlayer-ന് കഴിയാത്ത ചാനലുകൾ mpv പ്ലേ ചെയ്യും, ചില അസാധാരണ ഓഡിയോ ഉൾപ്പെടെ. സംയോജിത ഓപ്ഷനുകൾ ആദ്യത്തേത് പരാജയപ്പെടുമ്പോൾ മറ്റേ പ്ലെയർ പരീക്ഷിക്കും.</string>
     <string name="settings_help_hw">ടിവിയുടെ ഹാർഡ്‌വെയർ ഡീകോഡർ ഉപയോഗിക്കുന്നു: സുഗമമായ 4K, കുറഞ്ഞ ചൂട്. ചില സ്ട്രീമുകൾ ഇടറുകയോ ബ്ലോക്കുകൾ കാണിക്കുകയോ ചെയ്താൽ മാത്രം ഓഫാക്കുക; അപ്പോൾ സോഫ്റ്റ്‌വെയർ ഡീകോഡർ ജോലി ചെയ്യും.</string>
@@ -1595,6 +1603,8 @@
     <string name="settings_remote_scan">സ്കാൻ ചെയ്യുക അല്ലെങ്കിൽ ബ്രൗസറിൽ തുറക്കുക</string>
     <string name="settings_remote_or_open">അല്ലെങ്കിൽ തുറക്കുക</string>
     <string name="settings_remote_details_note">വിവരങ്ങൾ ഇവിടെ കാണാം; ഇംപോർട്ട് നിങ്ങൾ റിമോട്ടിൽ തുടങ്ങുന്നു.</string>
+    <string name="settings_remote_edit_note">മാറ്റങ്ങൾ എഡിറ്റ് സ്ക്രീനിൽ നിറയും; സംരക്ഷിക്കുക നിങ്ങൾ റിമോട്ട് ഉപയോഗിച്ച് അമർത്തുന്നു.</string>
+    <string name="settings_help_edit_from_phone">ഒരേ Wi-Fi-യിലുള്ള ഫോൺ, ടാബ്‌ലെറ്റ് അല്ലെങ്കിൽ കമ്പ്യൂട്ടറിലെ ബ്രൗസറിൽ ഈ പ്ലേലിസ്റ്റ് തുറക്കുന്നു. പാസ്‌വേഡുകൾ, MAC വിലാസങ്ങൾ, M3U പ്ലേലിസ്റ്റ് വിലാസങ്ങൾ എന്നിവ അവിടെ ഒരിക്കലും കാണിക്കില്ല: നിലനിർത്താൻ അവ ശൂന്യമായി വിടുക. നിങ്ങൾ അയയ്ക്കുന്നത് ഈ സ്ക്രീനിൽ നിറയും, സംരക്ഷിക്കുക അമർത്തുന്നതുവരെ ഒന്നും മാറില്ല.</string>
     <string name="settings_key_stop_back">നിർത്തി തിരികെ പോകുക</string>
     <string name="settings_source_type">തരം</string>
     <string name="settings_line_source_type">Xtream, M3U അല്ലെങ്കിൽ Stalker പോർട്ടൽ</string>

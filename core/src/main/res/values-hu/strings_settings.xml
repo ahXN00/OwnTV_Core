@@ -332,6 +332,11 @@
     <string name="settings_check_updates_description">Szerezd meg a legújabb verziót a GitHub Releases oldalról</string>
     <string name="settings_update_startup">Frissítés keresése induláskor</string>
     <string name="settings_update_startup_description">Új verzió keresése az alkalmazás megnyitásakor</string>
+    <string name="settings_auto_start_boot">Automatikus indítás bekapcsoláskor</string>
+    <string name="settings_auto_start_boot_description">Az OwnTV megnyitása a tévé bekapcsolásakor</string>
+    <string name="settings_auto_start_wake">Automatikus indítás ébredéskor</string>
+    <string name="settings_auto_start_wake_description">Az OwnTV megnyitása, amikor a tévé felébred alvó módból</string>
+    <string name="settings_auto_start_needs_overlay">Szükséges: „Megjelenítés más alkalmazások felett”</string>
     <string name="settings_about">Névjegy</string>
     <string name="settings_live_latency">Élő késleltetés</string>
     <string name="settings_no_settings_match">Egyetlen beállítás sem egyezik ezzel: „<xliff:g id="query">%1$s</xliff:g>”</string>
@@ -441,6 +446,7 @@
     <string name="settings_search_keywords_startup">indítás megnyitás nyitóképernyő</string>
     <string name="settings_search_keywords_updates">github kiadás verzió</string>
     <string name="settings_search_keywords_update_auto">automatikus frissítés új verzió</string>
+    <string name="settings_search_keywords_auto_start">indítás bekapcsolás ébredés alvás készenlét automatikus megnyitás</string>
     <string name="settings_language_default">Alapértelmezett (angol)</string>
     <string name="settings_language_device">Eszköz nyelve</string>
     <string name="settings_language_arabic">Arab</string>
@@ -1499,6 +1505,8 @@
     <string name="settings_help_startup">Amit az OwnTV induláskor mutat: a kezdőlap, a legutóbb nézett csatorna, a kedvencek vagy egy választott csatorna.</string>
     <string name="settings_help_check_updates">Most megkeresi a GitHubon az OwnTV újabb verzióját, és felajánlja a telepítését. A lejátszási listák, kedvencek és beállítások változatlanok maradnak.</string>
     <string name="settings_help_update_startup">Az OwnTV minden indításakor új verziót keres, és szól, ha van. Kérdezés nélkül semmi sem települ.</string>
+    <string name="settings_help_auto_start_boot">Magától megnyitja az OwnTV-t, amint a tévé elindult, az Alkalmazás indulása beállításban választott képernyőn. Az Android csak akkor engedi, hogy egy alkalmazás magától megnyíljon, ha megjelenhet más alkalmazások felett, ezért bekapcsoláskor megnyílik ennek az engedélynek a képernyője. Egyes tévék nem kínálják, és ott az automatikus indítás nem működhet.</string>
+    <string name="settings_help_auto_start_wake">Megnyitja az OwnTV-t minden alkalommal, amikor a tévé felébred alvó módból, akkor is, ha egy másik alkalmazás miatt ébresztetted fel. Ha az Alkalmazás indulása egy csatornát nyit meg, minden ébredés elindítja azt az adást. Amíg ez be van kapcsolva, az OwnTV egy kis háttérszolgáltatást futtat néma értesítéssel. Ahogy a bekapcsoláskori indításnak, ennek is engedély kell a más alkalmazások feletti megjelenítéshez.</string>
     <string name="settings_help_dns">A szolgáltató címeit a választott DNS-kiszolgálóval keresi fel a hálózat saját kiszolgálója helyett — hasznos, ha a hálózat letiltja vagy átirányítja őket.</string>
     <string name="settings_help_live_engine">Az ExoPlayer sokkal gyorsabban nyitja meg a csatornákat, és csak ez tud élő feliratot. Az mpv lejátssza azokat a csatornákat is, amelyeket az ExoPlayer nem, néhány szokatlan hanggal együtt. A kombinált lehetőségek a másik lejátszót próbálják, ha az első elakad.</string>
     <string name="settings_help_hw">A tévé hardveres dekóderét használja: akadásmentes 4K és kevesebb hő. Csak akkor kapcsolja ki, ha egyes adások akadoznak vagy kockásodnak; ekkor a szoftveres dekóder végzi a munkát.</string>
@@ -1595,6 +1603,8 @@
     <string name="settings_remote_scan">Olvasd be vagy nyisd meg böngészőben</string>
     <string name="settings_remote_or_open">vagy nyisd meg</string>
     <string name="settings_remote_details_note">Az adatok itt jelennek meg; az importálást a távirányítóval indítod.</string>
+    <string name="settings_remote_edit_note">A módosítások kitöltik a szerkesztőképernyőt; a Mentés gombot a távirányítóval nyomod meg.</string>
+    <string name="settings_help_edit_from_phone">Megnyitja ezt a lejátszási listát egy böngészőben egy telefonon, táblagépen vagy számítógépen ugyanazon a Wi-Fi-n. A jelszavak, MAC-címek és M3U-listacímek ott soha nem jelennek meg: hagyd őket üresen a megtartásukhoz. Amit elküldesz, kitölti ezt a képernyőt, és semmi sem változik, amíg meg nem nyomod a Mentés gombot.</string>
     <string name="settings_key_stop_back">Leállítás és vissza</string>
     <string name="settings_source_type">Típus</string>
     <string name="settings_line_source_type">Xtream, M3U vagy Stalker-portál</string>

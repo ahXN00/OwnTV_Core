@@ -284,6 +284,11 @@
     <string name="settings_check_updates_description">Získat nejnovější verzi z GitHub Releases</string>
     <string name="settings_update_startup">Kontrolovat aktualizace při spuštění</string>
     <string name="settings_update_startup_description">Při otevření aplikace vyhledat novou verzi</string>
+    <string name="settings_auto_start_boot">Automaticky spustit po zapnutí</string>
+    <string name="settings_auto_start_boot_description">Otevřít OwnTV po zapnutí televize</string>
+    <string name="settings_auto_start_wake">Automaticky spustit po probuzení</string>
+    <string name="settings_auto_start_wake_description">Otevřít OwnTV, když se televize probudí z režimu spánku</string>
+    <string name="settings_auto_start_needs_overlay">Vyžaduje „Zobrazení přes ostatní aplikace“</string>
     <string name="settings_about">O aplikaci</string>
     <string name="settings_live_latency">Zpoždění živého vysílání</string>
     <string name="settings_no_settings_match">Výrazu „<xliff:g id="query">%1$s</xliff:g>“ neodpovídá žádné nastavení</string>
@@ -393,6 +398,7 @@
     <string name="settings_search_keywords_startup">spuštění otevřít úvodní obrazovka</string>
     <string name="settings_search_keywords_updates">GitHub vydání verze</string>
     <string name="settings_search_keywords_update_auto">automatická aktualizace nová verze</string>
+    <string name="settings_search_keywords_auto_start">spuštění zapnutí probuzení spánek pohotovost automaticky otevřít</string>
     <string name="settings_language_default">Výchozí (angličtina)</string>
     <string name="settings_language_device">Jazyk zařízení</string>
     <string name="settings_language_arabic">Arabština</string>
@@ -1555,6 +1561,8 @@
     <string name="settings_help_startup">Co OwnTV zobrazí po spuštění: Domů, naposledy sledovaný kanál, oblíbené, nebo kanál, který vyberete.</string>
     <string name="settings_help_check_updates">Hned vyhledá na GitHubu novější OwnTV a nabídne instalaci. Playlisty, oblíbené a nastavení zůstanou, jak jsou.</string>
     <string name="settings_help_update_startup">Při každém spuštění OwnTV hledá novou verzi a dá vědět, když nějaká je. Bez zeptání se nic nenainstaluje.</string>
+    <string name="settings_help_auto_start_boot">Otevře OwnTV samo, jakmile televize nastartuje, na obrazovce zvolené v nastavení Spuštění aplikace. Android dovolí aplikaci otevřít se sama, jen pokud smí zobrazovat přes ostatní aplikace, proto se po zapnutí otevře obrazovka tohoto oprávnění. Některé televize ho nenabízejí a tam automatické spuštění fungovat nemůže.</string>
+    <string name="settings_help_auto_start_wake">Otevře OwnTV pokaždé, když se televize probudí z režimu spánku, i když jste ji probudili kvůli jiné aplikaci. Pokud Spuštění aplikace otevírá kanál, každé probuzení spustí tento stream. Dokud je to zapnuté, OwnTV udržuje malou službu na pozadí s tichým oznámením. Stejně jako automatické spuštění po zapnutí potřebuje oprávnění zobrazovat přes ostatní aplikace.</string>
     <string name="settings_help_dns">Vyhledává adresy poskytovatele přes zvolený server DNS místo serveru vaší sítě — hodí se, když je síť blokuje nebo přesměrovává.</string>
     <string name="settings_help_live_engine">ExoPlayer otevírá kanály mnohem rychleji a jako jediný umí živé titulky. mpv přehraje kanály, které ExoPlayer nezvládne, včetně neobvyklého zvuku. Kombinované volby zkusí druhý přehrávač, když první selže.</string>
     <string name="settings_help_hw">Používá hardwarový dekodér televize: plynulé 4K a méně tepla. Vypněte jen tehdy, když se některé streamy trhají nebo ukazují kostičky; práci pak převezme softwarový dekodér.</string>
@@ -1663,6 +1671,8 @@
     <string name="settings_remote_scan">Naskenujte nebo otevřete v prohlížeči</string>
     <string name="settings_remote_or_open">nebo otevřete</string>
     <string name="settings_remote_details_note">Údaje se zobrazí zde; import spustíte ovladačem.</string>
+    <string name="settings_remote_edit_note">Změny vyplní obrazovku úprav; Uložit stisknete ovladačem.</string>
+    <string name="settings_help_edit_from_phone">Otevře tento playlist v prohlížeči na telefonu, tabletu nebo počítači ve stejné síti Wi-Fi. Hesla, adresy MAC a adresy playlistů M3U se tam nikdy nezobrazují: nechte je prázdné, aby zůstaly. Co odešlete, vyplní tuto obrazovku, a nic se nezmění, dokud nestisknete Uložit.</string>
     <string name="settings_key_stop_back">Zastavit a zpět</string>
     <string name="settings_source_type">Typ</string>
     <string name="settings_line_source_type">Xtream, M3U nebo portál Stalker</string>
