@@ -51,8 +51,18 @@ class TimeshiftManager(
         var closeJob: Job? = null
         /** The wall-clock instant on screen when the user left, for "Resume from buffer". */
         var leftAtWallMs: Long? = null
+        /** When it was parked, on the wall clock — see [outlived]. */
+        var parkedAtWallMs: Long? = null
         val parked: Boolean get() = download == null
     }
+
+    /**
+     * Parked past [TimeshiftRules.PARKED_GRACE_MS] on the wall clock. The close timer alone cannot be
+     * trusted for that: it counts only while the CPU runs, and a television in standby sleeps it, so a
+     * buffer parked for an hour is still there when the screen comes back.
+     */
+    private fun outlived(buffer: Buffer): Boolean =
+        buffer.parkedAtWallMs?.let { clock() - it > TimeshiftRules.PARKED_GRACE_MS } == true
 
     private var active: Buffer? = null
     private var parked: Buffer? = null
@@ -91,7 +101,9 @@ class TimeshiftManager(
             }
             // The parked buffer is taken out BEFORE the channel being left is parked: parking evicts
             // whatever is parked, and on a return (A → B → A) that is exactly the buffer wanted.
-            val back = parked?.takeIf { it.session.channelKey == channelKey }
+            val waiting = parked?.takeIf { it.session.channelKey == channelKey }
+            val back = waiting?.takeUnless(::outlived)
+            if (waiting != null && back == null) closeBuffer(waiting) // too old to resume: a new one below
             if (back != null) {
                 parked = null
                 back.closeJob?.cancel()
@@ -171,6 +183,7 @@ class TimeshiftManager(
 
     private fun startDownloadLocked(buffer: Buffer, result: kotlinx.coroutines.CompletableDeferred<TimeshiftDownloader.Result>? = null) {
         buffer.idleJob?.cancel()
+        buffer.parkedAtWallMs = null
         val downloader = TimeshiftDownloader(
             client = client,
             session = buffer.session,
@@ -206,6 +219,9 @@ class TimeshiftManager(
         buffer.download = null
         buffer.idleJob?.cancel()
         buffer.session.endPiece(durationMs = null)
+        // Whatever is saved next follows a hole, and a player opening the live edge meanwhile waits for it.
+        buffer.session.markGap()
+        buffer.parkedAtWallMs = clock()
         buffer.leftAtWallMs = leftAtWallMs ?: buffer.session.playableEdgeWallMs()
         // One parked buffer at most: the older one is gone.
         parked?.takeIf { it !== buffer }?.let { old -> scope.launch { closeBuffer(old) } }
@@ -242,6 +258,12 @@ class TimeshiftManager(
                     parked = null
                     buffer.closeJob?.cancel()
                     active?.let { parkLocked(it, leftAtWallMs = null) }
+                    // Back after the grace (a standby): what was saved before is too old to keep. The
+                    // player stays connected and is served from the first new piece.
+                    if (outlived(buffer)) {
+                        buffer.session.discardSaved()
+                        buffer.leftAtWallMs = null
+                    }
                     buffer.session.markGap()
                     startDownloadLocked(buffer)
                     active = buffer

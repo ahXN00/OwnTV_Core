@@ -79,6 +79,28 @@ class TimeshiftSessionTest {
     }
 
     @Test
+    fun `after a gap a live reader waits for the next piece instead of replaying the old one`() {
+        piece(byteArrayOf(1), 2_000)
+        session.markGap()
+        now.set(1_060_000L) // the player comes back a minute later
+        val reader = session.open(null)
+        assertEquals(1_060_000L, session.readingFromWallMs)
+
+        val writer = thread {
+            Thread.sleep(100)
+            session.beginPiece()
+            session.write(byteArrayOf(2), 0, 1)
+            session.flush()
+        }
+        val buf = ByteArray(4)
+        val n = reader.read(buf, 0, buf.size)
+        writer.join()
+        assertEquals(1, n)
+        assertEquals(2.toByte(), buf[0])
+        reader.close()
+    }
+
+    @Test
     fun `a reader of a dropped piece starts at the oldest, and fragmented MP4 gets its init first`() {
         session.setContainer(TimeshiftSession.Container.FMP4, byteArrayOf(9, 9))
         repeat(6) { piece(byteArrayOf(it.toByte()), 60_000) }

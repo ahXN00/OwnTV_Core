@@ -7,7 +7,8 @@ import android.os.Bundle
 import android.os.Process
 
 /**
- * "Restart now" after an icon change, done from outside the app's own process.
+ * "Restart now" after an icon change or a setting that applies at start, done from outside the app's own
+ * process.
  *
  * The app cannot reopen itself and then die: the screen it asked for is started in the process being
  * killed, and Android drops it with the process — the icon changed and the app stayed closed. This

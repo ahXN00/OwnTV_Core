@@ -70,10 +70,23 @@
     </plurals>
     <string name="content_category_restore_order">Votre ordre personnalisé sera effacé</string>
     <string name="content_category_restore_nothing">La catégorie est déjà conforme à la liste de lecture</string>
+    <string name="content_category_lock">Verrouiller avec un PIN</string>
+    <string name="content_category_locked_placeholder">Cette catégorie est verrouillée</string>
+    <plurals name="content_category_pin_wait">
+        <item quantity="one">Trop de PIN erronés. Réessayez dans <xliff:g id="count">%1$d</xliff:g> seconde</item>
+        <item quantity="many">Trop de PIN erronés. Réessayez dans <xliff:g id="count">%1$d</xliff:g> secondes</item>
+        <item quantity="other">Trop de PIN erronés. Réessayez dans <xliff:g id="count">%1$d</xliff:g> secondes</item>
+    </plurals>
     <string name="content_move_to_category">Déplacer vers une catégorie…</string>
     <string name="content_remove_from_category">Retirer de cette catégorie</string>
     <string name="content_download">Télécharger</string>
     <string name="content_download_all_episodes">Télécharger tous les épisodes</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one">Télécharger <xliff:g id="count">%1$d</xliff:g> épisode ?</item>
+        <item quantity="many">Télécharger <xliff:g id="count">%1$d</xliff:g> d\'épisodes ?</item>
+        <item quantity="other">Télécharger <xliff:g id="count">%1$d</xliff:g> épisodes ?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">Ils sont enregistrés sur cet appareil et occupent de l\'espace de stockage.</string>
     <string name="content_play">Lire</string>
     <string name="content_favorited">Dans les favoris</string>
     <string name="content_favorite">Ajouter aux favoris</string>
@@ -81,9 +94,7 @@
     <string name="content_episodes">Épisodes</string>
     <string name="content_oldest_first">Du plus ancien au plus récent</string>
     <string name="content_newest_first">Du plus récent au plus ancien</string>
-    <string name="content_play_external">Lire avec un lecteur externe</string>
     <string name="content_delete_subtitles">Supprimer les sous-titres OpenSub</string>
-    <string name="content_tmdb_details">Détails TMDB</string>
     <string name="content_play_trailer">Lire la bande-annonce</string>
     <string name="content_refetch_tmdb">Récupérer à nouveau les détails TMDB</string>
     <string name="content_set_tmdb_name">Définir le nom TMDB</string>
@@ -134,6 +145,9 @@
     <string name="content_catchup_jump_prompt">Choisissez une heure à partir de laquelle regarder. Aucun guide n’est nécessaire.</string>
     <string name="content_catchup_jump_exact">Choisir l’heure exacte…</string>
     <string name="content_catchup_jump_hint">Appuyez sur OK sur le jour, l’heure ou la minute, modifiez avec haut et bas, puis appuyez de nouveau sur OK.</string>
+    <string name="content_catchup_jump_programme_start">Début de « <xliff:g id="title">%1$s</xliff:g> »</string>
+    <string name="content_catchup_jump_programme_start_untitled">Début du programme</string>
+    <string name="content_catchup_jump_programme_start_at">A commencé à <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">Choisissez la chaîne du guide pour « <xliff:g id="channel">%1$s</xliff:g> ».</string>
     <string name="content_epg_match_prompt_current">Choisissez la chaîne du guide pour « <xliff:g id="channel">%1$s</xliff:g> ». Association actuelle : <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">Rechercher des chaînes du guide…</string>
@@ -182,6 +196,8 @@
     <string name="content_downloads_ready">Prêt à regarder</string>
     <string name="content_downloads_paused">En pause</string>
     <string name="content_downloads_file_missing">Fichier manquant : il n\'est plus sur le disque</string>
+    <string name="content_downloads_delete_title">Supprimer « <xliff:g id="name">%1$s</xliff:g> » ?</string>
+    <string name="content_downloads_delete_message">Supprime le fichier de cet appareil. Il pourra être téléchargé de nouveau plus tard.</string>
     <string name="content_downloads_reason_account_busy">Compte occupé : un autre flux utilise la connexion</string>
     <string name="content_downloads_reason_refused">Le serveur a refusé le lien</string>
     <string name="content_downloads_reason_not_found">Le serveur n\'a plus ce fichier</string>

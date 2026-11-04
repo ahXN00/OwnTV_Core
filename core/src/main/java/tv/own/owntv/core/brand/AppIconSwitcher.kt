@@ -78,10 +78,20 @@ object AppIconSwitcher {
      */
     fun restartWith(activity: Activity, icon: AppIcon) {
         apply(activity, icon)
+        restartInto(activity, component(activity, icon))
+    }
+
+    /**
+     * "Restart now" for a setting that applies at start (the FFmpeg audio decoder): the same restart,
+     * into the launcher activity that is enabled now. The caller must have finished saving the choice first.
+     */
+    fun restart(activity: Activity) = restartInto(activity, launchComponent(activity))
+
+    private fun restartInto(activity: Activity, target: ComponentName) {
         activity.startActivity(
             Intent(activity, AppRestartActivity::class.java)
                 .putExtra(AppRestartActivity.EXTRA_PID, Process.myPid())
-                .putExtra(AppRestartActivity.EXTRA_COMPONENT, component(activity, icon).flattenToString())
+                .putExtra(AppRestartActivity.EXTRA_COMPONENT, target.flattenToString())
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
         )
         activity.finishAffinity()

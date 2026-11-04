@@ -20,11 +20,13 @@ import tv.own.owntv.core.sports.model.League
 import tv.own.owntv.core.sports.model.Match
 import tv.own.owntv.core.sports.model.MatchState
 import tv.own.owntv.core.sports.model.MatchSummary
+import tv.own.owntv.core.sports.model.Ranking
 import tv.own.owntv.core.sports.model.Sport
 import tv.own.owntv.core.sports.model.StandingsTable
 import tv.own.owntv.core.sports.model.Team
 import java.io.File
 import java.time.LocalDate
+import java.time.YearMonth
 
 /** The rebuild-based board — window rules, replace-not-merge, details and tables, storage. */
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -73,6 +75,13 @@ class SportsRebuildTest {
         }
 
         override suspend fun teams(league: League): List<Team> = emptyList()
+        override suspend fun month(league: League, month: YearMonth) = MonthBoard(emptyList(), null)
+        override suspend fun rankings(league: League): Ranking {
+            calls += "ranking:${league.key}"
+            return Ranking(league.key, emptyList())
+        }
+
+        override suspend fun teamSchedule(league: League, teamId: String, fixtures: Boolean): List<Match> = emptyList()
     }
 
     private fun TestScope.repo(source: SportsSource, followed: MutableStateFlow<Set<String>>, dir: File) =
@@ -155,6 +164,21 @@ class SportsRebuildTest {
         rebuilt(repo)
         assertTrue("a match still to come is fetched again", "summary:m1" in source.calls)
         assertFalse("a finished match's stored details are reused", "summary:m2" in source.calls)
+    }
+
+    @Test
+    fun `rankings for racing and the tennis tours, none for a cup, all stored with the board`() = runTest {
+        advanceTimeBy(t0)
+        val dir = tmp.newFolder()
+        val f1 = "racing/f1"
+        val cup = "soccer/eng.fa"
+        val source = Source()
+        val board = rebuilt(repo(source, MutableStateFlow(setOf(bl, atp, f1, cup)), dir))
+        assertEquals(setOf(atp, f1), board.rankings.keys)
+        assertEquals(setOf("ranking:$atp", "ranking:$f1"), source.calls.filter { it.startsWith("ranking:") }.toSet())
+        assertEquals("a table for the league only, never the cup", listOf("table:$bl"), source.calls.filter { it.startsWith("table:") })
+        assertTrue("written with the board", File(dir, "sports/board.json").readText().contains("\"rk\""))
+        assertEquals(setOf(atp, f1), SportsCacheJson.read(File(dir, "sports/board.json").readText())!!.rankings.keys)
     }
 
     @Test

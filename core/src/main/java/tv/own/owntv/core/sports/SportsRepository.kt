@@ -25,13 +25,13 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withTimeoutOrNull
 import tv.own.owntv.core.sports.model.League
 import tv.own.owntv.core.sports.model.Match
 import tv.own.owntv.core.sports.model.MatchState
 import tv.own.owntv.core.sports.model.MatchSummary
+import tv.own.owntv.core.sports.model.Ranking
 import tv.own.owntv.core.sports.model.Sport
 import tv.own.owntv.core.sports.model.StandingsTable
 import java.io.File
@@ -43,7 +43,7 @@ import java.time.ZoneId
  * the set of screens currently asking ([observe]), turned into fetches by [SportsRefreshPolicy].
  *
  * [today] and [tomorrow] are keyed by feed (the followed league's key, `cricket/all` for cricket);
- * [summaries] by match key; [standings] by league key. [failing] holds the feeds whose last try failed,
+ * [summaries] by match key; [standings] and [rankings] by league key. [failing] holds the feeds whose last try failed,
  * and [paused] is the 15-minute stop after ESPN said 403 or 429 ("Scores paused"). [rebuiltAt] is when
  * the last rebuild finished (null: never on this device), [builtFor] the league keys it fetched.
  */
@@ -52,6 +52,7 @@ data class SportsBoard(
     val tomorrow: Map<String, List<Match>> = emptyMap(),
     val summaries: Map<String, MatchSummary> = emptyMap(),
     val standings: Map<String, StandingsTable> = emptyMap(),
+    val rankings: Map<String, Ranking> = emptyMap(),
     val failing: Set<Feed> = emptySet(),
     val paused: Boolean = false,
     val rebuiltAt: Long? = null,
@@ -145,10 +146,15 @@ object SportsWindow {
     /** A match of two teams has a summary worth storing (timeline, stats, line-ups, form); an athletes' one does not. */
     fun hasDetails(m: Match): Boolean = m.competitors.size == 2 && m.competitors.none { it.team.isAthlete }
 
-    /** Sports whose leagues have a table; cricket's one feed is every series, so it has none either. */
-    fun hasTable(league: League): Boolean = league.sport !in NO_TABLE
+    /** Sports whose leagues have a table, less the cups; cricket's one feed is every series, so it has none either. */
+    fun hasTable(league: League): Boolean = league.hasTable && league.sport !in NO_TABLE
 
     private val NO_TABLE = setOf(Sport.TENNIS, Sport.RACING, Sport.GOLF, Sport.MMA, Sport.CRICKET)
+
+    /** The leagues ranked instead of tabled: every racing series' drivers (F1's constructors too), the tennis tours' players. ESPN ranks no golfers. */
+    fun hasRanking(league: League): Boolean = league.sport == Sport.RACING || league.key in RANKED_TOURS
+
+    private val RANKED_TOURS = setOf("tennis/atp", "tennis/wta")
 }
 
 /**
@@ -158,7 +164,7 @@ object SportsWindow {
  * refreshed only while a screen collects [observe]. When the last screen stops, polling stops, and five
  * minutes later the board is dropped from memory.
  *
- * A feed already being fetched is never fetched twice, and at most [MAX_PARALLEL] run at once. All
+ * A feed already being fetched is never fetched twice, and at most [SportsGate.MAX_PARALLEL] run at once. All
  * state is touched on one serial dispatcher, so none of it needs a lock.
  */
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -173,6 +179,7 @@ class SportsRepository(
     dispatcher: CoroutineDispatcher = Dispatchers.Default,
     private val clock: () -> Long = System::currentTimeMillis,
     private val activity: SportsActivityTracker = SportsActivityTracker(),
+    private val gate: SportsGate = SportsGate(policy, clock),
 ) {
     private val serial = dispatcher.limitedParallelism(1)
     private val cacheFile = File(File(dataDir, CACHE_DIR), CACHE_FILE)
@@ -186,7 +193,6 @@ class SportsRepository(
     // Confined to [serial].
     private val states = HashMap<Feed, FeedState>()
     private val inFlight = HashMap<Feed, Job>()
-    private var pausedUntil = 0L
     private var cacheLoaded = false
     private var engine: Job? = null
     private var rebuildJob: Job? = null
@@ -197,7 +203,6 @@ class SportsRepository(
     val rebuild: StateFlow<RebuildState> = activity.rebuild.asStateFlow()
 
     private val wake = Channel<Unit>(Channel.CONFLATED)
-    private val permits = Semaphore(MAX_PARALLEL)
 
     /**
      * The board, kept fresh for [demand] while it is collected. The demand is registered when
@@ -232,7 +237,7 @@ class SportsRepository(
      * channels' window. Updates the board; null when the fetch fails (the caller keeps the copy it has).
      */
     suspend fun refetch(match: Match): Match? = try {
-        val summary = permits.withPermit { source.summary(match) }
+        val summary = gate.permits.withPermit { source.summary(match) }
         _board.update { it.withEnds(listOf(summary.match), clock()).copy(summaries = it.summaries + (match.key to summary)) }
         summary.match
     } catch (e: CancellationException) {
@@ -244,7 +249,7 @@ class SportsRepository(
 
     /**
      * Builds the board again: today's and tomorrow's scoreboard of every followed league,
-     * each two-team match's details and each league's table, kept to [SportsWindow], then swapped in at
+     * each two-team match's details and each league's table or ranking, kept to [SportsWindow], then swapped in at
      * once. A league or a match whose fetch fails keeps what the board had; a finished match ESPN's new
      * day no longer lists stays its 12 hours. One at a time: a call while one runs is ignored.
      */
@@ -300,12 +305,14 @@ class SportsRepository(
         // A finished match's details no longer change: the stored copy is reused.
         val (reused, wanted) = matches.partition { it.state == MatchState.POST && old.summaries[it.key]?.match?.state == MatchState.POST }
         val tabled = leagues.filter(SportsWindow::hasTable)
-        total += wanted.size + tabled.size
+        val ranked = leagues.filter(SportsWindow::hasRanking)
+        total += wanted.size + tabled.size + ranked.size
         _rebuild.value = RebuildState.Running(done, total)
-        val (summaries, standings) = coroutineScope {
+        val (summaries, standings, rankings) = coroutineScope {
             val s = wanted.map { m -> async { m.key to (attempt { source.summary(m) }.also { step() } ?: old.summaries[m.key]) } }
             val t = tabled.map { l -> async { l.key to (attempt { source.standings(l) }.also { step() } ?: old.standings[l.key]) } }
-            s.awaitAll() to t.awaitAll()
+            val r = ranked.map { l -> async { l.key to (attempt { source.rankings(l) }.also { step() } ?: old.rankings[l.key]) } }
+            Triple(s.awaitAll(), t.awaitAll(), r.awaitAll())
         }
 
         _board.update {
@@ -315,6 +322,7 @@ class SportsRepository(
                 summaries = reused.associate { m -> m.key to old.summaries.getValue(m.key) } +
                     summaries.mapNotNull { (k, v) -> v?.let { k to it } },
                 standings = standings.mapNotNull { (k, v) -> v?.let { k to it } }.toMap(),
+                rankings = rankings.mapNotNull { (k, v) -> v?.let { k to it } }.toMap(),
                 failing = boards.filter { b -> b.third == null }.mapTo(HashSet()) { (l, next, _) -> Feed.Scoreboard(l.key, next) },
                 rebuiltAt = now,
                 builtFor = follow,
@@ -325,12 +333,12 @@ class SportsRepository(
         activity.rebuiltAt.value = now
         rebuiltThisRun = true
         saveCache()
-        _rebuild.value = if (pausedUntil > clock()) RebuildState.Failed else RebuildState.Idle
+        _rebuild.value = if (gate.paused()) RebuildState.Failed else RebuildState.Idle
     }
 
     /** One rebuild fetch: its result, or null when it failed or ESPN asked us to pause (403/429). */
-    private suspend fun <T> attempt(call: suspend () -> T): T? = permits.withPermit {
-        if (pausedUntil > clock()) return@withPermit null
+    private suspend fun <T> attempt(call: suspend () -> T): T? = gate.permits.withPermit {
+        if (gate.paused()) return@withPermit null
         try {
             call()
         } catch (e: CancellationException) {
@@ -338,7 +346,7 @@ class SportsRepository(
         } catch (e: Exception) {
             val code = (e as? SportsHttpException)?.code
             Log.w(TAG, "rebuild fetch failed code=${code ?: -1} error=${e.javaClass.simpleName}")
-            code?.let { policy.pauseAfter(it, clock()) }?.let { pausedUntil = maxOf(pausedUntil, it) }
+            gate.failed(code)
             null
         }
     }
@@ -355,7 +363,7 @@ class SportsRepository(
                 while (true) {
                     val now = clock()
                     if (rebuildDue(mode, follow, now)) rebuild()
-                    val plan = policy.plan(asked, follow, HashMap(states), now, seconds, pausedUntil)
+                    val plan = policy.plan(asked, follow, HashMap(states), now, seconds, gate.pausedUntil)
                     if (_board.value.paused != plan.paused) _board.update { it.copy(paused = plan.paused) }
                     plan.fetch.forEach { start(it, asked, now) }
                     val b = _board.value
@@ -373,7 +381,7 @@ class SportsRepository(
         states[feed] = (states[feed] ?: FeedState()).copy(attemptedAt = now)
         inFlight[feed] = scope.launch(serial) {
             try {
-                permits.withPermit { fetch(feed, asked) }
+                gate.permits.withPermit { fetch(feed, asked) }
             } finally {
                 inFlight.remove(feed)
                 wake.trySend(Unit)
@@ -403,6 +411,12 @@ class SportsRepository(
                     _board.update { it.copy(standings = it.standings + (feed.leagueKey to table), failing = it.failing - feed) }
                     emptyList()
                 }
+                is Feed.Rankings -> {
+                    val league = SportsCatalog.league(feed.leagueKey) ?: throw IllegalArgumentException("not in the catalogue")
+                    val ranking = source.rankings(league)
+                    _board.update { it.copy(rankings = it.rankings + (feed.leagueKey to ranking), failing = it.failing - feed) }
+                    emptyList()
+                }
             }
             states[feed] = FeedState(fetchedAt = tried, attemptedAt = tried, matches = matches)
             if (feed is Feed.Scoreboard) saveCache()
@@ -411,7 +425,7 @@ class SportsRepository(
         } catch (e: Exception) {
             val code = (e as? SportsHttpException)?.code
             Log.w(TAG, "fetch failed feed=$feed code=${code ?: -1} error=${e.javaClass.simpleName}")
-            code?.let { policy.pauseAfter(it, clock()) }?.let { pausedUntil = maxOf(pausedUntil, it) }
+            gate.failed(code)
             val previous = states[feed] ?: FeedState()
             states[feed] = previous.copy(attemptedAt = tried, failures = previous.failures + 1)
             _board.update { it.copy(failing = it.failing + feed) }
@@ -443,6 +457,7 @@ class SportsRepository(
                 tomorrow = stored.tomorrow + b.tomorrow,
                 summaries = stored.summaries + b.summaries,
                 standings = stored.standings + b.standings,
+                rankings = stored.rankings + b.rankings,
                 rebuiltAt = b.rebuiltAt ?: stored.rebuiltAt,
                 builtFor = b.builtFor ?: stored.builtFor,
                 endedAt = stored.endedAt + b.endedAt,
@@ -464,6 +479,7 @@ class SportsRepository(
         board.tomorrow.forEach { (k, l) -> put(Feed.Scoreboard(k, tomorrow = true), FeedState(at, at, 0, l)) }
         board.summaries.forEach { (k, sum) -> put(Feed.Summary(k), FeedState(at, at, 0, listOf(sum.match))) }
         board.standings.keys.forEach { put(Feed.Standings(it), FeedState(at, at)) }
+        board.rankings.keys.forEach { put(Feed.Rankings(it), FeedState(at, at)) }
     }
 
     private fun saveCache() {
@@ -488,7 +504,6 @@ class SportsRepository(
 
     private companion object {
         const val TAG = "OwnTV-Sports"
-        const val MAX_PARALLEL = 4
         const val MIN_WAIT_MS = 1_000L
         const val DROP_AFTER_MS = 5 * 60_000L
         const val CACHE_DIR = "sports"

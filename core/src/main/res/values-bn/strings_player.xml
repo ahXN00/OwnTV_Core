@@ -22,6 +22,8 @@
     <string name="player_timeshift_resume_title">যেখানে ছেড়েছিলেন সেখান থেকে চালাবেন?</string>
     <string name="player_timeshift_resume_message">আপনি দূরে থাকার সময় এই চ্যানেলটি সংরক্ষিত হয়েছে।</string>
     <string name="player_previous_channel">আগের চ্যানেল</string>
+    <string name="player_tool_sources">উৎস</string>
+    <string name="player_sources_none">এই চ্যানেলের অন্য কোনো সংস্করণ পাওয়া যায়নি।</string>
     <string name="player_next_channel_in_list">পরের চ্যানেল</string>
     <string name="player_previous_channel_in_list">তালিকার আগের চ্যানেল</string>
     <string name="player_live_scrub_at"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="programme">%2$s</xliff:g></string>
@@ -86,6 +88,7 @@
     <string name="player_time_remaining">−<xliff:g id="time">%1$s</xliff:g></string>
     <string name="player_switch_exo">ExoPlayer-এ পরিবর্তন করা হয়েছে</string>
     <string name="player_switch_mpv">mpv-তে পরিবর্তন করা হয়েছে</string>
+    <string name="player_smoothness_hint">এই চ্যানেলে ফ্রেম বাদ পড়ছে। প্লেয়ার mpv-তে পরিবর্তন করলে এটি আরও মসৃণভাবে চলতে পারে।</string>
     <string name="player_error_image_subtitle_audio">এই ভিডিওর অডিও ফরম্যাটে ছবিভিত্তিক সাবটাইটেল পাওয়া যায় না।</string>
     <string name="player_error_both_engines_exo_first">দুটি ভিডিও ইঞ্জিনেই প্লেব্যাক ব্যর্থ হয়েছে (প্রথমে ExoPlayer, তারপর mpv)। ফাইলটি নষ্ট হতে পারে অথবা এমন কোনো ফরম্যাট ব্যবহার করতে পারে যা এই টিভিতে চালানো যায় না।</string>
     <string name="player_error_both_engines_mpv_first">দুটি ভিডিও ইঞ্জিনেই প্লেব্যাক ব্যর্থ হয়েছে (mpv এবং ExoPlayer)। ফাইলটি নষ্ট হতে পারে অথবা এমন কোনো ফরম্যাট ব্যবহার করতে পারে যা এই টিভিতে চালানো যায় না। (<xliff:g id="error">%1$s</xliff:g>)</string>
@@ -108,6 +111,7 @@
     <string name="player_error_account_in_use">এই অ্যাকাউন্টটি ইতিমধ্যে অন্য কোনো ডিভাইস বা অ্যাপে চলছে। সেখানে বন্ধ করুন, তারপর আবার চেষ্টা করুন চাপুন।</string>
     <string name="player_error_mpv_open_decode">mpv এই ফাইলটি খুলতে বা ডিকোড করতে পারেনি।</string>
     <string name="player_error_mpv_stream_never_started">কয়েকবার চেষ্টা করার পরও mpv-তে স্ট্রিমটি চালু হয়নি।</string>
+    <string name="player_error_fairplay">এই স্ট্রিমটি Apple FairPlay দিয়ে সুরক্ষিত, যা Android ডিভাইসে চালানো যায় না। এই প্লেলিস্টটি Apple ডিভাইসের জন্য তৈরি।</string>
     <string name="player_error_surround">এই অডিও আউটপুটে সারাউন্ড চালানো যায় না — স্টেরিওতে পরিবর্তন করা হয়েছে।</string>
     <string name="player_error_hardware_fallback">এই টিভিতে স্ট্রিমটির ফরম্যাট হার্ডওয়্যার দিয়ে ডিকোড করা যায়নি, তাই সফটওয়্যার ডিকোডিংয়ে পরিবর্তন করা হয়েছে — যা টিভিতে অতিরিক্ত চাপ না ফেলে <xliff:g id="resolution">%1$s</xliff:g> চালিয়ে যেতে পারে না। টিভিটি অন্য 4K কনটেন্ট ঠিকভাবেই চালাতে পারে; সমস্যাটি শুধু এই নির্দিষ্ট স্ট্রিমের ফরম্যাটে।</string>
     <string name="player_error_hardware_disabled">হার্ডওয়্যার ডিকোডিং বন্ধ আছে — সফটওয়্যার ডিকোডিং <xliff:g id="resolution">%1$s</xliff:g> ভিডিও চালাতে পারে না। সেটিংস → ভিডিও প্লেয়ার থেকে এটি চালু করুন।</string>
@@ -267,7 +271,7 @@
     <string name="player_subtitles_search_language_description">অনুসন্ধান ফলাফলে কেবল এই ভাষার সাবটাইটেল দেখা যায়। একটি অনুসন্ধানের সবকিছু দেখতে আপনি এখনও ফলাফলে “সব ভাষা” চাপতে পারেন।</string>
     <string name="player_subtitles_language_not_set">সেট করা নেই</string>
     <string name="player_frame_rate_prompt_title">এই চ্যানেলে ছবি ঝাঁকুনি দিতে পারে</string>
-    <string name="player_frame_rate_prompt_description">এটি <xliff:g id="fps">%1$d</xliff:g> fps-এ চলে, যখন আপনার টিভি <xliff:g id="current_hz">%2$d</xliff:g> Hz-এ চলছে, যা সেই ফ্রেমগুলো সমানভাবে দেখাতে পারে না — গতি কিছুটা ঝাঁকুনিপূর্ণ দেখায়।\n\nআপনি দেখার সময় অটো ফ্রেম রেট টিভিটিকে <xliff:g id="target_hz">%3$d</xliff:g> Hz-এ স্যুইচ করে এবং পরে আবার আগের অবস্থায় ফিরিয়ে দেয়। রেট পরিবর্তনের সময় কিছু টিভির স্ক্রিন এক মুহূর্তের জন্য ফাঁকা হয়ে যায়; আপনি সেটিংস → ভিডিও প্লেয়ার থেকে এটি আবার বন্ধ করতে পারেন।</string>
+    <string name="player_frame_rate_prompt_description">এটি <xliff:g id="fps">%1$d</xliff:g> fps-এ চলে, যখন আপনার টিভি <xliff:g id="current_hz">%2$d</xliff:g> Hz-এ চলছে, যা সেই ফ্রেমগুলো সমানভাবে দেখাতে পারে না — গতি কিছুটা ঝাঁকুনিপূর্ণ দেখায়।\n\nআপনি দেখার সময় অটো ফ্রেম রেট টিভিটিকে <xliff:g id="target_hz">%3$d</xliff:g> Hz-এ স্যুইচ করে এবং পরে আবার আগের অবস্থায় ফিরিয়ে দেয়। রেট পরিবর্তনের সময় কিছু টিভির স্ক্রিন এক মুহূর্তের জন্য ফাঁকা হয়ে যায়; আপনি সেটিংস → ছবি → ফ্রেম রেট থেকে এটি আবার বন্ধ করতে পারেন।</string>
     <string name="player_frame_rate_turn_on">চালু করুন</string>
     <string name="player_reason_live_fallback">লাইভ প্লেব্যাক একটি ফলব্যাকে স্যুইচ করা হয়েছে</string>
     <string name="player_reason_live_no_fallback">লাইভ প্লেব্যাক ব্যর্থ হয়েছে — আর কোনো ফলব্যাক অবশিষ্ট নেই</string>

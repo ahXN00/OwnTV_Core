@@ -22,6 +22,8 @@
     <string name="player_timeshift_resume_title">Fortsæt, hvor du slap?</string>
     <string name="player_timeshift_resume_message">Kanalen blev gemt, mens du var væk.</string>
     <string name="player_previous_channel">Forrige kanal</string>
+    <string name="player_tool_sources">Kilder</string>
+    <string name="player_sources_none">Der blev ikke fundet nogen anden version af denne kanal.</string>
     <string name="player_next_channel_in_list">Næste kanal</string>
     <string name="player_previous_channel_in_list">Forrige kanal på listen</string>
     <string name="player_live_scrub_at"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="programme">%2$s</xliff:g></string>
@@ -86,6 +88,7 @@
     <string name="player_time_remaining">−<xliff:g id="time">%1$s</xliff:g></string>
     <string name="player_switch_exo">Skiftede til ExoPlayer</string>
     <string name="player_switch_mpv">Skiftede til MPV</string>
+    <string name="player_smoothness_hint">Denne kanal taber billeder. Skift afspilleren til MPV, så kører den måske mere jævnt.</string>
     <string name="player_error_image_subtitle_audio">Billedbaserede undertekster er ikke tilgængelige med denne videos lydformat.</string>
     <string name="player_error_both_engines_exo_first">Afspilningen mislykkedes på begge videoafspilningsmotorer (først ExoPlayer, derefter mpv). Filen kan være beskadiget eller bruge et format, som dette tv ikke kan afspille.</string>
     <string name="player_error_both_engines_mpv_first">Afspilningen mislykkedes på begge videoafspilningsmotorer (mpv og ExoPlayer). Filen kan være beskadiget eller bruge et format, som dette tv ikke kan afspille. (<xliff:g id="error">%1$s</xliff:g>)</string>
@@ -108,6 +111,7 @@
     <string name="player_error_account_in_use">Denne konto afspiller allerede på en anden enhed eller app. Stop den der, og tryk derefter på Prøv igen.</string>
     <string name="player_error_mpv_open_decode">mpv kunne ikke åbne eller afkode denne fil.</string>
     <string name="player_error_mpv_stream_never_started">Streamen startede aldrig i mpv efter flere forsøg.</string>
+    <string name="player_error_fairplay">Denne stream er beskyttet med Apple FairPlay, som Android-enheder ikke kan afspille. Playlisten er lavet til Apple-enheder.</string>
     <string name="player_error_surround">Denne lydudgang understøtter ikke surroundlyd — der blev skiftet til stereo.</string>
     <string name="player_error_hardware_fallback">Denne streams format kunne ikke hardwaredekodes på dette tv, så der blev skiftet til softwaredekodning — som ikke kan håndtere <xliff:g id="resolution">%1$s</xliff:g> uden at overbelaste tv\'et. Tv\'et kan muligvis stadig afspille andet 4K-indhold uden problemer; det er formatet på netop denne stream, der er problemet.</string>
     <string name="player_error_hardware_disabled">Hardwaredekodning er slået fra — softwaredekodning kan ikke håndtere video i <xliff:g id="resolution">%1$s</xliff:g>. Aktivér den under Indstillinger → Videoafspiller.</string>
@@ -267,7 +271,7 @@
     <string name="player_subtitles_search_language_description">Kun undertekster på dette sprog vises i søgeresultaterne. Du kan stadig vælge “Alle sprog” i resultaterne for at se alt for én søgning.</string>
     <string name="player_subtitles_language_not_set">Ikke angivet</string>
     <string name="player_frame_rate_prompt_title">Denne kanal kan hakke</string>
-    <string name="player_frame_rate_prompt_description">Den afspiller med <xliff:g id="fps">%1$d</xliff:g> fps, mens dit TV kører med <xliff:g id="current_hz">%2$d</xliff:g> Hz, hvilket ikke kan vise billederne jævnt — bevægelser ser lidt hakkende ud.\n\nAuto billedhastighed skifter TV\'et til <xliff:g id="target_hz">%3$d</xliff:g> Hz, mens du ser med, og sætter det tilbage bagefter. Nogle TV\'er viser sort skærm et øjeblik, når billedhastigheden skifter; du kan slå funktionen fra igen under Indstillinger → Videoafspiller.</string>
+    <string name="player_frame_rate_prompt_description">Den afspiller med <xliff:g id="fps">%1$d</xliff:g> fps, mens dit TV kører med <xliff:g id="current_hz">%2$d</xliff:g> Hz, hvilket ikke kan vise billederne jævnt — bevægelser ser lidt hakkende ud.\n\nAuto billedhastighed skifter TV\'et til <xliff:g id="target_hz">%3$d</xliff:g> Hz, mens du ser med, og sætter det tilbage bagefter. Nogle TV\'er viser sort skærm et øjeblik, når billedhastigheden skifter; du kan slå funktionen fra igen under Indstillinger → Billede → Billedfrekvens.</string>
     <string name="player_frame_rate_turn_on">Slå til</string>
     <string name="player_reason_live_fallback">Live-afspilning skiftede til en fallback</string>
     <string name="player_reason_live_no_fallback">Live-afspilning fejlede – der er ingen fallback tilbage</string>

@@ -64,7 +64,7 @@ class LiveTuneController(
         suspend fun enginePin(channel: ChannelEntity): Boolean?
         suspend fun pin(channel: ChannelEntity, onMpv: Boolean)
         suspend fun globalPreference(): EnginePreference
-        /** Settings → "Give up after", in seconds; 0 is Never. */
+        /** Settings → "Give up on a channel after", in seconds; 0 is Never. */
         suspend fun globalBudgetSecs(): Int
         fun meta(channel: ChannelEntity): MediaMeta
         /** Mirror a ladder decision into the user-visible playback error log. */

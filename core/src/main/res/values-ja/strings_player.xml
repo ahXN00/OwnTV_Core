@@ -22,6 +22,8 @@
     <string name="player_timeshift_resume_title">中断したところから再開しますか？</string>
     <string name="player_timeshift_resume_message">離れている間、このチャンネルは保存されていました。</string>
     <string name="player_previous_channel">前のチャンネル</string>
+    <string name="player_tool_sources">ソース</string>
+    <string name="player_sources_none">このチャンネルの別のバージョンは見つかりませんでした。</string>
     <string name="player_next_channel_in_list">次のチャンネル</string>
     <string name="player_previous_channel_in_list">リスト内の前のチャンネル</string>
     <string name="player_live_scrub_at"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="programme">%2$s</xliff:g></string>
@@ -86,6 +88,7 @@
     <string name="player_time_remaining">−<xliff:g id="time">%1$s</xliff:g></string>
     <string name="player_switch_exo">ExoPlayerに切り替えました</string>
     <string name="player_switch_mpv">mpvに切り替えました</string>
+    <string name="player_smoothness_hint">このチャンネルではフレーム落ちが発生しています。プレーヤーをmpvに切り替えると、より滑らかに再生できる場合があります。</string>
     <string name="player_error_image_subtitle_audio">このビデオの音声形式では、画像形式の字幕を利用できません。</string>
     <string name="player_error_both_engines_exo_first">両方のビデオエンジンで再生に失敗しました（ExoPlayer、次にmpv）。ファイルが破損しているか、このテレビで再生できない形式が使用されている可能性があります。</string>
     <string name="player_error_both_engines_mpv_first">両方のビデオエンジンで再生に失敗しました（mpvとExoPlayer）。ファイルが破損しているか、このテレビで再生できない形式が使用されている可能性があります。（<xliff:g id="error">%1$s</xliff:g>）</string>
@@ -108,6 +111,7 @@
     <string name="player_error_account_in_use">このアカウントは別のデバイスまたはアプリですでに再生中です。そちらで停止してから、再試行を押してください。</string>
     <string name="player_error_mpv_open_decode">mpvでこのファイルを開くかデコードできませんでした。</string>
     <string name="player_error_mpv_stream_never_started">数回再試行しましたが、mpvでストリームが開始されませんでした。</string>
+    <string name="player_error_fairplay">このストリームは Apple FairPlay で保護されているため、Android 端末では再生できません。このプレイリストは Apple 端末向けです。</string>
     <string name="player_error_surround">この音声出力ではサラウンドを利用できないため、ステレオに切り替えました。</string>
     <string name="player_error_hardware_fallback">このストリームの形式は、このテレビでハードウェアデコードできなかったため、ソフトウェアデコードに切り替えましたが、テレビに過剰な負荷をかけずに<xliff:g id="resolution">%1$s</xliff:g>を処理することはできません。このテレビでも他の4Kコンテンツは正常に再生できる可能性があり、問題はこのストリーム固有の形式にあります。</string>
     <string name="player_error_hardware_disabled">ハードウェアデコードがオフになっているため、ソフトウェアデコードでは<xliff:g id="resolution">%1$s</xliff:g>ビデオを処理できません。「設定」→「ビデオプレーヤー」で有効にしてください。</string>
@@ -260,7 +264,7 @@
     <string name="player_subtitles_search_language_description">検索結果にはこの言語の字幕のみが表示されます。結果内の「すべての言語」を押せば、1回の検索で全言語を確認できます。</string>
     <string name="player_subtitles_language_not_set">未設定</string>
     <string name="player_frame_rate_prompt_title">このチャンネルはカクつく可能性があります</string>
-    <string name="player_frame_rate_prompt_description">このチャンネルは <xliff:g id="fps">%1$d</xliff:g> fps で再生されますが、TVは <xliff:g id="current_hz">%2$d</xliff:g> Hz で動作しているため、フレームを均等に表示できず、動きがややカクついて見えます。\n\n自動フレームレートは、視聴中にTVを <xliff:g id="target_hz">%3$d</xliff:g> Hz に切り替え、終了後に元に戻します。レート変更時に一瞬画面が暗くなるTVもあります。設定 → ビデオプレーヤー で再度オフにできます。</string>
+    <string name="player_frame_rate_prompt_description">このチャンネルは <xliff:g id="fps">%1$d</xliff:g> fps で再生されますが、TVは <xliff:g id="current_hz">%2$d</xliff:g> Hz で動作しているため、フレームを均等に表示できず、動きがややカクついて見えます。\n\n自動フレームレートは、視聴中にTVを <xliff:g id="target_hz">%3$d</xliff:g> Hz に切り替え、終了後に元に戻します。レート変更時に一瞬画面が暗くなるTVもあります。設定 → 映像 → フレームレート で再度オフにできます。</string>
     <string name="player_frame_rate_turn_on">オンにする</string>
     <string name="player_reason_live_fallback">ライブ再生はフォールバックに切り替わりました</string>
     <string name="player_reason_live_no_fallback">ライブ再生に失敗しました — フォールバックは残っていません</string>

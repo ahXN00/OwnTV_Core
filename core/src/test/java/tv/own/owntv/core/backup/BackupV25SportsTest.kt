@@ -71,7 +71,7 @@ class BackupV25SportsTest {
     @Test
     fun `the export and the restore both name the block, inside the per-profile settings`() {
         val source = File("src/main/java/tv/own/owntv/core/backup/BackupManager.kt").readText()
-        assertTrue(source.contains("put(\"version\", 25)"))
+        assertTrue(source.contains("put(\"version\", 26)"))
         assertTrue(source.contains("put(\"sportsConfigs\", filterByProfile(settings.exportSportsConfigs(), pidKeys))"))
         assertTrue(source.contains("root.optJSONObject(\"sportsConfigs\")?.let { settings.importSportsConfigs(remapProfileKeys(it, profileIdMap), pids) }"))
     }

@@ -75,6 +75,8 @@ data class SportsConfig(
     val rememberedChannels: Map<String, RememberedChannel> = emptyMap(),
     val alerts: GoalAlerts = GoalAlerts(),
     val reminderLeadMinutes: Int = DEFAULT_REMINDER_LEAD_MINUTES,
+    /** Settings → Sports → Calendar refresh: a saved current or future month is fetched again once this many days old. */
+    val calendarRefreshDays: Int = DEFAULT_CALENDAR_REFRESH_DAYS,
     /** Plays from the hub per team ([FollowedTeam.key] form, `soccer/132`) and per league key. */
     val playedTeams: Map<String, Played> = emptyMap(),
     val playedLeagues: Map<String, Played> = emptyMap(),
@@ -123,6 +125,7 @@ data class SportsConfig(
             .put("kinds", JSONArray(alerts.kinds.map { it.name }))
             .put("myTeams", alerts.myTeams).put("leagues", alerts.followedLeagues).put("card", alerts.liveCard))
         put("reminderLead", reminderLeadMinutes)
+        put("calendarRefreshDays", calendarRefreshDays)
         put("played", JSONObject().put("t", playedJson(playedTeams)).put("l", playedJson(playedLeagues)))
     }
 
@@ -138,6 +141,11 @@ data class SportsConfig(
 
         /** The Match reminders lead times. */
         val REMINDER_LEAD_CHOICES = listOf(5, 10, 15, 30)
+
+        const val DEFAULT_CALENDAR_REFRESH_DAYS = 7
+
+        /** The Calendar refresh stepper's values, in days: both apps step through these. */
+        val CALENDAR_REFRESH_CHOICES = listOf(1, 2, 3, 4, 5, 6, 7, 10, 14, 21, 30)
 
         fun fromJson(raw: String?): SportsConfig {
             if (raw.isNullOrBlank()) return SportsConfig()
@@ -182,6 +190,7 @@ data class SportsConfig(
                     liveCard = a.optBoolean("card", d.alerts.liveCard),
                 ),
                 reminderLeadMinutes = SettingsImportRules.sportsReminderLead(o.optInt("reminderLead", d.reminderLeadMinutes)),
+                calendarRefreshDays = SettingsImportRules.sportsCalendarRefresh(o.optInt("calendarRefreshDays", d.calendarRefreshDays)),
                 playedTeams = played(o.optJSONObject("played")?.optJSONObject("t")),
                 playedLeagues = played(o.optJSONObject("played")?.optJSONObject("l")),
             )

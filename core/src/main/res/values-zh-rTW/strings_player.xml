@@ -22,6 +22,8 @@
     <string name="player_timeshift_resume_title">要從上次離開的地方繼續嗎？</string>
     <string name="player_timeshift_resume_message">你離開期間，這個頻道一直在儲存。</string>
     <string name="player_previous_channel">前一個頻道</string>
+    <string name="player_tool_sources">來源</string>
+    <string name="player_sources_none">找不到此頻道的其他版本。</string>
     <string name="player_next_channel_in_list">下一個頻道</string>
     <string name="player_previous_channel_in_list">清單中的前一個頻道</string>
     <string name="player_live_scrub_at"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="programme">%2$s</xliff:g></string>
@@ -86,6 +88,7 @@
     <string name="player_time_remaining">−<xliff:g id="time">%1$s</xliff:g></string>
     <string name="player_switch_exo">已切換至 ExoPlayer</string>
     <string name="player_switch_mpv">已切換至 mpv</string>
+    <string name="player_smoothness_hint">此頻道正在掉格。將播放器切換至 mpv 可能會更順暢。</string>
     <string name="player_error_image_subtitle_audio">此影片的音訊格式不支援圖像型字幕。</string>
     <string name="player_error_both_engines_exo_first">兩個視訊引擎都無法播放（先嘗試 ExoPlayer，再嘗試 mpv）。檔案可能已損毀，或使用此電視無法播放的格式。</string>
     <string name="player_error_both_engines_mpv_first">兩個視訊引擎都無法播放（mpv 和 ExoPlayer）。檔案可能已損毀，或使用此電視無法播放的格式。（<xliff:g id="error">%1$s</xliff:g>）</string>
@@ -108,6 +111,7 @@
     <string name="player_error_account_in_use">此帳戶已在其他裝置或應用程式上播放。請在那裡停止播放，然後按「重試」。</string>
     <string name="player_error_mpv_open_decode">mpv 無法開啟或解碼此檔案。</string>
     <string name="player_error_mpv_stream_never_started">多次重試後，串流仍未在 mpv 中開始播放。</string>
+    <string name="player_error_fairplay">此串流受 Apple FairPlay 保護，Android 裝置無法播放。此播放清單是為 Apple 裝置製作的。</string>
     <string name="player_error_surround">此音訊輸出不支援環繞音效 — 已切換至立體聲。</string>
     <string name="player_error_hardware_fallback">此串流的格式無法在這台電視上使用硬體解碼，因此已改用軟體解碼 — 但軟體解碼無法在不使電視過載的情況下流暢處理 <xliff:g id="resolution">%1$s</xliff:g>。這台電視可能仍可正常播放其他 4K 內容；問題出在此串流使用的特定格式。</string>
     <string name="player_error_hardware_disabled">硬體解碼已關閉 — 軟體解碼無法處理 <xliff:g id="resolution">%1$s</xliff:g> 視訊。請前往「設定 → 視訊播放器」啟用硬體解碼。</string>
@@ -260,7 +264,7 @@
     <string name="player_subtitles_search_language_description">搜尋結果中只會顯示這個語言的字幕。您仍可在結果中按「所有語言」，查看單次搜尋的所有結果。</string>
     <string name="player_subtitles_language_not_set">未設定</string>
     <string name="player_frame_rate_prompt_title">此頻道可能會有畫面抖動</string>
-    <string name="player_frame_rate_prompt_description">此頻道以 <xliff:g id="fps">%1$d</xliff:g> fps 播放，而您的電視目前以 <xliff:g id="current_hz">%2$d</xliff:g> Hz 運作，無法均勻顯示這些影格，因此動作看起來會稍微不流暢。\n\n自動畫面更新率會在您觀看時將電視切換為 <xliff:g id="target_hz">%3$d</xliff:g> Hz，並在之後切換回來。部分電視在更新率變更時會短暫出現黑畫面；您可以隨時在「設定」→「影片播放器」中再次關閉。</string>
+    <string name="player_frame_rate_prompt_description">此頻道以 <xliff:g id="fps">%1$d</xliff:g> fps 播放，而您的電視目前以 <xliff:g id="current_hz">%2$d</xliff:g> Hz 運作，無法均勻顯示這些影格，因此動作看起來會稍微不流暢。\n\n自動畫面更新率會在您觀看時將電視切換為 <xliff:g id="target_hz">%3$d</xliff:g> Hz，並在之後切換回來。部分電視在更新率變更時會短暫出現黑畫面；您可以隨時在「設定」→「畫面」→「影格速率」中再次關閉。</string>
     <string name="player_frame_rate_turn_on">開啟</string>
     <string name="player_reason_live_fallback">直播播放已切換至備援方案</string>
     <string name="player_reason_live_no_fallback">直播播放失敗—已無備援方案</string>

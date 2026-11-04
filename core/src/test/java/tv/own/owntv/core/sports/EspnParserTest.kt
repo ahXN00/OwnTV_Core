@@ -8,6 +8,8 @@ import tv.own.owntv.core.sports.model.League
 import tv.own.owntv.core.sports.model.MatchEvent.Kind
 import tv.own.owntv.core.sports.model.MatchState
 import tv.own.owntv.core.sports.model.PeriodScore
+import tv.own.owntv.core.sports.model.RaceSession
+import tv.own.owntv.core.sports.model.RankingKind
 import tv.own.owntv.core.sports.model.Sport
 import java.time.Instant
 
@@ -52,6 +54,70 @@ class EspnParserTest {
 
         assertEquals(MatchState.POSTPONED, matches.single { it.id == "900000002" }.state)
         assertEquals("soccer/ger.1#401884774", ft.key)
+    }
+
+    @Test
+    fun `month scoreboard - every match of the month, and the season's start`() {
+        val body = fixture("scoreboard_month_soccer_ger1.json")
+        val matches = EspnParser.scoreboard(bundesliga, body)
+        assertEquals(listOf("401884781", "401884754"), matches.map { it.id })
+        assertEquals(MatchState.POST, matches[0].state)
+        assertEquals(MatchState.PRE, matches[1].state)
+        assertEquals(Instant.parse("2026-10-31T17:30:00Z").toEpochMilli(), matches[1].startMs)
+        assertEquals(Instant.parse("2026-07-01T04:00:00Z").toEpochMilli(), EspnParser.seasonStart(body))
+        assertNull(EspnParser.seasonStart(fixture("header_cricket.json")))
+    }
+
+    @Test
+    fun `f1 standings - drivers with their country, then constructors`() {
+        val r = EspnParser.racingStandings(League(Sport.RACING, "f1", "Formula 1"), fixture("standings_racing_f1.json"))
+        assertEquals(listOf(RankingKind.DRIVERS, RankingKind.CONSTRUCTORS), r.groups.map { it.kind })
+        val leader = r.groups[0].rows[0]
+        assertEquals(1, leader.rank)
+        assertEquals("Kimi Antonelli", leader.team.name)
+        assertEquals("Italy", leader.team.country)
+        assertTrue(leader.team.isAthlete)
+        assertEquals(340, leader.points)
+        assertEquals(listOf("Mercedes", "Ferrari", "McLaren"), r.groups[1].rows.map { it.team.name })
+        assertEquals(578, r.groups[1].rows[0].points)
+    }
+
+    @Test
+    fun `atp rankings - rank, player, country and points`() {
+        val r = EspnParser.tennisRankings(League(Sport.TENNIS, "atp", "ATP"), fixture("rankings_tennis_atp.json"))
+        val rows = r.groups.single().rows
+        assertEquals(RankingKind.PLAYERS, r.groups.single().kind)
+        assertEquals(listOf(1, 2, 3), rows.map { it.rank })
+        assertEquals("Jannik Sinner", rows[0].team.name)
+        assertEquals("Italy", rows[0].team.country)
+        assertEquals(11000, rows[0].points)
+    }
+
+    @Test
+    fun `team schedule - fixtures and results, each match in its own competition`() {
+        val fixtures = EspnParser.teamSchedule(Sport.SOCCER, fixture("schedule_soccer_132_fixtures.json"))
+        assertEquals(listOf("401884759", "401884754"), fixtures.map { it.id })
+        assertTrue(fixtures.all { it.state == MatchState.PRE && it.feed == "soccer/ger.1" })
+
+        val results = EspnParser.teamSchedule(Sport.SOCCER, fixture("schedule_soccer_132_results.json"))
+        val leipzig = results.single { it.id == "401884772" }
+        assertEquals(MatchState.POST, leipzig.state)
+        assertEquals("6", leipzig.home!!.score!!.text)
+        assertEquals(6, leipzig.home!!.score!!.value)
+        assertEquals(1, leipzig.away!!.score!!.value)
+        val europe = results.single { it.id == "401915411" }
+        assertEquals("uefa.champions", europe.leagueSlug)
+        assertEquals("soccer/uefa.champions#401915411", europe.key)
+    }
+
+    @Test
+    fun `racing sessions name their kind`() {
+        assertEquals(RaceSession.PRACTICE_2, RaceSession.of("FP2"))
+        assertEquals(RaceSession.SPRINT_QUALIFYING, RaceSession.of("SS"))
+        assertEquals(RaceSession.SPRINT, RaceSession.of("SR"))
+        assertEquals(RaceSession.QUALIFYING, RaceSession.of("Qual"))
+        assertEquals(RaceSession.RACE, RaceSession.of("Race"))
+        assertNull(RaceSession.of("XYZ"))
     }
 
     @Test

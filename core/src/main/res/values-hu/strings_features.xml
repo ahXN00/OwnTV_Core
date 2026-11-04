@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Saját kép</string>
     <string name="profiles_kids">Gyerekprofil</string>
     <string name="profiles_kids_description">Egyszerűsített, biztonságos böngészés</string>
+    <string name="profiles_allow_downloads">Letöltések engedélyezése</string>
+    <string name="profiles_allow_downloads_description">Kikapcsolva ennél a profilnál minden letöltés gomb rejtve marad</string>
     <string name="profiles_remove_pin">PIN-zár eltávolítása</string>
     <string name="profiles_no_pin">Ez a profil PIN-kód nélkül nyílik meg</string>
     <string name="profiles_change_pin">PIN módosítása (üresen hagyva marad a régi)</string>
@@ -45,6 +47,8 @@
     <string name="search_go_to_movie">Ugrás a filmre</string>
     <string name="search_clear_recent">Legutóbbi keresések törlése</string>
     <string name="search_field_hint">Csatornák, filmek és sorozatok</string>
+    <string name="search_voice">Hangalapú keresés</string>
+    <string name="search_voice_prompt">Mondjon egy csatornát, filmet vagy sorozatot</string>
     <string name="search_card_title">Találj meg mindent a lejátszási listáidban</string>
     <string name="search_card_body">Csatornák, filmek és sorozatok az összes megjelenített lejátszási listából. Válassz egy találatot, hogy egyenesen oda ugorj, és ott lejátszd, letöltsd vagy megnyisd a beállításait. A most vagy ma később futó tévéműsorokat is megtalálja a címük alapján.</string>
     <string name="search_nothing_found">Nincs találat erre: „<xliff:g id="query">%1$s</xliff:g>”</string>
@@ -63,6 +67,11 @@
     <string name="launcher_recent_live_description">Legutóbb nézett élő csatornák</string>
     <string name="launcher_movie_type">Film</string>
     <string name="launcher_episode_number"><xliff:g id="episode">%1$d</xliff:g>. rész</string>
+    <plurals name="home_library_loading">
+        <item quantity="one">A könyvtár betöltése · eddig <xliff:g id="count">%1$s</xliff:g> cím</item>
+        <item quantity="other">A könyvtár betöltése · eddig <xliff:g id="count">%1$s</xliff:g> cím</item>
+    </plurals>
+    <string name="home_library_loading_trending">A Most felkapott sor a könyvtár betöltése közben jelenik meg.</string>
     <string name="home_no_preview">Még nincs mit előnézetben megjeleníteni.</string>
     <string name="home_no_rows">Minden kezdőlapi sor el van rejtve.</string>
     <string name="home_enable_rows">A sorokat a Beállítások → Kezdőképernyő menüben kapcsolhatod vissza.</string>
@@ -193,6 +202,7 @@
     <string name="recording_group_missed">Kimaradt</string>
     <string name="recording_record">Felvétel</string>
     <string name="recording_stop">Felvétel leállítása</string>
+    <string name="recording_delete_message">Eltávolítja a felvételt és a fájlját erről az eszközről. Ez nem vonható vissza.</string>
     <string name="recording_record_series">Minden adás felvétele</string>
     <string name="recording_stop_series">Ne vegye fel minden adását</string>
     <string name="recording_from_archive">Felvétel az archívumból</string>
@@ -205,6 +215,7 @@
     <string name="recording_scheduled_for">Rögzíti: <xliff:g id="time">%1$s</xliff:g></string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line"><xliff:g id="title">%1$s</xliff:g> rögzítése</string>
+    <string name="recording_pill_line_locked">Rögzítés zárolt kategóriából</string>
     <string name="recording_clash_with">Ütközik ezzel: <xliff:g id="programme">%1$s</xliff:g></string>
     <string name="recording_settings_group">Felvétel</string>
     <string name="settings_recording_reserve">Egy adatfolyam maradjon szabadon a nézéshez</string>
@@ -281,6 +292,15 @@
     <string name="sports_starting_soon">Hamarosan kezdődik</string>
     <string name="sports_hint_match_page">Meccsoldal</string>
     <string name="sports_hint_follow_remind">Követés · Emlékeztető</string>
+    <string name="sports_hint_day_matches">A nap meccsei</string>
+    <string name="sports_hint_day">Nap</string>
+    <string name="sports_hint_week">Hét</string>
+    <string name="sports_hint_show_score">Eredmény mutatása</string>
+    <string name="sports_hint_back_to_day">Vissza a naphoz</string>
+    <string name="sports_hint_open_league">Bajnokság megnyitása</string>
+    <string name="sports_hint_sport_chips">Sportág-gombok</string>
+    <string name="sports_hint_league_chips">Bajnokság-gombok</string>
+    <string name="sports_hint_follow_unfollow">Követés · Követés leállítása</string>
     <string name="sports_reminder_set">Emlékeztető</string>
     <string name="sports_until"><xliff:g id="time">%1$s</xliff:g>-ig</string>
     <string name="sports_set"><xliff:g id="set">%1$d</xliff:g>. szett</string>
@@ -380,6 +400,44 @@
     <string name="sports_switch_channel">Csatornaváltás</string>
     <string name="sports_tab_fixtures">Program</string>
     <string name="sports_tab_results">Eredmények</string>
+    <string name="sports_tab_scores">Élő</string>
+    <string name="sports_tab_calendar">Naptár</string>
+    <string name="sports_tab_leagues">Bajnokságok</string>
+    <string name="sports_previous_month">Előző hónap</string>
+    <string name="sports_next_month">Következő hónap</string>
+    <string name="sports_next">Következik: <xliff:g id="match">%1$s</xliff:g></string>
+    <string name="sports_next_badge">Következik</string>
+    <string name="sports_no_table_series">Nincs tabella — a sorozatok hetente változnak</string>
+    <string name="sports_follow_league">Bajnokság követése</string>
+    <string name="sports_unfollow_league">Bajnokság követésének leállítása</string>
+    <string name="sports_no_matches_on"><xliff:g id="day">%1$s</xliff:g>: nincs meccs a sportágaidban</string>
+    <string name="sports_nothing_on_day">Ezen a napon nincs semmi</string>
+    <string name="sports_nothing_in_sport"><xliff:g id="sport">%1$s</xliff:g>: ezen a napon nincs semmi</string>
+    <string name="sports_change_leagues_hint">Bajnokságokat a Beállítások → Sport alatt adhatsz hozzá vagy távolíthatsz el</string>
+    <string name="sports_loading_month"><xliff:g id="month">%1$s</xliff:g> betöltése…</string>
+    <string name="sports_offline_saved">A mentett állapot látható (<xliff:g id="time">%1$s</xliff:g>) — az ESPN nem érhető el</string>
+    <string name="sports_team_page">Csapatoldal</string>
+    <string name="sports_next_match">Következő meccs</string>
+    <string name="sports_last_five">Utolsó öt</string>
+    <string name="sports_league_position">Helyezés a tabellán</string>
+    <string name="sports_in_my_teams">A Csapataim között</string>
+    <string name="sports_open_match_page">Meccsoldal megnyitása</string>
+    <string name="sports_open_team_page">Csapatoldal megnyitása</string>
+    <string name="sports_my_teams_leagues">A bajnokságok, ahol a csapataid játszanak</string>
+    <string name="sports_tab_drivers">Versenyzők</string>
+    <string name="sports_tab_constructors">Konstruktőrök</string>
+    <string name="sports_tab_races">Futamok</string>
+    <string name="sports_tab_rankings">Ranglista</string>
+    <string name="sports_tab_matches">Meccsek</string>
+    <string name="sports_next_race_weekend">Következő versenyhétvége</string>
+    <string name="sports_last_weekend">Múlt hétvége</string>
+    <string name="sports_session_practice_1">1. szabadedzés</string>
+    <string name="sports_session_practice_2">2. szabadedzés</string>
+    <string name="sports_session_practice_3">3. szabadedzés</string>
+    <string name="sports_session_sprint_qualifying">Sprintkvalifikáció</string>
+    <string name="sports_session_qualifying">Időmérő</string>
+    <string name="sports_session_sprint">Sprint</string>
+    <string name="sports_session_race">Futam</string>
     <string name="sports_table_team">Csapat</string>
     <string name="sports_table_played">M</string>
     <string name="sports_table_won">GY</string>
@@ -464,6 +522,12 @@
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> óránként</item>
     </plurals>
     <string name="sports_auto_rebuild_app_start">Minden alkalmazásindításkor</string>
+    <string name="sports_calendar_refresh">Naptár frissítése</string>
+    <string name="sports_calendar_refresh_description">Milyen gyakran töltődjenek le újra a mentett hónapok</string>
+    <plurals name="sports_calendar_refresh_days">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> naponta</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> naponta</item>
+    </plurals>
     <string name="sports_find_channels">Csatornák keresése</string>
     <string name="sports_find_channels_description">Megkeresi ezt a meccset a műsorújságodban és a csatornanevekben. Nagy lejátszási listánál ez eltarthat egy ideig.</string>
     <string name="sports_finding_channels">Csatornáid átkeresése…</string>

@@ -22,6 +22,8 @@
     <string name="player_timeshift_resume_title">从上次离开的地方继续？</string>
     <string name="player_timeshift_resume_message">你离开期间，此频道一直在保存。</string>
     <string name="player_previous_channel">上一个频道</string>
+    <string name="player_tool_sources">来源</string>
+    <string name="player_sources_none">未找到此频道的其他版本。</string>
     <string name="player_next_channel_in_list">下一个频道</string>
     <string name="player_previous_channel_in_list">列表中的上一个频道</string>
     <string name="player_live_scrub_at"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="programme">%2$s</xliff:g></string>
@@ -86,6 +88,7 @@
     <string name="player_time_remaining">−<xliff:g id="time">%1$s</xliff:g></string>
     <string name="player_switch_exo">已切换至 ExoPlayer</string>
     <string name="player_switch_mpv">已切换至 mpv</string>
+    <string name="player_smoothness_hint">此频道正在丢帧。将播放器切换至 mpv 可能会更流畅。</string>
     <string name="player_error_image_subtitle_audio">此视频的音频格式不支持图像字幕。</string>
     <string name="player_error_both_engines_exo_first">两个视频引擎均播放失败（先尝试 ExoPlayer，再尝试 mpv）。文件可能已损坏，或使用了此电视无法播放的格式。</string>
     <string name="player_error_both_engines_mpv_first">两个视频引擎均播放失败（mpv 和 ExoPlayer）。文件可能已损坏，或使用了此电视无法播放的格式。（<xliff:g id="error">%1$s</xliff:g>）</string>
@@ -108,6 +111,7 @@
     <string name="player_error_account_in_use">此账户已在其他设备或应用上播放。请在那里停止播放，然后按“重试”。</string>
     <string name="player_error_mpv_open_decode">mpv 无法打开或解码此文件。</string>
     <string name="player_error_mpv_stream_never_started">多次重试后，流媒体仍未在 mpv 中开始播放。</string>
+    <string name="player_error_fairplay">此流媒体受 Apple FairPlay 保护，Android 设备无法播放。该播放列表是为 Apple 设备制作的。</string>
     <string name="player_error_surround">此音频输出不支持环绕声——已切换为立体声。</string>
     <string name="player_error_hardware_fallback">此电视无法对该流媒体格式进行硬件解码，因此已回退到软件解码，但软件解码无法在不过度占用电视资源的情况下流畅处理 <xliff:g id="resolution">%1$s</xliff:g>。此电视可能仍能正常播放其他 4K 内容；问题出在此流媒体的特定格式。</string>
     <string name="player_error_hardware_disabled">硬件解码已关闭——软件解码无法处理 <xliff:g id="resolution">%1$s</xliff:g> 视频。请前往“设置 → 视频播放器”将其启用。</string>
@@ -260,7 +264,7 @@
     <string name="player_subtitles_search_language_description">搜索结果中只会显示该语言的字幕。你仍然可以在结果中按“所有语言”，查看一次搜索的所有内容。</string>
     <string name="player_subtitles_language_not_set">未设置</string>
     <string name="player_frame_rate_prompt_title">此频道可能出现画面抖动</string>
-    <string name="player_frame_rate_prompt_description">它以 <xliff:g id="fps">%1$d</xliff:g> fps 播放，而你的电视以 <xliff:g id="current_hz">%2$d</xliff:g> Hz 运行，无法均匀显示这些帧——画面动起来会有些卡顿。\n\n自动帧率会在你观看时将电视切换到 <xliff:g id="target_hz">%3$d</xliff:g> Hz，并在之后恢复原状。部分电视在切换帧率时会短暂黑屏；你也可以在设置 → 视频播放器中再次关闭它。</string>
+    <string name="player_frame_rate_prompt_description">它以 <xliff:g id="fps">%1$d</xliff:g> fps 播放，而你的电视以 <xliff:g id="current_hz">%2$d</xliff:g> Hz 运行，无法均匀显示这些帧——画面动起来会有些卡顿。\n\n自动帧率会在你观看时将电视切换到 <xliff:g id="target_hz">%3$d</xliff:g> Hz，并在之后恢复原状。部分电视在切换帧率时会短暂黑屏；你也可以在设置 → 画面 → 帧率中再次关闭它。</string>
     <string name="player_frame_rate_turn_on">开启</string>
     <string name="player_reason_live_fallback">直播播放已切换到备用方案</string>
     <string name="player_reason_live_no_fallback">直播播放失败——没有备用方案可用</string>

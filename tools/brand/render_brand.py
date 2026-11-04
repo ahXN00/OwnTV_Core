@@ -537,7 +537,7 @@ def fill_evenodd(img, polys, colour, tx):
     img.paste(colour, (0, 0), acc.convert('L'))
 
 
-def wordmark_227(width_px, tv_colour, own=WORD_OWN):
+def wordmark_paths(width_px, tv_colour, own=WORD_OWN):
     """The wordmark (viewBox 988x182) at width_px, transparent, supersampled."""
     wm = json.load(open(os.path.join(HERE, 'pixel', 'wordmark.json'), encoding='utf-8'))
     w = width_px * SS
@@ -551,9 +551,9 @@ def wordmark_227(width_px, tv_colour, own=WORD_OWN):
     return img.resize((width_px, max(1, int(round(182 * width_px / 988)))), Image.LANCZOS)
 
 
-def lockup_227(p, mark_px, own=WORD_OWN, tv=None, pad=0):
+def lockup_paths(p, mark_px, own=WORD_OWN, tv=None, pad=0):
     """Horizontal lockup with the wordmark: flat mark, gap = mark * .26, the wordmark .6 of the mark high."""
-    word = wordmark_227(round(mark_px * .6 * 988 / 182), tv or p['acc'], own)
+    word = wordmark_paths(round(mark_px * .6 * 988 / 182), tv or p['acc'], own)
     gap = round(mark_px * .26)
     w = pad * 2 + mark_px + gap + word.width
     h = pad * 2 + mark_px
@@ -569,9 +569,9 @@ def logos(root):
     os.makedirs(d, exist_ok=True)
     for key, p in PAL.items():
         # shown at width 360 in the READMEs, drawn at 2x
-        lockup_227(p, 150, pad=10).save(os.path.join(d, f'logo_{key}.png'))
+        lockup_paths(p, 150, pad=10).save(os.path.join(d, f'logo_{key}.png'))
         # on light backgrounds: ink "own", the darker accent "tv"
-        lockup_227(p, 150, own='#16181D', tv=p['ui'], pad=10).save(os.path.join(d, f'logo_{key}_light.png'))
+        lockup_paths(p, 150, own='#16181D', tv=p['ui'], pad=10).save(os.path.join(d, f'logo_{key}_light.png'))
 
 
 # ---- Pixel: the dot-matrix TV set ------------------------------------------------------------------
@@ -689,14 +689,14 @@ def stage_banner(w=320, h=180):
     img = Image.new('RGBA', (w, h), rgb(PIXEL['bg']))
     x0 = round(26 * s)
     img.alpha_composite(pixel_image(round(108 * s)), (x0, round(36 * s)))
-    word = wordmark_227(round(150 * s), PIXEL['tri'])
+    word = wordmark_paths(round(150 * s), PIXEL['tri'])
     img.alpha_composite(word, (x0 + round(124 * s), round(90 * s - word.height / 2)))
     return img.convert('RGB')
 
 
 def stage_splash_name(w, h):
     img = Image.new('RGBA', (w, h), (0, 0, 0, 0))
-    word = wordmark_227(round(w * .62), PIXEL['tri'])
+    word = wordmark_paths(round(w * .62), PIXEL['tri'])
     img.alpha_composite(word, ((w - word.width) // 2, (h - word.height) // 2))
     return img
 

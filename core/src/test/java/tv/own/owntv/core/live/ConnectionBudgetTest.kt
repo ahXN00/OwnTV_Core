@@ -31,6 +31,15 @@ class ConnectionBudgetTest {
 
     private fun refusal(grant: StreamGrant) = (grant as StreamGrant.Refused).reason
 
+    // --- "Ignore connection limit" on the playlist -----------------------------------------------
+
+    @Test
+    fun `a playlist set to ignore its limit allows every stream to try`() {
+        val ignoring = source(1).copy(ignoreConnectionLimit = true)
+        assertEquals(StreamGrant.Allowed, connectionBudget(ignoring, OpenStreams(watching = 3), StreamPurpose.WATCHING))
+        assertEquals(StreamGrant.Allowed, connectionBudget(ignoring, OpenStreams(recording = 2), StreamPurpose.RECORDING))
+    }
+
     // --- maxConnections = 0, the playlist never said ---------------------------------------------
 
     @Test

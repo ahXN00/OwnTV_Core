@@ -75,10 +75,25 @@
     </plurals>
     <string name="content_category_restore_order">Ваш порядок будет сброшен</string>
     <string name="content_category_restore_nothing">Категория уже в исходном состоянии плейлиста</string>
+    <string name="content_category_lock">Заблокировать PIN-кодом</string>
+    <string name="content_category_locked_placeholder">Эта категория заблокирована</string>
+    <plurals name="content_category_pin_wait">
+        <item quantity="one">Слишком много неверных PIN-кодов. Повторите через <xliff:g id="count">%1$d</xliff:g> секунду</item>
+        <item quantity="few">Слишком много неверных PIN-кодов. Повторите через <xliff:g id="count">%1$d</xliff:g> секунды</item>
+        <item quantity="many">Слишком много неверных PIN-кодов. Повторите через <xliff:g id="count">%1$d</xliff:g> секунд</item>
+        <item quantity="other">Слишком много неверных PIN-кодов. Повторите через <xliff:g id="count">%1$d</xliff:g> секунд</item>
+    </plurals>
     <string name="content_move_to_category">Переместить в категорию…</string>
     <string name="content_remove_from_category">Удалить из этой категории</string>
     <string name="content_download">Скачать</string>
     <string name="content_download_all_episodes">Скачать все серии</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one">Скачать <xliff:g id="count">%1$d</xliff:g> серию?</item>
+        <item quantity="few">Скачать <xliff:g id="count">%1$d</xliff:g> серии?</item>
+        <item quantity="many">Скачать <xliff:g id="count">%1$d</xliff:g> серий?</item>
+        <item quantity="other">Скачать <xliff:g id="count">%1$d</xliff:g> серий?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">Они сохранятся на этом устройстве и займут место в памяти.</string>
     <string name="content_play">Воспроизвести</string>
     <string name="content_favorited">В избранном</string>
     <string name="content_favorite">В избранное</string>
@@ -86,9 +101,7 @@
     <string name="content_episodes">Серии</string>
     <string name="content_oldest_first">Сначала старые</string>
     <string name="content_newest_first">Сначала новые</string>
-    <string name="content_play_external">Воспроизвести во внешнем плеере</string>
     <string name="content_delete_subtitles">Удалить субтитры OpenSub</string>
-    <string name="content_tmdb_details">Сведения TMDB</string>
     <string name="content_play_trailer">Воспроизвести трейлер</string>
     <string name="content_refetch_tmdb">Повторно загрузить сведения TMDB</string>
     <string name="content_set_tmdb_name">Задать название для TMDB</string>
@@ -140,6 +153,9 @@
     <string name="content_catchup_jump_prompt">Выберите время, с которого начать просмотр. Телепрограмма не нужна.</string>
     <string name="content_catchup_jump_exact">Выбрать точное время…</string>
     <string name="content_catchup_jump_hint">Нажмите OK на дне, часе или минуте, измените значение стрелками вверх и вниз, затем нажмите OK ещё раз.</string>
+    <string name="content_catchup_jump_programme_start">Начало «<xliff:g id="title">%1$s</xliff:g>»</string>
+    <string name="content_catchup_jump_programme_start_untitled">Начало передачи</string>
+    <string name="content_catchup_jump_programme_start_at">Началось в <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">Выберите канал программы передач для «<xliff:g id="channel">%1$s</xliff:g>».</string>
     <string name="content_epg_match_prompt_current">Выберите канал программы передач для «<xliff:g id="channel">%1$s</xliff:g>». Текущее сопоставление: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">Поиск каналов программы передач…</string>
@@ -188,6 +204,8 @@
     <string name="content_downloads_ready">Можно смотреть</string>
     <string name="content_downloads_paused">Приостановлено</string>
     <string name="content_downloads_file_missing">Файл отсутствует: его больше нет на накопителе</string>
+    <string name="content_downloads_delete_title">Удалить «<xliff:g id="name">%1$s</xliff:g>»?</string>
+    <string name="content_downloads_delete_message">Файл будет удалён с этого устройства. Его можно будет скачать снова позже.</string>
     <string name="content_downloads_reason_account_busy">Аккаунт занят: соединение использует другой поток</string>
     <string name="content_downloads_reason_refused">Сервер отклонил ссылку</string>
     <string name="content_downloads_reason_not_found">На сервере больше нет этого файла</string>

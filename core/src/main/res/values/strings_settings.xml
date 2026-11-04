@@ -15,12 +15,8 @@
     <string name="settings_mini_player_description">The small floating player you get when you dock (PiP) a channel while browsing. Change these here, or on the fly with the resize / move buttons on the mini-player itself.</string>
     <!-- Translators: Label for the size setting in the mini-player section. -->
     <string name="settings_size">Size</string>
-    <!-- Translators: Description of the mini-player size setting. 'min' and 'max' are the allowed percentage range. -->
     <!-- Translators: Label for the position setting in the mini-player section. -->
     <string name="settings_position">Position</string>
-    <!-- Translators: Description of the mini-player position setting. -->
-    <!-- Translators: Setting label for the mini-player size slider/picker. -->
-    <!-- Translators: Setting label for the mini-player position picker. -->
     <!-- Translators: Section header for Home screen customization. -->
     <string name="settings_home_screen">Home screen</string>
     <!-- Translators: Section header for the Home row visibility toggles. -->
@@ -77,9 +73,9 @@
     <string name="settings_port">Port</string>
     <!-- Translators: Placeholder example in the proxy port field. -->
     <string name="settings_proxy_port_hint">8080</string>
-    <!-- Translators: Text-field label for an optional proxy username. -->
+    <!-- Translators: Text-field label for an optional username — a proxy's, or a Stalker portal's login on top of the MAC address. -->
     <string name="settings_username_optional">Username (optional)</string>
-    <!-- Translators: Text-field label for an optional proxy password. -->
+    <!-- Translators: Text-field label for an optional password — a proxy's, or a Stalker portal's login on top of the MAC address. -->
     <string name="settings_password_optional">Password (optional)</string>
     <!-- Translators: Button to test the proxy connection. -->
     <string name="settings_test_proxy">Test proxy</string>
@@ -103,10 +99,6 @@
     <string name="settings_proxy_http">Proxy returned HTTP <xliff:g id="code">%1$d</xliff:g></string>
     <!-- Translators: Generic proxy test failure message. -->
     <string name="settings_proxy_failed">Proxy test failed.</string>
-    <!-- Translators: Section header for the CH+/CH- key paging feature. -->
-    <!-- Translators: Description of the CH+/CH- key paging feature. -->
-    <!-- Translators: Toggle label to enable CH+/CH- key paging. -->
-    <!-- Translators: Description of what happens when CH+/CH- paging is enabled. -->
     <!-- Translators: Setting label for the CH+ skip count (items jumped per press toward the first item). -->
     <string name="settings_ch_nav_up">CH+ / Rewind skip (toward first)</string>
     <!-- Translators: Description of the CH+ skip count setting. -->
@@ -117,7 +109,6 @@
     <string name="settings_ch_nav_down_description">How many items one CH−/FF press jumps down. Long-press always goes to the last item.</string>
     <!-- Translators: Section header for the skip count settings. -->
     <string name="settings_skip_counts">Skip counts</string>
-    <!-- Translators: Detailed help text explaining CH+/CH- key paging behavior. The bullets and arrows are visual formatting. -->
     <!-- Translators: Title of the settings screen where remote buttons are assigned to app actions. -->
     <string name="settings_remote_shortcuts">Remote shortcuts</string>
     <!-- Translators: Description below the Remote shortcuts screen title. -->
@@ -150,6 +141,40 @@
     <string name="settings_remote_shortcuts_unknown_button">Remote button <xliff:g id="number">%1$d</xliff:g></string>
     <!-- Translators: Help text explaining defaults and safety rules for configurable remote shortcuts. -->
     <string name="settings_remote_shortcuts_help">• By default, CH+/CH− and rewind/fast-forward page browsing lists; holding them jumps to the first or last item.\n• Short and long presses can be assigned separately.\n• Jump to last stays disabled on very large \"All\" lists.\n• Long-press Back always focuses Now Playing and cannot be reassigned.\n• Common assignable buttons are red/green/yellow/blue, numbers, CH+/CH− and rewind/fast-forward.\n• Back, D-pad, OK, volume, Home and power buttons stay protected.\n• Number shortcuts work while browsing; fullscreen number entry keeps channel-navigation priority.</string>
+    <!-- Translators: Section heading on the Remote shortcuts page, above the options for the OK, channel and number buttons in the full-screen player. -->
+    <string name="settings_player_buttons">Player buttons</string>
+    <!-- Translators: Setting label: what holding the remote's OK button does in the full-screen player. -->
+    <string name="settings_player_hold_ok">Hold OK in the player</string>
+    <!-- Translators: One-line description under the "Hold OK in the player" setting. -->
+    <string name="settings_player_hold_ok_description">What holding OK opens while the controls are hidden</string>
+    <!-- Translators: Explanation shown in the panel beside the Settings rows while "Hold OK in the player" has focus. -->
+    <string name="settings_help_player_hold_ok">Hold OK in the full-screen live player, with the controls hidden, to open the channel list, the guide or the programme info. Off keeps OK as it always was. While this is on, a short OK acts when you let go. Films and episodes keep the usual OK.</string>
+    <!-- Translators: Setting label: what a short press of OK does in the full-screen player while its controls are hidden. -->
+    <string name="settings_player_short_ok">OK when the controls are hidden</string>
+    <!-- Translators: One-line description under the "OK when the controls are hidden" setting. -->
+    <string name="settings_player_short_ok_description">What a short OK press does in the full-screen player</string>
+    <!-- Translators: Explanation shown in the panel beside the Settings rows while "OK when the controls are hidden" has focus. -->
+    <string name="settings_help_player_short_ok">A short OK press in the full-screen player shows the controls. Choose Channel list or Guide to open that instead on live channels; any other button the player does not use still shows the controls. Films and episodes always show the controls.</string>
+    <!-- Translators: Setting label: a switch that swaps which way the channel up/down buttons change channel. -->
+    <string name="settings_player_swap_channel_keys">Swap channel up/down</string>
+    <!-- Translators: One-line description under the "Swap channel up/down" setting. -->
+    <string name="settings_player_swap_channel_keys_description">CH+ and Up go to the previous channel</string>
+    <!-- Translators: Explanation shown in the panel beside the Settings rows while "Swap channel up/down" has focus. -->
+    <string name="settings_help_player_swap_channel_keys">Normally CH+ and D-pad Up go to the next channel and CH− and Down to the previous one. Turn this on to swap them while you watch, in full screen and in the mini player. Browsing lists are not affected.</string>
+    <!-- Translators: Setting label: a switch that lets the remote's number buttons type a channel number in the player. -->
+    <string name="settings_player_number_keys_tune">Number keys tune channels</string>
+    <!-- Translators: One-line description under the "Number keys tune channels" setting. -->
+    <string name="settings_player_number_keys_tune_description">Type a channel number in the live player</string>
+    <!-- Translators: Explanation shown in the panel beside the Settings rows while "Number keys tune channels" has focus. -->
+    <string name="settings_help_player_number_keys_tune">Type a channel number on the remote in the full-screen live player to jump to that channel. Turn this off to leave the number buttons free for your remote shortcuts. Typing a number also needs Channel numbers on in the Live TV settings.</string>
+    <!-- Translators: Choice for the player's OK button: open the channel list over the video. -->
+    <string name="settings_player_ok_channel_list">Channel list</string>
+    <!-- Translators: Choice for the player's OK button: open the TV guide (EPG). -->
+    <string name="settings_player_ok_guide">Guide</string>
+    <!-- Translators: Choice for the player's OK button: show the banner with the channel and what is on now and next. -->
+    <string name="settings_player_ok_programme_info">Programme info</string>
+    <!-- Translators: Choice for the player's OK button: show the player controls (the usual behaviour). -->
+    <string name="settings_player_ok_show_controls">Show controls</string>
     <!-- Translators: Remote-control button name. -->
     <string name="settings_remote_button_channel_up">Channel +</string>
     <!-- Translators: Remote-control button name. -->
@@ -194,7 +219,6 @@
     <string name="settings_remote_action_jump_last">Jump to last item</string>
     <!-- Translators: Warning about large skip values on low-end TVs. -->
     <string name="settings_large_skips_warning">Large skips overshoot short lists and may feel jumpy on low-end TVs.</string>
-    <!-- Translators: Picker title for the CH+/CH- key paging setting. -->
     <!-- Translators: Section header for weather settings. -->
     <string name="settings_weather">Weather</string>
     <!-- Translators: Toggle label to show/hide the weather chip in the top bar. -->
@@ -227,7 +251,6 @@
     <string name="settings_metadata_provider_tmdb_description">Your playlist\'s info wins; TMDB fills the gaps and adds cast, genres &amp; backdrops.</string>
     <!-- Translators: Description of the 'TMDB only' metadata option. -->
     <string name="settings_metadata_tmdb_only_description">Prefer TMDB for every field; fall back to your playlist only when TMDB has nothing.</string>
-    <!-- Translators: Status label for the currently selected option. This is a state, not a command. -->
     <!-- Translators: Label for the shared metadata service's remaining daily allowance. -->
     <string name="settings_metadata_allowance">Your shared allowance</string>
     <string name="settings_metadata_reset_automatic">Resets automatically</string>
@@ -265,8 +288,6 @@
     <string name="settings_shared">Shared</string>
     <string name="settings_open_subtitles_access_priority">Leave both blank for OwnTV’s shared Worker. A custom Worker URL takes priority over a direct API key. Account sessions remain profile-specific.</string>
     <string name="settings_remove_custom_access">Remove custom access</string>
-    <!-- Translators: InfoRow label for which TMDB source is in use. -->
-    <!-- Translators: InfoRow label for how much of the daily share has been used. -->
     <!-- Translators: All three allowance windows on ONE line, e.g. "3/40 min - 150/150 hr - 399/400 day".
          Keep it short: it shares a row with its label on a TV screen. Not a plural - the numbers are
          ratios, and every locale shows the same three fixed windows. -->
@@ -274,7 +295,6 @@
     <string name="settings_metadata_key_label">Key</string>
     <!-- Translators: InfoRow label for the self-hosted metadata server address. -->
     <string name="settings_metadata_server_label">Server</string>
-    <!-- Translators: InfoRow label for when the daily allowance refills. -->
     <!-- Translators: Title of the dialog shown when switching off Advanced options while a key is saved. -->
     <string name="settings_metadata_clear_advanced_title">Stop using your own key?</string>
     <!-- Translators: Body of that dialog. Explains the saved key and server address are deleted. -->
@@ -287,11 +307,8 @@
     <string name="settings_metadata_language">Metadata language</string>
     <!-- Translators: Description of the metadata language setting. 'TMDB' is a brand name. -->
     <string name="settings_metadata_language_description">Language for plots, genres &amp; titles from TMDB. Fields TMDB hasn\'t translated stay in English. Details are cached per language, so switching back is instant.</string>
-    <!-- Translators: Collapsible section header for advanced TMDB settings. -->
-    <!-- Translators: Description of the advanced metadata options. -->
     <!-- Translators: Description of the TMDB server configuration options. -->
     <string name="settings_metadata_server_description">Leave both blank to use the built-in shared server (no setup). Enter your own TMDB API key to call TMDB directly, or a self-hosted server URL to use your own proxy/mirror. A URL takes priority over a key.</string>
-    <!-- Translators: Text-field label for the TMDB API key. 'TMDB' is a brand name. -->
     <!-- Translators: Row that opens the remote hand-over, so the key need not be typed with the remote. -->
     <string name="settings_metadata_key_from_phone">Get key from another device</string>
     <!-- Translators: Description of that row. -->
@@ -299,8 +316,6 @@
     <!-- Translators: Toast shown on the TV when a key arrives from the remote device. -->
     <string name="settings_metadata_key_received">TMDB key received</string>
     <string name="settings_tmdb_api_key">TMDB API key (v3)</string>
-    <!-- Translators: Text-field label for a self-hosted TMDB proxy URL. -->
-    <!-- Translators: TMDB test-section heading. -->
     <!-- Translators: Error when no title is entered for TMDB lookup. -->
     <string name="settings_metadata_empty_title">Enter a title to look up.</string>
     <!-- Translators: Error when the TMDB server cannot be reached. -->
@@ -341,13 +356,12 @@
     <string name="settings_quick_preview_sound">Preview sound</string>
     <!-- Translators: Quick toggle label for the channel numbers setting. -->
     <string name="settings_quick_channel_numbers">Channel numbers</string>
-    <!-- Translators: Quick toggle label for the HDR output setting. 'HDR' is High Dynamic Range. -->
-    <string name="settings_quick_hdr">HDR (mpv only)</string>
+    <!-- Translators: Setting name: an HLS stream that offers both a standard (SDR) and a high dynamic range (HDR) picture plays the SDR one. 'SDR' and 'HDR' are standard abbreviations; keep them. -->
+    <string name="settings_quick_prefer_sdr">Prefer SDR</string>
     <!-- Translators: Quick toggle label for the auto-play next episode setting. -->
     <string name="settings_quick_autoplay">Auto-play</string>
     <!-- Translators: Quick action label to check for app updates. -->
     <string name="settings_quick_check_update">Check for update</string>
-    <!-- Translators: Accessibility label for the settings search bar. -->
     <!-- Translators: Row-menu action that adds the chosen setting to the Quick group. -->
     <string name="settings_row_menu_pin">Pin to Quick</string>
     <!-- Translators: Row-menu action that takes the chosen setting back out of the Quick group. -->
@@ -367,13 +381,11 @@
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> setting</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> settings</item>
     </plurals>
-    <!-- Translators: Badge counting how many settings the user has pinned to the Quick group. -->
     <!-- Translators: Badge counting how many settings a search matched. -->
     <plurals name="settings_match_count">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> match</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> matches</item>
     </plurals>
-    <!-- Translators: Settings navigation group label for General settings (language, etc.). -->
     <!-- Translators: Settings navigation label for the app display language picker. -->
     <string name="settings_language">Language</string>
     <!-- Translators: Description of the app display language setting. -->
@@ -409,9 +421,11 @@
     <!-- Translators: Settings navigation label for the long-press content menus. -->
     <string name="settings_content_menus_title">Long-press menus</string>
     <!-- Translators: Description of the long-press content menus settings. -->
-    <string name="settings_content_menus_description">Rearrange the actions in the channel, movie, series &amp; episode menus</string>
-    <!-- Translators: Hint shown above the list when arranging a long-press menu. -->
-    <string name="settings_content_menus_hint">Hold OK on an action to pick it up, then Up and Down to move it. Press OK again to drop it.</string>
+    <string name="settings_content_menus_description">Rearrange or hide the actions in the channel, movie, series &amp; episode menus</string>
+    <!-- Translators: Hint shown above the list when arranging a long-press menu with the remote: OK shows or hides an action, a held OK picks it up to move it. -->
+    <string name="settings_content_menus_hint">Press OK on an action to show or hide it. Hold OK to pick it up, then Up and Down to move it; press OK again to drop it.</string>
+    <!-- Translators: Note on the long-press menus settings: some actions in the list are only offered in some places (Catch-up only on catch-up channels, Remove from history only in History). -->
+    <string name="settings_content_menus_note">Some actions appear only where they apply.</string>
     <!-- Translators: Settings navigation label for Browsing & lists. -->
     <string name="settings_browsing_lists">Browsing &amp; lists</string>
     <!-- Translators: Description of the Browsing & lists settings. -->
@@ -424,12 +438,10 @@
     <string name="settings_metadata_root_description">Posters, plots, cast, genres, ratings and backdrops for Movies and Series.</string>
     <!-- Translators: Settings navigation label for the download folder setting. -->
     <string name="settings_download_folder">Download folder</string>
-    <!-- Translators: Settings navigation label for app storage information. -->
     <!-- Translators: Settings navigation label for Backup & Restore. -->
     <string name="settings_backup_restore">Backup &amp; Restore</string>
     <!-- Translators: Settings navigation label to clear watch history. -->
     <string name="settings_clear_history">Clear watch history</string>
-    <!-- Translators: Description of the clear-history action. -->
     <!-- Translators: Settings navigation group label for Appearance settings. -->
     <string name="settings_appearance_group">Appearance</string>
     <!-- Translators: Settings navigation label for the Theme setting. -->
@@ -492,9 +504,9 @@
     <string name="settings_animations">Animations</string>
     <!-- Translators: Description of the Animations setting. -->
     <string name="settings_animations_description">Turn interface motion on or off — Off feels snappier on lower-end TV boxes</string>
-    <!-- Translators: Description of the Weather settings group in the root Settings screen. -->
+    <!-- Translators: Description of the Weather row in Settings › Appearance. -->
     <string name="settings_weather_description_root">Top-bar weather chip: show or hide, custom location, and Celsius / Fahrenheit.</string>
-    <!-- Translators: Settings navigation group label for Playback settings. -->
+    <!-- Translators: Name of the phone's media playback notification channel, as listed in Android's notification settings for the app. -->
     <string name="settings_playback_group">Playback</string>
     <!-- Translators: Description of the Live preview setting. -->
     <string name="settings_live_preview_description">Auto-play a channel when you focus it</string>
@@ -506,12 +518,20 @@
     <string name="settings_mini_player_root">Mini-player</string>
     <!-- Translators: Description of the Mini-player settings group. -->
     <string name="settings_mini_player_root_description">Size and position of the docked mini-player</string>
-    <!-- Translators: Description of the HDR output setting. 'HDR' is High Dynamic Range. -->
-    <string name="settings_hdr_description">Use HDR output when the video &amp; TV support it. mpv only: the ExoPlayer engine does not support this setting and always passes the stream’s HDR through.</string>
-    <!-- Translators: Setting label for auto frame rate matching. -->
-    <string name="settings_auto_frame_rate">Auto frame rate</string>
-    <!-- Translators: Description of the auto frame rate setting. Explains when to turn it off. -->
-    <string name="settings_auto_frame_rate_description">Match the TV\'s refresh rate to the video (24/25/50/60 fps) in full screen, for Live TV and VOD, and restore it on exit. Turn off if your TV or receiver re-handshakes HDMI noisily on every channel change.</string>
+    <!-- Translators: Description of the Prefer SDR setting. 'ExoPlayer' is an engine brand name. -->
+    <string name="settings_prefer_sdr_description">When a stream offers both an SDR and an HDR picture, play the SDR one: for a TV whose HDR looks washed out or too dark. A stream with HDR only stays HDR. ExoPlayer only.</string>
+    <!-- Translators: Name of the Video player setting that keeps a playing video in a small floating window (Android picture-in-picture) when the user leaves the app with Home. -->
+    <string name="settings_pip_on_leave">Picture-in-picture when leaving the app</string>
+    <!-- Translators: Description of the picture-in-picture setting. -->
+    <string name="settings_pip_on_leave_description">Keep the video playing in a small window when you press Home</string>
+    <!-- Translators: Setting label: auto frame rate matching for films and episodes. -->
+    <string name="settings_auto_frame_rate_films">Auto frame rate for films and series</string>
+    <!-- Translators: Description of settings_auto_frame_rate_films. -->
+    <string name="settings_auto_frame_rate_films_description">Match the TV\'s refresh rate to the film or episode (24/25/50/60 fps) in full screen, and restore it on exit.</string>
+    <!-- Translators: Setting label: auto frame rate matching for live channels. -->
+    <string name="settings_auto_frame_rate_live">Auto frame rate for Live TV</string>
+    <!-- Translators: Description of settings_auto_frame_rate_live. Explains when to turn it off. -->
+    <string name="settings_auto_frame_rate_live_description">Match the TV\'s refresh rate to the channel (25/50/60 fps) in full screen, and restore it on exit. Turn off if your TV or receiver re-handshakes HDMI noisily on every channel change.</string>
     <!-- Translators: TV setting under Auto frame rate. How long a film pauses while the TV switches display mode. -->
     <string name="settings_afr_pause">Pause during the display switch</string>
     <!-- Translators: Description of settings_afr_pause. "Re-sync" = the HDMI handshake that blacks the screen for a moment. -->
@@ -536,30 +556,37 @@
     <string name="settings_auto_frame_rate_turn_on_anyway">Turn on anyway</string>
     <!-- Translators: Setting label for surround sound decoding. -->
     <string name="settings_surround_sound">Surround sound</string>
-    <!-- Translators: Description of the surround sound setting. Explains when to leave it OFF. -->
     <!-- Translators: Phone/tablet wording of settings_surround_description. -->
     <string name="settings_surround_description_mobile">Decode Dolby/DTS to surround (5.1/7.1) for a real 5.1/7.1 receiver connected to this device. Leave OFF for the built-in speaker, headphones or a stereo soundbar — multichannel can lag audio behind video. If it drifts, nudge the player\'s Audio menu → A/V sync.</string>
-    <!-- Translators: Settings → Video player, Sound section. Toggle: send Dolby/DTS audio undecoded ("bitstream") to the TV or receiver. -->
+    <!-- Translators: Settings › Sound & subtitles. Toggle: send Dolby/DTS audio undecoded ("bitstream") to the TV or receiver. -->
     <string name="settings_audio_passthrough">Dolby and DTS passthrough</string>
     <!-- Translators: Description of settings_audio_passthrough. "Surround sound", "Night mode" and "Volume leveling" are the names of other settings rows. -->
     <string name="settings_audio_passthrough_description">On: Dolby and DTS go undecoded to the TV, soundbar or receiver when it says it can play them (ExoPlayer). Off: the app decodes them, still as surround where Surround sound allows. mpv always decodes. Not used while Night mode or Volume leveling is on.</string>
-    <!-- Translators: Settings → Video player, Sound section. Toggle: dynamic range compression (loud scenes quieter, quiet dialogue louder). -->
+    <!-- Translators: Settings › Sound & subtitles, switch title. FFmpeg is the name of an audio/video library and ExoPlayer the name of one of the two players; do not translate either. -->
+    <string name="settings_ffmpeg_audio">FFmpeg audio for ExoPlayer</string>
+    <!-- Translators: Description of settings_ffmpeg_audio. DTS, TrueHD and MP2 are sound formats; mpv is the other player. -->
+    <string name="settings_ffmpeg_audio_description">On: ExoPlayer can also decode sound your device has no decoder for, such as DTS, TrueHD or MP2. The device\'s own decoders still come first. Off: ExoPlayer uses only the device\'s decoders. mpv always decodes with FFmpeg. Changing this restarts OwnTV.</string>
+    <!-- Translators: Short line under the settings_ffmpeg_audio row and in the settings help table. -->
+    <string name="settings_line_ffmpeg_audio">For sound the device can\'t decode</string>
+    <!-- Translators: Body of the restart window shown when settings_ffmpeg_audio is switched. The title reuses "Restart OwnTV?" and the buttons "Restart now" and "Cancel". -->
+    <string name="settings_ffmpeg_audio_restart_message">The audio decoder changes after OwnTV restarts.</string>
+    <!-- Translators: Settings › Sound & subtitles. Toggle: dynamic range compression (loud scenes quieter, quiet dialogue louder). -->
     <string name="settings_night_mode">Night mode</string>
     <!-- Translators: Description of settings_night_mode. -->
     <string name="settings_night_mode_description">Turns loud scenes down and quiet dialogue up, for watching at a low volume.</string>
-    <!-- Translators: Settings → Video player, Sound section. Toggle: automatic loudness leveling across channels and movies. -->
+    <!-- Translators: Settings › Sound & subtitles. Toggle: automatic loudness leveling across channels and movies. -->
     <string name="settings_volume_leveling">Volume leveling</string>
     <!-- Translators: Description of settings_volume_leveling. -->
     <string name="settings_volume_leveling_description">Brings every channel and movie slowly to the same loudness, so switching does not jump in volume.</string>
-    <!-- Translators: Settings → Video player. Picker: the highest picture resolution played (Auto, 2160p, 1080p, 720p, 480p). -->
+    <!-- Translators: Settings › Picture. Picker: the highest picture resolution played (Auto, 2160p, 1080p, 720p, 480p). -->
     <string name="settings_max_video_quality">Maximum video quality</string>
     <!-- Translators: Description of settings_max_video_quality. -->
     <string name="settings_max_video_quality_description">The highest picture played when a channel or movie offers several. Saves bandwidth and eases the decoder.</string>
-    <!-- Translators: Phone Settings → Video player. Picker: the highest resolution played on mobile data (Off, 1080p, 720p, 480p). -->
+    <!-- Translators: Phone Settings › Player. Picker: the highest resolution played on mobile data (Off, 1080p, 720p, 480p). -->
     <string name="settings_mobile_data_quality">Maximum quality on mobile data</string>
     <!-- Translators: Description of settings_mobile_data_quality. "Metered" is Android's term for a connection that costs money per byte. -->
     <string name="settings_mobile_data_quality_description">On a metered connection, plays at most this quality. Off: the same as on Wi-Fi.</string>
-    <!-- Translators: Settings → Video player. Toggle for an experimental decoder mode ("tunneled playback") where the TV hardware syncs picture and sound. -->
+    <!-- Translators: Settings › Picture. Toggle for an experimental decoder mode ("tunneled playback") where the TV hardware syncs picture and sound. -->
     <string name="settings_tunneled_playback">Tunneled playback (experimental)</string>
     <!-- Translators: Description of settings_tunneled_playback. -->
     <string name="settings_tunneled_playback_description">Live TV on ExoPlayer: the TV\'s own hardware keeps picture and sound together, with less work for the processor. Works on some TVs only, and turns itself off if a channel fails with it. Audio sync cannot be nudged while it is on.</string>
@@ -616,12 +643,18 @@
     <string name="settings_live_latency">Live latency</string>
     <!-- Translators: Empty-state message when a settings search returns no results. 'query' is the search text. -->
     <string name="settings_no_settings_match">No settings match “<xliff:g id="query">%1$s</xliff:g>”</string>
+    <!-- Translators: Shown on the Settings search page while the search field is still empty. -->
+    <string name="settings_search_empty_hint">Type the name of a setting</string>
     <!-- Translators: Settings breadcrumb navigation display. 'group' is the group name, 'title' is the section title. -->
     <string name="settings_breadcrumb"><xliff:g id="group">%1$s</xliff:g> › <xliff:g id="title">%2$s</xliff:g></string>
     <!-- Translators: App startup option: open to the Home screen. -->
     <string name="settings_startup_home">Home</string>
     <!-- Translators: App startup option: open to the last watched channel. -->
     <string name="settings_startup_last_channel">Last channel</string>
+    <!-- Translators: App startup option: open the TV Guide with the last watched channel focused and playing in the preview. -->
+    <string name="settings_startup_last_channel_guide">Last channel · TV Guide</string>
+    <!-- Translators: App startup option: open Live TV with the last watched channel focused and playing in the preview. -->
+    <string name="settings_startup_last_channel_live">Last channel · Live TV</string>
     <!-- Translators: App startup option: open to Live TV favorites. -->
     <string name="settings_startup_favorites">Live · Favorites</string>
     <!-- Translators: App startup option that automatically plays one channel selected by the user. -->
@@ -644,7 +677,6 @@
     <string name="settings_presets">Presets</string>
     <!-- Translators: Text-field label for entering a hex color code. -->
     <string name="settings_hex_code">Hex code</string>
-    <!-- Translators: Label for the hex color input tab/mode. -->
     <!-- Translators: Button to apply the selected accent color. -->
     <string name="settings_apply">Apply</string>
     <!-- Translators: Error when the hex code is invalid. '52DBC8' is an example. -->
@@ -675,7 +707,6 @@
     <string name="settings_clear_log">Clear log</string>
     <!-- Translators: Description of the Browsing & lists settings. -->
     <string name="settings_browsing_description_full">What Live TV, Movies and Series return to when you come back.</string>
-    <!-- Translators: Section toggle display. 'section' is the section name, 'state' is On/Off. -->
     <!-- Translators: Description of the catch-up time zone setting. Automatic and Device are its first two choices (settings_catchup_timezone_automatic, settings_catchup_timezone_device). -->
     <string name="settings_catchup_timezone_description">How catch-up timestamps are sent. Automatic uses the time zone your provider\'s server reports, or your device\'s if it reports none. You can also choose Device, or set the offset yourself.</string>
     <!-- Translators: Option label for manual catch-up timestamp offset. -->
@@ -722,27 +753,26 @@
     <string name="settings_group_summary_layout">Sidebar, panels, lists and the Home screen</string>
     <!-- Translators: Settings sheet summary line under the "Content &amp; metadata" group heading. -->
     <string name="settings_group_summary_content_metadata">Naming, artwork and subtitle services</string>
-    <!-- Translators: Video player settings: name of the section holding volume, surround, night mode and audio sync settings. -->
+    <!-- Translators: Settings › Sound & subtitles: sub-heading above the volume, surround, night mode and audio sync settings. -->
     <string name="settings_vp_section_sound">Sound</string>
-    <!-- Translators: Video player settings: name of the section holding which player plays live TV and films, per-playlist choices and the external player. -->
+    <!-- Translators: Settings group (and its first sub-heading) holding which player plays live TV and films, per-playlist choices and the external player. -->
     <string name="settings_vp_cat_player">Player</string>
-    <!-- Translators: Video player settings: name of the section holding the decoder, HDR, video quality and zoom. -->
+    <!-- Translators: Settings group (and its first sub-heading) holding the decoder, HDR, video quality and zoom. -->
     <string name="settings_vp_cat_picture">Picture</string>
-    <!-- Translators: Video player settings: name of the section holding auto frame rate and its two related settings. -->
+    <!-- Translators: Settings › Picture: sub-heading above auto frame rate and its two related settings. -->
     <string name="settings_vp_cat_frame_rate">Frame rate</string>
     <!-- Translators: One-line summary under the "Frame rate" section name. -->
     <string name="settings_vp_cat_frame_rate_summary">Match the screen to the video</string>
-    <!-- Translators: Video player settings: name of the section holding the buffer, network timeout and reconnect settings for films and episodes. -->
+    <!-- Translators: Settings › Player: sub-heading above the buffer, network timeout and reconnect settings for films and episodes. -->
     <string name="settings_vp_cat_streaming">Streaming</string>
-    <!-- Translators: Video player settings: name of the section holding live latency, pre-buffer and how long a channel may take to start. -->
+    <!-- Translators: Settings › Live TV: sub-heading above live latency, pre-buffer and how long a channel may take to start. -->
     <string name="settings_vp_cat_live_tuning">Live tuning</string>
-    <!-- Translators: Video player settings: name of the section holding Multiview and the small floating player. -->
+    <!-- Translators: Settings › Watching & recording: sub-heading above Multiview and the small floating player. -->
     <string name="settings_vp_cat_multiview">Multiview &amp; mini-player</string>
-    <!-- Translators: The phone version of the Multiview section summary. The phone has no mini-player setting in this section, so it names Multiview only. -->
+    <!-- Translators: Phone: the line under the Multiview switch in Settings › Watching & recording. Names Multiview only. -->
     <string name="settings_vp_cat_multiview_summary_mobile">Several live channels at once</string>
-    <!-- Translators: Video player settings: name of the section holding the preferred audio and subtitle languages and the subtitle style. -->
+    <!-- Translators: Settings › Sound & subtitles: sub-heading above the preferred audio and subtitle languages and the subtitle style. -->
     <string name="settings_vp_cat_languages">Languages &amp; subtitles</string>
-    <!-- Translators: Settings sheet summary line under the "Data" group heading. -->
     <!-- Translators: Settings sheet summary line under the "App" group heading. -->
     <string name="settings_group_summary_app">Language, startup, updates and app info</string>
     <!-- Translators: Settings spine group holding the most-used toggles, pinned above the nine real groups. -->
@@ -773,9 +803,6 @@
     <string name="settings_search_keywords_home">rows hero reorder filter</string>
     <!-- Translators: Hidden keyword bag for the Metadata (TMDB) settings. Translate as individual search terms. -->
     <string name="settings_search_keywords_metadata">posters plots cast ratings</string>
-    <!-- Translators: Hidden keyword bag for the Download folder settings. Translate as individual search terms. -->
-    <!-- Translators: Hidden keyword bag for the Backup & Restore settings. Translate as individual search terms. -->
-    <!-- Translators: Hidden keyword bag for the Clear watch history settings. Translate as individual search terms. -->
     <!-- Translators: Hidden keyword bag for the Theme settings. Translate as individual search terms. -->
     <string name="settings_search_keywords_theme">light dark system</string>
     <!-- Translators: Search keywords for the Glass & background page. Space-separated single words, not a sentence; they are matched against what the user types into settings search. -->
@@ -800,8 +827,8 @@
     <string name="settings_search_keywords_channel_numbers">channel number direct tune type digits keypad numeric zap lcn</string>
     <!-- Translators: Hidden keyword bag for the Mini-player settings. 'pip' is Picture-in-Picture. Translate as individual search terms. -->
     <string name="settings_search_keywords_mini">docked pip miniplayer size position scale percent corner move</string>
-    <!-- Translators: Hidden keyword bag for the HDR settings. 'HDR' is High Dynamic Range. Translate as individual search terms. -->
-    <string name="settings_search_keywords_hdr">high dynamic range output</string>
+    <!-- Translators: Hidden keyword bag for the Prefer SDR setting. Translate as individual search terms. -->
+    <string name="settings_search_keywords_prefer_sdr">hdr sdr standard dynamic range washed out dark picture</string>
     <!-- Translators: Hidden keyword bag for the Auto frame rate settings. 'afr' is Auto Frame Rate. Translate as individual search terms. -->
     <string name="settings_search_keywords_afr">afr refresh rate hz judder 24fps 25fps 50hz 60hz display mode match</string>
     <!-- Translators: Hidden keyword bag for the Surround sound settings. 'dolby' and 'dts' are brand names. Translate as individual search terms. -->
@@ -810,7 +837,7 @@
     <string name="settings_search_keywords_autoplay">autoplay series season</string>
     <!-- Translators: Hidden keyword bag for the Catch-up settings. 'vlc' and 'mx' are player brand names. Translate as individual search terms. -->
     <string name="settings_search_keywords_catchup">archive timezone offset catchup external player vlc mx</string>
-    <!-- Translators: Hidden keyword bag for the Video Player settings. Translate as individual search terms. -->
+    <!-- Translators: Hidden keyword bag for the player settings (Player, Picture, Live TV, Watching & recording). Translate as individual search terms. -->
     <string name="settings_search_keywords_video">decoder subtitles sync</string>
     <!-- Translators: Search keywords for the Recording settings page. Not shown to the user — these are the words someone might type to find it, so use natural search terms in your language rather than a literal translation. -->
     <string name="settings_search_keywords_recording">record recording recordings dvr timer schedule series save live</string>
@@ -818,7 +845,6 @@
     <string name="settings_search_keywords_subtitle_appearance">subtitle size color colour position transparency background opacity</string>
     <!-- Translators: Hidden keyword bag for the Live latency settings. Translate as individual search terms. -->
     <string name="settings_search_keywords_latency">live buffer latency delay low latency seconds close to live edge</string>
-    <!-- Translators: Hidden keyword bag for the Playback error log settings. Translate as individual search terms. -->
     <!-- Translators: Hidden keyword bag for the HTTP Proxy settings. Translate as individual search terms. -->
     <string name="settings_search_keywords_proxy">http traffic route</string>
     <!-- Translators: Hidden keyword bag for DNS settings. 'DNS' and 'DNS-over-HTTPS' are technical terms. -->
@@ -831,7 +857,6 @@
     <string name="settings_search_keywords_update_auto">auto update new version</string>
     <!-- Translators: Hidden keyword bag for the auto-start settings. Translate as individual search terms. -->
     <string name="settings_search_keywords_auto_start">boot power on wake sleep standby launch automatically</string>
-    <!-- Translators: Hidden keyword bag for the About settings. Translate as individual search terms. -->
     <!-- Translators: Language option to use the default (English) language. -->
     <string name="settings_language_default">Default (English)</string>
     <!-- Translators: Language option to follow the device language. -->
@@ -918,18 +943,17 @@
     <string name="settings_language_ukrainian">Ukrainian</string>
     <!-- Translators: Language name in the language picker. -->
     <string name="settings_language_vietnamese">Vietnamese</string>
-    <!-- Translators: Section header for decoder settings. -->
     <!-- Translators: Toggle label for hardware video decoding. -->
     <string name="settings_hardware_decoding">Hardware decoding</string>
     <!-- Translators: Description of the hardware decoding setting. -->
     <string name="settings_hardware_decoding_description">Use the TV\'s hardware decoder. Turn off if some streams stutter or show artifacts.</string>
-    <!-- Translators: Settings > Video player switch, under Hardware decoding: let software decoding play video above 1080p (4K). -->
+    <!-- Translators: Settings › Picture switch, under Hardware decoding: let software decoding play video above 1080p (4K). -->
     <string name="settings_software_decode_above_1080p">Software decoding above 1080p</string>
     <!-- Translators: Description of settings_software_decode_above_1080p on the TV. Off by default, because most TV processors cannot decode 4K in software. -->
     <string name="settings_software_decode_above_1080p_description">Plays 4K and other video above 1080p in software when the TV\'s hardware decoder is off or fails. Needs a fast processor: on most TVs it stutters.</string>
-    <!-- Translators: Video Player settings-row title for Movies & Series. -->
+    <!-- Translators: Settings › Player row title for Movies & Series. -->
     <string name="settings_movies_series_player">Movies &amp; Series player</string>
-    <!-- Translators: Video Player settings-row title for Live TV. -->
+    <!-- Translators: Settings › Player row title for Live TV. -->
     <string name="settings_live_tv_player">Live TV player</string>
     <!-- Translators: Player-engine option meaning "start on the first engine, fall back to the second". 'first' and 'second' are engine brand names (mpv, ExoPlayer) and are never translated. -->
     <string name="settings_engine_order"><xliff:g id="first">%1$s</xliff:g>, then <xliff:g id="second">%2$s</xliff:g></string>
@@ -977,15 +1001,15 @@
     <string name="settings_seek_step">Seek step</string>
     <!-- Translators: Description of the seek step setting. -->
     <string name="settings_seek_step_description">How far rewind and forward jump in a movie or episode.</string>
-    <!-- Translators: Setting (Video player). How much of a film is loaded ahead of the picture. -->
+    <!-- Translators: Setting (Settings › Player › Streaming). How much of a film is loaded ahead of the picture. -->
     <string name="settings_vod_buffer">Film buffer</string>
     <!-- Translators: Description of settings_vod_buffer. -->
     <string name="settings_vod_buffer_description">How far ahead films, episodes and catch-up are loaded. Auto uses what suits this device. A longer buffer rides out a bad connection better; this device’s memory still sets the limit, so a high-bitrate film may hold less than chosen.</string>
-    <!-- Translators: Setting (Video player). How long a film waits on a server that sends nothing. -->
+    <!-- Translators: Setting (Settings › Player › Streaming). How long a film waits on a server that sends nothing. -->
     <string name="settings_vod_network_timeout">Network timeout</string>
     <!-- Translators: Description of settings_vod_network_timeout. mpv and ExoPlayer are the two player engines; keep the names. -->
     <string name="settings_vod_network_timeout_description">How long films, episodes and catch-up wait on a silent server before the connection counts as lost. Auto keeps each player’s own wait: 60 seconds on mpv, 20 on ExoPlayer.</string>
-    <!-- Translators: Setting (Video player). How often a film that lost its connection is reopened. -->
+    <!-- Translators: Setting (Settings › Player › Streaming). How often a film that lost its connection is reopened. -->
     <string name="settings_vod_reconnects">Reconnect attempts</string>
     <!-- Translators: Description of settings_vod_reconnects. -->
     <string name="settings_vod_reconnects_description">How many times a film or episode that loses its connection is reopened where it stopped before an error is shown. A minute of steady playback earns the attempts back.</string>
@@ -999,7 +1023,6 @@
     <string name="settings_resume_playback">Resume playback</string>
     <!-- Translators: Description of the resume playback setting. -->
     <string name="settings_resume_playback_description">What to do when a movie or episode has a saved position.</string>
-    <!-- Translators: Section header for subtitle settings. -->
     <!-- Translators: Setting label for the subtitle appearance editor. -->
     <string name="settings_subtitle_appearance">Subtitle appearance</string>
     <!-- Translators: Description of the subtitle appearance editor and its disabled behavior. -->
@@ -1020,14 +1043,21 @@
     <string name="settings_open_subtitles_reset_in">In <xliff:g id="hours">%1$d</xliff:g>h <xliff:g id="minutes">%2$d</xliff:g>m</string>
     <!-- Translators: Description of the OpenSubtitles setting. 'opensubtitles.com' is a website. -->
     <string name="settings_open_subtitles_description">Sign in to search and download subtitles, and manage downloaded subtitles. Per profile; a free opensubtitles.com account is required.</string>
-    <!-- Translators: Section header for audio settings. -->
     <!-- Translators: Setting label for preferred audio language. -->
     <string name="settings_preferred_audio_language">Preferred audio language</string>
     <!-- Translators: Setting label for audio/video synchronization. -->
     <string name="settings_audio_sync">Audio sync</string>
     <!-- Translators: Description of the audio sync setting. -->
     <string name="settings_audio_sync_description">Shift audio earlier or later to match the video. Works with both players (mpv and ExoPlayer).</string>
-    <!-- Translators: Used as both a Video Player settings group heading and a Customize-screen section chip. -->
+    <!-- Translators: Setting row: an extra audio delay for the output the sound is going to right now (HDMI, Bluetooth, the built-in speakers...), remembered separately for each. -->
+    <string name="settings_output_audio_delay">Delay for this output</string>
+    <!-- Translators: Description of settings_output_audio_delay. The quoted name is the Audio sync setting (settings_audio_sync). -->
+    <string name="settings_output_audio_delay_description">Added on top of “Audio sync” and kept separately for each output — HDMI, a soundbar on HDMI ARC, Bluetooth, the built-in speakers, headphones. Set it while listening on the output it is for.</string>
+    <!-- Translators: Name of an audio output: the speakers built into the TV or phone. -->
+    <string name="settings_audio_output_speaker">Built-in speakers</string>
+    <!-- Translators: Name of an audio output: wired headphones, or a USB sound device. -->
+    <string name="settings_audio_output_other">Headphones or USB</string>
+    <!-- Translators: Used as a Settings group title, its first sub-heading, and a Customize-screen section chip. -->
     <string name="settings_live_tv">Live TV</string>
     <!-- Translators: Description of the live latency setting. -->
     <string name="settings_live_latency_description">How close to the live broadcast to play. Lower means closer to live but a smaller buffer, so weak streams may stutter or reconnect more. Applies to the next channel you open.</string>
@@ -1037,11 +1067,11 @@
     <string name="settings_channel_numbers">Channel numbers</string>
     <!-- Translators: Description of the channel numbers setting. -->
     <string name="settings_channel_numbers_description">Show your provider\'s channel number beside the name in the Live TV list, the channel-list overlay and the player — and type a number on the remote during full-screen playback to jump straight to that channel (OK tunes at once, Back cancels). Off hides every number and ignores the number keys; nothing is lost, and turning it back on restores them.</string>
-    <!-- Translators: TV setting (Video player). Left/Right on the remote while the player's controls are hidden. -->
+    <!-- Translators: TV setting (Settings › Live TV). Left/Right on the remote while the player's controls are hidden. -->
     <string name="settings_live_left_right_rewinds">Left and right rewind live TV</string>
     <!-- Translators: Description of settings_live_left_right_rewinds. "Catch-up" = channels whose provider keeps an archive. -->
     <string name="settings_live_left_right_rewinds_description">With the controls hidden, Left and Right rewind and go forward on channels you can rewind (catch-up, or saved by Pause and rewind live TV), instead of opening the channel list and history.</string>
-    <!-- Translators: Setting (Video player, Live section). Local timeshift: saving channels that have no provider catch-up archive, so they can be paused and rewound. -->
+    <!-- Translators: Setting (Settings › Live TV). Local timeshift: saving channels that have no provider catch-up archive, so they can be paused and rewound. -->
     <string name="settings_timeshift">Pause and rewind live TV</string>
     <!-- Translators: Description of settings_timeshift. "Catch-up" = channels whose provider keeps an archive. 1 GB = one gigabyte. -->
     <string name="settings_timeshift_description">Channels without catch-up are saved on this device while you watch them full screen, so you can pause and rewind. Writes to storage all the time; at least 1 GB always stays free.</string>
@@ -1065,7 +1095,6 @@
     <string name="settings_view_grid">Grid</string>
     <!-- Translators: View mode option: list layout. -->
     <string name="settings_view_list">List</string>
-    <!-- Translators: Language name in the language picker (generic Portuguese). -->
     <!-- Translators: Subtitle size option: small. -->
     <string name="settings_subtitle_small">Small</string>
     <!-- Translators: Subtitle size option: normal. -->
@@ -1125,14 +1154,6 @@
     <string name="settings_reset_live_player_choices_confirm">Reset saved live TV player choices?</string>
     <!-- Translators: Body of the confirmation dialog for the row above. -->
     <string name="settings_reset_live_player_choices_confirm_description">Every channel goes back to the “Live TV player” setting. You can always switch an individual one again from the player.</string>
-    <!-- Translators: Settings row that makes the player forget what it has learned about providers' streams (which need mpv, another format, software decoding for catch-up). -->
-    <string name="settings_forget_stream_fixes">Forget learned stream fixes</string>
-    <!-- Translators: Description of the row above. Keep the number 14 (days). -->
-    <string name="settings_forget_stream_fixes_description">The player learns what each provider’s streams need — mpv instead of ExoPlayer, another format, software decoding for catch-up. Forget this if a provider has fixed its streams. Catch-up lessons are also forgotten on their own after 14 days.</string>
-    <!-- Translators: Title of the confirmation dialog for the row above. -->
-    <string name="settings_forget_stream_fixes_confirm">Forget learned stream fixes?</string>
-    <!-- Translators: Body of the confirmation dialog for the row above. -->
-    <string name="settings_forget_stream_fixes_confirm_description">Channels open the standard way again, and the player relearns whatever a provider still needs. The first play of an affected channel may take a few seconds longer.</string>
     <!-- Translators: Description of the external player row setting. -->
     <string name="settings_external_player_row_description">Open streams in an external app (VLC, MX Player) instead of the built-in player, chosen per section. Useful for streams this app can\'t decode, or if you prefer another player. Resume position and prev/next are unavailable while playing externally; streams needing a custom User-Agent or referer may not play.</string>
     <!-- Translators: Resume playback option: always resume from saved position. -->
@@ -1166,7 +1187,7 @@
     <!-- Translators: Dialog title asking whether to sync the TV guide. -->
     <string name="settings_sync_guide_question">Sync the TV guide now?</string>
     <!-- Translators: Description of the guide sync prompt. 'source' is the EPG source name. -->
-    <string name="settings_sync_guide_description">Download the program guide (EPG) for “<xliff:g id="source">%1$s</xliff:g>”. You can also do this later in Settings → EPG.</string>
+    <string name="settings_sync_guide_description">Download the program guide (EPG) for “<xliff:g id="source">%1$s</xliff:g>”. You can also do this later in Settings → Sources &amp; guide → EPG Sources.</string>
     <!-- Translators: Button to dismiss the guide sync prompt. -->
     <string name="settings_not_now">Not now</string>
     <!-- Translators: Button to start syncing the TV guide immediately. -->
@@ -1185,10 +1206,6 @@
     <string name="settings_restore_remote_title">Restore from another device</string>
     <!-- Translators: Description of the remote restore process. -->
     <string name="settings_restore_remote_description">On any device with a browser on the same Wi-Fi — a phone, a computer or another TV — scan the QR (or open the URL), enter this PIN, choose your OwnTV backup file and send it. You then pick what to restore here.</string>
-    <!-- Translators: Loading status shown while the companion HTTP server is starting. -->
-    <!-- Translators: Instruction above the PIN display telling the user to enter it in the browser. -->
-    <!-- Translators: Accessibility label for the companion URL QR code. -->
-    <!-- Translators: Label above the companion URL as an alternative to the QR code. -->
     <!-- Translators: Button to retry after a failure. -->
     <string name="settings_try_again">Try again</string>
     <!-- Translators: Button to restart the companion server with a new PIN. -->
@@ -1221,7 +1238,6 @@
     <string name="settings_catchup_player_internal">OwnTV player</string>
     <!-- Translators: Catch-up player option: use an external player app. -->
     <string name="settings_catchup_player_external">External player</string>
-    <!-- Translators: Badge indicating a feature is coming soon. All caps is intentional. -->
     <!-- Translators: Dialog title for choosing the download folder. -->
     <string name="settings_download_folder_title">Choose the download folder</string>
     <!-- Translators: Dialog title for the background image picker. -->
@@ -1240,7 +1256,6 @@
     <string name="settings_reset">Reset</string>
     <!-- Translators: Device information display. 'model' is the device model, 'android' is the Android version. -->
     <string name="settings_device_details"><xliff:g id="model">%1$s</xliff:g> · <xliff:g id="android">%2$s</xliff:g></string>
-    <!-- Translators: Playback error log entry format. 'time' is the timestamp, 'engine' is the video engine, 'kind' is the error type. -->
     <!-- Translators: History scope label for Live TV. -->
     <string name="settings_history_live">Live TV</string>
     <!-- Translators: History scope label for Movies. -->
@@ -1257,6 +1272,10 @@
     <string name="settings_browsing_last_item">Remember last item</string>
     <!-- Translators: Description of the remember-last-item setting. -->
     <string name="settings_browsing_last_item_description">Each category keeps its own scroll position instead of starting at the top. Live TV also restores the last focused channel.</string>
+    <!-- Translators: Section heading in Browsing & lists for showing or hiding the built-in Live TV categories (Catch-up, All channels). -->
+    <string name="settings_browsing_live_categories">Live TV categories</string>
+    <!-- Translators: Help text under the Live TV categories switches (Catch-up, All channels). "All channels" and "Favorites" are the names of those two categories. -->
+    <string name="settings_browsing_live_categories_description">Shown in Live TV, the guide, the player and Multiview. With All channels off, Live TV opens on your first category, or Favorites if you have none.</string>
     <!-- Translators: Setting label for the catch-up player preference. -->
     <string name="settings_catchup_player">Play catch-up in</string>
 
@@ -1275,12 +1294,14 @@
     <string name="settings_customize_change_pin">🔒 Change PIN</string>
     <!-- Translators: Button to remove the PIN lock from the Customize screen. -->
     <string name="settings_customize_remove_lock">Remove lock</string>
+    <!-- Translators: Name of the option, in the Customize screen menu, that makes opening Settings ask for the Customize PIN. Also a Settings search result. -->
+    <string name="settings_customize_settings_pin">Ask for PIN to open Settings</string>
+    <!-- Translators: The same option as a Customize menu entry showing its state. "state" is On or Off. -->
+    <string name="settings_customize_settings_pin_button">Ask for PIN to open Settings: <xliff:g id="state">%1$s</xliff:g></string>
     <!-- Translators: Description of the Customize Categories & Items feature. -->
     <string name="settings_customize_description">Hide &amp; unhide channels, movies and series, and rename or reorder categories for this profile. Survives re-syncs.</string>
     <!-- Translators: Setting label for new-category visibility behavior. -->
     <string name="settings_customize_new_category_behavior">New category behavior</string>
-    <!-- Translators: Option to hide new categories added on re-sync. -->
-    <!-- Translators: Option to show new categories added on re-sync. -->
     <!-- Translators: Imperative command button to hide one or more categories. Translate as an action, not the state "Hidden". -->
     <string name="settings_customize_hide">Hide</string>
     <!-- Translators: Imperative command button to reveal one or more hidden categories. Translate as an action, not the state "Shown". -->
@@ -1365,6 +1386,8 @@
     <string name="settings_customize_remove_pin_title">Remove PIN lock?</string>
     <!-- Translators: Description of what removing the PIN lock does. -->
     <string name="settings_customize_remove_pin_message">The Customize screen will open without asking for a PIN again.</string>
+    <!-- Translators: Second sentence of the remove-PIN confirmation: categories locked from the Live TV, Movies or Series menu lose their lock as well. -->
+    <string name="settings_customize_remove_pin_locks">Every category locked with this PIN is unlocked too.</string>
     <!-- Translators: Button to confirm removal. -->
     <string name="settings_customize_remove">Remove</string>
     <!-- Translators: Heading for the PIN confirmation entry. -->
@@ -1447,8 +1470,26 @@
     <string name="settings_sources_test_expiry_none">No expiry date reported</string>
     <!-- Translators: Button on a playlist row: show what is already known about it. -->
     <string name="settings_sources_info">Info</string>
+    <!-- Translators: Button on a playlist row: open the "Clean channel names" option for this playlist. Keep it short. -->
+    <string name="settings_sources_clean_names">Names</string>
+    <!-- Translators: Dialog title for a playlist's channel-name options. 'name' is the playlist name. -->
+    <string name="settings_sources_clean_names_title">Channel names in “<xliff:g id="name">%1$s</xliff:g>”</string>
+    <!-- Translators: Description in the channel-name dialog. "Customize" is the app's Customize screen. -->
+    <string name="settings_sources_clean_names_description">Shorter channel names on every screen. The guide still matches the names your provider sends, and channels you renamed in Customize keep your name. Saving refreshes the playlist.</string>
+    <!-- Translators: Switch in the channel-name dialog that turns the cleanup on or off for this playlist. -->
+    <string name="settings_sources_clean_names_toggle">Clean channel names</string>
+    <!-- Translators: Line under the "Clean channel names" switch. The quoted names are examples; translate "News One" freely but keep the country code and quality tag. -->
+    <string name="settings_sources_clean_names_example">Removes a country prefix and a quality tag at the end: “UK| News One HD” shows as “News One”</string>
+    <!-- Translators: Label of a text field in the channel-name dialog: extra words to remove from the start or end of every channel name. -->
+    <string name="settings_sources_clean_names_custom">Also remove</string>
+    <!-- Translators: Placeholder of the "Also remove" field. Keep the semicolon: it separates the words. -->
+    <string name="settings_sources_clean_names_custom_hint">Words separated by ; e.g. VIP; Backup</string>
     <!-- Translators: Button inside the Info popup: measure the playlist again. -->
     <string name="settings_sources_retest">Re-test</string>
+    <!-- Translators: Button or switch beside Re-test for a playlist: let Multiview and recordings open more streams than the provider's stated limit. -->
+    <string name="settings_sources_ignore_limit">Ignore connection limit</string>
+    <!-- Translators: Line shown while settings_sources_ignore_limit is on. "Multiview" is the feature that plays several channels at once. -->
+    <string name="settings_sources_ignore_limit_on">Connection limit ignored: Multiview and recordings may open more streams than this playlist reports. A stream the provider refuses still says so.</string>
     <!-- Translators: Title of the confirmation shown before the connection measurement runs. -->
     <string name="settings_sources_probe_title">Test this playlist?</string>
     <!-- Translators: Body of that confirmation. It must be clear that playback stops and that it is slow. -->
@@ -1543,9 +1584,9 @@
     <string name="settings_epg_sources_name">Name</string>
     <!-- Translators: Text-field label for the EPG XMLTV URL. -->
     <string name="settings_epg_sources_url">XMLTV URL</string>
-    <!-- Translators: Text-field label for an optional custom User-Agent. -->
     <!-- Translators: Shown instead of a feed address for the guide that comes from a Stalker portal itself, which has no URL. -->
     <string name="settings_epg_sources_portal_guide">Guide from the portal</string>
+    <!-- Translators: Text-field label for an optional custom User-Agent. -->
     <string name="settings_epg_sources_user_agent">User-Agent (optional)</string>
     <!-- Translators: Placeholder example in the EPG source name field. -->
     <string name="settings_epg_sources_name_hint">e.g. UK Guide</string>
@@ -1572,6 +1613,8 @@
     <string name="settings_epg_sources_auto_refresh_description">Off, on startup, or when data is stale</string>
     <!-- Translators: Status text when the EPG source has not been synced yet. -->
     <string name="settings_epg_sources_not_synced">Not synced yet</string>
+    <!-- Translators: Line in an EPG source's panel giving its place in the list, which decides whose guide is shown when two sources list the same channel. 'position' is this source's place (1 = top), 'total' is how many sources there are. -->
+    <string name="settings_epg_sources_priority">Guide priority <xliff:g id="position">%1$d</xliff:g> of <xliff:g id="total">%2$d</xliff:g>. When two sources list the same channel, the one higher in this list is used.</string>
     <!-- Translators: EPG refresh interval: every 1 hour. -->
     <string name="settings_epg_refresh_1h">1 hour</string>
     <!-- Translators: EPG refresh interval: every 3 hours. -->
@@ -1625,7 +1668,6 @@
     <string name="settings_backup_export_title">Export a backup</string>
     <!-- Translators: Section header for the backup restore flow. -->
     <string name="settings_backup_restore_title">Restore a backup</string>
-    <!-- Translators: Description of the backup restore process. -->
     <!-- Translators: Text-field label for the backup password. -->
     <string name="settings_backup_password">Backup password</string>
     <!-- Translators: Heading for the backup password entry screen. -->
@@ -1646,7 +1688,6 @@
     <string name="settings_backup_choose_folder_action">Choose folder</string>
     <!-- Translators: Heading for picking a backup file to restore. -->
     <string name="settings_backup_pick_file">Pick a backup file to restore</string>
-    <!-- Translators: Option label for restoring from a local file. -->
     <!-- Translators: Option label for restoring from a remote device. -->
     <string name="settings_backup_remote">Remote</string>
     <!-- Translators: Checkbox label to include everything in the backup. -->
@@ -1733,6 +1774,8 @@
     </plurals>
     <!-- Translators: Error text when backup export fails. -->
     <string name="settings_backup_export_error">Export failed.</string>
+    <!-- Translators: Shown instead of the file picker when no app on the phone can save a file (some phones have the system Files app disabled or removed). "Share" is the backup page's Share button. -->
+    <string name="settings_backup_no_file_app">No app on this phone can save the file. Use Share instead.</string>
     <!-- Translators: Error text when the backup file cannot be read. -->
     <string name="settings_backup_read_error">Couldn\'t read the backup file.</string>
     <!-- Translators: Error text when backup import fails. -->
@@ -1794,10 +1837,8 @@
     <string name="settings_bulk_rename_add_another_rule">＋ Add another rule</string>
     <!-- Translators: Toggle label for removing extra spaces after applying rename rules. -->
     <string name="settings_bulk_rename_trim_spaces">Trim leftover spaces</string>
-    <!-- Translators: Selected toggle label for removing extra spaces. Keep the check mark. -->
     <!-- Translators: Toggle label for case-insensitive rename rules. -->
     <string name="settings_bulk_rename_ignore_case">Ignore upper/lower case</string>
-    <!-- Translators: Selected case-insensitive toggle label. Keep the check mark. -->
     <!-- Translators: Title of the screen that previews proposed bulk renames. -->
     <string name="settings_bulk_rename_review">Review renames</string>
     <!-- Translators: Explains that reviewed rows are not persisted until Done is pressed. -->
@@ -1945,7 +1986,6 @@
     <string name="settings_subtitle_customize_off">Off keeps subtitles exactly as the stream and the player draw them.</string>
     <!-- Translators: Heading above the custom subtitle preview. -->
     <string name="settings_subtitle_preview_stock">Preview — stock look</string>
-    <!-- Translators: Explains that the disabled preview retains embedded broadcaster styling. -->
     <!-- Translators: Button that restores every subtitle appearance setting to its default. -->
     <string name="settings_subtitle_reset_all">Reset all</string>
     <!-- Translators: Subtitle color setting title. -->
@@ -2139,7 +2179,6 @@
     <string name="settings_mini_player_style_floating">Floating window</string>
     <!-- Translators: Option for the row above. A fixed bar just above the navigation tabs. -->
     <string name="settings_mini_player_style_docked">Docked bar</string>
-    <!-- Translators: Settings row. Also enter the floating window when the user presses the Back button, not only when they leave the app. Keep the platform name for Picture-in-Picture in your language. -->
     <!-- Translators: Settings row. The starting size of the floating video window. -->
     <string name="settings_pip_size">Window size</string>
     <!-- Translators: Three size options for the row above. -->
@@ -2158,7 +2197,6 @@
     <!-- Local sync: two OwnTV devices on the same Wi-Fi exchanging their data directly. -->
     <!-- Translators: Title of the Local sync settings screen, and its row on the Data settings page. -->
     <string name="local_sync_title">Local sync</string>
-    <!-- Translators: Hidden search keywords for the Local sync screen. Words a user might type to find it. -->
     <!-- Translators: Explanation under the PIN and QR code while this device is waiting to be connected to. -->
     <string name="local_sync_host_hint">On your other device, turn Sync mode on too, then tap Connect and pick this one.</string>
     <!-- Translators: Accessibility description of the QR code image. -->
@@ -2167,10 +2205,8 @@
     <string name="local_sync_pin_is">PIN: <xliff:g id="pin">%1$s</xliff:g></string>
     <!-- Translators: Button that starts looking for another device to pair with. -->
     <string name="local_sync_add_device">Find a device</string>
-    <!-- Translators: Description under the "Find a device" button. -->
     <!-- Translators: Section heading above the list of devices already paired. -->
     <string name="local_sync_paired_devices">Paired devices</string>
-    <!-- Translators: Subtitle of a paired device row. %1$s is an address such as 192.168.1.20. -->
     <!-- Translators: Shown while a transfer is in progress. -->
     <string name="local_sync_working">Working…</string>
     <!-- Translators: Explanation at the top of the "Find a device" sheet. -->
@@ -2223,7 +2259,6 @@
     <string name="local_sync_sections_hint">The same things a backup holds. Untick anything you would rather leave out.</string>
     <!-- Translators: Tick box that selects every part at once. -->
     <string name="local_sync_everything">Everything</string>
-    <!-- Translators: Explanation of the optional password on a sync. Without one, playlist passwords are left out. -->
     <!-- Translators: Title of the sheet showing what a sync would change before it happens. -->
     <string name="local_sync_confirm_title">What will change</string>
     <!-- Translators: Explanation above the list of counted changes. -->
@@ -2261,7 +2296,7 @@
     <!-- Translators: Title of the sheet shown when a sync failed. -->
     <string name="local_sync_failed">Sync failed</string>
     <!-- Translators: Failure reason: the other device did not answer. -->
-    <string name="local_sync_error_unreachable">This device could not be reached. On it, open OwnTV → Settings → Data → Local sync and turn Sync mode on. Both devices must be on the same Wi-Fi.</string>
+    <string name="local_sync_error_unreachable">This device could not be reached. On it, open OwnTV → More → Local sync and turn Sync mode on. Both devices must be on the same Wi-Fi.</string>
     <!-- Translators: Failure reason: wrong PIN, or the pairing was removed on the other device. -->
     <string name="local_sync_error_unauthorized">The other device refused. The PIN may be wrong, or it may have forgotten this device.</string>
     <!-- Translators: Failure reason: what arrived could not be read. -->
@@ -2404,7 +2439,6 @@
     <string name="settings_multiview">Multiview</string>
     <!-- Translators: Description of the Multiview setting. -->
     <string name="settings_multiview_description">Watch several live channels at once. You choose how many each time, up to this limit — every tile uses one of your provider\'s connections.</string>
-    <!-- Translators: Label for how many tiles the Multiview grid has (1-4). -->
     <!-- Translators: Playlist/player setting: the largest number of Multiview tiles allowed. It is a ceiling, not a fixed size. -->
     <string name="settings_multiview_tiles_max">Most tiles</string>
     <!-- Translators: The value shown beside the setting above, e.g. "Max 4". -->
@@ -2469,6 +2503,18 @@
     <string name="settings_nav_widen">Widen on focus</string>
     <!-- Translators: Line under "Widen on focus". -->
     <string name="settings_nav_widen_desc">Docked and Compact: shows the names over the content while the rail has focus</string>
+    <!-- Translators: Navigation popup row: whether the rail shows each section's name beside its icon. Its choices are common_off, settings_nav_menu_labels_focused and settings_nav_menu_labels_always. -->
+    <string name="settings_nav_menu_labels">Menu labels</string>
+    <!-- Translators: Line under "Menu labels". -->
+    <string name="settings_nav_menu_labels_desc">The section names beside the icons: off, while the rail has focus, or all the time</string>
+    <!-- Translators: Menu labels choice: the names show only while the rail has focus. -->
+    <string name="settings_nav_menu_labels_focused">When focused</string>
+    <!-- Translators: Menu labels choice: the names are always on screen and the content makes room. -->
+    <string name="settings_nav_menu_labels_always">Always</string>
+    <!-- Translators: Short summary on the Navigation settings row, after the rail style, e.g. "Docked · Labels: When focused". The value is one of the Menu labels choices. -->
+    <string name="settings_nav_menu_labels_summary">Labels: <xliff:g id="choice">%1$s</xliff:g></string>
+    <!-- Translators: Hidden keyword bag for the Menu labels setting. Translate as individual search terms. -->
+    <string name="settings_search_keywords_menu_labels">labels, names, text, icons only, rail, sidebar, menu, widen, wide</string>
     <!-- Translators: Setting: which items the navigation menu shows. -->
     <string name="settings_nav_menu_items">Menu items</string>
     <!-- Translators: Explains the Menu items setting: Dynamic and Static are its two choices (settings_dynamic, settings_static); keep the same words. -->
@@ -2580,8 +2626,6 @@
     <string name="settings_vp_cat_controls_resume">Controls &amp; resume</string>
     <!-- Translators: Line under a setting pinned to the Quick group: which Settings group it comes from, e.g. “Pinned from Player”. -->
     <string name="settings_pinned_from">Pinned from <xliff:g id="group">%1$s</xliff:g></string>
-    <!-- Translators: Action word on the settings row that forgets the stream fixes the player has learned. -->
-    <string name="settings_forget">Forget</string>
     <!-- Translators: Action word on the Check for updates settings row: checks GitHub for a new version now. -->
     <string name="settings_check_now">Check now</string>
     <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
@@ -2621,7 +2665,7 @@
     <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
     <string name="settings_line_home">Choose, reorder and filter the rows</string>
     <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
-    <string name="settings_line_content_menus">Rearrange the actions in each menu</string>
+    <string name="settings_line_content_menus">Rearrange or hide the actions in each menu</string>
     <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
     <string name="settings_line_remote_shortcuts">Assign spare remote buttons</string>
     <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
@@ -2648,8 +2692,8 @@
     <string name="settings_line_preview_sound">Sound in the Live preview</string>
     <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
     <string name="settings_line_quick_channel_numbers">Type a number on the remote to tune</string>
-    <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
-    <string name="settings_line_hdr">High dynamic range on mpv</string>
+    <!-- Translators: One-line description under the Prefer SDR setting's name; keep it short, it is cut to one line. -->
+    <string name="settings_line_prefer_sdr">SDR when a stream offers both</string>
     <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
     <string name="settings_line_quick_autoplay">Start the next episode by itself</string>
     <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
@@ -2660,8 +2704,6 @@
     <string name="settings_line_vod_engine">Which engine opens films and episodes</string>
     <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
     <string name="settings_line_saved_choices">Films and episodes you switched by hand</string>
-    <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
-    <string name="settings_line_learned_fixes">What the player learned about each provider</string>
     <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
     <string name="settings_line_external">VLC, MX Player… per section</string>
     <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
@@ -2697,6 +2739,8 @@
     <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
     <string name="settings_line_audio_sync">Shift audio earlier or later</string>
     <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
+    <string name="settings_line_output_audio_delay">Extra delay for the output playing now</string>
+    <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
     <string name="settings_line_saved_audio_sync">Delays you remembered in the player</string>
     <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
     <string name="settings_line_audio_lang">Plays this track when the stream has it</string>
@@ -2710,8 +2754,6 @@
     <string name="settings_title_saved_live_choices">Saved live TV player choices</string>
     <!-- Translators: Name of a setting on a Settings page. -->
     <string name="settings_title_saved_choices">Saved player choices</string>
-    <!-- Translators: Name of a setting on a Settings page. -->
-    <string name="settings_title_learned_fixes">Learned stream fixes</string>
     <!-- Translators: Name of a setting on a Settings page. -->
     <string name="settings_title_tunneled">Tunneled playback</string>
     <!-- Translators: Name of a setting on a Settings page. -->
@@ -2749,6 +2791,8 @@
     <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
     <string name="settings_line_mini">Size and position</string>
     <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
+    <string name="settings_line_pip">Keep watching in a small window</string>
+    <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
     <string name="settings_line_rec_reserve">Never record on every connection</string>
     <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
     <string name="settings_line_rec_watching">Not a second stream</string>
@@ -2760,7 +2804,6 @@
     <string name="settings_line_measured_stats">Live fps, bitrate and dropped frames</string>
     <!-- Translators: One-line description under a setting's name on a Settings page; keep it short, it is cut to one line. -->
     <string name="settings_line_logging">A full trace for bug reports</string>
-    <!-- Translators: Explanation of the Quick settings group, shown in the panel beside its rows. -->
     <!-- Translators: Explanation of the Profile settings group, shown in the panel beside the profiles. -->
     <string name="settings_help_profiles">Each viewer keeps their own favorites, watch history, resume points and Home rows. Kids mode shows only the categories you allow; a PIN stops anyone else from opening the profile.</string>
     <!-- Translators: Explanation shown in the panel beside the Settings rows while this setting has focus. -->
@@ -2837,6 +2880,8 @@
     <string name="settings_help_resume">Ask to resume offers Resume or Start over when a film or episode has a saved position. Always resume carries on where you stopped; Never resume starts from the beginning.</string>
     <!-- Translators: Explanation shown in the panel beside the Settings rows while this setting has focus. -->
     <string name="settings_help_mini">The small player that keeps a channel going in a corner while you browse. Choose its size and the corner it sits in.</string>
+    <!-- Translators: Explanation shown in the panel beside the Settings rows while this setting has focus. -->
+    <string name="settings_help_pip">Press Home or open another app while a video plays full screen or in the mini-player, and it keeps playing in a small window over the rest of the TV. Open OwnTV again to bring it back full screen; close the window to stop playback. Multiview stays in OwnTV.</string>
     <!-- Translators: Remote-key hint in the Settings explanation panel. OK opens the color palette. -->
     <string name="settings_key_palette">Palette</string>
     <!-- Translators: Note under the live preview in Settings › Appearance. -->

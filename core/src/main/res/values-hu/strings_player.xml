@@ -22,6 +22,8 @@
     <string name="player_timeshift_resume_title">Folytatod, ahol abbahagytad?</string>
     <string name="player_timeshift_resume_message">Ez a csatorna mentődött, amíg távol voltál.</string>
     <string name="player_previous_channel">Előző csatorna</string>
+    <string name="player_tool_sources">Források</string>
+    <string name="player_sources_none">Nem található másik változat ehhez a csatornához.</string>
     <string name="player_next_channel_in_list">Következő csatorna</string>
     <string name="player_previous_channel_in_list">Előző csatorna a listában</string>
     <string name="player_live_scrub_at"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="programme">%2$s</xliff:g></string>
@@ -86,6 +88,7 @@
     <string name="player_time_remaining">−<xliff:g id="time">%1$s</xliff:g></string>
     <string name="player_switch_exo">Átváltva ExoPlayerre</string>
     <string name="player_switch_mpv">Átváltva MPV-re</string>
+    <string name="player_smoothness_hint">Ez a csatorna képkockákat ejt el. Ha a lejátszót MPV-re váltod, simábban futhat.</string>
     <string name="player_error_image_subtitle_audio">A képalapú feliratok nem érhetők el ennek a videónak a hangformátumához.</string>
     <string name="player_error_both_engines_exo_first">A lejátszás mindkét videómotorral meghiúsult (előbb ExoPlayer, majd mpv). Lehet, hogy a fájl sérült, vagy olyan formátumot használ, amelyet ez a tévé nem tud lejátszani.</string>
     <string name="player_error_both_engines_mpv_first">A lejátszás mindkét videómotorral meghiúsult (mpv és ExoPlayer). Lehet, hogy a fájl sérült, vagy olyan formátumot használ, amelyet ez a tévé nem tud lejátszani. (<xliff:g id="error">%1$s</xliff:g>)</string>
@@ -108,6 +111,7 @@
     <string name="player_error_account_in_use">Ez a fiók már lejátszik egy másik eszközön vagy alkalmazásban. Állítsa le ott, majd nyomja meg az Újra gombot.</string>
     <string name="player_error_mpv_open_decode">Az mpv nem tudta megnyitni vagy dekódolni ezt a fájlt.</string>
     <string name="player_error_mpv_stream_never_started">Az adatfolyam több próbálkozás után sem indult el az mpv-ben.</string>
+    <string name="player_error_fairplay">Ezt az adatfolyamot Apple FairPlay védi, amelyet az Android-eszközök nem tudnak lejátszani. A lista Apple-eszközökre készült.</string>
     <string name="player_error_surround">Ez a hangkimenet nem támogatja a térhangzást — átváltás sztereóra.</string>
     <string name="player_error_hardware_fallback">Ennek az adatfolyamnak a formátumát nem sikerült hardveresen dekódolni ezen a tévén, ezért a szoftveres dekódolás vette át, amely a(z) <xliff:g id="resolution">%1$s</xliff:g> felbontással már nem bír a tévé túlterhelése nélkül. Más 4K-s tartalmak továbbra is gond nélkül működhetnek; az okot ennek az adatfolyamnak a formátuma jelenti.</string>
     <string name="player_error_hardware_disabled">A hardveres dekódolás ki van kapcsolva — a szoftveres dekódolás nem bír a(z) <xliff:g id="resolution">%1$s</xliff:g> felbontású videóval. Kapcsold be a Beállítások → Videolejátszó menüben.</string>
@@ -267,7 +271,7 @@
     <string name="player_subtitles_search_language_description">A találatok között csak az ezen a nyelven elérhető feliratok jelennek meg. Az eredményeknél továbbra is megnyomhatod az „Összes nyelv” gombot a keresés összes találatához.</string>
     <string name="player_subtitles_language_not_set">Nincs beállítva</string>
     <string name="player_frame_rate_prompt_title">Ennél a csatornánál akadozhat a kép</string>
-    <string name="player_frame_rate_prompt_description">A lejátszás <xliff:g id="fps">%1$d</xliff:g> fps sebességgel fut, miközben a tévéd <xliff:g id="current_hz">%2$d</xliff:g> Hz-en jár, így a tévé nem tudja egyenletesen megjeleníteni ezeket a képkockákat — a mozgás enyhén rángatottnak tűnik.\n\nAz automatikus képkockasebesség lejátszás közben <xliff:g id="target_hz">%3$d</xliff:g> Hz-re váltja a tévédet, utána pedig visszaállítja. Egyes tévéknél a képernyő rövid időre elsötétül a váltáskor; a funkciót a Beállítások → Videolejátszó menüben bármikor kikapcsolhatod.</string>
+    <string name="player_frame_rate_prompt_description">A lejátszás <xliff:g id="fps">%1$d</xliff:g> fps sebességgel fut, miközben a tévéd <xliff:g id="current_hz">%2$d</xliff:g> Hz-en jár, így a tévé nem tudja egyenletesen megjeleníteni ezeket a képkockákat — a mozgás enyhén rángatottnak tűnik.\n\nAz automatikus képkockasebesség lejátszás közben <xliff:g id="target_hz">%3$d</xliff:g> Hz-re váltja a tévédet, utána pedig visszaállítja. Egyes tévéknél a képernyő rövid időre elsötétül a váltáskor; a funkciót a Beállítások → Kép → Képkockasebesség menüben bármikor kikapcsolhatod.</string>
     <string name="player_frame_rate_turn_on">Bekapcsolás</string>
     <string name="player_reason_live_fallback">Az élő lejátszás tartalék megoldásra váltott</string>
     <string name="player_reason_live_no_fallback">Az élő lejátszás meghiúsult — nincs több tartalék megoldás</string>

@@ -8,7 +8,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import tv.own.owntv.core.sports.model.Sport
 
-/** Settings → Sports: defaults, first-run choices and the import rules (step 1.7). */
+/** Settings → Sports: defaults, first-run choices and the import rules. */
 class SportsConfigTest {
 
     private val full = SportsConfig(
@@ -31,7 +31,21 @@ class SportsConfigTest {
         rememberedChannels = mapOf("soccer/ger.1" to RememberedChannel("Sky Sport Bundesliga 1", "DE")),
         alerts = GoalAlerts(true, true, setOf(AlertKind.GOALS, AlertKind.RED_CARDS), myTeams = false, followedLeagues = true, liveCard = false),
         reminderLeadMinutes = 30,
+        calendarRefreshDays = 14,
     )
+
+    @Test
+    fun `calendar refresh - 7 days by default, kept through a round-trip, held to the stepper's values`() {
+        assertEquals(7, SportsConfig().calendarRefreshDays)
+        assertEquals(14, SportsConfig.fromJson(full.toJson().toString()).calendarRefreshDays)
+        assertEquals("a blob from before the setting", 7, SportsConfig.fromJson(JSONObject().put("reminderLead", 15).toString()).calendarRefreshDays)
+        listOf(0, 8, 31, -1, 999).forEach { v ->
+            assertEquals("$v", 7, SportsConfig.fromJson(JSONObject().put("calendarRefreshDays", v).toString()).calendarRefreshDays)
+        }
+        SportsConfig.CALENDAR_REFRESH_CHOICES.forEach { v ->
+            assertEquals(v, SportsConfig.fromJson(JSONObject().put("calendarRefreshDays", v).toString()).calendarRefreshDays)
+        }
+    }
 
     @Test
     fun `defaults - the documented values, alerts off`() {

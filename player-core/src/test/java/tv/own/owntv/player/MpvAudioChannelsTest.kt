@@ -25,4 +25,16 @@ class MpvAudioChannelsTest {
     fun `an output that reports nothing keeps auto-safe`() {
         assertEquals(MpvAudioChannels.UNKNOWN, MpvAudioChannels.listFor(emptySet()))
     }
+
+    @Test
+    fun `before Android 13 a TV with no HDMI output plays on its own speakers - stereo`() {
+        assertEquals(setOf(2), MpvAudioChannels.withoutRouting(hdmiCounts = null))
+        assertEquals("stereo", MpvAudioChannels.listFor(MpvAudioChannels.withoutRouting(null)))
+    }
+
+    @Test
+    fun `before Android 13 an HDMI output says what it takes`() {
+        assertEquals(setOf(2, 6), MpvAudioChannels.withoutRouting(setOf(2, 6)))
+        assertEquals(emptySet<Int>(), MpvAudioChannels.withoutRouting(emptySet())) // reports nothing → auto-safe
+    }
 }

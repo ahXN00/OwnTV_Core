@@ -23,6 +23,10 @@ object ProviderTags {
     private fun prefixOf(raw: String): MatchResult? =
         countryPrefix.find(raw) ?: colonPrefix.find(raw)?.takeIf { it.groupValues[1] in colonCountries }
 
+    /** [raw] without the country prefix [parse] takes off ("DE| ", "UK: "); [raw] when it has none. */
+    fun withoutCountryPrefix(raw: String): String =
+        prefixOf(raw)?.let { raw.substring(it.range.last + 1) } ?: raw
+
     fun parse(raw: String): ProviderName {
         val prefix = prefixOf(raw)
         var rest = if (prefix != null) raw.substring(prefix.range.last + 1) else raw

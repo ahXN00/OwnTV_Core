@@ -31,6 +31,23 @@ class ErrorMessagesTest {
         )
     }
 
+    /** A guide with programmes for other channels than the playlists' is not "empty, try later". */
+    @Test
+    fun `a guide that matches no playlist channel is told apart from an empty one`() {
+        assertEquals(
+            FriendlySyncFailure.GuideMatchesNoChannel,
+            classifySyncFailure(EpgRepository.GuideMatchesNoChannelException().message, online = true),
+        )
+    }
+
+    @Test
+    fun `a panel answering 513 refused the login`() {
+        assertEquals(
+            FriendlySyncFailure.AuthenticationRejected,
+            classifySyncFailure("HTTP 513 for http://panel.test/player_api.php?username=***&password=***", online = true),
+        )
+    }
+
     @Test
     fun `unmapped external failure preserves its raw text`() {
         val raw = "Provider-specific failure code X17"

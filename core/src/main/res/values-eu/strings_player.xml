@@ -22,6 +22,8 @@
     <string name="player_timeshift_resume_title">Utzi zenuen tokitik jarraitu?</string>
     <string name="player_timeshift_resume_message">Kanal hau zu kanpoan zeundela gorde zen.</string>
     <string name="player_previous_channel">Aurreko kanala</string>
+    <string name="player_tool_sources">Iturriak</string>
+    <string name="player_sources_none">Ez da kanal honen beste bertsiorik aurkitu.</string>
     <string name="player_live_scrub_at"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="programme">%2$s</xliff:g></string>
     <string name="player_tool_volume">Bolumena</string>
     <string name="player_tool_brightness">Distira</string>
@@ -86,6 +88,7 @@
     <string name="player_time_remaining">−<xliff:g id="time">%1$s</xliff:g></string>
     <string name="player_switch_exo">ExoPlayerrera aldatu da</string>
     <string name="player_switch_mpv">MPVra aldatu da</string>
+    <string name="player_smoothness_hint">Kate honek fotogramak galtzen ditu. Erreproduzigailua MPVra aldatuz gero, leunago ikus daiteke.</string>
     <string name="player_error_image_subtitle_audio">Irudi-azpitituluak ez daude erabilgarri bideo honen audio-formaturako.</string>
     <string name="player_error_both_engines_exo_first">Erreprodukzioak huts egin du bideo-motor biekin (ExoPlayer, gero mpv). Baliteke fitxategia hondatuta egotea edo telebista honek erreproduzitu ezin duen formatu bat erabiltzea.</string>
     <string name="player_error_both_engines_mpv_first">Erreprodukzioak huts egin du bideo-motor biekin (mpv eta ExoPlayer). Baliteke fitxategia hondatuta egotea edo telebista honek erreproduzitu ezin duen formatu bat erabiltzea. (<xliff:g id="error">%1$s</xliff:g>)</string>
@@ -108,6 +111,7 @@
     <string name="player_error_account_in_use">Kontu hau beste gailu edo aplikazio batean ari da erreproduzitzen. Gelditu han, eta sakatu Saiatu berriro.</string>
     <string name="player_error_mpv_open_decode">mpvk ezin izan du fitxategi hau ireki edo deskodetu.</string>
     <string name="player_error_mpv_stream_never_started">Jarioa ez da inoiz hasi mpv-n hainbat saiakeraren ondoren.</string>
+    <string name="player_error_fairplay">Jario hau Apple FairPlay bidez babestuta dago, eta Android gailuek ezin dute erreproduzitu. Zerrenda Apple gailuetarako egina dago.</string>
     <string name="player_error_surround">Audio-irteera honek ezin du surround erabili — estereora aldatu da.</string>
     <string name="player_error_hardware_fallback">Jario honen formatua ezin izan da hardware bidez deskodetu telebista honetan, beraz software bidezko deskodetzera itzuli da — eta honek ezin du <xliff:g id="resolution">%1$s</xliff:g> mantendu telebista gainkargatu gabe. Baliteke telebistak beste 4K eduki batzuk ondo erreproduzitzea; jario honen formatua da arazoa.</string>
     <string name="player_error_hardware_disabled">Hardware bidezko deskodetzea desaktibatuta dago — software bidezko deskodetzeak ezin du <xliff:g id="resolution">%1$s</xliff:g> bideoa kudeatu. Aktibatu Ezarpenak → Bideo-erreproduzigailua atalean.</string>
@@ -269,7 +273,7 @@
     <string name="player_subtitles_search_language_description">Hizkuntza honetako azpitituluak soilik agertzen dira bilaketa-emaitzetan. Hala ere, emaitzetan “Hizkuntza guztiak” sakatu dezakezu bilaketa bakar baterako dena ikusteko.</string>
     <string name="player_subtitles_language_not_set">Ezarri gabe</string>
     <string name="player_frame_rate_prompt_title">Kanal honek dardara egin dezake</string>
-    <string name="player_frame_rate_prompt_description"><xliff:g id="fps">%1$d</xliff:g> fps-tan erreproduzitzen da zure telebista <xliff:g id="current_hz">%2$d</xliff:g> Hz-tan dabilen bitartean, eta horrek ezin ditu fotograma horiek uniformeki erakutsi — mugimendua apur bat irristakorra ikusten da.\n\nFotograma-maiztasun automatikoak telebista <xliff:g id="target_hz">%3$d</xliff:g> Hz-ra aldatzen du ikusten ari zaren bitartean, eta ondoren lehengoratzen du. Telebista batzuk une batez beltz geratzen dira maiztasuna aldatzean; Ezarpenak → Bideo-erreproduzigailua atalean desaktibatu dezakezu berriro.</string>
+    <string name="player_frame_rate_prompt_description"><xliff:g id="fps">%1$d</xliff:g> fps-tan erreproduzitzen da zure telebista <xliff:g id="current_hz">%2$d</xliff:g> Hz-tan dabilen bitartean, eta horrek ezin ditu fotograma horiek uniformeki erakutsi — mugimendua apur bat irristakorra ikusten da.\n\nFotograma-maiztasun automatikoak telebista <xliff:g id="target_hz">%3$d</xliff:g> Hz-ra aldatzen du ikusten ari zaren bitartean, eta ondoren lehengoratzen du. Telebista batzuk une batez beltz geratzen dira maiztasuna aldatzean; Ezarpenak → Irudia → Fotograma-maiztasuna atalean desaktibatu dezakezu berriro.</string>
     <string name="player_frame_rate_turn_on">Aktibatu</string>
     <string name="player_error_data_saver">Datu-aurrezlea aktibatuta dago, beraz datu mugikorrekin streaming egitea desaktibatuta dago. Konektatu Wi-Fi sarera, edo desaktibatu Datu-aurrezlea Ezarpenetan.</string>
     <string name="player_sleep_timer">Lo-tenporizadorea</string>

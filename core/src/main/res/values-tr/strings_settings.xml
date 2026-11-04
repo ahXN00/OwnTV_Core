@@ -70,6 +70,23 @@
     <string name="settings_remote_shortcuts_long_press">Uzun basış</string>
     <string name="settings_remote_shortcuts_unknown_button">Kumanda tuşu %1$d</string>
     <string name="settings_remote_shortcuts_help">• Varsayılan olarak CH+/CH− ve geri/ileri listelerde sayfalar; basılı tutmak ilk veya son öğeye gider.\n• Kısa ve uzun basışlar ayrı ayrı atanabilir.\n• Çok büyük “Tümü” listelerinde sona atlama kapalı kalır.\n• Geriye uzun basmak her zaman Şimdi Oynatılıyor alanına odaklanır ve değiştirilemez.\n• Genellikle kırmızı/yeşil/sarı/mavi, sayılar, CH+/CH− ve geri/ileri sarma atanabilir.\n• Geri, yön tuşları, OK, ses, Ana Ekran ve güç korunur.\n• Sayı kısayolları gezinirken çalışır; tam ekranda kanal numarası girişi önceliklidir.</string>
+    <string name="settings_player_buttons">Oynatıcı düğmeleri</string>
+    <string name="settings_player_hold_ok">Oynatıcıda OK basılı tut</string>
+    <string name="settings_player_hold_ok_description">Kontroller gizliyken OK basılı tutulunca ne açılır</string>
+    <string name="settings_help_player_hold_ok">Tam ekran canlı oynatıcıda, kontroller gizliyken kanal listesini, rehberi veya program bilgisini açmak için OK düğmesini basılı tutun. Kapalı, OK\'yi her zamanki gibi bırakır. Bu açıkken kısa OK, bıraktığınızda çalışır. Filmler ve bölümler her zamanki OK\'yi korur.</string>
+    <string name="settings_player_short_ok">Kontroller gizliyken OK</string>
+    <string name="settings_player_short_ok_description">Tam ekran oynatıcıda kısa OK basışının yaptığı</string>
+    <string name="settings_help_player_short_ok">Tam ekran oynatıcıda kısa OK basışı kontrolleri gösterir. Canlı kanallarda bunun yerine onu açmak için Kanal listesi veya Rehber\'i seçin; oynatıcının kullanmadığı diğer düğmeler yine kontrolleri gösterir. Filmler ve bölümler her zaman kontrolleri gösterir.</string>
+    <string name="settings_player_swap_channel_keys">Kanal yukarı/aşağı değiştir</string>
+    <string name="settings_player_swap_channel_keys_description">CH+ ve Yukarı önceki kanala gider</string>
+    <string name="settings_help_player_swap_channel_keys">Normalde CH+ ve Yukarı sonraki kanala, CH− ve Aşağı önceki kanala gider. İzlerken, tam ekranda ve mini oynatıcıda bunları değiştirmek için açın. Göz atma listeleri etkilenmez.</string>
+    <string name="settings_player_number_keys_tune">Rakam tuşları kanal değiştirir</string>
+    <string name="settings_player_number_keys_tune_description">Canlı oynatıcıda kanal numarası yazın</string>
+    <string name="settings_help_player_number_keys_tune">O kanala geçmek için tam ekran canlı oynatıcıda kumandadan bir kanal numarası yazın. Rakam tuşlarını kumanda kısayollarınıza bırakmak için kapatın. Numara yazmak için ayrıca Canlı TV ayarlarında Kanal numaraları açık olmalıdır.</string>
+    <string name="settings_player_ok_channel_list">Kanal listesi</string>
+    <string name="settings_player_ok_guide">Rehber</string>
+    <string name="settings_player_ok_programme_info">Program bilgisi</string>
+    <string name="settings_player_ok_show_controls">Kontrolleri göster</string>
     <string name="settings_remote_button_channel_up">Kanal +</string>
     <string name="settings_remote_button_channel_down">Kanal −</string>
     <string name="settings_remote_button_rewind">Geri sar</string>
@@ -158,7 +175,7 @@
     <string name="settings_quick_live_preview">Canlı önizleme</string>
     <string name="settings_quick_preview_sound">Önizleme sesi</string>
     <string name="settings_quick_channel_numbers">Kanal numaraları</string>
-    <string name="settings_quick_hdr">HDR (yalnızca mpv)</string>
+    <string name="settings_quick_prefer_sdr">SDR tercih et</string>
     <string name="settings_quick_autoplay">Otomatik oynatma</string>
     <string name="settings_quick_check_update">Güncellemeleri denetle</string>
     <string name="settings_language">Dil</string>
@@ -178,8 +195,9 @@
     <string name="settings_ch_paging">Kumanda kısayolları</string>
     <string name="settings_ch_paging_description">Kumandanın boş tuşlarına gezinme, oynatma ve liste işlemleri atayın. Temel gezinme tuşları korunur.</string>
     <string name="settings_content_menus_title">Uzun basma menüleri</string>
-    <string name="settings_content_menus_description">Kanal, film, dizi ve bölüm menülerindeki eylemleri yeniden sıralayın</string>
-    <string name="settings_content_menus_hint">Bir eylemi almak için üzerinde OK tuşunu basılı tutun, sonra Yukarı ve Aşağı ile taşıyın. Bırakmak için tekrar OK’a basın.</string>
+    <string name="settings_content_menus_description">Kanal, film, dizi ve bölüm menülerindeki eylemleri yeniden sıralayın veya gizleyin</string>
+    <string name="settings_content_menus_hint">Bir eylemi göstermek veya gizlemek için üzerinde OK’a basın. Almak için OK’u basılı tutun, Yukarı ve Aşağı ile taşıyın, bırakmak için tekrar OK’a basın.</string>
+    <string name="settings_content_menus_note">Bazı eylemler yalnızca geçerli oldukları yerde görünür.</string>
     <string name="settings_browsing_lists">Gezinme ve listeler</string>
     <string name="settings_browsing_description">Canlı TV, Filmler ve Diziler bölümlerindeki son kategoriyi ve son ögeyi hatırlayın</string>
     <string name="settings_home_root">Ana ekran</string>
@@ -213,9 +231,13 @@
     <string name="settings_preview_audio_description">Canlı önizlemede ses çalın</string>
     <string name="settings_mini_player_root">Mini oynatıcı</string>
     <string name="settings_mini_player_root_description">Sabitlenmiş mini oynatıcının boyutu ve konumu</string>
-    <string name="settings_hdr_description">Video ve TV desteklediğinde HDR çıkışı kullanın. Yalnızca mpv: ExoPlayer motoru bu ayarı desteklemez ve yayının HDR’ını her zaman olduğu gibi iletir.</string>
-    <string name="settings_auto_frame_rate">Otomatik kare hızı</string>
-    <string name="settings_auto_frame_rate_description">Canlı TV ve VOD içeriklerinde tam ekrandayken TV\'nin yenileme hızını videoyla (24/25/50/60 fps) eşleştirin ve çıkışta eski hâline getirin. TV\'niz veya alıcınız her kanal değişikliğinde HDMI el sıkışmasını gürültülü biçimde tekrarlıyorsa bu seçeneği kapatın.</string>
+    <string name="settings_pip_on_leave">Uygulamadan çıkınca pencere içinde pencere</string>
+    <string name="settings_pip_on_leave_description">Ana Ekran’a bastığınızda video küçük bir pencerede oynamaya devam eder</string>
+    <string name="settings_prefer_sdr_description">Bir yayın hem SDR hem HDR görüntü sunuyorsa SDR oynatılır: HDR görüntünün soluk veya çok karanlık göründüğü TV’ler için. Yalnızca HDR olan yayın HDR kalır. Yalnızca ExoPlayer.</string>
+    <string name="settings_auto_frame_rate_films">Filmler ve diziler için otomatik kare hızı</string>
+    <string name="settings_auto_frame_rate_films_description">Tam ekrandayken TV\'nin yenileme hızını filme veya bölüme (24/25/50/60 fps) eşleştirin ve çıkışta eski hâline getirin.</string>
+    <string name="settings_auto_frame_rate_live">Canlı TV için otomatik kare hızı</string>
+    <string name="settings_auto_frame_rate_live_description">Tam ekrandayken TV\'nin yenileme hızını kanala (25/50/60 fps) eşleştirin ve çıkışta eski hâline getirin. TV\'niz veya alıcınız her kanal değişikliğinde HDMI el sıkışmasını gürültülü biçimde tekrarlıyorsa bu seçeneği kapatın.</string>
     <string name="settings_afr_pause">Ekran geçişinde duraklat</string>
     <string name="settings_afr_pause_description">Yalnızca filmler. Televizyonun yeni bir ekran moduna yeniden eşitlenmesi gerektiğinde, film bu süre kadar bekler; böylece başlangıcı siyah ekranda kaybolmaz. Kesintisiz bir geçiş hiç duraklatmaz.</string>
     <string name="settings_afr_resolution">Çözünürlüğü eşleştir</string>
@@ -224,6 +246,10 @@
     <string name="settings_surround_description_mobile">Bu cihaza bağlı gerçek bir 5.1/7.1 alıcı için Dolby/DTS sesini çevresel sese (5.1/7.1) dönüştürün. Dahili hoparlör, kulaklık veya stereo soundbar kullanıyorsanız KAPALI bırakın — çok kanallı ses, sesin görüntünün gerisinde kalmasına yol açabilir. Eşitleme kayarsa oynatıcının Ses menüsü → A/V eşitleme ayarını hafifçe değiştirin.</string>
     <string name="settings_audio_passthrough">Dolby ve DTS doğrudan aktarım</string>
     <string name="settings_audio_passthrough_description">Açık: TV, soundbar veya alıcı oynatabildiğini bildirdiğinde Dolby ve DTS ona çözülmeden gönderilir (ExoPlayer). Kapalı: uygulama bunları çözer; Çevresel ses izin verdiği yerde yine çok kanallı olarak. mpv her zaman çözer. Gece modu veya Ses seviyesi dengeleme açıkken kullanılmaz.</string>
+    <string name="settings_ffmpeg_audio">ExoPlayer için FFmpeg ses</string>
+    <string name="settings_ffmpeg_audio_description">Açık: ExoPlayer, cihazın kod çözücüsü olmayan sesleri de (ör. DTS, TrueHD veya MP2) çözebilir. Cihazın kendi kod çözücüleri yine önceliklidir. Kapalı: ExoPlayer yalnızca cihazın kod çözücülerini kullanır. mpv her zaman FFmpeg ile çözer. Değiştirmek OwnTV uygulamasını yeniden başlatır.</string>
+    <string name="settings_line_ffmpeg_audio">Cihazın çözemediği sesler için</string>
+    <string name="settings_ffmpeg_audio_restart_message">Ses kod çözücüsü OwnTV yeniden başladıktan sonra değişir.</string>
     <string name="settings_night_mode">Gece modu</string>
     <string name="settings_night_mode_description">Yüksek sahneleri kısar, alçak diyalogları açar; düşük seste izlemek için.</string>
     <string name="settings_volume_leveling">Ses seviyesi dengeleme</string>
@@ -257,9 +283,12 @@
     <string name="settings_about">Hakkında</string>
     <string name="settings_live_latency">Canlı yayın gecikmesi</string>
     <string name="settings_no_settings_match">“<xliff:g id="query">%1$s</xliff:g>” ile eşleşen ayar yok</string>
+    <string name="settings_search_empty_hint">Bir ayarın adını yazın</string>
     <string name="settings_breadcrumb"><xliff:g id="group">%1$s</xliff:g> › <xliff:g id="title">%2$s</xliff:g></string>
     <string name="settings_startup_home">Ana ekran</string>
     <string name="settings_startup_last_channel">Son kanal</string>
+    <string name="settings_startup_last_channel_guide">Son kanal · TV Rehberi</string>
+    <string name="settings_startup_last_channel_live">Son kanal · Canlı TV</string>
     <string name="settings_startup_favorites">Canlı · Favoriler</string>
     <string name="settings_startup_specific_channel">Belirli kanal</string>
     <string name="settings_startup_channel_unavailable">Başlangıç kanalı kullanılamıyor. Ana sayfa açıldı.</string>
@@ -346,7 +375,7 @@
     <string name="settings_search_keywords_audio">ses düzeyi yüksek alçak dudak senkronu gecikme ses parçası dil</string>
     <string name="settings_search_keywords_channel_numbers">kanal numara doğrudan ayarla yaz rakamlar tuş takımı sayısal geçiş lcn</string>
     <string name="settings_search_keywords_mini">sabitlenmiş pip mini oynatıcı boyut konum ölçek yüzde köşe taşı</string>
-    <string name="settings_search_keywords_hdr">yüksek dinamik aralık çıkış</string>
+    <string name="settings_search_keywords_prefer_sdr">hdr sdr standart dinamik aralık soluk karanlık görüntü</string>
     <string name="settings_search_keywords_afr">afr yenileme hızı hz titreme 24fps 25fps 50hz 60hz ekran modu eşleştirme</string>
     <string name="settings_search_keywords_surround">Dolby DTS 5.1 7.1 alıcı ses</string>
     <string name="settings_search_keywords_autoplay">otomatik oynatma dizi sezon</string>
@@ -470,6 +499,10 @@
     <string name="settings_preferred_audio_language">Tercih edilen ses dili</string>
     <string name="settings_audio_sync">Ses eşitleme</string>
     <string name="settings_audio_sync_description">Görüntüyle eşleşmesi için sesi öne veya geriye kaydırın. Her iki oynatıcıda da çalışır (mpv ve ExoPlayer).</string>
+    <string name="settings_output_audio_delay">Bu çıkış için gecikme</string>
+    <string name="settings_output_audio_delay_description">“Ses eşitleme” ayarına eklenir ve her çıkış için ayrı saklanır: HDMI, HDMI ARC üzerinden soundbar, Bluetooth, dahili hoparlörler, kulaklık. İlgili çıkıştan dinlerken ayarlayın.</string>
+    <string name="settings_audio_output_speaker">Dahili hoparlörler</string>
+    <string name="settings_audio_output_other">Kulaklık veya USB</string>
     <string name="settings_live_tv">Canlı TV</string>
     <string name="settings_live_latency_description">Yayının canlı yayın noktasına ne kadar yakın oynatılacağı. Daha düşük değer canlı yayına daha yakın ancak daha küçük bir arabellek anlamına gelir; bu nedenle zayıf akışlar daha sık takılabilir veya yeniden bağlanabilir. Açacağınız bir sonraki kanalda uygulanır.</string>
     <string name="settings_live_latency_bitrate_note">Çok yüksek bit hızına sahip bir kanalda (özellikle 4K) arabellek, istediğinden daha kısa bir süreyi tutabilir; çünkü aynı anda bellekte tutulabilecek video miktarı sınırlıdır.</string>
@@ -520,10 +553,6 @@
     <string name="settings_reset_live_player_choices_description">Oynatıcıda bir kanalı ExoPlayer ile mpv arasında değiştirmek, bu seçimi o kanal için kaydeder. Sıfırlama tüm kanalların yeniden “Canlı TV oynatıcısı” ayarını izlemesini sağlar. Filmler ve bölümler için kaydedilen seçimler korunur.</string>
     <string name="settings_reset_live_player_choices_confirm">Canlı TV oynatıcısı için kaydedilen seçimler sıfırlansın mı?</string>
     <string name="settings_reset_live_player_choices_confirm_description">Her kanal yeniden “Canlı TV oynatıcısı” ayarını izler. Tek bir kanalı istediğiniz zaman oynatıcıdan yeniden değiştirebilirsiniz.</string>
-    <string name="settings_forget_stream_fixes">Öğrenilen yayın düzeltmelerini unut</string>
-    <string name="settings_forget_stream_fixes_description">Oynatıcı, her sağlayıcının yayınlarının neye ihtiyaç duyduğunu öğrenir: ExoPlayer yerine mpv, başka bir biçim, geçmiş yayınlar için yazılımla kod çözme. Bir sağlayıcı yayınlarını düzelttiyse bunu unutturun. Geçmiş yayınlarla ilgili öğrenilenler de 14 gün sonra kendiliğinden unutulur.</string>
-    <string name="settings_forget_stream_fixes_confirm">Öğrenilen yayın düzeltmeleri unutulsun mu?</string>
-    <string name="settings_forget_stream_fixes_confirm_description">Kanallar yeniden standart şekilde açılır ve oynatıcı, bir sağlayıcının hâlâ ihtiyaç duyduğu şeyi yeniden öğrenir. Etkilenen bir kanalın ilk oynatılması birkaç saniye daha uzun sürebilir.</string>
     <string name="settings_external_player_row_description">Akışları yerleşik oynatıcı yerine her kısım için ayrı seçilen harici bir uygulamada (VLC, MX Player) açın. Bu uygulamanın kodunu çözemediği akışlar için veya başka bir oynatıcıyı tercih ediyorsanız kullanışlıdır. Harici oynatma sırasında devam konumu ve önceki/sonraki özellikleri kullanılamaz; özel bir User-Agent veya yönlendiren bilgisi gerektiren akışlar oynatılamayabilir.</string>
     <string name="settings_resume_always">Her zaman devam et</string>
     <string name="settings_resume_ask">Devam etmeden önce sor</string>
@@ -540,7 +569,7 @@
     <string name="settings_delete_all_series">Tüm dizi altyazılarını sil</string>
     <string name="settings_section_count"><xliff:g id="section">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g>)</string>
     <string name="settings_sync_guide_question">Program rehberi şimdi eşitlensin mi?</string>
-    <string name="settings_sync_guide_description">“<xliff:g id="source">%1$s</xliff:g>” için program rehberini (EPG) indirin. Bunu daha sonra Ayarlar → EPG bölümünden de yapabilirsiniz.</string>
+    <string name="settings_sync_guide_description">“<xliff:g id="source">%1$s</xliff:g>” için program rehberini (EPG) indirin. Bunu daha sonra Ayarlar → Kaynaklar ve rehber → EPG Kaynakları bölümünden de yapabilirsiniz.</string>
     <string name="settings_not_now">Şimdi değil</string>
     <string name="settings_sync_now">Şimdi eşitle</string>
     <string name="settings_syncing_guide">Program rehberi eşitleniyor…</string>
@@ -583,6 +612,8 @@
     <string name="settings_browsing_last_category_description">Bölümü Tümü yerine bıraktığınız kategoride yeniden açın.</string>
     <string name="settings_browsing_last_item">Son öğeyi hatırla</string>
     <string name="settings_browsing_last_item_description">Her kategori, en baştan başlamak yerine kendi kaydırma konumunu korur. Canlı TV ayrıca son odaklanılan kanalı geri getirir.</string>
+    <string name="settings_browsing_live_categories">Canlı TV kategorileri</string>
+    <string name="settings_browsing_live_categories_description">Canlı TV’de, TV Rehberinde, oynatıcıda ve Çoklu görünümde gösterilir. Tüm kanallar kapalıyken Canlı TV ilk kategorinizde, hiç kategoriniz yoksa Favorilerde açılır.</string>
     <string name="settings_catchup_player">Geri izlemeyi şununla oynat</string>
     <string name="settings_customize_title">Kategorileri ve Öğeleri Özelleştir</string>
     <string name="settings_customize_pin_locked">Bu ekran PIN ile kilitli.</string>
@@ -591,6 +622,8 @@
     <string name="settings_customize_set_pin">🔒 PIN ayarla</string>
     <string name="settings_customize_change_pin">🔒 PIN\'i değiştir</string>
     <string name="settings_customize_remove_lock">Kilidi kaldır</string>
+    <string name="settings_customize_settings_pin">Ayarları açmak için PIN iste</string>
+    <string name="settings_customize_settings_pin_button">Ayarları açmak için PIN iste: <xliff:g id="state">%1$s</xliff:g></string>
     <string name="settings_customize_description">Bu profil için kanalları, filmleri ve dizileri gizleyin veya yeniden gösterin; kategorileri yeniden adlandırın ya da sıralayın. Yeniden eşitlemelerden etkilenmez.</string>
     <string name="settings_customize_new_category_behavior">Yeni kategori davranışı</string>
     <string name="settings_customize_hide">Gizle</string>
@@ -636,6 +669,7 @@
     <string name="settings_customize_rename_hint">Yalnızca bu profil için geçerlidir. “<xliff:g id="name">%1$s</xliff:g>” adını geri yüklemek için boş bırakın.</string>
     <string name="settings_customize_remove_pin_title">PIN kilidi kaldırılsın mı?</string>
     <string name="settings_customize_remove_pin_message">Özelleştirme ekranı artık PIN sormadan açılacak.</string>
+    <string name="settings_customize_remove_pin_locks">Bu PIN ile kilitlenen tüm kategorilerin kilidi de açılır.</string>
     <string name="settings_customize_remove">Kaldır</string>
     <string name="settings_customize_confirm_pin">Yeni PIN\'i doğrulayın</string>
     <string name="settings_customize_pin_mismatch">PIN\'ler eşleşmiyor — yeniden girin</string>
@@ -678,7 +712,16 @@
     <string name="settings_sources_test_trial">Deneme hesabı</string>
     <string name="settings_sources_test_expiry_none">Bitiş tarihi bildirilmedi</string>
     <string name="settings_sources_info">Bilgi</string>
+    <string name="settings_sources_clean_names">Adlar</string>
+    <string name="settings_sources_clean_names_title">“<xliff:g id="name">%1$s</xliff:g>” içindeki kanal adları</string>
+    <string name="settings_sources_clean_names_description">Her ekranda daha kısa kanal adları. Rehber yine sağlayıcınızın gönderdiği adlarla eşleşir ve Özelleştir’de yeniden adlandırdığınız kanallar sizin adınızı korur. Kaydetmek oynatma listesini yeniler.</string>
+    <string name="settings_sources_clean_names_toggle">Kanal adlarını temizle</string>
+    <string name="settings_sources_clean_names_example">Baştaki ülke ön ekini ve sondaki kalite etiketini kaldırır: “UK| News One HD” “News One” olarak görünür</string>
+    <string name="settings_sources_clean_names_custom">Bunları da kaldır</string>
+    <string name="settings_sources_clean_names_custom_hint">; ile ayrılmış sözcükler, örn. VIP; Backup</string>
     <string name="settings_sources_retest">Yeniden test et</string>
+    <string name="settings_sources_ignore_limit">Bağlantı sınırını yok say</string>
+    <string name="settings_sources_ignore_limit_on">Bağlantı sınırı yok sayılıyor: Çoklu görünüm ve kayıtlar bu oynatma listesinin bildirdiğinden fazla yayın açabilir. Sağlayıcının reddettiği bir yayın bunu yine bildirir.</string>
     <string name="settings_sources_probe_title">Bu oynatma listesi test edilsin mi?</string>
     <string name="settings_sources_probe_warning">Birçok sağlayıcı aynı anda kaç kanal izleyebileceğinizi hiç belirtmez; bu yüzden OwnTV birkaç kanal açıp hangilerinin devam ettiğine bakarak bunu kendisi bulur. Şu anda oynatılan her şey duracak ve bu işlem iki dakikaya kadar sürebilir.</string>
     <string name="settings_sources_probe_running">Bu sağlayıcının kaç kanala izin verdiği kontrol ediliyor… (<xliff:g id="current">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g>)</string>
@@ -744,6 +787,7 @@
     <string name="settings_epg_sources_auto_refresh_title">Otomatik yenileme</string>
     <string name="settings_epg_sources_auto_refresh_description">Kapalı, başlangıçta veya veriler eskidiğinde</string>
     <string name="settings_epg_sources_not_synced">Henüz eşitlenmedi</string>
+    <string name="settings_epg_sources_priority">Rehber önceliği: <xliff:g id="position">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g>. İki kaynak aynı kanalı içerdiğinde bu listede daha yukarıda olan kullanılır.</string>
     <string name="settings_epg_refresh_1h">1 saat</string>
     <string name="settings_epg_refresh_3h">3 saat</string>
     <string name="settings_epg_refresh_6h">6 saat</string>
@@ -829,6 +873,7 @@
         <item quantity="other">Oynatma listesi türleri desteklenmediği için <xliff:g id="count">%1$d</xliff:g> kaynak atlandı.</item>
     </plurals>
     <string name="settings_backup_export_error">Dışa aktarma başarısız oldu.</string>
+    <string name="settings_backup_no_file_app">Bu telefonda dosyayı kaydedebilecek bir uygulama yok. Bunun yerine Paylaş\'ı kullanın.</string>
     <string name="settings_backup_read_error">Yedekleme dosyası okunamadı.</string>
     <string name="settings_backup_import_error">İçe aktarma başarısız oldu.</string>
     <string name="settings_backup_invalid_locale">Bu yedekleme desteklenmeyen bir uygulama dili içeriyordu. Geri yükleme başarılı oldu ancak geçerli diliniz korundu.</string>
@@ -1166,7 +1211,7 @@
     <string name="local_sync_received_items">Alınan öğeler: <xliff:g id="count">%1$d</xliff:g></string>
     <string name="local_sync_sent">Verileriniz gönderildi</string>
     <string name="local_sync_failed">Eşitleme başarısız oldu</string>
-    <string name="local_sync_error_unreachable">Bu cihaza ulaşılamadı. O cihazda OwnTV → Ayarlar → Veriler → Yerel eşitleme yolunu açıp Eşitleme modunu açın. Her iki cihaz da aynı Wi-Fi ağında olmalıdır.</string>
+    <string name="local_sync_error_unreachable">Bu cihaza ulaşılamadı. O cihazda OwnTV → Daha fazla → Yerel eşitleme yolunu açıp Eşitleme modunu açın. Her iki cihaz da aynı Wi-Fi ağında olmalıdır.</string>
     <string name="local_sync_error_unauthorized">Diğer cihaz reddetti. PIN yanlış olabilir ya da bu cihazı unutmuş olabilir.</string>
     <string name="local_sync_error_bad_payload">Gelen veri okunamadı. Parola kullandıysanız her iki cihazda da aynı olduğunu kontrol edin.</string>
     <string name="local_sync_error_unknown">Bir şeyler ters gitti. Tekrar deneyin.</string>
@@ -1279,6 +1324,12 @@
     <string name="settings_nav_hide_after_desc">Yalnızca yüzen: odak ayrıldıktan sonra çubuğun ne kadar bekleyeceği</string>
     <string name="settings_nav_widen">Odakta genişlet</string>
     <string name="settings_nav_widen_desc">Sabit ve kompakt: menü odaktayken adları içeriğin üzerinde gösterir</string>
+    <string name="settings_nav_menu_labels">Menü etiketleri</string>
+    <string name="settings_nav_menu_labels_desc">Simgelerin yanındaki bölüm adları: hiçbir zaman, çubuk odaktayken veya her zaman</string>
+    <string name="settings_nav_menu_labels_focused">Odaktayken</string>
+    <string name="settings_nav_menu_labels_always">Her zaman</string>
+    <string name="settings_nav_menu_labels_summary">Etiketler: <xliff:g id="choice">%1$s</xliff:g></string>
+    <string name="settings_search_keywords_menu_labels">etiketler, adlar, metin, yalnızca simgeler, çubuk, kenar çubuğu, menü, genişlet, geniş</string>
     <string name="settings_nav_menu_items">Menü öğeleri</string>
     <string name="settings_nav_menu_items_desc">Dinamik: çalma listesinin içeriğine göre · Sabit: kendiniz seçin</string>
     <string name="settings_nav_bar">Çubuk</string>
@@ -1336,7 +1387,6 @@
     <string name="settings_part_guide_catchup">Rehber ve geriye dönük izleme</string>
     <string name="settings_vp_cat_controls_resume">Kontroller ve devam ettirme</string>
     <string name="settings_pinned_from"><xliff:g id="group">%1$s</xliff:g> grubundan sabitlendi</string>
-    <string name="settings_forget">Unut</string>
     <string name="settings_check_now">Şimdi denetle</string>
     <string name="settings_line_epg_offset">Bir kaynağın saatleri yanlışsa tüm rehberi kaydırın</string>
     <string name="settings_line_reminders">Hatırlatıcı zamanı geldiğinde ne olacağı</string>
@@ -1356,7 +1406,7 @@
     <string name="settings_line_guide_width">Kanal listesi ve zaman çizelgesi</string>
     <string name="settings_line_browsing">Son kategoriyi ve öğeyi hatırlayın</string>
     <string name="settings_line_home">Satırları seçin, sıralayın ve süzün</string>
-    <string name="settings_line_content_menus">Her menüdeki işlemleri yeniden düzenleyin</string>
+    <string name="settings_line_content_menus">Her menüdeki işlemleri yeniden düzenleyin veya gizleyin</string>
     <string name="settings_line_remote_shortcuts">Boştaki kumanda tuşlarını atayın</string>
     <string name="settings_line_customize">Gizleyin ve gösterin, yeniden adlandırın ve sıralayın</string>
     <string name="settings_line_metadata">Filmler ve diziler için afiş, konu, oyuncular ve puanlar</string>
@@ -1370,13 +1420,12 @@
     <string name="settings_line_quick_live_preview">Canlı TV’de odaktaki kanalı oynatın</string>
     <string name="settings_line_preview_sound">Canlı önizlemede ses</string>
     <string name="settings_line_quick_channel_numbers">Kanal açmak için kumandada bir numara girin</string>
-    <string name="settings_line_hdr">mpv’de yüksek dinamik aralık</string>
+    <string name="settings_line_prefer_sdr">Yayında ikisi de varsa SDR</string>
     <string name="settings_line_quick_autoplay">Sonraki bölümü kendiliğinden başlatın</string>
     <string name="settings_line_live_engine">Kanalları hangi motorun açacağı ve yedeği</string>
     <string name="settings_line_saved_live_choices">Elle değiştirdiğiniz kanallar</string>
     <string name="settings_line_vod_engine">Filmleri ve bölümleri hangi motorun açacağı</string>
     <string name="settings_line_saved_choices">Elle değiştirdiğiniz filmler ve bölümler</string>
-    <string name="settings_line_learned_fixes">Oynatıcının her sağlayıcı hakkında öğrendikleri</string>
     <string name="settings_line_external">VLC, MX Player… bölüm bazında</string>
     <string name="settings_line_vod_buffer">Filmlerin ne kadar önceden yükleneceği</string>
     <string name="settings_line_vod_timeout">Yanıt vermeyen sunucuyu bekleme</string>
@@ -1394,6 +1443,7 @@
     <string name="settings_line_night_mode">Yüksek sahneler kısılır, diyalog yükselir</string>
     <string name="settings_line_leveling">Her kanal aynı ses yüksekliğinde</string>
     <string name="settings_line_audio_sync">Sesi öne veya geriye kaydırın</string>
+    <string name="settings_line_output_audio_delay">Geçerli çıkış için ek gecikme</string>
     <string name="settings_line_saved_audio_sync">Oynatıcıda hatırlattığınız gecikmeler</string>
     <string name="settings_line_audio_lang">Yayında varsa bu parçayı oynatır</string>
     <string name="settings_line_sub_lang">Bu dilde altyazıyı açın</string>
@@ -1401,7 +1451,6 @@
     <string name="settings_title_fonts">Yazı tipleri ve metin boyutu</string>
     <string name="settings_title_saved_live_choices">Kaydedilen canlı TV oynatıcı seçimleri</string>
     <string name="settings_title_saved_choices">Kaydedilen oynatıcı seçimleri</string>
-    <string name="settings_title_learned_fixes">Öğrenilen yayın düzeltmeleri</string>
     <string name="settings_title_tunneled">Tünelli oynatma</string>
     <string name="settings_title_saved_zoom">Kaydedilen yakınlaştırma</string>
     <string name="settings_title_saved_volume">Kaydedilen ses düzeyi</string>
@@ -1420,6 +1469,7 @@
     <string name="settings_line_autoplay">Ve sonraki sezona da</string>
     <string name="settings_line_tiles">Her döşeme başka bir yayındır</string>
     <string name="settings_line_mini">Boyut ve konum</string>
+    <string name="settings_line_pip">Küçük bir pencerede izlemeye devam edin</string>
     <string name="settings_line_rec_reserve">Asla tüm bağlantılarda kayıt yapma</string>
     <string name="settings_line_rec_watching">İkinci bir yayın olmadan</string>
     <string name="settings_line_rec_pre_roll">Program başlamadan önce</string>
@@ -1462,6 +1512,7 @@
     <string name="settings_help_timeshift_window">Canlı TV’yi duraklat ve geri sar özelliğinin geriye dönük izlemesi olmayan bir kanalda ne kadar geri gidebileceği. Daha uzun süre, kanalın daha fazlasını cihaz depolamasında tutar.</string>
     <string name="settings_help_resume">Sor seçeneği, film veya bölümün kaydedilmiş konumu varsa Devam et ya da Baştan başlat sunar. Her zaman devam et kaldığınız yerden sürdürür; Asla devam etme baştan başlatır.</string>
     <string name="settings_help_mini">Gezinirken bir köşede kanalı oynatmaya devam eden küçük oynatıcı. Boyutunu ve köşesini seçin.</string>
+    <string name="settings_help_pip">Bir video tam ekranda veya mini oynatıcıda oynarken Ana Ekran’a basın ya da başka bir uygulama açın; video, TV’nin geri kalanının üzerinde küçük bir pencerede oynamaya devam eder. Tam ekrana döndürmek için OwnTV’yi yeniden açın; oynatmayı durdurmak için pencereyi kapatın. Çoklu görünüm OwnTV’de kalır.</string>
     <string name="settings_key_palette">Palet</string>
     <string name="settings_live_preview_note">Değişiklikler, satırdan ayrılmadan önce siz ilerlerken burada görünür.</string>
     <string name="settings_synced_at"><xliff:g id="when">%1$s</xliff:g> eşitlendi</string>

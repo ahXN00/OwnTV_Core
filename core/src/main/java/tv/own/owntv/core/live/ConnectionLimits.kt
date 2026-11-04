@@ -77,7 +77,9 @@ class ConnectionLimits(
         // it perfectly well — the Xtream syncer writes it later in the same run, after this point.
         // Without this step every new Xtream playlist would spend two minutes and several connections
         // measuring a number it was about to be told, which is exactly what the design says not to do.
-        val published = runCatching { tester.test(source) }.getOrNull()
+        // Not on a Re-test ([force]): the user asked for a measurement, usually because the published
+        // number is wrong, and returning that number again would make Re-test do nothing on Xtream.
+        val published = if (force) null else runCatching { tester.test(source) }.getOrNull()
         val reported = (published as? tv.own.owntv.core.repository.SourceTestResult.Ok)?.maxConnections ?: 0
         if (reported > 0) {
             Log.i(TAG, "source ${source.id} publishes $reported connection(s) — not measuring")

@@ -166,4 +166,92 @@ class CatchupUrlTest {
         assertNull(CatchupUrl.timeshiftPhpAlternate("http://x/live/user/pass/1.ts"))
         assertNull(CatchupUrl.timeshiftPhpAlternate(null))
     }
+
+    // 2026-10-17 14:30:00Z .. 15:00:00Z.
+    private val acStart = 1792247400_000L
+    private val acEnd = 1792249200_000L
+    private val playseek = "?playseek=\${(b)yyyyMMddHHmmss}-\${(e)yyyyMMddHHmmss}"
+
+    @Test
+    fun forM3u_legacyPlayseekUtc() {
+        assertEquals(
+            "http://h/cctv1.m3u8?playseek=20261017143000-20261017150000",
+            CatchupUrl.forM3u("http://h/cctv1.m3u8", "append", playseek, acStart, acEnd, TimeZone.getTimeZone("UTC")),
+        )
+    }
+
+    @Test
+    fun forM3u_legacyPlayseekUsesTzUnlessUtcSuffix() {
+        val shanghai = TimeZone.getTimeZone("Asia/Shanghai")
+        assertEquals(
+            "http://h/cctv1.m3u8?playseek=20261017223000-20261017230000",
+            CatchupUrl.forM3u("http://h/cctv1.m3u8", "append", playseek, acStart, acEnd, shanghai),
+        )
+        assertEquals(
+            "http://h/cctv1.m3u8?playseek=20261017143000-20261017150000",
+            CatchupUrl.forM3u(
+                "http://h/cctv1.m3u8",
+                "append",
+                "?playseek=\${(b)yyyyMMddHHmmss:utc}-\${(e)yyyyMMddHHmmss:utc}",
+                acStart,
+                acEnd,
+                shanghai,
+            ),
+        )
+    }
+
+    @Test
+    fun template_legacyTimestampAndKodiLetters() {
+        assertEquals(
+            "1792247400-1792249200",
+            CatchupUrl.fromTemplate("\${(b)timestamp}-\${(e)timestamp}", acStart, acEnd),
+        )
+        assertEquals(
+            "20261017143000",
+            CatchupUrl.fromTemplate("\${(b)YmdHMS}", acStart, acEnd),
+        )
+        assertEquals(
+            "20261017143000",
+            CatchupUrl.fromTemplate("\${(b)yyyyMMddHHmmss}", acStart, acEnd),
+        )
+        assertEquals("\${(b)foo}", CatchupUrl.fromTemplate("\${(b)foo}", acStart, acEnd))
+        assertEquals("\${(b)yyyy'}", CatchupUrl.fromTemplate("\${(b)yyyy'}", acStart, acEnd))
+    }
+
+    /** `${(b)HH:mm}` is a Java pattern; colons are part of FMT and the zone is the caller's. */
+    @Test
+    fun template_legacyColonPatternUsesTz() {
+        assertEquals(
+            "22:30",
+            CatchupUrl.fromTemplate("\${(b)HH:mm}", acStart, acEnd, tz = TimeZone.getTimeZone("Asia/Shanghai")),
+        )
+    }
+
+    /** `${(b)HH:mm:utc}` forces UTC even when the caller passed another zone. */
+    @Test
+    fun template_legacyColonPatternUtcSuffix() {
+        assertEquals(
+            "14:30",
+            CatchupUrl.fromTemplate(
+                "\${(b)HH:mm:utc}",
+                acStart,
+                acEnd,
+                tz = TimeZone.getTimeZone("Asia/Shanghai"),
+            ),
+        )
+    }
+
+    /** Old `{utc}` / `{start}` / date-part tokens stay UTC; only `${(b)…}` follows [tz]. */
+    @Test
+    fun template_oldTokensStayUtcWhenTzIsShanghai() {
+        assertEquals(
+            "20261017143000-20261017223000-1792247400-1792247400-30-20261017143000",
+            CatchupUrl.fromTemplate(
+                "{utc:YmdHMS}-\${(b)yyyyMMddHHmmss}-{utc}-\${start}-{duration:60}-{Y}{m}{d}{H}{M}{S}",
+                acStart,
+                acEnd,
+                tz = TimeZone.getTimeZone("Asia/Shanghai"),
+            ),
+        )
+    }
 }

@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Votre propre image</string>
     <string name="profiles_kids">Profil enfant</string>
     <string name="profiles_kids_description">Navigation simplifiée et sécurisée</string>
+    <string name="profiles_allow_downloads">Autoriser les téléchargements</string>
+    <string name="profiles_allow_downloads_description">Désactivé masque tous les boutons de téléchargement de ce profil</string>
     <string name="profiles_remove_pin">Supprimer le verrouillage par PIN</string>
     <string name="profiles_no_pin">Ce profil s’ouvre sans PIN</string>
     <string name="profiles_change_pin">Modifier le PIN (laisser vide pour le conserver)</string>
@@ -45,6 +47,8 @@
     <string name="search_go_to_movie">Aller au film</string>
     <string name="search_clear_recent">Effacer les recherches récentes</string>
     <string name="search_field_hint">Chaînes, films et séries</string>
+    <string name="search_voice">Recherche vocale</string>
+    <string name="search_voice_prompt">Dites une chaîne, un film ou une série</string>
     <string name="search_card_title">Trouvez tout dans vos playlists</string>
     <string name="search_card_body">Chaînes, films et séries de toutes les playlists affichées. Choisissez un résultat pour y aller directement, puis lancez la lecture, téléchargez ou ouvrez ses options. Les programmes TV diffusés maintenant ou plus tard dans la journée sont aussi trouvés par leur titre.</string>
     <string name="search_nothing_found">Aucun résultat pour « <xliff:g id="query">%1$s</xliff:g> »</string>
@@ -65,6 +69,12 @@
     <string name="launcher_recent_live_description">Chaînes en direct vues récemment</string>
     <string name="launcher_movie_type">Film</string>
     <string name="launcher_episode_number">Épisode <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Chargement de votre bibliothèque · <xliff:g id="count">%1$s</xliff:g> titre pour l’instant</item>
+        <item quantity="many">Chargement de votre bibliothèque · <xliff:g id="count">%1$s</xliff:g> de titres pour l’instant</item>
+        <item quantity="other">Chargement de votre bibliothèque · <xliff:g id="count">%1$s</xliff:g> titres pour l’instant</item>
+    </plurals>
+    <string name="home_library_loading_trending">Tendances actuelles apparaîtra à mesure que votre bibliothèque se remplit.</string>
     <string name="home_no_preview">Rien à prévisualiser pour le moment.</string>
     <string name="home_no_rows">Toutes les rangées de l’écran d’accueil sont masquées.</string>
     <string name="home_enable_rows">Réactivez les rangées dans Paramètres → Écran d’accueil.</string>
@@ -202,6 +212,7 @@
     <string name="recording_group_missed">Manqué</string>
     <string name="recording_record">Enregistrer</string>
     <string name="recording_stop">Arrêter l’enregistrement</string>
+    <string name="recording_delete_message">Supprime l\'enregistrement et son fichier de cet appareil. Cette action est irréversible.</string>
     <string name="recording_record_series">Enregistrer chaque diffusion</string>
     <string name="recording_stop_series">Ne plus enregistrer chaque diffusion</string>
     <string name="recording_from_archive">Enregistrer depuis le replay</string>
@@ -214,6 +225,7 @@
     <string name="recording_scheduled_for">Enregistrera <xliff:g id="time">%1$s</xliff:g></string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line">Enregistrement de <xliff:g id="title">%1$s</xliff:g></string>
+    <string name="recording_pill_line_locked">Enregistrement depuis une catégorie verrouillée</string>
     <string name="recording_clash_with">En conflit avec <xliff:g id="programme">%1$s</xliff:g></string>
     <string name="recording_settings_group">Enregistrement</string>
     <string name="settings_recording_reserve">Garder une connexion libre pour regarder</string>
@@ -296,6 +308,15 @@
     <string name="sports_starting_soon">Bientôt</string>
     <string name="sports_hint_match_page">Page du match</string>
     <string name="sports_hint_follow_remind">Suivre · Rappel</string>
+    <string name="sports_hint_day_matches">Matchs du jour</string>
+    <string name="sports_hint_day">Jour</string>
+    <string name="sports_hint_week">Semaine</string>
+    <string name="sports_hint_show_score">Afficher le score</string>
+    <string name="sports_hint_back_to_day">Retour au jour</string>
+    <string name="sports_hint_open_league">Ouvrir le championnat</string>
+    <string name="sports_hint_sport_chips">Boutons de sport</string>
+    <string name="sports_hint_league_chips">Boutons de championnat</string>
+    <string name="sports_hint_follow_unfollow">Suivre · Ne plus suivre</string>
     <string name="sports_reminder_set">Rappel</string>
     <string name="sports_until">jusqu’à <xliff:g id="time">%1$s</xliff:g></string>
     <string name="sports_set">Set <xliff:g id="set">%1$d</xliff:g></string>
@@ -398,6 +419,44 @@
     <string name="sports_switch_channel">Changer de chaîne</string>
     <string name="sports_tab_fixtures">Calendrier</string>
     <string name="sports_tab_results">Résultats</string>
+    <string name="sports_tab_scores">Scores</string>
+    <string name="sports_tab_calendar">Agenda</string>
+    <string name="sports_tab_leagues">Championnats</string>
+    <string name="sports_previous_month">Mois précédent</string>
+    <string name="sports_next_month">Mois suivant</string>
+    <string name="sports_next">À suivre : <xliff:g id="match">%1$s</xliff:g></string>
+    <string name="sports_next_badge">À suivre</string>
+    <string name="sports_no_table_series">Pas de classement — les séries changent chaque semaine</string>
+    <string name="sports_follow_league">Suivre le championnat</string>
+    <string name="sports_unfollow_league">Ne plus suivre le championnat</string>
+    <string name="sports_no_matches_on">Aucun match dans vos sports le <xliff:g id="day">%1$s</xliff:g></string>
+    <string name="sports_nothing_on_day">Rien ce jour-là</string>
+    <string name="sports_nothing_in_sport"><xliff:g id="sport">%1$s</xliff:g> : rien ce jour-là</string>
+    <string name="sports_change_leagues_hint">Ajoutez ou retirez des championnats dans Réglages → Sports</string>
+    <string name="sports_loading_month">Chargement : <xliff:g id="month">%1$s</xliff:g>…</string>
+    <string name="sports_offline_saved">Affichage des données enregistrées <xliff:g id="time">%1$s</xliff:g> — ESPN est injoignable</string>
+    <string name="sports_team_page">Page de l’équipe</string>
+    <string name="sports_next_match">Prochain match</string>
+    <string name="sports_last_five">Cinq derniers</string>
+    <string name="sports_league_position">Place au classement</string>
+    <string name="sports_in_my_teams">Dans Mes équipes</string>
+    <string name="sports_open_match_page">Ouvrir la page du match</string>
+    <string name="sports_open_team_page">Ouvrir la page de l’équipe</string>
+    <string name="sports_my_teams_leagues">Les championnats où jouent vos équipes</string>
+    <string name="sports_tab_drivers">Pilotes</string>
+    <string name="sports_tab_constructors">Constructeurs</string>
+    <string name="sports_tab_races">Courses</string>
+    <string name="sports_tab_rankings">Classement</string>
+    <string name="sports_tab_matches">Matchs</string>
+    <string name="sports_next_race_weekend">Prochain week-end de course</string>
+    <string name="sports_last_weekend">Le week-end dernier</string>
+    <string name="sports_session_practice_1">Essais libres 1</string>
+    <string name="sports_session_practice_2">Essais libres 2</string>
+    <string name="sports_session_practice_3">Essais libres 3</string>
+    <string name="sports_session_sprint_qualifying">Qualifications sprint</string>
+    <string name="sports_session_qualifying">Qualifications</string>
+    <string name="sports_session_sprint">Sprint</string>
+    <string name="sports_session_race">Course</string>
     <string name="sports_table_team">Équipe</string>
     <string name="sports_table_played">J</string>
     <string name="sports_table_won">G</string>
@@ -486,6 +545,13 @@
         <item quantity="other">Toutes les <xliff:g id="count">%1$d</xliff:g> heures</item>
     </plurals>
     <string name="sports_auto_rebuild_app_start">À chaque démarrage de l’app</string>
+    <string name="sports_calendar_refresh">Actualisation de l’agenda</string>
+    <string name="sports_calendar_refresh_description">Fréquence à laquelle les mois enregistrés sont récupérés à nouveau</string>
+    <plurals name="sports_calendar_refresh_days">
+        <item quantity="one">Tous les <xliff:g id="count">%1$d</xliff:g> jour</item>
+        <item quantity="many">Tous les <xliff:g id="count">%1$d</xliff:g> jours</item>
+        <item quantity="other">Tous les <xliff:g id="count">%1$d</xliff:g> jours</item>
+    </plurals>
     <string name="sports_find_channels">Trouver les chaînes</string>
     <string name="sports_find_channels_description">Cherche ce match dans votre guide et le nom de vos chaînes. Avec une grande playlist, cela peut prendre un moment.</string>
     <string name="sports_finding_channels">Recherche dans vos chaînes…</string>

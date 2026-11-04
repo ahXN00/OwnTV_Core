@@ -15,8 +15,10 @@ import androidx.media3.exoplayer.audio.AudioRendererEventListener
 import androidx.media3.exoplayer.audio.AudioSink
 import androidx.media3.exoplayer.audio.DefaultAudioSink
 import androidx.media3.exoplayer.audio.ForwardingAudioSink
+import androidx.media3.exoplayer.mediacodec.MediaCodecInfo
 import androidx.media3.exoplayer.mediacodec.MediaCodecSelector
-import androidx.media3.exoplayer.mediacodec.MediaCodecUtil
+import androidx.media3.exoplayer.video.MediaCodecVideoRenderer
+import androidx.media3.exoplayer.video.VideoRendererEventListener
 import tv.own.owntv.core.player.SurroundMode
 import tv.own.owntv.player.ffmpeg.FfmpegAudioRenderer
 
@@ -91,8 +93,9 @@ object AudioOutputPolicy {
  * Dolby/DTS that the device can decode ([DecodedOnlyAudioSink]), so it is decoded here — multichannel
  * PCM still, when the output takes it.
  *
- * Audio decoders: the device's MediaCodec ones first, then FFmpeg ([FfmpegAudio]) for what the chip
- * cannot decode. Never FFmpeg first — it would software-decode AAC and take passthrough away.
+ * Audio decoders: the device's MediaCodec ones first, then — with the FFmpeg audio setting on — FFmpeg
+ * ([FfmpegAudio]) for what the chip cannot decode. Never FFmpeg first — it would software-decode AAC and
+ * take passthrough away.
  */
 @UnstableApi
 class OwnTVRenderersFactory(
@@ -102,7 +105,56 @@ class OwnTVRenderersFactory(
     private val audioDelay: AudioDelayClock? = null,
     /** False: decode Dolby/DTS in the app instead of bitstreaming it. */
     private val passthrough: Boolean = true,
+    /**
+     * Never start the video decoder on Media3's placeholder surface (or with none): without a screen
+     * surface the codec waits for one, while the load carries on. A codec started on the placeholder is
+     * moved to the screen with `setOutputSurface` when it arrives, and on some devices that move keeps the
+     * sound but shows no new frames — logged as `setOutputSurface -- failed to set consumer usage
+     * (6/BAD_INDEX)` on a Raspberry Pi 4 (`c2.v4l2.avc.decoder`). The Realtek TV decoders already wait.
+     */
+    private val onSurfaceOnly: Boolean = false,
 ) : DefaultRenderersFactory(context) {
+
+    override fun buildVideoRenderers(
+        context: Context,
+        extensionRendererMode: Int,
+        mediaCodecSelector: MediaCodecSelector,
+        enableDecoderFallback: Boolean,
+        eventHandler: Handler,
+        eventListener: VideoRendererEventListener,
+        allowedVideoJoiningTimeMs: Long,
+        out: ArrayList<Renderer>,
+    ) {
+        super.buildVideoRenderers(
+            context, extensionRendererMode, mediaCodecSelector, enableDecoderFallback,
+            eventHandler, eventListener, allowedVideoJoiningTimeMs, out,
+        )
+        if (!onSurfaceOnly) return
+        val i = out.indexOfFirst { it is MediaCodecVideoRenderer }
+        if (i < 0) return
+        // Built as DefaultRenderersFactory builds its own; the options it adds are ones this factory never sets.
+        out[i] = OnSurfaceVideoRenderer(
+            MediaCodecVideoRenderer.Builder(context)
+                .setCodecAdapterFactory(codecAdapterFactory)
+                .setMediaCodecSelector(mediaCodecSelector)
+                .setAllowedJoiningTimeMs(allowedVideoJoiningTimeMs)
+                .setEnableDecoderFallback(enableDecoderFallback)
+                .setEventHandler(eventHandler)
+                .setEventListener(eventListener)
+                .setMaxDroppedFramesToNotify(MAX_DROPPED_VIDEO_FRAME_COUNT_TO_NOTIFY),
+        )
+    }
+
+    private class OnSurfaceVideoRenderer(builder: MediaCodecVideoRenderer.Builder) : MediaCodecVideoRenderer(builder) {
+        // Only a codec still to be started is refused the stand-in: a running one keeps being moved, because
+        // releasing it instead costs a black screen until the next keyframe (up to 2 s measured on the TCL).
+        override fun shouldUsePlaceholderSurface(codecInfo: MediaCodecInfo): Boolean =
+            codec != null && super.shouldUsePlaceholderSurface(codecInfo)
+
+        // Android 15's surface-less mode is the same start, moved later.
+        override fun shouldUseDetachedSurface(codecInfo: MediaCodecInfo): Boolean =
+            codec != null && super.shouldUseDetachedSurface(codecInfo)
+    }
 
     override fun buildAudioSink(
         context: Context,
@@ -175,16 +227,10 @@ class DecodedOnlyAudioSink(sink: AudioSink) : ForwardingAudioSink(sink) {
 
     private fun mustDecode(format: Format): Boolean {
         val mime = format.sampleMimeType ?: return false
-        return mustDecode(mime, deviceDecoder = { m ->
-            decodable.getOrPut(m) {
-                runCatching { MediaCodecUtil.getDecoderInfos(m, false, false).isNotEmpty() }.getOrDefault(false)
-            }
-        }, ffmpeg = FfmpegAudio::supports)
+        return mustDecode(mime, deviceDecoder = FfmpegAudio::deviceDecodes, ffmpeg = FfmpegAudio::supports)
     }
 
     companion object {
-        private val decodable = java.util.concurrent.ConcurrentHashMap<String, Boolean>()
-
         /** Encoded [mime] must be decoded in the app: something here can decode it. PCM never. */
         fun mustDecode(mime: String, deviceDecoder: (String) -> Boolean, ffmpeg: (String) -> Boolean): Boolean =
             mime != MimeTypes.AUDIO_RAW && (deviceDecoder(mime) || ffmpeg(mime))

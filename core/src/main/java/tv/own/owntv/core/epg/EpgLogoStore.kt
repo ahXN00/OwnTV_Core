@@ -87,7 +87,7 @@ object EpgLogoStore {
 }
 
 /**
- * The logo to show for this channel: the EPG feed's icon when "Prefer EPG logos" is on and the feed has
+ * The logo to show for this channel: the EPG feed's icon when "Use this guide's channel logos" is on and the feed has
  * one — for the guide channel it is matched to, else its own id — otherwise the provider's own logo. Use
  * this everywhere a channel logo is displayed or handed to the player — `logoUrl` alone always means
  * "what the playlist said".

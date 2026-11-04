@@ -59,7 +59,7 @@ class ImportFinalizer(
     /**
      * A Stalker portal that publishes no XMLTV feed still HAS a guide — its own — and until now there
      * was no way to reach it, so those users saw an empty Guide and no catch-up list while the same
-     * portal worked in other players. Put it on the Settings → EPG list once the portal has synced, so
+     * portal worked in other players. Put it on the Settings → EPG Sources list once the portal has synced, so
      * it is there to be pressed.
      *
      * Deliberately register-only. Nothing is downloaded here: EPG has been user-initiated since

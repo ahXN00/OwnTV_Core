@@ -22,6 +22,8 @@
     <string name="player_timeshift_resume_title">Continuar de onde parou?</string>
     <string name="player_timeshift_resume_message">Este canal foi salvo enquanto você estava fora.</string>
     <string name="player_previous_channel">Canal anterior</string>
+    <string name="player_tool_sources">Fontes</string>
+    <string name="player_sources_none">Nenhuma outra versão deste canal foi encontrada.</string>
     <string name="player_next_channel_in_list">Próximo canal</string>
     <string name="player_previous_channel_in_list">Canal anterior na lista</string>
     <string name="player_live_scrub_at"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="programme">%2$s</xliff:g></string>
@@ -86,6 +88,7 @@
     <string name="player_time_remaining">−<xliff:g id="time">%1$s</xliff:g></string>
     <string name="player_switch_exo">Alterado para ExoPlayer</string>
     <string name="player_switch_mpv">Alterado para mpv</string>
+    <string name="player_smoothness_hint">Este canal está perdendo quadros. Mudar o player para mpv pode deixá-lo mais fluido.</string>
     <string name="player_error_image_subtitle_audio">Subtitles de imagem não estão disponíveis para o formato de áudio deste vídeo.</string>
     <string name="player_error_both_engines_exo_first">A reprodução falhou em ambos os mecanismos de vídeo (primeiro ExoPlayer, depois mpv). O arquivo pode estar corrompido ou usar um formato que esta TV não consegue reproduzir.</string>
     <string name="player_error_both_engines_mpv_first">A reprodução falhou em ambos os mecanismos de vídeo (primeiro mpv, depois ExoPlayer). O arquivo pode estar corrompido ou usar um formato que esta TV não consegue reproduzir. (<xliff:g id="error">%1$s</xliff:g>)</string>
@@ -108,6 +111,7 @@
     <string name="player_error_account_in_use">Esta conta já está reproduzindo em outro dispositivo ou app. Pare a reprodução lá e toque em Tentar novamente.</string>
     <string name="player_error_mpv_open_decode">O mpv não conseguiu abrir nem decodificar este arquivo.</string>
     <string name="player_error_mpv_stream_never_started">A transmissão não foi iniciada no mpv após várias tentativas.</string>
+    <string name="player_error_fairplay">Esta transmissão é protegida com Apple FairPlay, que dispositivos Android não conseguem reproduzir. A lista foi feita para dispositivos Apple.</string>
     <string name="player_error_surround">Esta saída de áudio não é compatível com som surround — alterada para estéreo.</string>
     <string name="player_error_hardware_fallback">O formato desta transmissão não pôde ser decodificado por hardware nesta TV, então passou para a decodificação por software — que não consegue manter <xliff:g id="resolution">%1$s</xliff:g> sem sobrecarregar a TV. A TV ainda pode reproduzir outros conteúdos em 4K normalmente; o problema está no formato desta transmissão específica.</string>
     <string name="player_error_hardware_disabled">A decodificação por hardware está desativada — a decodificação por software não consegue processar vídeo em <xliff:g id="resolution">%1$s</xliff:g>. Ative-a em Configurações → Reprodutor de vídeo.</string>
@@ -274,7 +278,7 @@
     <string name="player_subtitles_search_language_description">Apenas legendas nesse idioma aparecem nos resultados da busca. Você ainda pode pressionar “Todos os idiomas” nos resultados para ver tudo em uma busca.</string>
     <string name="player_subtitles_language_not_set">Não definido</string>
     <string name="player_frame_rate_prompt_title">Este canal pode apresentar trepidação</string>
-    <string name="player_frame_rate_prompt_description">Ele é reproduzido a <xliff:g id="fps">%1$d</xliff:g> fps enquanto sua TV opera a <xliff:g id="current_hz">%2$d</xliff:g> Hz, o que não consegue mostrar esses quadros de forma uniforme — o movimento parece um pouco irregular.\n\nA taxa de quadros automática muda a TV para <xliff:g id="target_hz">%3$d</xliff:g> Hz enquanto você assiste e a restaura depois. Algumas TVs ficam com a tela preta por um instante quando a taxa muda; você pode desativá-la novamente em Configurações → Player de Vídeo.</string>
+    <string name="player_frame_rate_prompt_description">Ele é reproduzido a <xliff:g id="fps">%1$d</xliff:g> fps enquanto sua TV opera a <xliff:g id="current_hz">%2$d</xliff:g> Hz, o que não consegue mostrar esses quadros de forma uniforme — o movimento parece um pouco irregular.\n\nA taxa de quadros automática muda a TV para <xliff:g id="target_hz">%3$d</xliff:g> Hz enquanto você assiste e a restaura depois. Algumas TVs ficam com a tela preta por um instante quando a taxa muda; você pode desativá-la novamente em Configurações → Imagem → Taxa de quadros.</string>
     <string name="player_frame_rate_turn_on">Ativar</string>
     <string name="player_reason_live_fallback">A reprodução ao vivo passou para um fallback</string>
     <string name="player_reason_live_no_fallback">A reprodução ao vivo falhou — não resta nenhum fallback</string>

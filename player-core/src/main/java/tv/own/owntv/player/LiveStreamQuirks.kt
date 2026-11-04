@@ -6,9 +6,7 @@ import java.util.concurrent.ConcurrentHashMap
  * Per-provider live-stream quirks learned at runtime, shared by both engines.
  *
  * Everything here is **in-memory for the session only** — so a provider that fixes its panel is back
- * to stock behaviour after the next app start. The one exception is the archive-decode quirk, which
- * is also written to [tv.own.owntv.core.player.ArchiveDecodeStore] because re-learning it costs a
- * failed archive open rather than a few seconds. Keyed by `host:port` so a
+ * to stock behaviour after the next app start. Keyed by `host:port` so a
  * lesson learned on one channel applies immediately to every other channel of the same panel
  * (these faults are panel-wide, not per-channel).
  *
@@ -352,28 +350,10 @@ object LiveStreamQuirks {
      * panel that does fail is one silent retry on the session's first catch-up.
      *
      * Panel-wide, because the mid-GOP archive mux is a property of the panel's timeshift server, not of
-     * one channel. Unlike every other quirk here this one is also **persisted** (see
-     * [installArchivePersistence]): re-learning it costs a whole failed archive open — audio with no
-     * picture until the watchdog fires — which is too expensive to repeat every app start.
+     * one channel. Session-only like the rest: one stalled open must not cost every later app start its
+     * hardware decoder, and the stall does not reproduce on every open of the same panel.
      */
-    fun rememberArchiveNeedsSoftware(url: String) {
-        val host = hostKey(url)
-        if (softwareArchiveHosts.add(host)) archivePersistence?.invoke(host)
-    }
-
-    /**
-     * Seed the archive-decode quirk from the previous run and start persisting new ones.
-     *
-     * Called once at startup off the main thread. [known] hosts are applied immediately; [save] is
-     * invoked only for a host learned *now* that wasn't already remembered, so the store is written
-     * at most once per panel per install.
-     */
-    fun installArchivePersistence(known: Set<String>, save: (String) -> Unit) {
-        softwareArchiveHosts += known
-        archivePersistence = save
-    }
-
-    @Volatile private var archivePersistence: ((String) -> Unit)? = null
+    fun rememberArchiveNeedsSoftware(url: String) { softwareArchiveHosts += hostKey(url) }
 
     fun archiveNeedsSoftware(url: String): Boolean = hostKey(url) in softwareArchiveHosts
 
@@ -412,23 +392,10 @@ object LiveStreamQuirks {
     fun providerMessage(url: String, responseCode: Int): String? =
         providerMessages[hostKey(url)]?.takeIf { it.first == responseCode }?.second
 
-    /**
-     * Settings → "Forget learned stream fixes": drop every lesson of this session and the stored
-     * catch-up decode list, so channels open the standard way again and relearn only what a provider
-     * still needs. The persistence hook stays installed, so a lesson learned afterwards is saved again.
-     */
-    suspend fun forgetLearned(archiveStore: tv.own.owntv.core.player.ArchiveDecodeStore) {
-        hlsRedirectHosts.clear(); mixedHlsHosts.clear(); dashRedirectHosts.clear(); segmentRefusingHosts.clear(); singleSessionHosts.clear()
-        brokenTimestampStreams.clear(); noHlsVariantStreams.clear(); noHlsVariantMpvStreams.clear()
-        tolerantDemuxStreams.clear(); prerollDefeatedStreams.clear(); softwareArchiveHosts.clear()
-        uaBlockingHosts.clear(); providerMessages.clear()
-        archiveStore.clear()
-    }
-
-    /** Test hook — clears everything including the persistence hook. */
+    /** Test hook — clears everything. */
     internal fun clearForTest() {
         hlsRedirectHosts.clear(); mixedHlsHosts.clear(); segmentRefusingHosts.clear(); singleSessionHosts.clear()
-        brokenTimestampStreams.clear(); softwareArchiveHosts.clear(); archivePersistence = null
+        brokenTimestampStreams.clear(); softwareArchiveHosts.clear()
         noHlsVariantStreams.clear(); noHlsVariantMpvStreams.clear(); prerollDefeatedStreams.clear()
         tolerantDemuxStreams.clear()
         uaBlockingHosts.clear(); providerMessages.clear()

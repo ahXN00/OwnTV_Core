@@ -49,16 +49,14 @@ fun moviePagingSource(
             LiveKey.Favorites -> movieDao.pagingFavoritesManual(profileId, ContentOrderEntity.FAV_CONTEXT, ids)
             LiveKey.History -> movieDao.pagingHistory(profileId, ids)
             is LiveKey.Custom ->
-                if (playlist) customCategoryDao.pagingMovies(profileId, key.id, ids)
-                else customCategoryDao.pagingMoviesAlpha(profileId, key.id, ids)
+                customCategoryDao.pagingMovies(profileId, key.id, ids, alpha = !playlist)
             is LiveKey.Folder -> {
                 val ctxKey = contextKey(key.id).orEmpty()
                 when {
                     rating -> movieDao.pagingByCategoryRating(key.id)
                     dateAdded -> movieDao.pagingByCategoryDateAdded(key.id)
                     !hasManualOrder(ctxKey) -> if (playlist) movieDao.pagingByCategory(key.id) else movieDao.pagingByCategoryAlpha(key.id)
-                    playlist -> movieDao.pagingByCategoryManual(key.id, profileId, ctxKey)
-                    else -> movieDao.pagingByCategoryManualAlpha(key.id, profileId, ctxKey)
+                    else -> movieDao.pagingByCategoryManual(key.id, profileId, ctxKey, alpha = !playlist)
                 }
             }
         }
@@ -103,16 +101,14 @@ fun seriesPagingSource(
             LiveKey.Favorites -> seriesDao.pagingFavoritesManual(profileId, ContentOrderEntity.FAV_CONTEXT, ids)
             LiveKey.History -> seriesDao.pagingHistory(profileId, ids)
             is LiveKey.Custom ->
-                if (playlist) customCategoryDao.pagingSeries(profileId, key.id, ids)
-                else customCategoryDao.pagingSeriesAlpha(profileId, key.id, ids)
+                customCategoryDao.pagingSeries(profileId, key.id, ids, alpha = !playlist)
             is LiveKey.Folder -> {
                 val ctxKey = contextKey(key.id).orEmpty()
                 when {
                     rating -> seriesDao.pagingByCategoryRating(key.id)
                     dateAdded -> seriesDao.pagingByCategoryDateAdded(key.id)
                     !hasManualOrder(ctxKey) -> if (playlist) seriesDao.pagingByCategory(key.id) else seriesDao.pagingByCategoryAlpha(key.id)
-                    playlist -> seriesDao.pagingByCategoryManual(key.id, profileId, ctxKey)
-                    else -> seriesDao.pagingByCategoryManualAlpha(key.id, profileId, ctxKey)
+                    else -> seriesDao.pagingByCategoryManual(key.id, profileId, ctxKey, alpha = !playlist)
                 }
             }
         }
@@ -130,7 +126,10 @@ fun seriesPagingSource(
     }
 }
 
-/** The film count for one selection. */
+/**
+ * The film count for one selection. [sealedCats] are the locked provider folders: unlike [hiddenCats]
+ * they leave Favorites, History and custom categories too, as in Live TV's [tv.own.owntv.core.live.liveCountFlow].
+ */
 fun movieCountFlow(
     key: LiveKey,
     profileId: Long,
@@ -138,15 +137,20 @@ fun movieCountFlow(
     hiddenCats: Set<Long>,
     movieDao: MovieDao,
     customCategoryDao: CustomCategoryDao,
+    sealedCats: Set<Long> = emptySet(),
 ): Flow<Int> {
     val ids = sourceIds.ifEmpty { listOf(-1L) }
+    val sealed = sealedCats.toList()
     return when (key) {
         LiveKey.All, LiveKey.Catchup ->
             if (hiddenCats.isEmpty()) movieDao.countAll(ids)
             else movieDao.countAllExcluding(ids, hiddenCats.toList())
-        LiveKey.Favorites -> movieDao.countFavorites(profileId, ids)
-        LiveKey.History -> movieDao.countHistory(profileId, ids)
-        is LiveKey.Custom -> customCategoryDao.countMembers(profileId, MediaType.MOVIE, key.id, ids)
+        LiveKey.Favorites -> if (sealed.isEmpty()) movieDao.countFavorites(profileId, ids)
+            else movieDao.countFavoritesExcluding(profileId, ids, sealed)
+        LiveKey.History -> if (sealed.isEmpty()) movieDao.countHistory(profileId, ids)
+            else movieDao.countHistoryExcluding(profileId, ids, sealed)
+        is LiveKey.Custom -> if (sealed.isEmpty()) customCategoryDao.countMembers(profileId, MediaType.MOVIE, key.id, ids)
+            else customCategoryDao.countMembersExcluding(profileId, MediaType.MOVIE, key.id, ids, sealed)
         is LiveKey.Folder -> movieDao.countByCategory(key.id)
     }
 }
@@ -159,15 +163,20 @@ fun seriesCountFlow(
     hiddenCats: Set<Long>,
     seriesDao: SeriesDao,
     customCategoryDao: CustomCategoryDao,
+    sealedCats: Set<Long> = emptySet(),
 ): Flow<Int> {
     val ids = sourceIds.ifEmpty { listOf(-1L) }
+    val sealed = sealedCats.toList()
     return when (key) {
         LiveKey.All, LiveKey.Catchup ->
             if (hiddenCats.isEmpty()) seriesDao.countAll(ids)
             else seriesDao.countAllExcluding(ids, hiddenCats.toList())
-        LiveKey.Favorites -> seriesDao.countFavorites(profileId, ids)
-        LiveKey.History -> seriesDao.countHistory(profileId, ids)
-        is LiveKey.Custom -> customCategoryDao.countMembers(profileId, MediaType.SERIES, key.id, ids)
+        LiveKey.Favorites -> if (sealed.isEmpty()) seriesDao.countFavorites(profileId, ids)
+            else seriesDao.countFavoritesExcluding(profileId, ids, sealed)
+        LiveKey.History -> if (sealed.isEmpty()) seriesDao.countHistory(profileId, ids)
+            else seriesDao.countHistoryExcluding(profileId, ids, sealed)
+        is LiveKey.Custom -> if (sealed.isEmpty()) customCategoryDao.countMembers(profileId, MediaType.SERIES, key.id, ids)
+            else customCategoryDao.countMembersExcluding(profileId, MediaType.SERIES, key.id, ids, sealed)
         is LiveKey.Folder -> seriesDao.countByCategory(key.id)
     }
 }

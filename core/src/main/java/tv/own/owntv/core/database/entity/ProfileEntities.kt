@@ -72,7 +72,7 @@ data class SourceEntity(
     /**
      * Whether a Stalker portal's **own** guide may be imported (v37). On by default: a portal that
      * publishes no XMLTV feed has no other way to fill the Guide, and without it catch-up cannot be
-     * used at all. Turning it off removes the portal's guide entry from Settings → EPG and stops it
+     * used at all. Turning it off removes the portal's guide entry from Settings → EPG Sources and stops it
      * being offered again.
      *
      * Only meaningful for [SourceType.STALKER]; a portal that advertises an XMLTV feed uses that
@@ -162,6 +162,18 @@ data class SourceEntity(
      * Catch-up's Automatic time zone uses it.
      */
     val serverTimeZone: String? = null,
+    /** "Clean channel names" (v51): tidy this playlist's channel names at sync, see
+     *  [tv.own.owntv.core.customize.ChannelNameCleanup]. The user's choice, so it is backed up. */
+    @ColumnInfo(defaultValue = "0") val cleanChannelNames: Boolean = false,
+    /** The user's own words [cleanChannelNames] also removes, `;`-separated (v51). Null = none. */
+    val channelNameStrip: String? = null,
+    /**
+     * "Ignore connection limit" (v53): Multiview and recordings no longer refuse a stream because of
+     * [maxConnections], for a provider whose stated limit is lower than what it really allows. The
+     * provider's own refusal (HTTP 458) still stops a stream and says so. The user's choice, so it is
+     * backed up. Live tuning's single-session handover still follows [maxConnections].
+     */
+    @ColumnInfo(defaultValue = "0") val ignoreConnectionLimit: Boolean = false,
 )
 
 /** Many-to-many link letting a source be shared across profiles (hybrid model). */

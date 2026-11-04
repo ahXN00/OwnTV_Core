@@ -14,6 +14,10 @@ import tv.own.owntv.core.sports.model.MatchEvent
 import tv.own.owntv.core.sports.model.MatchState
 import tv.own.owntv.core.sports.model.MatchSummary
 import tv.own.owntv.core.sports.model.PeriodScore
+import tv.own.owntv.core.sports.model.Ranking
+import tv.own.owntv.core.sports.model.RankingGroup
+import tv.own.owntv.core.sports.model.RankingKind
+import tv.own.owntv.core.sports.model.RankingRow
 import tv.own.owntv.core.sports.model.Score
 import tv.own.owntv.core.sports.model.Sport
 import tv.own.owntv.core.sports.model.StandingsGroup
@@ -47,6 +51,11 @@ internal object EspnParser {
             }.getOrDefault(emptyList())
         }
     }
+
+    /** When the season a scoreboard belongs to started (`leagues[0].season.startDate`); null when ESPN gives none. */
+    fun seasonStart(body: String): Long? =
+        JSONObject(body).optJSONArray("leagues")?.optJSONObject(0)?.optJSONObject("season")?.optString("startDate")
+            ?.takeIf { it.isNotEmpty() }?.let { runCatching { time(it) }.getOrNull() }
 
     /** Cricket's header feed (`/apis/v2/scoreboard/header?sport=cricket`): every series' matches of the day. */
     fun cricketHeader(league: League, body: String): List<Match> {
@@ -114,6 +123,63 @@ internal object EspnParser {
         }
         return StandingsTable(league.key, groups.filter { it.rows.isNotEmpty() })
     }
+
+    /** A racing series' standings (`/apis/v2/sports/racing/<series>/standings`): drivers, and F1's constructors. */
+    fun racingStandings(league: League, body: String): Ranking {
+        val groups = objects(JSONObject(body).optJSONArray("children")).mapNotNull { c ->
+            val entries = objects(c.optJSONObject("standings")?.optJSONArray("entries"))
+            val rows = entries.mapNotNull { e ->
+                runCatching {
+                    val stats = objects(e.optJSONArray("stats")).associateBy { it.optString("name") }
+                    val who = e.optJSONObject("athlete")?.let { athlete(it, "") } ?: team(e.getJSONObject("team"))
+                    val points = (stats["championshipPts"] ?: stats["points"])?.optDouble("value", 0.0)?.toInt() ?: 0
+                    RankingRow(stats["rank"]?.optDouble("value", 0.0)?.toInt() ?: 0, who, points)
+                }.getOrNull()
+            }.sortedBy { if (it.rank > 0) it.rank else Int.MAX_VALUE }
+            val kind = if (entries.any { it.has("athlete") }) RankingKind.DRIVERS else RankingKind.CONSTRUCTORS
+            rows.takeIf { it.isNotEmpty() }?.let { RankingGroup(kind, it) }
+        }
+        return Ranking(league.key, groups)
+    }
+
+    /** A tennis tour's rankings (`/tennis/<atp|wta>/rankings`): its singles ranking, as far as ESPN lists it. */
+    fun tennisRankings(league: League, body: String): Ranking {
+        val list = JSONObject(body).optJSONArray("rankings")?.optJSONObject(0)
+        val rows = objects(list?.optJSONArray("ranks")).mapNotNull { r ->
+            runCatching {
+                val a = r.getJSONObject("athlete")
+                val name = a.optString("displayName")
+                val player = Team(
+                    id = a.getString("id"),
+                    name = name,
+                    shortName = a.optString("shortname").ifEmpty { name },
+                    isAthlete = true,
+                    country = a.optString("flagAltText").takeIf { it.isNotEmpty() },
+                )
+                RankingRow(r.getInt("current"), player, r.optDouble("points", 0.0).toInt())
+            }.getOrNull()
+        }
+        return Ranking(league.key, if (rows.isEmpty()) emptyList() else listOf(RankingGroup(RankingKind.PLAYERS, rows)))
+    }
+
+    /**
+     * A team's schedule (`/teams/<id>/schedule`, `?fixture=true` for what is to come). Each event names
+     * its own competition, so a schedule across all of a club's competitions keeps each match's league.
+     * The score is an object here (`{value, displayValue}`) rather than the scoreboard's text.
+     */
+    fun teamSchedule(sport: Sport, body: String): List<Match> =
+        objects(JSONObject(body).optJSONArray("events")).mapNotNull { e ->
+            runCatching {
+                val league = e.optJSONObject("league")
+                val slug = league?.optString("slug")?.takeIf { it.isNotEmpty() } ?: return@runCatching null
+                val name = league.optString("name").ifEmpty { slug }
+                val c = e.getJSONArray("competitions").getJSONObject(0)
+                objects(c.optJSONArray("competitors")).forEach { side ->
+                    side.optJSONObject("score")?.let { side.put("score", it.optString("displayValue")) }
+                }
+                teamMatch(sport, League.keyOf(sport, slug), slug, name, e, c)
+            }.getOrNull()
+        }
 
     /** A league's teams (`/teams`), for the My teams picker. */
     fun teams(body: String): List<Team> {

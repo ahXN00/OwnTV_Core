@@ -2,7 +2,8 @@ package tv.own.owntv.core.player
 
 /**
  * Size (as a percentage of screen width) and screen corner/edge for the docked mini-player. Both are
- * user-configurable in Settings → Playback and adjustable on the fly from the mini-player's controls.
+ * user-configurable in Settings → Watching & recording → Mini-player and adjustable on the fly from
+ * the mini-player's controls.
  * The window is laid out as `fillMaxWidth(pct/100f).aspectRatio(16f/9f)` aligned to [MiniPlayerPosition],
  * so it scales consistently across TV sizes and the UI zoom (unlike the old fixed 340×191 dp box).
  *

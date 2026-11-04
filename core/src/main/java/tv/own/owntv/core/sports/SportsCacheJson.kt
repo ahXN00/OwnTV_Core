@@ -13,6 +13,10 @@ import tv.own.owntv.core.sports.model.MatchEvent
 import tv.own.owntv.core.sports.model.MatchState
 import tv.own.owntv.core.sports.model.MatchSummary
 import tv.own.owntv.core.sports.model.PeriodScore
+import tv.own.owntv.core.sports.model.Ranking
+import tv.own.owntv.core.sports.model.RankingGroup
+import tv.own.owntv.core.sports.model.RankingKind
+import tv.own.owntv.core.sports.model.RankingRow
 import tv.own.owntv.core.sports.model.Score
 import tv.own.owntv.core.sports.model.Sport
 import tv.own.owntv.core.sports.model.StandingsGroup
@@ -23,12 +27,12 @@ import tv.own.owntv.core.sports.model.Team
 
 /**
  * Our own slim JSON for the stored board — not ESPN's, which is 10–50 times bigger. It holds what the
- * last rebuild built: the scoreboards, every match's details and every league's table, kept
+ * last rebuild built: the scoreboards, every match's details and every league's table or ranking, kept
  * until the next rebuild. A file that does not parse, or an entry in it that does not, is dropped.
  */
 internal object SportsCacheJson {
 
-    private const val VERSION = 2
+    private const val VERSION = 3
 
     /** [board]'s matches, details, tables, rebuild time and follow list; the live flags (failing, paused) are not kept. */
     fun write(board: SportsBoard): String =
@@ -41,6 +45,7 @@ internal object SportsCacheJson {
             .put("tomorrow", feeds(board.tomorrow))
             .put("sum", JSONObject().apply { board.summaries.forEach { (k, v) -> put(k, summary(v)) } })
             .put("tab", JSONObject().apply { board.standings.forEach { (k, v) -> put(k, table(v)) } })
+            .put("rk", JSONObject().apply { board.rankings.forEach { (k, v) -> put(k, ranking(v)) } })
             .toString()
 
     /** The stored board, or null when the file is unreadable or from another format. */
@@ -52,6 +57,7 @@ internal object SportsCacheJson {
             tomorrow = feeds(o.optJSONObject("tomorrow")),
             summaries = entries(o.optJSONObject("sum")) { runCatching { summary(it) }.getOrNull() },
             standings = entries(o.optJSONObject("tab")) { runCatching { table(it) }.getOrNull() },
+            rankings = entries(o.optJSONObject("rk")) { runCatching { ranking(it) }.getOrNull() },
             rebuiltAt = if (o.has("at")) o.getLong("at") else null,
             builtFor = o.optJSONArray("for")?.let { a -> (0 until a.length()).mapTo(LinkedHashSet()) { a.getString(it) } },
             endedAt = o.optJSONObject("end")?.let { e -> e.keys().asSequence().associateWith { e.getLong(it) } }.orEmpty(),
@@ -131,6 +137,23 @@ internal object SportsCacheJson {
                     difference = r.getString("gd"), points = r.getInt("pt"), note = r.optStringOrNull("no"),
                 )
             })
+        },
+    )
+
+    private fun ranking(r: Ranking) = JSONObject()
+        .put("k", r.leagueKey)
+        .put("g", JSONArray().apply {
+            r.groups.forEach { g ->
+                put(JSONObject().put("n", g.kind.name).put("r", JSONArray().apply {
+                    g.rows.forEach { put(JSONObject().put("rk", it.rank).put("tm", team(it.team)).put("pt", it.points)) }
+                }))
+            }
+        })
+
+    private fun ranking(o: JSONObject) = Ranking(
+        leagueKey = o.getString("k"),
+        groups = objects(o.optJSONArray("g")).map { g ->
+            RankingGroup(RankingKind.valueOf(g.getString("n")), objects(g.optJSONArray("r")).map { RankingRow(it.getInt("rk"), team(it.getJSONObject("tm")), it.getInt("pt")) })
         },
     )
 

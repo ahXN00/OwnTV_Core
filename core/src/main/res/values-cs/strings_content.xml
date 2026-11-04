@@ -75,10 +75,25 @@
     </plurals>
     <string name="content_category_restore_order">Vlastní pořadí se vymaže</string>
     <string name="content_category_restore_nothing">Kategorie už má výchozí stav playlistu</string>
+    <string name="content_category_lock">Zamknout PINem</string>
+    <string name="content_category_locked_placeholder">Tato kategorie je uzamčena</string>
+    <plurals name="content_category_pin_wait">
+        <item quantity="one">Příliš mnoho chybných PINů. Zkuste to znovu za <xliff:g id="count">%1$d</xliff:g> sekundu</item>
+        <item quantity="few">Příliš mnoho chybných PINů. Zkuste to znovu za <xliff:g id="count">%1$d</xliff:g> sekundy</item>
+        <item quantity="many">Příliš mnoho chybných PINů. Zkuste to znovu za <xliff:g id="count">%1$d</xliff:g> sekund</item>
+        <item quantity="other">Příliš mnoho chybných PINů. Zkuste to znovu za <xliff:g id="count">%1$d</xliff:g> sekund</item>
+    </plurals>
     <string name="content_move_to_category">Přesunout do kategorie…</string>
     <string name="content_remove_from_category">Odebrat z této kategorie</string>
     <string name="content_download">Stáhnout</string>
     <string name="content_download_all_episodes">Stáhnout všechny epizody</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one">Stáhnout <xliff:g id="count">%1$d</xliff:g> díl?</item>
+        <item quantity="few">Stáhnout <xliff:g id="count">%1$d</xliff:g> díly?</item>
+        <item quantity="many">Stáhnout <xliff:g id="count">%1$d</xliff:g> dílů?</item>
+        <item quantity="other">Stáhnout <xliff:g id="count">%1$d</xliff:g> dílů?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">Uloží se do tohoto zařízení a zaberou místo v úložišti.</string>
     <string name="content_play">Přehrát</string>
     <string name="content_favorited">V oblíbených</string>
     <string name="content_favorite">Přidat k oblíbeným</string>
@@ -86,9 +101,7 @@
     <string name="content_episodes">Epizody</string>
     <string name="content_oldest_first">Od nejstarších</string>
     <string name="content_newest_first">Od nejnovějších</string>
-    <string name="content_play_external">Přehrát pomocí externího přehrávače</string>
     <string name="content_delete_subtitles">Smazat titulky OpenSub</string>
-    <string name="content_tmdb_details">Podrobnosti z TMDB</string>
     <string name="content_play_trailer">Přehrát upoutávku</string>
     <string name="content_refetch_tmdb">Znovu načíst podrobnosti z TMDB</string>
     <string name="content_set_tmdb_name">Nastavit název pro TMDB</string>
@@ -140,6 +153,9 @@
     <string name="content_catchup_jump_prompt">Vyberte čas, od kterého chcete začít sledovat. Programý průvodce není potřeba.</string>
     <string name="content_catchup_jump_exact">Zvolit přesný čas…</string>
     <string name="content_catchup_jump_hint">Stiskněte OK na dni, hodině nebo minutě, změňte hodnotu šipkami nahoru a dolů a stiskněte OK znovu.</string>
+    <string name="content_catchup_jump_programme_start">Začátek „<xliff:g id="title">%1$s</xliff:g>“</string>
+    <string name="content_catchup_jump_programme_start_untitled">Začátek pořadu</string>
+    <string name="content_catchup_jump_programme_start_at">Začalo v <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">Vyberte kanál EPG pro „<xliff:g id="channel">%1$s</xliff:g>“.</string>
     <string name="content_epg_match_prompt_current">Vyberte kanál EPG pro „<xliff:g id="channel">%1$s</xliff:g>“. Aktuální: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">Hledat kanály EPG…</string>
@@ -188,6 +204,8 @@
     <string name="content_downloads_ready">Připraveno ke sledování</string>
     <string name="content_downloads_paused">Pozastaveno</string>
     <string name="content_downloads_file_missing">Soubor chybí: na disku už není</string>
+    <string name="content_downloads_delete_title">Odstranit „<xliff:g id="name">%1$s</xliff:g>“?</string>
+    <string name="content_downloads_delete_message">Odstraní soubor z tohoto zařízení. Později jej lze stáhnout znovu.</string>
     <string name="content_downloads_reason_account_busy">Účet je obsazený: připojení používá jiný stream</string>
     <string name="content_downloads_reason_refused">Server odmítl odkaz</string>
     <string name="content_downloads_reason_not_found">Server už tento soubor nemá</string>

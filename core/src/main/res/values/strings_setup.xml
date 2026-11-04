@@ -157,6 +157,10 @@
     </plurals>
     <!-- Translators: Info text shown on import success when passwords were not restored (user skipped or backup was partially encrypted). -->
     <string name="setup_passwords_omitted">Re-enter any saved passwords afterwards.</string>
+    <!-- Translators: Shown after a restore. "names" is a comma-separated list of playlist names whose password was not in the backup; those playlists are not loaded until the password is entered in the playlist's edit form in Settings. -->
+    <string name="setup_need_password">No saved password, so not loaded yet: <xliff:g id="names">%1$s</xliff:g>. Open the playlist in Settings and enter its password.</string>
+    <!-- Translators: Name given to a new playlist when another playlist already has the same name, e.g. "My IPTV 2". "name" is the playlist name, "number" counts up from 2. -->
+    <string name="setup_name_numbered"><xliff:g id="name">%1$s</xliff:g> <xliff:g id="number">%2$d</xliff:g></string>
     <!-- Translators: Plural warning shown on import success when some sources were skipped due to unsupported playlist types. "count" is the number of skipped sources. -->
     <plurals name="setup_skipped_sources">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> source was skipped because this version doesn\'t support its playlist type.</item>

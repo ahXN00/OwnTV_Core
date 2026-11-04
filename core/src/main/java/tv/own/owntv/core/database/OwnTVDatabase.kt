@@ -120,7 +120,7 @@ import tv.own.owntv.core.database.dao.SubtitleDao
         SeriesFtsEntity::class,
         EpisodeFtsEntity::class,
     ],
-    version = 49, // v7: content_order (Move). v8: contentHash + browse/unique indexes. v9: EPG contentHash + natural key. v10: TMDB metadata cache. v11: movies/series rating-sort indexes. v12: metadata_cache trailerKey. v13: metadata_cache logoPath. v14: sources.mac (Stalker portal). v15: external-subtitle cache/selection/timing tables. v16: subtitle_link (downloaded-sub ↔ content). v17: sources.syncLive/Movies/Series (skip-sync enabledScope). v18: series.episodesSyncedAt (episode-cache freshness). v19: epg_channels.iconUrl (XMLTV channel logos). v20: channels (sourceId, number) index for direct tune. v21: series.addedAt + date-added sort indexes. v22: series_sort_order (per-series season/episode order). v23: sources.hlsSupported and sources.preferHls. v24: custom_category_members (user custom categories). v25: sources.livePrerollSecs (per-playlist "Pre-buffer"). v26: channels.catchupType + channels.httpHeaders (M3U catch-up styles + per-channel HTTP headers). v27: sources.maxConnections (Xtream session limit read at sync). v28: movies.httpHeaders + episodes.httpHeaders (per-item M3U HTTP headers). v29: optional Stalker serial/device IDs/signature. v30: source-scoped Now Trending snapshots. v31: indexed provider-title metadata and persistent Trending attempt state. v32: playback_prefs (per-item zoom + volume, keyed by the stable content key). v33: channels/movies/episodes drmConfig (M3U Widevine/ClearKey licence details). v34: sources.liveEnginePreference + sources.liveLatencyMode/liveLatencyCustomSecs (per-playlist Live TV engine and Live latency). v35: playback_prefs.audioDelayMs (per-item A/V-sync memory). v36: user_data_tombstones (deleted favorites/history/resume/memberships, so local sync propagates a deletion instead of undoing it). v37: episodes.airDateMs + metadata_cache.airDate (when an episode first aired — the provider's date, with TMDB's as the fallback) profiles.avatarPath (a picture of the user's own instead of a drawn tile). v38: sources.importPortalEpg (whether a Stalker portal's own guide may be imported). v39: recordings + recording_rules (live recording and its standing "record every showing" rules; never synced, never backed up). v40: sources.maxConnectionsProbedAt (when the app measured how many streams the provider really allows, for the providers that never say). v41: epg_channels.normName/normId (the matcher's normalized forms, stored at sync instead of recomputed per keystroke) and an epg_programmes (startMs, stopMs) index for time-bounded guide reads. v42: catalog_backfill (the Stalker VOD pages setup deliberately did not fetch, drained in the background). v43: channels/movies/episodes manifestType (the container an M3U entry declares via #KODIPROP:…manifest_type) and channels.directSource (the Xtream panel’s own URL, kept as a last-resort retry only). v44: playback_quirks (what a stream needs, shared by all profiles), playback_prefs.sourceId/audioLang/subtitleLang, and five per-playlist overrides on sources (catch-up zone/offset, VOD engine, tune timeout, Referer). v45: metadata_cache.originalLanguage (TMDB's original language, for the "Original language" audio choice). v46: playback_quirks.softwareDecode dropped (never written). v47: epg_programmes details (categories, year, rating, lengthMin, episode — the XMLTV details line) and programme_reminders. v48: downloads.reason/httpCode (why a download failed, waits or was paused). v49: sources.serverTimeZone (the Xtream panel's own zone, catch-up Automatic) and channels.catchupCorrectionMin (M3U catchup-correction).
+    version = 53, // v7: content_order (Move). v8: contentHash + browse/unique indexes. v9: EPG contentHash + natural key. v10: TMDB metadata cache. v11: movies/series rating-sort indexes. v12: metadata_cache trailerKey. v13: metadata_cache logoPath. v14: sources.mac (Stalker portal). v15: external-subtitle cache/selection/timing tables. v16: subtitle_link (downloaded-sub ↔ content). v17: sources.syncLive/Movies/Series (skip-sync enabledScope). v18: series.episodesSyncedAt (episode-cache freshness). v19: epg_channels.iconUrl (XMLTV channel logos). v20: channels (sourceId, number) index for direct tune. v21: series.addedAt + date-added sort indexes. v22: series_sort_order (per-series season/episode order). v23: sources.hlsSupported and sources.preferHls. v24: custom_category_members (user custom categories). v25: sources.livePrerollSecs (per-playlist "Pre-buffer"). v26: channels.catchupType + channels.httpHeaders (M3U catch-up styles + per-channel HTTP headers). v27: sources.maxConnections (Xtream session limit read at sync). v28: movies.httpHeaders + episodes.httpHeaders (per-item M3U HTTP headers). v29: optional Stalker serial/device IDs/signature. v30: source-scoped Now Trending snapshots. v31: indexed provider-title metadata and persistent Trending attempt state. v32: playback_prefs (per-item zoom + volume, keyed by the stable content key). v33: channels/movies/episodes drmConfig (M3U Widevine/ClearKey licence details). v34: sources.liveEnginePreference + sources.liveLatencyMode/liveLatencyCustomSecs (per-playlist Live TV engine and Live latency). v35: playback_prefs.audioDelayMs (per-item A/V-sync memory). v36: user_data_tombstones (deleted favorites/history/resume/memberships, so local sync propagates a deletion instead of undoing it). v37: episodes.airDateMs + metadata_cache.airDate (when an episode first aired — the provider's date, with TMDB's as the fallback) profiles.avatarPath (a picture of the user's own instead of a drawn tile). v38: sources.importPortalEpg (whether a Stalker portal's own guide may be imported). v39: recordings + recording_rules (live recording and its standing "record every showing" rules; never synced, never backed up). v40: sources.maxConnectionsProbedAt (when the app measured how many streams the provider really allows, for the providers that never say). v41: epg_channels.normName/normId (the matcher's normalized forms, stored at sync instead of recomputed per keystroke) and an epg_programmes (startMs, stopMs) index for time-bounded guide reads. v42: catalog_backfill (the Stalker VOD pages setup deliberately did not fetch, drained in the background). v43: channels/movies/episodes manifestType (the container an M3U entry declares via #KODIPROP:…manifest_type) and channels.directSource (the Xtream panel’s own URL, kept as a last-resort retry only). v44: playback_quirks (what a stream needs, shared by all profiles), playback_prefs.sourceId/audioLang/subtitleLang, and five per-playlist overrides on sources (catch-up zone/offset, VOD engine, tune timeout, Referer). v45: metadata_cache.originalLanguage (TMDB's original language, for the "Original language" audio choice). v46: playback_quirks.softwareDecode dropped (never written). v47: epg_programmes details (categories, year, rating, lengthMin, episode — the XMLTV details line) and programme_reminders. v48: downloads.reason/httpCode (why a download failed, waits or was paused). v49: sources.serverTimeZone (the Xtream panel's own zone, catch-up Automatic) and channels.catchupCorrectionMin (M3U catchup-correction). v50: epg_programmes (sourceId) and (sourceId, epgChannelId) indexes dropped (the natural key covers both; each slowed every guide write). v51: sources.cleanChannelNames/channelNameStrip (per-playlist "Clean channel names") and channels.providerName (the raw name, for guide matching). v52: the single-column channels/movies/series (sourceId) and (categoryId) indexes and channels (name) dropped (composites starting with the same column serve every query; each slowed every catalogue write). v53: sources.ignoreConnectionLimit (per-playlist "Ignore connection limit": Multiview and recordings stop counting the provider's stream limit).
 
     exportSchema = true,
 )
@@ -1244,6 +1244,21 @@ abstract class OwnTVDatabase : RoomDatabase() {
         }
 
         /**
+         * v49 → v50: drops the guide's `(sourceId)` and `(sourceId, epgChannelId)` indexes. The unique
+         * `(sourceId, epgChannelId, startMs)` key answers every query either served, and each index
+         * is one more B-tree every guide write and prune has to update: on a TV that was several
+         * milliseconds a row, minutes over a full guide. Dropping an index rewrites no rows. Last
+         * hop, so it carries [healSchema] (standing rule).
+         */
+        val MIGRATION_49_50 = object : androidx.room.migration.Migration(49, 50) {
+            override fun migrate(connection: SQLiteConnection) {
+                connection.execSQL("DROP INDEX IF EXISTS `index_epg_programmes_sourceId`")
+                connection.execSQL("DROP INDEX IF EXISTS `index_epg_programmes_sourceId_epgChannelId`")
+                healSchema(connection)
+            }
+        }
+
+        /**
          * v47 → v48: why a download failed, waits or was paused — two nullable columns on downloads.
          * An existing row reads null for both, which is exactly "nothing to explain": a download that
          * failed before this version keeps its plain "Failed" until it is retried.
@@ -1477,6 +1492,10 @@ abstract class OwnTVDatabase : RoomDatabase() {
             MIGRATION_46_47,
             MIGRATION_47_48,
             MIGRATION_48_49,
+            MIGRATION_49_50,
+            MIGRATION_50_51,
+            MIGRATION_51_52,
+            MIGRATION_52_53,
         )
 
         /**
@@ -1489,9 +1508,6 @@ abstract class OwnTVDatabase : RoomDatabase() {
          */
         val EXPECTED_NON_UNIQUE_INDEXES: Map<String, List<String>> = mapOf(
             "channels" to listOf(
-                "CREATE INDEX IF NOT EXISTS `index_channels_sourceId` ON `channels` (`sourceId`)",
-                "CREATE INDEX IF NOT EXISTS `index_channels_categoryId` ON `channels` (`categoryId`)",
-                "CREATE INDEX IF NOT EXISTS `index_channels_name` ON `channels` (`name`)",
                 "CREATE INDEX IF NOT EXISTS `index_channels_epgChannelId` ON `channels` (`epgChannelId`)",
                 "CREATE INDEX IF NOT EXISTS `index_channels_sourceId_name` ON `channels` (`sourceId`, `name`)",
                 "CREATE INDEX IF NOT EXISTS `index_channels_categoryId_name` ON `channels` (`categoryId`, `name`)",
@@ -1500,8 +1516,6 @@ abstract class OwnTVDatabase : RoomDatabase() {
                 "CREATE INDEX IF NOT EXISTS `index_channels_sourceId_number` ON `channels` (`sourceId`, `number`)",
             ),
             "movies" to listOf(
-                "CREATE INDEX IF NOT EXISTS `index_movies_sourceId` ON `movies` (`sourceId`)",
-                "CREATE INDEX IF NOT EXISTS `index_movies_categoryId` ON `movies` (`categoryId`)",
                 "CREATE INDEX IF NOT EXISTS `index_movies_name` ON `movies` (`name`)",
                 "CREATE INDEX IF NOT EXISTS `index_movies_sourceId_name` ON `movies` (`sourceId`, `name`)",
                 "CREATE INDEX IF NOT EXISTS `index_movies_categoryId_name` ON `movies` (`categoryId`, `name`)",
@@ -1514,8 +1528,6 @@ abstract class OwnTVDatabase : RoomDatabase() {
                 "CREATE INDEX IF NOT EXISTS `index_movies_sourceId_titleSignature_parsedYear` ON `movies` (`sourceId`, `titleSignature`, `parsedYear`)",
             ),
             "series" to listOf(
-                "CREATE INDEX IF NOT EXISTS `index_series_sourceId` ON `series` (`sourceId`)",
-                "CREATE INDEX IF NOT EXISTS `index_series_categoryId` ON `series` (`categoryId`)",
                 "CREATE INDEX IF NOT EXISTS `index_series_name` ON `series` (`name`)",
                 "CREATE INDEX IF NOT EXISTS `index_series_sourceId_name` ON `series` (`sourceId`, `name`)",
                 "CREATE INDEX IF NOT EXISTS `index_series_categoryId_name` ON `series` (`categoryId`, `name`)",
@@ -1529,9 +1541,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
             ),
             "epg_programmes" to listOf(
                 "CREATE INDEX IF NOT EXISTS `index_epg_programmes_epgChannelId_startMs` ON `epg_programmes` (`epgChannelId`, `startMs`)",
-                "CREATE INDEX IF NOT EXISTS `index_epg_programmes_sourceId` ON `epg_programmes` (`sourceId`)",
                 "CREATE INDEX IF NOT EXISTS `index_epg_programmes_stopMs` ON `epg_programmes` (`stopMs`)",
-                "CREATE INDEX IF NOT EXISTS `index_epg_programmes_sourceId_epgChannelId` ON `epg_programmes` (`sourceId`, `epgChannelId`)",
                 "CREATE INDEX IF NOT EXISTS `index_epg_programmes_startMs_stopMs` ON `epg_programmes` (`startMs`, `stopMs`)",
             ),
             "epg_channels" to listOf(
@@ -1671,7 +1681,7 @@ abstract class OwnTVDatabase : RoomDatabase() {
             db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_content_order_profileId_mediaType_contextKey_itemId` ON `content_order` (`profileId`, `mediaType`, `contextKey`, `itemId`)")
         }
 
-        private fun hasColumn(db: SQLiteConnection, table: String, column: String): Boolean {
+        internal fun hasColumn(db: SQLiteConnection, table: String, column: String): Boolean {
             db.prepare("PRAGMA table_info(`$table`)").use { statement ->
                 // No getColumnIndex(name) on the driver API — resolve it from getColumnNames(),
                 // which is the same lookup Cursor did internally. PRAGMA table_info has always put

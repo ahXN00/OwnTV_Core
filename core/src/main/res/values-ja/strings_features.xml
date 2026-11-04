@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">自分の画像</string>
     <string name="profiles_kids">子ども用プロフィール</string>
     <string name="profiles_kids_description">シンプルで安全な閲覧</string>
+    <string name="profiles_allow_downloads">ダウンロードを許可</string>
+    <string name="profiles_allow_downloads_description">オフにすると、このプロフィールではダウンロードボタンがすべて非表示になります</string>
     <string name="profiles_remove_pin">PINロックを解除</string>
     <string name="profiles_no_pin">このプロフィールはPINなしで開きます</string>
     <string name="profiles_change_pin">PINを変更（空欄＝変更しない）</string>
@@ -45,6 +47,8 @@
     <string name="search_go_to_movie">映画へ移動</string>
     <string name="search_clear_recent">最近の検索を消去</string>
     <string name="search_field_hint">チャンネル、映画、シリーズ</string>
+    <string name="search_voice">音声検索</string>
+    <string name="search_voice_prompt">チャンネル、映画、シリーズ名を話してください</string>
     <string name="search_card_title">プレイリストのすべてを検索</string>
     <string name="search_card_body">表示しているすべてのプレイリストのチャンネル、映画、シリーズ。結果を選ぶとその場所へ直接移動し、そこで再生、ダウンロード、オプションの表示ができます。放送中や今日この後のテレビ番組もタイトルで見つかります。</string>
     <string name="search_nothing_found">「<xliff:g id="query">%1$s</xliff:g>」 は見つかりませんでした</string>
@@ -61,6 +65,10 @@
     <string name="launcher_recent_live_description">最近視聴したライブチャンネル</string>
     <string name="launcher_movie_type">映画</string>
     <string name="launcher_episode_number">エピソード <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="other">ライブラリを読み込み中 · これまでに <xliff:g id="count">%1$s</xliff:g> 件</item>
+    </plurals>
+    <string name="home_library_loading_trending">「現在のトレンド」はライブラリの読み込みが進むと表示されます。</string>
     <string name="home_no_preview">プレビューできるコンテンツはまだありません。</string>
     <string name="home_no_rows">ホーム画面の行はすべて非表示です。</string>
     <string name="home_enable_rows">設定 → ホーム画面で行を再度オンにしてください。</string>
@@ -184,6 +192,7 @@
     <string name="recording_group_missed">録り逃し</string>
     <string name="recording_record">録画</string>
     <string name="recording_stop">録画を停止</string>
+    <string name="recording_delete_message">このデバイスから録画とそのファイルを削除します。元に戻すことはできません。</string>
     <string name="recording_record_series">毎回録画する</string>
     <string name="recording_stop_series">毎回録画するのをやめる</string>
     <string name="recording_from_archive">見逃し配信から録画</string>
@@ -196,6 +205,7 @@
     <string name="recording_scheduled_for"><xliff:g id="time">%1$s</xliff:g> に録画します</string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line"><xliff:g id="title">%1$s</xliff:g> を録画中</string>
+    <string name="recording_pill_line_locked">ロック中のカテゴリから録画中</string>
     <string name="recording_clash_with"><xliff:g id="programme">%1$s</xliff:g> と重複しています</string>
     <string name="recording_settings_group">録画</string>
     <string name="settings_recording_reserve">視聴用に1本の接続を空けておく</string>
@@ -266,6 +276,15 @@
     <string name="sports_starting_soon">まもなく開始</string>
     <string name="sports_hint_match_page">試合ページ</string>
     <string name="sports_hint_follow_remind">フォロー · リマインダー</string>
+    <string name="sports_hint_day_matches">その日の試合</string>
+    <string name="sports_hint_day">日</string>
+    <string name="sports_hint_week">週</string>
+    <string name="sports_hint_show_score">スコアを表示</string>
+    <string name="sports_hint_back_to_day">日に戻る</string>
+    <string name="sports_hint_open_league">リーグを開く</string>
+    <string name="sports_hint_sport_chips">競技ボタン</string>
+    <string name="sports_hint_league_chips">リーグボタン</string>
+    <string name="sports_hint_follow_unfollow">フォロー · フォロー解除</string>
     <string name="sports_reminder_set">リマインダー</string>
     <string name="sports_until"><xliff:g id="time">%1$s</xliff:g> まで</string>
     <string name="sports_set">第<xliff:g id="set">%1$d</xliff:g>セット</string>
@@ -362,6 +381,44 @@
     <string name="sports_switch_channel">チャンネルを切り替え</string>
     <string name="sports_tab_fixtures">日程</string>
     <string name="sports_tab_results">結果</string>
+    <string name="sports_tab_scores">スコア</string>
+    <string name="sports_tab_calendar">カレンダー</string>
+    <string name="sports_tab_leagues">リーグ</string>
+    <string name="sports_previous_month">前の月</string>
+    <string name="sports_next_month">次の月</string>
+    <string name="sports_next">次：<xliff:g id="match">%1$s</xliff:g></string>
+    <string name="sports_next_badge">次</string>
+    <string name="sports_no_table_series">順位表なし — シリーズは毎週変わります</string>
+    <string name="sports_follow_league">リーグをフォロー</string>
+    <string name="sports_unfollow_league">リーグのフォローを解除</string>
+    <string name="sports_no_matches_on"><xliff:g id="day">%1$s</xliff:g>はフォロー中のスポーツの試合がありません</string>
+    <string name="sports_nothing_on_day">この日は予定がありません</string>
+    <string name="sports_nothing_in_sport">この日は<xliff:g id="sport">%1$s</xliff:g>の予定はありません</string>
+    <string name="sports_change_leagues_hint">リーグの追加・削除は 設定 → スポーツ で行えます</string>
+    <string name="sports_loading_month"><xliff:g id="month">%1$s</xliff:g>を読み込み中…</string>
+    <string name="sports_offline_saved"><xliff:g id="time">%1$s</xliff:g>に保存した内容を表示中 — ESPNに接続できません</string>
+    <string name="sports_team_page">チームページ</string>
+    <string name="sports_next_match">次の試合</string>
+    <string name="sports_last_five">直近5試合</string>
+    <string name="sports_league_position">リーグ順位</string>
+    <string name="sports_in_my_teams">マイチームに登録済み</string>
+    <string name="sports_open_match_page">試合ページを開く</string>
+    <string name="sports_open_team_page">チームページを開く</string>
+    <string name="sports_my_teams_leagues">マイチームが出場するリーグ</string>
+    <string name="sports_tab_drivers">ドライバー</string>
+    <string name="sports_tab_constructors">コンストラクター</string>
+    <string name="sports_tab_races">レース</string>
+    <string name="sports_tab_rankings">ランキング</string>
+    <string name="sports_tab_matches">試合</string>
+    <string name="sports_next_race_weekend">次のレースウィークエンド</string>
+    <string name="sports_last_weekend">先週末</string>
+    <string name="sports_session_practice_1">フリー走行1</string>
+    <string name="sports_session_practice_2">フリー走行2</string>
+    <string name="sports_session_practice_3">フリー走行3</string>
+    <string name="sports_session_sprint_qualifying">スプリント予選</string>
+    <string name="sports_session_qualifying">予選</string>
+    <string name="sports_session_sprint">スプリント</string>
+    <string name="sports_session_race">決勝</string>
     <string name="sports_table_team">チーム</string>
     <string name="sports_table_played">試</string>
     <string name="sports_table_won">勝</string>
@@ -442,6 +499,11 @@
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 時間ごと</item>
     </plurals>
     <string name="sports_auto_rebuild_app_start">アプリの起動ごと</string>
+    <string name="sports_calendar_refresh">カレンダーの更新</string>
+    <string name="sports_calendar_refresh_description">保存した月を取得し直す頻度</string>
+    <plurals name="sports_calendar_refresh_days">
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 日ごと</item>
+    </plurals>
     <string name="sports_find_channels">チャンネルを探す</string>
     <string name="sports_find_channels_description">番組表とチャンネル名からこの試合を探します。大きなプレイリストでは少し時間がかかることがあります。</string>
     <string name="sports_finding_channels">チャンネルを検索中…</string>

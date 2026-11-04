@@ -29,7 +29,14 @@ data class StalkerCredentials(
     val mac: String,
     val userAgent: String? = null,
     val deviceIdentity: StalkerDeviceIdentity = StalkerDeviceIdentity(),
-)
+    /** The portal login some providers add on top of the MAC; blank = MAC only, as most portals are. */
+    val login: String? = null,
+    val password: String? = null,
+) {
+    // A data class would print the password into any log line that prints the credentials.
+    override fun toString(): String =
+        "StalkerCredentials(sourceId=$sourceId, portalUrl=$portalUrl, login=${if (login.isNullOrBlank()) "none" else "set"})"
+}
 
 /** One live portal session. Tokens live in memory only — never persisted. */
 data class StalkerSession(
@@ -82,11 +89,19 @@ open class StalkerAuthManager(private val client: StalkerClient) {
     /**
      * Run [block] with a valid session; on an auth failure invalidate and retry ONCE with a fresh
      * handshake. Anything failing twice is a real error for the caller.
+     *
+     * A bare-text refusal ([StalkerClient.StalkerRefusedException]) is not retried here: it means
+     * "too fast", and an instant second request is the wrong answer. The session is dropped so the
+     * caller's retry, after its backoff, starts on a fresh handshake.
      */
     open suspend fun <T> withAuthRetry(creds: StalkerCredentials, block: suspend (StalkerSession) -> T): T {
         val session = sessionFor(creds)
         return try {
             block(session)
+        } catch (e: StalkerClient.StalkerRefusedException) {
+            Log.i(TAG, "portal refused sourceId=${creds.sourceId} — dropping the session for the next attempt")
+            invalidateIfCurrent(creds.sourceId, session)
+            throw e
         } catch (e: StalkerClient.StalkerAuthException) {
             Log.i(TAG, "auth expired sourceId=${creds.sourceId} (${e.message}) — re-handshaking once")
             invalidateIfCurrent(creds.sourceId, session)
@@ -120,6 +135,13 @@ open class StalkerAuthManager(private val client: StalkerClient) {
     private suspend fun openSession(creds: StalkerCredentials): StalkerSession {
         val startedAt = SystemClock.elapsedRealtime()
         val handshake = client.resolveHandshake(creds.portalUrl, creds.mac, creds.userAgent)
+        val login = creds.login?.takeIf { it.isNotBlank() }
+        if (login != null) {
+            client.doAuth(
+                handshake.apiBase, creds.mac, handshake.token, creds.userAgent,
+                login, creds.password.orEmpty(), creds.deviceIdentity,
+            )
+        }
         val profile = client.getProfile(
             handshake.apiBase, creds.mac, handshake.token, creds.userAgent, creds.deviceIdentity,
         )

@@ -70,6 +70,23 @@
     <string name="settings_remote_shortcuts_long_press">Langt tryk</string>
     <string name="settings_remote_shortcuts_unknown_button">Fjernbetjeningsknap %1$d</string>
     <string name="settings_remote_shortcuts_help">• Som standard bladrer CH+/CH− og tilbage/frem i lister; hold for første eller sidste element.\n• Korte og lange tryk kan tildeles separat.\n• Hop til sidste er slået fra på meget store »Alle«-lister.\n• Langt tryk på Tilbage fokuserer altid på Afspiller nu og kan ikke ændres.\n• Knapper der normalt kan tildeles: rød/grøn/gul/blå, tal, CH+/CH− og tilbage-/fremspoling.\n• Tilbage, D-pad, OK, lydstyrke, Hjem og strøm er beskyttede.\n• Talgenveje virker under browsing; i fuld skærm har kanalindtastning prioritet.</string>
+    <string name="settings_player_buttons">Afspillerknapper</string>
+    <string name="settings_player_hold_ok">Hold OK i afspilleren</string>
+    <string name="settings_player_hold_ok_description">Hvad et langt tryk på OK åbner, mens betjeningen er skjult</string>
+    <string name="settings_help_player_hold_ok">Hold OK nede i liveafspilleren i fuld skærm med betjeningen skjult for at åbne kanallisten, guiden eller programinfo. Fra lader OK være som altid. Mens dette er slået til, virker et kort OK, når du slipper. Film og afsnit beholder det sædvanlige OK.</string>
+    <string name="settings_player_short_ok">OK når betjeningen er skjult</string>
+    <string name="settings_player_short_ok_description">Hvad et kort tryk på OK gør i afspilleren i fuld skærm</string>
+    <string name="settings_help_player_short_ok">Et kort tryk på OK i afspilleren i fuld skærm viser betjeningen. Vælg Kanalliste eller Guide for i stedet at åbne den på livekanaler; enhver anden knap, afspilleren ikke bruger, viser stadig betjeningen. Film og afsnit viser altid betjeningen.</string>
+    <string name="settings_player_swap_channel_keys">Byt kanal op/ned</string>
+    <string name="settings_player_swap_channel_keys_description">CH+ og Op går til forrige kanal</string>
+    <string name="settings_help_player_swap_channel_keys">Normalt går CH+ og Op til næste kanal og CH− og Ned til forrige. Slå dette til for at bytte dem om, mens du ser, i fuld skærm og i miniafspilleren. Lister, du browser i, ændres ikke.</string>
+    <string name="settings_player_number_keys_tune">Taltaster skifter kanal</string>
+    <string name="settings_player_number_keys_tune_description">Indtast et kanalnummer i liveafspilleren</string>
+    <string name="settings_help_player_number_keys_tune">Indtast et kanalnummer på fjernbetjeningen i liveafspilleren i fuld skærm for at springe til den kanal. Slå dette fra for at holde taltasterne fri til dine fjernbetjeningsgenveje. Indtastning kræver også, at Kanalnumre er slået til i indstillingerne for Live-tv.</string>
+    <string name="settings_player_ok_channel_list">Kanalliste</string>
+    <string name="settings_player_ok_guide">Guide</string>
+    <string name="settings_player_ok_programme_info">Programinfo</string>
+    <string name="settings_player_ok_show_controls">Vis betjening</string>
     <string name="settings_remote_button_channel_up">Kanal +</string>
     <string name="settings_remote_button_channel_down">Kanal −</string>
     <string name="settings_remote_button_rewind">Spol tilbage</string>
@@ -158,7 +175,7 @@
     <string name="settings_quick_live_preview">Liveforhåndsvisning</string>
     <string name="settings_quick_preview_sound">Lyd ved forhåndsvisning</string>
     <string name="settings_quick_channel_numbers">Kanalnumre</string>
-    <string name="settings_quick_hdr">HDR (kun mpv)</string>
+    <string name="settings_quick_prefer_sdr">Foretræk SDR</string>
     <string name="settings_quick_autoplay">Automatisk afspilning</string>
     <string name="settings_quick_check_update">Søg efter opdatering</string>
     <string name="settings_language">Sprog</string>
@@ -178,8 +195,9 @@
     <string name="settings_ch_paging">Fjernbetjeningsgenveje</string>
     <string name="settings_ch_paging_description">Tildel ledige knapper til navigation, afspilning og søgning. Vigtige navigationsknapper forbliver beskyttede.</string>
     <string name="settings_content_menus_title">Menuer ved langt tryk</string>
-    <string name="settings_content_menus_description">Omarrangér handlingerne i menuerne for kanaler, film, serier og afsnit</string>
-    <string name="settings_content_menus_hint">Hold OK nede på en handling for at tage den op, og flyt den så op og ned. Tryk på OK igen for at slippe den.</string>
+    <string name="settings_content_menus_description">Omarrangér eller skjul handlingerne i menuerne for kanaler, film, serier og afsnit</string>
+    <string name="settings_content_menus_hint">Tryk på OK på en handling for at vise eller skjule den. Hold OK nede for at tage den op, flyt den op og ned, og tryk på OK igen for at slippe den.</string>
+    <string name="settings_content_menus_note">Nogle handlinger vises kun, hvor de giver mening.</string>
     <string name="settings_browsing_lists">Navigation og lister</string>
     <string name="settings_browsing_description">Husk den seneste kategori og det seneste element i Live-tv, film og serier</string>
     <string name="settings_home_root">Startskærm</string>
@@ -213,9 +231,13 @@
     <string name="settings_preview_audio_description">Afspil lyd i liveforhåndsvisningen</string>
     <string name="settings_mini_player_root">Miniafspiller</string>
     <string name="settings_mini_player_root_description">Den forankrede miniafspillers størrelse og placering</string>
-    <string name="settings_hdr_description">Brug HDR-output, når videoen og tv\'et understøtter det. Kun mpv: ExoPlayer-motoren understøtter ikke denne indstilling og sender altid streamens HDR uændret videre.</string>
-    <string name="settings_auto_frame_rate">Automatisk billedfrekvens</string>
-    <string name="settings_auto_frame_rate_description">Tilpas tv\'ets opdateringshastighed til videoen (24/25/50/60 fps) på fuld skærm for Live-tv og VOD, og gendan den ved afslutning. Slå dette fra, hvis dit tv eller din receiver foretager et støjende nyt HDMI-handshake ved hvert kanalskift.</string>
+    <string name="settings_pip_on_leave">Billede-i-billede, når du forlader appen</string>
+    <string name="settings_pip_on_leave_description">Videoen bliver ved med at spille i et lille vindue, når du trykker på Hjem</string>
+    <string name="settings_prefer_sdr_description">Når en stream har både et SDR- og et HDR-billede, afspilles SDR: til et tv, hvor HDR ser udvasket eller for mørkt ud. En stream med kun HDR forbliver HDR. Kun ExoPlayer.</string>
+    <string name="settings_auto_frame_rate_films">Automatisk billedfrekvens for film og serier</string>
+    <string name="settings_auto_frame_rate_films_description">Tilpas tv\'ets opdateringshastighed til filmen eller afsnittet (24/25/50/60 fps) på fuld skærm, og gendan den ved afslutning.</string>
+    <string name="settings_auto_frame_rate_live">Automatisk billedfrekvens for Live-tv</string>
+    <string name="settings_auto_frame_rate_live_description">Tilpas tv\'ets opdateringshastighed til kanalen (25/50/60 fps) på fuld skærm, og gendan den ved afslutning. Slå dette fra, hvis dit tv eller din receiver foretager et støjende nyt HDMI-handshake ved hvert kanalskift.</string>
     <string name="settings_afr_pause">Pause under skærmskift</string>
     <string name="settings_afr_pause_description">Kun film. Når tv’et skal synkronisere igen til en ny skærmtilstand, venter filmen så længe, så begyndelsen ikke går tabt i det sorte billede. Et problemfrit skift pauser aldrig.</string>
     <string name="settings_afr_resolution">Tilpas opløsning</string>
@@ -224,6 +246,10 @@
     <string name="settings_surround_description_mobile">Afkod Dolby/DTS til surround (5.1/7.1) til en rigtig 5.1/7.1-receiver, der er tilsluttet denne enhed. Lad funktionen være SLÅET FRA ved den indbyggede højttaler, hovedtelefoner eller en stereosoundbar — flerkanalslyd kan få lyden til at halte efter billedet. Hvis synkroniseringen forskydes, skal du finjustere den i afspillerens menu Lyd → A/V-synkronisering.</string>
     <string name="settings_audio_passthrough">Dolby- og DTS-passthrough</string>
     <string name="settings_audio_passthrough_description">Til: Dolby og DTS sendes uafkodet til tv\'et, soundbaren eller receiveren, når den oplyser, at den kan afspille dem (ExoPlayer). Fra: appen afkoder dem, stadig som surround, hvor Surroundsound tillader det. mpv afkoder altid. Bruges ikke, mens Nattilstand eller Lydudjævning er slået til.</string>
+    <string name="settings_ffmpeg_audio">FFmpeg-lyd til ExoPlayer</string>
+    <string name="settings_ffmpeg_audio_description">Til: ExoPlayer kan også afkode lyd, som enheden ikke har en dekoder til, f.eks. DTS, TrueHD eller MP2. Enhedens egne dekodere kommer stadig først. Fra: ExoPlayer bruger kun enhedens dekodere. mpv afkoder altid med FFmpeg. En ændring genstarter OwnTV.</string>
+    <string name="settings_line_ffmpeg_audio">Til lyd, som enheden ikke kan afkode</string>
+    <string name="settings_ffmpeg_audio_restart_message">Lyddekoderen skifter, når OwnTV er genstartet.</string>
     <string name="settings_night_mode">Nattilstand</string>
     <string name="settings_night_mode_description">Skruer ned for høje scener og op for stille dialog, så du kan se med lav lydstyrke.</string>
     <string name="settings_volume_leveling">Lydudjævning</string>
@@ -257,9 +283,12 @@
     <string name="settings_about">Om</string>
     <string name="settings_live_latency">Liveforsinkelse</string>
     <string name="settings_no_settings_match">Ingen indstillinger matcher “<xliff:g id="query">%1$s</xliff:g>”</string>
+    <string name="settings_search_empty_hint">Skriv navnet på en indstilling</string>
     <string name="settings_breadcrumb"><xliff:g id="group">%1$s</xliff:g> › <xliff:g id="title">%2$s</xliff:g></string>
     <string name="settings_startup_home">Start</string>
     <string name="settings_startup_last_channel">Seneste kanal</string>
+    <string name="settings_startup_last_channel_guide">Seneste kanal · Programguide</string>
+    <string name="settings_startup_last_channel_live">Seneste kanal · Live-tv</string>
     <string name="settings_startup_favorites">Live · Favoritter</string>
     <string name="settings_startup_specific_channel">Bestemt kanal</string>
     <string name="settings_startup_channel_unavailable">Startkanalen er ikke tilgængelig. Hjem blev åbnet.</string>
@@ -346,7 +375,7 @@
     <string name="settings_search_keywords_audio">lydstyrke højt lavt læbesynk forsinkelse lydspor sprog</string>
     <string name="settings_search_keywords_channel_numbers">kanal nummer direkte indstilling indtast cifre tastatur numerisk zap lcn</string>
     <string name="settings_search_keywords_mini">forankret pip miniafspiller størrelse placering skalering procent hjørne flyt</string>
-    <string name="settings_search_keywords_hdr">HDR højt dynamisk område output</string>
+    <string name="settings_search_keywords_prefer_sdr">hdr sdr standard dynamisk område udvasket mørkt billede</string>
     <string name="settings_search_keywords_afr">afr opdateringshastighed hz hakken 24fps 25fps 50hz 60hz skærmtilstand tilpas</string>
     <string name="settings_search_keywords_surround">dolby DTS 5.1 7.1 receiver lyd</string>
     <string name="settings_search_keywords_autoplay">automatisk afspilning serier sæson</string>
@@ -470,6 +499,10 @@
     <string name="settings_preferred_audio_language">Foretrukket lydsprog</string>
     <string name="settings_audio_sync">Lydsynkronisering</string>
     <string name="settings_audio_sync_description">Forskyd lyden frem eller tilbage, så den passer til videoen. Virker i begge afspillere (mpv og ExoPlayer).</string>
+    <string name="settings_output_audio_delay">Forsinkelse for denne udgang</string>
+    <string name="settings_output_audio_delay_description">Lægges oven i »Lydsynkronisering« og gemmes separat for hver udgang: HDMI, en soundbar via HDMI ARC, Bluetooth, de indbyggede højttalere, hovedtelefoner. Indstil den, mens du lytter via den udgang, den gælder for.</string>
+    <string name="settings_audio_output_speaker">Indbyggede højttalere</string>
+    <string name="settings_audio_output_other">Hovedtelefoner eller USB</string>
     <string name="settings_live_tv">Live-tv</string>
     <string name="settings_live_latency_description">Hvor tæt på liveudsendelsen der skal afspilles. En lavere værdi betyder tættere på live, men en mindre buffer, så svage streams kan hakke eller genoprette forbindelsen oftere. Gælder for den næste kanal, du åbner.</string>
     <string name="settings_live_latency_bitrate_note">På en kanal med meget høj bitrate — især 4K — kan bufferen rumme kortere tid, end du har bedt om, fordi der er en grænse for, hvor meget video der kan holdes i hukommelsen ad gangen.</string>
@@ -520,10 +553,6 @@
     <string name="settings_reset_live_player_choices_description">Når du i afspilleren skifter en kanal mellem ExoPlayer og mpv, gemmes det valg for kanalen. Nulstilling får alle kanaler til at følge indstillingen “Afspiller til live-tv” igen. Gemte valg for film og episoder bevares.</string>
     <string name="settings_reset_live_player_choices_confirm">Nulstil gemte valg af afspiller til live-tv?</string>
     <string name="settings_reset_live_player_choices_confirm_description">Alle kanaler følger igen indstillingen “Afspiller til live-tv”. Du kan altid skifte en enkelt kanal igen fra afspilleren.</string>
-    <string name="settings_forget_stream_fixes">Glem lærte stream-rettelser</string>
-    <string name="settings_forget_stream_fixes_description">Afspilleren lærer, hvad hver udbyders streams har brug for — mpv i stedet for ExoPlayer, et andet format, softwareafkodning til catch-up. Glem det, hvis en udbyder har rettet sine streams. Catch-up-erfaringer glemmes også af sig selv efter 14 dage.</string>
-    <string name="settings_forget_stream_fixes_confirm">Glem lærte stream-rettelser?</string>
-    <string name="settings_forget_stream_fixes_confirm_description">Kanaler åbner igen på den normale måde, og afspilleren lærer igen, hvad en udbyder stadig har brug for. Den første afspilning af en berørt kanal kan tage et par sekunder længere.</string>
     <string name="settings_external_player_row_description">Åbn streams i en ekstern app (VLC, MX Player) i stedet for den indbyggede afspiller, og vælg dette særskilt for hver sektion. Nyttigt til streams, som denne app ikke kan afkode, eller hvis du foretrækker en anden afspiller. Positionen for fortsat afspilning og forrige/næste er ikke tilgængelige under ekstern afspilning; streams, der kræver en brugerdefineret User-Agent eller referer, kan muligvis ikke afspilles.</string>
     <string name="settings_resume_always">Fortsæt altid</string>
     <string name="settings_resume_ask">Spørg, om afspilningen skal fortsættes</string>
@@ -540,7 +569,7 @@
     <string name="settings_delete_all_series">Slet alle serier</string>
     <string name="settings_section_count"><xliff:g id="section">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g>)</string>
     <string name="settings_sync_guide_question">Synkroniser tv-guiden nu?</string>
-    <string name="settings_sync_guide_description">Download programguiden (EPG) til “<xliff:g id="source">%1$s</xliff:g>”. Du kan også gøre det senere under Indstillinger → EPG.</string>
+    <string name="settings_sync_guide_description">Download programguiden (EPG) til “<xliff:g id="source">%1$s</xliff:g>”. Du kan også gøre det senere under Indstillinger → Kilder og guide → EPG-kilder.</string>
     <string name="settings_not_now">Ikke nu</string>
     <string name="settings_sync_now">Synkroniser nu</string>
     <string name="settings_syncing_guide">Synkroniserer tv-guide…</string>
@@ -583,6 +612,8 @@
     <string name="settings_browsing_last_category_description">Åbn sektionen igen i den kategori, du forlod, og ikke i Alle.</string>
     <string name="settings_browsing_last_item">Husk seneste element</string>
     <string name="settings_browsing_last_item_description">Hver kategori beholder sin egen rulleposition i stedet for at starte øverst. Live-tv gendanner også den senest fokuserede kanal.</string>
+    <string name="settings_browsing_live_categories">Live-tv-kategorier</string>
+    <string name="settings_browsing_live_categories_description">Vises i Live-tv, programguiden, afspilleren og Multivisning. Med Alle kanaler slået fra åbner Live-tv i din første kategori eller i Favoritter, hvis du ingen har.</string>
     <string name="settings_catchup_player">Afspil arkiv med</string>
     <string name="settings_customize_title">Tilpas kategorier og elementer</string>
     <string name="settings_customize_pin_locked">Denne skærm er PIN-låst.</string>
@@ -591,6 +622,8 @@
     <string name="settings_customize_set_pin">🔒 Angiv PIN</string>
     <string name="settings_customize_change_pin">🔒 Skift PIN</string>
     <string name="settings_customize_remove_lock">Fjern lås</string>
+    <string name="settings_customize_settings_pin">Bed om PIN for at åbne Indstillinger</string>
+    <string name="settings_customize_settings_pin_button">Bed om PIN for at åbne Indstillinger: <xliff:g id="state">%1$s</xliff:g></string>
     <string name="settings_customize_description">Skjul og vis kanaler, film og serier, og omdøb eller omarranger kategorier for denne profil. Bevares ved synkronisering igen.</string>
     <string name="settings_customize_new_category_behavior">Adfærd for nye kategorier</string>
     <string name="settings_customize_hide">Skjul</string>
@@ -636,6 +669,7 @@
     <string name="settings_customize_rename_hint">Kun for denne profil. Lad feltet være tomt for at gendanne “<xliff:g id="name">%1$s</xliff:g>”.</string>
     <string name="settings_customize_remove_pin_title">Fjern PIN-lås?</string>
     <string name="settings_customize_remove_pin_message">Skærmen Tilpas åbnes fremover uden at bede om en PIN.</string>
+    <string name="settings_customize_remove_pin_locks">Alle kategorier, der er låst med denne PIN, låses også op.</string>
     <string name="settings_customize_remove">Fjern</string>
     <string name="settings_customize_confirm_pin">Bekræft ny PIN</string>
     <string name="settings_customize_pin_mismatch">PIN-koderne stemmer ikke overens — indtast igen</string>
@@ -678,7 +712,16 @@
     <string name="settings_sources_test_trial">Prøvekonto</string>
     <string name="settings_sources_test_expiry_none">Ingen udløbsdato oplyst</string>
     <string name="settings_sources_info">Info</string>
+    <string name="settings_sources_clean_names">Navne</string>
+    <string name="settings_sources_clean_names_title">Kanalnavne i “<xliff:g id="name">%1$s</xliff:g>”</string>
+    <string name="settings_sources_clean_names_description">Kortere kanalnavne på alle skærme. Guiden matcher stadig de navne, din udbyder sender, og kanaler, du har omdøbt i Tilpas, beholder dit navn. Gem opdaterer playlisten.</string>
+    <string name="settings_sources_clean_names_toggle">Ryd op i kanalnavne</string>
+    <string name="settings_sources_clean_names_example">Fjerner et landepræfiks og et kvalitetsmærke til sidst: “UK| News One HD” vises som “News One”</string>
+    <string name="settings_sources_clean_names_custom">Fjern også</string>
+    <string name="settings_sources_clean_names_custom_hint">Ord adskilt af ; f.eks. VIP; Backup</string>
     <string name="settings_sources_retest">Test igen</string>
+    <string name="settings_sources_ignore_limit">Ignorer forbindelsesgrænse</string>
+    <string name="settings_sources_ignore_limit_on">Forbindelsesgrænsen ignoreres: Multivisning og optagelser kan åbne flere streams, end denne playliste angiver. En stream, som udbyderen afviser, siger det stadig.</string>
     <string name="settings_sources_probe_title">Vil du teste denne playliste?</string>
     <string name="settings_sources_probe_warning">Mange udbydere oplyser aldrig, hvor mange kanaler du må se samtidig, så OwnTV finder ud af det ved at åbne nogle stykker og se, hvilke der overlever. Alt, der afspilles nu, stopper, og det kan tage op til to minutter.</string>
     <string name="settings_sources_probe_running">Kontrollerer, hvor mange kanaler denne udbyder tillader… (<xliff:g id="current">%1$d</xliff:g> af <xliff:g id="total">%2$d</xliff:g>)</string>
@@ -744,6 +787,7 @@
     <string name="settings_epg_sources_auto_refresh_title">Automatisk opdatering</string>
     <string name="settings_epg_sources_auto_refresh_description">Fra, ved opstart, eller når dataene er forældede</string>
     <string name="settings_epg_sources_not_synced">Endnu ikke synkroniseret</string>
+    <string name="settings_epg_sources_priority">Guideprioritet <xliff:g id="position">%1$d</xliff:g> af <xliff:g id="total">%2$d</xliff:g>. Når to kilder har den samme kanal, bruges den, der står højest på listen.</string>
     <string name="settings_epg_refresh_1h">1 time</string>
     <string name="settings_epg_refresh_3h">3 timer</string>
     <string name="settings_epg_refresh_6h">6 timer</string>
@@ -829,6 +873,7 @@
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> kilder blev sprunget over, fordi deres typer afspilningslister ikke understøttes.</item>
     </plurals>
     <string name="settings_backup_export_error">Eksporten mislykkedes.</string>
+    <string name="settings_backup_no_file_app">Ingen app på denne telefon kan gemme filen. Brug Del i stedet.</string>
     <string name="settings_backup_read_error">Sikkerhedskopifilen kunne ikke læses.</string>
     <string name="settings_backup_import_error">Importen mislykkedes.</string>
     <string name="settings_backup_invalid_locale">Denne sikkerhedskopi indeholdt et appsprog, der ikke understøttes. Gendannelsen lykkedes, men dit nuværende sprog blev bevaret.</string>
@@ -1166,7 +1211,7 @@
     <string name="local_sync_received_items">Modtagne emner: <xliff:g id="count">%1$d</xliff:g></string>
     <string name="local_sync_sent">Dine data blev sendt</string>
     <string name="local_sync_failed">Synkroniseringen mislykkedes</string>
-    <string name="local_sync_error_unreachable">Enheden kunne ikke nås. Åbn OwnTV → Indstillinger → Data → Lokal synkronisering på den, og slå Synkroniseringstilstand til. Begge enheder skal være på samme Wi-Fi.</string>
+    <string name="local_sync_error_unreachable">Enheden kunne ikke nås. Åbn OwnTV → Mere → Lokal synkronisering på den, og slå Synkroniseringstilstand til. Begge enheder skal være på samme Wi-Fi.</string>
     <string name="local_sync_error_unauthorized">Den anden enhed afviste. PIN-koden kan være forkert, eller den kan have glemt denne enhed.</string>
     <string name="local_sync_error_bad_payload">Det modtagne kunne ikke læses. Hvis du brugte en adgangskode, så tjek, at den er ens på begge enheder.</string>
     <string name="local_sync_error_unknown">Noget gik galt. Prøv igen.</string>
@@ -1279,6 +1324,12 @@
     <string name="settings_nav_hide_after_desc">Kun svævende: hvor længe bjælken venter, efter fokus har forladt den</string>
     <string name="settings_nav_widen">Udvid ved fokus</string>
     <string name="settings_nav_widen_desc">Fastgjort og kompakt: viser navnene over indholdet, mens menuen har fokus</string>
+    <string name="settings_nav_menu_labels">Menuetiketter</string>
+    <string name="settings_nav_menu_labels_desc">Sektionsnavnene ved siden af ikonerne: aldrig, mens bjælken har fokus, eller altid</string>
+    <string name="settings_nav_menu_labels_focused">Ved fokus</string>
+    <string name="settings_nav_menu_labels_always">Altid</string>
+    <string name="settings_nav_menu_labels_summary">Etiketter: <xliff:g id="choice">%1$s</xliff:g></string>
+    <string name="settings_search_keywords_menu_labels">etiketter, navne, tekst, kun ikoner, bjælke, sidepanel, menu, udvid, bred</string>
     <string name="settings_nav_menu_items">Menupunkter</string>
     <string name="settings_nav_menu_items_desc">Dynamisk: følger playlistens indhold · Fast: du vælger selv</string>
     <string name="settings_nav_bar">Bjælke</string>
@@ -1336,7 +1387,6 @@
     <string name="settings_part_guide_catchup">Guide og catch-up</string>
     <string name="settings_vp_cat_controls_resume">Betjening og genoptagelse</string>
     <string name="settings_pinned_from">Fastgjort fra <xliff:g id="group">%1$s</xliff:g></string>
-    <string name="settings_forget">Glem</string>
     <string name="settings_check_now">Tjek nu</string>
     <string name="settings_line_epg_offset">Flyt hele guiden, når en kildes tider er forkerte</string>
     <string name="settings_line_reminders">Hvad der sker, når en påmindelse er klar</string>
@@ -1356,7 +1406,7 @@
     <string name="settings_line_guide_width">Kanalliste og tidslinje</string>
     <string name="settings_line_browsing">Husk den sidste kategori og det sidste element</string>
     <string name="settings_line_home">Vælg, omarranger og filtrér rækkerne</string>
-    <string name="settings_line_content_menus">Omarranger handlingerne i hver menu</string>
+    <string name="settings_line_content_menus">Omarranger eller skjul handlingerne i hver menu</string>
     <string name="settings_line_remote_shortcuts">Tildel ledige knapper på fjernbetjeningen</string>
     <string name="settings_line_customize">Skjul og vis, omdøb og omarranger</string>
     <string name="settings_line_metadata">Plakater, handling, medvirkende og bedømmelser til film og serier</string>
@@ -1370,13 +1420,12 @@
     <string name="settings_line_quick_live_preview">Afspil den valgte kanal i Live-tv</string>
     <string name="settings_line_preview_sound">Lyd i livevisningen</string>
     <string name="settings_line_quick_channel_numbers">Tast et nummer på fjernbetjeningen for at skifte</string>
-    <string name="settings_line_hdr">Højt dynamisk område i mpv</string>
+    <string name="settings_line_prefer_sdr">SDR, når en stream har begge</string>
     <string name="settings_line_quick_autoplay">Start næste afsnit af sig selv</string>
     <string name="settings_line_live_engine">Hvilken afspiller åbner kanaler, og reserven</string>
     <string name="settings_line_saved_live_choices">Kanaler, du selv har skiftet</string>
     <string name="settings_line_vod_engine">Hvilken afspiller åbner film og afsnit</string>
     <string name="settings_line_saved_choices">Film og afsnit, du selv har skiftet</string>
-    <string name="settings_line_learned_fixes">Hvad afspilleren har lært om hver udbyder</string>
     <string name="settings_line_external">VLC, MX Player… pr. sektion</string>
     <string name="settings_line_vod_buffer">Hvor langt frem film indlæses</string>
     <string name="settings_line_vod_timeout">Ventetid på en server, der ikke svarer</string>
@@ -1394,6 +1443,7 @@
     <string name="settings_line_night_mode">Høje scener ned, dialog op</string>
     <string name="settings_line_leveling">Alle kanaler med samme lydstyrke</string>
     <string name="settings_line_audio_sync">Flyt lyden tidligere eller senere</string>
+    <string name="settings_line_output_audio_delay">Ekstra forsinkelse for den aktuelle udgang</string>
     <string name="settings_line_saved_audio_sync">Forsinkelser, du har gemt i afspilleren</string>
     <string name="settings_line_audio_lang">Afspiller dette spor, når streamen har det</string>
     <string name="settings_line_sub_lang">Slå undertekster til på dette sprog</string>
@@ -1401,7 +1451,6 @@
     <string name="settings_title_fonts">Skrifttyper og tekststørrelse</string>
     <string name="settings_title_saved_live_choices">Gemte valg af afspiller til live-tv</string>
     <string name="settings_title_saved_choices">Gemte valg af afspiller</string>
-    <string name="settings_title_learned_fixes">Lærte streamrettelser</string>
     <string name="settings_title_tunneled">Tunnelafspilning</string>
     <string name="settings_title_saved_zoom">Gemt zoom</string>
     <string name="settings_title_saved_volume">Gemt lydstyrke</string>
@@ -1420,6 +1469,7 @@
     <string name="settings_line_autoplay">Og videre til næste sæson</string>
     <string name="settings_line_tiles">Hver flise er endnu en stream</string>
     <string name="settings_line_mini">Størrelse og placering</string>
+    <string name="settings_line_pip">Se videre i et lille vindue</string>
     <string name="settings_line_rec_reserve">Optag aldrig på alle forbindelser</string>
     <string name="settings_line_rec_watching">Ikke en ekstra stream</string>
     <string name="settings_line_rec_pre_roll">Før udsendelsen begynder</string>
@@ -1462,6 +1512,7 @@
     <string name="settings_help_timeshift_window">Hvor langt tilbage Sæt på pause og spol tilbage i live-tv kan gå på en kanal uden catch-up. Længere gemmer mere af kanalen på enhedens lager.</string>
     <string name="settings_help_resume">Spørg om genoptagelse tilbyder Genoptag eller Start forfra, når en film eller et afsnit har en gemt position. Genoptag altid fortsætter, hvor du slap; Genoptag aldrig starter forfra.</string>
     <string name="settings_help_mini">Den lille afspiller, der holder en kanal kørende i et hjørne, mens du browser. Vælg størrelse og hjørne.</string>
+    <string name="settings_help_pip">Tryk på Hjem, eller åbn en anden app, mens en video afspilles i fuld skærm eller i miniafspilleren, så fortsætter den i et lille vindue oven på resten af tv’et. Åbn OwnTV igen for at få den tilbage i fuld skærm; luk vinduet for at stoppe afspilningen. Multivisning bliver i OwnTV.</string>
     <string name="settings_key_palette">Palet</string>
     <string name="settings_live_preview_note">Ændringer vises her, mens du bevæger dig, før du forlader rækken.</string>
     <string name="settings_synced_at">Synkroniseret <xliff:g id="when">%1$s</xliff:g></string>

@@ -33,6 +33,8 @@ internal object SettingsImportRules {
     fun string(name: String, v: String): String? = when (name) {
         "live_latency_mode" -> v.takeIf { value -> LiveLatency.entries.any { it.name == value } }
         "mini_player_position" -> v.takeIf { value -> MiniPlayerPosition.entries.any { it.name == value } }
+        "player_hold_ok" -> v.takeIf { value -> PlayerHoldOkAction.entries.any { it.name == value } }
+        "player_short_ok" -> v.takeIf { value -> PlayerShortOkAction.entries.any { it.name == value } }
         else -> v
     }
 
@@ -47,6 +49,10 @@ internal object SettingsImportRules {
 
     fun sportsReminderLead(v: Int): Int =
         v.takeIf { it in SportsConfig.REMINDER_LEAD_CHOICES } ?: SportsConfig.DEFAULT_REMINDER_LEAD_MINUTES
+
+    /** Calendar refresh: one of the stepper's days; anything else is the default. */
+    fun sportsCalendarRefresh(v: Int): Int =
+        v.takeIf { it in SportsConfig.CALENDAR_REFRESH_CHOICES } ?: SportsConfig.DEFAULT_CALENDAR_REFRESH_DAYS
 
     /** Only leagues this build can fetch; one from a newer build's catalogue is dropped. */
     fun sportsLeagues(keys: List<String>): List<String> = keys.filter { SportsCatalog.league(it) != null }.distinct()

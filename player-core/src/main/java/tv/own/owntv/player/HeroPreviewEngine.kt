@@ -33,7 +33,7 @@ class HeroPreviewEngine(
     /** True while another engine (mpv) already holds a stream — used for the one-session guard. */
     private val streamInUse: () -> Boolean = { false },
 ) {
-    /** Mirrors Settings → Video player → Hardware decoding, like every other engine. Read at [build]
+    /** Mirrors Settings → Picture → Hardware decoding, like every other engine. Read at [build]
      *  time; a change rebuilds on the next preview (see the decode-path check in [play]). */
     @Volatile private var hwDecodingEnabled = true
 
@@ -220,6 +220,7 @@ class HeroPreviewEngine(
             .setRenderersFactory(ownTVRenderers(context, forceStereo = true, softwareFirst = !hwDecodingEnabled))
             .setMediaSourceFactory(DefaultMediaSourceFactory(dataSource))
             .setLoadControl(loadControl)
+            .setAudioAttributes(OWNTV_MEDIA_AUDIO, false)
             .build()
             .apply {
                 // The preview is silent by definition. `volume = 0f` still decoded the audio track and

@@ -16,6 +16,17 @@ import androidx.media3.exoplayer.mediacodec.MediaCodecSelector
  * again. Per-engine concerns (data source, load control, track selector, listeners) stay at the
  * call site, where they legitimately differ.
  */
+/**
+ * What every ExoPlayer here plays: media, a movie. Left at the default, the players said "unknown" while the
+ * session's audio focus said "movie", and some TV audio HALs pick their movie path from the content type.
+ * Also what the passthrough check asks the output about, so it judges the same route the player takes. Focus
+ * stays with [PlaybackSession], so the players are given these without handling it.
+ */
+internal val OWNTV_MEDIA_AUDIO: androidx.media3.common.AudioAttributes = androidx.media3.common.AudioAttributes.Builder()
+    .setUsage(androidx.media3.common.C.USAGE_MEDIA)
+    .setContentType(androidx.media3.common.C.AUDIO_CONTENT_TYPE_MOVIE)
+    .build()
+
 @UnstableApi
 fun ownTVRenderers(
     context: Context,
@@ -27,8 +38,13 @@ fun ownTVRenderers(
     audioDelay: AudioDelayClock? = null,
     /** False: Dolby/DTS decoded in the app, see [OwnTVRenderersFactory]. */
     passthrough: Boolean = true,
+    /** True: the video decoder only starts on the screen's own surface, see [OwnTVRenderersFactory]. */
+    onSurfaceOnly: Boolean = false,
 ): DefaultRenderersFactory =
-    OwnTVRenderersFactory(context, forceStereo = forceStereo, audioDelay = audioDelay, passthrough = passthrough)
+    OwnTVRenderersFactory(
+        context, forceStereo = forceStereo, audioDelay = audioDelay, passthrough = passthrough,
+        onSurfaceOnly = onSurfaceOnly,
+    )
         // Media3 runs MediaCodec asynchronously by default on API 31+, and on every Fire TV device
         // (`com.amazon.hardware.tv_screen`) from API 28 up. That async path corrupts (macroblocks)
         // some UHD-HEVC content on Realtek/Amlogic VPUs — the synchronous path is what players like

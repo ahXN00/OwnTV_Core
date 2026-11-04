@@ -15,7 +15,7 @@ import kotlin.system.exitProcess
  *
  * This writes the trace to the app's own files directory the moment the process goes down, and
  * [PlaybackErrorLog.export] picks it up on the next launch — so the whole handover is
- * *Settings → Playback errors → Export*, and a file in Downloads that can be sent.
+ * *More → Error log → Export*, and a file in Downloads that can be sent.
  *
  * The trace from a release build is obfuscated: retrace it with the `mapping.txt` of the matching
  * release. Line numbers are kept (`-keepattributes SourceFile,LineNumberTable`), so a retraced

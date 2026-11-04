@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">আপনার নিজের ছবি</string>
     <string name="profiles_kids">শিশুদের প্রোফাইল</string>
     <string name="profiles_kids_description">সহজ ও নিরাপদ ব্রাউজিং</string>
+    <string name="profiles_allow_downloads">ডাউনলোডের অনুমতি দিন</string>
+    <string name="profiles_allow_downloads_description">বন্ধ থাকলে এই প্রোফাইলে সব ডাউনলোড বোতাম লুকানো থাকে</string>
     <string name="profiles_remove_pin">PIN লক সরান</string>
     <string name="profiles_no_pin">এই প্রোফাইলটি PIN ছাড়াই খোলে</string>
     <string name="profiles_change_pin">PIN পরিবর্তন করুন (খালি রাখলে আগেরটি থাকবে)</string>
@@ -45,6 +47,8 @@
     <string name="search_go_to_movie">সিনেমায় যান</string>
     <string name="search_clear_recent">সাম্প্রতিক অনুসন্ধান মুছুন</string>
     <string name="search_field_hint">চ্যানেল, সিনেমা ও সিরিজ</string>
+    <string name="search_voice">ভয়েস সার্চ</string>
+    <string name="search_voice_prompt">একটি চ্যানেল, সিনেমা বা সিরিজের নাম বলুন</string>
     <string name="search_card_title">আপনার প্লেলিস্টে যেকোনো কিছু খুঁজুন</string>
     <string name="search_card_body">আপনার দেখানো সব প্লেলিস্টের চ্যানেল, সিনেমা ও সিরিজ। সরাসরি সেখানে যেতে একটি ফলাফল বেছে নিন, তারপর সেখানে চালান, ডাউনলোড করুন বা এর বিকল্প খুলুন। এখন বা আজ পরে চলা টিভি অনুষ্ঠানও শিরোনাম দিয়ে খুঁজে পাওয়া যায়।</string>
     <string name="search_nothing_found">“<xliff:g id="query">%1$s</xliff:g>”-এর জন্য কিছু পাওয়া যায়নি</string>
@@ -63,6 +67,11 @@
     <string name="launcher_recent_live_description">সম্প্রতি দেখা লাইভ চ্যানেলগুলো</string>
     <string name="launcher_movie_type">সিনেমা</string>
     <string name="launcher_episode_number">পর্ব <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">আপনার লাইব্রেরি লোড হচ্ছে · এখন পর্যন্ত <xliff:g id="count">%1$s</xliff:g>টি শিরোনাম</item>
+        <item quantity="other">আপনার লাইব্রেরি লোড হচ্ছে · এখন পর্যন্ত <xliff:g id="count">%1$s</xliff:g>টি শিরোনাম</item>
+    </plurals>
+    <string name="home_library_loading_trending">লাইব্রেরি ভরার সাথে সাথে এখন ট্রেন্ডিং দেখা যাবে।</string>
     <string name="home_no_preview">এখনো প্রিভিউ দেখানোর মতো কিছু নেই।</string>
     <string name="home_no_rows">হোম স্ক্রিনের সব সারি লুকানো আছে।</string>
     <string name="home_enable_rows">সেটিংস → হোম স্ক্রিন থেকে সারিগুলো আবার চালু করুন।</string>
@@ -193,6 +202,7 @@
     <string name="recording_group_missed">হাতছাড়া</string>
     <string name="recording_record">রেকর্ড</string>
     <string name="recording_stop">রেকর্ডিং থামান</string>
+    <string name="recording_delete_message">এই ডিভাইস থেকে রেকর্ডিং এবং এর ফাইল সরিয়ে দেয়। এটি আর ফেরানো যাবে না।</string>
     <string name="recording_record_series">প্রতিটি সম্প্রচার রেকর্ড করুন</string>
     <string name="recording_stop_series">প্রতিটি সম্প্রচার রেকর্ড করা বন্ধ করুন</string>
     <string name="recording_from_archive">আর্কাইভ থেকে রেকর্ড করুন</string>
@@ -205,6 +215,7 @@
     <string name="recording_scheduled_for"><xliff:g id="time">%1$s</xliff:g> রেকর্ড হবে</string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line"><xliff:g id="title">%1$s</xliff:g> রেকর্ড হচ্ছে</string>
+    <string name="recording_pill_line_locked">লক করা বিভাগ থেকে রেকর্ড হচ্ছে</string>
     <string name="recording_clash_with"><xliff:g id="programme">%1$s</xliff:g>-এর সঙ্গে সংঘর্ষ</string>
     <string name="recording_settings_group">রেকর্ডিং</string>
     <string name="settings_recording_reserve">দেখার জন্য একটি স্ট্রিম খালি রাখুন</string>
@@ -281,6 +292,15 @@
     <string name="sports_starting_soon">শীঘ্রই শুরু</string>
     <string name="sports_hint_match_page">ম্যাচ পেজ</string>
     <string name="sports_hint_follow_remind">ফলো · মনে করান</string>
+    <string name="sports_hint_day_matches">দিনের ম্যাচ</string>
+    <string name="sports_hint_day">দিন</string>
+    <string name="sports_hint_week">সপ্তাহ</string>
+    <string name="sports_hint_show_score">স্কোর দেখান</string>
+    <string name="sports_hint_back_to_day">দিনে ফিরুন</string>
+    <string name="sports_hint_open_league">লিগ খুলুন</string>
+    <string name="sports_hint_sport_chips">খেলার বোতাম</string>
+    <string name="sports_hint_league_chips">লিগের বোতাম</string>
+    <string name="sports_hint_follow_unfollow">ফলো · আনফলো</string>
     <string name="sports_reminder_set">রিমাইন্ডার</string>
     <string name="sports_until"><xliff:g id="time">%1$s</xliff:g> পর্যন্ত</string>
     <string name="sports_set">সেট <xliff:g id="set">%1$d</xliff:g></string>
@@ -380,6 +400,44 @@
     <string name="sports_switch_channel">চ্যানেল বদলান</string>
     <string name="sports_tab_fixtures">সূচি</string>
     <string name="sports_tab_results">ফলাফল</string>
+    <string name="sports_tab_scores">স্কোর</string>
+    <string name="sports_tab_calendar">ক্যালেন্ডার</string>
+    <string name="sports_tab_leagues">লিগ</string>
+    <string name="sports_previous_month">আগের মাস</string>
+    <string name="sports_next_month">পরের মাস</string>
+    <string name="sports_next">পরবর্তী: <xliff:g id="match">%1$s</xliff:g></string>
+    <string name="sports_next_badge">পরবর্তী</string>
+    <string name="sports_no_table_series">কোনো টেবিল নেই — সিরিজ প্রতি সপ্তাহে বদলায়</string>
+    <string name="sports_follow_league">লিগ ফলো করুন</string>
+    <string name="sports_unfollow_league">লিগ আনফলো করুন</string>
+    <string name="sports_no_matches_on"><xliff:g id="day">%1$s</xliff:g> তারিখে আপনার খেলাগুলোতে কোনো ম্যাচ নেই</string>
+    <string name="sports_nothing_on_day">এই দিনে কিছু নেই</string>
+    <string name="sports_nothing_in_sport"><xliff:g id="sport">%1$s</xliff:g>: এই দিনে কিছু নেই</string>
+    <string name="sports_change_leagues_hint">সেটিংস → খেলা থেকে লিগ যোগ করুন বা সরান</string>
+    <string name="sports_loading_month"><xliff:g id="month">%1$s</xliff:g> লোড হচ্ছে…</string>
+    <string name="sports_offline_saved"><xliff:g id="time">%1$s</xliff:g> সময়ে সংরক্ষিত তথ্য দেখানো হচ্ছে — ESPN-এ পৌঁছানো যায়নি</string>
+    <string name="sports_team_page">দলের পাতা</string>
+    <string name="sports_next_match">পরবর্তী ম্যাচ</string>
+    <string name="sports_last_five">শেষ পাঁচটি</string>
+    <string name="sports_league_position">লিগে অবস্থান</string>
+    <string name="sports_in_my_teams">আমার দলে আছে</string>
+    <string name="sports_open_match_page">ম্যাচের পাতা খুলুন</string>
+    <string name="sports_open_team_page">দলের পাতা খুলুন</string>
+    <string name="sports_my_teams_leagues">আপনার দলগুলো যেসব লিগে খেলে</string>
+    <string name="sports_tab_drivers">ড্রাইভার</string>
+    <string name="sports_tab_constructors">কনস্ট্রাক্টর</string>
+    <string name="sports_tab_races">রেস</string>
+    <string name="sports_tab_rankings">র‍্যাঙ্কিং</string>
+    <string name="sports_tab_matches">ম্যাচ</string>
+    <string name="sports_next_race_weekend">পরবর্তী রেস উইকেন্ড</string>
+    <string name="sports_last_weekend">গত সপ্তাহান্ত</string>
+    <string name="sports_session_practice_1">প্র্যাকটিস ১</string>
+    <string name="sports_session_practice_2">প্র্যাকটিস ২</string>
+    <string name="sports_session_practice_3">প্র্যাকটিস ৩</string>
+    <string name="sports_session_sprint_qualifying">স্প্রিন্ট কোয়ালিফাইং</string>
+    <string name="sports_session_qualifying">কোয়ালিফাইং</string>
+    <string name="sports_session_sprint">স্প্রিন্ট</string>
+    <string name="sports_session_race">রেস</string>
     <string name="sports_table_team">দল</string>
     <string name="sports_table_played">ম্যা</string>
     <string name="sports_table_won">জ</string>
@@ -464,6 +522,12 @@
         <item quantity="other">প্রতি <xliff:g id="count">%1$d</xliff:g> ঘণ্টায়</item>
     </plurals>
     <string name="sports_auto_rebuild_app_start">প্রতিবার অ্যাপ চালু হলে</string>
+    <string name="sports_calendar_refresh">ক্যালেন্ডার রিফ্রেশ</string>
+    <string name="sports_calendar_refresh_description">সংরক্ষিত মাসগুলো কতবার আবার আনা হবে</string>
+    <plurals name="sports_calendar_refresh_days">
+        <item quantity="one">প্রতি <xliff:g id="count">%1$d</xliff:g> দিনে</item>
+        <item quantity="other">প্রতি <xliff:g id="count">%1$d</xliff:g> দিনে</item>
+    </plurals>
     <string name="sports_find_channels">চ্যানেল খুঁজুন</string>
     <string name="sports_find_channels_description">আপনার গাইড ও চ্যানেলের নামে এই ম্যাচটি খোঁজে। বড় প্লেলিস্টে একটু সময় লাগতে পারে।</string>
     <string name="sports_finding_channels">আপনার চ্যানেল খোঁজা হচ্ছে…</string>

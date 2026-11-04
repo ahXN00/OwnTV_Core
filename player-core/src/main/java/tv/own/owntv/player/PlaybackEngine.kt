@@ -67,6 +67,12 @@ interface PlaybackEngine {
      * a broken player, so the player says so on screen instead of leaving the user to guess.
      */
     val audioOnlyMedia: StateFlow<Boolean> get() = FALSE_FLOW
+
+    /**
+     * True once this live channel has dropped enough frames on ExoPlayer that the other engine is worth a
+     * try; the player shows a one-time hint. Once per channel per app session, false again on every tune.
+     */
+    val smoothnessHint: StateFlow<Boolean> get() = FALSE_FLOW
     /** Stop the video decoder/output but keep audio playing at position (Audio Mode enter). No-op if
      *  already audio-only. Audio is uninterrupted — mpv drops the video track (`vid=no`), ExoPlayer
      *  releases its surface. */

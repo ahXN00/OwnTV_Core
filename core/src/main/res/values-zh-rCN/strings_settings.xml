@@ -70,6 +70,23 @@
     <string name="settings_remote_shortcuts_long_press">长按</string>
     <string name="settings_remote_shortcuts_unknown_button">遥控器按键 %1$d</string>
     <string name="settings_remote_shortcuts_help">• 默认情况下，CH+/CH− 和快退/快进用于列表翻页；长按会跳到第一项或最后一项。\n• 短按和长按可以分别分配。\n• 在非常大的“全部”列表中，跳到最后一项仍会禁用。\n• 长按返回始终聚焦“正在播放”，且不能重新分配。\n• 通常可分配红/绿/黄/蓝、数字、CH+/CH− 和快退/快进键。\n• 返回、方向、确定、音量、主页和电源键会保持受保护。\n• 数字快捷键在浏览时生效；全屏时频道号码输入优先。</string>
+    <string name="settings_player_buttons">播放器按键</string>
+    <string name="settings_player_hold_ok">在播放器中长按确定</string>
+    <string name="settings_player_hold_ok_description">控制栏隐藏时长按确定打开的内容</string>
+    <string name="settings_help_player_hold_ok">在全屏直播播放器中控制栏隐藏时长按确定,可打开频道列表、节目指南或节目信息。关闭则确定键保持原样。开启期间,短按确定会在松开时生效。电影和剧集保持原来的确定键。</string>
+    <string name="settings_player_short_ok">控制栏隐藏时的确定键</string>
+    <string name="settings_player_short_ok_description">在全屏播放器中短按确定的作用</string>
+    <string name="settings_help_player_short_ok">在全屏播放器中短按确定会显示控制栏。选择频道列表或节目指南,则在直播频道上改为打开它;播放器不使用的其他按键仍会显示控制栏。电影和剧集始终显示控制栏。</string>
+    <string name="settings_player_swap_channel_keys">互换频道上/下</string>
+    <string name="settings_player_swap_channel_keys_description">CH+ 和上键转到上一个频道</string>
+    <string name="settings_help_player_swap_channel_keys">通常 CH+ 和方向上键转到下一个频道,CH− 和下键转到上一个。开启后在观看时互换它们,全屏和迷你播放器中均适用。浏览列表不受影响。</string>
+    <string name="settings_player_number_keys_tune">数字键切换频道</string>
+    <string name="settings_player_number_keys_tune_description">在直播播放器中输入频道号</string>
+    <string name="settings_help_player_number_keys_tune">在全屏直播播放器中用遥控器输入频道号即可跳到该频道。关闭后数字键留给遥控器快捷键。输入频道号还需要在直播电视设置中开启频道编号。</string>
+    <string name="settings_player_ok_channel_list">频道列表</string>
+    <string name="settings_player_ok_guide">节目指南</string>
+    <string name="settings_player_ok_programme_info">节目信息</string>
+    <string name="settings_player_ok_show_controls">显示控制栏</string>
     <string name="settings_remote_button_channel_up">频道 +</string>
     <string name="settings_remote_button_channel_down">频道 −</string>
     <string name="settings_remote_button_rewind">快退</string>
@@ -157,7 +174,7 @@
     <string name="settings_quick_live_preview">直播预览</string>
     <string name="settings_quick_preview_sound">预览声音</string>
     <string name="settings_quick_channel_numbers">频道编号</string>
-    <string name="settings_quick_hdr">HDR（仅 mpv）</string>
+    <string name="settings_quick_prefer_sdr">优先 SDR</string>
     <string name="settings_quick_autoplay">自动播放</string>
     <string name="settings_quick_check_update">检查更新</string>
     <string name="settings_language">语言</string>
@@ -177,8 +194,9 @@
     <string name="settings_ch_paging">遥控器快捷键</string>
     <string name="settings_ch_paging_description">将遥控器的空闲按键分配给导航、播放和浏览操作。必要的导航按键会保持受保护。</string>
     <string name="settings_content_menus_title">长按菜单</string>
-    <string name="settings_content_menus_description">重新排列频道、电影、剧集和分集菜单中的操作</string>
-    <string name="settings_content_menus_hint">长按“确定”拿起某个操作，然后用上下键移动，再次按“确定”放下。</string>
+    <string name="settings_content_menus_description">重新排列或隐藏频道、电影、剧集和分集菜单中的操作</string>
+    <string name="settings_content_menus_hint">在某个操作上按“确定”可显示或隐藏它。长按“确定”拿起它，用上下键移动，再次按“确定”放下。</string>
+    <string name="settings_content_menus_note">部分操作只在适用的地方出现。</string>
     <string name="settings_browsing_lists">浏览和列表</string>
     <string name="settings_browsing_description">记住直播电视、电影和剧集中的上次分类及上次项目</string>
     <string name="settings_home_root">主屏幕</string>
@@ -212,9 +230,13 @@
     <string name="settings_preview_audio_description">在直播预览中播放声音</string>
     <string name="settings_mini_player_root">迷你播放器</string>
     <string name="settings_mini_player_root_description">已停靠迷你播放器的大小和位置</string>
-    <string name="settings_hdr_description">视频和电视支持时使用 HDR 输出。仅适用于 mpv：ExoPlayer 引擎不支持此设置，始终按原样输出流的 HDR。</string>
-    <string name="settings_auto_frame_rate">自动匹配帧率</string>
-    <string name="settings_auto_frame_rate_description">在全屏播放直播电视和点播内容时，使电视刷新率与视频匹配（24/25/50/60 fps），并在退出时恢复。如果电视或接收器在每次切换频道时都会重新进行 HDMI 握手并产生明显干扰，请关闭此功能。</string>
+    <string name="settings_pip_on_leave">离开应用时使用画中画</string>
+    <string name="settings_pip_on_leave_description">按主页键时，视频会在小窗口中继续播放</string>
+    <string name="settings_prefer_sdr_description">当流同时提供 SDR 和 HDR 画面时，播放 SDR 画面：适合 HDR 显得发灰或过暗的电视。仅有 HDR 的流仍为 HDR。仅限 ExoPlayer。</string>
+    <string name="settings_auto_frame_rate_films">电影和剧集自动匹配帧率</string>
+    <string name="settings_auto_frame_rate_films_description">在全屏播放电影或剧集时，使电视刷新率与视频匹配（24/25/50/60 fps），并在退出时恢复。</string>
+    <string name="settings_auto_frame_rate_live">直播电视自动匹配帧率</string>
+    <string name="settings_auto_frame_rate_live_description">在全屏播放直播频道时，使电视刷新率与频道匹配（25/50/60 fps），并在退出时恢复。如果电视或接收器在每次切换频道时都会重新进行 HDMI 握手并产生明显干扰，请关闭此功能。</string>
     <string name="settings_afr_pause">切换显示时暂停</string>
     <string name="settings_afr_pause_description">仅限电影。电视需要重新同步到新的显示模式时，电影会等待这段时间，以免开头在黑屏中错过。无缝切换不会暂停。</string>
     <string name="settings_afr_resolution">匹配分辨率</string>
@@ -223,6 +245,10 @@
     <string name="settings_surround_description_mobile">为连接到此设备的真正 5.1/7.1 接收器将 Dolby/DTS 解码为环绕声（5.1/7.1）。使用内置扬声器、耳机或立体声音箱时请保持关闭 — 多声道可能导致音频滞后于视频。如果出现不同步，请在播放器的“音频”菜单 →“音视频同步”中进行微调。</string>
     <string name="settings_audio_passthrough">Dolby/DTS 直通</string>
     <string name="settings_audio_passthrough_description">开启：当电视、回音壁或功放表示可以播放时，Dolby 和 DTS 不经解码直接发送（ExoPlayer）。关闭：由应用解码，在环绕声允许时仍为环绕声。mpv 始终解码。夜间模式或音量均衡开启时不使用。</string>
+    <string name="settings_ffmpeg_audio">ExoPlayer 使用 FFmpeg 音频解码</string>
+    <string name="settings_ffmpeg_audio_description">开启：ExoPlayer 还能解码设备没有解码器的音频，例如 DTS、TrueHD 或 MP2。设备自带的解码器仍然优先。关闭：ExoPlayer 只使用设备的解码器。mpv 始终使用 FFmpeg 解码。更改后 OwnTV 将重启。</string>
+    <string name="settings_line_ffmpeg_audio">用于设备无法解码的音频</string>
+    <string name="settings_ffmpeg_audio_restart_message">音频解码器将在 OwnTV 重启后切换。</string>
     <string name="settings_night_mode">夜间模式</string>
     <string name="settings_night_mode_description">调低响亮的场景、调高轻声的对白，适合低音量观看。</string>
     <string name="settings_volume_leveling">音量均衡</string>
@@ -255,9 +281,12 @@
     <string name="settings_about">关于</string>
     <string name="settings_live_latency">直播延迟</string>
     <string name="settings_no_settings_match">没有与“<xliff:g id="query">%1$s</xliff:g>”匹配的设置</string>
+    <string name="settings_search_empty_hint">输入设置的名称</string>
     <string name="settings_breadcrumb"><xliff:g id="group">%1$s</xliff:g> › <xliff:g id="title">%2$s</xliff:g></string>
     <string name="settings_startup_home">主屏幕</string>
     <string name="settings_startup_last_channel">上次观看的频道</string>
+    <string name="settings_startup_last_channel_guide">上次观看的频道 · 节目指南</string>
+    <string name="settings_startup_last_channel_live">上次观看的频道 · 直播电视</string>
     <string name="settings_startup_favorites">直播 · 收藏夹</string>
     <string name="settings_startup_specific_channel">指定频道</string>
     <string name="settings_startup_channel_unavailable">启动频道不可用，已打开首页。</string>
@@ -344,7 +373,7 @@
     <string name="settings_search_keywords_audio">音量 大声 小声 口型同步 延迟 音轨 语言</string>
     <string name="settings_search_keywords_channel_numbers">频道 编号 直接调台 输入 数字 键盘 数字键 换台 lcn</string>
     <string name="settings_search_keywords_mini">停靠 pip 迷你播放器 大小 位置 缩放 百分比 角落 移动</string>
-    <string name="settings_search_keywords_hdr">高动态范围 输出</string>
+    <string name="settings_search_keywords_prefer_sdr">hdr sdr 标准动态范围 发灰 过暗 画面</string>
     <string name="settings_search_keywords_afr">afr 刷新率 hz 卡顿 24fps 25fps 50hz 60hz 显示模式 匹配</string>
     <string name="settings_search_keywords_surround">dolby dts 5.1 7.1 接收器 音频</string>
     <string name="settings_search_keywords_autoplay">自动播放 剧集 季</string>
@@ -468,6 +497,10 @@
     <string name="settings_preferred_audio_language">首选音频语言</string>
     <string name="settings_audio_sync">音视频同步</string>
     <string name="settings_audio_sync_description">将音频提前或延后，使其与视频匹配。两个播放器（mpv 和 ExoPlayer）均可使用。</string>
+    <string name="settings_output_audio_delay">此输出的延迟</string>
+    <string name="settings_output_audio_delay_description">叠加在“音视频同步”之上，并为每种输出分别保存：HDMI、通过 HDMI ARC 连接的回音壁、蓝牙、内置扬声器、耳机。请在通过该输出收听时进行调整。</string>
+    <string name="settings_audio_output_speaker">内置扬声器</string>
+    <string name="settings_audio_output_other">耳机或 USB</string>
     <string name="settings_live_tv">直播电视</string>
     <string name="settings_live_latency_description">设置播放位置与直播的接近程度。数值越低，越接近直播，但缓冲区也越小，因此信号较弱的流可能更容易卡顿或重新连接。此设置将在您下次打开频道时生效。</string>
     <string name="settings_live_latency_bitrate_note">在码率非常高的频道上（尤其是 4K），由于内存中一次能保存的视频量有限，缓冲的时长可能比你设置的更短。</string>
@@ -517,10 +550,6 @@
     <string name="settings_reset_live_player_choices_description">在播放器中将某个频道在 ExoPlayer 与 mpv 之间切换后，该选择会为这个频道保存下来。重置后，所有频道将重新遵循“直播电视播放器”设置。电影和剧集已保存的选择会保留。</string>
     <string name="settings_reset_live_player_choices_confirm">要重置直播电视播放器的已保存选择吗？</string>
     <string name="settings_reset_live_player_choices_confirm_description">所有频道将重新遵循“直播电视播放器”设置。你随时可以在播放器中再次单独切换某个频道。</string>
-    <string name="settings_forget_stream_fixes">忘记已学到的播放修正</string>
-    <string name="settings_forget_stream_fixes_description">播放器会学习每个提供商的流需要什么——用 mpv 代替 ExoPlayer、换一种格式、回看时使用软件解码。如果提供商已修复了其流，请让播放器忘记这些内容。关于回看学到的内容也会在 14 天后自动忘记。</string>
-    <string name="settings_forget_stream_fixes_confirm">要忘记已学到的播放修正吗？</string>
-    <string name="settings_forget_stream_fixes_confirm_description">频道将重新以标准方式打开，播放器会重新学习提供商仍然需要的内容。受影响频道的首次播放可能会多花几秒钟。</string>
     <string name="settings_external_player_row_description">按版块选择使用外部应用（VLC、MX Player）而非内置播放器打开流媒体。对于本应用无法解码的流媒体，或者您更喜欢其他播放器时，此功能很有用。使用外部应用播放时，无法使用继续播放位置及上一个/下一个功能；需要自定义 User-Agent 或 Referer 的流媒体可能无法播放。</string>
     <string name="settings_resume_always">总是继续播放</string>
     <string name="settings_resume_ask">询问是否继续播放</string>
@@ -537,7 +566,7 @@
     <string name="settings_delete_all_series">删除所有剧集字幕</string>
     <string name="settings_section_count"><xliff:g id="section">%1$s</xliff:g>（<xliff:g id="count">%2$d</xliff:g>）</string>
     <string name="settings_sync_guide_question">立即同步电视节目指南吗？</string>
-    <string name="settings_sync_guide_description">下载“<xliff:g id="source">%1$s</xliff:g>”的电子节目指南（EPG）。您也可以稍后前往“设置 → 电子节目指南（EPG）”执行此操作。</string>
+    <string name="settings_sync_guide_description">下载“<xliff:g id="source">%1$s</xliff:g>”的电子节目指南（EPG）。您也可以稍后前往“设置 → 来源与节目指南 → 电子节目指南（EPG）源”执行此操作。</string>
     <string name="settings_not_now">暂不</string>
     <string name="settings_sync_now">立即同步</string>
     <string name="settings_syncing_guide">正在同步电视节目指南…</string>
@@ -580,6 +609,8 @@
     <string name="settings_browsing_last_category_description">重新打开此内容板块时，显示您离开时所在的分类，而不是“全部”。</string>
     <string name="settings_browsing_last_item">记住上次浏览的项目</string>
     <string name="settings_browsing_last_item_description">每个分类都会保留各自的滚动位置，而不是从顶部开始。直播电视还会恢复上次聚焦的频道。</string>
+    <string name="settings_browsing_live_categories">直播电视分类</string>
+    <string name="settings_browsing_live_categories_description">显示在直播电视、节目指南、播放器和多画面中。关闭“所有频道”后，直播电视会打开你的第一个分类；如果没有分类，则打开收藏夹。</string>
     <string name="settings_catchup_player">回看播放方式</string>
     <string name="settings_customize_title">自定义分类和项目</string>
     <string name="settings_customize_pin_locked">此界面已启用 PIN 锁。</string>
@@ -588,6 +619,8 @@
     <string name="settings_customize_set_pin">🔒 设置 PIN</string>
     <string name="settings_customize_change_pin">🔒 更改 PIN</string>
     <string name="settings_customize_remove_lock">移除锁定</string>
+    <string name="settings_customize_settings_pin">打开设置时要求输入 PIN</string>
+    <string name="settings_customize_settings_pin_button">打开设置时要求输入 PIN：<xliff:g id="state">%1$s</xliff:g></string>
     <string name="settings_customize_description">为此用户档案隐藏或取消隐藏频道、电影和剧集，以及重命名或重新排序分类。重新同步后仍会保留。</string>
     <string name="settings_customize_new_category_behavior">新分类处理方式</string>
     <string name="settings_customize_hide">隐藏</string>
@@ -632,6 +665,7 @@
     <string name="settings_customize_rename_hint">仅对此用户档案生效。留空可恢复为“<xliff:g id="name">%1$s</xliff:g>”。</string>
     <string name="settings_customize_remove_pin_title">移除 PIN 锁？</string>
     <string name="settings_customize_remove_pin_message">以后打开“自定义”界面时将不再要求输入 PIN。</string>
+    <string name="settings_customize_remove_pin_locks">用此 PIN 锁定的所有分类也将一并解锁。</string>
     <string name="settings_customize_remove">移除</string>
     <string name="settings_customize_confirm_pin">确认新 PIN</string>
     <string name="settings_customize_pin_mismatch">两次输入的 PIN 不一致 — 请重新输入</string>
@@ -673,7 +707,16 @@
     <string name="settings_sources_test_trial">试用账号</string>
     <string name="settings_sources_test_expiry_none">未提供到期日期</string>
     <string name="settings_sources_info">信息</string>
+    <string name="settings_sources_clean_names">名称</string>
+    <string name="settings_sources_clean_names_title">“<xliff:g id="name">%1$s</xliff:g>”中的频道名称</string>
+    <string name="settings_sources_clean_names_description">所有界面显示更短的频道名称。节目指南仍按提供商发送的名称匹配,在“自定义”中改过名的频道保留你的名称。保存会刷新播放列表。</string>
+    <string name="settings_sources_clean_names_toggle">清理频道名称</string>
+    <string name="settings_sources_clean_names_example">去掉开头的国家前缀和末尾的画质标记:“UK| News One HD”显示为“News One”</string>
+    <string name="settings_sources_clean_names_custom">另外删除</string>
+    <string name="settings_sources_clean_names_custom_hint">用 ; 分隔的词,例如 VIP; Backup</string>
     <string name="settings_sources_retest">重新测试</string>
+    <string name="settings_sources_ignore_limit">忽略连接数限制</string>
+    <string name="settings_sources_ignore_limit_on">已忽略连接数限制：多画面和录制可能会打开超过此播放列表所报告数量的流。提供商拒绝的流仍会照常提示。</string>
     <string name="settings_sources_probe_title">测试此播放列表？</string>
     <string name="settings_sources_probe_warning">许多运营商从不说明你可以同时观看多少个频道，因此 OwnTV 会打开几个频道，看哪些能够持续播放，以此来确定。当前正在播放的内容会停止，此过程最多需要两分钟。</string>
     <string name="settings_sources_probe_running">正在检测此运营商允许的频道数量…（<xliff:g id="current">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g>）</string>
@@ -736,6 +779,7 @@
     <string name="settings_epg_sources_auto_refresh_title">自动刷新</string>
     <string name="settings_epg_sources_auto_refresh_description">关闭、启动时刷新或数据过期时刷新</string>
     <string name="settings_epg_sources_not_synced">尚未同步</string>
+    <string name="settings_epg_sources_priority">节目指南优先级：第 <xliff:g id="position">%1$d</xliff:g> 位，共 <xliff:g id="total">%2$d</xliff:g> 个。当两个来源包含同一频道时，使用此列表中靠上的来源。</string>
     <string name="settings_epg_refresh_1h">1 小时</string>
     <string name="settings_epg_refresh_3h">3 小时</string>
     <string name="settings_epg_refresh_6h">6 小时</string>
@@ -817,6 +861,7 @@
         <item quantity="other">由于播放列表类型不受支持，已跳过 <xliff:g id="count">%1$d</xliff:g> 个源。</item>
     </plurals>
     <string name="settings_backup_export_error">导出失败。</string>
+    <string name="settings_backup_no_file_app">这部手机上没有可以保存文件的应用。请改用“分享”。</string>
     <string name="settings_backup_read_error">无法读取备份文件。</string>
     <string name="settings_backup_import_error">导入失败。</string>
     <string name="settings_backup_invalid_locale">此备份包含不受支持的应用语言。恢复已成功完成，但保留了您当前使用的语言。</string>
@@ -1145,7 +1190,7 @@
     <string name="local_sync_received_items">已接收的项目: <xliff:g id="count">%1$d</xliff:g></string>
     <string name="local_sync_sent">你的数据已发送</string>
     <string name="local_sync_failed">同步失败</string>
-    <string name="local_sync_error_unreachable">无法连接到该设备。请在那台设备上打开 OwnTV → 设置 → 数据 → 本地同步，并开启同步模式。两台设备必须连接同一个 Wi-Fi。</string>
+    <string name="local_sync_error_unreachable">无法连接到该设备。请在那台设备上打开 OwnTV → 更多 → 本地同步，并开启同步模式。两台设备必须连接同一个 Wi-Fi。</string>
     <string name="local_sync_error_unauthorized">另一台设备拒绝了连接。可能是 PIN 码不对，或者它已忘记本机。</string>
     <string name="local_sync_error_bad_payload">无法读取收到的内容。如果使用了密码，请确认两台设备上的密码相同。</string>
     <string name="local_sync_error_unknown">出了点问题，请重试。</string>
@@ -1252,6 +1297,12 @@
     <string name="settings_nav_hide_after_desc">仅悬浮：焦点离开后导航栏等待多久再隐藏</string>
     <string name="settings_nav_widen">获得焦点时展开</string>
     <string name="settings_nav_widen_desc">固定且紧凑：导航栏获得焦点时在内容上方显示名称</string>
+    <string name="settings_nav_menu_labels">菜单标签</string>
+    <string name="settings_nav_menu_labels_desc">图标旁的版块名称:不显示、侧栏获得焦点时、始终显示</string>
+    <string name="settings_nav_menu_labels_focused">获得焦点时</string>
+    <string name="settings_nav_menu_labels_always">始终</string>
+    <string name="settings_nav_menu_labels_summary">标签:<xliff:g id="choice">%1$s</xliff:g></string>
+    <string name="settings_search_keywords_menu_labels">标签, 名称, 文字, 仅图标, 侧栏, 侧边栏, 菜单, 展开, 宽</string>
     <string name="settings_nav_menu_items">菜单项</string>
     <string name="settings_nav_menu_items_desc">动态：跟随播放列表内容 · 静态：自行选择</string>
     <string name="settings_nav_bar">导航栏</string>
@@ -1308,7 +1359,6 @@
     <string name="settings_part_guide_catchup">节目指南和回看</string>
     <string name="settings_vp_cat_controls_resume">控制与继续播放</string>
     <string name="settings_pinned_from">从“<xliff:g id="group">%1$s</xliff:g>”固定</string>
-    <string name="settings_forget">清除</string>
     <string name="settings_check_now">立即检查</string>
     <string name="settings_line_epg_offset">源的时间不准时平移整个节目指南</string>
     <string name="settings_line_reminders">提醒到时会发生什么</string>
@@ -1328,7 +1378,7 @@
     <string name="settings_line_guide_width">频道列表和时间轴</string>
     <string name="settings_line_browsing">记住上次的分类和条目</string>
     <string name="settings_line_home">选择、排序和筛选各行</string>
-    <string name="settings_line_content_menus">调整每个菜单里的操作</string>
+    <string name="settings_line_content_menus">调整或隐藏每个菜单里的操作</string>
     <string name="settings_line_remote_shortcuts">为遥控器空闲按键指定功能</string>
     <string name="settings_line_customize">隐藏与显示、重命名和排序</string>
     <string name="settings_line_metadata">电影和剧集的海报、剧情、演员和评分</string>
@@ -1342,13 +1392,12 @@
     <string name="settings_line_quick_live_preview">在直播电视中播放焦点频道</string>
     <string name="settings_line_preview_sound">直播预览中的声音</string>
     <string name="settings_line_quick_channel_numbers">在遥控器上输入数字换台</string>
-    <string name="settings_line_hdr">mpv 的高动态范围</string>
+    <string name="settings_line_prefer_sdr">流同时提供两种时用 SDR</string>
     <string name="settings_line_quick_autoplay">自动开始下一集</string>
     <string name="settings_line_live_engine">由哪个引擎打开频道，以及备用引擎</string>
     <string name="settings_line_saved_live_choices">你手动切换过的频道</string>
     <string name="settings_line_vod_engine">由哪个引擎打开电影和剧集</string>
     <string name="settings_line_saved_choices">你手动切换过的电影和剧集</string>
-    <string name="settings_line_learned_fixes">播放器针对每个提供商学到的内容</string>
     <string name="settings_line_external">VLC、MX Player… 按分区设置</string>
     <string name="settings_line_vod_buffer">电影提前加载多少</string>
     <string name="settings_line_vod_timeout">等待无响应的服务器</string>
@@ -1366,6 +1415,7 @@
     <string name="settings_line_night_mode">压低大声场景，提升对白</string>
     <string name="settings_line_leveling">所有频道音量一致</string>
     <string name="settings_line_audio_sync">让音频提前或延后</string>
+    <string name="settings_line_output_audio_delay">当前输出的额外延迟</string>
     <string name="settings_line_saved_audio_sync">你在播放器里记住的延迟</string>
     <string name="settings_line_audio_lang">流里有这条音轨时就播放它</string>
     <string name="settings_line_sub_lang">开启此语言的字幕</string>
@@ -1373,7 +1423,6 @@
     <string name="settings_title_fonts">字体和文字大小</string>
     <string name="settings_title_saved_live_choices">已保存的直播电视播放器选择</string>
     <string name="settings_title_saved_choices">已保存的播放器选择</string>
-    <string name="settings_title_learned_fixes">已学习的流修复</string>
     <string name="settings_title_tunneled">隧道播放</string>
     <string name="settings_title_saved_zoom">已保存的缩放</string>
     <string name="settings_title_saved_volume">已保存的音量</string>
@@ -1392,6 +1441,7 @@
     <string name="settings_line_autoplay">并接着播下一季</string>
     <string name="settings_line_tiles">每个画面都占一路流</string>
     <string name="settings_line_mini">大小和位置</string>
+    <string name="settings_line_pip">在小窗口中继续观看</string>
     <string name="settings_line_rec_reserve">绝不占满所有连接录制</string>
     <string name="settings_line_rec_watching">不占用第二路流</string>
     <string name="settings_line_rec_pre_roll">节目开始之前</string>
@@ -1434,6 +1484,7 @@
     <string name="settings_help_timeshift_window">在没有回看的频道上，“暂停和倒回直播电视”最多能倒回多久。越长，此设备存储中保留的频道内容越多。</string>
     <string name="settings_help_resume">“询问是否继续”会在电影或剧集有已保存位置时提供“继续”或“从头开始”。“总是继续”从上次停止处播放；“从不继续”从头开始。</string>
     <string name="settings_help_mini">浏览时在角落继续播放频道的小播放器。可选择大小和所在角落。</string>
+    <string name="settings_help_pip">视频全屏或在迷你播放器中播放时，按主页键或打开其他应用，视频会在电视其他画面上方的小窗口中继续播放。再次打开 OwnTV 可恢复全屏；关闭窗口即停止播放。多画面只在 OwnTV 内使用。</string>
     <string name="settings_key_palette">调色板</string>
     <string name="settings_live_preview_note">移动时变化就会显示在这里，无需离开该行。</string>
     <string name="settings_synced_at"><xliff:g id="when">%1$s</xliff:g>同步</string>

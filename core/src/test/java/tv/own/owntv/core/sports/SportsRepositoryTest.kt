@@ -19,11 +19,13 @@ import tv.own.owntv.core.sports.model.League
 import tv.own.owntv.core.sports.model.Match
 import tv.own.owntv.core.sports.model.MatchState
 import tv.own.owntv.core.sports.model.MatchSummary
+import tv.own.owntv.core.sports.model.Ranking
 import tv.own.owntv.core.sports.model.Sport
 import tv.own.owntv.core.sports.model.StandingsTable
 import tv.own.owntv.core.sports.model.Team
 import java.io.File
 import java.time.LocalDate
+import java.time.YearMonth
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SportsRepositoryTest {
@@ -52,6 +54,9 @@ class SportsRepositoryTest {
         override suspend fun summary(match: Match) = call("summary:${match.key}") { MatchSummary(match, emptyList(), emptyList(), emptyList()) }
         override suspend fun standings(league: League) = call("table:${league.key}") { StandingsTable(league.key, emptyList()) }
         override suspend fun teams(league: League): List<Team> = emptyList()
+        override suspend fun month(league: League, month: YearMonth) = MonthBoard(emptyList(), null)
+        override suspend fun rankings(league: League) = call("ranking:${league.key}") { Ranking(league.key, emptyList()) }
+        override suspend fun teamSchedule(league: League, teamId: String, fixtures: Boolean): List<Match> = emptyList()
 
         private suspend fun <T> call(name: String, result: () -> T): T {
             calls += name

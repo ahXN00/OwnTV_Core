@@ -29,20 +29,29 @@ internal object MpvAudioChannels {
     /** The PCM channel counts of the output media plays on; empty when that cannot be told. */
     fun outputPcmChannelCounts(context: Context): Set<Int> = runCatching {
         val am = context.getSystemService(AudioManager::class.java)
-        val device = if (Build.VERSION.SDK_INT >= 33) {
+        if (Build.VERSION.SDK_INT >= 33) {
             val media = AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).build()
-            am.getAudioDevicesForAttributes(media).firstOrNull()
+            am.getAudioDevicesForAttributes(media).firstOrNull()?.let(::pcmCounts) ?: emptySet()
         } else {
             // No routing query before Android 13: only an HDMI output is a known destination.
-            am.getDevices(AudioManager.GET_DEVICES_OUTPUTS).firstOrNull { it.type in HDMI_TYPES }
-        } ?: return@runCatching emptySet()
+            withoutRouting(am.getDevices(AudioManager.GET_DEVICES_OUTPUTS).firstOrNull { it.type in HDMI_TYPES }?.let(::pcmCounts))
+        }
+    }.getOrDefault(emptySet())
+
+    /**
+     * Before Android 13, from the HDMI output's counts — or, with no HDMI output at all, a TV playing on its
+     * own speakers, which are stereo. Left to auto-safe, mpv offered them up to 7.1: the "double speed, no
+     * sound" case the stereo latch exists to catch.
+     */
+    fun withoutRouting(hdmiCounts: Set<Int>?): Set<Int> = hdmiCounts ?: setOf(2)
+
+    private fun pcmCounts(device: AudioDeviceInfo): Set<Int> =
         if (Build.VERSION.SDK_INT >= 31) {
             device.audioProfiles.filter { it.format == AudioFormat.ENCODING_PCM_16BIT }
                 .flatMap { p -> p.channelMasks.map(Integer::bitCount) }.toSet()
         } else {
             device.channelCounts.toSet()
         }
-    }.getOrDefault(emptySet())
 
     // TYPE_HDMI_EARC (API 31) is only compared against, never called: an older device never reports it.
     @android.annotation.SuppressLint("InlinedApi")

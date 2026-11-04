@@ -16,6 +16,7 @@ import tv.own.owntv.core.database.entity.MovieEntity
 import tv.own.owntv.core.database.entity.SeriesEntity
 import tv.own.owntv.core.database.entity.SourceEntity
 import tv.own.owntv.core.model.MediaType
+import tv.own.owntv.core.network.HttpClient
 import tv.own.owntv.core.parser.XtCategory
 import tv.own.owntv.core.parser.XtreamClient
 import kotlin.coroutines.CoroutineContext
@@ -33,6 +34,7 @@ internal class XtreamSyncer(
 ) {
     suspend fun sync(s: SourceEntity, progress: SyncCounters, stats: SyncStatsCollector, contentTypes: SyncContentTypes) {
         val details = runCatching { xtream.fetchAccountDetails(s) }.getOrNull()
+        requireAccepted(details)
         if (details != null) {
             // Only a panel that actually answered gets to settle this: `details == null` is a network or
             // parse failure, and leaving the row UNKNOWN is the honest record of that.
@@ -41,9 +43,12 @@ internal class XtreamSyncer(
                 tv.own.owntv.core.model.HlsSupport.of(details.hlsSupported),
             )
             // The panel states its session limit up front; the app used to learn it only by failing a
-            // tune and reading the 458 back. Stored, so it also survives a restart.
-            support.sourceDao.updateMaxConnections(s.id, details.maxConnections)
-            if (details.maxConnections == 1) tv.own.owntv.core.player.LiveSessionLimit.singleSession(s.url)
+            // tune and reading the 458 back. Stored, so it also survives a restart. A limit the user
+            // measured (Re-test) is kept: it outranks the panel's number, which is why it was measured.
+            support.sourceDao.updateMaxConnectionsUnlessMeasured(s.id, details.maxConnections)
+            if (details.maxConnections == 1 && s.maxConnectionsProbedAt <= 0) {
+                tv.own.owntv.core.player.LiveSessionLimit.singleSession(s.url)
+            }
             // The zone its timeshift `start` is written in — catch-up's Automatic time zone.
             support.sourceDao.updateServerTimeZone(s.id, details.serverTimeZone)
         }
@@ -82,7 +87,7 @@ internal class XtreamSyncer(
                         archiveDays: Int,
                         directSource: String? ->
                         seenCategory(categoryId)
-                        ChannelEntity(
+                        tv.own.owntv.core.customize.ChannelNameCleanup.apply(s, ChannelEntity(
                             sourceId = s.id, categoryId = catMap[categoryId], name = name,
                             logoUrl = icon, streamUrl = xtream.liveUrl(s, streamId),
                             epgChannelId = epgChannelId, number = num, remoteId = streamId,
@@ -91,7 +96,7 @@ internal class XtreamSyncer(
                             // Stored, never tuned — the last-resort retry only. See the field's KDoc for
                             // why preferring it over `liveUrl` would break working channels.
                             directSource = directSource?.takeIf { it != xtream.liveUrl(s, streamId) },
-                        )
+                        ))
                     }
                     XtreamStreams(
                         bulk = { add -> xtream.streamLive(s, transform = toChannel, onItem = add, onProgress = SyncSupport.IgnoreByteProgress) },
@@ -512,5 +517,18 @@ internal class XtreamSyncer(
             seenRemoteIds: Set<String>,
         ): List<XtCategory> =
             if (seenRemoteIds.isEmpty()) emptyList() else categories.filter { it.id !in seenRemoteIds }
+
+        /**
+         * Fails the sync when the panel answered `user_info.auth: 0`. A panel that rejects the
+         * credentials still answers every list call — with an error object instead of an array, which
+         * reads as a complete, empty list — so without this the pass "succeeds" with nothing, gets
+         * stamped synced, and a later password fix never triggers a fetch. Shaped as an HTTP 401 so
+         * the playlist row shows the wrong-credentials message. `null` (no answer) is left alone.
+         */
+        internal fun requireAccepted(details: XtreamClient.XtAccountDetails?) {
+            if (details != null && !details.authOk) {
+                throw HttpClient.HttpStatusException(401, "HTTP 401: panel rejected the username or password")
+            }
+        }
     }
 }

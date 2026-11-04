@@ -92,6 +92,12 @@ class TimeshiftSession(
     /** The connection broke; the next piece follows a hole. */
     fun markGap() = synchronized(lock) { pendingGap = true }
 
+    /** Delete every saved piece but stay open: readers wait for the next piece, as at a new buffer's start. */
+    fun discardSaved() = synchronized(lock) {
+        dropAllLocked()
+        lock.notifyAll()
+    }
+
     fun beginPiece() = synchronized(lock) {
         finishOpenPieceLocked(durationMs = null)
         val now = clock()
@@ -232,7 +238,10 @@ class TimeshiftSession(
     private inner class Reader(fromIndex: Long?) : InputStream() {
         private var index = synchronized(lock) {
             val first = pieces.firstOrNull()?.index ?: 0L
-            val live = pieces.lastOrNull()?.let { newest ->
+            // After a hole (a parked buffer, a dropped connection) the live edge is the piece still to
+            // come. Starting on the last saved one would play it and then jump by the whole hole in the
+            // stream's own timestamps, which a player counts as buffered and waits out with no picture.
+            val live = if (pendingGap) nextIndex else pieces.lastOrNull()?.let { newest ->
                 val edge = minOf(newest.wallStartMs + durationOfLocked(newest), clock())
                 pieces.lastOrNull { it.wallStartMs <= edge }?.index ?: newest.index
             }

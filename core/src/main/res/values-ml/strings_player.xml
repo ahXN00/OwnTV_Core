@@ -22,6 +22,8 @@
     <string name="player_timeshift_resume_title">നിർത്തിയിടത്തുനിന്ന് തുടരണോ?</string>
     <string name="player_timeshift_resume_message">നിങ്ങൾ മാറിയിരുന്നപ്പോൾ ഈ ചാനൽ സംരക്ഷിച്ചു.</string>
     <string name="player_previous_channel">മുൻ ചാനൽ</string>
+    <string name="player_tool_sources">ഉറവിടങ്ങൾ</string>
+    <string name="player_sources_none">ഈ ചാനലിന്റെ മറ്റൊരു പതിപ്പും കണ്ടെത്തിയില്ല.</string>
     <string name="player_next_channel_in_list">അടുത്ത ചാനൽ</string>
     <string name="player_previous_channel_in_list">ലിസ്റ്റിലെ മുൻ ചാനൽ</string>
     <string name="player_live_scrub_at"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="programme">%2$s</xliff:g></string>
@@ -86,6 +88,7 @@
     <string name="player_time_remaining">−<xliff:g id="time">%1$s</xliff:g></string>
     <string name="player_switch_exo">ExoPlayer-ലേക്ക് മാറി</string>
     <string name="player_switch_mpv">MPV-ലേക്ക് മാറി</string>
+    <string name="player_smoothness_hint">ഈ ചാനലിൽ ഫ്രെയിമുകൾ നഷ്ടപ്പെടുന്നു. പ്ലെയർ MPV-ലേക്ക് മാറ്റിയാൽ ഇത് കൂടുതൽ സുഗമമായി പ്ലേ ചെയ്തേക്കാം.</string>
     <string name="player_error_image_subtitle_audio">ഈ വീഡിയോയുടെ ഓഡിയോ ഫോർമാറ്റിൽ ചിത്രാധിഷ്ഠിത സബ്‌ടൈറ്റിലുകൾ ലഭ്യമല്ല.</string>
     <string name="player_error_both_engines_exo_first">രണ്ട് വീഡിയോ എഞ്ചിനുകളിലും പ്ലേബാക്ക് പരാജയപ്പെട്ടു (ആദ്യം ExoPlayer, തുടർന്ന് mpv). ഫയൽ കേടായിരിക്കാം അല്ലെങ്കിൽ ഈ ടിവിക്ക് പ്ലേ ചെയ്യാനാകാത്ത ഫോർമാറ്റിലായിരിക്കാം.</string>
     <string name="player_error_both_engines_mpv_first">രണ്ട് വീഡിയോ എഞ്ചിനുകളിലും പ്ലേബാക്ക് പരാജയപ്പെട്ടു (mpv, ExoPlayer). ഫയൽ കേടായിരിക്കാം അല്ലെങ്കിൽ ഈ ടിവിക്ക് പ്ലേ ചെയ്യാനാകാത്ത ഫോർമാറ്റിലായിരിക്കാം. (<xliff:g id="error">%1$s</xliff:g>)</string>
@@ -108,6 +111,7 @@
     <string name="player_error_account_in_use">ഈ അക്കൗണ്ട് ഇതിനകം മറ്റൊരു ഉപകരണത്തിലോ ആപ്പിലോ പ്ലേ ചെയ്യുന്നുണ്ട്. അവിടെ നിർത്തിയ ശേഷം വീണ്ടും ശ്രമിക്കുക അമർത്തുക.</string>
     <string name="player_error_mpv_open_decode">ഈ ഫയൽ തുറക്കാനോ ഡീകോഡ് ചെയ്യാനോ mpv-ന് കഴിഞ്ഞില്ല.</string>
     <string name="player_error_mpv_stream_never_started">നിരവധി തവണ വീണ്ടും ശ്രമിച്ചിട്ടും mpv-ൽ സ്ട്രീം ആരംഭിച്ചില്ല.</string>
+    <string name="player_error_fairplay">ഈ സ്ട്രീം Apple FairPlay ഉപയോഗിച്ച് സംരക്ഷിച്ചതാണ്, Android ഉപകരണങ്ങളിൽ ഇത് പ്ലേ ചെയ്യാനാകില്ല. ഈ പ്ലേലിസ്റ്റ് Apple ഉപകരണങ്ങൾക്കായി തയ്യാറാക്കിയതാണ്.</string>
     <string name="player_error_surround">ഈ ഓഡിയോ ഔട്ട്‌പുട്ടിൽ സറൗണ്ട് ലഭ്യമല്ല — സ്റ്റീരിയോയിലേക്ക് മാറി.</string>
     <string name="player_error_hardware_fallback">ഈ സ്ട്രീമിന്റെ ഫോർമാറ്റ് ഈ ടിവിയിൽ ഹാർഡ്‌വെയർ ഉപയോഗിച്ച് ഡീകോഡ് ചെയ്യാനായില്ല, അതിനാൽ സോഫ്റ്റ്‌വെയർ ഡീകോഡിംഗിലേക്ക് മാറി — ടിവിയിൽ അമിതഭാരം സൃഷ്ടിക്കാതെ <xliff:g id="resolution">%1$s</xliff:g> നിലനിർത്താൻ അതിന് കഴിയില്ല. മറ്റ് 4K ഉള്ളടക്കങ്ങൾ ഈ ടിവിയിൽ ഇപ്പോഴും ശരിയായി പ്ലേ ചെയ്തേക്കാം; ഈ പ്രത്യേക സ്ട്രീമിന്റെ ഫോർമാറ്റാണ് പ്രശ്നം.</string>
     <string name="player_error_hardware_disabled">ഹാർഡ്‌വെയർ ഡീകോഡിംഗ് ഓഫാണ് — <xliff:g id="resolution">%1$s</xliff:g> വീഡിയോ കൈകാര്യം ചെയ്യാൻ സോഫ്റ്റ്‌വെയർ ഡീകോഡിംഗിന് കഴിയില്ല. ക്രമീകരണങ്ങൾ → വീഡിയോ പ്ലെയർ എന്നതിൽ ഇത് പ്രവർത്തനക്ഷമമാക്കുക.</string>
@@ -267,7 +271,7 @@
     <string name="player_subtitles_search_language_description">ഈ ഭാഷയിലെ സബ്ടൈറ്റിലുകൾ മാത്രമേ തിരയൽ ഫലങ്ങളിൽ ദൃശ്യമാകൂ. ഒരു തിരയലിനായി എല്ലാം കാണാൻ ഫലങ്ങളിൽ “എല്ലാ ഭാഷകളും” അമർത്താം.</string>
     <string name="player_subtitles_language_not_set">സജ്ജീകരിച്ചിട്ടില്ല</string>
     <string name="player_frame_rate_prompt_title">ഈ ചാനലിന് ജട്ടർ ഉണ്ടാകാം</string>
-    <string name="player_frame_rate_prompt_description">ഇത് <xliff:g id="fps">%1$d</xliff:g> fps-ൽ പ്ലേ ചെയ്യുമ്പോൾ നിങ്ങളുടെ ടിവി <xliff:g id="current_hz">%2$d</xliff:g> Hz-ൽ പ്രവർത്തിക്കുന്നു, അതിനാൽ ആ ഫ്രെയിമുകൾ ഒരേപോലെ കാണിക്കാൻ കഴിയില്ല — ചലനം ചെറുതായി ജെർക്കി ആയിരിക്കും.\n\nഓട്ടോ ഫ്രെയിം റേറ്റ് നിങ്ങൾ കാണുമ്പോൾ ടിവിയെ <xliff:g id="target_hz">%3$d</xliff:g> Hz-ലേക്ക് മാറ്റുകയും പിന്നീട് തിരികെ മാറ്റുകയും ചെയ്യും. ചില ടിവികൾ റേറ്റ് മാറുമ്പോൾ ഒരു നിമിഷം ബ്ലാങ്ക് ആകും; ക്രമീകരണങ്ങൾ → വീഡിയോ പ്ലെയറിൽ ചെന്ന് നിങ്ങൾക്ക് അത് വീണ്ടും ഓഫ് ചെയ്യാം.</string>
+    <string name="player_frame_rate_prompt_description">ഇത് <xliff:g id="fps">%1$d</xliff:g> fps-ൽ പ്ലേ ചെയ്യുമ്പോൾ നിങ്ങളുടെ ടിവി <xliff:g id="current_hz">%2$d</xliff:g> Hz-ൽ പ്രവർത്തിക്കുന്നു, അതിനാൽ ആ ഫ്രെയിമുകൾ ഒരേപോലെ കാണിക്കാൻ കഴിയില്ല — ചലനം ചെറുതായി ജെർക്കി ആയിരിക്കും.\n\nഓട്ടോ ഫ്രെയിം റേറ്റ് നിങ്ങൾ കാണുമ്പോൾ ടിവിയെ <xliff:g id="target_hz">%3$d</xliff:g> Hz-ലേക്ക് മാറ്റുകയും പിന്നീട് തിരികെ മാറ്റുകയും ചെയ്യും. ചില ടിവികൾ റേറ്റ് മാറുമ്പോൾ ഒരു നിമിഷം ബ്ലാങ്ക് ആകും; ക്രമീകരണങ്ങൾ → ചിത്രം → ഫ്രെയിം റേറ്റിൽ ചെന്ന് നിങ്ങൾക്ക് അത് വീണ്ടും ഓഫ് ചെയ്യാം.</string>
     <string name="player_frame_rate_turn_on">ഓണാക്കുക</string>
     <string name="player_reason_live_fallback">ലൈവ് പ്ലേബാക്ക് ഒരു ഫോൾബാക്കിലേക്ക് മാറി</string>
     <string name="player_reason_live_no_fallback">ലൈവ് പ്ലേബാക്ക് പരാജയപ്പെട്ടു — ഫോൾബാക്ക് ശേഷിക്കുന്നില്ല</string>

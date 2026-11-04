@@ -262,6 +262,10 @@ internal object CompanionHtml {
                 </div>
                 <label>${c.portalUrl.h()} <input name="portalUrl" placeholder="${c.portalExample.h()}" required></label>
                 <label>${context.getString(R.string.setup_mac_address).h()} <input name="mac" placeholder="${context.getString(R.string.setup_mac_example).h()}" required></label>
+                <div class="grid">
+                  <label>${context.getString(R.string.settings_username_optional).h()} <input name="user" autocomplete="username"></label>
+                  <label>${context.getString(R.string.settings_password_optional).h()} <input name="pass" type="password" autocomplete="current-password"></label>
+                </div>
                 <h3>${context.getString(R.string.setup_stalker_advanced_identity).h()}</h3>
                 <div class="grid">
                   <label>${context.getString(R.string.setup_stalker_serial_number_optional).h()} <input name="serialNumber"></label>

@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter
 import java.util.ArrayDeque
 import java.util.Locale
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 import tv.own.owntv.core.CoreBuildInfo
 import tv.own.owntv.core.player.PlayerBudget
 
@@ -44,8 +45,17 @@ object LiveDiagnosticsLog {
     private val timeFmt = DateTimeFormatter.ofPattern("MM-dd HH:mm:ss.SSS", Locale.US)
     // File I/O used to run on whichever thread logged the line — often the main thread. One thread, so
     // lines still land in the order they were logged.
-    private val writer = Executors.newSingleThreadExecutor { Thread(it, "owntv-diag-log").apply { isDaemon = true } }
+    private val writer = Executors.newSingleThreadScheduledExecutor { Thread(it, "owntv-diag-log").apply { isDaemon = true } }
     @Volatile private var logFile: File? = null
+
+    // Writer thread only. Opening, sizing and closing the file for every line cost a stat, an open and a
+    // close several times a second while a channel plays; one buffered writer, flushed shortly after the
+    // first unflushed line, does the same work in one write.
+    private var out: java.io.Writer? = null
+    /** Characters in the file — close enough to bytes for a soft cap, without encoding every line twice. */
+    private var written = 0L
+    private var flushPending = false
+    private const val FLUSH_DELAY_MS = 1_000L
 
     /** Call once with an app [Context] so events can be flushed to [file]. Safe to call repeatedly. */
     fun init(context: Context) {
@@ -75,13 +85,26 @@ object LiveDiagnosticsLog {
         val f = logFile ?: return
         writer.execute {
             runCatching {
-                if (f.exists() && f.length() > maxFileBytes) {
+                if (out == null) open(f)
+                if (written > maxFileBytes) {
+                    out?.close()
                     val kept = f.readLines().takeLast(MAX_EVENTS / 2)
                     f.writeText(kept.joinToString("\n") + "\n")
+                    open(f)
                 }
-                f.appendText(line + "\n")
-            }
+                out?.apply { write(line); write("\n") }
+                written += line.length + 1
+                if (!flushPending) {
+                    flushPending = true
+                    writer.schedule({ flushPending = false; runCatching { out?.flush() } }, FLUSH_DELAY_MS, TimeUnit.MILLISECONDS)
+                }
+            }.onFailure { runCatching { out?.close() }; out = null }
         }
+    }
+
+    private fun open(f: File) {
+        out = java.io.BufferedWriter(java.io.FileWriter(f, true))
+        written = f.length()
     }
 
     /** Oldest-first snapshot of the in-memory ring buffer (e.g. for an in-app export action). */

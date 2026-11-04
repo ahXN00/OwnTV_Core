@@ -22,6 +22,8 @@
     <string name="player_timeshift_resume_title">Pokračovat tam, kde jste skončili?</string>
     <string name="player_timeshift_resume_message">Tento kanál se během vaší nepřítomnosti ukládal.</string>
     <string name="player_previous_channel">Předchozí kanál</string>
+    <string name="player_tool_sources">Zdroje</string>
+    <string name="player_sources_none">Jiná verze tohoto kanálu nebyla nalezena.</string>
     <string name="player_next_channel_in_list">Další kanál</string>
     <string name="player_previous_channel_in_list">Předchozí kanál v seznamu</string>
     <string name="player_live_scrub_at"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="programme">%2$s</xliff:g></string>
@@ -86,6 +88,7 @@
     <string name="player_time_remaining">−<xliff:g id="time">%1$s</xliff:g></string>
     <string name="player_switch_exo">Přepnuto na ExoPlayer</string>
     <string name="player_switch_mpv">Přepnuto na mpv</string>
+    <string name="player_smoothness_hint">Tento kanál zahazuje snímky. Přepnutí přehrávače na mpv může zajistit plynulejší přehrávání.</string>
     <string name="player_error_image_subtitle_audio">Obrazové titulky nejsou pro zvukový formát tohoto videa dostupné.</string>
     <string name="player_error_both_engines_exo_first">Přehrávání selhalo v obou přehrávacích jádrech (nejprve ExoPlayer, poté mpv). Soubor může být poškozený nebo používat formát, který tento televizor nedokáže přehrát.</string>
     <string name="player_error_both_engines_mpv_first">Přehrávání selhalo v obou přehrávacích jádrech (mpv a ExoPlayer). Soubor může být poškozený nebo používat formát, který tento televizor nedokáže přehrát. (<xliff:g id="error">%1$s</xliff:g>)</string>
@@ -108,6 +111,7 @@
     <string name="player_error_account_in_use">Tento účet už přehrává na jiném zařízení nebo v jiné aplikaci. Zastavte přehrávání tam a stiskněte Zkusit znovu.</string>
     <string name="player_error_mpv_open_decode">mpv nedokázal tento soubor otevřít nebo dekódovat.</string>
     <string name="player_error_mpv_stream_never_started">Stream se v mpv nespustil ani po několika pokusech.</string>
+    <string name="player_error_fairplay">Tento stream je chráněn technologií Apple FairPlay, kterou zařízení s Androidem nedokážou přehrát. Seznam je určen pro zařízení Apple.</string>
     <string name="player_error_surround">Tento zvukový výstup nepodporuje prostorový zvuk — přepnuto na stereo.</string>
     <string name="player_error_hardware_fallback">Formát tohoto streamu se na tomto televizoru nepodařilo hardwarově dekódovat, proto se přešlo na softwarové dekódování — to však nedokáže plynule zpracovat <xliff:g id="resolution">%1$s</xliff:g> bez přetížení televizoru. Televizor přesto může jiný obsah v rozlišení 4K přehrávat bez problémů; příčinou je formát tohoto konkrétního streamu.</string>
     <string name="player_error_hardware_disabled">Hardwarové dekódování je vypnuté — softwarové dekódování nezvládne video v rozlišení <xliff:g id="resolution">%1$s</xliff:g>. Zapněte ho v nabídce Nastavení → Přehrávač videa.</string>
@@ -281,7 +285,7 @@
     <string name="player_subtitles_search_language_description">Ve výsledcích vyhledávání se zobrazí pouze titulky v tomto jazyce. Ve výsledcích můžete stále stisknout „Všechny jazyky“, abyste viděli vše pro jedno vyhledávání.</string>
     <string name="player_subtitles_language_not_set">Nenastaveno</string>
     <string name="player_frame_rate_prompt_title">U tohoto kanálu se může obraz trhat</string>
-    <string name="player_frame_rate_prompt_description">Vysílání běží rychlostí <xliff:g id="fps">%1$d</xliff:g> fps, zatímco vaše televize pracuje na <xliff:g id="current_hz">%2$d</xliff:g> Hz, a proto nemůže tyto snímky zobrazovat rovnoměrně – pohyb vypadá mírně trhaně.\n\nAutomatické přepínání snímkové frekvence přepne televizi na <xliff:g id="target_hz">%3$d</xliff:g> Hz, dokud se díváte, a poté ji vrátí zpět. U některých televizí se při změně frekvence obraz na chvíli zčerná; můžete to znovu vypnout v Nastavení → Přehrávač videa.</string>
+    <string name="player_frame_rate_prompt_description">Vysílání běží rychlostí <xliff:g id="fps">%1$d</xliff:g> fps, zatímco vaše televize pracuje na <xliff:g id="current_hz">%2$d</xliff:g> Hz, a proto nemůže tyto snímky zobrazovat rovnoměrně – pohyb vypadá mírně trhaně.\n\nAutomatické přepínání snímkové frekvence přepne televizi na <xliff:g id="target_hz">%3$d</xliff:g> Hz, dokud se díváte, a poté ji vrátí zpět. U některých televizí se při změně frekvence obraz na chvíli zčerná; můžete to znovu vypnout v Nastavení → Obraz → Snímková frekvence.</string>
     <string name="player_frame_rate_turn_on">Zapnout</string>
     <string name="player_reason_live_fallback">Přehrávání živého vysílání přešlo na záložní možnost</string>
     <string name="player_reason_live_no_fallback">Přehrávání živého vysílání selhalo — nezbývá žádná záložní možnost</string>

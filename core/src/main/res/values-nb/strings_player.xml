@@ -22,6 +22,8 @@
     <string name="player_timeshift_resume_title">Fortsette der du slapp?</string>
     <string name="player_timeshift_resume_message">Kanalen ble lagret mens du var borte.</string>
     <string name="player_previous_channel">Forrige kanal</string>
+    <string name="player_tool_sources">Kilder</string>
+    <string name="player_sources_none">Fant ingen annen versjon av denne kanalen.</string>
     <string name="player_next_channel_in_list">Neste kanal</string>
     <string name="player_previous_channel_in_list">Forrige kanal i listen</string>
     <string name="player_live_scrub_at"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="programme">%2$s</xliff:g></string>
@@ -86,6 +88,7 @@
     <string name="player_time_remaining">−<xliff:g id="time">%1$s</xliff:g></string>
     <string name="player_switch_exo">Byttet til ExoPlayer</string>
     <string name="player_switch_mpv">Byttet til MPV</string>
+    <string name="player_smoothness_hint">Denne kanalen mister bilder. Bytter du avspilleren til MPV, kan den gå jevnere.</string>
     <string name="player_error_image_subtitle_audio">Bildebaserte undertekster er ikke tilgjengelige for lydformatet i denne videoen.</string>
     <string name="player_error_both_engines_exo_first">Avspillingen mislyktes med begge videomotorene (først ExoPlayer, deretter mpv). Filen kan være skadet eller bruke et format denne TV-en ikke kan spille av.</string>
     <string name="player_error_both_engines_mpv_first">Avspillingen mislyktes med begge videomotorene (mpv og ExoPlayer). Filen kan være skadet eller bruke et format denne TV-en ikke kan spille av. (<xliff:g id="error">%1$s</xliff:g>)</string>
@@ -108,6 +111,7 @@
     <string name="player_error_account_in_use">Denne kontoen spiller allerede på en annen enhet eller app. Stopp den der, og trykk deretter på Prøv igjen.</string>
     <string name="player_error_mpv_open_decode">mpv kunne ikke åpne eller dekode denne filen.</string>
     <string name="player_error_mpv_stream_never_started">Strømmen startet aldri i mpv etter flere forsøk.</string>
+    <string name="player_error_fairplay">Denne strømmen er beskyttet med Apple FairPlay, som Android-enheter ikke kan spille av. Spillelisten er laget for Apple-enheter.</string>
     <string name="player_error_surround">Denne lydutgangen støtter ikke surroundlyd – byttet til stereo.</string>
     <string name="player_error_hardware_fallback">Formatet til denne strømmen kunne ikke maskinvaredekodes på denne TV-en, så den gikk over til programvaredekoding – som ikke kan håndtere <xliff:g id="resolution">%1$s</xliff:g> uten å overbelaste TV-en. TV-en kan fortsatt spille av annet 4K-innhold uten problemer. Det er formatet til akkurat denne strømmen som er problemet.</string>
     <string name="player_error_hardware_disabled">Maskinvaredekoding er slått av – programvaredekoding kan ikke håndtere video i <xliff:g id="resolution">%1$s</xliff:g>. Slå det på under Innstillinger → Videoavspiller.</string>
@@ -267,7 +271,7 @@
     <string name="player_subtitles_search_language_description">Bare undertekster på dette språket vises i søkeresultatene. Du kan likevel trykke på «Alle språk» i resultatene for å se alt for ett søk.</string>
     <string name="player_subtitles_language_not_set">Ikke angitt</string>
     <string name="player_frame_rate_prompt_title">Denne kanalen kan hakke</string>
-    <string name="player_frame_rate_prompt_description">Den spilles av i <xliff:g id="fps">%1$d</xliff:g> fps mens TV-en kjører i <xliff:g id="current_hz">%2$d</xliff:g> Hz, som ikke kan vise disse bildene jevnt – bevegelser ser litt hakkete ut.\n\nAutomatisk bildefrekvens bytter TV-en til <xliff:g id="target_hz">%3$d</xliff:g> Hz mens du ser på, og setter den tilbake etterpå. Noen TV-er blir svarte et øyeblikk når frekvensen endres; du kan slå den av igjen i Innstillinger → Videoavspiller.</string>
+    <string name="player_frame_rate_prompt_description">Den spilles av i <xliff:g id="fps">%1$d</xliff:g> fps mens TV-en kjører i <xliff:g id="current_hz">%2$d</xliff:g> Hz, som ikke kan vise disse bildene jevnt – bevegelser ser litt hakkete ut.\n\nAutomatisk bildefrekvens bytter TV-en til <xliff:g id="target_hz">%3$d</xliff:g> Hz mens du ser på, og setter den tilbake etterpå. Noen TV-er blir svarte et øyeblikk når frekvensen endres; du kan slå den av igjen i Innstillinger → Bilde → Bildefrekvens.</string>
     <string name="player_frame_rate_turn_on">Slå på</string>
     <string name="player_reason_live_fallback">Direkteavspillingen byttet til en fallback</string>
     <string name="player_reason_live_no_fallback">Direkteavspillingen feilet — ingen fallback gjenstår</string>

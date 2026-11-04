@@ -267,20 +267,23 @@ class HomeFeedReader(
                 }
             }
 
+            // Customize renames go on last: every key and guide lookup above ran on the provider's name,
+            // which is what a channel without a provider id is keyed by.
+            val names = Names(hidden.live, hidden.movie, hidden.series)
             HomeFeed(
                 trendingItems = trending,
                 trendingPreferredLanguage = preferredLanguage,
                 trendingSeasonCounts = trendingSeasonCounts,
-                heroItems = heroItems,
-                continueMovies = movies,
-                continueSeries = series,
-                recentLive = live,
-                favoriteLive = favLive,
-                favoriteMovies = favMoviesAsync.await(),
-                favoriteSeries = favSeriesAsync.await(),
+                heroItems = heroItems.map { names.of(it) },
+                continueMovies = movies.map { names.ofContinuation(it) },
+                continueSeries = series.map { names.ofContinuation(it) },
+                recentLive = live.map { names.of(it) },
+                favoriteLive = favLive.map { names.of(it) },
+                favoriteMovies = favMoviesAsync.await().map { names.of(it) },
+                favoriteSeries = favSeriesAsync.await().map { names.of(it) },
                 config = config,
-                recentGuide = recentGuideAsync.await(),
-                favoriteGuide = favoriteGuideAsync.await(),
+                recentGuide = recentGuideAsync.await().let { it.copy(channels = it.channels.map { ch -> names.of(ch) }) },
+                favoriteGuide = favoriteGuideAsync.await().let { it.copy(channels = it.channels.map { ch -> names.of(ch) }) },
             )
         }
     }
@@ -300,9 +303,9 @@ class HomeFeedReader(
     }
 
     private suspend fun hiddenState(profileId: Long, sourceIds: List<Long>): HiddenState {
-        val live = customize.observe(profileId, MediaType.LIVE).first()
-        val movie = customize.observe(profileId, MediaType.MOVIE).first()
-        val series = customize.observe(profileId, MediaType.SERIES).first()
+        val live = customize.observeVisible(profileId, MediaType.LIVE).first()
+        val movie = customize.observeVisible(profileId, MediaType.MOVIE).first()
+        val series = customize.observeVisible(profileId, MediaType.SERIES).first()
         val isKidsProfile = profileDao.getById(profileId)?.isKids == true
         suspend fun catIds(type: MediaType, hiddenKeys: Set<String>): Set<Long> {
             if ((hiddenKeys.isEmpty() && !isKidsProfile) || sourceIds.isEmpty()) return emptySet()
@@ -318,6 +321,35 @@ class HomeFeedReader(
             movieCats = catIds(MediaType.MOVIE, movie.hiddenCategories),
             seriesCats = catIds(MediaType.SERIES, series.hiddenCategories),
         )
+    }
+
+    /** The names the user gave items in Customize, put onto what Home draws. */
+    private inner class Names(
+        val live: SectionCustomizations,
+        val movie: SectionCustomizations,
+        val series: SectionCustomizations,
+    ) {
+        fun of(ch: ChannelEntity) = ch.copy(name = live.displayName(ch))
+        fun of(m: MovieEntity) = m.copy(name = movie.displayName(m))
+        fun of(s: SeriesEntity) = s.copy(name = series.displayName(s))
+
+        fun of(hero: HeroItem): HeroItem = when (hero) {
+            is HeroItem.MovieHero -> hero.copy(movie = of(hero.movie))
+            is HeroItem.SeriesHero -> hero.copy(series = of(hero.series))
+            is HeroItem.LiveHero -> hero.copy(channel = of(hero.channel))
+        }
+
+        /** A film's title, or a show's — and the episode title too where it fell back to the show's. */
+        suspend fun ofContinuation(item: LauncherContinuationItem): LauncherContinuationItem = when (item.kind) {
+            LauncherContinuationKind.MOVIE -> if (movie.itemNames.isEmpty()) item else
+                movieDao.getById(item.sourceItemId)?.let { item.copy(title = movie.displayName(it)) } ?: item
+            LauncherContinuationKind.EPISODE -> if (series.itemNames.isEmpty()) item else
+                seriesDao.getEpisodeById(item.targetItemId)?.let { seriesDao.getSeriesById(it.seriesId) }?.let { s ->
+                    val shown = series.displayName(s)
+                    item.copy(containerTitle = shown, title = if (item.title == s.name) shown else item.title)
+                } ?: item
+            LauncherContinuationKind.LIVE -> item
+        }
     }
 
     private fun isChannelHidden(ch: ChannelEntity, h: HiddenState): Boolean =

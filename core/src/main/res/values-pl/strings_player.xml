@@ -22,6 +22,8 @@
     <string name="player_timeshift_resume_title">Kontynuować od miejsca, w którym skończono?</string>
     <string name="player_timeshift_resume_message">Ten kanał był zapisywany podczas Twojej nieobecności.</string>
     <string name="player_previous_channel">Poprzedni kanał</string>
+    <string name="player_tool_sources">Źródła</string>
+    <string name="player_sources_none">Nie znaleziono innej wersji tego kanału.</string>
     <string name="player_next_channel_in_list">Następny kanał</string>
     <string name="player_previous_channel_in_list">Poprzedni kanał na liście</string>
     <string name="player_live_scrub_at"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="programme">%2$s</xliff:g></string>
@@ -86,6 +88,7 @@
     <string name="player_time_remaining">−<xliff:g id="time">%1$s</xliff:g></string>
     <string name="player_switch_exo">Przełączono na ExoPlayer</string>
     <string name="player_switch_mpv">Przełączono na mpv</string>
+    <string name="player_smoothness_hint">Ten kanał gubi klatki. Przełączenie odtwarzacza na mpv może poprawić płynność.</string>
     <string name="player_error_image_subtitle_audio">Napisy graficzne nie są dostępne dla formatu dźwięku tego materiału wideo.</string>
     <string name="player_error_both_engines_exo_first">Odtwarzanie nie powiodło się w obu silnikach wideo (najpierw ExoPlayer, potem mpv). Plik może być uszkodzony lub używać formatu, którego ten telewizor nie obsługuje.</string>
     <string name="player_error_both_engines_mpv_first">Odtwarzanie nie powiodło się w obu silnikach wideo (mpv i ExoPlayer). Plik może być uszkodzony lub używać formatu, którego ten telewizor nie obsługuje. (<xliff:g id="error">%1$s</xliff:g>)</string>
@@ -108,6 +111,7 @@
     <string name="player_error_account_in_use">To konto już odtwarza na innym urządzeniu lub w innej aplikacji. Zatrzymaj odtwarzanie tam, a potem naciśnij Spróbuj ponownie.</string>
     <string name="player_error_mpv_open_decode">mpv nie mógł otworzyć ani zdekodować tego pliku.</string>
     <string name="player_error_mpv_stream_never_started">Po kilku próbach strumień nadal nie uruchomił się w mpv.</string>
+    <string name="player_error_fairplay">Ten strumień jest chroniony przez Apple FairPlay, którego urządzenia z Androidem nie potrafią odtworzyć. Lista jest przeznaczona dla urządzeń Apple.</string>
     <string name="player_error_surround">To wyjście audio nie obsługuje dźwięku przestrzennego — przełączono na stereo.</string>
     <string name="player_error_hardware_fallback">Formatu tego strumienia nie udało się zdekodować sprzętowo na tym telewizorze, dlatego użyto dekodowania programowego — które nie może płynnie obsłużyć <xliff:g id="resolution">%1$s</xliff:g> bez przeciążenia telewizora. Telewizor może nadal bez problemu odtwarzać inne treści 4K; problem dotyczy formatu tego konkretnego strumienia.</string>
     <string name="player_error_hardware_disabled">Dekodowanie sprzętowe jest wyłączone — dekodowanie programowe nie obsłuży materiału wideo <xliff:g id="resolution">%1$s</xliff:g>. Włącz je w Ustawienia → Odtwarzacz wideo.</string>
@@ -281,7 +285,7 @@
     <string name="player_subtitles_search_language_description">W wynikach wyszukiwania pojawiają się tylko napisy w tym języku. Nadal możesz nacisnąć „Wszystkie języki” w wynikach, aby zobaczyć wszystko dla jednego wyszukiwania.</string>
     <string name="player_subtitles_language_not_set">Nie ustawiono</string>
     <string name="player_frame_rate_prompt_title">Ten kanał może mieć niepłynny ruch</string>
-    <string name="player_frame_rate_prompt_description">Odtwarza z prędkością <xliff:g id="fps">%1$d</xliff:g> fps, podczas gdy telewizor pracuje z częstotliwością <xliff:g id="current_hz">%2$d</xliff:g> Hz, co uniemożliwia równomierne wyświetlanie tych klatek — ruch wygląda na lekko szarpany.\n\nAutomatyczne dopasowanie częstotliwości odświeżania przełącza telewizor na <xliff:g id="target_hz">%3$d</xliff:g> Hz podczas oglądania, a po zakończeniu przywraca poprzednie ustawienie. Niektóre telewizory na chwilę wygaszają obraz przy zmianie częstotliwości; możesz ją ponownie wyłączyć w Ustawieniach → Odtwarzacz wideo.</string>
+    <string name="player_frame_rate_prompt_description">Odtwarza z prędkością <xliff:g id="fps">%1$d</xliff:g> fps, podczas gdy telewizor pracuje z częstotliwością <xliff:g id="current_hz">%2$d</xliff:g> Hz, co uniemożliwia równomierne wyświetlanie tych klatek — ruch wygląda na lekko szarpany.\n\nAutomatyczne dopasowanie częstotliwości odświeżania przełącza telewizor na <xliff:g id="target_hz">%3$d</xliff:g> Hz podczas oglądania, a po zakończeniu przywraca poprzednie ustawienie. Niektóre telewizory na chwilę wygaszają obraz przy zmianie częstotliwości; możesz ją ponownie wyłączyć w Ustawieniach → Obraz → Liczba klatek.</string>
     <string name="player_frame_rate_turn_on">Włącz</string>
     <string name="player_reason_live_fallback">Odtwarzanie na żywo przełączono na wariant zapasowy</string>
     <string name="player_reason_live_no_fallback">Odtwarzanie na żywo nie powiodło się – nie pozostał żaden wariant zapasowy</string>

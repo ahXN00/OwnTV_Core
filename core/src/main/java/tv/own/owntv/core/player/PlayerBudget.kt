@@ -22,8 +22,8 @@ data class PlayerBudget(
      *  intermediate is ~64 MB each; rgba8 halves that, invisible on 8-bit panels). */
     val lowSpec: Boolean,
     /**
-     * The most a film's forward buffer may hold when the user picked a Film buffer (Settings → Video
-     * player), in either engine; ExoPlayer is held lower still, to a quarter of the Java heap, because it
+     * The most a film's forward buffer may hold when the user picked a Film buffer (Settings → Player
+     * → Streaming), in either engine; ExoPlayer is held lower still, to a quarter of the Java heap, because it
      * buffers there rather than in native memory (`SmartBuffer.exoHeapCapBytes`). Auto never reaches it:
      * Auto keeps exactly [demuxerMaxBytes] on mpv and ExoPlayer's tier target. 0 (the default) means "no raise", so the tier's own bytes stay the ceiling
      * for any caller that doesn't set it. See `SmartBuffer` in player-core.

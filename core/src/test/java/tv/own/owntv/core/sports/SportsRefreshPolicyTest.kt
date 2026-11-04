@@ -105,6 +105,32 @@ class SportsRefreshPolicyTest {
     }
 
     @Test
+    fun `league page - a ranking once for racing and tennis, nothing for a cup's empty table`() {
+        assertEquals(setOf(Feed.Rankings("racing/f1")), policy.plan(setOf(Demand.LeaguePage("racing/f1")), emptySet(), emptyMap(), t0).fetch)
+        assertEquals(setOf(Feed.Rankings("racing/irl")), policy.plan(setOf(Demand.LeaguePage("racing/irl")), emptySet(), emptyMap(), t0).fetch)
+        assertEquals(setOf(Feed.Rankings("tennis/atp")), policy.plan(setOf(Demand.LeaguePage("tennis/atp")), emptySet(), emptyMap(), t0).fetch)
+        assertEquals(emptySet<Feed>(), policy.plan(setOf(Demand.LeaguePage("soccer/eng.fa")), emptySet(), emptyMap(), t0).fetch)
+        val had = feeds(Feed.Rankings("racing/f1") to fetched(t0))
+        assertEquals("not again once the board has it", emptySet<Feed>(), policy.plan(setOf(Demand.LeaguePage("racing/f1")), emptySet(), had, t0 + hour).fetch)
+    }
+
+    @Test
+    fun `calendar and leagues tab - as the hub`() {
+        val feeds = feeds(Feed.Scoreboard(bl) to fetched(t0, match("1", MatchState.IN)), Feed.Scoreboard(pl) to fetched(t0, match("2", MatchState.POST, feed = pl)))
+        listOf(Demand.Calendar, Demand.Leagues).forEach { d ->
+            assertEquals(policy.plan(setOf(Demand.Hub), setOf(bl, pl), feeds, t0 + 30_000), policy.plan(setOf(d), setOf(bl, pl), feeds, t0 + 30_000))
+            assertEquals(setOf(Feed.Scoreboard(bl)), policy.plan(setOf(d), setOf(bl, pl), feeds, t0 + 30_000).fetch)
+        }
+    }
+
+    @Test
+    fun `team page - its league live, and the table once`() {
+        assertEquals(setOf(Feed.Standings(pl)), policy.plan(setOf(Demand.TeamPage(pl)), emptySet(), feeds(Feed.Scoreboard(pl) to fetched(t0)), t0 + 1).fetch)
+        val live = feeds(Feed.Scoreboard(pl) to fetched(t0, match("2", MatchState.IN, feed = pl)), Feed.Standings(pl) to fetched(t0))
+        assertEquals(setOf(Feed.Scoreboard(pl)), policy.plan(setOf(Demand.TeamPage(pl)), emptySet(), live, t0 + 30_000).fetch)
+    }
+
+    @Test
     fun `player score - that one league while live, woken at kick-off, nothing after full time`() {
         val m = match("1", MatchState.IN)
         val live = feeds(Feed.Scoreboard(bl) to fetched(t0, m))

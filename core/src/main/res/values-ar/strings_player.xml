@@ -22,6 +22,8 @@
     <string name="player_timeshift_resume_title">المتابعة من حيث توقفت؟</string>
     <string name="player_timeshift_resume_message">حُفظت هذه القناة أثناء غيابك.</string>
     <string name="player_previous_channel">القناة السابقة</string>
+    <string name="player_tool_sources">المصادر</string>
+    <string name="player_sources_none">لم يُعثر على نسخة أخرى من هذه القناة.</string>
     <string name="player_next_channel_in_list">القناة التالية</string>
     <string name="player_previous_channel_in_list">القناة السابقة في القائمة</string>
     <string name="player_live_scrub_at"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="programme">%2$s</xliff:g></string>
@@ -86,6 +88,7 @@
     <string name="player_time_remaining">−<xliff:g id="time">%1$s</xliff:g></string>
     <string name="player_switch_exo">تم التبديل إلى ExoPlayer</string>
     <string name="player_switch_mpv">تم التبديل إلى mpv</string>
+    <string name="player_smoothness_hint">هذه القناة تفقد إطارات. قد يؤدي التبديل إلى مشغّل mpv إلى تشغيلها بسلاسة أكبر.</string>
     <string name="player_error_image_subtitle_audio">الترجمات الصورية غير متاحة مع تنسيق صوت هذا الفيديو.</string>
     <string name="player_error_both_engines_exo_first">فشل التشغيل على كلا محرّكي الفيديو (ExoPlayer، ثم mpv). قد يكون الملف تالفًا أو يستخدم تنسيقًا لا يستطيع هذا التلفزيون تشغيله.</string>
     <string name="player_error_both_engines_mpv_first">فشل التشغيل على كلا محرّكي الفيديو (mpv وExoPlayer). قد يكون الملف تالفًا أو يستخدم تنسيقًا لا يستطيع هذا التلفزيون تشغيله. (<xliff:g id="error">%1$s</xliff:g>)</string>
@@ -108,6 +111,7 @@
     <string name="player_error_account_in_use">هذا الحساب قيد التشغيل بالفعل على جهاز أو تطبيق آخر. أوقفه هناك، ثم اضغط على إعادة المحاولة.</string>
     <string name="player_error_mpv_open_decode">تعذّر على mpv فتح هذا الملف أو فك ترميزه.</string>
     <string name="player_error_mpv_stream_never_started">لم يبدأ البث في mpv بعد عدة محاولات.</string>
+    <string name="player_error_fairplay">هذا البث محمي بتقنية Apple FairPlay التي لا تستطيع أجهزة Android تشغيلها. قائمة التشغيل هذه مخصّصة لأجهزة Apple.</string>
     <string name="player_error_surround">لا يدعم مخرج الصوت هذا الصوت المحيطي — تم التبديل إلى صوت ستيريو.</string>
     <string name="player_error_hardware_fallback">تعذّر فك ترميز تنسيق هذا البث بالأجهزة على هذا التلفزيون، لذا تم الرجوع إلى فك الترميز بالبرامج — الذي لا يستطيع الحفاظ على تشغيل <xliff:g id="resolution">%1$s</xliff:g> دون تحميل التلفزيون فوق طاقته. قد يظل التلفزيون قادرًا على تشغيل محتوى 4K آخر دون مشكلة؛ تنسيق هذا البث تحديدًا هو السبب.</string>
     <string name="player_error_hardware_disabled">فك الترميز بالأجهزة متوقف — ولا يستطيع فك الترميز بالبرامج معالجة فيديو بدقة <xliff:g id="resolution">%1$s</xliff:g>. فعّله من الإعدادات ← مشغّل الفيديو.</string>
@@ -295,7 +299,7 @@
     <string name="player_subtitles_search_language_description">تظهر فقط الترجمات بهذه اللغة في نتائج البحث. ويمكنك أيضًا الضغط على «كل اللغات» في النتائج لرؤية كل شيء في بحث واحد.</string>
     <string name="player_subtitles_language_not_set">غير محدد</string>
     <string name="player_frame_rate_prompt_title">قد تعاني هذه القناة من تقطيع الحركة</string>
-    <string name="player_frame_rate_prompt_description">تعمل القناة بمعدل <xliff:g id="fps">%1$d</xliff:g> إطارًا في الثانية بينما يعمل تلفزيونك على <xliff:g id="current_hz">%2$d</xliff:g> هرتز، وهو ما لا يستطيع عرض هذه الإطارات بشكل متساوٍ — لذا تبدو الحركة متقطعة قليلًا.\n\nيعمل التبديل التلقائي لمعدل الإطارات على ضبط التلفزيون على <xliff:g id="target_hz">%3$d</xliff:g> هرتز أثناء المشاهدة، ثم يعيده إلى حالته بعد ذلك. تتحول شاشة بعض أجهزة التلفزيون إلى الأسود للحظة عند تغيّر المعدل؛ يمكنك إيقاف هذه الميزة مرة أخرى من الإعدادات ← مشغّل الفيديو.</string>
+    <string name="player_frame_rate_prompt_description">تعمل القناة بمعدل <xliff:g id="fps">%1$d</xliff:g> إطارًا في الثانية بينما يعمل تلفزيونك على <xliff:g id="current_hz">%2$d</xliff:g> هرتز، وهو ما لا يستطيع عرض هذه الإطارات بشكل متساوٍ — لذا تبدو الحركة متقطعة قليلًا.\n\nيعمل التبديل التلقائي لمعدل الإطارات على ضبط التلفزيون على <xliff:g id="target_hz">%3$d</xliff:g> هرتز أثناء المشاهدة، ثم يعيده إلى حالته بعد ذلك. تتحول شاشة بعض أجهزة التلفزيون إلى الأسود للحظة عند تغيّر المعدل؛ يمكنك إيقاف هذه الميزة مرة أخرى من الإعدادات ← الصورة ← معدل الإطارات.</string>
     <string name="player_frame_rate_turn_on">تشغيل</string>
     <string name="player_reason_live_fallback">تم تحويل التشغيل المباشر إلى خيار بديل</string>
     <string name="player_reason_live_no_fallback">فشل التشغيل المباشر — لا يوجد أي خيار بديل متبقٍ</string>

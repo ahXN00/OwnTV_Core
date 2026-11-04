@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Vlastní obrázek</string>
     <string name="profiles_kids">Dětský profil</string>
     <string name="profiles_kids_description">Zjednodušené a bezpečné procházení</string>
+    <string name="profiles_allow_downloads">Povolit stahování</string>
+    <string name="profiles_allow_downloads_description">Vypnuto skryje u tohoto profilu všechna tlačítka stahování</string>
     <string name="profiles_remove_pin">Odstranit zámek PIN</string>
     <string name="profiles_no_pin">Tento profil se otevírá bez kódu PIN</string>
     <string name="profiles_change_pin">Změnit PIN (prázdné = ponechat)</string>
@@ -45,6 +47,8 @@
     <string name="search_go_to_movie">Přejít na film</string>
     <string name="search_clear_recent">Vymazat nedávná hledání</string>
     <string name="search_field_hint">Kanály, filmy a seriály</string>
+    <string name="search_voice">Hlasové vyhledávání</string>
+    <string name="search_voice_prompt">Řekněte kanál, film nebo seriál</string>
     <string name="search_card_title">Najděte cokoli ve svých playlistech</string>
     <string name="search_card_body">Kanály, filmy a seriály ze všech zobrazených playlistů. Vyberte výsledek a přejděte rovnou k němu – tam ho přehrajete, stáhnete nebo otevřete jeho možnosti. Najde i televizní pořady, které běží teď nebo později dnes, podle jejich názvu.</string>
     <string name="search_nothing_found">Pro „<xliff:g id="query">%1$s</xliff:g>“ nic nenalezeno</string>
@@ -67,6 +71,13 @@
     <string name="launcher_recent_live_description">Nedávno sledované kanály živého vysílání</string>
     <string name="launcher_movie_type">Film</string>
     <string name="launcher_episode_number">Epizoda <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Načítání knihovny · zatím <xliff:g id="count">%1$s</xliff:g> titul</item>
+        <item quantity="few">Načítání knihovny · zatím <xliff:g id="count">%1$s</xliff:g> tituly</item>
+        <item quantity="many">Načítání knihovny · zatím <xliff:g id="count">%1$s</xliff:g> titulů</item>
+        <item quantity="other">Načítání knihovny · zatím <xliff:g id="count">%1$s</xliff:g> titulů</item>
+    </plurals>
+    <string name="home_library_loading_trending">Sekce Právě populární se zobrazí, jak se bude knihovna plnit.</string>
     <string name="home_no_preview">Zatím není k dispozici žádný náhled.</string>
     <string name="home_no_rows">Všechny řádky na domovské obrazovce jsou skryté.</string>
     <string name="home_enable_rows">Řádky znovu zapnete v Nastavení → Domovská obrazovka.</string>
@@ -211,6 +222,7 @@
     <string name="recording_group_missed">Zmeškáno</string>
     <string name="recording_record">Nahrát</string>
     <string name="recording_stop">Zastavit nahrávání</string>
+    <string name="recording_delete_message">Odstraní nahrávku a její soubor z tohoto zařízení. Tuto akci nelze vrátit zpět.</string>
     <string name="recording_record_series">Nahrávat každé uvedení</string>
     <string name="recording_stop_series">Přestat nahrávat každé uvedení</string>
     <string name="recording_from_archive">Nahrát z archivu</string>
@@ -223,6 +235,7 @@
     <string name="recording_scheduled_for">Nahraje se <xliff:g id="time">%1$s</xliff:g></string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line">Nahrává se <xliff:g id="title">%1$s</xliff:g></string>
+    <string name="recording_pill_line_locked">Nahrávání z uzamčené kategorie</string>
     <string name="recording_clash_with">Koliduje s <xliff:g id="programme">%1$s</xliff:g></string>
     <string name="recording_settings_group">Nahrávání</string>
     <string name="settings_recording_reserve">Ponechat jeden stream volný pro sledování</string>
@@ -311,6 +324,15 @@
     <string name="sports_starting_soon">Brzy začíná</string>
     <string name="sports_hint_match_page">Stránka zápasu</string>
     <string name="sports_hint_follow_remind">Sledovat · Připomenout</string>
+    <string name="sports_hint_day_matches">Zápasy dne</string>
+    <string name="sports_hint_day">Den</string>
+    <string name="sports_hint_week">Týden</string>
+    <string name="sports_hint_show_score">Zobrazit skóre</string>
+    <string name="sports_hint_back_to_day">Zpět na den</string>
+    <string name="sports_hint_open_league">Otevřít soutěž</string>
+    <string name="sports_hint_sport_chips">Tlačítka sportů</string>
+    <string name="sports_hint_league_chips">Tlačítka soutěží</string>
+    <string name="sports_hint_follow_unfollow">Sledovat · Přestat sledovat</string>
     <string name="sports_reminder_set">Připomínka</string>
     <string name="sports_until">do <xliff:g id="time">%1$s</xliff:g></string>
     <string name="sports_set"><xliff:g id="set">%1$d</xliff:g>. set</string>
@@ -416,6 +438,44 @@
     <string name="sports_switch_channel">Přepnout kanál</string>
     <string name="sports_tab_fixtures">Program</string>
     <string name="sports_tab_results">Výsledky</string>
+    <string name="sports_tab_scores">Živě</string>
+    <string name="sports_tab_calendar">Kalendář</string>
+    <string name="sports_tab_leagues">Soutěže</string>
+    <string name="sports_previous_month">Předchozí měsíc</string>
+    <string name="sports_next_month">Další měsíc</string>
+    <string name="sports_next">Další: <xliff:g id="match">%1$s</xliff:g></string>
+    <string name="sports_next_badge">Další</string>
+    <string name="sports_no_table_series">Bez tabulky — série se mění každý týden</string>
+    <string name="sports_follow_league">Sledovat soutěž</string>
+    <string name="sports_unfollow_league">Přestat sledovat soutěž</string>
+    <string name="sports_no_matches_on"><xliff:g id="day">%1$s</xliff:g>: ve vašich sportech žádné zápasy</string>
+    <string name="sports_nothing_on_day">V tento den nic</string>
+    <string name="sports_nothing_in_sport"><xliff:g id="sport">%1$s</xliff:g>: v tento den nic</string>
+    <string name="sports_change_leagues_hint">Soutěže přidáte nebo odeberete v Nastavení → Sport</string>
+    <string name="sports_loading_month">Načítání: <xliff:g id="month">%1$s</xliff:g>…</string>
+    <string name="sports_offline_saved">Zobrazuje se stav uložený <xliff:g id="time">%1$s</xliff:g> — ESPN není dostupné</string>
+    <string name="sports_team_page">Stránka týmu</string>
+    <string name="sports_next_match">Další zápas</string>
+    <string name="sports_last_five">Posledních pět</string>
+    <string name="sports_league_position">Pozice v tabulce</string>
+    <string name="sports_in_my_teams">V Mých týmech</string>
+    <string name="sports_open_match_page">Otevřít stránku zápasu</string>
+    <string name="sports_open_team_page">Otevřít stránku týmu</string>
+    <string name="sports_my_teams_leagues">Soutěže, ve kterých hrají vaše týmy</string>
+    <string name="sports_tab_drivers">Jezdci</string>
+    <string name="sports_tab_constructors">Konstruktéři</string>
+    <string name="sports_tab_races">Závody</string>
+    <string name="sports_tab_rankings">Žebříček</string>
+    <string name="sports_tab_matches">Zápasy</string>
+    <string name="sports_next_race_weekend">Další závodní víkend</string>
+    <string name="sports_last_weekend">Minulý víkend</string>
+    <string name="sports_session_practice_1">Trénink 1</string>
+    <string name="sports_session_practice_2">Trénink 2</string>
+    <string name="sports_session_practice_3">Trénink 3</string>
+    <string name="sports_session_sprint_qualifying">Kvalifikace na sprint</string>
+    <string name="sports_session_qualifying">Kvalifikace</string>
+    <string name="sports_session_sprint">Sprint</string>
+    <string name="sports_session_race">Závod</string>
     <string name="sports_table_team">Tým</string>
     <string name="sports_table_played">Z</string>
     <string name="sports_table_won">V</string>
@@ -508,6 +568,14 @@
         <item quantity="other">Každých <xliff:g id="count">%1$d</xliff:g> hodin</item>
     </plurals>
     <string name="sports_auto_rebuild_app_start">Při každém spuštění aplikace</string>
+    <string name="sports_calendar_refresh">Obnova kalendáře</string>
+    <string name="sports_calendar_refresh_description">Jak často se uložené měsíce znovu načtou</string>
+    <plurals name="sports_calendar_refresh_days">
+        <item quantity="one">Každý <xliff:g id="count">%1$d</xliff:g> den</item>
+        <item quantity="few">Každé <xliff:g id="count">%1$d</xliff:g> dny</item>
+        <item quantity="many">Každých <xliff:g id="count">%1$d</xliff:g> dní</item>
+        <item quantity="other">Každých <xliff:g id="count">%1$d</xliff:g> dní</item>
+    </plurals>
     <string name="sports_find_channels">Najít kanály</string>
     <string name="sports_find_channels_description">Hledá tento zápas ve vašem průvodci a v názvech kanálů. U velkého playlistu to může chvíli trvat.</string>
     <string name="sports_finding_channels">Prohledávají se vaše kanály…</string>

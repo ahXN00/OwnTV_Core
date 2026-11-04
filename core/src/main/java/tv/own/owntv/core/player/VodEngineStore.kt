@@ -26,7 +26,7 @@ enum class VodEnginePin { MPV, EXO }
  * Every pin here is a deliberate user action. The player used to write pins by itself after a decode
  * failure, which silently retired the chosen engine for that item with no way to undo it; it no
  * longer does. Pins those builds already wrote are indistinguishable from manual ones, so
- * [clearAll] (Settings → Video Player) is how a user gets back to a clean slate.
+ * [clearAll] (Settings → Player → Saved player choices) is how a user gets back to a clean slate.
  *
  * Keyed by [enginePinKey] — sourceId + media type + provider remoteId — which survives playlist
  * re-syncs on all three source types (Room ids don't, and a Stalker stream URL is minted fresh per

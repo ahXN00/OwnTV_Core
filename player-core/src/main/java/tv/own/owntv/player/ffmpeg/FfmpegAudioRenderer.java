@@ -17,7 +17,8 @@
  * OwnTV: copied from androidx/media tag 1.11.1, libraries/decoder_ffmpeg (not on Maven). Changes:
  * package renamed so no other library can collide on it, and FfmpegLibrary loads OwnTV's
  * libowntvffmpeg.so (OwnTV_libmpv, built on the engine's own FFmpeg) instead of ffmpegJNI, without
- * the unused setLibraries(). The native side binds to these class names (ffmpeg_jni.cc in
+ * the unused setLibraries(). supportsFormatInternal declines any format the device has a MediaCodec
+ * decoder for (FfmpegAudio.takes), so FFmpeg never out-ranks the chip. The native side binds to these class names (ffmpeg_jni.cc in
  * OwnTV_libmpv). On a Media3 bump, compare with that tag's copies.
  */
 package tv.own.owntv.player.ffmpeg;
@@ -43,6 +44,7 @@ import androidx.media3.exoplayer.audio.AudioSink;
 import androidx.media3.exoplayer.audio.AudioSink.SinkFormatSupport;
 import androidx.media3.exoplayer.audio.DecoderAudioRenderer;
 import androidx.media3.exoplayer.audio.DefaultAudioSink;
+import tv.own.owntv.player.FfmpegAudio;
 
 /** Decodes and renders audio using FFmpeg. */
 @UnstableApi
@@ -141,7 +143,7 @@ public final class FfmpegAudioRenderer extends DecoderAudioRenderer<FfmpegAudioD
     String mimeType = checkNotNull(format.sampleMimeType);
     if (!FfmpegLibrary.isAvailable() || !MimeTypes.isAudio(mimeType)) {
       return C.FORMAT_UNSUPPORTED_TYPE;
-    } else if (!FfmpegLibrary.supportsFormat(mimeType)
+    } else if (!FfmpegAudio.INSTANCE.takes(mimeType)
         || (!sinkSupportsFormat(format, C.ENCODING_PCM_16BIT)
             && !sinkSupportsFormat(format, C.ENCODING_PCM_FLOAT))) {
       return C.FORMAT_UNSUPPORTED_SUBTYPE;

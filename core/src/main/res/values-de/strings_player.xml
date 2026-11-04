@@ -22,6 +22,8 @@
     <string name="player_timeshift_resume_title">Dort weiterschauen, wo du aufgehört hast?</string>
     <string name="player_timeshift_resume_message">Dieser Sender wurde gespeichert, während du weg warst.</string>
     <string name="player_previous_channel">Vorheriger Sender</string>
+    <string name="player_tool_sources">Quellen</string>
+    <string name="player_sources_none">Keine andere Version dieses Senders gefunden.</string>
     <string name="player_next_channel_in_list">Nächster Sender</string>
     <string name="player_previous_channel_in_list">Vorheriger Sender in der Liste</string>
     <string name="player_live_scrub_at"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="programme">%2$s</xliff:g></string>
@@ -86,6 +88,7 @@
     <string name="player_time_remaining">−<xliff:g id="time">%1$s</xliff:g></string>
     <string name="player_switch_exo">Zu ExoPlayer gewechselt</string>
     <string name="player_switch_mpv">Zu MPV gewechselt</string>
+    <string name="player_smoothness_hint">Dieser Sender verliert Bilder. Mit MPV als Player läuft er möglicherweise flüssiger.</string>
     <string name="player_error_image_subtitle_audio">Bildbasierte Untertitel sind für das Audioformat dieses Videos nicht verfügbar.</string>
     <string name="player_error_both_engines_exo_first">Die Wiedergabe ist mit beiden Video-Engines fehlgeschlagen (zuerst ExoPlayer, dann mpv). Die Datei ist möglicherweise beschädigt oder verwendet ein Format, das dieser Fernseher nicht wiedergeben kann.</string>
     <string name="player_error_both_engines_mpv_first">Die Wiedergabe ist mit beiden Video-Engines fehlgeschlagen (mpv und ExoPlayer). Die Datei ist möglicherweise beschädigt oder verwendet ein Format, das dieser Fernseher nicht wiedergeben kann. (<xliff:g id="error">%1$s</xliff:g>)</string>
@@ -108,6 +111,7 @@
     <string name="player_error_account_in_use">Dieses Konto spielt bereits auf einem anderen Gerät oder in einer anderen App ab. Beende die Wiedergabe dort und drücke dann auf Erneut versuchen.</string>
     <string name="player_error_mpv_open_decode">mpv konnte diese Datei nicht öffnen oder decodieren.</string>
     <string name="player_error_mpv_stream_never_started">Der Stream wurde in mpv auch nach mehreren Versuchen nicht gestartet.</string>
+    <string name="player_error_fairplay">Dieser Stream ist mit Apple FairPlay geschützt, das Android-Geräte nicht abspielen können. Die Playlist ist für Apple-Geräte gedacht.</string>
     <string name="player_error_surround">Diese Audioausgabe unterstützt keinen Surround-Sound – zu Stereo gewechselt.</string>
     <string name="player_error_hardware_fallback">Das Format dieses Streams konnte auf diesem Fernseher nicht per Hardware decodiert werden. Daher wurde auf Softwaredecodierung zurückgegriffen, die <xliff:g id="resolution">%1$s</xliff:g> nicht ohne Überlastung des Fernsehers bewältigen kann. Andere 4K-Inhalte werden auf dem Fernseher möglicherweise weiterhin problemlos wiedergegeben; die Ursache ist das Format dieses Streams.</string>
     <string name="player_error_hardware_disabled">Die Hardwaredecodierung ist deaktiviert – die Softwaredecodierung kann Videos mit <xliff:g id="resolution">%1$s</xliff:g> nicht bewältigen. Aktiviere sie unter Einstellungen → Video-Player.</string>
@@ -267,7 +271,7 @@
     <string name="player_subtitles_search_language_description">In den Suchergebnissen werden nur Untertitel in dieser Sprache angezeigt. Du kannst in den Ergebnissen weiterhin „Alle Sprachen“ drücken, um alle Ergebnisse dieser Suche zu sehen.</string>
     <string name="player_subtitles_language_not_set">Nicht festgelegt</string>
     <string name="player_frame_rate_prompt_title">Bei diesem Sender kann das Bild ruckeln</string>
-    <string name="player_frame_rate_prompt_description">Die Wiedergabe läuft mit <xliff:g id="fps">%1$d</xliff:g> fps, während dein Fernseher mit <xliff:g id="current_hz">%2$d</xliff:g> Hz läuft, wodurch dein Fernseher diese Bilder nicht gleichmäßig darstellen kann – Bewegungen wirken leicht ruckelig.\n\nDie automatische Bildrate schaltet deinen Fernseher während der Wiedergabe auf <xliff:g id="target_hz">%3$d</xliff:g> Hz und danach wieder zurück. Bei manchen Fernsehern wird der Bildschirm beim Ändern der Bildrate kurz schwarz; du kannst die Funktion unter Einstellungen → Videoplayer wieder deaktivieren.</string>
+    <string name="player_frame_rate_prompt_description">Die Wiedergabe läuft mit <xliff:g id="fps">%1$d</xliff:g> fps, während dein Fernseher mit <xliff:g id="current_hz">%2$d</xliff:g> Hz läuft, wodurch dein Fernseher diese Bilder nicht gleichmäßig darstellen kann – Bewegungen wirken leicht ruckelig.\n\nDie automatische Bildrate schaltet deinen Fernseher während der Wiedergabe auf <xliff:g id="target_hz">%3$d</xliff:g> Hz und danach wieder zurück. Bei manchen Fernsehern wird der Bildschirm beim Ändern der Bildrate kurz schwarz; du kannst die Funktion unter Einstellungen → Bild → Bildrate wieder deaktivieren.</string>
     <string name="player_frame_rate_turn_on">Einschalten</string>
     <string name="player_reason_live_fallback">Live-Wiedergabe auf einen Fallback umgeschaltet</string>
     <string name="player_reason_live_no_fallback">Live-Wiedergabe fehlgeschlagen – kein Fallback mehr übrig</string>

@@ -37,6 +37,7 @@ fun FriendlySyncFailure.displayText(res: Resources): String = when (this) {
     FriendlySyncFailure.SecureConnectionFailed -> res.getString(R.string.sync_error_secure)
     FriendlySyncFailure.MalformedGuide -> res.getString(R.string.sync_error_malformed_guide)
     FriendlySyncFailure.GuideEmpty -> res.getString(R.string.sync_error_guide_empty)
+    FriendlySyncFailure.GuideMatchesNoChannel -> res.getString(R.string.sync_error_guide_no_matching_channels)
     FriendlySyncFailure.PlaylistFileUnavailable -> res.getString(R.string.setup_playlist_file_unavailable)
     FriendlySyncFailure.PlaylistPathUnsupported -> res.getString(R.string.setup_playlist_path_unsupported)
     is FriendlySyncFailure.Unknown -> rawMessage

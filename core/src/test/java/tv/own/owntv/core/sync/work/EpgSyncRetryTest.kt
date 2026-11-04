@@ -12,7 +12,7 @@ import java.io.IOException
  *
  * The case that prompted this: a Stalker portal whose guide had been emptied answered every route
  * successfully with nothing in it. That arrived as a plain `IOException`, which this worker read as
- * "network trouble" and retried three times with backoff — so Settings → EPG sat on "Connecting…"
+ * "network trouble" and retried three times with backoff — so Settings → EPG Sources sat on "Connecting…"
  * for six minutes before admitting a failure that was certain from the first second.
  */
 class EpgSyncRetryTest {
@@ -28,6 +28,12 @@ class EpgSyncRetryTest {
     @Test
     fun `a feed with no programmes in the window is not retried`() {
         assertFalse(shouldRetryEpgSync(EpgRepository.NoProgrammesInWindowException(), online = true, runAttemptCount = 0))
+    }
+
+    /** Its channels aren't the playlists': the same feed gives the same answer until they're matched. */
+    @Test
+    fun `a feed matching no playlist channel is not retried`() {
+        assertFalse(shouldRetryEpgSync(EpgRepository.GuideMatchesNoChannelException(), online = true, runAttemptCount = 0))
     }
 
     /** The playlist behind a portal guide was deleted; no amount of waiting brings it back. */

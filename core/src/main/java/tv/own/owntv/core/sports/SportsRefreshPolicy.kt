@@ -17,8 +17,20 @@ sealed interface Demand {
     /** A match page: that match's summary (timeline, stats, line-ups). */
     data class MatchPage(val match: Match) : Demand
 
-    /** A league page: that league's live matches, and its table if the board has none. [leagueKey] is a catalogue key. */
+    /**
+     * One league, on its page or in the Leagues tab: that league's live matches, and its table or
+     * ranking if the board has none. [leagueKey] is a catalogue key.
+     */
     data class LeaguePage(val leagueKey: String) : Demand
+
+    /** The Calendar tab: as the hub, so today's and tomorrow's matches laid over the month stay live. */
+    data object Calendar : Demand
+
+    /** The Leagues tab's cards: as the hub, so a card's next match turns live. */
+    data object Leagues : Demand
+
+    /** A team's page: its league's live matches, and that league's table if the board has none. */
+    data class TeamPage(val leagueKey: String) : Demand
 
     /** The score in the player's info bar: the scoreboard [match] is on. */
     data class PlayerScore(val match: Match) : Demand
@@ -29,6 +41,7 @@ sealed interface Feed {
     data class Scoreboard(val leagueKey: String, val tomorrow: Boolean = false) : Feed
     data class Summary(val matchKey: String) : Feed
     data class Standings(val leagueKey: String) : Feed
+    data class Rankings(val leagueKey: String) : Feed
 }
 
 /**
@@ -54,10 +67,11 @@ data class RefreshPlan(val fetch: Set<Feed>, val nextWakeAt: Long?, val paused: 
  *
  * | Situation                          | Fetched                          | When                                       |
  * |------------------------------------|----------------------------------|--------------------------------------------|
- * | Hub, Home row: a league is live    | that league's scoreboard         | the live setting (30/60/90/120 s)          |
- * | Hub, Home row: nothing live        | nothing                          | woken at its next kick-off, then as live   |
+ * | Hub, Home row, Calendar, Leagues: a league is live | that league's scoreboard | the live setting (30/60/90/120 s) |
+ * | Hub, Home row, Calendar, Leagues: nothing live     | nothing           | woken at its next kick-off, then as live   |
  * | Match page, live / not live        | the summary                      | the live setting / once if the board has none |
- * | League page                        | its scoreboard, as the hub; its table once if the board has none |   |
+ * | League page                        | its scoreboard, as the hub; its table or ranking once if the board has none |   |
+ * | Team page                          | its league's scoreboard, as the hub; the table once if the board has none |   |
  * | Player score                       | that match's league              | the live setting while it is live          |
  * | No demand                          | nothing                          | never                                      |
  * | Errors                             | back off 30 s → 1 → 2 → 5 min    | HTTP 403/429: everything pauses 15 min     |
@@ -137,12 +151,22 @@ class SportsRefreshPolicy {
             }
         }
 
+        /** A league's table, once, where it has one: a cup's is empty every time. */
+        fun table(key: String) {
+            if (SportsCatalog.league(key)?.let(SportsWindow::hasTable) == true) want(Feed.Standings(key), Want.Once)
+        }
+
         demands.forEach { d ->
             when (d) {
-                Demand.Hub, Demand.HomeRow -> followed.forEach(::league)
+                Demand.Hub, Demand.HomeRow, Demand.Calendar, Demand.Leagues -> followed.forEach(::league)
                 is Demand.LeaguePage -> {
                     league(d.leagueKey)
-                    want(Feed.Standings(d.leagueKey), Want.Once)
+                    table(d.leagueKey)
+                    SportsCatalog.league(d.leagueKey)?.takeIf(SportsWindow::hasRanking)?.let { want(Feed.Rankings(d.leagueKey), Want.Once) }
+                }
+                is Demand.TeamPage -> {
+                    league(d.leagueKey)
+                    table(d.leagueKey)
                 }
                 is Demand.MatchPage -> {
                     val summary = Feed.Summary(d.match.key)

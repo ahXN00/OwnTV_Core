@@ -15,7 +15,7 @@ import java.util.concurrent.Executors
 /**
  * Small rolling on-disk history of playback failures (last [MAX] entries), so a user who dismissed
  * the error screen — or whose app restarted — can still read/report what happened from
- * Settings → "Playback error log". Most TV users can't pull logcat; this is their only record.
+ * More → "Error log". Most TV users can't pull logcat; this is their only record.
  *
  * Plain JSON file in filesDir; all IO runs on a single background thread so the player's error
  * path never blocks. Timestamps are wall-clock (for display), unlike the monotonic diagnostics.

@@ -62,11 +62,30 @@ class ExoAudioGateTest {
     }
 
     @Test
-    fun `audio beyond the decoder's advertised limits still counts as playable`() {
-        assertTrue(ExoAudioGate.anyPlayableAudio(Tracks(listOf(audioGroup(C.FORMAT_EXCEEDS_CAPABILITIES)))))
-        assertTrue(ExoAudioGate.anyPlayableAudio(Tracks(listOf(audioGroup(C.FORMAT_UNSUPPORTED_SUBTYPE, C.FORMAT_HANDLED)))))
-        assertFalse(ExoAudioGate.anyPlayableAudio(Tracks(listOf(audioGroup(C.FORMAT_UNSUPPORTED_SUBTYPE)))))
-        assertFalse(ExoAudioGate.anyPlayableAudio(Tracks.EMPTY))
+    fun `with FFmpeg audio on, audio beyond the decoder's advertised limits still counts as playable`() {
+        fun playable(tracks: Tracks) = ExoAudioGate.anyPlayableAudio(tracks, exceedingCounts = true)
+        assertTrue(playable(Tracks(listOf(audioGroup(C.FORMAT_EXCEEDS_CAPABILITIES)))))
+        assertTrue(playable(Tracks(listOf(audioGroup(C.FORMAT_UNSUPPORTED_SUBTYPE, C.FORMAT_HANDLED)))))
+        assertFalse(playable(Tracks(listOf(audioGroup(C.FORMAT_UNSUPPORTED_SUBTYPE)))))
+        assertFalse(playable(Tracks.EMPTY))
+    }
+
+    @Test
+    fun `with FFmpeg audio off, only audio within the decoder's limits counts, as before FFmpeg audio`() {
+        fun playable(tracks: Tracks) = ExoAudioGate.anyPlayableAudio(tracks, exceedingCounts = false)
+        assertFalse(playable(Tracks(listOf(audioGroup(C.FORMAT_EXCEEDS_CAPABILITIES)))))
+        assertTrue(playable(Tracks(listOf(audioGroup(C.FORMAT_EXCEEDS_CAPABILITIES, C.FORMAT_HANDLED)))))
+        assertFalse(playable(Tracks(listOf(audioGroup(C.FORMAT_UNSUPPORTED_SUBTYPE)))))
+        assertFalse(playable(Tracks.EMPTY))
+    }
+
+    @Test
+    fun `with FFmpeg audio off, FFmpeg never decodes and never counts`() {
+        // This process never loaded the setting, which is the same as "off".
+        assertFalse(FfmpegAudio.switchedOn)
+        assertFalse(FfmpegAudio.available)
+        assertFalse(FfmpegAudio.supports(MimeTypes.AUDIO_DTS))
+        assertFalse(FfmpegAudio.takes(MimeTypes.AUDIO_MPEG_L2))
     }
 
     @Test
@@ -108,5 +127,24 @@ class ExoAudioGateTest {
         assertEquals(0f, share(4, 3).first)
         // Mono reaches both sides.
         assertTrue(share(1, 0).first > 0f && share(1, 0).second > 0f)
+    }
+
+    private fun ffmpegTakes(mime: String, device: Set<String> = emptySet(), ffmpeg: Set<String> = emptySet()) =
+        FfmpegAudio.takes(mime, { it in device }, { it in ffmpeg })
+
+    @Test
+    fun `FFmpeg never takes a format the device has a decoder for`() {
+        // Media3 hands a track to the renderer rating it best, so an FFmpeg "handled" would out-rank a
+        // device decoder that only "exceeds capabilities" — the chip must keep what it can decode.
+        for (mime in listOf(MimeTypes.AUDIO_AAC, MimeTypes.AUDIO_AC3, MimeTypes.AUDIO_E_AC3, MimeTypes.AUDIO_MPEG_L2)) {
+            assertFalse(mime, ffmpegTakes(mime, device = setOf(mime), ffmpeg = setOf(mime)))
+        }
+    }
+
+    @Test
+    fun `FFmpeg takes what the chip cannot decode, and only what it can itself`() {
+        assertTrue(ffmpegTakes(MimeTypes.AUDIO_MPEG_L2, ffmpeg = setOf(MimeTypes.AUDIO_MPEG_L2)))
+        assertTrue(ffmpegTakes(MimeTypes.AUDIO_DTS, device = setOf(MimeTypes.AUDIO_AAC), ffmpeg = setOf(MimeTypes.AUDIO_DTS)))
+        assertFalse(ffmpegTakes(MimeTypes.AUDIO_TRUEHD))
     }
 }

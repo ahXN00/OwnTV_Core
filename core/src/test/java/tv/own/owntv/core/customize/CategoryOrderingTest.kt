@@ -37,13 +37,50 @@ class CategoryOrderingTest {
     }
 
     @Test
-    fun `custom categories lead, and A-Z sorts only what was never moved`() {
+    fun `a moved category keeps its position, the rest follow provider order`() {
         val c = SectionCustomizations(
             customCategories = listOf(CustomCategory(id = "custom:x", name = "Mine")),
-            categoryOrder = listOf(keyOf(4)),
+            categoryPositions = mapOf(keyOf(4) to 0),
         )
-        val rows = cats.railCategories(c, kids = false, alphaRest = true)
-        assertEquals(listOf("Movies", "Adult", "Mine", "News", "Sports"), rows.map { it.displayName })
+        val rows = cats.railCategories(c, kids = false)
+        assertEquals(listOf("Movies", "Mine", "Sports", "News", "Adult"), rows.map { it.displayName })
+    }
+
+    @Test
+    fun `A-Z sorts only the categories never moved, by shown name`() {
+        val c = SectionCustomizations(
+            customCategories = listOf(CustomCategory(id = "custom:x", name = "Mine")),
+            categoryNames = mapOf(keyOf(1) to "Football"),
+            categoryPositions = mapOf(keyOf(2) to 1),
+        )
+        val rows = cats.railCategories(c, kids = false, alphabetical = true)
+        assertEquals(listOf("Adult", "News", "Football", "Mine", "Movies"), rows.map { it.displayName })
+    }
+
+    @Test
+    fun `a move pins only the carried category, so the rest still follow the sort`() {
+        val rows = cats.railCategories(SectionCustomizations(), kids = false)
+        val moved = CategoryMove.begin(rows, keyOf(1))!!.moved(MoveKind.DOWN)!!.moved(MoveKind.DOWN)!!
+        assertEquals(setOf(keyOf(1)), moved.carried)
+        val c = SectionCustomizations(categoryPositions = pinnedAfterMove(moved.keys, emptySet(), moved.carried))
+
+        assertEquals(mapOf(keyOf(1) to 2), c.categoryPositions)
+        assertEquals(listOf("News", "Adult", "Sports", "Movies"), cats.railCategories(c, kids = false).map { it.displayName })
+        assertEquals(listOf("Adult", "Movies", "Sports", "News"), cats.railCategories(c, kids = false, alphabetical = true).map { it.displayName })
+    }
+
+    @Test
+    fun `an older saved category list is dropped, positions round-trip`() {
+        val old = """{"catOrder":["${keyOf(4)}","${keyOf(1)}"]}"""
+        assertEquals(emptyMap<String, Int>(), CustomizationJson.parse(old).categoryPositions)
+        val c = SectionCustomizations(categoryPositions = mapOf(keyOf(4) to 2))
+        assertEquals(c.categoryPositions, CustomizationJson.parse(CustomizationJson.serialize(c)).categoryPositions)
+    }
+
+    @Test
+    fun `placePinned puts each pinned item at its position, past the end last`() {
+        assertEquals(listOf("x", "a", "y", "b", "z"), placePinned(listOf("a", "b"), listOf("y" to 2, "x" to 0, "z" to 9)))
+        assertEquals(listOf("a", "b"), placePinned(listOf("a", "b"), emptyList<Pair<String, Int>>()))
     }
 
     @Test
@@ -60,7 +97,7 @@ class CategoryOrderingTest {
         assertEquals(1, up.activeIndex)
 
         // What the store is given must be what the rail then shows.
-        val committed = c.copy(categoryOrder = up.keys)
+        val committed = c.copy(categoryPositions = pinnedAfterMove(up.keys, emptySet(), up.carried))
         assertEquals(up.items, cats.railCategories(committed, kids = false).map { it.displayName })
     }
 

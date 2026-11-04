@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Je eigen foto</string>
     <string name="profiles_kids">Kinderprofiel</string>
     <string name="profiles_kids_description">Vereenvoudigd en veilig bladeren</string>
+    <string name="profiles_allow_downloads">Downloads toestaan</string>
+    <string name="profiles_allow_downloads_description">Uit verbergt alle downloadknoppen voor dit profiel</string>
     <string name="profiles_remove_pin">PIN-vergrendeling verwijderen</string>
     <string name="profiles_no_pin">Dit profiel wordt zonder PIN geopend</string>
     <string name="profiles_change_pin">PIN wijzigen (leeg = behouden)</string>
@@ -45,6 +47,8 @@
     <string name="search_go_to_movie">Naar film</string>
     <string name="search_clear_recent">Recente zoekopdrachten wissen</string>
     <string name="search_field_hint">Zenders, films en series</string>
+    <string name="search_voice">Spraakzoeken</string>
+    <string name="search_voice_prompt">Zeg een zender, film of serie</string>
     <string name="search_card_title">Vind alles in je playlists</string>
     <string name="search_card_body">Zenders, films en series uit alle playlists die je toont. Kies een resultaat om er direct heen te gaan en daar af te spelen, te downloaden of de opties te openen. Ook tv-programma’s die nu of later vandaag uitgezonden worden, vind je op hun titel.</string>
     <string name="search_nothing_found">Niets gevonden voor ‘<xliff:g id="query">%1$s</xliff:g>’</string>
@@ -63,6 +67,11 @@
     <string name="launcher_recent_live_description">Onlangs bekeken livezenders</string>
     <string name="launcher_movie_type">Film</string>
     <string name="launcher_episode_number">Aflevering <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Je bibliotheek wordt geladen · tot nu toe <xliff:g id="count">%1$s</xliff:g> titel</item>
+        <item quantity="other">Je bibliotheek wordt geladen · tot nu toe <xliff:g id="count">%1$s</xliff:g> titels</item>
+    </plurals>
+    <string name="home_library_loading_trending">Nu populair verschijnt naarmate je bibliotheek zich vult.</string>
     <string name="home_no_preview">Nog geen voorbeeld beschikbaar.</string>
     <string name="home_no_rows">Alle rijen op het startscherm zijn verborgen.</string>
     <string name="home_enable_rows">Schakel rijen weer in via Instellingen → Startscherm.</string>
@@ -193,6 +202,7 @@
     <string name="recording_group_missed">Gemist</string>
     <string name="recording_record">Opnemen</string>
     <string name="recording_stop">Opname stoppen</string>
+    <string name="recording_delete_message">Verwijdert de opname en het bestand ervan van dit apparaat. Dit kan niet ongedaan worden gemaakt.</string>
     <string name="recording_record_series">Elke uitzending opnemen</string>
     <string name="recording_stop_series">Niet meer elke uitzending opnemen</string>
     <string name="recording_from_archive">Opnemen uit het archief</string>
@@ -205,6 +215,7 @@
     <string name="recording_scheduled_for">Neemt <xliff:g id="time">%1$s</xliff:g> op</string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line"><xliff:g id="title">%1$s</xliff:g> wordt opgenomen</string>
+    <string name="recording_pill_line_locked">Opnemen uit een vergrendelde categorie</string>
     <string name="recording_clash_with">Overlapt met <xliff:g id="programme">%1$s</xliff:g></string>
     <string name="recording_settings_group">Opnemen</string>
     <string name="settings_recording_reserve">Houd één stream vrij om te kijken</string>
@@ -281,6 +292,15 @@
     <string name="sports_starting_soon">Begint binnenkort</string>
     <string name="sports_hint_match_page">Wedstrijdpagina</string>
     <string name="sports_hint_follow_remind">Volgen · Herinneren</string>
+    <string name="sports_hint_day_matches">Wedstrijden van de dag</string>
+    <string name="sports_hint_day">Dag</string>
+    <string name="sports_hint_week">Week</string>
+    <string name="sports_hint_show_score">Uitslag tonen</string>
+    <string name="sports_hint_back_to_day">Terug naar de dag</string>
+    <string name="sports_hint_open_league">Competitie openen</string>
+    <string name="sports_hint_sport_chips">Sportknoppen</string>
+    <string name="sports_hint_league_chips">Competitieknoppen</string>
+    <string name="sports_hint_follow_unfollow">Volgen · Niet meer volgen</string>
     <string name="sports_reminder_set">Herinnering</string>
     <string name="sports_until">tot <xliff:g id="time">%1$s</xliff:g></string>
     <string name="sports_set">Set <xliff:g id="set">%1$d</xliff:g></string>
@@ -380,6 +400,44 @@
     <string name="sports_switch_channel">Zender wisselen</string>
     <string name="sports_tab_fixtures">Programma</string>
     <string name="sports_tab_results">Uitslagen</string>
+    <string name="sports_tab_scores">Live</string>
+    <string name="sports_tab_calendar">Kalender</string>
+    <string name="sports_tab_leagues">Competities</string>
+    <string name="sports_previous_month">Vorige maand</string>
+    <string name="sports_next_month">Volgende maand</string>
+    <string name="sports_next">Hierna: <xliff:g id="match">%1$s</xliff:g></string>
+    <string name="sports_next_badge">Hierna</string>
+    <string name="sports_no_table_series">Geen stand — series wisselen elke week</string>
+    <string name="sports_follow_league">Competitie volgen</string>
+    <string name="sports_unfollow_league">Competitie niet meer volgen</string>
+    <string name="sports_no_matches_on">Geen wedstrijden in je sporten op <xliff:g id="day">%1$s</xliff:g></string>
+    <string name="sports_nothing_on_day">Niets op deze dag</string>
+    <string name="sports_nothing_in_sport"><xliff:g id="sport">%1$s</xliff:g>: niets op deze dag</string>
+    <string name="sports_change_leagues_hint">Competities voeg je toe of verwijder je in Instellingen → Sport</string>
+    <string name="sports_loading_month"><xliff:g id="month">%1$s</xliff:g> laden…</string>
+    <string name="sports_offline_saved">Je ziet wat er <xliff:g id="time">%1$s</xliff:g> is opgeslagen — ESPN is niet bereikbaar</string>
+    <string name="sports_team_page">Teampagina</string>
+    <string name="sports_next_match">Volgende wedstrijd</string>
+    <string name="sports_last_five">Laatste vijf</string>
+    <string name="sports_league_position">Plaats in de stand</string>
+    <string name="sports_in_my_teams">In Mijn teams</string>
+    <string name="sports_open_match_page">Wedstrijdpagina openen</string>
+    <string name="sports_open_team_page">Teampagina openen</string>
+    <string name="sports_my_teams_leagues">De competities waarin je teams spelen</string>
+    <string name="sports_tab_drivers">Coureurs</string>
+    <string name="sports_tab_constructors">Constructeurs</string>
+    <string name="sports_tab_races">Races</string>
+    <string name="sports_tab_rankings">Ranglijst</string>
+    <string name="sports_tab_matches">Wedstrijden</string>
+    <string name="sports_next_race_weekend">Volgend raceweekend</string>
+    <string name="sports_last_weekend">Afgelopen weekend</string>
+    <string name="sports_session_practice_1">Vrije training 1</string>
+    <string name="sports_session_practice_2">Vrije training 2</string>
+    <string name="sports_session_practice_3">Vrije training 3</string>
+    <string name="sports_session_sprint_qualifying">Sprintkwalificatie</string>
+    <string name="sports_session_qualifying">Kwalificatie</string>
+    <string name="sports_session_sprint">Sprint</string>
+    <string name="sports_session_race">Race</string>
     <string name="sports_table_team">Team</string>
     <string name="sports_table_played">G</string>
     <string name="sports_table_won">W</string>
@@ -464,6 +522,12 @@
         <item quantity="other">Elke <xliff:g id="count">%1$d</xliff:g> uur</item>
     </plurals>
     <string name="sports_auto_rebuild_app_start">Bij elke start van de app</string>
+    <string name="sports_calendar_refresh">Kalender verversen</string>
+    <string name="sports_calendar_refresh_description">Hoe vaak opgeslagen maanden opnieuw worden opgehaald</string>
+    <plurals name="sports_calendar_refresh_days">
+        <item quantity="one">Elke <xliff:g id="count">%1$d</xliff:g> dag</item>
+        <item quantity="other">Elke <xliff:g id="count">%1$d</xliff:g> dagen</item>
+    </plurals>
     <string name="sports_find_channels">Zenders zoeken</string>
     <string name="sports_find_channels_description">Zoekt deze wedstrijd in je gids en zendernamen. Bij een grote afspeellijst kan dat even duren.</string>
     <string name="sports_finding_channels">Je zenders worden doorzocht…</string>

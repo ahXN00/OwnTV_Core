@@ -20,10 +20,13 @@ class SettingsBackupCoverageTest {
     private val notInSettingsBackup = setOf(
         // Internal state and one-shot migration flags.
         "active_profile_id", "default_source_id", "refresh_migration_done", "epg_refill_checked",
-        "restore_in_progress", "font_jakarta_migrated", "live_latency_reset_416", "auto_frame_rate_reset_416",
+        "m3u_vod_resort_checked",
+        "restore_in_progress", "font_jakarta_migrated", "list_orders_reset", "live_latency_reset_416", "auto_frame_rate_reset_416",
         "auto_frame_rate_reset_pre12", "metadata_match_heal_version", "stage_defaults_applied",
         // A fact about this device's decoders (tunneled playback failed here), not a choice.
         "tunneling_failed",
+        // The latency of this device's own outputs; another device's HDMI or Bluetooth path differs.
+        "audio_delay_by_output",
         "last_backup_at", "last_backup_bytes", "last_backup_encrypted", "last_backup_path",
         // When this device last asked for an update: restoring it elsewhere would claim a check that never ran.
         "last_update_check_at",
@@ -93,5 +96,15 @@ class SettingsBackupCoverageTest {
         assertFalse(BackupKeys.exports(Keys.RESUME_LAST_CHANNEL, mutablePreferencesOf(Keys.RESUME_LAST_CHANNEL to false)))
         // Current keys are always exported.
         assertTrue(BackupKeys.exports(Keys.MULTIVIEW_ENABLED, mutablePreferencesOf()))
+    }
+
+    @Test
+    fun `the Live TV category switches are backed up and restored`() {
+        // Export and import both iterate BackupKeys.bools.
+        listOf(Keys.LIVE_SHOW_ALL_RAIL to "live_show_all_rail", Keys.LIVE_SHOW_CATCHUP_RAIL to "live_show_catchup_rail").forEach { (key, name) ->
+            assertTrue(key.name in BackupKeys.bools.map { it.name })
+            assertTrue(BackupKeys.exports(key, mutablePreferencesOf(key to false)))
+            assertEquals(name, key.name)
+        }
     }
 }

@@ -8,7 +8,7 @@ package tv.own.owntv.core.player
  * other way round, and never copied.
  */
 object PlaybackDefaults {
-    /** Settings → "Give up after", in seconds. Long enough for a 4K channel on a distant panel to
+    /** Settings → "Give up on a channel after", in seconds. Long enough for a 4K channel on a distant panel to
      *  open, short enough that a removed channel is not ninety seconds of black screen. */
     const val LIVE_TUNE_BUDGET_SECS = 30
 }

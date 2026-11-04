@@ -22,6 +22,8 @@
     <string name="player_timeshift_resume_title">Verdergaan waar je was gebleven?</string>
     <string name="player_timeshift_resume_message">Deze zender is opgeslagen terwijl je weg was.</string>
     <string name="player_previous_channel">Vorige zender</string>
+    <string name="player_tool_sources">Bronnen</string>
+    <string name="player_sources_none">Geen andere versie van deze zender gevonden.</string>
     <string name="player_next_channel_in_list">Volgende zender</string>
     <string name="player_previous_channel_in_list">Vorige zender in de lijst</string>
     <string name="player_live_scrub_at"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="programme">%2$s</xliff:g></string>
@@ -86,6 +88,7 @@
     <string name="player_time_remaining">−<xliff:g id="time">%1$s</xliff:g></string>
     <string name="player_switch_exo">Overgeschakeld naar ExoPlayer</string>
     <string name="player_switch_mpv">Overgeschakeld naar mpv</string>
+    <string name="player_smoothness_hint">Dit kanaal verliest beelden. Als je de speler overschakelt naar mpv, kan het vloeiender afspelen.</string>
     <string name="player_error_image_subtitle_audio">Beeldondertiteling is niet beschikbaar voor de audio-indeling van deze video.</string>
     <string name="player_error_both_engines_exo_first">Afspelen is met beide video-engines mislukt (eerst ExoPlayer, daarna mpv). Het bestand is mogelijk beschadigd of gebruikt een indeling die deze tv niet kan afspelen.</string>
     <string name="player_error_both_engines_mpv_first">Afspelen is met beide video-engines mislukt (mpv en ExoPlayer). Het bestand is mogelijk beschadigd of gebruikt een indeling die deze tv niet kan afspelen. (<xliff:g id="error">%1$s</xliff:g>)</string>
@@ -108,6 +111,7 @@
     <string name="player_error_account_in_use">Dit account speelt al af op een ander apparaat of in een andere app. Stop het daar en druk dan op Opnieuw proberen.</string>
     <string name="player_error_mpv_open_decode">mpv kan dit bestand niet openen of decoderen.</string>
     <string name="player_error_mpv_stream_never_started">De stream is na meerdere pogingen niet gestart in mpv.</string>
+    <string name="player_error_fairplay">Deze stream is beveiligd met Apple FairPlay, dat Android-apparaten niet kunnen afspelen. De playlist is gemaakt voor Apple-apparaten.</string>
     <string name="player_error_surround">Deze audio-uitgang ondersteunt geen surroundgeluid — overgeschakeld naar stereo.</string>
     <string name="player_error_hardware_fallback">De indeling van deze stream kon op deze tv niet door hardware worden gedecodeerd. Daarom is teruggevallen op softwaredecodering, die <xliff:g id="resolution">%1$s</xliff:g> niet kan verwerken zonder de tv te overbelasten. Andere 4K-content kan mogelijk wel goed worden afgespeeld op de tv; de indeling van deze specifieke stream is het probleem.</string>
     <string name="player_error_hardware_disabled">Hardwaredecodering is uitgeschakeld — softwaredecodering kan geen video met een resolutie van <xliff:g id="resolution">%1$s</xliff:g> verwerken. Schakel hardwaredecodering in via Instellingen → Videospeler.</string>
@@ -267,7 +271,7 @@
     <string name="player_subtitles_search_language_description">Alleen ondertitels in deze taal verschijnen in de zoekresultaten. Je kunt in de resultaten nog steeds op “Alle talen” drukken om alles voor één zoekopdracht te zien.</string>
     <string name="player_subtitles_language_not_set">Niet ingesteld</string>
     <string name="player_frame_rate_prompt_title">Deze zender kan haperen</string>
-    <string name="player_frame_rate_prompt_description">Het speelt af met <xliff:g id="fps">%1$d</xliff:g> fps terwijl je tv op <xliff:g id="current_hz">%2$d</xliff:g> Hz draait, waardoor die frames niet gelijkmatig kunnen worden weergegeven — beweging ziet er iets schokkerig uit.\n\nAutomatische framerate schakelt de tv tijdens het kijken naar <xliff:g id="target_hz">%3$d</xliff:g> Hz en zet hem daarna terug. Sommige tv\'s worden even zwart wanneer de frequentie verandert; je kunt dit weer uitzetten in Instellingen → Videospeler.</string>
+    <string name="player_frame_rate_prompt_description">Het speelt af met <xliff:g id="fps">%1$d</xliff:g> fps terwijl je tv op <xliff:g id="current_hz">%2$d</xliff:g> Hz draait, waardoor die frames niet gelijkmatig kunnen worden weergegeven — beweging ziet er iets schokkerig uit.\n\nAutomatische framerate schakelt de tv tijdens het kijken naar <xliff:g id="target_hz">%3$d</xliff:g> Hz en zet hem daarna terug. Sommige tv\'s worden even zwart wanneer de frequentie verandert; je kunt dit weer uitzetten in Instellingen → Beeld → Beeldfrequentie.</string>
     <string name="player_frame_rate_turn_on">Inschakelen</string>
     <string name="player_reason_live_fallback">Live-weergave overgeschakeld naar een fallback</string>
     <string name="player_reason_live_no_fallback">Live-weergave mislukt — er is geen fallback meer over</string>

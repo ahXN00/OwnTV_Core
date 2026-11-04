@@ -10,6 +10,7 @@ import androidx.room.Transaction
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import tv.own.owntv.core.database.entity.ChannelEntity
+import tv.own.owntv.core.database.entity.ChannelNumberProjection
 import tv.own.owntv.core.database.entity.ContentHashProjection
 
 /** A channel plus its category name, for richer global-search results ("category · #number"). */
@@ -157,6 +158,14 @@ interface ChannelDao {
     suspend fun remoteIdsForSource(sourceId: Long): List<String>
 
     /**
+     * A few of the source's live URLs containing [pattern] (a `LIKE` pattern such as `%.mp4%`). A
+     * coarse filter so the startup check never loads the whole catalogue; the caller confirms each
+     * with `ProgressiveVideoUrl`.
+     */
+    @Query("SELECT streamUrl FROM channels WHERE sourceId = :sourceId AND streamUrl LIKE :pattern LIMIT :limit")
+    suspend fun streamUrlsLike(sourceId: Long, pattern: String, limit: Int): List<String>
+
+    /**
      * Each channel's provider id alongside the guide key it is actually stored under — what a Stalker
      * portal's own guide needs to line up.
      *
@@ -197,6 +206,19 @@ interface ChannelDao {
         for (i in ids.indices) setSortOrder(ids[i], sortOrders[i])
     }
 
+    /** Every channel of a source in playlist order, with its number — what `PlaylistNumbering` works from. */
+    @Query("SELECT id, remoteId, sortOrder, number FROM channels WHERE sourceId = :sourceId ORDER BY sortOrder ASC, id ASC")
+    suspend fun numbersForSource(sourceId: Long): List<ChannelNumberProjection>
+
+    /** Sets only the number, for the same reason [setSortOrder] sets only the position. */
+    @Query("UPDATE channels SET number = :number WHERE id = :id")
+    suspend fun setNumber(id: Long, number: Int?)
+
+    @Transaction
+    suspend fun applyNumbers(ids: List<Long>, numbers: List<Int?>) {
+        for (i in ids.indices) setNumber(ids[i], numbers[i])
+    }
+
     /**
      * Shift every row of this source whose position lies in a span.
      *
@@ -207,9 +229,15 @@ interface ChannelDao {
     @Query("UPDATE channels SET sortOrder = sortOrder + :delta WHERE sourceId = :sourceId AND sortOrder BETWEEN :fromSortOrder AND :toSortOrder")
     suspend fun shiftSortOrders(sourceId: Long, fromSortOrder: Int, toSortOrder: Int, delta: Int)
 
+    /** Takes [PARKED_SORT_ORDER] off the rows [applyPositionRanges] parked. */
+    @Query("UPDATE channels SET sortOrder = sortOrder - :parked WHERE sourceId = :sourceId AND sortOrder >= :parked / 2")
+    suspend fun unparkSortOrders(sourceId: Long, parked: Int = PARKED_SORT_ORDER)
+
+    /** Every range parks its rows (see [PARKED_SORT_ORDER]), so no range shifts a row twice. */
     @Transaction
     suspend fun applyPositionRanges(sourceId: Long, froms: List<Int>, tos: List<Int>, deltas: List<Int>) {
-        for (i in froms.indices) shiftSortOrders(sourceId, froms[i], tos[i], deltas[i])
+        for (i in froms.indices) shiftSortOrders(sourceId, froms[i], tos[i], deltas[i] + PARKED_SORT_ORDER)
+        unparkSortOrders(sourceId)
     }
 
 
@@ -263,26 +291,21 @@ interface ChannelDao {
     @Query("SELECT * FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1 ORDER BY sourceId ASC, sortOrder ASC, name ASC")
     fun pagingCatchupOriginal(sourceIds: List<Long>): PagingSource<Int, ChannelEntity>
 
-    // --- Manual order (Move) — LEFT JOIN content_order; items with a row come first in their saved
-    //     position, the rest fall back to provider/playlist order. ---
+    // --- Manual order (Move) — LEFT JOIN content_order; a row with a saved position keeps it, the rest
+    //     follow A–Z or the provider/playlist order around it. ---
+    /** Moved rows keep their saved position; the rest follow [alpha] (A–Z) or the playlist order
+     *  around them — the same rule as `placePinned` for categories. */
     @Query(
-        "SELECT c.* FROM channels c " +
+            "WITH base AS (SELECT c.id AS id, c.sortOrder AS so, c.name AS nm, 0 AS mp, o.position AS pos " +
+            "FROM channels c " +
             "LEFT JOIN content_order o ON o.itemId = c.id AND o.profileId = :profileId AND o.mediaType = 'LIVE' AND o.contextKey = :contextKey " +
-            "WHERE c.categoryId = :categoryId " +
-            "ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, c.sortOrder, c.name",
+            "WHERE c.categoryId = :categoryId), " +
+            "slots AS (SELECT id, pos - (ROW_NUMBER() OVER (ORDER BY pos, id) - 1) AS slot, 0 AS grp, pos AS tie FROM base WHERE pos IS NOT NULL " +
+            "UNION ALL SELECT id, ROW_NUMBER() OVER (ORDER BY CASE WHEN :alpha THEN nm END, mp, so, nm) - 1 AS slot, 1 AS grp, 0 AS tie FROM base WHERE pos IS NULL) " +
+            "SELECT c.* FROM channels c INNER JOIN slots sl ON sl.id = c.id ORDER BY sl.slot, sl.grp, sl.tie",
     )
-    fun pagingByCategoryManual(categoryId: Long, profileId: Long, contextKey: String): PagingSource<Int, ChannelEntity>
+    fun pagingByCategoryManual(categoryId: Long, profileId: Long, contextKey: String, alpha: Boolean): PagingSource<Int, ChannelEntity>
 
-    /** A–Z variant of [pagingByCategoryManual]: manually placed channels keep their saved position,
-     *  the rest sort by name instead of falling back to provider order — the same "manual order wins,
-     *  the rest goes A–Z" convention the folder list itself uses (see `alphaRest`). */
-    @Query(
-        "SELECT c.* FROM channels c " +
-            "LEFT JOIN content_order o ON o.itemId = c.id AND o.profileId = :profileId AND o.mediaType = 'LIVE' AND o.contextKey = :contextKey " +
-            "WHERE c.categoryId = :categoryId " +
-            "ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, c.name",
-    )
-    fun pagingByCategoryManualAlpha(categoryId: Long, profileId: Long, contextKey: String): PagingSource<Int, ChannelEntity>
 
     @Query(
         "SELECT c.* FROM channels c " +
@@ -293,14 +316,18 @@ interface ChannelDao {
     )
     fun pagingFavoritesManual(profileId: Long, contextKey: String, sourceIds: List<Long>): PagingSource<Int, ChannelEntity>
 
-    /** Bounded snapshot of a folder in manual order, for the Move session's in-memory reorder. */
+    /** Bounded snapshot of a folder in manual order, for the Move session's in-memory reorder. Moved rows keep their saved position; the rest follow
+     *  [alpha] (A–Z) or the playlist order around them. */
     @Query(
-        "SELECT c.* FROM channels c " +
+            "WITH base AS (SELECT c.id AS id, c.sortOrder AS so, c.name AS nm, 0 AS mp, o.position AS pos " +
+            "FROM channels c " +
             "LEFT JOIN content_order o ON o.itemId = c.id AND o.profileId = :profileId AND o.mediaType = 'LIVE' AND o.contextKey = :contextKey " +
-            "WHERE c.categoryId = :categoryId " +
-            "ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, c.sortOrder, c.name LIMIT :limit",
+            "WHERE c.categoryId = :categoryId), " +
+            "slots AS (SELECT id, pos - (ROW_NUMBER() OVER (ORDER BY pos, id) - 1) AS slot, 0 AS grp, pos AS tie FROM base WHERE pos IS NOT NULL " +
+            "UNION ALL SELECT id, ROW_NUMBER() OVER (ORDER BY CASE WHEN :alpha THEN nm END, mp, so, nm) - 1 AS slot, 1 AS grp, 0 AS tie FROM base WHERE pos IS NULL) " +
+            "SELECT c.* FROM channels c INNER JOIN slots sl ON sl.id = c.id ORDER BY sl.slot, sl.grp, sl.tie LIMIT :limit",
     )
-    suspend fun snapshotByCategoryManual(categoryId: Long, profileId: Long, contextKey: String, limit: Int): List<ChannelEntity>
+    suspend fun snapshotByCategoryManual(categoryId: Long, profileId: Long, contextKey: String, alpha: Boolean, limit: Int): List<ChannelEntity>
 
     /** Bounded snapshot across all of a profile's playlists, in provider order — the in-player zap /
      *  channel-list fallback for a channel that has no category of its own. */
@@ -349,6 +376,13 @@ interface ChannelDao {
      *  entry is offered at all (a provider with no archive must not get a permanently empty folder). */
     @Query("SELECT COUNT(*) FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1")
     fun observeCatchupCount(sourceIds: List<Long>): Flow<Int>
+
+    /** [observeCatchupCount] without the channels filed under [excluded] (locked categories). */
+    @Query(
+        "SELECT COUNT(*) FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1 " +
+            "AND (categoryId IS NULL OR categoryId NOT IN (:excluded))",
+    )
+    fun observeCatchupCountExcluding(sourceIds: List<Long>, excluded: List<Long>): Flow<Int>
 
     // --- Search (FTS4) ---
     @Query(
@@ -432,6 +466,20 @@ interface ChannelDao {
             "WHERE h.profileId = :profileId AND h.mediaType = 'LIVE' AND c.sourceId IN (:sourceIds)",
     )
     fun countHistory(profileId: Long, sourceIds: List<Long>): Flow<Int>
+
+    /** [countFavorites] without the channels filed under [excluded] (locked categories). */
+    @Query(
+        "SELECT COUNT(*) FROM favorites f INNER JOIN channels c ON c.id = f.itemId WHERE f.profileId = :profileId " +
+            "AND f.mediaType = 'LIVE' AND c.sourceId IN (:sourceIds) AND (c.categoryId IS NULL OR c.categoryId NOT IN (:excluded))",
+    )
+    fun countFavoritesExcluding(profileId: Long, sourceIds: List<Long>, excluded: List<Long>): Flow<Int>
+
+    /** [countHistory] without the channels filed under [excluded] (locked categories). */
+    @Query(
+        "SELECT COUNT(*) FROM watch_history h INNER JOIN channels c ON c.id = h.itemId WHERE h.profileId = :profileId " +
+            "AND h.mediaType = 'LIVE' AND c.sourceId IN (:sourceIds) AND (c.categoryId IS NULL OR c.categoryId NOT IN (:excluded))",
+    )
+    fun countHistoryExcluding(profileId: Long, sourceIds: List<Long>, excluded: List<Long>): Flow<Int>
 
     @Query(
         "SELECT c.* FROM channels c " +

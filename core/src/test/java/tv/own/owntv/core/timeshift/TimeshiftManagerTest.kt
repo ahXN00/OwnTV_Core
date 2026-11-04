@@ -5,6 +5,7 @@ import okhttp3.OkHttpClient
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNotSame
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
@@ -15,6 +16,7 @@ import java.net.ServerSocket
 import java.net.URL
 import java.nio.file.Files
 import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicLong
 import kotlin.concurrent.thread
 
 /**
@@ -75,7 +77,7 @@ class TimeshiftManagerTest {
         runCatching { dir.deleteRecursively() }
     }
 
-    private fun readSome(session: TimeshiftSession, from: Long, bytes: Int): HttpURLConnection {
+    private fun readSome(session: TimeshiftSession, from: Long?, bytes: Int): HttpURLConnection {
         val conn = URL(TimeshiftServer.urlFor(session, from)).openConnection() as HttpURLConnection
         conn.readTimeout = 5_000
         val input = conn.inputStream
@@ -110,6 +112,50 @@ class TimeshiftManagerTest {
         assertNotNull(back.resumeAtWallMs)
         Thread.sleep(300)
         assertTrue("reconnected once", connections.get() == before + 1)
+    }
+
+    /**
+     * A television in standby: the wall clock runs on, but the CPU sleeps and the manager's own timers
+     * barely move, so the parked buffer is still there when the screen comes back.
+     */
+    private fun sleepingManager(now: AtomicLong) =
+        TimeshiftManager(OkHttpClient(), { dir }, clock = { now.get() }, idleParkMs = 300)
+
+    @Test
+    fun `a player back long after the park gets fresh pieces, not the ones from before`() = runBlocking {
+        val now = AtomicLong(1_000_000L)
+        val sleeping = sleepingManager(now)
+        try {
+            val session = sleeping.open("ch1", target(), 15, 5_000)!!.session
+            assertTrue("saving", eventually { (session.livePieceIndex() ?: 0) >= 2 })
+            assertTrue("parked", eventually { !sleeping.isSaving(-1) })
+            now.addAndGet(TimeshiftRules.PARKED_GRACE_MS + 60_000)
+
+            // The television restoring its channel: the same live address, straight to the server.
+            val conn = readSome(session, null, 188 * 20)
+            assertEquals("only what came after the return", now.get(), session.oldestWallMs())
+            conn.disconnect()
+        } finally {
+            sleeping.closeAll()
+        }
+    }
+
+    @Test
+    fun `a channel opened again long after the park starts a new buffer`() = runBlocking {
+        val now = AtomicLong(1_000_000L)
+        val sleeping = sleepingManager(now)
+        try {
+            val first = sleeping.open("ch1", target(), 15, 5_000)!!.session
+            assertTrue("parked", eventually { !sleeping.isSaving(-1) })
+            now.addAndGet(TimeshiftRules.PARKED_GRACE_MS + 60_000)
+
+            val again = sleeping.open("ch1", target(), 15, 5_000)!!
+            assertNotSame(first, again.session)
+            assertNull("nothing left to resume from", again.resumeAtWallMs)
+            assertTrue("the old copy is gone", eventually { first.isClosed })
+        } finally {
+            sleeping.closeAll()
+        }
     }
 
     @Test

@@ -30,7 +30,8 @@ enum class Sport(val path: String) {
 /**
  * One competition. [slug] is ESPN's league slug (`ger.1`, `nba`, `atp`); it is unique within a sport,
  * so [key] is unique everywhere. [country] is an ISO 3166 code where the competition belongs to one
- * country, else null (UCL, F1, ATP).
+ * country, else null (UCL, F1, ATP). [hasTable] is false for a knockout cup or a run of one-off games,
+ * whose `standings` answer is empty every time.
  */
 data class League(
     val sport: Sport,
@@ -38,6 +39,7 @@ data class League(
     val name: String,
     val abbreviation: String = name,
     val country: String? = null,
+    val hasTable: Boolean = true,
 ) {
     val key: String get() = keyOf(sport, slug)
 

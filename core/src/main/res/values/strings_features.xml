@@ -13,12 +13,16 @@
     <string name="profiles_name_hint">e.g. Alex</string>
     <!-- Translators: Section header for the avatar picker in the profile editor. All caps is intentional for this section label. -->
     <string name="profiles_avatar">AVATAR</string>
-    <!-- Translators: Toggle label in the profile editor for kids mode. -->
     <!-- Translators: Option in the avatar picker that uses a photo the user supplies instead of one of the drawn avatars. -->
     <string name="profiles_avatar_own_picture">Your own picture</string>
+    <!-- Translators: Toggle label in the profile editor for kids mode. -->
     <string name="profiles_kids">Kids profile</string>
     <!-- Translators: Description beneath the kids-mode toggle in the profile editor. -->
     <string name="profiles_kids_description">Simplified, safe browsing</string>
+    <!-- Translators: Switch in the profile editor: whether this profile may download films and episodes. -->
+    <string name="profiles_allow_downloads">Allow downloads</string>
+    <!-- Translators: Description under the Allow downloads switch in the profile editor. -->
+    <string name="profiles_allow_downloads_description">Off hides every Download button for this profile</string>
     <!-- Translators: Button in the profile editor to remove the PIN lock. -->
     <string name="profiles_remove_pin">Remove PIN lock</string>
     <!-- Translators: Status text indicating the profile has no PIN lock. -->
@@ -93,6 +97,10 @@
     <string name="search_clear_recent">Clear recent searches</string>
     <!-- Translators: Placeholder in the empty search field. -->
     <string name="search_field_hint">Channels, movies and series</string>
+    <!-- Translators: Spoken label of the microphone button beside the search field (read by screen readers). -->
+    <string name="search_voice">Voice search</string>
+    <!-- Translators: Prompt the system speech recogniser shows while it listens for a search. -->
+    <string name="search_voice_prompt">Say a channel, movie or series</string>
     <!-- Translators: Title of the card shown on the empty search page. -->
     <string name="search_card_title">Find anything in your playlists</string>
     <!-- Translators: Text of the card shown on the empty search page. -->
@@ -125,6 +133,13 @@
     <string name="launcher_movie_type">Movie</string>
     <!-- Translators: Episode number display for the Android TV home screen. "episode" is the episode number. -->
     <string name="launcher_episode_number">Episode <xliff:g id="episode">%1$d</xliff:g></string>
+    <!-- Translators: Home note while a large playlist keeps loading in the background after setup. "count" is the number of movies and series stored so far, already formatted (e.g. "34,120"). -->
+    <plurals name="home_library_loading">
+        <item quantity="one">Loading your library · <xliff:g id="count">%1$s</xliff:g> title so far</item>
+        <item quantity="other">Loading your library · <xliff:g id="count">%1$s</xliff:g> titles so far</item>
+    </plurals>
+    <!-- Translators: Second line of the Home loading note, shown only while the Now Trending row is switched on but not showing yet. Use the same name for the row as elsewhere in the app. -->
+    <string name="home_library_loading_trending">Now Trending appears as your library fills in.</string>
     <!-- Translators: Empty-state message on the Home screen when nothing is available to preview. -->
     <string name="home_no_preview">Nothing to preview yet.</string>
     <!-- Translators: Empty-state message when all Home rows are hidden. -->
@@ -344,6 +359,8 @@
     <string name="recording_record">Record</string>
     <!-- Translators: Button that ends a recording that is currently running. Whatever was captured is kept. -->
     <string name="recording_stop">Stop recording</string>
+    <!-- Translators: Body of the question before a recording of live TV is deleted from the device. A live programme usually cannot be recorded again. -->
+    <string name="recording_delete_message">Removes the recording and its file from this device. This cannot be undone.</string>
     <!-- Translators: Button that records every future showing of this programme title on this channel. -->
     <string name="recording_record_series">Record every showing</string>
     <!-- Translators: Button that cancels the standing "record every showing" instruction. -->
@@ -368,6 +385,8 @@
     <string name="recording_badge">REC</string>
     <!-- Translators: Line in the status pill while a programme is being recorded. "title" is the programme name. -->
     <string name="recording_pill_line">Recording <xliff:g id="title">%1$s</xliff:g></string>
+    <!-- Translators: Line in the status pill while a programme on a channel locked with the PIN is being recorded; its name stays hidden until the PIN opens the category. -->
+    <string name="recording_pill_line_locked">Recording from a locked category</string>
     <!-- Translators: Warning shown when a new recording would overlap one already scheduled, and the provider has no spare connection. "programme" is the other recording's title. -->
     <string name="recording_clash_with">Clashes with <xliff:g id="programme">%1$s</xliff:g></string>
     <!-- Translators: Heading of the Recording group on the settings screen. -->
@@ -506,6 +525,24 @@
     <string name="sports_hint_match_page">Match page</string>
     <!-- Translators: Key hint on a match card: what holding OK offers (follow the team, or set a reminder). -->
     <string name="sports_hint_follow_remind">Follow · Remind</string>
+    <!-- Translators: Key hint on a calendar day: OK goes into the list of that day's matches. -->
+    <string name="sports_hint_day_matches">Day’s matches</string>
+    <!-- Translators: Key hint beside the left/right arrow keys in the calendar: move one day. -->
+    <string name="sports_hint_day">Day</string>
+    <!-- Translators: Key hint beside the up/down arrow keys in the calendar: move one week. -->
+    <string name="sports_hint_week">Week</string>
+    <!-- Translators: Key hint on a finished match whose score is hidden (Spoiler-free): OK shows it. -->
+    <string name="sports_hint_show_score">Show score</string>
+    <!-- Translators: Key hint in a calendar day's list: the left arrow goes back to the day in the month. -->
+    <string name="sports_hint_back_to_day">Back to the day</string>
+    <!-- Translators: Key hint on a league card: OK opens that league. -->
+    <string name="sports_hint_open_league">Open league</string>
+    <!-- Translators: Key hint beside the up or down arrow key: it goes to the row of sport buttons (All, My teams, Football …). -->
+    <string name="sports_hint_sport_chips">Sport chips</string>
+    <!-- Translators: Key hint beside the up arrow key: it goes to the row of league buttons (Premier League, Bundesliga …). -->
+    <string name="sports_hint_league_chips">League chips</string>
+    <!-- Translators: Key hint on a league card: holding OK follows or stops following that league. -->
+    <string name="sports_hint_follow_unfollow">Follow · Unfollow</string>
     <!-- Translators: Badge on a match card when the user has set a reminder for it. -->
     <string name="sports_reminder_set">Reminder</string>
     <!-- Translators: After a channel name in "Sport on your channels": when the programme ends, e.g. "until 20:45". %1$s is a time. -->
@@ -695,6 +732,82 @@
     <string name="sports_tab_fixtures">Fixtures</string>
     <!-- Translators: League page tab: matches already played. -->
     <string name="sports_tab_results">Results</string>
+    <!-- Translators: Tab in the Sports header: today's and tomorrow's scores, live. Shown beside Calendar and Leagues, and on the same screen as the Results tab, so it must not read like Results. -->
+    <string name="sports_tab_scores">Scores</string>
+    <!-- Translators: Tab in the Sports header: a month calendar of matches. Shown on the same screen as the Fixtures tab, so it must not use the same word as Fixtures. -->
+    <string name="sports_tab_calendar">Calendar</string>
+    <!-- Translators: Tab in the Sports header: every followed league with its table, fixtures and results. -->
+    <string name="sports_tab_leagues">Leagues</string>
+    <!-- Translators: Calendar button (and screen-reader label): show the month before. -->
+    <string name="sports_previous_month">Previous month</string>
+    <!-- Translators: Calendar button (and screen-reader label): show the month after. -->
+    <string name="sports_next_month">Next month</string>
+    <!-- Translators: Line under an empty day or a league card: the next match or race, e.g. "Next: Sat 24 Oct · Bayern – Dortmund". %1$s is that match with its day. -->
+    <string name="sports_next">Next: <xliff:g id="match">%1$s</xliff:g></string>
+    <!-- Translators: Badge on the next fixture in a list. Shown in capitals by the style. -->
+    <string name="sports_next_badge">Next</string>
+    <!-- Translators: Cricket in the Leagues tab: there is no league table, because the series being played change every week. -->
+    <string name="sports_no_table_series">No table — series change every week</string>
+    <!-- Translators: Menu action on a league card: add the league to the followed leagues. -->
+    <string name="sports_follow_league">Follow league</string>
+    <!-- Translators: Menu action on a league card: remove the league from the followed leagues. -->
+    <string name="sports_unfollow_league">Unfollow league</string>
+    <!-- Translators: Calendar, a day with no matches: %1$s is the day, e.g. "Thu 15 Oct". -->
+    <string name="sports_no_matches_on">No matches in your sports on <xliff:g id="day">%1$s</xliff:g></string>
+    <!-- Translators: Calendar, title of a day with no matches. -->
+    <string name="sports_nothing_on_day">Nothing on this day</string>
+    <!-- Translators: Calendar, a day with no matches in the chosen sport. %1$s is the sport's name, e.g. "Motorsport". -->
+    <string name="sports_nothing_in_sport">Nothing in <xliff:g id="sport">%1$s</xliff:g> on this day</string>
+    <!-- Translators: Under an empty calendar day: where the followed leagues are chosen. Use the app's own names for Settings and Sports. -->
+    <string name="sports_change_leagues_hint">Add or remove leagues in Settings → Sports</string>
+    <!-- Translators: Calendar while a month is being fetched. %1$s is the month, e.g. "October". -->
+    <string name="sports_loading_month">Loading <xliff:g id="month">%1$s</xliff:g>…</string>
+    <!-- Translators: Calendar when there is no internet: what is shown was saved earlier. %1$s is when, e.g. "Fri 16 Oct, 21:00". ESPN is a brand name: do not translate it. -->
+    <string name="sports_offline_saved">Showing what was saved <xliff:g id="time">%1$s</xliff:g> — ESPN could not be reached</string>
+    <!-- Translators: Title of a team's page (its fixtures and results). -->
+    <string name="sports_team_page">Team page</string>
+    <!-- Translators: Team page: heading of the team's next match. -->
+    <string name="sports_next_match">Next match</string>
+    <!-- Translators: Team page: heading of the team's last five results (W / D / L). -->
+    <string name="sports_last_five">Last five</string>
+    <!-- Translators: Team page: heading of the team's place in its league table. -->
+    <string name="sports_league_position">League position</string>
+    <!-- Translators: Team page: the team is one of the user's My teams. -->
+    <string name="sports_in_my_teams">In My teams</string>
+    <!-- Translators: Menu action on a match: open its match page. -->
+    <string name="sports_open_match_page">Open match page</string>
+    <!-- Translators: Menu action on a team: open its team page. -->
+    <string name="sports_open_team_page">Open team page</string>
+    <!-- Translators: Leagues tab with My teams chosen: what is listed, the leagues the user's teams play in. -->
+    <string name="sports_my_teams_leagues">The leagues your teams play in</string>
+    <!-- Translators: Motorsport tab: the drivers' championship standings. -->
+    <string name="sports_tab_drivers">Drivers</string>
+    <!-- Translators: Formula 1 tab: the constructors' (teams') championship standings. -->
+    <string name="sports_tab_constructors">Constructors</string>
+    <!-- Translators: Motorsport tab: the season's race weekends. -->
+    <string name="sports_tab_races">Races</string>
+    <!-- Translators: Tennis tab: the world ranking of the players. -->
+    <string name="sports_tab_rankings">Rankings</string>
+    <!-- Translators: Tennis tab: today's matches of that tour. -->
+    <string name="sports_tab_matches">Matches</string>
+    <!-- Translators: Motorsport: heading of the next race weekend with its sessions. -->
+    <string name="sports_next_race_weekend">Next race weekend</string>
+    <!-- Translators: Results list heading: the matches of last weekend, followed by its date. -->
+    <string name="sports_last_weekend">Last weekend</string>
+    <!-- Translators: Motorsport session: the first free practice. -->
+    <string name="sports_session_practice_1">Practice 1</string>
+    <!-- Translators: Motorsport session: the second free practice. -->
+    <string name="sports_session_practice_2">Practice 2</string>
+    <!-- Translators: Motorsport session: the third free practice. -->
+    <string name="sports_session_practice_3">Practice 3</string>
+    <!-- Translators: Motorsport session: qualifying for the sprint race. -->
+    <string name="sports_session_sprint_qualifying">Sprint qualifying</string>
+    <!-- Translators: Motorsport session: qualifying for the main race. -->
+    <string name="sports_session_qualifying">Qualifying</string>
+    <!-- Translators: Motorsport session: the short sprint race. -->
+    <string name="sports_session_sprint">Sprint</string>
+    <!-- Translators: Motorsport session: the main race. -->
+    <string name="sports_session_race">Race</string>
     <!-- Translators: League table column heading. -->
     <string name="sports_table_team">Team</string>
     <!-- Translators: League table column heading: matches played. Keep it to one to three letters, as league tables do in your language. -->
@@ -853,6 +966,15 @@
     </plurals>
     <!-- Translators: Choice of the Auto rebuild setting: rebuild once each time the app starts. -->
     <string name="sports_auto_rebuild_app_start">On every app start</string>
+    <!-- Translators: Setting in Settings → Sports → Data: how often saved calendar months are fetched again. -->
+    <string name="sports_calendar_refresh">Calendar refresh</string>
+    <!-- Translators: Description of the Calendar refresh setting. -->
+    <string name="sports_calendar_refresh_description">How often saved months are fetched again</string>
+    <!-- Translators: Choice of the Calendar refresh setting: every so many days (1 to 30). "count" is the number of days. -->
+    <plurals name="sports_calendar_refresh_days">
+        <item quantity="one">Every <xliff:g id="count">%1$d</xliff:g> day</item>
+        <item quantity="other">Every <xliff:g id="count">%1$d</xliff:g> days</item>
+    </plurals>
     <!-- Translators: Button on a match page: search the user's channels and guide for this match. -->
     <string name="sports_find_channels">Find channels</string>
     <!-- Translators: Under that button, before the search has run. -->

@@ -65,10 +65,21 @@
     </plurals>
     <string name="content_category_restore_order">Eigene Reihenfolge wird gelöscht</string>
     <string name="content_category_restore_nothing">Die Kategorie entspricht bereits dem Standard der Wiedergabeliste</string>
+    <string name="content_category_lock">Mit PIN sperren</string>
+    <string name="content_category_locked_placeholder">Diese Kategorie ist gesperrt</string>
+    <plurals name="content_category_pin_wait">
+        <item quantity="one">Zu viele falsche PINs. Versuchen Sie es in <xliff:g id="count">%1$d</xliff:g> Sekunde erneut</item>
+        <item quantity="other">Zu viele falsche PINs. Versuchen Sie es in <xliff:g id="count">%1$d</xliff:g> Sekunden erneut</item>
+    </plurals>
     <string name="content_move_to_category">In Kategorie verschieben…</string>
     <string name="content_remove_from_category">Aus dieser Kategorie entfernen</string>
     <string name="content_download">Herunterladen</string>
     <string name="content_download_all_episodes">Alle Folgen herunterladen</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> Folge herunterladen?</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> Folgen herunterladen?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">Sie werden auf diesem Gerät gespeichert und belegen Speicherplatz.</string>
     <string name="content_play">Abspielen</string>
     <string name="content_favorited">Als Favorit markiert</string>
     <string name="content_favorite">Favorit</string>
@@ -76,9 +87,7 @@
     <string name="content_episodes">Folgen</string>
     <string name="content_oldest_first">Älteste zuerst</string>
     <string name="content_newest_first">Neueste zuerst</string>
-    <string name="content_play_external">Mit externem Player abspielen</string>
     <string name="content_delete_subtitles">OpenSub-Untertitel löschen</string>
-    <string name="content_tmdb_details">TMDB-Details</string>
     <string name="content_play_trailer">Trailer abspielen</string>
     <string name="content_refetch_tmdb">TMDB-Details erneut abrufen</string>
     <string name="content_set_tmdb_name">TMDB-Namen festlegen</string>
@@ -128,6 +137,9 @@
     <string name="content_catchup_jump_prompt">Wähle eine Uhrzeit, ab der du sehen willst. Kein Programmführer nötig.</string>
     <string name="content_catchup_jump_exact">Genaue Uhrzeit wählen…</string>
     <string name="content_catchup_jump_hint">Drücke OK auf Tag, Stunde oder Minute, ändere den Wert mit Auf und Ab und drücke dann erneut OK.</string>
+    <string name="content_catchup_jump_programme_start">Anfang von „<xliff:g id="title">%1$s</xliff:g>“</string>
+    <string name="content_catchup_jump_programme_start_untitled">Anfang der Sendung</string>
+    <string name="content_catchup_jump_programme_start_at">Begann um <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">Wählen Sie für „<xliff:g id="channel">%1$s</xliff:g>“ den Sender der Programmübersicht aus.</string>
     <string name="content_epg_match_prompt_current">Wählen Sie für „<xliff:g id="channel">%1$s</xliff:g>“ den Sender der Programmübersicht aus. Aktuell: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">EPG-Sender suchen…</string>
@@ -176,6 +188,8 @@
     <string name="content_downloads_ready">Bereit zum Ansehen</string>
     <string name="content_downloads_paused">Pausiert</string>
     <string name="content_downloads_file_missing">Datei fehlt: Sie ist nicht mehr auf dem Laufwerk</string>
+    <string name="content_downloads_delete_title">„<xliff:g id="name">%1$s</xliff:g>“ löschen?</string>
+    <string name="content_downloads_delete_message">Entfernt die Datei von diesem Gerät. Du kannst sie später erneut herunterladen.</string>
     <string name="content_downloads_reason_account_busy">Konto ausgelastet: Ein anderer Stream nutzt die Verbindung</string>
     <string name="content_downloads_reason_refused">Der Server hat den Link abgelehnt</string>
     <string name="content_downloads_reason_not_found">Der Server hat diese Datei nicht mehr</string>

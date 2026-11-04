@@ -44,6 +44,10 @@
     <string name="player_timeshift_resume_message">This channel was saved while you were away.</string>
     <!-- Translators: Action that tunes back to the channel watched before the current one, like a TV remote's "last channel" button. Shown in Remote shortcuts and read out for the phone player's button. -->
     <string name="player_previous_channel">Previous channel</string>
+    <!-- Translators: Player button: the other versions of the channel playing (the same channel in another quality, category or playlist), to switch to. Keep it short. -->
+    <string name="player_tool_sources">Sources</string>
+    <!-- Translators: Shown in the Sources list when the channel playing has no other version. -->
+    <string name="player_sources_none">No other version of this channel was found.</string>
     <!-- Translators: Phone live player button that steps to the next channel in the list being watched, wrapping round at the end. Read out by screen readers. -->
     <string name="player_next_channel_in_list">Next channel</string>
     <!-- Translators: Phone live player button that steps back one channel in the list being watched, wrapping round at the start. Must differ from "Previous channel" (player_previous_channel), which returns to the last channel watched; both buttons are on the same screen. -->
@@ -145,7 +149,6 @@
     <string name="player_play_now">Play now</string>
     <!-- Translators: Dialog title for the volume adjustment dialog in the player HUD. -->
     <string name="player_volume">Volume</string>
-    <!-- Translators: Name of the player-engine toggle button in the player control bar, shown while it has focus. It switches playback between the two video engines. -->
     <!-- Translators: Button in the volume dialog to unmute audio. Shown when volume is currently 0. -->
     <string name="player_unmute">Unmute</string>
     <!-- Translators: Button in the volume dialog to mute audio. Shown when volume is currently audible. -->
@@ -178,6 +181,8 @@
     <string name="player_switch_exo">Switched to ExoPlayer</string>
     <!-- Translators: Toast message shown briefly when the user switches the video engine to mpv. "MPV" is a brand name. -->
     <string name="player_switch_mpv">Switched to MPV</string>
+    <!-- Translators: One-time hint over the live player when a channel keeps dropping frames on the ExoPlayer engine. "MPV" is the other engine's brand name; the player bar has a button that switches to it. -->
+    <string name="player_smoothness_hint">This channel is dropping frames. Switching the player to MPV may play it more smoothly.</string>
     <!-- Translators: Error message when image-based subtitles are incompatible with the video\'s audio format. -->
     <string name="player_error_image_subtitle_audio">Image subtitles aren\'t available for this video\'s audio format.</string>
     <!-- Translators: Error message when both ExoPlayer and mpv fail. "ExoPlayer" and "mpv" are engine brand names. Shown in player error overlay and toast. -->
@@ -222,6 +227,8 @@
     <string name="player_error_mpv_open_decode">mpv couldn\'t open or decode this file.</string>
     <!-- Translators: Error when mpv fails to start the stream after multiple retries. -->
     <string name="player_error_mpv_stream_never_started">The stream never started in mpv after several retries.</string>
+    <!-- Translators: Player error for a channel or film the playlist marks as protected with Apple's FairPlay DRM. No Android device can decrypt FairPlay, so this is a limit of the device, not of the app or the provider. Keep "Apple FairPlay", "Android" and "Apple" as they are. -->
+    <string name="player_error_fairplay">This stream is protected by Apple FairPlay, which Android devices can\'t play. The playlist is made for Apple devices.</string>
     <!-- Translators: Notification when the audio output cannot do surround and falls back to stereo. -->
     <string name="player_error_surround">This audio output can\'t do surround \u2014 switched to stereo.</string>
     <!-- Translators: Error when hardware decoding fails and software decoding cannot handle the resolution. "resolution" is a string such as "4K" or "3840x2160". This is a technical diagnostic, not actionable advice for most users. -->
@@ -418,7 +425,6 @@
     <string name="player_subtitles_session_expired">Your OpenSubtitles session has expired. To keep searching and downloading subtitles, sign in again from Settings \u2192 Video player \u2192 Subtitles \u2192 OpenSubtitles.</string>
     <!-- Translators: Error/dialog when the user needs an OpenSubtitles account to search. Directs to Settings path. "opensubtitles.com" is a website URL. -->
     <string name="player_subtitles_account_needed">OpenSubtitles account needed\n\nTo search and download subtitles, sign in from Settings \u2192 Video player \u2192 Subtitles \u2192 OpenSubtitles. OpenSubtitles is a free, open community service \u2014 anyone can create a free account at opensubtitles.com.</string>
-    <!-- Translators: Empty-state message in the subtitle search results when no matches are found. -->
     <!-- Translators: Button label in the subtitle search to show results in all languages. -->
     <string name="player_subtitles_show_all_languages">Show all languages</string>
     <!-- Translators: Label for the "all languages" filter option in subtitle search. -->
@@ -477,7 +483,6 @@
     <string name="player_reason_archive_software_fallback">Catch-up archive reopened in software decoding</string>
     <!-- Translators: Playback-log event headline after surround output fails. -->
     <string name="player_reason_stereo_fallback">Switched to stereo audio</string>
-    <!-- Translators: Playback-log event headline after repeated ExoPlayer failures. mpv is a player name. -->
     <!-- Translators: Playback-log event headline for IPTV providers that permit only one active connection. -->
     <string name="player_reason_one_session_provider">Provider allows one session at a time</string>
     <!-- Translators: Playback-log event headline when ExoPlayer hands a channel to mpv. -->
@@ -518,12 +523,10 @@
     <string name="player_subtitles_search_language_description">Only subtitles in this language appear in search results. You can still press “All languages” in the results to see everything for one search.</string>
     <string name="player_subtitles_language_not_set">Not set</string>
     <string name="player_frame_rate_prompt_title">This channel may judder</string>
-    <string name="player_frame_rate_prompt_description">It plays at <xliff:g id="fps">%1$d</xliff:g> fps while your TV is running at <xliff:g id="current_hz">%2$d</xliff:g> Hz, which can’t show those frames evenly — motion looks slightly jerky.\n\nAuto frame rate switches the TV to <xliff:g id="target_hz">%3$d</xliff:g> Hz while you watch and puts it back afterwards. Some TVs blank for a moment when the rate changes; you can turn it off again in Settings → Video Player.</string>
+    <string name="player_frame_rate_prompt_description">It plays at <xliff:g id="fps">%1$d</xliff:g> fps while your TV is running at <xliff:g id="current_hz">%2$d</xliff:g> Hz, which can’t show those frames evenly — motion looks slightly jerky.\n\nAuto frame rate switches the TV to <xliff:g id="target_hz">%3$d</xliff:g> Hz while you watch and puts it back afterwards. Some TVs blank for a moment when the rate changes; you can turn it off again in Settings → Picture → Frame rate.</string>
     <string name="player_frame_rate_turn_on">Turn on</string>
     <!-- Translators: Shown instead of the picture when the user has turned the data saver on and the phone is on mobile data. -->
     <string name="player_error_data_saver">Data saver is on, so streaming over mobile data is off. Connect to Wi-Fi, or turn Data saver off in Settings.</string>
-    <!-- Translators: Chip on the sound-only player screen. The middle dot separates two short facts. -->
-    <!-- Translators: Button on the sound-only player screen. Brings the picture back. -->
     <!-- Translators: Button on the sound-only player screen. Stops playback after a chosen time so the user can fall asleep to it. -->
     <string name="player_sleep_timer">Sleep timer</string>
     <!-- Translators: Sleep-timer option. Stop when the programme currently on air ends. -->
@@ -566,7 +569,6 @@
     </plurals>
     <!-- Translators: Shown when a recording is refused because the last connection is kept for watching. -->
     <string name="multiview_refused_reserved">One connection is kept free so you can keep watching. Change that in Settings to record on every connection.</string>
-    <!-- Translators: Shown when the playlist never said how many streams it allows. -->
     <!-- Translators: Shown on a tile the device has no video decoder left for. -->
     <string name="multiview_decoder_exhausted">This TV can\'t decode another channel at the same time.</string>
     <!-- Translators: Phone/tablet wording of multiview_decoder_exhausted. -->
@@ -575,7 +577,6 @@
     <string name="multiview_tile_change_channel">Change channel</string>
     <!-- Translators: Tile menu: make this tile the only thing on screen. -->
     <string name="multiview_tile_fullscreen">Make fullscreen</string>
-    <!-- Translators: Tile menu: record the channel in this tile. -->
     <!-- Translators: Tile menu: empty this tile. -->
     <string name="multiview_tile_remove">Remove tile</string>
     <!-- Translators: Description of the badge on the tile whose sound is playing. -->

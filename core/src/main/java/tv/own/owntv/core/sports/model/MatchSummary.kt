@@ -49,3 +49,36 @@ data class StandingsRow(
 data class StandingsGroup(val name: String, val rows: List<StandingsRow>)
 
 data class StandingsTable(val leagueKey: String, val groups: List<StandingsGroup>)
+
+/**
+ * One place in a ranking, where a table's won/drawn/lost has no meaning: a driver, an F1 constructor,
+ * a tennis player. [team] is the athlete (with [Team.country]) or the constructor.
+ */
+data class RankingRow(val rank: Int, val team: Team, val points: Int)
+
+/** Which ranking a [RankingGroup] is, so each app can name its tab in the user's language. */
+enum class RankingKind { DRIVERS, CONSTRUCTORS, PLAYERS }
+
+data class RankingGroup(val kind: RankingKind, val rows: List<RankingRow>)
+
+/** A league's rankings: a racing series' drivers (and F1's constructors), or a tennis tour's players. */
+data class Ranking(val leagueKey: String, val groups: List<RankingGroup>)
+
+/** A racing session as ESPN codes it (`FP1`, `SS`, `Race` …), so each app can name it in the user's language. */
+enum class RaceSession {
+    PRACTICE_1, PRACTICE_2, PRACTICE_3, SPRINT_QUALIFYING, SPRINT, QUALIFYING, RACE;
+
+    companion object {
+        /** [Match.subtitle] of a racing session → its kind; null for a code ESPN has not used before. */
+        fun of(code: String?): RaceSession? = when (code) {
+            "FP1" -> PRACTICE_1
+            "FP2" -> PRACTICE_2
+            "FP3" -> PRACTICE_3
+            "SS" -> SPRINT_QUALIFYING
+            "SR" -> SPRINT
+            "Qual" -> QUALIFYING
+            "Race" -> RACE
+            else -> null
+        }
+    }
+}
