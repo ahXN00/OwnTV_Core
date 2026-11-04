@@ -132,6 +132,12 @@ internal object CompanionHtml {
         val defaultPlaylistLabel = s(R.string.companion_default_playlist)
         val sendToTv = s(R.string.companion_send_to_tv)
 
+        val editTitle = s(R.string.companion_edit_page_title)
+        val editDescription = s(R.string.companion_edit_description)
+        val keepCurrent = s(R.string.companion_keep_current)
+        val passwordKeep = s(R.string.setup_password_keep)
+        val savedEditAgain = s(R.string.companion_saved_edit_again)
+
         val savedTitle = s(R.string.companion_saved_page_title)
         val savedHeading = s(R.string.companion_saved_heading)
         val savedSendAnother = s(R.string.companion_saved_send_another)
@@ -292,15 +298,25 @@ internal object CompanionHtml {
                 tabs.forEach(function(x){x.classList.toggle('active',x===t)});
                 panels.forEach(function(p){p.classList.toggle('active',p.getAttribute('data-k')===k)});
               });});
-              // M3U panel only. With no file chosen this stays a plain form post, exactly as before.
-              // With a file chosen the browser reads it as text and posts it as JSON, because a file
-              // input cannot travel in a normal urlencoded body and the TV has no multipart parser.
+              ${m3uUploadScript(c, pin, urlRequired = true)}
+            </script>
+        """.trimIndent())
+    }
+
+    /**
+     * The M3U form's submit handler (`m3uForm`, `m3uUrl`, `m3uFile`, `m3uSend`, `m3uStatus`). With no
+     * file chosen it stays a plain form post. With a file chosen the browser reads it as text and posts
+     * it as JSON, because a file input cannot travel in a normal urlencoded body and the TV has no
+     * multipart parser. [urlRequired] is false on the edit page, where an empty address keeps the
+     * current one.
+     */
+    private fun m3uUploadScript(c: Copy, pin: String, urlRequired: Boolean): String = """
               var mf=document.getElementById('m3uFile'), mu=document.getElementById('m3uUrl'),
                   mb=document.getElementById('m3uSend'), ms=document.getElementById('m3uStatus');
               document.getElementById('m3uForm').addEventListener('submit',function(ev){
                 var file=mf.files&&mf.files[0];
                 if(!file){
-                  if(!(mu.value||'').trim()){ms.textContent=${c.playlistUrlOrFile.js()};ev.preventDefault();return false;}
+                  if($urlRequired&&!(mu.value||'').trim()){ms.textContent=${c.playlistUrlOrFile.js()};ev.preventDefault();return false;}
                   return true; // URL only — let the browser submit the form the old way.
                 }
                 ev.preventDefault();
@@ -321,7 +337,96 @@ internal object CompanionHtml {
                 r.readAsText(file);
                 return false;
               });
-            </script>
+    """.trimIndent()
+
+    /**
+     * One playlist's edit page ([CompanionMode.EDIT_SOURCE]): only its own type's fields, filled with
+     * what [CompanionSourceEdit.prefill] allows. The secret fields start empty with a "keep" hint, and
+     * nothing is required — an empty field keeps the TV's value. The fields match the TV's edit form.
+     */
+    fun editPage(context: Context, pin: String, prefill: CompanionPayload): String {
+        val c = Copy(context)
+        fun field(label: String, name: String, value: String = "", placeholder: String = "", attrs: String = "") =
+            """<label>${label.h()} <input name="$name" value="${value.h()}" placeholder="${placeholder.h()}"$attrs></label>"""
+        val secret = " type=\"password\" autocomplete=\"off\""
+        val noFill = " autocomplete=\"off\""
+        val path: String
+        val fields: String
+        when (prefill.type) {
+            SourceType.M3U -> {
+                path = "m3u"
+                fields = """
+                    ${field(c.name, "name", prefill.name, c.defaultPlaylist)}
+                    <label>${c.playlistUrl.h()} <input id="m3uUrl" name="server" placeholder="${c.keepCurrent.h()}"></label>
+                    <label>${c.playlistFile.h()} <input id="m3uFile" type="file" accept=".m3u,.m3u8,audio/x-mpegurl,application/vnd.apple.mpegurl,text/plain"></label>
+                    ${field(c.userAgent, "userAgent", prefill.userAgent, c.optional)}
+                    ${field(c.epgUrl, "epgUrl", prefill.epgUrl, c.optional)}
+                """.trimIndent()
+            }
+            SourceType.STALKER -> {
+                path = "stalker"
+                fields = """
+                    ${field(c.name, "name", prefill.name, c.defaultPortal)}
+                    ${field(c.portalUrl, "portalUrl", prefill.portalUrl, c.portalExample)}
+                    ${field(context.getString(R.string.setup_mac_address), "mac", placeholder = c.keepCurrent, attrs = secret)}
+                    <div class="grid">
+                      ${field(context.getString(R.string.settings_username_optional), "user", prefill.user, attrs = noFill)}
+                      ${field(context.getString(R.string.settings_password_optional), "pass", placeholder = c.keepCurrent, attrs = secret)}
+                    </div>
+                    <h3>${context.getString(R.string.setup_stalker_advanced_identity).h()}</h3>
+                    <div class="grid">
+                      ${field(context.getString(R.string.setup_stalker_serial_number_optional), "serialNumber", placeholder = c.keepCurrent, attrs = secret)}
+                      ${field(context.getString(R.string.setup_stalker_device_id_optional), "deviceId", placeholder = c.keepCurrent, attrs = secret)}
+                      ${field(context.getString(R.string.setup_stalker_device_id2_optional), "deviceId2", placeholder = c.keepCurrent, attrs = secret)}
+                      ${field(context.getString(R.string.setup_stalker_signature_optional), "signature", placeholder = c.keepCurrent, attrs = secret)}
+                    </div>
+                    ${field(c.userAgent, "userAgent", prefill.userAgent, c.optional)}
+                """.trimIndent()
+            }
+            SourceType.XTREAM, SourceType.LOCAL_BACKUP -> {
+                path = "xtream"
+                fields = """
+                    ${field(c.name, "name", prefill.name, c.defaultIptv)}
+                    ${field(c.serverUrl, "server", prefill.server, c.serverExample)}
+                    <div class="grid">
+                      ${field(c.username, "user", prefill.user, attrs = noFill)}
+                      ${field(c.passwordKeep, "pass", placeholder = c.keepCurrent, attrs = secret)}
+                    </div>
+                    ${field(c.userAgent, "userAgent", prefill.userAgent, c.optional)}
+                    ${field(c.epgUrl, "epgUrl", prefill.epgUrl, c.optional)}
+                """.trimIndent()
+            }
+        }
+        val m3u = prefill.type == SourceType.M3U
+        val formId = if (m3u) " id=\"m3uForm\"" else ""
+        val sendId = if (m3u) " id=\"m3uSend\"" else ""
+        val status = if (m3u) "<p id=\"m3uStatus\" class=\"hint\"></p>" else ""
+        val script = if (m3u) "<script>\n${m3uUploadScript(c, pin, urlRequired = false)}\n</script>" else ""
+        return page(context, c.editTitle, """
+            <div class="card">
+              <h1>${context.getString(R.string.companion_edit_heading, prefill.name).h()}</h1>
+              <p>${c.editDescription.h()}</p>
+              <form class="panel active"$formId method="post" action="/$path?pin=$pin">
+                <input type="hidden" name="type" value="$path">
+                $fields
+                <button class="go"$sendId type="submit">${c.sendToTv.h()}</button>
+                $status
+              </form>
+            </div>
+            $script
+        """.trimIndent())
+    }
+
+    /** After an edit was sent: the changes are on the TV's edit form, waiting for Save there. */
+    fun editSavedPage(context: Context, prefill: CompanionPayload, pin: String): String {
+        val c = Copy(context)
+        val body = context.getString(R.string.companion_saved_edit_body, prefill.name)
+        return page(context, c.savedTitle, """
+            <div class="card">
+              <h1>${c.savedHeading.h()}</h1>
+              <p>${body.h()}</p>
+              <p><a href="/?pin=$pin">${c.savedEditAgain.h()}</a></p>
+            </div>
         """.trimIndent())
     }
 

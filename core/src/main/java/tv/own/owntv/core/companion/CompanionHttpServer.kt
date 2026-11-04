@@ -77,6 +77,9 @@ class CompanionHttpServer(
     /** Which page/endpoint set is live for the current session (add-source vs. backup upload). */
     @Volatile private var mode: CompanionMode = CompanionMode.ADD_SOURCE
 
+    /** What the [CompanionMode.EDIT_SOURCE] page shows; its type is the only one accepted. */
+    @Volatile private var editPrefill: CompanionPayload? = null
+
     /** Session callbacks — set on [start], only the one matching [mode] ever fires. */
     @Volatile private var onPayload: (CompanionPayload) -> Unit = {}
     @Volatile private var onBackup: (String) -> Unit = {}
@@ -108,6 +111,7 @@ class CompanionHttpServer(
         pin: String,
         fontBytes: ByteArray?,
         mode: CompanionMode = CompanionMode.ADD_SOURCE,
+        editPrefill: CompanionPayload? = null,
         onPayload: (CompanionPayload) -> Unit = {},
         onBackup: (String) -> Unit = {},
         onImage: (bytes: ByteArray, extension: String) -> Unit = { _, _ -> },
@@ -124,6 +128,7 @@ class CompanionHttpServer(
         failedPins.set(0)
         this.fontBytes = fontBytes
         this.mode = mode
+        this.editPrefill = editPrefill
         this.onPayload = onPayload
         this.onBackup = onBackup
         this.onImage = onImage
@@ -144,6 +149,7 @@ class CompanionHttpServer(
     fun stop() {
         running.set(false)
         pin = ""
+        editPrefill = null
         onPayload = {}
         onBackup = {}
         onImage = { _, _ -> }
@@ -374,10 +380,14 @@ class CompanionHttpServer(
                 }
                 val body = CompanionHttpProtocol.readBody(input, headers, CompanionHttpProtocol.maxBodyBytes(path))
                     ?: return sendText(socket, 413, localized(R.string.companion_error_body_too_large))
-                val payload = CompanionHttpProtocol.parsePayload(headers["content-type"], body, fallback)
+                // Editing: any field may be empty (it keeps the current value), and only the edited
+                // playlist's own type is accepted — a playlist cannot change its type.
+                val edit = editPrefill.takeIf { mode == CompanionMode.EDIT_SOURCE }
+                val payload = CompanionHttpProtocol.parsePayload(headers["content-type"], body, fallback, requireFields = edit == null)
+                    ?.takeIf { edit == null || it.type == edit.type }
                     ?: return sendText(socket, 400, localized(R.string.companion_error_missing_fields))
                 onPayload(payload)
-                return sendHtml(socket, 200, CompanionHtml.savedPage(pageContext, payload, pin))
+                return sendHtml(socket, 200, if (edit != null) CompanionHtml.editSavedPage(pageContext, edit, pin) else CompanionHtml.savedPage(pageContext, payload, pin))
             }
 
             sendText(socket, 404, localized(R.string.companion_error_not_found))
@@ -443,6 +453,7 @@ class CompanionHttpServer(
     /** The page served after a valid PIN, for the current [mode]. */
     private fun authedPage(context: Context): String = when (mode) {
         CompanionMode.ADD_SOURCE -> CompanionHtml.formPage(context, pin)
+        CompanionMode.EDIT_SOURCE -> editPrefill?.let { CompanionHtml.editPage(context, pin, it) } ?: CompanionHtml.pinPage(context, null)
         CompanionMode.BACKUP_RESTORE -> CompanionHtml.backupUploadPage(context, pin)
         CompanionMode.BACKUP_DOWNLOAD -> CompanionHtml.backupDownloadPage(context, pin)
         CompanionMode.IMAGE_UPLOAD -> CompanionHtml.imageUploadPage(context, pin)
