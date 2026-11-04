@@ -278,6 +278,11 @@
     <string name="settings_check_updates_description">从 GitHub Releases 获取最新版本</string>
     <string name="settings_update_startup">启动时检查更新</string>
     <string name="settings_update_startup_description">应用打开时检查是否有新版本</string>
+    <string name="settings_auto_start_boot">开机时自动启动</string>
+    <string name="settings_auto_start_boot_description">电视开机后打开 OwnTV</string>
+    <string name="settings_auto_start_wake">唤醒时自动启动</string>
+    <string name="settings_auto_start_wake_description">电视从待机唤醒后打开 OwnTV</string>
+    <string name="settings_auto_start_needs_overlay">需要“显示在其他应用的上层”</string>
     <string name="settings_about">关于</string>
     <string name="settings_live_latency">直播延迟</string>
     <string name="settings_no_settings_match">没有与“<xliff:g id="query">%1$s</xliff:g>”匹配的设置</string>
@@ -387,6 +392,7 @@
     <string name="settings_search_keywords_startup">启动 打开 起始页</string>
     <string name="settings_search_keywords_updates">github 发布 版本</string>
     <string name="settings_search_keywords_update_auto">自动 更新 新版本</string>
+    <string name="settings_search_keywords_auto_start">开机 启动 唤醒 休眠 待机 自动 打开</string>
     <string name="settings_language_default">默认（英语）</string>
     <string name="settings_language_device">设备语言</string>
     <string name="settings_language_arabic">阿拉伯语</string>
@@ -1471,6 +1477,8 @@
     <string name="settings_help_startup">OwnTV 启动时显示的内容：主页、上次观看的频道、你的收藏，或你指定的频道。</string>
     <string name="settings_help_check_updates">立即在 GitHub 上查找较新的 OwnTV 并提示安装。你的播放列表、收藏和设置都会保留。</string>
     <string name="settings_help_update_startup">每次启动 OwnTV 时查找新版本，有新版本时会告诉你。未经询问不会安装任何内容。</string>
+    <string name="settings_help_auto_start_boot">电视启动完成后自动打开 OwnTV，并显示应用启动中选择的界面。Android 只允许能显示在其他应用上层的应用自行打开，因此开启此项会打开该权限的设置页面。有些电视没有这项权限，在这些电视上无法自动启动。</string>
+    <string name="settings_help_auto_start_wake">每次电视从待机唤醒时打开 OwnTV，即使您是为了使用其他应用而唤醒电视。如果应用启动设置为打开某个频道，每次唤醒都会开始播放该直播流。开启期间，OwnTV 会保持一个带静默通知的小型后台服务。与开机时自动启动一样，它需要显示在其他应用上层的权限。</string>
     <string name="settings_help_dns">使用你选择的 DNS 服务器（而不是网络自带的）解析提供商的地址——当你的网络屏蔽或重定向这些地址时很有用。</string>
     <string name="settings_help_live_engine">ExoPlayer 打开频道快得多，也是唯一支持直播字幕的播放器。mpv 能播放 ExoPlayer 无法播放的频道，包括一些特殊音频。组合选项会在第一个播放器失败时尝试另一个。</string>
     <string name="settings_help_hw">使用电视的硬件解码器：4K 流畅、发热更少。只有在部分流卡顿或出现马赛克时才关闭，届时由软件解码器处理。</string>

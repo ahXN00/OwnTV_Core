@@ -280,6 +280,11 @@
     <string name="settings_check_updates_description">GitHub Releases से नवीनतम संस्करण प्राप्त करें</string>
     <string name="settings_update_startup">शुरू होने पर अपडेट जाँचें</string>
     <string name="settings_update_startup_description">ऐप खुलने पर नया संस्करण खोजें</string>
+    <string name="settings_auto_start_boot">चालू होने पर अपने-आप शुरू करें</string>
+    <string name="settings_auto_start_boot_description">टीवी चालू होने पर OwnTV खोलें</string>
+    <string name="settings_auto_start_wake">जागने पर अपने-आप शुरू करें</string>
+    <string name="settings_auto_start_wake_description">टीवी के स्लीप से जागने पर OwnTV खोलें</string>
+    <string name="settings_auto_start_needs_overlay">“दूसरे ऐप्लिकेशन के ऊपर दिखाएं” ज़रूरी है</string>
     <string name="settings_about">परिचय</string>
     <string name="settings_live_latency">लाइव विलंबता</string>
     <string name="settings_no_settings_match">“<xliff:g id="query">%1$s</xliff:g>” से मेल खाने वाली कोई सेटिंग नहीं है</string>
@@ -389,6 +394,7 @@
     <string name="settings_search_keywords_startup">लॉन्च खोलें आरंभ पेज</string>
     <string name="settings_search_keywords_updates">GitHub रिलीज़ संस्करण</string>
     <string name="settings_search_keywords_update_auto">अपने-आप अपडेट नया संस्करण</string>
+    <string name="settings_search_keywords_auto_start">बूट चालू जागना स्लीप स्टैंडबाय अपने-आप खोलें</string>
     <string name="settings_language_default">डिफ़ॉल्ट (अंग्रेज़ी)</string>
     <string name="settings_language_device">डिवाइस की भाषा</string>
     <string name="settings_language_arabic">अरबी</string>
@@ -1499,6 +1505,8 @@
     <string name="settings_help_startup">शुरू होने पर OwnTV क्या दिखाए: होम, आखिरी देखा चैनल, आपके पसंदीदा, या आपका चुना चैनल।</string>
     <string name="settings_help_check_updates">अभी GitHub पर नया OwnTV खोजता है और इंस्टॉल करने का विकल्प देता है। आपकी प्लेलिस्ट, पसंदीदा और सेटिंग्स जैसी हैं वैसी रहती हैं।</string>
     <string name="settings_help_update_startup">हर बार OwnTV शुरू होने पर नया संस्करण खोजता है और मिलने पर बताता है। बिना पूछे कुछ इंस्टॉल नहीं होता।</string>
+    <string name="settings_help_auto_start_boot">टीवी शुरू होने के बाद OwnTV को अपने-आप खोलता है, ऐप शुरू होने पर सेटिंग में चुनी गई स्क्रीन पर। Android किसी ऐप को अपने-आप खुलने तभी देता है जब वह दूसरे ऐप्लिकेशन के ऊपर दिख सके, इसलिए इसे चालू करने पर उस अनुमति की स्क्रीन खुलती है। कुछ टीवी यह अनुमति नहीं देते, और उन पर अपने-आप शुरू होना काम नहीं कर सकता।</string>
+    <string name="settings_help_auto_start_wake">हर बार टीवी के स्लीप से जागने पर OwnTV खोलता है, तब भी जब आपने उसे किसी दूसरे ऐप के लिए जगाया हो। अगर ऐप शुरू होने पर सेटिंग कोई चैनल खोलती है, तो हर बार जागने पर वह स्ट्रीम शुरू हो जाती है। यह चालू रहने तक OwnTV एक छोटी बैकग्राउंड सेवा और एक बिना आवाज़ वाली सूचना रखता है। चालू होने पर अपने-आप शुरू करने की तरह, इसे भी दूसरे ऐप्लिकेशन के ऊपर दिखने की अनुमति चाहिए।</string>
     <string name="settings_help_dns">आपके नेटवर्क के अपने DNS की जगह आपके चुने DNS सर्वर से प्रोवाइडर के पते खोजता है — जब नेटवर्क उन्हें रोके या मोड़ दे, तब काम आता है।</string>
     <string name="settings_help_live_engine">ExoPlayer चैनल बहुत तेज़ी से खोलता है और लाइव सबटाइटल सिर्फ़ इसी में हैं। mpv वे चैनल चलाता है जो ExoPlayer नहीं चला पाता, कुछ असामान्य ऑडियो समेत। मिले-जुले विकल्प पहले के विफल होने पर दूसरा प्लेयर आज़माते हैं।</string>
     <string name="settings_help_hw">टीवी का हार्डवेयर डिकोडर इस्तेमाल करता है: स्मूद 4K और कम गर्मी। अगर कुछ स्ट्रीम अटकें या ब्लॉक दिखें तभी बंद करें; तब सॉफ़्टवेयर डिकोडर काम करता है।</string>

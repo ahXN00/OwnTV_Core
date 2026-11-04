@@ -280,6 +280,11 @@
     <string name="settings_check_updates_description">Hämta den senaste versionen från GitHub Releases</string>
     <string name="settings_update_startup">Sök efter uppdateringar vid start</string>
     <string name="settings_update_startup_description">Sök efter en ny version när appen öppnas</string>
+    <string name="settings_auto_start_boot">Starta automatiskt vid påslag</string>
+    <string name="settings_auto_start_boot_description">Öppna OwnTV när tv:n slås på</string>
+    <string name="settings_auto_start_wake">Starta automatiskt vid väckning</string>
+    <string name="settings_auto_start_wake_description">Öppna OwnTV när tv:n vaknar ur viloläge</string>
+    <string name="settings_auto_start_needs_overlay">Kräver ”Visa över andra appar”</string>
     <string name="settings_about">Om</string>
     <string name="settings_live_latency">Livefördröjning</string>
     <string name="settings_no_settings_match">Inga inställningar matchar ”<xliff:g id="query">%1$s</xliff:g>”</string>
@@ -389,6 +394,7 @@
     <string name="settings_search_keywords_startup">starta öppna startsida</string>
     <string name="settings_search_keywords_updates">github utgåva version</string>
     <string name="settings_search_keywords_update_auto">automatisk uppdatering ny version</string>
+    <string name="settings_search_keywords_auto_start">start påslag väckning viloläge standby automatiskt öppna</string>
     <string name="settings_language_default">Standard (engelska)</string>
     <string name="settings_language_device">Enhetens språk</string>
     <string name="settings_language_arabic">Arabiska</string>
@@ -1499,6 +1505,8 @@
     <string name="settings_help_startup">Vad OwnTV visar vid start: Hem, kanalen du såg senast, dina favoriter eller en kanal du väljer.</string>
     <string name="settings_help_check_updates">Letar nu på GitHub efter en nyare OwnTV och erbjuder att installera den. Dina spellistor, favoriter och inställningar förblir som de är.</string>
     <string name="settings_help_update_startup">Letar efter en ny version varje gång OwnTV startar och säger till när det finns en. Inget installeras utan att fråga.</string>
+    <string name="settings_help_auto_start_boot">Öppnar OwnTV av sig själv när tv:n har startat, på skärmen som valts i Appstart. Android låter en app öppnas av sig själv bara om den får visas över andra appar, så när du slår på detta öppnas skärmen för den behörigheten. Vissa tv-apparater erbjuder den inte, och där kan automatisk start inte fungera.</string>
+    <string name="settings_help_auto_start_wake">Öppnar OwnTV varje gång tv:n vaknar ur viloläge, även när du väckte den för en annan app. Om Appstart öppnar en kanal startar varje väckning den strömmen. Så länge detta är på håller OwnTV en liten bakgrundstjänst igång med en tyst avisering. Precis som automatisk start vid påslag behövs behörighet att visas över andra appar.</string>
     <string name="settings_help_dns">Slår upp leverantörens adresser med en DNS-server du väljer i stället för nätverkets egen — användbart när nätverket blockerar eller omdirigerar dem.</string>
     <string name="settings_help_live_engine">ExoPlayer öppnar kanaler mycket snabbare och är den enda med direkttextning. mpv spelar kanaler som ExoPlayer inte klarar, även en del ovanligt ljud. De kombinerade valen provar den andra spelaren när den första misslyckas.</string>
     <string name="settings_help_hw">Använder tv:ns hårdvaruavkodare: jämn 4K och mindre värme. Stäng bara av om vissa strömmar hackar eller visar block; då gör mjukvaruavkodaren jobbet.</string>

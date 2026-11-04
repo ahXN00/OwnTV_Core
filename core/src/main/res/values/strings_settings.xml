@@ -2851,9 +2851,9 @@
     <!-- Translators: Explanation shown in the panel beside the Settings rows while this setting has focus. -->
     <string name="settings_help_update_startup">Looks for a new version each time OwnTV starts and tells you when there is one. Nothing is installed without asking.</string>
     <!-- Translators: Explanation shown in the panel beside the Settings rows while this setting has focus. OwnTV is a brand name; App startup is the name of another setting. -->
-    <string name="settings_help_auto_start_boot">Opens OwnTV by itself once the TV has started up, on the screen chosen in App startup. Android only lets an app open by itself when it may display over other apps, so OwnTV asks for that permission when you turn this on.</string>
-    <!-- Translators: Explanation shown in the panel beside the Settings rows while this setting has focus. OwnTV is a brand name. -->
-    <string name="settings_help_auto_start_wake">Opens OwnTV each time the TV wakes from sleep. To notice the wake-up, OwnTV keeps a small background service with a silent notification while this is on. Like auto start on boot, it needs permission to display over other apps.</string>
+    <string name="settings_help_auto_start_boot">Opens OwnTV by itself once the TV has started up, on the screen chosen in App startup. Android lets an app open by itself only when it may display over other apps, so turning this on opens that permission’s screen. Some TVs do not offer it, and then auto start cannot work there.</string>
+    <!-- Translators: Explanation shown in the panel beside the Settings rows while this setting has focus. OwnTV is a brand name; App startup is the name of another setting. "Stream" is the live channel the app starts playing. -->
+    <string name="settings_help_auto_start_wake">Opens OwnTV each time the TV wakes from sleep, also when you woke it for another app. If App startup opens a channel, every wake-up starts that stream. While this is on, OwnTV keeps a small background service with a silent notification. Like auto start on boot, it needs permission to display over other apps.</string>
     <!-- Translators: Explanation shown in the panel beside the Settings rows while this setting has focus. -->
     <string name="settings_help_dns">Looks up your provider’s addresses with a DNS server of your choice instead of your network’s own — useful when your network blocks or redirects them.</string>
     <!-- Translators: Explanation shown in the panel beside the Settings rows while this setting has focus. -->

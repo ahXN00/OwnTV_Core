@@ -288,6 +288,11 @@
     <string name="settings_check_updates_description">الحصول على أحدث إصدار من GitHub Releases</string>
     <string name="settings_update_startup">التحقق من التحديثات عند بدء التشغيل</string>
     <string name="settings_update_startup_description">البحث عن إصدار جديد عند فتح التطبيق</string>
+    <string name="settings_auto_start_boot">التشغيل التلقائي عند الإقلاع</string>
+    <string name="settings_auto_start_boot_description">فتح OwnTV عند تشغيل التلفزيون</string>
+    <string name="settings_auto_start_wake">التشغيل التلقائي عند الاستيقاظ</string>
+    <string name="settings_auto_start_wake_description">فتح OwnTV عندما يستيقظ التلفزيون من السكون</string>
+    <string name="settings_auto_start_needs_overlay">يتطلب “الظهور فوق التطبيقات الأخرى”</string>
     <string name="settings_about">حول</string>
     <string name="settings_live_latency">زمن استجابة البث المباشر</string>
     <string name="settings_no_settings_match">لا توجد إعدادات تطابق “<xliff:g id="query">%1$s</xliff:g>”</string>
@@ -397,6 +402,7 @@
     <string name="settings_search_keywords_startup">تشغيل فتح واجهة بدء</string>
     <string name="settings_search_keywords_updates">GitHub إصدار تحديث</string>
     <string name="settings_search_keywords_update_auto">تلقائي تحديث إصدار جديد</string>
+    <string name="settings_search_keywords_auto_start">إقلاع تشغيل استيقاظ سكون استعداد تلقائي فتح</string>
     <string name="settings_language_default">الافتراضية (الإنجليزية)</string>
     <string name="settings_language_device">لغة الجهاز</string>
     <string name="settings_language_arabic">العربية</string>
@@ -1611,6 +1617,8 @@
     <string name="settings_help_startup">ما يعرضه OwnTV عند بدء تشغيله: الصفحة الرئيسية، أو آخر قناة شاهدتها، أو مفضلاتك، أو قناة تختارها.</string>
     <string name="settings_help_check_updates">يبحث الآن في GitHub عن إصدار أحدث من OwnTV ويعرض تثبيته. تبقى قوائم التشغيل والمفضلات والإعدادات كما هي.</string>
     <string name="settings_help_update_startup">يبحث عن إصدار جديد في كل مرة يبدأ فيها OwnTV ويخبرك عند توفره. لا يُثبَّت أي شيء دون سؤالك.</string>
+    <string name="settings_help_auto_start_boot">يفتح OwnTV تلقائيًا بعد اكتمال تشغيل التلفزيون، على الشاشة المختارة في بدء تشغيل التطبيق. لا يسمح Android لتطبيق بأن يفتح نفسه إلا إذا كان مسموحًا له بالظهور فوق التطبيقات الأخرى، لذا يؤدي تفعيل هذا الخيار إلى فتح شاشة هذا الإذن. بعض أجهزة التلفزيون لا توفّره، ولا يمكن للتشغيل التلقائي أن يعمل عليها.</string>
+    <string name="settings_help_auto_start_wake">يفتح OwnTV في كل مرة يستيقظ فيها التلفزيون من السكون، حتى لو أيقظته لاستخدام تطبيق آخر. إذا كان بدء تشغيل التطبيق يفتح قناة، فكل استيقاظ يبدأ ذلك البث. ما دام هذا الخيار مفعّلًا، يُبقي OwnTV خدمة صغيرة في الخلفية مع إشعار صامت. ومثل التشغيل التلقائي عند الإقلاع، يحتاج إلى إذن الظهور فوق التطبيقات الأخرى.</string>
     <string name="settings_help_dns">يبحث عن عناوين مزوّدك عبر خادم DNS تختاره بدلًا من خادم شبكتك — مفيد عندما تحظرها شبكتك أو تعيد توجيهها.</string>
     <string name="settings_help_live_engine">يفتح ExoPlayer القنوات أسرع بكثير وهو الوحيد الذي يدعم الترجمة المباشرة. يشغّل mpv قنوات لا يستطيع ExoPlayer تشغيلها، ومنها بعض الصوت غير المعتاد. تجرّب الخيارات المركّبة المشغّل الآخر عند فشل الأول.</string>
     <string name="settings_help_hw">يستخدم وحدة فك الترميز في عتاد التلفاز: 4K سلس وحرارة أقل. أوقفه فقط إذا تقطّعت بعض البثوث أو ظهرت فيها مربعات؛ عندها يتولى فك الترميز البرمجي العمل.</string>

@@ -282,6 +282,11 @@
     <string name="settings_check_updates_description">Obtenir la dernière version depuis GitHub Releases</string>
     <string name="settings_update_startup">Rechercher des mises à jour au démarrage</string>
     <string name="settings_update_startup_description">Rechercher une nouvelle version à l’ouverture de l’application</string>
+    <string name="settings_auto_start_boot">Démarrage auto à l’allumage</string>
+    <string name="settings_auto_start_boot_description">Ouvrir OwnTV quand le téléviseur s’allume</string>
+    <string name="settings_auto_start_wake">Démarrage auto au réveil</string>
+    <string name="settings_auto_start_wake_description">Ouvrir OwnTV quand le téléviseur sort de veille</string>
+    <string name="settings_auto_start_needs_overlay">Nécessite « Superposer aux autres applis »</string>
     <string name="settings_about">À propos</string>
     <string name="settings_live_latency">Latence du direct</string>
     <string name="settings_no_settings_match">Aucun paramètre ne correspond à « <xliff:g id="query">%1$s</xliff:g> »</string>
@@ -391,6 +396,7 @@
     <string name="settings_search_keywords_startup">lancement ouvrir accueil</string>
     <string name="settings_search_keywords_updates">github publication version</string>
     <string name="settings_search_keywords_update_auto">automatique mise à jour nouvelle version</string>
+    <string name="settings_search_keywords_auto_start">démarrage allumage réveil veille mise en marche lancement automatique</string>
     <string name="settings_language_default">Par défaut (anglais)</string>
     <string name="settings_language_device">Langue de l’appareil</string>
     <string name="settings_language_arabic">Arabe</string>
@@ -1527,6 +1533,8 @@
     <string name="settings_help_startup">Ce qu’OwnTV affiche au démarrage : l’accueil, la dernière chaîne regardée, vos favoris ou une chaîne de votre choix.</string>
     <string name="settings_help_check_updates">Cherche maintenant sur GitHub une version plus récente d’OwnTV et propose de l’installer. Vos playlists, favoris et réglages restent tels quels.</string>
     <string name="settings_help_update_startup">Cherche une nouvelle version à chaque démarrage d’OwnTV et vous prévient s’il y en a une. Rien n’est installé sans votre accord.</string>
+    <string name="settings_help_auto_start_boot">Ouvre OwnTV tout seul une fois le téléviseur démarré, sur l’écran choisi dans Démarrage de l’application. Android ne laisse une application s’ouvrir seule que si elle peut se superposer aux autres applis ; activer cette option ouvre donc l’écran de cette autorisation. Certains téléviseurs ne la proposent pas, et le démarrage auto ne peut alors pas y fonctionner.</string>
+    <string name="settings_help_auto_start_wake">Ouvre OwnTV à chaque sortie de veille du téléviseur, même si vous l’avez réveillé pour une autre appli. Si Démarrage de l’application ouvre une chaîne, chaque réveil lance ce flux. Tant que l’option est active, OwnTV garde un petit service en arrière-plan avec une notification silencieuse. Comme le démarrage auto à l’allumage, il faut l’autorisation de se superposer aux autres applis.</string>
     <string name="settings_help_dns">Résout les adresses de votre fournisseur avec un serveur DNS de votre choix au lieu de celui de votre réseau — utile quand votre réseau les bloque ou les redirige.</string>
     <string name="settings_help_live_engine">ExoPlayer ouvre les chaînes bien plus vite et est le seul à gérer les sous-titres en direct. mpv lit les chaînes qu’ExoPlayer ne peut pas lire, dont certains sons inhabituels. Les options combinées essaient l’autre lecteur quand le premier échoue.</string>
     <string name="settings_help_hw">Utilise le décodeur matériel du téléviseur : 4K fluide et moins de chaleur. Désactivez-le seulement si des flux saccadent ou affichent des blocs ; le décodeur logiciel prend alors le relais.</string>
