@@ -44,6 +44,8 @@
 - **🎞️ Auto frame rate: separate switches for films and series, and Live TV (TV #318)**
 - **🔓 Ignore connection limit, per playlist (TV #244)**
 - **🔀 Sources: the other versions of the channel playing** (idea from community PR TV #317 by @Aaronnn17)
+- **🔁 Auto start on boot and on wake-up: strings in every language** (community PR #40 by @Kevsosmooth)
+- **📱 Edit a playlist from a browser on another device (TV #250)**
 
 ### 🐛 Fixes
 
