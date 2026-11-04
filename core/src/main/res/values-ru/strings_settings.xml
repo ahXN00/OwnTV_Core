@@ -284,6 +284,11 @@
     <string name="settings_check_updates_description">Получить последнюю версию из GitHub Releases</string>
     <string name="settings_update_startup">Проверять обновления при запуске</string>
     <string name="settings_update_startup_description">Искать новую версию при открытии приложения</string>
+    <string name="settings_auto_start_boot">Автозапуск при включении</string>
+    <string name="settings_auto_start_boot_description">Открывать OwnTV при включении телевизора</string>
+    <string name="settings_auto_start_wake">Автозапуск при пробуждении</string>
+    <string name="settings_auto_start_wake_description">Открывать OwnTV, когда телевизор выходит из спящего режима</string>
+    <string name="settings_auto_start_needs_overlay">Нужно разрешение «Поверх других приложений»</string>
     <string name="settings_about">О приложении</string>
     <string name="settings_live_latency">Задержка прямого эфира</string>
     <string name="settings_no_settings_match">Нет настроек, соответствующих запросу «<xliff:g id="query">%1$s</xliff:g>»</string>
@@ -393,6 +398,7 @@
     <string name="settings_search_keywords_startup">запуск открыть начальный экран</string>
     <string name="settings_search_keywords_updates">GitHub выпуск версия</string>
     <string name="settings_search_keywords_update_auto">автоматически обновление новая версия</string>
+    <string name="settings_search_keywords_auto_start">загрузка включение пробуждение сон ожидание автозапуск открыть</string>
     <string name="settings_language_default">По умолчанию (английский)</string>
     <string name="settings_language_device">Язык устройства</string>
     <string name="settings_language_arabic">Арабский</string>
@@ -1555,6 +1561,8 @@
     <string name="settings_help_startup">Что OwnTV показывает при запуске: главную, последний просмотренный канал, избранное или выбранный вами канал.</string>
     <string name="settings_help_check_updates">Сейчас же ищет на GitHub новую версию OwnTV и предлагает установить её. Плейлисты, избранное и настройки останутся прежними.</string>
     <string name="settings_help_update_startup">Ищет новую версию при каждом запуске OwnTV и сообщает, если она есть. Ничего не устанавливается без вашего согласия.</string>
+    <string name="settings_help_auto_start_boot">Открывает OwnTV сам по себе после загрузки телевизора — на экране, выбранном в настройке Запуск приложения. Android разрешает приложению открываться самому, только если ему можно показываться поверх других приложений, поэтому при включении открывается экран этого разрешения. На некоторых телевизорах его нет, и там автозапуск работать не может.</string>
+    <string name="settings_help_auto_start_wake">Открывает OwnTV каждый раз, когда телевизор выходит из спящего режима, даже если его разбудили ради другого приложения. Если Запуск приложения открывает канал, каждое пробуждение запускает этот поток. Пока параметр включён, OwnTV держит небольшую фоновую службу с беззвучным уведомлением. Как и автозапуску при включении, ему нужно разрешение на показ поверх других приложений.</string>
     <string name="settings_help_dns">Ищет адреса провайдера через выбранный вами DNS-сервер вместо сервера вашей сети — полезно, если сеть их блокирует или перенаправляет.</string>
     <string name="settings_help_live_engine">ExoPlayer открывает каналы намного быстрее и единственный поддерживает субтитры в эфире. mpv воспроизводит каналы, с которыми ExoPlayer не справляется, в том числе с необычным звуком. Комбинированные варианты пробуют второй плеер, если первый не смог.</string>
     <string name="settings_help_hw">Использует аппаратный декодер телевизора: плавное 4K и меньше нагрева. Выключайте, только если некоторые потоки дёргаются или рассыпаются на блоки; тогда работу берёт программный декодер.</string>

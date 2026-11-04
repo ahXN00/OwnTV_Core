@@ -280,6 +280,11 @@
     <string name="settings_check_updates_description">Download de nieuwste versie via GitHub Releases</string>
     <string name="settings_update_startup">Bij opstarten controleren op updates</string>
     <string name="settings_update_startup_description">Zoek naar een nieuwe versie wanneer de app wordt geopend</string>
+    <string name="settings_auto_start_boot">Automatisch starten bij opstarten</string>
+    <string name="settings_auto_start_boot_description">OwnTV openen wanneer de tv wordt aangezet</string>
+    <string name="settings_auto_start_wake">Automatisch starten bij ontwaken</string>
+    <string name="settings_auto_start_wake_description">OwnTV openen wanneer de tv uit de slaapstand komt</string>
+    <string name="settings_auto_start_needs_overlay">Vereist “Weergeven vóór andere apps”</string>
     <string name="settings_about">Over</string>
     <string name="settings_live_latency">Livevertraging</string>
     <string name="settings_no_settings_match">Geen instellingen gevonden voor ‘<xliff:g id="query">%1$s</xliff:g>’</string>
@@ -389,6 +394,7 @@
     <string name="settings_search_keywords_startup">starten openen beginpagina</string>
     <string name="settings_search_keywords_updates">github release versie</string>
     <string name="settings_search_keywords_update_auto">automatisch update nieuwe versie</string>
+    <string name="settings_search_keywords_auto_start">opstarten aanzetten ontwaken slaapstand stand-by automatisch openen starten</string>
     <string name="settings_language_default">Standaard (Engels)</string>
     <string name="settings_language_device">Taal van apparaat</string>
     <string name="settings_language_arabic">Arabisch</string>
@@ -1499,6 +1505,8 @@
     <string name="settings_help_startup">Wat OwnTV toont bij het starten: Start, het laatst bekeken kanaal, je favorieten of een kanaal naar keuze.</string>
     <string name="settings_help_check_updates">Zoekt nu op GitHub naar een nieuwere OwnTV en biedt aan die te installeren. Je afspeellijsten, favorieten en instellingen blijven zoals ze zijn.</string>
     <string name="settings_help_update_startup">Zoekt bij elke start van OwnTV naar een nieuwe versie en meldt het als die er is. Er wordt niets geïnstalleerd zonder te vragen.</string>
+    <string name="settings_help_auto_start_boot">Opent OwnTV vanzelf zodra de tv is opgestart, op het scherm dat bij Opstartgedrag van app is gekozen. Android laat een app alleen vanzelf openen als die vóór andere apps mag worden weergegeven; als je dit aanzet, opent daarom het scherm voor die toestemming. Sommige tv’s bieden dat niet, en daar kan automatisch starten niet werken.</string>
+    <string name="settings_help_auto_start_wake">Opent OwnTV telkens wanneer de tv uit de slaapstand komt, ook als je hem voor een andere app hebt gewekt. Opent Opstartgedrag van app een zender, dan start elke keer ontwaken die stream. Zolang dit aan staat, houdt OwnTV een kleine achtergronddienst met een stille melding actief. Net als automatisch starten bij opstarten is toestemming nodig om vóór andere apps te worden weergegeven.</string>
     <string name="settings_help_dns">Zoekt de adressen van je aanbieder op met een DNS-server naar keuze in plaats van die van je netwerk — handig als je netwerk ze blokkeert of omleidt.</string>
     <string name="settings_help_live_engine">ExoPlayer opent zenders veel sneller en is de enige met live-ondertitels. mpv speelt zenders af die ExoPlayer niet aankan, ook wat ongebruikelijk geluid. De gecombineerde opties proberen de andere speler als de eerste faalt.</string>
     <string name="settings_help_hw">Gebruikt de hardwaredecoder van de tv: vloeiende 4K en minder warmte. Zet het alleen uit als streams haperen of blokjes tonen; dan doet de softwaredecoder het werk.</string>

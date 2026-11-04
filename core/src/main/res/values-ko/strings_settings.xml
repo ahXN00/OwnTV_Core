@@ -278,6 +278,11 @@
     <string name="settings_check_updates_description">GitHub Releases에서 최신 버전을 가져옵니다</string>
     <string name="settings_update_startup">시작할 때 업데이트 확인</string>
     <string name="settings_update_startup_description">앱을 열 때 새 버전이 있는지 확인합니다</string>
+    <string name="settings_auto_start_boot">켜질 때 자동 시작</string>
+    <string name="settings_auto_start_boot_description">TV가 켜지면 OwnTV 열기</string>
+    <string name="settings_auto_start_wake">절전 해제 시 자동 시작</string>
+    <string name="settings_auto_start_wake_description">TV가 절전 모드에서 깨어나면 OwnTV 열기</string>
+    <string name="settings_auto_start_needs_overlay">“다른 앱 위에 표시” 권한 필요</string>
     <string name="settings_about">정보</string>
     <string name="settings_live_latency">실시간 지연 시간</string>
     <string name="settings_no_settings_match">“<xliff:g id="query">%1$s</xliff:g>”과 일치하는 설정이 없습니다</string>
@@ -387,6 +392,7 @@
     <string name="settings_search_keywords_startup">실행 열기 시작 화면</string>
     <string name="settings_search_keywords_updates">GitHub 릴리스 버전</string>
     <string name="settings_search_keywords_update_auto">자동 업데이트 새 버전</string>
+    <string name="settings_search_keywords_auto_start">부팅 전원 켜기 절전 해제 대기 자동 시작 열기</string>
     <string name="settings_language_default">기본값(영어)</string>
     <string name="settings_language_device">기기 언어</string>
     <string name="settings_language_arabic">아랍어</string>
@@ -1471,6 +1477,8 @@
     <string name="settings_help_startup">OwnTV를 시작할 때 보여 줄 화면: 홈, 마지막으로 본 채널, 즐겨찾기, 또는 직접 고른 채널.</string>
     <string name="settings_help_check_updates">지금 GitHub에서 새 OwnTV를 찾아 설치를 제안합니다. 재생목록, 즐겨찾기, 설정은 그대로 유지됩니다.</string>
     <string name="settings_help_update_startup">OwnTV가 시작될 때마다 새 버전을 찾고, 있으면 알려 줍니다. 묻지 않고 설치하지 않습니다.</string>
+    <string name="settings_help_auto_start_boot">TV가 시작되면 앱 시작 화면에서 고른 화면으로 OwnTV를 자동으로 엽니다. Android는 다른 앱 위에 표시할 수 있는 앱만 스스로 열리게 하므로, 이 옵션을 켜면 해당 권한 화면이 열립니다. 이 권한을 제공하지 않는 TV에서는 자동 시작이 작동하지 않습니다.</string>
+    <string name="settings_help_auto_start_wake">TV가 절전 모드에서 깨어날 때마다 OwnTV를 엽니다. 다른 앱을 쓰려고 깨운 경우에도 마찬가지입니다. 앱 시작 화면이 채널을 열도록 되어 있으면 깨어날 때마다 그 스트림이 시작됩니다. 켜져 있는 동안 OwnTV는 무음 알림과 함께 작은 백그라운드 서비스를 유지합니다. 켜질 때 자동 시작과 마찬가지로 다른 앱 위에 표시 권한이 필요합니다.</string>
     <string name="settings_help_dns">네트워크 자체 DNS 대신 원하는 DNS 서버로 제공자의 주소를 조회합니다. 네트워크가 주소를 차단하거나 우회시킬 때 유용합니다.</string>
     <string name="settings_help_live_engine">ExoPlayer는 채널을 훨씬 빨리 열고 실시간 자막을 지원하는 유일한 플레이어입니다. mpv는 ExoPlayer가 못 여는 채널과 일부 특이한 오디오도 재생합니다. 조합 옵션은 첫 번째가 실패하면 다른 플레이어를 시도합니다.</string>
     <string name="settings_help_hw">TV의 하드웨어 디코더를 사용합니다. 4K가 부드럽고 발열이 줄어듭니다. 일부 스트림이 끊기거나 깨질 때만 끄세요. 그러면 소프트웨어 디코더가 처리합니다.</string>

@@ -280,6 +280,11 @@
     <string name="settings_check_updates_description">En son sürümü GitHub Releases üzerinden alın</string>
     <string name="settings_update_startup">Başlangıçta güncellemeleri denetle</string>
     <string name="settings_update_startup_description">Uygulama açıldığında yeni sürüm olup olmadığını denetleyin</string>
+    <string name="settings_auto_start_boot">Açılışta otomatik başlat</string>
+    <string name="settings_auto_start_boot_description">TV açıldığında OwnTV’yi aç</string>
+    <string name="settings_auto_start_wake">Uyanınca otomatik başlat</string>
+    <string name="settings_auto_start_wake_description">TV uyku modundan çıktığında OwnTV’yi aç</string>
+    <string name="settings_auto_start_needs_overlay">“Diğer uygulamaların üzerinde göster” gerekli</string>
     <string name="settings_about">Hakkında</string>
     <string name="settings_live_latency">Canlı yayın gecikmesi</string>
     <string name="settings_no_settings_match">“<xliff:g id="query">%1$s</xliff:g>” ile eşleşen ayar yok</string>
@@ -389,6 +394,7 @@
     <string name="settings_search_keywords_startup">başlat aç giriş</string>
     <string name="settings_search_keywords_updates">github sürüm</string>
     <string name="settings_search_keywords_update_auto">otomatik güncelleme yeni sürüm</string>
+    <string name="settings_search_keywords_auto_start">açılış başlatma uyanma uyku bekleme otomatik aç</string>
     <string name="settings_language_default">Varsayılan (İngilizce)</string>
     <string name="settings_language_device">Cihaz dili</string>
     <string name="settings_language_arabic">Arapça</string>
@@ -1499,6 +1505,8 @@
     <string name="settings_help_startup">OwnTV başlarken ne gösterecek: Ana sayfa, en son izlediğiniz kanal, favorileriniz veya seçtiğiniz bir kanal.</string>
     <string name="settings_help_check_updates">GitHub’da şimdi daha yeni bir OwnTV arar ve yüklemeyi önerir. Oynatma listeleriniz, favorileriniz ve ayarlarınız olduğu gibi kalır.</string>
     <string name="settings_help_update_startup">OwnTV her başladığında yeni bir sürüm arar ve varsa size bildirir. Sormadan hiçbir şey yüklenmez.</string>
+    <string name="settings_help_auto_start_boot">TV açıldıktan sonra OwnTV’yi Uygulama başlangıcı ayarında seçilen ekranda kendiliğinden açar. Android bir uygulamanın kendiliğinden açılmasına yalnızca diğer uygulamaların üzerinde gösterilebiliyorsa izin verir; bu yüzden bunu açtığınızda o iznin ekranı açılır. Bazı TV’ler bu izni sunmaz ve orada otomatik başlatma çalışamaz.</string>
+    <string name="settings_help_auto_start_wake">TV uyku modundan her çıktığında OwnTV’yi açar; TV’yi başka bir uygulama için uyandırdığınızda da. Uygulama başlangıcı bir kanal açıyorsa her uyanış o yayını başlatır. Bu açıkken OwnTV, sessiz bir bildirimle küçük bir arka plan hizmeti çalıştırır. Açılışta otomatik başlatma gibi, diğer uygulamaların üzerinde gösterme izni gerekir.</string>
     <string name="settings_help_dns">Sağlayıcınızın adreslerini ağınızın kendi DNS’i yerine seçtiğiniz bir DNS sunucusuyla çözer; ağınız bunları engellediğinde veya yönlendirdiğinde işe yarar.</string>
     <string name="settings_help_live_engine">ExoPlayer kanalları çok daha hızlı açar ve canlı altyazıyı destekleyen tek oynatıcıdır. mpv, ExoPlayer’ın açamadığı kanalları, bazı alışılmadık seslerle birlikte oynatır. Birleşik seçenekler, ilki başarısız olunca diğer oynatıcıyı dener.</string>
     <string name="settings_help_hw">TV’nin donanım kod çözücüsünü kullanır: akıcı 4K ve daha az ısı. Yalnızca bazı yayınlar takılır veya bloklar gösterirse kapatın; o zaman işi yazılım kod çözücüsü yapar.</string>
