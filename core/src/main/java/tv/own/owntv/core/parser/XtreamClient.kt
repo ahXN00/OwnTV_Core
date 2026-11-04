@@ -379,8 +379,14 @@ class XtreamClient(private val http: HttpClient) {
         reader.beginObject()
         while (reader.hasNext()) {
             when (reader.nextName()) {
-                "release_date", "releaseDate", "releasedate", "air_date", "airdate" ->
-                    date = date ?: parseEpisodeDate(reader.nextStringOrNull())
+                "release_date", "releaseDate", "releasedate", "air_date", "airdate" -> {
+                    // Extraemos la lectura a una variable para obligar a que se consuma el JSON SIEMPRE
+                    val parsed = parseEpisodeDate(reader.nextStringOrNull())
+                    // Solo lo guardamos si aún no teníamos fecha
+                    if (date == null) {
+                        date = parsed
+                    }
+                }
                 else -> reader.skipValue()
             }
         }
