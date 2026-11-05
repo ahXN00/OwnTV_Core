@@ -255,29 +255,35 @@ class XtreamClient(private val http: HttpClient) {
      * that showed no episodes on stricter panels now populate.
      */
     suspend fun getSeriesInfo(s: SourceEntity, seriesId: String): XtSeriesInfo {
-        val episodes = ArrayList<XtEpisode>()
         // One retry: a panel that drops a kept-alive connection answers the first request with
         // "unexpected end of stream", and a single miss here shows the user an empty show.
-        http.get(api(s, "get_series_info", "&series_id=$seriesId"), s.userAgent, maxAttempts = SERIES_INFO_MAX_ATTEMPTS) { input ->
-            JsonReader(input.reader(Charsets.UTF_8)).use { reader ->
-                reader.isLenient = true
-                if (reader.peek() != JsonToken.BEGIN_OBJECT) { reader.skipValue(); return@use }
-                reader.beginObject()
-                while (reader.hasNext()) {
-                    if (reader.nextName() == "episodes") {
-                        when (reader.peek()) {
-                            JsonToken.BEGIN_OBJECT -> readEpisodesObject(reader, episodes) // { "1": [ep,…], … }
-                            JsonToken.BEGIN_ARRAY -> readEpisodesArray(reader, episodes)    // [ ep, ep, … ]
-                            else -> reader.skipValue()
-                        }
-                    } else {
-                        reader.skipValue()
-                    }
-                }
-                reader.endObject()
-            }
-        }
+        val episodes = http.get(
+            api(s, "get_series_info", "&series_id=$seriesId"), s.userAgent, maxAttempts = SERIES_INFO_MAX_ATTEMPTS,
+        ) { input -> readSeriesInfoEpisodes(input) }
         return XtSeriesInfo(numberBlankEpisodes(episodes))
+    }
+
+    /** The episodes of a `get_series_info` body, in panel order. */
+    internal fun readSeriesInfoEpisodes(input: InputStream): List<XtEpisode> {
+        val episodes = ArrayList<XtEpisode>()
+        JsonReader(input.reader(Charsets.UTF_8)).use { reader ->
+            reader.isLenient = true
+            if (reader.peek() != JsonToken.BEGIN_OBJECT) { reader.skipValue(); return@use }
+            reader.beginObject()
+            while (reader.hasNext()) {
+                if (reader.nextName() == "episodes") {
+                    when (reader.peek()) {
+                        JsonToken.BEGIN_OBJECT -> readEpisodesObject(reader, episodes) // { "1": [ep,…], … }
+                        JsonToken.BEGIN_ARRAY -> readEpisodesArray(reader, episodes)    // [ ep, ep, … ]
+                        else -> reader.skipValue()
+                    }
+                } else {
+                    reader.skipValue()
+                }
+            }
+            reader.endObject()
+        }
+        return episodes
     }
 
     /** `episodes` as `{ season → [episodes] }`. */
@@ -384,9 +390,9 @@ class XtreamClient(private val http: HttpClient) {
                 // object may carry it directly, or bury it in `info`. Whichever arrives first and
                 // parses wins, and `added` (when the panel got the file) is the last resort.
                 "release_date", "releaseDate", "releasedate", "air_date", "airdate" ->
-                    airDate = airDate ?: parseEpisodeDate(reader.nextStringOrNull())
+                    airDate = firstOf(airDate, parseEpisodeDate(reader.nextStringOrNull()))
                 "added" -> added = reader.nextStringOrNull()?.toLongOrNull()?.takeIf { it > 0 }?.times(1000)
-                "info" -> airDate = airDate ?: readEpisodeInfoDate(reader)
+                "info" -> airDate = firstOf(airDate, readEpisodeInfoDate(reader))
                 else -> reader.skipValue()
             }
         }
@@ -404,13 +410,21 @@ class XtreamClient(private val http: HttpClient) {
         while (reader.hasNext()) {
             when (reader.nextName()) {
                 "release_date", "releaseDate", "releasedate", "air_date", "airdate" ->
-                    date = date ?: parseEpisodeDate(reader.nextStringOrNull())
+                    date = firstOf(date, parseEpisodeDate(reader.nextStringOrNull()))
                 else -> reader.skipValue()
             }
         }
         reader.endObject()
         return date
     }
+
+    /**
+     * [current] if there is one, else [next]. A function, not `current ?: read()`, on purpose: its
+     * arguments are always evaluated, so the reader always consumes the value. With `?:` a second date
+     * key was never read once the first had matched, the reader stood on a value where it expected a
+     * name, and the whole show lost its episodes.
+     */
+    private fun firstOf(current: Long?, next: Long?): Long? = current ?: next
 
     /**
      * A panel's episode date, as epoch ms. `yyyy-MM-dd` is what they overwhelmingly send (sometimes
@@ -435,18 +449,24 @@ class XtreamClient(private val http: HttpClient) {
         else -> { skipValue(); null }
     }
 
-    /** Reads an int from a number or a numeric string, tolerating null/other. */
+    /**
+     * Reads an int from a number or a numeric string, tolerating null/other. The text is read and
+     * parsed here rather than with `nextInt()`, which throws on `1.5` or an overflow and took the
+     * whole show down with it; a whole `1.0` still reads as 1.
+     */
     private fun JsonReader.nextIntOrNull(): Int? = when (peek()) {
-        JsonToken.NUMBER -> nextInt()
-        JsonToken.STRING -> nextString().trim().toIntOrNull()
+        JsonToken.NUMBER, JsonToken.STRING -> nextString().trim().let { text ->
+            text.toIntOrNull() ?: text.toDoubleOrNull()?.let { d -> d.toInt().takeIf { it.toDouble() == d } }
+        }
         JsonToken.NULL -> { nextNull(); null }
         else -> { skipValue(); null }
     }
 
-    /** Reads a long from a number or a numeric string, tolerating null/other. */
+    /** Reads a long from a number or a numeric string, tolerating null/other — leniently, as [nextIntOrNull]. */
     private fun JsonReader.nextLongOrNull(): Long? = when (peek()) {
-        JsonToken.NUMBER -> nextLong()
-        JsonToken.STRING -> nextString().trim().toLongOrNull()
+        JsonToken.NUMBER, JsonToken.STRING -> nextString().trim().let { text ->
+            text.toLongOrNull() ?: text.toDoubleOrNull()?.let { d -> d.toLong().takeIf { it.toDouble() == d } }
+        }
         JsonToken.NULL -> { nextNull(); null }
         else -> { skipValue(); null }
     }
