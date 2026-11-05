@@ -320,6 +320,34 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     private fun <T> positionFlow(key: Preferences.Key<T>): Flow<T?> =
         context.positionStore.data.map { it[key] }.distinctUntilChanged()
 
+    /**
+     * A remembered position of the profile in use, following profile switches. Each profile keeps its
+     * own under `<name>_<profileId>`; one that has not saved one yet reads the value the whole device
+     * shared before positions were kept per profile, so nobody loses their place on upgrade.
+     */
+    @Suppress("UNCHECKED_CAST") // the stored value has the type it was written with: [shared]'s
+    private fun <T> profilePositionFlow(shared: Preferences.Key<T>): Flow<T?> =
+        combine(prefsFlow { it[Keys.ACTIVE_PROFILE] ?: -1L }, context.positionStore.data) { pid, p ->
+            ProfilePositions.read(p.asMap().mapKeys { it.key.name }, shared.name, pid) as T?
+        }.distinctUntilChanged()
+
+    private suspend fun <T> setProfilePosition(shared: Preferences.Key<T>, value: T) {
+        val key = profilePositionKey(shared, activeProfileIdNow())
+        context.positionStore.edit { it[key] = value }
+    }
+
+    /** [shared]'s own copy for [profileId]: the same name with `_<profileId>`, and the same value type. */
+    @Suppress("UNCHECKED_CAST")
+    private fun <T> profilePositionKey(shared: Preferences.Key<T>, profileId: Long): Preferences.Key<T> {
+        val name = ProfilePositions.name(shared.name, profileId)
+        return (if (shared == Keys.LAST_LIVE_CHANNEL) longPreferencesKey(name) else stringPreferencesKey(name)) as Preferences.Key<T>
+    }
+
+    /** Drops [profileId]'s remembered positions, for a profile being deleted. */
+    suspend fun forgetProfilePositions(profileId: Long) {
+        context.positionStore.edit { p -> Keys.POSITIONS.forEach { p.remove(profilePositionKey(it, profileId)) } }
+    }
+
     // Glass is off until it is set (a fresh install's Stage defaults turn it on).
     private val GLASS_SCOPE_DEFAULT_BITS: Int = 0
     private val NAV_WIDEN_OFF = "OFF"
@@ -629,8 +657,13 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val LIVE_SHOW_CATCHUP_RAIL = booleanPreferencesKey("live_show_catchup_rail")
         val LAST_MOVIES_CATEGORY = stringPreferencesKey("last_movies_category")
         val LAST_SERIES_CATEGORY = stringPreferencesKey("last_series_category")
+        val GUIDE_FOLLOWS_LIVE_CATEGORY = booleanPreferencesKey("guide_follows_live_category")
 
-        /** Written while browsing, so kept in their own store rather than the settings file. */
+        /**
+         * Written while browsing, so kept in their own store rather than the settings file. These four
+         * are the values the whole device shared; each profile now keeps its own copy beside them
+         * (see profilePositionFlow), and these are read only by a profile that has none yet.
+         */
         val POSITIONS: List<Preferences.Key<*>> = listOf(LAST_LIVE_CHANNEL, LAST_LIVE_CATEGORY, LAST_MOVIES_CATEGORY, LAST_SERIES_CATEGORY)
         // Background picture (Glass & background). bg_image_path holds the absolute path of the image we
         // COPIED into app-private storage (so a USB unplug or source-folder delete never blanks it);
@@ -699,11 +732,9 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         context.dataStore.edit { it[Keys.LAST_UPDATE_CHECK_AT] = at }
     }
 
-    // --- Live TV: remember the last focused channel so reopening lands focus back on it ---
-    val lastLiveChannelId: Flow<Long> = positionFlow(Keys.LAST_LIVE_CHANNEL).map { it ?: -1L }
-    suspend fun setLastLiveChannelId(id: Long) {
-        context.positionStore.edit { it[Keys.LAST_LIVE_CHANNEL] = id }
-    }
+    // --- Live TV: remember the last focused channel so reopening lands focus back on it (per profile) ---
+    val lastLiveChannelId: Flow<Long> = profilePositionFlow(Keys.LAST_LIVE_CHANNEL).map { it ?: -1L }
+    suspend fun setLastLiveChannelId(id: Long) = setProfilePosition(Keys.LAST_LIVE_CHANNEL, id)
 
     // --- Startup: per-profile landing (v4.0.0). Falls back to the legacy global resume toggle for existing
     //     users (so "Resume last channel = On" keeps working until they pick a per-profile mode). ---
@@ -799,19 +830,20 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         context.dataStore.edit { it[Keys.RESUME_LAST_CHANNEL] = enabled }
     }
 
-    // --- Remember the last selected category so reopening a section lands where you left off.
-    //     Written by each section's view model (debounced), read once on restore. ---
-    val lastLiveCategory: Flow<String> = positionFlow(Keys.LAST_LIVE_CATEGORY).map { it ?: "" }
-    suspend fun setLastLiveCategory(key: String) {
-        context.positionStore.edit { it[Keys.LAST_LIVE_CATEGORY] = key }
-    }
-    val lastMoviesCategory: Flow<String> = positionFlow(Keys.LAST_MOVIES_CATEGORY).map { it ?: "" }
-    suspend fun setLastMoviesCategory(key: String) {
-        context.positionStore.edit { it[Keys.LAST_MOVIES_CATEGORY] = key }
-    }
-    val lastSeriesCategory: Flow<String> = positionFlow(Keys.LAST_SERIES_CATEGORY).map { it ?: "" }
-    suspend fun setLastSeriesCategory(key: String) {
-        context.positionStore.edit { it[Keys.LAST_SERIES_CATEGORY] = key }
+    // --- Remember the last selected category so reopening a section lands where you left off — each
+    //     profile its own. Written by each section's view model (debounced), read once on restore. ---
+    val lastLiveCategory: Flow<String> = profilePositionFlow(Keys.LAST_LIVE_CATEGORY).map { it ?: "" }
+    suspend fun setLastLiveCategory(key: String) = setProfilePosition(Keys.LAST_LIVE_CATEGORY, key)
+    val lastMoviesCategory: Flow<String> = profilePositionFlow(Keys.LAST_MOVIES_CATEGORY).map { it ?: "" }
+    suspend fun setLastMoviesCategory(key: String) = setProfilePosition(Keys.LAST_MOVIES_CATEGORY, key)
+    val lastSeriesCategory: Flow<String> = profilePositionFlow(Keys.LAST_SERIES_CATEGORY).map { it ?: "" }
+    suspend fun setLastSeriesCategory(key: String) = setProfilePosition(Keys.LAST_SERIES_CATEGORY, key)
+
+    // --- "TV Guide follows Live TV's category" (default off: the Guide keeps a category of its own). On,
+    //     the Guide opens on Live TV's remembered category and a category picked there becomes it. ---
+    val guideFollowsLiveCategory: Flow<Boolean> = prefsFlow { it[Keys.GUIDE_FOLLOWS_LIVE_CATEGORY] ?: false }
+    suspend fun setGuideFollowsLiveCategory(enabled: Boolean) {
+        context.dataStore.edit { it[Keys.GUIDE_FOLLOWS_LIVE_CATEGORY] = enabled }
     }
 
     // --- Per-section "remember last CATEGORY" (default ON each — Live TV's long-standing behaviour,
@@ -3208,7 +3240,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             Keys.WEATHER_ENABLED, Keys.WEATHER_FAHRENHEIT, Keys.RESUME_LAST_CHANNEL, Keys.METADATA_ENABLED, Keys.CH_NAV_ENABLED, Keys.PLAYER_SWAP_CHANNEL_KEYS, Keys.PLAYER_NUMBER_KEYS_TUNE,
             Keys.DNS_ENABLED,
             Keys.REMEMBER_LAST_LIVE, Keys.REMEMBER_LAST_MOVIES, Keys.REMEMBER_LAST_SERIES,
-            Keys.REMEMBER_CAT_LIVE, Keys.REMEMBER_CAT_MOVIES, Keys.REMEMBER_CAT_SERIES,
+            Keys.REMEMBER_CAT_LIVE, Keys.REMEMBER_CAT_MOVIES, Keys.REMEMBER_CAT_SERIES, Keys.GUIDE_FOLLOWS_LIVE_CATEGORY,
             Keys.LIVE_SHOW_ALL_RAIL, Keys.LIVE_SHOW_CATCHUP_RAIL,
             Keys.SUB_STYLE_ENABLED, Keys.SUB_SEARCH_FILTER,
                 Keys.PANEL_W_LIVE_ON, Keys.PANEL_W_MOVIES_ON, Keys.PANEL_W_SERIES_ON, Keys.GUIDE_WIDTH_ON,
@@ -3260,7 +3292,9 @@ class SettingsRepository(private val context: Context, private val localeStore: 
      * a provider folder is stored as "FOLDER:<Room category id>", and Room content ids are recreated
      * by every sync (the catalog is clear-then-insert), so that value means nothing on another device
      * — restoring it would land the user in an arbitrary category. The stable forms travel:
-     * "ALL" / "FAV" / "HIST" and "CUSTOM:<uuid>", a user-created category whose id really is portable.
+     * "ALL" / "FAV" / "HIST" / "CATCHUP" and "CUSTOM:<uuid>", a user-created category whose id really
+     * is portable. Each profile's travel in [exportLastCategories]; [importSettings] still reads the
+     * single device-wide values older files carry.
      *
      * `last_live_channel` is deliberately absent for the same reason and has no stable form at all:
      * it is a Room channel id, so there is nothing here worth carrying.
@@ -3270,14 +3304,25 @@ class SettingsRepository(private val context: Context, private val localeStore: 
     )
 
     private fun isPortableCategoryKey(value: String): Boolean =
-        value == "ALL" || value == "FAV" || value == "HIST" || value.startsWith("CUSTOM:")
+        value == "ALL" || value == "FAV" || value == "HIST" || value == "CATCHUP" || value.startsWith("CUSTOM:")
+
+    /** Each profile's portable remembered categories, as `{ "<profileId>": { "last_live_category": … } }`. */
+    suspend fun exportLastCategories(): org.json.JSONObject = ProfilePositions.export(
+        context.positionStore.data.first().asMap().mapKeys { it.key.name },
+        backupLastCategoryKeys.map { it.name },
+        ::isPortableCategoryKey,
+    )
+
+    /** Restores [exportLastCategories] only for profile ids in [existingProfileIds], portable values only. */
+    suspend fun importLastCategories(o: org.json.JSONObject, existingProfileIds: Set<Long>) {
+        val values = ProfilePositions.import(o, backupLastCategoryKeys.map { it.name }, existingProfileIds, ::isPortableCategoryKey)
+        context.positionStore.edit { positions -> values.forEach { (name, value) -> positions[stringPreferencesKey(name)] = value } }
+    }
 
     suspend fun exportSettings(): org.json.JSONObject {
         val p = context.dataStore.data.first()
         return org.json.JSONObject().apply {
             backupStringKeys.forEach { k -> p[k]?.let { put(k.name, it) } }
-            val positions = context.positionStore.data.first()
-            backupLastCategoryKeys.forEach { k -> positions[k]?.takeIf(::isPortableCategoryKey)?.let { put(k.name, it) } }
             backupStringSetKeys.forEach { k -> p[k]?.let { put(k.name, org.json.JSONArray(it)) } }
             backupIntKeys.forEach { k -> p[k]?.let { put(k.name, it) } }
             backupBoolKeys.filter { BackupKeys.exports(it, p) }.forEach { k -> p[k]?.let { put(k.name, it) } }
@@ -3347,6 +3392,9 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         // The last categories live in the position store. Guarded on read as well as on write: a file
         // written by another build (or edited by hand) must not be able to restore a "FOLDER:<id>" that
         // points at whatever this device's sync happens to have put behind that number.
+        // Only files from before the values were kept per profile carry them here (one for the whole
+        // device): they go back to the shared value that every profile without its own falls back to.
+        // Newer files carry them per profile, see importLastCategories.
         context.positionStore.edit { positions ->
             backupLastCategoryKeys.forEach { k ->
                 if (o.has(k.name)) runCatching { o.getString(k.name).takeIf(::isPortableCategoryKey)?.let { positions[k] = it } }

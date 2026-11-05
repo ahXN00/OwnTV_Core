@@ -34,7 +34,7 @@ class SettingsBackupCoverageTest {
         "last_live_channel",
         // Backed up in their own BackupManager blocks, remapped to this device's playlists / EPG sources.
         "playlist_auto_refresh", "epg_auto_refresh", "epg_use_logos", "refresh_source_ids",
-        // Exported only in their portable forms (backupLastCategoryKeys).
+        // Exported only in their portable forms, per profile (the backup's "lastCategories" block).
         "last_live_category", "last_movies_category", "last_series_category",
         // Secrets: sealed into the encrypted section, or never written in plain text.
         "proxy_pass", "tmdb_api_key", "open_subtitles_api_key",
