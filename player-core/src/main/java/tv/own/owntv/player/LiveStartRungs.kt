@@ -20,7 +20,7 @@ internal object LiveStartRungs {
         FALLBACK_USER_AGENT,
         /** Every hardware decoder is taken: say so and stop. */
         DECODER_EXHAUSTED,
-        /** The decoder died before the first frame: once more on a fresh one. */
+        /** The decoder died before the first frame: again on a fresh one, see [decoderRebuildDelayMs]. */
         REBUILD_DECODER,
         /** The endpoint is the wrong shape: its `.ts` / `.m3u8` sibling. */
         ALT_FORMAT,
@@ -48,7 +48,8 @@ internal object LiveStartRungs {
         val sessionLimitRetryDone: Boolean,
         /** No UA retry yet, the source sets no UA of its own, and the fallback is not already in use. */
         val fallbackUserAgentAvailable: Boolean,
-        val decoderRetryDone: Boolean,
+        /** Decoder rebuilds this load has already spent. */
+        val decoderRebuildsDone: Int,
         val altFormatRetryDone: Boolean,
         /** [LivePreviewEngine.shouldTryDirectSource] for this failure. */
         val directSourceUseful: Boolean,
@@ -70,9 +71,30 @@ internal object LiveStartRungs {
         i.fallbackUserAgentAvailable && i.identityRefusal -> Rung.FALLBACK_USER_AGENT
         // Checked before the rebuild, which is for a decoder that *died*, not for one that was never free.
         i.decoderExhausted -> Rung.DECODER_EXHAUSTED
-        !i.decoderRetryDone && i.decoderFailure -> Rung.REBUILD_DECODER
+        i.decoderFailure && decoderRebuildDelayMs(i.decoderRebuildsDone) != null -> Rung.REBUILD_DECODER
         !i.altFormatRetryDone && i.formatFailure -> Rung.ALT_FORMAT
         i.directSourceUseful -> Rung.DIRECT_SOURCE
         else -> Rung.FAIL
     }
+
+    /**
+     * How long to let the old codec go before rebuild number [rebuildsDone] + 1, or null when they are
+     * spent. One rebuild was not always enough: a V4L2 decoder on a Pi 4 refused its configuration
+     * right after a channel change and again on the immediate rebuild, while a manual Retry a moment
+     * later played the channel. Waiting longer each time gives the hardware time to settle; three keep
+     * the whole series to about 13 s, inside the default "Give up after" with room left for the other
+     * engine. A shorter "Give up after" still ends the tune on time: its alarm stops the series.
+     */
+    fun decoderRebuildDelayMs(rebuildsDone: Int): Long? = DECODER_REBUILD_DELAYS_MS.getOrNull(rebuildsDone)
+
+    /**
+     * Whether an open that buffered but never started is the decoder's fault: a decoder already failed
+     * on this load and the video renderer is still not ready. The rebuilt codec can fail silently —
+     * audio buffers, the picture never comes and no error is raised — so without this the series of
+     * rebuilds ended at the first quiet failure.
+     */
+    fun stalledOpenIsDecoder(decoderFailedThisLoad: Boolean, videoReady: Boolean?): Boolean =
+        decoderFailedThisLoad && videoReady == false
+
+    private val DECODER_REBUILD_DELAYS_MS = listOf(500L, 1_500L, 3_000L)
 }

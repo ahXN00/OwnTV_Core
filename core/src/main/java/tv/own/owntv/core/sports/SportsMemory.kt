@@ -1,6 +1,7 @@
 package tv.own.owntv.core.sports
 
 import tv.own.owntv.core.database.entity.ChannelEntity
+import tv.own.owntv.core.database.entity.matchName
 import tv.own.owntv.core.sports.model.League
 import tv.own.owntv.core.sports.model.Match
 
@@ -26,7 +27,7 @@ object SportsMemory {
      * never its Room id, so it survives a re-sync, a restore on another device and a provider change.
      */
     fun remember(config: SportsConfig, match: Match, channel: ChannelEntity): SportsConfig {
-        val facets = ChannelFacets.of(channel.name)
+        val facets = ChannelFacets.of(channel.matchName)
         return config.copy(rememberedChannels = config.rememberedChannels + (competitionKey(match) to RememberedChannel(facets.name, facets.country)))
     }
 

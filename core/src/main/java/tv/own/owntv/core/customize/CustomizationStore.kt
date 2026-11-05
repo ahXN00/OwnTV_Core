@@ -10,13 +10,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import org.json.JSONArray
-import org.json.JSONObject
 import java.util.UUID
 import tv.own.owntv.core.database.entity.CategoryEntity
 import tv.own.owntv.core.epg.EpgMatcher
 import tv.own.owntv.core.database.entity.ChannelEntity
 import tv.own.owntv.core.database.entity.MovieEntity
+import tv.own.owntv.core.database.entity.matchName
 import tv.own.owntv.core.database.entity.SeriesEntity
 import tv.own.owntv.core.model.MediaType
 
@@ -81,7 +80,7 @@ class EpgMatchResolver(private val matches: Map<String, String>) {
         val key = CustomizeKeys.channel(channel)
         matches[key]?.let { return it }
         byTail[CustomizeKeys.tailOf(key)]?.let { return it }
-        return byName[EpgMatcher.normalizeForEpg(channel.name)]
+        return byName[EpgMatcher.normalizeForEpg(channel.matchName)]
     }
 
     /** Groups the stored matches by [keyOf], keeping only groups that agree on one guide id. */
@@ -123,8 +122,9 @@ data class SectionCustomizations(
     val hiddenItems: Map<String, String> = emptyMap(),
     val categoryNames: Map<String, String> = emptyMap(),
     val itemNames: Map<String, String> = emptyMap(),
-    /** Explicit category order (keys, first = top). Categories not listed follow in natural order. */
-    val categoryOrder: List<String> = emptyList(),
+    /** Categories moved by hand: key → the position they were put at. They keep it in every sort;
+     *  the rest follow the sort chip around them (see [placePinned]). */
+    val categoryPositions: Map<String, Int> = emptyMap(),
     /** Manual EPG match: item key → the EPG channel id to use (overrides the channel's own epg id). */
     val epgMatches: Map<String, String> = emptyMap(),
     /** Per-channel EPG time shift: item key → minutes to move the guide by (as a string, so it
@@ -138,6 +138,17 @@ data class SectionCustomizations(
      *  folder — that's what makes a "sidebar of only my folders" possible. Stable keys, so a re-sync
      *  that re-lists the item does not undo the move. */
     val movedFromOrigin: Map<String, String> = emptyMap(),
+    /** Categories behind the profile's Customize PIN (stable keys, custom ids included). They stay
+     *  on the rail with a lock; see [CategoryLockView] for what they hide until the PIN opens them.
+     *  The lock follows the key, so a renamed or re-added provider group comes back unlocked. */
+    val lockedCategories: Set<String> = emptySet(),
+    /** Derived, never stored: the locked categories the PIN has not opened this session, hidden or
+     *  not. [CategoryLockView] folds them into [hiddenCategories]. */
+    val sealedCategories: Set<String> = emptySet(),
+    /** Derived, never stored: the part of [sealedCategories] the fold added, i.e. not hidden by the user. */
+    val sealHidden: Set<String> = emptySet(),
+    /** Derived, never stored: DB ids of the provider folders among [sealedCategories]. */
+    val sealedCategoryIds: Set<Long> = emptySet(),
 ) {
     /**
      * The match lookup for this snapshot, built once and reused.
@@ -148,10 +159,16 @@ data class SectionCustomizations(
      */
     val epgMatchResolver: EpgMatchResolver by lazy { EpgMatchResolver(epgMatches) }
 
+    /** The name the user gave this item in Customize, else the provider's. */
+    fun displayName(ch: ChannelEntity): String = itemNames[CustomizeKeys.channel(ch)] ?: ch.name
+    fun displayName(m: MovieEntity): String = itemNames[CustomizeKeys.movie(m)] ?: m.name
+    fun displayName(s: SeriesEntity): String = itemNames[CustomizeKeys.series(s)] ?: s.name
+
     val isEmpty: Boolean
         get() = hiddenCategories.isEmpty() && hiddenItems.isEmpty() && categoryNames.isEmpty() &&
-            itemNames.isEmpty() && categoryOrder.isEmpty() && epgMatches.isEmpty() &&
-            epgShifts.isEmpty() && customCategories.isEmpty() && movedFromOrigin.isEmpty()
+            itemNames.isEmpty() && categoryPositions.isEmpty() && epgMatches.isEmpty() &&
+            epgShifts.isEmpty() && customCategories.isEmpty() && movedFromOrigin.isEmpty() &&
+            lockedCategories.isEmpty()
 }
 
 /**
@@ -159,21 +176,37 @@ data class SectionCustomizations(
  * DataStore — deliberately NOT a Room table, so no schema change (the DB uses destructive
  * migrations) and edits survive every re-sync via [CustomizeKeys].
  */
-class CustomizationStore(private val context: Context) {
+class CustomizationStore(private val context: Context, private val locks: CategoryLockView) {
 
     private fun key(profileId: Long, type: MediaType) =
         stringPreferencesKey("cust_${profileId}_${type.name}")
 
     fun observe(profileId: Long, type: MediaType): Flow<SectionCustomizations> =
         context.customizeStore.data
-            .map { prefs -> parse(prefs[key(profileId, type)]) }
+            .map { prefs -> CustomizationJson.parse(prefs[key(profileId, type)]) }
             .distinctUntilChanged()
+
+    /** What browsing shows: [observe] with the locked categories the PIN has not opened this session
+     *  counted as hidden. Customize and the store's own edits keep using [observe]. */
+    fun observeVisible(profileId: Long, type: MediaType): Flow<SectionCustomizations> =
+        locks.visible(profileId, type, observe(profileId, type))
+
+    /** Whether [profileId] has a category lock that can seal anything: a locked category and the PIN. */
+    fun observeHasLocks(profileId: Long): Flow<Boolean> = locks.hasLocks(profileId) { observe(profileId, it) }
+
+    /** True when [categoryId]'s category is locked and, unless [anySession], not opened this session. */
+    suspend fun sealsCategory(profileId: Long, categoryId: Long?, anySession: Boolean = false): Boolean =
+        sealsItem(profileId, ItemCategory.Found(categoryId), anySession)
+
+    /** [sealsCategory] for a row that names its item by local id, which a re-sync can leave unresolved. */
+    suspend fun sealsItem(profileId: Long, item: ItemCategory, anySession: Boolean = false): Boolean =
+        locks.seals(profileId, item, anySession) { type -> observe(profileId, type).first() }
 
     suspend fun update(profileId: Long, type: MediaType, transform: (SectionCustomizations) -> SectionCustomizations) {
         context.customizeStore.edit { prefs ->
             val k = key(profileId, type)
-            val next = transform(parse(prefs[k]))
-            if (next.isEmpty) prefs.remove(k) else prefs[k] = serialize(next)
+            val next = transform(CustomizationJson.parse(prefs[k]))
+            if (next.isEmpty) prefs.remove(k) else prefs[k] = CustomizationJson.serialize(next)
         }
     }
 
@@ -183,6 +216,17 @@ class CustomizationStore(private val context: Context) {
         update(profileId, type) {
             it.copy(hiddenCategories = if (hidden) it.hiddenCategories + catKey else it.hiddenCategories - catKey)
         }
+
+    /** Put a category behind the Customize PIN, or take it out. The caller owns the PIN check. */
+    suspend fun setCategoryLocked(profileId: Long, type: MediaType, catKey: String, locked: Boolean) =
+        update(profileId, type) {
+            it.copy(lockedCategories = if (locked) it.lockedCategories + catKey else it.lockedCategories - catKey)
+        }
+
+    /** Drops every category lock of the profile, in every section — removing the PIN does this. */
+    suspend fun clearCategoryLocks(profileId: Long) {
+        MediaType.entries.forEach { type -> update(profileId, type) { it.copy(lockedCategories = emptySet()) } }
+    }
 
     /** Hide/show a whole span of categories in one atomic edit (range select in Customize). */
     suspend fun setCategoriesHidden(profileId: Long, type: MediaType, catKeys: Collection<String>, hidden: Boolean) =
@@ -212,10 +256,12 @@ class CustomizationStore(private val context: Context) {
             it.copy(itemNames = if (name.isNullOrBlank()) it.itemNames - itemKey else it.itemNames + (itemKey to name.trim()))
         }
 
-    /** Saves the order of the categories on screen; the stored order of every other category (another
-     *  playlist's, while the rail shows one) is kept — see [mergeCategoryOrder]. */
-    suspend fun setCategoryOrder(profileId: Long, type: MediaType, orderedKeys: List<String>) =
-        update(profileId, type) { it.copy(categoryOrder = mergeCategoryOrder(it.categoryOrder, orderedKeys)) }
+    /** Saves a category move: [onScreen] is the list as the move left it, [carried] the categories the
+     *  user moved. Positions of categories not on screen (another playlist's) are kept. */
+    suspend fun saveCategoryMove(profileId: Long, type: MediaType, onScreen: List<String>, carried: Collection<String>) =
+        update(profileId, type) {
+            it.copy(categoryPositions = mergeCategoryPositions(it.categoryPositions, onScreen, carried.toSet()))
+        }
 
     /** Manually map an item to an EPG channel id (null/blank clears the override → auto-match). */
     suspend fun setEpgMatch(profileId: Long, type: MediaType, itemKey: String, epgChannelId: String?) =
@@ -284,8 +330,9 @@ class CustomizationStore(private val context: Context) {
             it.copy(
                 customCategories = it.customCategories.filterNot { c -> c.id == id },
                 hiddenCategories = it.hiddenCategories - id,
+                lockedCategories = it.lockedCategories - id,
                 categoryNames = it.categoryNames - id,
-                categoryOrder = it.categoryOrder - id,
+                categoryPositions = it.categoryPositions - id,
                 movedFromOrigin = it.movedFromOrigin - restoreOriginItemKeys,
             )
         }
@@ -314,103 +361,15 @@ class CustomizationStore(private val context: Context) {
             entries.forEach { (k, v) -> if (k.startsWith("cust_")) prefs[stringPreferencesKey(k)] = v }
         }
     }
-
-    // --- JSON (org.json, matching BackupManager's style) ---
-
-    private fun parse(raw: String?): SectionCustomizations {
-        if (raw.isNullOrBlank()) return SectionCustomizations()
-        return runCatching {
-            val o = JSONObject(raw)
-            SectionCustomizations(
-                hiddenCategories = o.optJSONArray("hiddenCats").toStringSet(),
-                hiddenItems = o.optJSONObject("hiddenItems").toStringMap(),
-                categoryNames = o.optJSONObject("catNames").toStringMap(),
-                itemNames = o.optJSONObject("itemNames").toStringMap(),
-                categoryOrder = o.optJSONArray("catOrder").toStringList(),
-                epgMatches = o.optJSONObject("epgMatch").toStringMap(),
-                epgShifts = o.optJSONObject("epgShift").toStringMap(),
-                customCategories = o.optJSONArray("customCats").toCustomCategories(),
-                movedFromOrigin = o.optJSONObject("movedFrom").toStringMap(),
-            )
-        }.getOrDefault(SectionCustomizations())
-    }
-
-    private fun serialize(c: SectionCustomizations): String = JSONObject().apply {
-        put("hiddenCats", JSONArray(c.hiddenCategories.toList()))
-        put("hiddenItems", JSONObject(c.hiddenItems as Map<*, *>))
-        put("catNames", JSONObject(c.categoryNames as Map<*, *>))
-        put("itemNames", JSONObject(c.itemNames as Map<*, *>))
-        put("catOrder", JSONArray(c.categoryOrder))
-        put("epgMatch", JSONObject(c.epgMatches as Map<*, *>))
-        put("epgShift", JSONObject(c.epgShifts as Map<*, *>))
-        put("movedFrom", JSONObject(c.movedFromOrigin as Map<*, *>))
-        put(
-            "customCats",
-            JSONArray(c.customCategories.map {
-                JSONObject().put("id", it.id).put("name", it.name).put("icon", it.icon)
-            }),
-        )
-    }.toString()
-
-    private fun JSONArray?.toStringList(): List<String> =
-        if (this == null) emptyList() else (0 until length()).map { getString(it) }
-
-    private fun JSONArray?.toStringSet(): Set<String> = toStringList().toSet()
-
-    private fun JSONObject?.toStringMap(): Map<String, String> {
-        if (this == null) return emptyMap()
-        val out = HashMap<String, String>()
-        keys().forEach { k -> out[k] = getString(k) }
-        return out
-    }
-
-    private fun JSONArray?.toCustomCategories(): List<CustomCategory> {
-        if (this == null) return emptyList()
-        return (0 until length()).mapNotNull { i ->
-            val o = optJSONObject(i) ?: return@mapNotNull null
-            val id = o.optString("id").takeIf { it.isNotEmpty() } ?: return@mapNotNull null
-            CustomCategory(
-                id = id,
-                name = o.optString("name"),
-                icon = o.optString("icon").ifEmpty { null },
-            )
-        }
-    }
 }
 
 /**
- * Applies category customizations: hidden categories drop out, custom names replace the originals,
- * and reordered keys come first (in their stored order). The rest keep natural (playlist) order, or
- * sort A–Z by displayed name when [alphaRest] is set — manual moves always stay pinned on top.
+ * The category positions after a move made on the rail as it is shown — one playlist's categories when the
+ * rail shows one. The categories on screen take their positions from the move; every other category
+ * (another playlist's) keeps the position it had.
  */
-fun List<CategoryEntity>.applyCustomizations(
-    c: SectionCustomizations,
-    alphaRest: Boolean = false,
-): List<Pair<CategoryEntity, String>> {
-    val visible =
-        if (c.hiddenCategories.isEmpty()) this
-        else filter { CustomizeKeys.category(it) !in c.hiddenCategories }
-    val named = visible.map { cat -> cat to (c.categoryNames[CustomizeKeys.category(cat)] ?: cat.name) }
-    val orderIndex = c.categoryOrder.withIndex().associate { (i, k) -> k to i }
-    val (pinned, rest) = named.partition { (cat, _) -> CustomizeKeys.category(cat) in orderIndex }
-    return pinned.sortedBy { (cat, _) -> orderIndex.getValue(CustomizeKeys.category(cat)) } +
-        (if (alphaRest) rest.sortedBy { (_, name) -> name.lowercase() } else rest)
-}
-
-/**
- * A new category order for the keys [onScreen], merged into the [stored] one. A move is made on the rail
- * as it is shown — one playlist's categories when the rail shows one — so saving only those keys erased
- * every other playlist's order. The other keys keep their places; the keys on screen go, in their new
- * order, where the first of them already was (at the end when none was stored). A custom category is on
- * every playlist's rail, so it must not be pulled ahead of another playlist's folders by a move here.
- */
-fun mergeCategoryOrder(stored: List<String>, onScreen: List<String>): List<String> {
-    val shown = onScreen.toSet()
-    val firstShown = stored.indexOfFirst { it in shown }
-    val rest = stored.filterNot { it in shown }
-    val at = if (firstShown < 0) rest.size else stored.take(firstShown).count { it !in shown }
-    return rest.take(at) + onScreen + rest.drop(at)
-}
+fun mergeCategoryPositions(stored: Map<String, Int>, onScreen: List<String>, carried: Set<String>): Map<String, Int> =
+    stored.filterKeys { it !in onScreen } + pinnedAfterMove(onScreen, stored.keys, carried)
 
 /** One rail entry after customizations are applied: a provider folder ([categoryId] set) or a user
  *  custom combined category ([customId] set). */
@@ -419,42 +378,51 @@ data class CustomizedCategory(
     val displayName: String,
     val categoryId: Long? = null,
     val customId: String? = null,
+    /** Behind the Customize PIN; [sealed] while this session has not opened it (see [withLocks]). */
+    val locked: Boolean = false,
+    val sealed: Boolean = false,
 )
 
 /**
  * [applyCustomizations] extended with the user's custom combined categories: provider
  * folders and custom categories are merged into ONE ordered list, so hide / rename / reorder apply
  * uniformly to both — their keys share the [CustomizeKeys] namespace, so a custom category drops
- * into `hiddenCategories`, `categoryNames` and `categoryOrder` with no extra code.
+ * into `hiddenCategories`, `categoryNames` and `categoryPositions` with no extra code.
  *
  * Hiding a custom category only removes its rail entry — its items still legitimately exist in
  * their provider categories, so All/search/recent (which filter by resolved DB ids) are untouched.
+ *
+ * Categories never moved follow the sort: A–Z by displayed name when [alphabetical], else the natural
+ * order. Moved ones keep the position they were put at, in either sort ([placePinned]).
  */
 fun List<CategoryEntity>.applyCustomizationsWithCustoms(
     c: SectionCustomizations,
     customs: List<CustomCategory>,
-    alphaRest: Boolean = false,
+    alphabetical: Boolean = false,
 ): List<CustomizedCategory> {
     val visibleCats =
         if (c.hiddenCategories.isEmpty()) this
         else filter { CustomizeKeys.category(it) !in c.hiddenCategories }
-    // User folders lead the natural rail order. Explicit manual order
-    // still wins through categoryOrder below.
+    // User folders lead the natural rail order; a moved category keeps its own place below.
     val entries = customs.filter { it.id !in c.hiddenCategories }.map { cc ->
         CustomizedCategory(
             key = cc.id,
             displayName = c.categoryNames[cc.id] ?: cc.name,
             customId = cc.id,
+            locked = cc.id in c.lockedCategories,
+            sealed = cc.id in c.sealedCategories,
         )
     } + visibleCats.map { cat ->
+        val key = CustomizeKeys.category(cat)
         CustomizedCategory(
-            key = CustomizeKeys.category(cat),
-            displayName = c.categoryNames[CustomizeKeys.category(cat)] ?: cat.name,
+            key = key,
+            displayName = c.categoryNames[key] ?: cat.name,
             categoryId = cat.id,
+            locked = key in c.lockedCategories,
+            sealed = key in c.sealedCategories,
         )
     }
-    val orderIndex = c.categoryOrder.withIndex().associate { (i, k) -> k to i }
-    val (pinned, rest) = entries.partition { it.key in orderIndex }
-    return pinned.sortedBy { orderIndex.getValue(it.key) } +
-        (if (alphaRest) rest.sortedBy { it.displayName.lowercase() } else rest)
+    val (pinned, rest) = entries.partition { it.key in c.categoryPositions }
+    val sorted = if (alphabetical) rest.sortedBy { it.displayName.lowercase() } else rest
+    return placePinned(sorted, pinned.map { it to c.categoryPositions.getValue(it.key) })
 }

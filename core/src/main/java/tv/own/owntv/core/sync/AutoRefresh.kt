@@ -42,6 +42,7 @@ class AutoRefresh(
     private val epgSourceStore: EpgSourceStore,
     private val epgDao: EpgDao,
     private val importFinalizer: ImportFinalizer,
+    private val vodResort: M3uVodResort,
 ) {
     private var coldStartCheckDone = false
     private var lastResumeCheckAtElapsed = 0L
@@ -94,7 +95,10 @@ class AutoRefresh(
                 }
             }
         }
-        if (includeStartup) refillGuideEmptiedByMigration()
+        if (includeStartup) {
+            refillGuideEmptiedByMigration()
+            vodResort.runOnce()
+        }
     }
 
     /**

@@ -3,6 +3,7 @@ package tv.own.owntv.core.sync
 import android.os.SystemClock
 import android.util.Log
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.channels.Channel
@@ -11,6 +12,7 @@ import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import tv.own.owntv.core.database.BulkInsertHelper
 import tv.own.owntv.core.database.entity.CatalogBackfillEntity
 import tv.own.owntv.core.database.entity.ChannelEntity
@@ -50,6 +52,7 @@ internal class StalkerSyncer(
     private val sourceDao: tv.own.owntv.core.database.dao.SourceDao,
     private val catalogBackfillDao: tv.own.owntv.core.database.dao.CatalogBackfillDao,
     private val catalogPriority: CatalogPriority,
+    private val ceilings: PortalCeilingStore,
 ) {
     /**
      * Live runs first and alone (it has a one-shot bulk `get_all_channels` dump — seconds, not minutes).
@@ -68,11 +71,68 @@ internal class StalkerSyncer(
         // the learned limit regardless of how many are in flight. Live shares it too — it used to page
         // through a fixed six-wide window that learned nothing, which on a strict panel is precisely
         // the burst that earns a 403, and live is the phase everybody syncs.
-        val budget = AdaptivePortalLimiter(isThrottle = ::isPortalThrottle)
-        if (contentTypes.live) syncLive(s, progress, stats, creds, budget)
-        coroutineScope {
-            if (contentTypes.movies) launch { guardStep("movies", stats) { syncMovies(s, progress, stats, creds, budget) } }
-            if (contentTypes.series) launch { guardStep("series", stats) { syncSeries(s, progress, stats, creds, budget) } }
+        withLearnedCeiling(s) { budget ->
+            if (contentTypes.live) syncLive(s, progress, stats, creds, budget)
+            val showsInFilms = contentTypes.series && showsInFilmCatalogue(s, creds) == true
+            coroutineScope {
+                if (showsInFilms) {
+                    // No series section: the shows are in the film catalogue, flagged `is_series`.
+                    // The catalogue is walked once — by the film phase, which hands the shows over —
+                    // and only walked for shows alone when films are not being synced.
+                    launch {
+                        if (contentTypes.movies) {
+                            val split = VodSplit(keepSeries = false)
+                            guardStep("movies", stats) { syncMovies(s, progress, stats, creds, budget, split) }
+                            guardStep("series", stats) { syncSeriesFromFilms(s, progress, stats, creds, budget, split) }
+                            if (split.complete) dropShowOnlyFilmCategories(s)
+                        } else {
+                            guardStep("series", stats) { syncSeriesInFilms(s, progress, stats, creds, budget) }
+                        }
+                    }
+                } else {
+                    if (contentTypes.movies) launch { guardStep("movies", stats) { syncMovies(s, progress, stats, creds, budget) } }
+                    if (contentTypes.series) launch { guardStep("series", stats) { syncSeries(s, progress, stats, creds, budget) } }
+                }
+            }
+        }
+    }
+
+    /**
+     * True when the portal has no series section — no categories, or an answer that is not a list at
+     * all (some portals answer `type=series` with an HTML page or with `{"js":false}`). A connection
+     * that merely broke proves nothing: that is null. A sync then runs the series phase, which fails
+     * the way it always has, rather than moving every show around on a hiccup.
+     */
+    private suspend fun showsInFilmCatalogue(s: SourceEntity, creds: StalkerCredentials): Boolean? {
+        val cats = try {
+            auth.withAuthRetry(creds) { client.getSeriesCategories(it.apiBase, creds.mac, it.token, creds.userAgent) }
+        } catch (c: CancellationException) {
+            throw c
+        } catch (e: IOException) {
+            if (isTransientPortalError(e)) return null
+            Log.i(TAG, "SERIES no series section sourceId=${s.id} (${e.message}) — shows come from the film catalogue")
+            return true
+        }
+        val none = cats.none { it.id.isNotBlank() && it.id != "*" }
+        if (none) Log.i(TAG, "SERIES no series categories sourceId=${s.id} — shows come from the film catalogue")
+        return none
+    }
+
+    /**
+     * Run [block] with a gate that starts below the limit this portal last refused, and store what
+     * the run learned — also when it failed part-way, since a refusal is most worth remembering then.
+     */
+    private suspend fun <T> withLearnedCeiling(s: SourceEntity, block: suspend (AdaptivePortalLimiter) -> T): T {
+        val learned = ceilings.get(s.id)
+        val budget = AdaptivePortalLimiter.forCeiling(learned?.ceiling, ::isPortalThrottle)
+        if (learned != null) Log.i(TAG, "portal ceiling sourceId=${s.id} learned=${learned.ceiling} cleanRuns=${learned.cleanRuns} max=${budget.max}")
+        try {
+            return block(budget)
+        } finally {
+            withContext(NonCancellable) {
+                runCatching { ceilings.record(s.id, learned, budget) }
+                Log.i(TAG, "portal limit sourceId=${s.id} throttledAt=${budget.throttledAt} reachedMax=${budget.reachedMax} final=${budget.currentLimit}")
+            }
         }
     }
 
@@ -88,7 +148,9 @@ internal class StalkerSyncer(
         Log.i(TAG, "$label phase start sourceId=${s.id} fresh=$freshSource")
         progress.update(SyncPhase.LIVE, 0)
 
-        val adapter = support.channelAdapter
+        // The cmd's per-call play_token is left out of the hash ([StalkerClient.withoutPlayToken]),
+        // or an unchanged channel list would rewrite every channel on every re-sync.
+        val adapter = support.channelAdapter.copy(hashOf = ::stalkerChannelHash)
         val hashDeferred = if (!freshSource) support.asyncHashLoad(this, label, s.id) { adapter.loadHashes(s.id) } else null
 
         // Genres first (one auth round trip, reused for every page below).
@@ -103,7 +165,19 @@ internal class StalkerSyncer(
         val insertFn: suspend (List<ChannelEntity>) -> UpsertStats = if (freshSource) {
             { rows -> support.insertFresh(rows, adapter) }
         } else {
-            { rows -> support.upsertStable(rows, hashDeferred!!, adapter) }
+            { rows ->
+                support.upsertStable(rows, hashDeferred!!, adapter).also {
+                    // A channel whose token alone is new was skipped above. Its newest token is still
+                    // stored, URL only, so a portal that does check it gets one as fresh as the last
+                    // re-sync — as before, without rewriting the whole row.
+                    bulkInsertHelper.updateChannelStreamUrls(
+                        s.id,
+                        rows.filter { StalkerClient.hasPlayToken(it.streamUrl) }
+                            .mapNotNull { row -> row.remoteId?.let { it to row.streamUrl } }
+                            .toMap(),
+                    )
+                }
+            }
         }
         val total = intArrayOf(0)
         val remoteIds = if (freshSource) null else HashSet<String>()
@@ -122,7 +196,7 @@ internal class StalkerSyncer(
         bulkInsertHelper.withOptimizedBulkInsert("channels", "channels_fts", eligible = freshSource, ftsOnly = true) {
             support.chunked<ChannelEntity, Unit>(ctx, SyncPhase.LIVE, label, progress, insertFn, total, remoteIds, adapter.remoteIdOf, chunkSize) { add ->
                 val emit: suspend (StalkerClient.Channel, String?) -> Unit = { ch, fallbackGenreId ->
-                    val entity = ChannelEntity(
+                    val entity = tv.own.owntv.core.customize.ChannelNameCleanup.apply(s, ChannelEntity(
                             sourceId = s.id,
                             // A channel's own tv_genre_id wins; fall back to the genre we asked for.
                             categoryId = ch.genreId?.let { catMap[it] } ?: fallbackGenreId?.let { catMap[it] },
@@ -139,7 +213,7 @@ internal class StalkerSyncer(
                             sortOrder = order++,
                             catchup = ch.archive,
                             catchupDays = ch.archiveDuration,
-                    )
+                    ))
                     if (fieldDiffSample.size < FIELD_DIFF_SAMPLE) fieldDiffSample.add(entity)
                     add(entity)
                 }
@@ -184,7 +258,10 @@ internal class StalkerSyncer(
                 // Per-genre paged fetch. Pages fetched CONCURRENTLY in windows; add() runs
                 // single-threaded after each window's awaitAll. Used for the whole catalog when the
                 // portal denies/empties the bulk list, and for the few genres a bulk dump left empty.
-                val pageGenres: suspend (List<StalkerClient.Genre>) -> Unit = { list ->
+                // Returns the genres whose first page could not be fetched; the caller gives them one
+                // more pass at the end, when the portal has had time to calm down.
+                val pageGenres: suspend (List<StalkerClient.Genre>, Boolean) -> List<StalkerClient.Genre> = { list, lastChance ->
+                    val unreached = ArrayList<StalkerClient.Genre>()
                     list.forEachIndexed { gi, genre ->
                         ctx.ensureActive()
                         // A genre that can't be fetched must not silently shrink the pass: count the
@@ -194,7 +271,7 @@ internal class StalkerSyncer(
                         } catch (c: kotlinx.coroutines.CancellationException) {
                             throw c
                         } catch (e: Exception) {
-                            pageFailures.incrementAndGet()
+                            if (lastChance) pageFailures.incrementAndGet() else unreached.add(genre)
                             Log.w(TAG, "$label genre=${genre.id} page1 failed (${e.message})")
                             return@forEachIndexed
                         }
@@ -204,6 +281,7 @@ internal class StalkerSyncer(
                             .coerceAtMost(MAX_PAGES_PER_GENRE)
                         Log.i(TAG, "$label genre ${gi + 1}/${list.size} id=${genre.id} '${genre.title}' total=${first.totalItems} maxPer=$maxPer pages=$pages")
                         var page = 2
+                        val missed = ArrayList<Int>()
                         while (page <= pages) {
                             ctx.ensureActive()
                             // Spawned at the limiter's MAX; the adaptive gate inside fetchPage decides
@@ -217,8 +295,8 @@ internal class StalkerSyncer(
                                         } catch (c: kotlinx.coroutines.CancellationException) {
                                             throw c
                                         } catch (e: Exception) {
-                                            pageFailures.incrementAndGet()
-                                            Log.w(TAG, "$label genre=${genre.id} page=$p failed (${e.message})")
+                                            Log.w(TAG, "$label genre=${genre.id} page=$p failed (${e.message}) — retrying at the end of the genre")
+                                            synchronized(missed) { missed.add(p) }
                                             null
                                         }
                                     }
@@ -229,6 +307,27 @@ internal class StalkerSyncer(
                             }
                             page = windowEnd + 1
                         }
+                        // One serial pass over what the windows dropped, rather than losing the pages.
+                        missed.sorted().forEach { p ->
+                            val again = try {
+                                fetchPage(creds, genre.id, p, budget)
+                            } catch (c: kotlinx.coroutines.CancellationException) {
+                                throw c
+                            } catch (e: Exception) {
+                                pageFailures.incrementAndGet()
+                                Log.w(TAG, "$label genre=${genre.id} page=$p failed again (${e.message})")
+                                null
+                            }
+                            again?.items?.forEach { if (it.id !in bulkEmittedIds) emit(it, genre.id) }
+                        }
+                    }
+                    unreached
+                }
+                val pageAllGenres: suspend (List<StalkerClient.Genre>) -> Unit = { list ->
+                    val unreached = pageGenres(list, false)
+                    if (unreached.isNotEmpty()) {
+                        Log.i(TAG, "$label retrying ${unreached.size} genre(s) whose first page failed")
+                        pageGenres(unreached, true)
                     }
                 }
 
@@ -242,14 +341,14 @@ internal class StalkerSyncer(
                     if (absent.isNotEmpty()) {
                         bulk.forEach { bulkEmittedIds.add(it.id) }
                         Log.i(TAG, "$label bulk omitted ${absent.size} genre(s) ${absent.joinToString { it.id }} — fetching per-genre")
-                        pageGenres(absent)
+                        pageAllGenres(absent)
                     }
                 } else {
                     if (bulk != null && bulk.isNotEmpty()) {
                         Log.w(TAG, "$label get_all_channels truncated count=${bulk.size} declaredTotal=$declaredTotal — falling back to per-genre paging")
                     }
                     Log.i(TAG, "$label per-genre fallback begin genres=${genres.size}")
-                    pageGenres(genres)
+                    pageAllGenres(genres)
                 }
             }
             if (pageFailures.get() > 0) {
@@ -284,20 +383,26 @@ internal class StalkerSyncer(
      * the MAC or a play token, and these lines get pasted into bug reports. Run a sync twice and diff
      * the two blocks — whichever `field=` number moves for the same `remoteId` is the culprit.
      */
+    private fun stalkerChannelHash(c: ChannelEntity): Int =
+        c.copy(streamUrl = StalkerClient.withoutPlayToken(c.streamUrl)).computeContentHash()
+
     private fun logFieldFingerprints(label: String, sourceId: Long, sample: List<ChannelEntity>) {
         sample.forEach { c ->
             Log.i(
                 TAG,
-                "$label fieldDiff sourceId=$sourceId remoteId=${c.remoteId} hash=${c.computeContentHash()} " +
+                "$label fieldDiff sourceId=$sourceId remoteId=${c.remoteId} hash=${stalkerChannelHash(c)} " +
                     "categoryId=${c.categoryId} name=${c.name.hashCode()} logoUrl=${c.logoUrl.hashCode()} " +
-                    "streamUrl=${c.streamUrl.hashCode()} epgChannelId=${c.epgChannelId.hashCode()} " +
+                    "streamUrl=${StalkerClient.withoutPlayToken(c.streamUrl).hashCode()} epgChannelId=${c.epgChannelId.hashCode()} " +
                     "number=${c.number} catchup=${c.catchup} catchupDays=${c.catchupDays} " +
                     "catchupSource=${c.catchupSource.hashCode()} sortOrder=${c.sortOrder}",
             )
         }
     }
 
-    private suspend fun syncMovies(s: SourceEntity, progress: SyncCounters, stats: SyncStatsCollector, creds: StalkerCredentials, budget: AdaptivePortalLimiter) =
+    private suspend fun syncMovies(
+        s: SourceEntity, progress: SyncCounters, stats: SyncStatsCollector, creds: StalkerCredentials, budget: AdaptivePortalLimiter,
+        split: VodSplit? = null,
+    ) =
         syncPagedCatalog(
             s, progress, stats, creds, budget,
             phase = SyncPhase.MOVIES, mediaType = MediaType.MOVIE,
@@ -305,6 +410,7 @@ internal class StalkerSyncer(
             adapter = support.movieAdapter,
             fetchCategories = { auth.withAuthRetry(creds) { client.getVodCategories(it.apiBase, creds.mac, it.token, creds.userAgent) } },
             fetchPage = { catId, page -> auth.withAuthRetry(creds) { client.getVodPage(it.apiBase, creds.mac, it.token, creds.userAgent, catId, page) } },
+            split = split,
             map = { item, catDbId, order ->
                 MovieEntity(
                     sourceId = s.id, categoryId = catDbId, name = item.name,
@@ -317,25 +423,90 @@ internal class StalkerSyncer(
             },
         )
 
-    private suspend fun syncSeries(s: SourceEntity, progress: SyncCounters, stats: SyncStatsCollector, creds: StalkerCredentials, budget: AdaptivePortalLimiter) =
+    private suspend fun syncSeries(
+        s: SourceEntity, progress: SyncCounters, stats: SyncStatsCollector, creds: StalkerCredentials, budget: AdaptivePortalLimiter,
+        fetchCategories: suspend (StalkerSession) -> List<StalkerClient.Genre> =
+            { client.getSeriesCategories(it.apiBase, creds.mac, it.token, creds.userAgent) },
+        fetchPage: suspend (catId: String, page: Int) -> StalkerClient.Page<StalkerClient.VodItem> =
+            { catId, page -> auth.withAuthRetry(creds) { client.getSeriesPage(it.apiBase, creds.mac, it.token, creds.userAgent, catId, page) } },
+        split: VodSplit? = null,
+        prune: Boolean = true,
+    ) =
         syncPagedCatalog(
             s, progress, stats, creds, budget,
             phase = SyncPhase.SERIES, mediaType = MediaType.SERIES,
             table = "series", ftsTable = "series_fts", countsKey = "series",
             adapter = support.seriesAdapter,
-            fetchCategories = { auth.withAuthRetry(creds) { client.getSeriesCategories(it.apiBase, creds.mac, it.token, creds.userAgent) } },
-            fetchPage = { catId, page -> auth.withAuthRetry(creds) { client.getSeriesPage(it.apiBase, creds.mac, it.token, creds.userAgent, catId, page) } },
-            // SHOW rows only — episodes are listed lazily when a show is opened.
-            map = { item, catDbId, order ->
-                SeriesEntity(
-                    sourceId = s.id, categoryId = catDbId, name = item.name,
-                    posterUrl = item.poster, plot = item.plot, rating = item.rating,
-                    year = item.year, remoteId = item.id, sortOrder = order,
-                    // Portal `added` date when the panel exposes one; null falls through to playlist order.
-                    addedAt = item.addedAt,
-                )
-            },
+            fetchCategories = { auth.withAuthRetry(creds) { fetchCategories(it) } },
+            fetchPage = fetchPage,
+            split = split,
+            prune = prune,
+            map = { item, catDbId, order -> showRow(s, item, catDbId, order) },
         )
+
+    /** A SHOW row only — episodes are listed lazily when a show is opened. */
+    private fun showRow(s: SourceEntity, item: StalkerClient.VodItem, catDbId: Long?, order: Int) = SeriesEntity(
+        sourceId = s.id, categoryId = catDbId, name = item.name,
+        posterUrl = item.poster, plot = item.plot, rating = item.rating,
+        year = item.year, remoteId = item.id, sortOrder = order,
+        // Portal `added` date when the panel exposes one; null falls through to playlist order.
+        addedAt = item.addedAt,
+    )
+
+    /**
+     * The shows the film walk set aside, stored as series under the film categories they were found
+     * in. Served to [syncPagedCatalog] as one page per category, so the categories, the hash-diffed
+     * upsert and the prune are exactly the ones a real series section gets. The prune runs only when
+     * the film walk was whole: a show on a page that failed is not gone.
+     */
+    private suspend fun syncSeriesFromFilms(
+        s: SourceEntity, progress: SyncCounters, stats: SyncStatsCollector, creds: StalkerCredentials,
+        budget: AdaptivePortalLimiter, films: VodSplit,
+    ) {
+        Log.i(TAG, "SERIES from film catalogue sourceId=${s.id} categories=${films.elsewhere.size} shows=${films.elsewhere.values.sumOf { it.size }} filmWalkComplete=${films.complete}")
+        syncSeries(
+            s, progress, stats, creds, budget,
+            fetchCategories = { session ->
+                client.getVodCategories(session.apiBase, creds.mac, session.token, creds.userAgent)
+                    .filter { it.id in films.elsewhere }
+            },
+            // "*" answers with nothing, so the walk takes the per-category path.
+            fetchPage = { catId, _ ->
+                val shows = films.elsewhere[catId].orEmpty()
+                StalkerClient.Page(shows.size, shows.size, shows)
+            },
+            prune = films.complete,
+        )
+    }
+
+    /** Films are not synced but shows are, and the shows live in the film catalogue: walk it for them alone. */
+    private suspend fun syncSeriesInFilms(
+        s: SourceEntity, progress: SyncCounters, stats: SyncStatsCollector, creds: StalkerCredentials, budget: AdaptivePortalLimiter,
+    ) = syncSeries(
+        s, progress, stats, creds, budget,
+        fetchCategories = { client.getVodCategories(it.apiBase, creds.mac, it.token, creds.userAgent) },
+        fetchPage = { catId, page -> auth.withAuthRetry(creds) { client.getVodPage(it.apiBase, creds.mac, it.token, creds.userAgent, catId, page) } },
+        split = VodSplit(keepSeries = true),
+    )
+
+    /**
+     * One walk of a `type=vod` catalogue that holds films and shows together. The walk keeps the kind
+     * it is syncing and hands the other kind to [elsewhere] by film category, or drops it when
+     * [keepSeries] is true (shows only, films not being synced).
+     *
+     * A split walk skips no category on a matching count: a count can only match once the shows are
+     * out of the film table. The film walk may defer pages like any other (a lazy setup, or pages
+     * that failed): the background drain splits them the same way ([ShowsAmongFilms]). The
+     * shows-only walk defers none — that drain only finishes films.
+     */
+    internal class VodSplit(val keepSeries: Boolean) {
+        val elsewhere = LinkedHashMap<String, MutableList<StalkerClient.VodItem>>()
+
+        /** Set by the walk: every page arrived, so what [elsewhere] lacks is really gone. */
+        var complete = false
+
+        fun keeps(item: StalkerClient.VodItem): Boolean = item.isSeries == keepSeries
+    }
 
     /**
      * Generic per-category paged importer for VOD/series (Stalker has no bulk endpoint for them):
@@ -358,6 +529,9 @@ internal class StalkerSyncer(
         fetchCategories: suspend (StalkerSession) -> List<StalkerClient.Genre>,
         fetchPage: suspend (catId: String, page: Int) -> StalkerClient.Page<StalkerClient.VodItem>,
         map: (item: StalkerClient.VodItem, categoryDbId: Long?, order: Int) -> T,
+        split: VodSplit? = null,
+        /** False when this pass cannot know what is gone (see [syncSeriesFromFilms]). */
+        prune: Boolean = true,
     ) = coroutineScope {
         val ctx = currentCoroutineContext()
         val freshSource = s.lastSyncAt == null
@@ -372,7 +546,14 @@ internal class StalkerSyncer(
         val cats = auth.withAuthRetry(creds) { fetchCategories(it) }
             .filter { it.id.isNotBlank() && it.id != "*" }
         Log.i(TAG, "$label categories sourceId=${s.id} count=${cats.size}")
-        val categories = support.refreshCategories(s, mediaType, cats.map { XtCategory(it.id, it.title) }, stats)
+        // A category holding only shows leaves Movies after each whole split walk and is registered
+        // again by the next one. It is not new to the user — its shows are under Series — so it is
+        // neither counted nor hidden as a new category.
+        val knownShowCategories =
+            if (split?.keepSeries == false && !freshSource) support.categoryRemoteIds(s.id, MediaType.SERIES) else emptySet()
+        val categories = support.refreshCategories(
+            s, mediaType, cats.map { XtCategory(it.id, it.title) }, stats, quietRemoteIds = knownShowCategories,
+        )
         val catMap = categories.idsByRemoteId
 
         val insertFn: suspend (List<T>) -> UpsertStats = if (freshSource) {
@@ -396,7 +577,7 @@ internal class StalkerSyncer(
         // first item"). Blind spot: same-count swaps (1 added + 1 removed) keep the old rows until
         // a count change; item *detail* edits are invisible either way (hash-diff needs the row).
         val dbCategoryCounts: Map<Long, Int> =
-            if (!freshSource) adapter.countsByCategory?.invoke(s.id) ?: emptyMap() else emptyMap()
+            if (!freshSource && split == null) adapter.countsByCategory?.invoke(s.id) ?: emptyMap() else emptyMap()
         val skippedCatDbIds = ArrayList<Long>() // written by the single producer, read after its join
 
         bulkInsertHelper.withOptimizedBulkInsert(table, ftsTable, eligible = freshSource, ftsOnly = true) {
@@ -458,20 +639,35 @@ internal class StalkerSyncer(
                             // Page 1 of every category, concurrently (bounded) — learns per-category totals.
                             // retryTransient OUTSIDE withPermit: a backoff delay must not hold a slot, and
                             // every throttled attempt teaches the adaptive limiter.
-                            val firsts = cats.map { cat ->
+                            val swept = cats.map { cat ->
                                 async {
                                     val page1 = try {
                                         retryTransient("$label cat=${cat.id} page=1") { sem.withPermit { fetchPage(cat.id, 1) } }
                                     } catch (c: CancellationException) {
                                         throw c
                                     } catch (e: Exception) {
-                                        pageFailures.incrementAndGet()
-                                        Log.w(TAG, "$label cat=${cat.id} page1 failed (${e.message})")
+                                        Log.w(TAG, "$label cat=${cat.id} page1 failed (${e.message}) — retrying after the sweep")
                                         null
                                     }
                                     Triple(cat, page1, catMap[cat.id])
                                 }
                             }.awaitAll()
+                            // One serial pass over the categories the sweep could not open, rather than
+                            // dropping them whole.
+                            val firsts = swept.map { first ->
+                                if (first.second != null) return@map first
+                                val cat = first.first
+                                val again = try {
+                                    retryTransient("$label cat=${cat.id} page=1") { sem.withPermit { fetchPage(cat.id, 1) } }
+                                } catch (c: CancellationException) {
+                                    throw c
+                                } catch (e: Exception) {
+                                    pageFailures.incrementAndGet()
+                                    Log.w(TAG, "$label cat=${cat.id} page1 failed again (${e.message})")
+                                    null
+                                }
+                                first.copy(second = again)
+                            }
                             pagesFetched.addAndGet(cats.size)
 
                             val pageTasks = ArrayList<PageTask>()
@@ -522,7 +718,7 @@ internal class StalkerSyncer(
                             // is browsable, and the pages it skipped are written down for the background
                             // drain to finish. A portal with a sane page size, or a catalogue small
                             // enough that the walk is quick anyway, keeps the proven eager drain.
-                            if (lazyBackfill(freshSource, maxPerSeen, pageTasks.size)) {
+                            if (split?.keepSeries != true && lazyBackfill(freshSource, maxPerSeen, pageTasks.size)) {
                                 lazyEngaged.set(true)
                                 catalogBackfillDao.clear(s.id, mediaType)
                                 catalogBackfillDao.upsertAll(planRows)
@@ -540,31 +736,70 @@ internal class StalkerSyncer(
                             val taskCh = Channel<PageTask>(Channel.UNLIMITED)
                             pageTasks.forEach { taskCh.trySend(it) }
                             taskCh.close()
+                            val missed = java.util.concurrent.ConcurrentLinkedQueue<PageTask>()
                             val workers = (1..budget.max).map {
                                 launch {
-                                    for ((catId, p, catDbId, sortBase) in taskCh) {
+                                    for (task in taskCh) {
                                         ctx.ensureActive()
                                         val pr = try {
-                                            retryTransient("$label cat=$catId page=$p") { budget.withPermit { fetchPage(catId, p) } }
+                                            retryTransient("$label cat=${task.catId} page=${task.page}") { budget.withPermit { fetchPage(task.catId, task.page) } }
                                         } catch (c: CancellationException) {
                                             throw c
                                         } catch (e: Exception) {
-                                            pageFailures.incrementAndGet()
-                                            Log.w(TAG, "$label cat=$catId page=$p failed (${e.message})")
+                                            Log.w(TAG, "$label cat=${task.catId} page=${task.page} failed (${e.message}) — retrying after the drain")
+                                            missed.add(task)
                                             continue
                                         }
                                         pagesFetched.incrementAndGet()
-                                        pr.items.forEachIndexed { i, item -> items.send(Triple(item, catDbId, sortBase + i)) }
+                                        pr.items.forEachIndexed { i, item -> items.send(Triple(item, task.catDbId, task.sortBase + i)) }
                                     }
                                 }
                             }
                             workers.forEach { it.join() }
+                            // A page is never simply dropped: one serial pass over what the drain missed,
+                            // and whatever still fails is written into the backfill plan, which the
+                            // background drain picks up after this sync.
+                            val stillMissed = ArrayList<PageTask>()
+                            for (task in missed.sortedWith(compareBy({ it.catId }, { it.page }))) {
+                                ctx.ensureActive()
+                                val pr = try {
+                                    retryTransient("$label cat=${task.catId} page=${task.page}") { budget.withPermit { fetchPage(task.catId, task.page) } }
+                                } catch (c: CancellationException) {
+                                    throw c
+                                } catch (e: Exception) {
+                                    pageFailures.incrementAndGet()
+                                    stillMissed.add(task)
+                                    Log.w(TAG, "$label cat=${task.catId} page=${task.page} failed again (${e.message})")
+                                    continue
+                                }
+                                pagesFetched.incrementAndGet()
+                                pr.items.forEachIndexed { i, item -> items.send(Triple(item, task.catDbId, task.sortBase + i)) }
+                            }
+                            // Not for the shows-only walk: the drain only finishes films. Its prune is
+                            // skipped instead, and the next sync asks for those pages again.
+                            if (stillMissed.isNotEmpty() && split?.keepSeries != true) {
+                                val firstMissed = stillMissed.groupBy { it.catId }.mapValues { (_, t) -> t.minOf { it.page } }
+                                val retryPlan = planRows.filter { it.categoryRemoteId in firstMissed }
+                                    .map { it.copy(nextPage = firstMissed.getValue(it.categoryRemoteId), done = false) }
+                                catalogBackfillDao.clear(s.id, mediaType)
+                                catalogBackfillDao.upsertAll(retryPlan)
+                                Log.i(TAG, "$label missed pages handed to the backfill sourceId=${s.id} pages=${stillMissed.size} categories=${retryPlan.size}")
+                            }
                         } finally {
                             items.close()
                         }
                     }
 
-                    for ((item, catDbId, sortKey) in items) { add(map(item, catDbId, sortKey)); emitted++ }
+                    val remoteOfDbId = if (split != null) catMap.entries.associate { (remote, db) -> db to remote } else emptyMap()
+                    for ((item, catDbId, sortKey) in items) {
+                        if (split != null && !split.keeps(item)) {
+                            if (!split.keepSeries) {
+                                (item.categoryId ?: remoteOfDbId[catDbId])?.let { split.elsewhere.getOrPut(it) { ArrayList() }.add(item) }
+                            }
+                            continue
+                        }
+                        add(map(item, catDbId, sortKey)); emitted++
+                    }
                     producer.join()
                     Log.i(TAG, "$label fetch done sourceId=${s.id} pages=${pagesFetched.get()} failures=${pageFailures.get()} emitted=$emitted fetchMs=${SystemClock.elapsedRealtime() - fetchStart}")
                 }
@@ -573,6 +808,8 @@ internal class StalkerSyncer(
             if (pageFailures.get() > 0) {
                 stats.addWarning(SyncWarning(phase.name, kind = SyncWarningKind.PAGE_FAILURE, count = pageFailures.get()))
             }
+            // A lazy setup stored page 1 only, so the shows handed over are not all the shows.
+            split?.complete = pageFailures.get() == 0 && !lazyEngaged.get()
             // A drain that ran to the end leaves nothing outstanding, so any plan written by an
             // earlier lazy setup is now stale — drop it, or the worker and the category priority would keep treating a
             // complete phase as unfinished. Page failures mean the pass was NOT complete, so the plan
@@ -587,7 +824,9 @@ internal class StalkerSyncer(
                     }
                     Log.i(TAG, "$label delta-skip sourceId=${s.id} unchangedCategories=${skippedCatDbIds.size}")
                 }
-                if (pageFailures.get() == 0) {
+                if (!prune) {
+                    Log.i(TAG, "$label prune skipped sourceId=${s.id} reason=source_walk_incomplete")
+                } else if (pageFailures.get() == 0) {
                     support.pruneRemoteIds(label, s.id, remoteIds, stats, adapter.remoteIdsForSource, adapter.deleteByRemoteIds)
                     support.pruneCategories(s.id, mediaType, categories.seenRemoteIds, label, stats)
                 } else {
@@ -620,9 +859,31 @@ internal class StalkerSyncer(
      */
     suspend fun backfill(s: SourceEntity, yieldToUser: suspend () -> Boolean): BackfillOutcome {
         val creds = credentialsFor(s)
-        // Its own budget, not the sync's: a drain runs long after that one is gone, and it must learn
-        // the portal's tolerance for *background* paging on its own terms.
-        val budget = AdaptivePortalLimiter(isThrottle = ::isPortalThrottle)
+        // Its own gate, not the sync's — a drain runs long after that one is gone — but started from
+        // the same learned ceiling, and what it learns is stored for the next sync in turn.
+        return withLearnedCeiling(s) { budget -> backfillWith(s, creds, budget, yieldToUser) }
+    }
+
+    private suspend fun backfillWith(
+        s: SourceEntity, creds: StalkerCredentials, budget: AdaptivePortalLimiter, yieldToUser: suspend () -> Boolean,
+    ): BackfillOutcome {
+        // On a portal with no series section the film pages still to come hold shows as well, and
+        // the drain must split them as setup's walk did, or every show on a later page is stored as a
+        // film. Asked only while film pages are pending. A connection that broke cannot tell either
+        // way, so the film drain waits for the next pass rather than guess.
+        val filmsPending = catalogBackfillDao.pendingCount(s.id, MediaType.MOVIE)
+        val shows = if (filmsPending == 0) {
+            null
+        } else {
+            when (showsInFilmCatalogue(s, creds)) {
+                true -> ShowsAmongFilms(s)
+                false -> null
+                null -> {
+                    Log.i(TAG, "MOVIES backfill skipped sourceId=${s.id} — could not tell whether the films hold the shows")
+                    return BackfillOutcome(failedCategories = 1, pendingCategories = filmsPending)
+                }
+            }
+        }
         val movies = backfillPaged(
             s, MediaType.MOVIE, SyncPhase.MOVIES.name, "movies", "movies_fts", support.movieAdapter, budget, yieldToUser,
             fetchPage = { catId, page -> auth.withAuthRetry(creds) { client.getVodPage(it.apiBase, creds.mac, it.token, creds.userAgent, catId, page) } },
@@ -634,20 +895,56 @@ internal class StalkerSyncer(
                     addedAt = item.addedAt, sortOrder = order,
                 )
             },
+            shows = shows,
         )
+        if (shows != null && movies.complete) dropShowOnlyFilmCategories(s)
         val series = backfillPaged(
             s, MediaType.SERIES, SyncPhase.SERIES.name, "series", "series_fts", support.seriesAdapter, budget, yieldToUser,
             fetchPage = { catId, page -> auth.withAuthRetry(creds) { client.getSeriesPage(it.apiBase, creds.mac, it.token, creds.userAgent, catId, page) } },
-            map = { item, catDbId, order ->
-                SeriesEntity(
-                    sourceId = s.id, categoryId = catDbId, name = item.name,
-                    posterUrl = item.poster, plot = item.plot, rating = item.rating,
-                    year = item.year, remoteId = item.id, sortOrder = order,
-                    addedAt = item.addedAt,
-                )
-            },
+            map = { item, catDbId, order -> showRow(s, item, catDbId, order) },
         )
         return movies + series
+    }
+
+    /**
+     * The film drain's half of [VodSplit]: on a lazily-added portal whose shows sit among the films,
+     * the shows the drain meets are stored as series under the film category they were found in —
+     * where setup's walk put the ones on page 1 — and counted when the reconcile compares a category
+     * against the portal's total, which counts both kinds.
+     */
+    private inner class ShowsAmongFilms(private val s: SourceEntity) {
+        private val seriesCategoryIds = HashMap<String, Long?>()
+
+        suspend fun store(row: CatalogBackfillEntity, found: List<Pair<StalkerClient.VodItem, Int>>): Int {
+            val catDbId = seriesCategoryIds.getOrPut(row.categoryRemoteId) {
+                support.ensureCategoryLike(s.id, MediaType.SERIES, row.categoryRemoteId, row.categoryDbId)
+            }
+            val rows = found.map { (item, order) -> showRow(s, item, catDbId, order) }
+            return bulkInsertHelper.withOptimizedBulkInsert("series", "series_fts", eligible = false, ftsOnly = true) {
+                support.insertFresh(rows, support.seriesAdapter).inserted
+            }
+        }
+
+        /** Films plus shows stored per film category of [rows] — what the portal's per-category total counts. */
+        suspend fun withShows(rows: List<CatalogBackfillEntity>, films: Map<Long, Int>): Map<Long, Int> {
+            val shows = support.seriesAdapter.countsByCategory?.invoke(s.id).orEmpty()
+            val seriesIds = support.categoryIdsByRemoteId(s.id, MediaType.SERIES, rows.map { it.categoryRemoteId })
+            return rows.mapNotNull { r ->
+                val filmCat = r.categoryDbId ?: return@mapNotNull null
+                filmCat to (films[filmCat] ?: 0) + (seriesIds[r.categoryRemoteId]?.let { shows[it] } ?: 0)
+            }.toMap()
+        }
+    }
+
+    /**
+     * On a portal whose shows sit among the films, the film walk registers every catalogue category,
+     * and a category that holds only shows would stay in Movies with nothing in it. Removed once the
+     * film walk is whole — before that, an empty category may still be waiting for its films.
+     */
+    private suspend fun dropShowOnlyFilmCategories(s: SourceEntity) {
+        runCatching { support.deleteEmptyFilmCategories(s.id) }
+            .onSuccess { Log.i(TAG, "MOVIES show-only categories removed sourceId=${s.id} count=$it") }
+            .onFailure { Log.w(TAG, "MOVIES show-only category cleanup failed sourceId=${s.id}", it) }
     }
 
     /**
@@ -676,6 +973,8 @@ internal class StalkerSyncer(
         yieldToUser: suspend () -> Boolean,
         fetchPage: suspend (catId: String, page: Int) -> StalkerClient.Page<StalkerClient.VodItem>,
         map: (item: StalkerClient.VodItem, categoryDbId: Long?, order: Int) -> T,
+        /** Set for a film drain whose pages hold the shows too; they go to the series table. */
+        shows: ShowsAmongFilms? = null,
     ): BackfillOutcome = coroutineScope {
         val planned = catalogBackfillDao.pending(s.id, mediaType)
         if (planned.isEmpty()) return@coroutineScope BackfillOutcome()
@@ -733,12 +1032,12 @@ internal class StalkerSyncer(
                     // until the next full re-sync. The next run resumes exactly here.
                     val good = fetched.takeWhile { it != null }.filterNotNull()
                     pagesFetched += good.size
-                    val newRows = good.flatMapIndexed { pageOffset, page ->
+                    val keyed = good.flatMapIndexed { pageOffset, page ->
                         val pageNo = next + pageOffset
-                        page.items.mapIndexed { i, item ->
-                            map(item, row.categoryDbId, sortKey(row.sortBase, pageNo, row.maxPageItems, i))
-                        }
+                        page.items.mapIndexed { i, item -> item to sortKey(row.sortBase, pageNo, row.maxPageItems, i) }
                     }
+                    val (kept, showsFound) = if (shows == null) keyed to emptyList() else keyed.partition { !it.first.isSeries }
+                    val newRows = kept.map { (item, order) -> map(item, row.categoryDbId, order) }
                     if (newRows.isNotEmpty()) {
                         // `eligible = false`, so this never drops an index or a trigger — it
                         // only registers as a writer. That is the point: while another source's
@@ -754,6 +1053,7 @@ internal class StalkerSyncer(
                             support.insertFresh(newRows, adapter).inserted
                         }
                     }
+                    if (showsFound.isNotEmpty()) inserted += shows?.store(row, showsFound) ?: 0
                     next += good.size
                     catalogBackfillDao.advance(s.id, mediaType, row.categoryRemoteId, next)
                     if (good.size < fetched.size) {
@@ -782,8 +1082,10 @@ internal class StalkerSyncer(
         // that does not serve those items, not a bug to loop on; it is left finished and logged.
         var rewalked = 0
         if (!paused) {
-            val counts = adapter.countsByCategory?.invoke(s.id).orEmpty()
-            val short = catalogBackfillDao.all(s.id, mediaType).filter { row ->
+            val rows = catalogBackfillDao.all(s.id, mediaType)
+            val ownKind = adapter.countsByCategory?.invoke(s.id).orEmpty()
+            val counts = shows?.withShows(rows, ownKind) ?: ownKind
+            val short = rows.filter { row ->
                 row.categoryDbId != null && row.lastPage > 1 && (counts[row.categoryDbId] ?: 0) < row.totalItems
             }
             if (short.isNotEmpty()) {
@@ -841,7 +1143,7 @@ internal class StalkerSyncer(
     }
 
     /**
-     * Retry transient portal errors (429/5xx **and broken connections**) with a short backoff. The
+     * Retry transient portal errors (429/5xx **and broken connections**) after a backoff ([backoffMs]). The
      * portal occasionally 503s under concurrent paging; without a retry a failed page 1 silently
      * drops its WHOLE category, and on the next re-sync those items are pruned as stale — real data
      * loss, not just a gap.
@@ -859,8 +1161,9 @@ internal class StalkerSyncer(
                 if (!isTransientPortalError(e) || attempt >= PAGE_ATTEMPTS) throw e
                 val reason = (e as? StalkerClient.StalkerHttpException)?.let { "HTTP ${it.code}" }
                     ?: "${e.javaClass.simpleName}: ${e.message}"
-                Log.w(TAG, "$what transient $reason — retrying (attempt $attempt/${PAGE_ATTEMPTS - 1})")
-                delay(PAGE_RETRY_DELAY_MS * attempt)
+                val wait = backoffMs(attempt, (e as? StalkerClient.StalkerHttpException)?.retryAfterMs, kotlin.random.Random.nextDouble())
+                Log.w(TAG, "$what transient $reason — retrying in ${wait}ms (attempt $attempt/${PAGE_ATTEMPTS - 1})")
+                delay(wait)
                 attempt++
             }
         }
@@ -921,6 +1224,7 @@ internal class StalkerSyncer(
          */
         internal fun isTransientPortalError(e: IOException): Boolean = when (e) {
             is StalkerClient.StalkerHttpException -> e.code == 403 || e.code == 429 || e.code in 500..599
+            is StalkerClient.StalkerRefusedException -> true
             else -> isTransientNetworkError(e)
         }
 
@@ -950,6 +1254,7 @@ internal class StalkerSyncer(
          */
         internal fun isPortalThrottle(e: Throwable): Boolean = when (e) {
             is StalkerClient.StalkerHttpException -> e.code == 403 || e.code == 429 || e.code in 500..599
+            is StalkerClient.StalkerRefusedException -> true
             is java.net.SocketTimeoutException -> true
             else -> false
         }
@@ -998,11 +1303,26 @@ internal class StalkerSyncer(
         /** How many channels the field-diff diagnostic fingerprints per sync (see [logFieldFingerprints]). */
         private const val FIELD_DIFF_SAMPLE = 3
 
-        /** Total attempts per page for transient 429/5xx errors (1 original + 2 retries). */
-        private const val PAGE_ATTEMPTS = 3
+        /** Total attempts per page for transient 429/5xx errors (1 original + 3 retries). */
+        private const val PAGE_ATTEMPTS = 4
 
-        /** Backoff base between page retries (×attempt: 750ms, then 1.5s). */
-        private const val PAGE_RETRY_DELAY_MS = 750L
+        /** First backoff between page retries; doubled per retry (3, 6, 12 s). */
+        private const val PAGE_RETRY_DELAY_MS = 3_000L
+
+        /** The longest a portal's own `Retry-After` is honoured for. */
+        private const val MAX_RETRY_AFTER_MS = 60_000L
+
+        /**
+         * How long to wait before retry [attempt] (1-based). Retries used to come back in 0.75 and
+         * 1.5 s, which a portal refusing a burst counts as the same burst. The portal's `Retry-After`
+         * wins when it sent one; otherwise 3 / 6 / 12 s, spread ±20 % by [jitter] (0..1) so the pages
+         * refused together do not all return in the same instant.
+         */
+        internal fun backoffMs(attempt: Int, retryAfterMs: Long?, jitter: Double): Long {
+            retryAfterMs?.let { return it.coerceAtMost(MAX_RETRY_AFTER_MS) }
+            val base = PAGE_RETRY_DELAY_MS shl (attempt - 1).coerceIn(0, 4)
+            return (base * (0.8 + 0.4 * jitter)).toLong()
+        }
 
         /** Guard against a self-referential `cause` chain while classifying a network failure. */
         private const val CAUSE_CHAIN_LIMIT = 5

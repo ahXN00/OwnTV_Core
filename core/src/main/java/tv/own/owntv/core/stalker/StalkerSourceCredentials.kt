@@ -14,4 +14,6 @@ fun SourceEntity.stalkerCredentials(canonicalMac: String): StalkerCredentials = 
         deviceId2 = stalkerDeviceId2,
         signature = stalkerSignature,
     ),
+    login = username,
+    password = password,
 )

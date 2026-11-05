@@ -676,7 +676,7 @@ object SupportedLocales {
             tier = 1,
             packaged = true,
             pickerVisible = true,
-            coverage = 85,
+            coverage = 100,
         ),
     )
 

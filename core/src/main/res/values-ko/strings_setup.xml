@@ -78,6 +78,8 @@
         <item quantity="other"><xliff:g id="items">%1$d</xliff:g>개 항목을 복원했습니다. 콘텐츠를 불러오려면 소스를 다시 동기화하세요.</item>
     </plurals>
     <string name="setup_passwords_omitted">나중에 저장된 비밀번호를 다시 입력하세요.</string>
+    <string name="setup_need_password">저장된 비밀번호가 없어 아직 불러오지 않았습니다: <xliff:g id="names">%1$s</xliff:g>. 설정에서 플레이리스트를 열고 비밀번호를 입력하세요.</string>
+    <string name="setup_name_numbered"><xliff:g id="name">%1$s</xliff:g> <xliff:g id="number">%2$d</xliff:g></string>
     <plurals name="setup_skipped_sources">
         <item quantity="other">이 버전에서 해당 플레이리스트 유형을 지원하지 않아 소스 <xliff:g id="count">%1$d</xliff:g>개를 건너뛰었습니다.</item>
     </plurals>
@@ -87,6 +89,7 @@
     <string name="setup_opening">여는 중…</string>
     <string name="setup_add_source">소스 추가</string>
     <string name="setup_edit_source">소스 편집</string>
+    <string name="setup_edit_from_phone">다른 기기에서 편집</string>
     <string name="setup_edit_source_description">이 소스의 세부 정보를 업데이트하거나 자동 새로 고침 설정을 변경하세요.</string>
     <string name="setup_byo_source_description">OwnTV는 플레이어입니다. 사용할 Xtream, M3U 또는 Stalker 소스를 직접 추가하세요.</string>
     <string name="setup_xtream">Xtream</string>
@@ -173,6 +176,12 @@
     <string name="companion_saved_heading">TV로 전송했습니다 ✓</string>
     <string name="companion_saved_source_body"><xliff:g id="name">%1$s</xliff:g>이(가) 이제 TV의 소스 추가 화면에 표시됩니다. 해당 화면에서 세부 정보를 확인하고 리모컨으로 가져오기 시작을 누르세요.</string>
     <string name="companion_saved_send_another">다른 소스 보내기</string>
+    <string name="companion_edit_page_title">OwnTV — 소스 편집</string>
+    <string name="companion_edit_heading"><xliff:g id="name">%1$s</xliff:g> 편집</string>
+    <string name="companion_edit_description">필요한 부분을 바꾸고 TV로 보내기를 누르세요. 비워 둔 칸은 현재 값을 유지합니다. 변경 내용이 TV에 표시되면 리모컨으로 저장을 누르세요.</string>
+    <string name="companion_keep_current">비워 두면 현재 값을 유지합니다</string>
+    <string name="companion_saved_edit_body"><xliff:g id="name">%1$s</xliff:g>의 변경 내용이 TV 편집 화면에 도착했습니다. 그곳에서 확인하고 리모컨으로 저장을 누르세요.</string>
+    <string name="companion_saved_edit_again">다른 항목 변경</string>
     <string name="companion_saved_backup_body">백업이 이제 TV에 있습니다. 리모컨을 들고 복원할 항목을 선택하세요.</string>
     <string name="companion_saved_backup_link">다른 파일 보내기</string>
     <string name="companion_saved_image_body">이미지가 이제 TV 배경으로 설정되었습니다.</string>

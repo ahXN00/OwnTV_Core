@@ -60,10 +60,19 @@
     </plurals>
     <string name="content_category_restore_order">カスタム順序を解除します</string>
     <string name="content_category_restore_nothing">このカテゴリはすでにプレイリストの初期状態です</string>
+    <string name="content_category_lock">PINでロック</string>
+    <string name="content_category_locked_placeholder">このカテゴリはロックされています</string>
+    <plurals name="content_category_pin_wait">
+        <item quantity="other">PINの入力ミスが多すぎます。<xliff:g id="count">%1$d</xliff:g> 秒後にもう一度お試しください</item>
+    </plurals>
     <string name="content_move_to_category">カテゴリに移動…</string>
     <string name="content_remove_from_category">このカテゴリから削除</string>
     <string name="content_download">ダウンロード</string>
     <string name="content_download_all_episodes">すべてのエピソードをダウンロード</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 件のエピソードをダウンロードしますか？</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">この端末に保存され、ストレージ容量を使います。</string>
     <string name="content_play">再生</string>
     <string name="content_favorited">お気に入り登録済み</string>
     <string name="content_favorite">お気に入りに追加</string>
@@ -71,9 +80,7 @@
     <string name="content_episodes">エピソード</string>
     <string name="content_oldest_first">古い順</string>
     <string name="content_newest_first">新しい順</string>
-    <string name="content_play_external">外部プレーヤーで再生</string>
     <string name="content_delete_subtitles">OpenSubの字幕を削除</string>
-    <string name="content_tmdb_details">TMDBの詳細</string>
     <string name="content_play_trailer">予告編を再生</string>
     <string name="content_refetch_tmdb">TMDBの詳細を再取得</string>
     <string name="content_set_tmdb_name">TMDB名を設定</string>
@@ -122,6 +129,9 @@
     <string name="content_catchup_jump_prompt">視聴を開始する時刻を選んでください。番組表は不要です。</string>
     <string name="content_catchup_jump_exact">時刻を指定…</string>
     <string name="content_catchup_jump_hint">日付・時・分で OK を押し、上下で変更してから、もう一度 OK を押します。</string>
+    <string name="content_catchup_jump_programme_start">「<xliff:g id="title">%1$s</xliff:g>」の最初から</string>
+    <string name="content_catchup_jump_programme_start_untitled">番組の最初から</string>
+    <string name="content_catchup_jump_programme_start_at"><xliff:g id="time">%1$s</xliff:g> に開始</string>
     <string name="content_epg_match_prompt">「<xliff:g id="channel">%1$s</xliff:g>」に対応する番組表チャンネルを選択してください。</string>
     <string name="content_epg_match_prompt_current">「<xliff:g id="channel">%1$s</xliff:g>」に対応する番組表チャンネルを選択してください。現在：<xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">番組表チャンネルを検索…</string>
@@ -170,6 +180,8 @@
     <string name="content_downloads_ready">視聴できます</string>
     <string name="content_downloads_paused">一時停止中</string>
     <string name="content_downloads_file_missing">ファイルがありません：ドライブにもうありません</string>
+    <string name="content_downloads_delete_title">「<xliff:g id="name">%1$s</xliff:g>」を削除しますか？</string>
+    <string name="content_downloads_delete_message">このデバイスからファイルを削除します。後でもう一度ダウンロードできます。</string>
     <string name="content_downloads_reason_account_busy">アカウント使用中：別のストリームが接続を使用しています</string>
     <string name="content_downloads_reason_refused">サーバーがリンクを拒否しました</string>
     <string name="content_downloads_reason_not_found">このファイルはサーバーにもうありません</string>

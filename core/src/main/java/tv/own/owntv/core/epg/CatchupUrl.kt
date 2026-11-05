@@ -5,6 +5,8 @@ import tv.own.owntv.core.database.entity.EpgProgrammeEntity
 import tv.own.owntv.core.database.entity.SourceEntity
 import tv.own.owntv.core.model.SourceType
 import tv.own.owntv.core.parser.XtreamClient
+import java.net.URLDecoder
+import java.net.URLEncoder
 import java.util.TimeZone
 
 /**
@@ -34,6 +36,12 @@ object CatchupUrl {
     /** `{name}` / `${name}`, optionally with an argument after a colon: `{duration:60}`, `{utc:YmdHMS}`. */
     private val TOKEN = Regex("\\$?\\{([A-Za-z_][A-Za-z0-9_-]*)(?::([^}]*))?\\}")
 
+    /** Legacy archive tokens: `${(b)FMT}`, `${(e)FMT}`, optional `:utc`. Must run before [TOKEN]. */
+    private val LEGACY = Regex("\\$\\{\\((b|e)\\)([^}]+?)(?::(utc))?\\}")
+
+    /** A run of 2+ Java `SimpleDateFormat` letters (`yyyy`, `MM`, `HH`, …). Single Kodi letters do not match. */
+    private val JAVA_PATTERN_RUN = Regex("([yMLwdDFuHkKhmsS])\\1+")
+
     /**
      * Fill an M3U `catchup-source` [template] for the programme spanning [startMs]..[endMs].
      * Recognised placeholders (UTC), after Kodi IPTV Simple, the de-facto reference:
@@ -43,14 +51,24 @@ object CatchupUrl {
      *    `${timestamp:FMT}` — that instant formatted, the letters Y m d H M S replaced and anything
      *    else kept (`{utc:Ymd-H-M}` → `20210101-00-00`);
      *  - the bare date parts Y/m/d/H/M/S of the start.
+     *  - `${(b)FMT}` / `${(e)FMT}` — programme start/end. `timestamp` is unix seconds; a Java pattern
+     *    (`yyyy`, `MM`, …) goes through `SimpleDateFormat`; otherwise Kodi letters Y m d H M S.
+     *    Those use [tz]; a `:utc` suffix forces UTC. An invalid or unknown FMT is left as-is.
      * Unknown placeholders are left untouched so unusual templates degrade gracefully.
      */
-    fun fromTemplate(template: String, startMs: Long, endMs: Long, nowMs: Long = System.currentTimeMillis()): String {
+    fun fromTemplate(
+        template: String,
+        startMs: Long,
+        endMs: Long,
+        nowMs: Long = System.currentTimeMillis(),
+        tz: TimeZone = TimeZone.getTimeZone("UTC"),
+    ): String {
+        val filled = LEGACY.replace(template) { match -> legacyToken(match, startMs, endMs, tz) }
         val startS = startMs / 1000
         val endS = endMs / 1000
         val durationS = ((endMs - startMs) / 1000).coerceAtLeast(0)
         val offsetS = ((nowMs - startMs) / 1000).coerceAtLeast(0)
-        return TOKEN.replace(template) { match ->
+        return TOKEN.replace(filled) { match ->
             val raw = match.groupValues[1]
             val name = raw.lowercase()
             val arg = match.groups[2]?.value
@@ -62,7 +80,7 @@ object CatchupUrl {
             }
             when {
                 arg != null -> when {
-                    instantMs != null && arg.isNotEmpty() -> formatUtc(instantMs, arg)
+                    instantMs != null && arg.isNotEmpty() -> formatDateLetters(instantMs, arg)
                     name == "duration" -> divided(durationS, arg) ?: match.value
                     name == "offset" -> divided(offsetS, arg) ?: match.value
                     else -> match.value
@@ -72,7 +90,7 @@ object CatchupUrl {
                 name == "offset" -> offsetS.toString()
                 // Date parts are single-letter and case-sensitive in the wild (M = month/minute), so map
                 // by the ORIGINAL token: Y/m/d/H/M/S.
-                raw.length == 1 && raw[0] in DATE_LETTERS -> formatUtc(startMs, raw)
+                raw.length == 1 && raw[0] in DATE_LETTERS -> formatDateLetters(startMs, raw)
                 else -> match.value // unknown placeholder: leave as-is
             }
         }
@@ -84,9 +102,41 @@ object CatchupUrl {
     private fun divided(seconds: Long, arg: String): String? =
         arg.toLongOrNull()?.takeIf { it > 0 }?.let { (seconds / it).toString() }
 
-    /** [ms] in UTC, with each of Y m d H M S in [format] replaced by that field; other characters kept. */
-    private fun formatUtc(ms: Long, format: String): String {
-        val cal = java.util.Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply { timeInMillis = ms }
+    /**
+     * `${(b)FMT}` / `${(e)FMT}`. Returns the original token when FMT is unknown or not a valid pattern.
+     */
+    private fun legacyToken(match: kotlin.text.MatchResult, startMs: Long, endMs: Long, tz: TimeZone): String {
+        val ms = if (match.groupValues[1] == "b") startMs else endMs
+        val fmt = match.groupValues[2]
+        val zone = if (match.groups[3] != null) TimeZone.getTimeZone("UTC") else tz
+        if (fmt.equals("timestamp", ignoreCase = true)) return (ms / 1000).toString()
+        return try {
+            when {
+                fmt.indexOf('y') >= 0 || JAVA_PATTERN_RUN.containsMatchIn(fmt) ->
+                    java.text.SimpleDateFormat(fmt, java.util.Locale.US).apply { timeZone = zone }
+                        .format(java.util.Date(ms))
+                isKodiFormat(fmt) -> formatDateLetters(ms, fmt, zone)
+                else -> match.value
+            }
+        } catch (e: IllegalArgumentException) {
+            match.value
+        }
+    }
+
+    /** True when every letter is a Kodi date letter and at least one is present. */
+    private fun isKodiFormat(fmt: String): Boolean {
+        var any = false
+        for (c in fmt) {
+            if (!c.isLetter()) continue
+            if (c !in DATE_LETTERS) return false
+            any = true
+        }
+        return any
+    }
+
+    /** [ms] in [tz], with each of Y m d H M S in [format] replaced by that field; other characters kept. */
+    private fun formatDateLetters(ms: Long, format: String, tz: TimeZone = TimeZone.getTimeZone("UTC")): String {
+        val cal = java.util.Calendar.getInstance(tz).apply { timeInMillis = ms }
         fun two(n: Int) = n.toString().padStart(2, '0')
         return buildString {
             format.forEach { c ->
@@ -156,7 +206,16 @@ object CatchupUrl {
      */
     fun timeshiftPhpAlternate(url: String?): String? {
         val g = url?.let { TIMESHIFT_PATH.find(it) }?.groupValues ?: return null
-        return "${g[1]}/streaming/timeshift.php?username=${g[2]}&password=${g[3]}&stream=${g[6]}&start=${g[5]}&duration=${g[4]}"
+        return "${g[1]}/streaming/timeshift.php?username=${queryValue(g[2])}&password=${queryValue(g[3])}&stream=${g[6]}&start=${g[5]}&duration=${g[4]}"
+    }
+
+    /**
+     * A path segment re-encoded as a query value. A `+` or `&` is literal in a path but not in a
+     * query, so the segment is decoded first (keeping `+` a plus, as a path means it) and encoded again.
+     */
+    private fun queryValue(pathSegment: String): String {
+        val decoded = runCatching { URLDecoder.decode(pathSegment.replace("+", "%2B"), "UTF-8") }.getOrDefault(pathSegment)
+        return URLEncoder.encode(decoded, "UTF-8")
     }
 
     /**
@@ -191,8 +250,8 @@ object CatchupUrl {
         val start = startMs + shiftMs
         val end = endMs + shiftMs
         return when {
-            template != null && type == "append" -> joinQuery(liveUrl, fromTemplate(template, start, end))
-            template != null -> fromTemplate(template, start, end)
+            template != null && type == "append" -> joinQuery(liveUrl, fromTemplate(template, start, end, tz = tz))
+            template != null -> fromTemplate(template, start, end, tz = tz)
             type == "shift" || type == "timeshift" || type == "default" ->
                 joinQuery(liveUrl, fromTemplate(SHIFT_TEMPLATE, start, end))
             type != null && type.startsWith("flussonic") -> flussonic(liveUrl, start, end)

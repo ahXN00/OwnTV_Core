@@ -1002,9 +1002,13 @@ class OwnTVPlayer(
     )
     val seekStepMs: StateFlow<Long> = _seekStepMs.asStateFlow()
 
-    /** Settings → Picture → Auto frame rate. mpv doesn't act on it (the Compose surface does), but
-     *  the ExoPlayer handoff engine has its own frame-rate mechanism that must follow the same switch. */
-    private var autoFrameRate = false
+    /** Settings → Picture → Auto frame rate, films and series. mpv doesn't act on it (the Compose
+     *  surface does), but the ExoPlayer handoff engine has its own frame-rate mechanism that must
+     *  follow the same switch. */
+    private var autoFrameRateFilms = false
+
+    /** The same for Live TV. */
+    private var autoFrameRateLive = false
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
@@ -1227,7 +1231,8 @@ class OwnTVPlayer(
         // Auto frame rate drives the display-mode switch from the Compose surface; ExoPlayer has a
         // SECOND mechanism (Surface.setFrameRate) that must follow the same switch, so the value is
         // tracked here and handed to the handoff engine in [startExo].
-        playbackSettings.field { it.autoFrameRate }.onEach { autoFrameRate = it }.launchIn(scope)
+        playbackSettings.field { it.autoFrameRateFilms }.onEach { autoFrameRateFilms = it }.launchIn(scope)
+        playbackSettings.field { it.autoFrameRateLive }.onEach { autoFrameRateLive = it }.launchIn(scope)
         // Subtitle overlay is fed by OBSERVING "sub-text" (see eventProperty) — not polling. The old
         // 250 ms getPropertyString poll logged a "property unavailable" error 4×/sec whenever no line
         // was on screen, flooding logcat and burning a cross-thread call the whole time.
@@ -2024,7 +2029,7 @@ class OwnTVPlayer(
         // Auto frame rate and the preferred languages used to reach mpv only, so an item that landed on
         // ExoPlayer (image-subtitle handoff, "prefer ExoPlayer for VOD", or an mpv fallback) quietly
         // ignored three settings the user had set. Same values, same source of truth.
-        engine.autoFrameRateEnabled = autoFrameRate
+        engine.autoFrameRateEnabled = autoFrameRateFilms
         playbackSettings.value?.let {
             engine.filmBufferSecs = it.vodBufferSecs
             engine.filmTimeoutSecs = it.vodNetworkTimeoutSecs
@@ -2935,6 +2940,14 @@ class OwnTVPlayer(
         currentEpisodeNumber = meta.episodeNumber
         currentRewindStartMs = meta.rewindStartMs
         _currentMeta.value = meta // reactive — refreshes the HUD title / "now watching" card on every load
+        // Apple FairPlay: no Android device can decrypt it, and neither engine is worth a try. Stop the
+        // previous item and say why, as [abandonLive] does.
+        if (currentDrm?.scheme == tv.own.owntv.core.drm.DrmConfig.Scheme.FAIRPLAY) {
+            LiveDiagnosticsLog.event("FairPlay-protected item — not playable on Android")
+            stop()
+            _error.value = PlaybackFailure.FairPlay
+            return
+        }
         isLiveContent = isLive
         currentUrl = url
         currentContentKey = meta.contentKey
@@ -5084,7 +5097,7 @@ class OwnTVPlayer(
                 // Only when something consumes the result: Auto frame rate (the display-mode switch) or
                 // the measured-stats escape hatch (the fps chip). With both off nobody reads _videoFps,
                 // and the probe was still waking the mpv worker three times per open for nothing.
-                if (autoFrameRate || measuredStreamStats) {
+                if ((if (isLiveContent) autoFrameRateLive else autoFrameRateFilms) || measuredStreamStats) {
                     val fgen = loadGeneration
                     scope.launch {
                         delay(LIVE_FPS_PROBE_MS)

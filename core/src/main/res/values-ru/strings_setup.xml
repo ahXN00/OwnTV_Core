@@ -84,6 +84,8 @@
         <item quantity="other">Восстановлено <xliff:g id="items">%1$d</xliff:g> элементов. Повторно синхронизируйте источники, чтобы загрузить контент.</item>
     </plurals>
     <string name="setup_passwords_omitted">После этого повторно введите все сохранённые пароли.</string>
+    <string name="setup_need_password">Пароль не сохранён, поэтому ещё не загружено: <xliff:g id="names">%1$s</xliff:g>. Откройте плейлист в настройках и введите его пароль.</string>
+    <string name="setup_name_numbered"><xliff:g id="name">%1$s</xliff:g> <xliff:g id="number">%2$d</xliff:g></string>
     <plurals name="setup_skipped_sources">
         <item quantity="one">Источник <xliff:g id="count">%1$d</xliff:g> был пропущен, поскольку эта версия не поддерживает тип его плейлиста.</item>
         <item quantity="few">Источники (<xliff:g id="count">%1$d</xliff:g>) были пропущены, поскольку эта версия не поддерживает типы их плейлистов.</item>
@@ -96,6 +98,7 @@
     <string name="setup_opening">Запуск…</string>
     <string name="setup_add_source">Добавить источник</string>
     <string name="setup_edit_source">Изменить источник</string>
+    <string name="setup_edit_from_phone">Изменить с другого устройства</string>
     <string name="setup_edit_source_description">Обновите данные этого источника или измените настройки его автообновления.</string>
     <string name="setup_byo_source_description">OwnTV — это плеер: добавьте собственный источник Xtream, M3U или Stalker.</string>
     <string name="setup_xtream">Xtream</string>
@@ -182,6 +185,12 @@
     <string name="companion_saved_heading">Отправлено на телевизор ✓</string>
     <string name="companion_saved_source_body">Источник <xliff:g id="name">%1$s</xliff:g> теперь отображается на экране добавления источника на телевизоре. Проверьте там данные и нажмите «Начать импорт» на пульте ДУ.</string>
     <string name="companion_saved_send_another">Отправить другой источник</string>
+    <string name="companion_edit_page_title">OwnTV — Изменить источник</string>
+    <string name="companion_edit_heading">Изменить <xliff:g id="name">%1$s</xliff:g></string>
+    <string name="companion_edit_description">Измените что нужно и нажмите «Отправить на телевизор». Пустое поле сохраняет текущее значение. Изменения появятся на телевизоре — нажмите там «Сохранить» на пульте.</string>
+    <string name="companion_keep_current">Оставьте пустым, чтобы сохранить текущее значение</string>
+    <string name="companion_saved_edit_body">Изменения для <xliff:g id="name">%1$s</xliff:g> уже на экране редактирования телевизора. Проверьте их там и нажмите «Сохранить» на пульте.</string>
+    <string name="companion_saved_edit_again">Изменить что-то ещё</string>
     <string name="companion_saved_backup_body">Резервная копия теперь находится на телевизоре. Возьмите пульт ДУ и выберите, какие данные восстановить.</string>
     <string name="companion_saved_backup_link">Отправить другой файл</string>
     <string name="companion_saved_image_body">Изображение теперь используется как фон на телевизоре.</string>

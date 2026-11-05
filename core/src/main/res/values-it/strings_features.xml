@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Una tua immagine</string>
     <string name="profiles_kids">Profilo per bambini</string>
     <string name="profiles_kids_description">Navigazione semplificata e sicura</string>
+    <string name="profiles_allow_downloads">Consenti i download</string>
+    <string name="profiles_allow_downloads_description">Disattivato nasconde tutti i pulsanti di download per questo profilo</string>
     <string name="profiles_remove_pin">Rimuovi blocco con PIN</string>
     <string name="profiles_no_pin">Questo profilo si apre senza PIN</string>
     <string name="profiles_change_pin">Modifica PIN (vuoto = mantieni quello attuale)</string>
@@ -45,6 +47,8 @@
     <string name="search_go_to_movie">Vai al film</string>
     <string name="search_clear_recent">Cancella ricerche recenti</string>
     <string name="search_field_hint">Canali, film e serie</string>
+    <string name="search_voice">Ricerca vocale</string>
+    <string name="search_voice_prompt">Di’ un canale, un film o una serie</string>
     <string name="search_card_title">Trova tutto nelle tue playlist</string>
     <string name="search_card_body">Canali, film e serie da tutte le playlist mostrate. Scegli un risultato per andarci subito, poi riproduci, scarica o apri le sue opzioni. Trova anche per titolo i programmi TV in onda ora o più tardi oggi.</string>
     <string name="search_nothing_found">Nessun risultato per «<xliff:g id="query">%1$s</xliff:g>»</string>
@@ -65,6 +69,12 @@
     <string name="launcher_recent_live_description">Canali in diretta visti di recente</string>
     <string name="launcher_movie_type">Film</string>
     <string name="launcher_episode_number">Episodio <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Caricamento della libreria · <xliff:g id="count">%1$s</xliff:g> titolo finora</item>
+        <item quantity="many">Caricamento della libreria · <xliff:g id="count">%1$s</xliff:g> di titoli finora</item>
+        <item quantity="other">Caricamento della libreria · <xliff:g id="count">%1$s</xliff:g> titoli finora</item>
+    </plurals>
+    <string name="home_library_loading_trending">Di tendenza ora comparirà man mano che la libreria si riempie.</string>
     <string name="home_no_preview">Ancora niente da visualizzare in anteprima.</string>
     <string name="home_no_rows">Tutte le righe della schermata Home sono nascoste.</string>
     <string name="home_enable_rows">Riattiva le righe in Impostazioni → schermata Home.</string>
@@ -186,6 +196,8 @@
     <string name="home_trending_pause">Pausa</string>
     <string name="home_trending_unavailable">Questa versione non è più disponibile</string>
     <string name="recording_notification_title">Registrazione in corso</string>
+    <string name="auto_start_notification_channel">Avvio automatico al risveglio</string>
+    <string name="auto_start_notification_text">OwnTV si apre quando la TV si risveglia</string>
     <string name="recording_failed_no_space">Interrotta: spazio esaurito</string>
     <string name="recording_failed_no_connection">Nessuna connessione libera dal tuo provider</string>
     <string name="recording_failed_clash">Un’altra registrazione stava usando la connessione</string>
@@ -202,6 +214,7 @@
     <string name="recording_group_missed">Persa</string>
     <string name="recording_record">Registra</string>
     <string name="recording_stop">Interrompi la registrazione</string>
+    <string name="recording_delete_message">Rimuove la registrazione e il relativo file da questo dispositivo. L\'operazione non può essere annullata.</string>
     <string name="recording_record_series">Registra ogni trasmissione</string>
     <string name="recording_stop_series">Non registrare più ogni trasmissione</string>
     <string name="recording_from_archive">Registra dall’archivio</string>
@@ -214,6 +227,7 @@
     <string name="recording_scheduled_for">Registrerà <xliff:g id="time">%1$s</xliff:g></string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line">Registrazione di <xliff:g id="title">%1$s</xliff:g></string>
+    <string name="recording_pill_line_locked">Registrazione da una categoria bloccata</string>
     <string name="recording_clash_with">In conflitto con <xliff:g id="programme">%1$s</xliff:g></string>
     <string name="recording_settings_group">Registrazione</string>
     <string name="settings_recording_reserve">Tieni libera una connessione per guardare</string>
@@ -296,6 +310,15 @@
     <string name="sports_starting_soon">Tra poco</string>
     <string name="sports_hint_match_page">Pagina della partita</string>
     <string name="sports_hint_follow_remind">Segui · Promemoria</string>
+    <string name="sports_hint_day_matches">Partite del giorno</string>
+    <string name="sports_hint_day">Giorno</string>
+    <string name="sports_hint_week">Settimana</string>
+    <string name="sports_hint_show_score">Mostra risultato</string>
+    <string name="sports_hint_back_to_day">Torna al giorno</string>
+    <string name="sports_hint_open_league">Apri campionato</string>
+    <string name="sports_hint_sport_chips">Pulsanti sport</string>
+    <string name="sports_hint_league_chips">Pulsanti campionati</string>
+    <string name="sports_hint_follow_unfollow">Segui · Non seguire più</string>
     <string name="sports_reminder_set">Promemoria</string>
     <string name="sports_until">fino alle <xliff:g id="time">%1$s</xliff:g></string>
     <string name="sports_set">Set <xliff:g id="set">%1$d</xliff:g></string>
@@ -405,7 +428,6 @@
     <string name="sports_next_month">Mese successivo</string>
     <string name="sports_next">A seguire: <xliff:g id="match">%1$s</xliff:g></string>
     <string name="sports_next_badge">A seguire</string>
-    <string name="sports_new_badge">Nuovo</string>
     <string name="sports_no_table_series">Nessuna classifica — le serie cambiano ogni settimana</string>
     <string name="sports_follow_league">Segui il campionato</string>
     <string name="sports_unfollow_league">Non seguire più il campionato</string>

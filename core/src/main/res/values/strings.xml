@@ -160,6 +160,10 @@
     <string name="sync_status_download">Downloading <xliff:g id="title">%1$s</xliff:g></string>
     <!-- Translators: The same download line once a size is known. "percent" is 0-100; the double percent (%%) is an XML escape. -->
     <string name="sync_status_download_with_progress">Downloading <xliff:g id="title">%1$s</xliff:g> \u00b7 <xliff:g id="percent">%2$d</xliff:g>%%</string>
+    <!-- Translators: Status pill line while a film or episode from a category locked with the PIN is downloading; its name stays hidden until the PIN opens the category. -->
+    <string name="sync_status_download_locked">Downloading from a locked category</string>
+    <!-- Translators: The same locked download line once a size is known. "percent" is 0-100; the double percent (%%) is an XML escape. -->
+    <string name="sync_status_download_locked_with_progress">Downloading from a locked category \u00b7 <xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="sync_status_trending_starting">Sync complete \u00b7 <xliff:g id="source">%1$s</xliff:g> \u00b7 Building Now Trending</string>
     <string name="sync_status_trending_detail_waiting">Waiting for TMDB candidate response</string>
     <string name="sync_status_trending_detail_received">TMDB candidates · Movies: <xliff:g id="movies">%1$d</xliff:g> · Series: <xliff:g id="series">%2$d</xliff:g></string>
@@ -251,6 +255,8 @@
     <string name="sync_error_malformed_guide">The guide data from the server was malformed. Some of it may still have loaded \u2014 please try again, or check the EPG URL.</string>
     <!-- Translators: shown on a guide source that fetched successfully but contained no programmes at all - usually the provider has not published this week's guide yet. -->
     <string name="sync_error_guide_empty">This guide is empty right now. The provider may not have published it yet \u2014 please try again later.</string>
+    <!-- Translators: shown on a guide source that fetched successfully and has programmes, but none of its channels is one of the playlist's channels, so nothing was kept. "TV Guide" and "Auto-match EPG" are the screen and button names used elsewhere in the app. -->
+    <string name="sync_error_guide_no_matching_channels">None of this guide\'s channels match your playlist\'s yet. Open the TV Guide and use Auto-match EPG to pair them by name.</string>
 
     <!-- Translators: Label above the number field in a minutes input dialog, e.g. the recording start-early and run-over times. -->
     <string name="common_minutes">Minutes</string>

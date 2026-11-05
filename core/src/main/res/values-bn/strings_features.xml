@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">আপনার নিজের ছবি</string>
     <string name="profiles_kids">শিশুদের প্রোফাইল</string>
     <string name="profiles_kids_description">সহজ ও নিরাপদ ব্রাউজিং</string>
+    <string name="profiles_allow_downloads">ডাউনলোডের অনুমতি দিন</string>
+    <string name="profiles_allow_downloads_description">বন্ধ থাকলে এই প্রোফাইলে সব ডাউনলোড বোতাম লুকানো থাকে</string>
     <string name="profiles_remove_pin">PIN লক সরান</string>
     <string name="profiles_no_pin">এই প্রোফাইলটি PIN ছাড়াই খোলে</string>
     <string name="profiles_change_pin">PIN পরিবর্তন করুন (খালি রাখলে আগেরটি থাকবে)</string>
@@ -45,6 +47,8 @@
     <string name="search_go_to_movie">সিনেমায় যান</string>
     <string name="search_clear_recent">সাম্প্রতিক অনুসন্ধান মুছুন</string>
     <string name="search_field_hint">চ্যানেল, সিনেমা ও সিরিজ</string>
+    <string name="search_voice">ভয়েস সার্চ</string>
+    <string name="search_voice_prompt">একটি চ্যানেল, সিনেমা বা সিরিজের নাম বলুন</string>
     <string name="search_card_title">আপনার প্লেলিস্টে যেকোনো কিছু খুঁজুন</string>
     <string name="search_card_body">আপনার দেখানো সব প্লেলিস্টের চ্যানেল, সিনেমা ও সিরিজ। সরাসরি সেখানে যেতে একটি ফলাফল বেছে নিন, তারপর সেখানে চালান, ডাউনলোড করুন বা এর বিকল্প খুলুন। এখন বা আজ পরে চলা টিভি অনুষ্ঠানও শিরোনাম দিয়ে খুঁজে পাওয়া যায়।</string>
     <string name="search_nothing_found">“<xliff:g id="query">%1$s</xliff:g>”-এর জন্য কিছু পাওয়া যায়নি</string>
@@ -63,6 +67,11 @@
     <string name="launcher_recent_live_description">সম্প্রতি দেখা লাইভ চ্যানেলগুলো</string>
     <string name="launcher_movie_type">সিনেমা</string>
     <string name="launcher_episode_number">পর্ব <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">আপনার লাইব্রেরি লোড হচ্ছে · এখন পর্যন্ত <xliff:g id="count">%1$s</xliff:g>টি শিরোনাম</item>
+        <item quantity="other">আপনার লাইব্রেরি লোড হচ্ছে · এখন পর্যন্ত <xliff:g id="count">%1$s</xliff:g>টি শিরোনাম</item>
+    </plurals>
+    <string name="home_library_loading_trending">লাইব্রেরি ভরার সাথে সাথে এখন ট্রেন্ডিং দেখা যাবে।</string>
     <string name="home_no_preview">এখনো প্রিভিউ দেখানোর মতো কিছু নেই।</string>
     <string name="home_no_rows">হোম স্ক্রিনের সব সারি লুকানো আছে।</string>
     <string name="home_enable_rows">সেটিংস → হোম স্ক্রিন থেকে সারিগুলো আবার চালু করুন।</string>
@@ -177,6 +186,8 @@
     <string name="home_trending_pause">বিরতি</string>
     <string name="home_trending_unavailable">এই সংস্করণটি আর পাওয়া যাচ্ছে না</string>
     <string name="recording_notification_title">রেকর্ড করা হচ্ছে</string>
+    <string name="auto_start_notification_channel">জেগে উঠলে নিজে থেকে খুলুন</string>
+    <string name="auto_start_notification_text">টিভি জেগে উঠলে OwnTV খুলবে</string>
     <string name="recording_failed_no_space">থেমে গেছে: জায়গা বাকি নেই</string>
     <string name="recording_failed_no_connection">আপনার সরবরাহকারীর কোনও খালি সংযোগ নেই</string>
     <string name="recording_failed_clash">সংযোগটি অন্য একটি রেকর্ডিং ব্যবহার করছিল</string>
@@ -193,6 +204,7 @@
     <string name="recording_group_missed">হাতছাড়া</string>
     <string name="recording_record">রেকর্ড</string>
     <string name="recording_stop">রেকর্ডিং থামান</string>
+    <string name="recording_delete_message">এই ডিভাইস থেকে রেকর্ডিং এবং এর ফাইল সরিয়ে দেয়। এটি আর ফেরানো যাবে না।</string>
     <string name="recording_record_series">প্রতিটি সম্প্রচার রেকর্ড করুন</string>
     <string name="recording_stop_series">প্রতিটি সম্প্রচার রেকর্ড করা বন্ধ করুন</string>
     <string name="recording_from_archive">আর্কাইভ থেকে রেকর্ড করুন</string>
@@ -205,6 +217,7 @@
     <string name="recording_scheduled_for"><xliff:g id="time">%1$s</xliff:g> রেকর্ড হবে</string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line"><xliff:g id="title">%1$s</xliff:g> রেকর্ড হচ্ছে</string>
+    <string name="recording_pill_line_locked">লক করা বিভাগ থেকে রেকর্ড হচ্ছে</string>
     <string name="recording_clash_with"><xliff:g id="programme">%1$s</xliff:g>-এর সঙ্গে সংঘর্ষ</string>
     <string name="recording_settings_group">রেকর্ডিং</string>
     <string name="settings_recording_reserve">দেখার জন্য একটি স্ট্রিম খালি রাখুন</string>
@@ -281,6 +294,15 @@
     <string name="sports_starting_soon">শীঘ্রই শুরু</string>
     <string name="sports_hint_match_page">ম্যাচ পেজ</string>
     <string name="sports_hint_follow_remind">ফলো · মনে করান</string>
+    <string name="sports_hint_day_matches">দিনের ম্যাচ</string>
+    <string name="sports_hint_day">দিন</string>
+    <string name="sports_hint_week">সপ্তাহ</string>
+    <string name="sports_hint_show_score">স্কোর দেখান</string>
+    <string name="sports_hint_back_to_day">দিনে ফিরুন</string>
+    <string name="sports_hint_open_league">লিগ খুলুন</string>
+    <string name="sports_hint_sport_chips">খেলার বোতাম</string>
+    <string name="sports_hint_league_chips">লিগের বোতাম</string>
+    <string name="sports_hint_follow_unfollow">ফলো · আনফলো</string>
     <string name="sports_reminder_set">রিমাইন্ডার</string>
     <string name="sports_until"><xliff:g id="time">%1$s</xliff:g> পর্যন্ত</string>
     <string name="sports_set">সেট <xliff:g id="set">%1$d</xliff:g></string>
@@ -387,7 +409,6 @@
     <string name="sports_next_month">পরের মাস</string>
     <string name="sports_next">পরবর্তী: <xliff:g id="match">%1$s</xliff:g></string>
     <string name="sports_next_badge">পরবর্তী</string>
-    <string name="sports_new_badge">নতুন</string>
     <string name="sports_no_table_series">কোনো টেবিল নেই — সিরিজ প্রতি সপ্তাহে বদলায়</string>
     <string name="sports_follow_league">লিগ ফলো করুন</string>
     <string name="sports_unfollow_league">লিগ আনফলো করুন</string>

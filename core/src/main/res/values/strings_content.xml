@@ -116,6 +116,15 @@
     <string name="content_category_restore_order">Custom order cleared</string>
     <!-- Translators: Confirmation text when the category has no changes to undo (the only button is Cancel). -->
     <string name="content_category_restore_nothing">Category is already at the playlist default</string>
+    <!-- Translators: Long-press menu entry on a category: put it behind the profile's Customize PIN. -->
+    <string name="content_category_lock">Lock with PIN</string>
+    <!-- Translators: Shown instead of a locked category's channels, movies or series until the PIN is entered. -->
+    <string name="content_category_locked_placeholder">This category is locked</string>
+    <!-- Translators: PIN prompt title after too many wrong PINs. "count" is how many seconds are left before the next try. -->
+    <plurals name="content_category_pin_wait">
+        <item quantity="one">Too many wrong PINs. Try again in <xliff:g id="count">%1$d</xliff:g> second</item>
+        <item quantity="other">Too many wrong PINs. Try again in <xliff:g id="count">%1$d</xliff:g> seconds</item>
+    </plurals>
     <!-- Translators: Context-menu option that opens the picker for moving an item into a combined category. -->
     <string name="content_move_to_category">Move to category…</string>
     <!-- Translators: Context-menu option on a channel inside a category the user created: take it out of that category only. The channel itself and its own provider category are unaffected. -->
@@ -124,6 +133,13 @@
     <string name="content_download">Download</string>
     <!-- Translators: Context-menu option to download all episodes of a series. -->
     <string name="content_download_all_episodes">Download all episodes</string>
+    <!-- Translators: Title of the confirmation before downloading every episode of a series or season. The number is how many episodes will be downloaded. -->
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one">Download <xliff:g id="count">%1$d</xliff:g> episode?</item>
+        <item quantity="other">Download <xliff:g id="count">%1$d</xliff:g> episodes?</item>
+    </plurals>
+    <!-- Translators: Text of the confirmation before downloading many episodes at once. -->
+    <string name="content_download_episodes_confirm_message">They are saved on this device and take up storage space.</string>
     <!-- Translators: Button or context-menu option to play content. -->
     <string name="content_play">Play</string>
     <!-- Translators: Status chip indicating content has been favorited. This is a state, not a command. -->
@@ -138,12 +154,8 @@
     <string name="content_oldest_first">Oldest first</string>
     <!-- Translators: Sort option to show newest items first. -->
     <string name="content_newest_first">Newest first</string>
-    <!-- Translators: Context-menu option to play content in an external player app. -->
-    <string name="content_play_external">Play with external player</string>
     <!-- Translators: Context-menu option to delete downloaded OpenSubtitles subtitles. "OpenSub" is an abbreviation of OpenSubtitles. -->
     <string name="content_delete_subtitles">Delete OpenSubtitles subtitles</string>
-    <!-- Translators: Context-menu option to view TMDB details for a movie/series. "TMDB" is a brand name. -->
-    <string name="content_tmdb_details">TMDB Details</string>
     <!-- Translators: Context-menu option to play the trailer for a movie or series. -->
     <string name="content_play_trailer">Play trailer</string>
     <!-- Translators: Context-menu option to re-fetch TMDB metadata. "TMDB" is a brand name. -->
@@ -238,6 +250,12 @@
     <string name="content_catchup_jump_exact">Choose exact time…</string>
     <!-- Translators: TV remote instructions in the exact-time picker. "OK" is the select/enter button on the remote; keep whatever name that button is given elsewhere in this app. -->
     <string name="content_catchup_jump_hint">Press OK on the day, hour or minute, change it with up and down, then press OK again.</string>
+    <!-- Translators: First row of the catch-up time list: go back to the start of the programme on air. "title" is the programme's name from the TV guide. -->
+    <string name="content_catchup_jump_programme_start">Start of “<xliff:g id="title">%1$s</xliff:g>”</string>
+    <!-- Translators: Same row as content_catchup_jump_programme_start, when the TV guide gives the programme no name. -->
+    <string name="content_catchup_jump_programme_start_untitled">Start of the programme</string>
+    <!-- Translators: Second line of the "Start of …" row in the catch-up time list. "time" is the clock time the programme began, formatted for the active UI locale. -->
+    <string name="content_catchup_jump_programme_start_at">Began at <xliff:g id="time">%1$s</xliff:g></string>
     <!-- Translators: Prompt in the EPG match dialog. "channel" is the channel name to match. -->
     <string name="content_epg_match_prompt">Pick the guide channel for \u201c<xliff:g id="channel">%1$s</xliff:g>\u201d.</string>
     <!-- Translators: Prompt in the EPG match dialog showing the current match. "match" is the current guide channel name. -->
@@ -286,7 +304,7 @@
     <string name="content_progress_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <!-- Translators: Time range display in the EPG programme info. "start" and "end" are times. The en-dash is a range indicator. -->
     <string name="content_live_time_range"><xliff:g id="start">%1$s</xliff:g> \u2013 <xliff:g id="end">%2$s</xliff:g></string>
-    <!-- Translators: Remaining time display for a live programme. "end" is the end time; "minutes" is the minutes remaining. -->
+    <!-- Translators: Remaining time display for a live programme. "end" is the programme's time slot, e.g. "20:10 – 21:42"; "minutes" is the minutes remaining. -->
     <string name="content_live_time_remaining"><xliff:g id="end">%1$s</xliff:g> \u00b7 <xliff:g id="minutes">%2$d</xliff:g> min left</string>
 
 
@@ -336,6 +354,10 @@
     <string name="content_downloads_paused">Paused</string>
     <!-- Translators: Shown on a finished download or recording whose file is gone - the USB drive was formatted, swapped or unplugged, or the file was deleted outside the app. -->
     <string name="content_downloads_file_missing">File missing: it is no longer on the drive</string>
+    <!-- Translators: Title of the question before a download or a recording is deleted. The placeholder is its title. -->
+    <string name="content_downloads_delete_title">Delete “<xliff:g id="name">%1$s</xliff:g>”?</string>
+    <!-- Translators: Body of the question before a film or episode download is deleted from the device. -->
+    <string name="content_downloads_delete_message">Removes the file from this device. It can be downloaded again later.</string>
     <!-- Translators: Why a download failed: the TV provider says every connection the account allows is in use. -->
     <string name="content_downloads_reason_account_busy">Account busy: another stream is using the connection</string>
     <!-- Translators: Why a download failed: the server refused the link (expired, blocked or busy; it does not say which). -->

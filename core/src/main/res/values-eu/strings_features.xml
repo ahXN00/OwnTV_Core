@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Zure irudia</string>
     <string name="profiles_kids">Haurren profila</string>
     <string name="profiles_kids_description">Arakatze sinplifikatu eta segurua</string>
+    <string name="profiles_allow_downloads">Baimendu deskargak</string>
+    <string name="profiles_allow_downloads_description">Desaktibatuta, profil honetan deskargatzeko botoi guztiak ezkutatzen dira</string>
     <string name="profiles_remove_pin">Kendu PIN blokeoa</string>
     <string name="profiles_no_pin">Profil hau PIN gabe irekitzen da</string>
     <string name="profiles_change_pin">Aldatu PINa (hutsik = mantendu)</string>
@@ -40,11 +42,36 @@
     <string name="search_movie">Filma</string>
     <string name="search_series">Telesaila</string>
     <string name="search_channels">Kanalak</string>
+    <string name="search_on_tv">Telebista-programak</string>
+    <string name="search_go_to_channel">Joan kanalera</string>
+    <string name="search_go_to_movie">Joan filmera</string>
+    <string name="search_clear_recent">Garbitu azken bilaketak</string>
+    <string name="search_field_hint">Kanalak, filmak eta telesailak</string>
+    <string name="search_voice">Ahots bidezko bilaketa</string>
+    <string name="search_voice_prompt">Esan kanal, film edo telesail bat</string>
+    <string name="search_card_title">Aurkitu edozer zure erreprodukzio-zerrendetan</string>
+    <string name="search_card_body">Erakusten dituzun erreprodukzio-zerrenda guztietako kanalak, filmak eta telesailak. Aukeratu emaitza bat zuzenean joateko, eta bertan erreproduzitu, deskargatu edo ireki bere aukerak. Orain edo gaur beranduago emititzen diren telebista-programak ere izenburuaren arabera aurkitzen dira.</string>
+    <string name="search_nothing_found">Ez da ezer aurkitu “<xliff:g id="query">%1$s</xliff:g>” bilaketarako</string>
+    <string name="search_nothing_found_body">Bilaketak erakusten dituzun erreprodukzio-zerrendetako kanal-, film- eta telesail-izenetan begiratzen du. Ezkutuko kategoriak ez dira bilatzen. Telebista-programak deskargatutako gidan izenburuaren arabera aurkitzen dira.</string>
+    <string name="search_query_quoted">“<xliff:g id="query">%1$s</xliff:g>”</string>
+    <plurals name="search_result_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> emaitza</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> emaitza</item>
+    </plurals>
+    <plurals name="search_all_channels">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> kanal</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> kanal guztiak</item>
+    </plurals>
     <string name="profiles_default_name">Profila</string>
     <string name="launcher_recent_live_title">Zuzeneko azkenak</string>
     <string name="launcher_recent_live_description">Duela gutxi zuzenean ikusitako kanalak</string>
     <string name="launcher_movie_type">Filma</string>
     <string name="launcher_episode_number"><xliff:g id="episode">%1$d</xliff:g>. atala</string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Liburutegia kargatzen · <xliff:g id="count">%1$s</xliff:g> titulu orain arte</item>
+        <item quantity="other">Liburutegia kargatzen · <xliff:g id="count">%1$s</xliff:g> titulu orain arte</item>
+    </plurals>
+    <string name="home_library_loading_trending">Orain joeran dagoena liburutegia bete ahala agertuko da.</string>
     <string name="home_no_preview">Oraindik ez dago aurreikusteko ezer.</string>
     <string name="home_no_rows">Hasierako errenkada guztiak ezkutatuta daude.</string>
     <string name="home_enable_rows">Aktibatu errenkadak berriro Ezarpenak → Hasierako pantaila atalean.</string>
@@ -70,12 +97,19 @@
     <string name="home_row_continue_series">Jarraitu telesailak ikusten</string>
     <string name="home_row_recent_channels">Azken kanalak</string>
     <string name="home_row_favorite_channels">Gogoko kanalak</string>
+    <string name="home_row_favorite_movies">Gogoko filmak</string>
+    <string name="home_row_favorite_series">Gogoko telesailak</string>
     <string name="home_row_on_now">Orain emititzen</string>
     <string name="home_row_hero_description">Goiko aldeko aurrebista-errenkada handia</string>
     <string name="home_row_trending_description">4–10 elementu erakusten ditu TMDBren joerako izenburuek zure hornitzailearen katalogoko filmekin edo telesailekin bat egiten dutenean soilik.</string>
     <string name="home_trending_style">Joeren diseinua</string>
     <string name="home_trending_style_hero">Txartel zehatza</string>
     <string name="home_trending_style_posters">Posterrak soilik</string>
+    <string name="home_trending_rank"><xliff:g id="rank">%1$d</xliff:g>. postua Joeretan · <xliff:g id="section">%2$s</xliff:g></string>
+    <string name="home_trending_in_playlist">ZURE ERREPRODUKZIO-ZERRENDAN</string>
+    <string name="home_trending_style_full_bleed">Pantaila osoa</string>
+    <string name="home_duration_hours_minutes"><xliff:g id="hours">%1$d</xliff:g> h <xliff:g id="minutes">%2$02d</xliff:g> min</string>
+    <string name="home_time_left"><xliff:g id="duration">%1$s</xliff:g> falta dira</string>
     <string name="settings_trending_status_off">Orain joeran desaktibatuta dago.</string>
     <string name="settings_trending_status_building">Orain joeran prestatzen ari da hornitzailea sinkronizatu ondoren.</string>
     <string name="settings_trending_status_metadata_disabled">Orain joeran TMDB metadatuak behar ditu. Aukeratu TMDB soilik edo Hornitzailea + TMDB.</string>
@@ -113,12 +147,15 @@
     <string name="home_trending_trailer">Trailerra</string>
     <string name="home_trending_more_details">Xehetasun gehiago</string>
     <string name="home_trending_all_versions">Bertsio guztiak</string>
+    <string name="home_trending_why_menu">Zergatik dagoen izenburu hau hemen</string>
     <string name="home_trending_pause">Pausatu</string>
     <string name="home_trending_unavailable">Bertsio hau ez dago eskuragarri jada</string>
     <string name="home_row_continue_movies_description">Posizioa gordeta duten filmak</string>
     <string name="home_row_continue_series_description">Jarraitzeko edo hurrengo erreproduzitzeko atalak</string>
     <string name="home_row_recent_description">Duela gutxi sintonizatu dituzun zuzeneko kanalak</string>
     <string name="home_row_favorite_description">Zure gogoko zuzeneko kanalak</string>
+    <string name="home_row_favorite_movies_description">Zure gogoko filmak</string>
+    <string name="home_row_favorite_series_description">Zure gogoko telesailak</string>
     <string name="update_title">Aplikazioaren eguneraketa</string>
     <string name="update_checking">Eguneraketak bilatzen…</string>
     <string name="update_whats_new">Zer berri</string>
@@ -149,6 +186,8 @@
     <string name="recovery_confirm_reset">Berretsi: ezabatu aplikazioaren datu guztiak</string>
     <string name="recovery_reset">Berrezarri aplikazioaren datuak (azken aukera)</string>
     <string name="recording_notification_title">Grabatzen</string>
+    <string name="auto_start_notification_channel">Abiarazi automatikoki esnatzean</string>
+    <string name="auto_start_notification_text">OwnTV irekiko da telebista esnatzen denean</string>
     <string name="recording_failed_no_space">Gelditu da: ez dago lekurik</string>
     <string name="recording_failed_no_connection">Zure hornitzaileak ez du konexio librerik</string>
     <string name="recording_failed_clash">Beste grabazio batek konexioa erabiltzen zuen</string>
@@ -165,12 +204,20 @@
     <string name="recording_group_missed">Galduak</string>
     <string name="recording_record">Grabatu</string>
     <string name="recording_stop">Gelditu grabazioa</string>
+    <string name="recording_delete_message">Grabazioa eta haren fitxategia gailu honetatik kentzen ditu. Ezin da desegin.</string>
     <string name="recording_record_series">Grabatu emankizun guztiak</string>
     <string name="recording_stop_series">Gelditu emankizun guztien grabazioa</string>
     <string name="recording_from_archive">Grabatu berrikustetik</string>
+    <string name="recording_schedule">Programatu grabazioa…</string>
+    <string name="recording_schedule_hint">Aukeratu eguna, hasiera eta amaiera. Grabatu egiten da kanal honek telebista-gidarik ez badu ere.</string>
+    <string name="recording_schedule_start">Hasiera</string>
+    <string name="recording_schedule_end">Amaiera</string>
+    <string name="recording_schedule_next_day">hurrengo eguna</string>
+    <string name="recording_schedule_past">Ordu hori igaro da dagoeneko</string>
     <string name="recording_scheduled_for">Grabatuko da: <xliff:g id="time">%1$s</xliff:g></string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line"><xliff:g id="title">%1$s</xliff:g> grabatzen</string>
+    <string name="recording_pill_line_locked">Blokeatutako kategoria batetik grabatzen</string>
     <string name="recording_clash_with"><xliff:g id="programme">%1$s</xliff:g> programarekin talka egiten du</string>
     <string name="recording_settings_group">Grabazioa</string>
     <string name="settings_recording_reserve">Mantendu jario bat libre ikusteko</string>
@@ -187,6 +234,13 @@
     <string name="recording_failed_encrypted">Kanal hau kodetuta dago eta ezin da grabatu</string>
     <string name="recording_failed_drm">Kanal hau DRM bidez babestuta dago, beraz ikusi daiteke baina ezin da grabatu. Babesa zure hornitzailearengandik dator, ez OwnTVtik.</string>
     <string name="recording_failed_metered">Ez da grabatu datu mugikorrekin</string>
+    <string name="recording_card_empty_title">Oraindik ez da ezer grabatu</string>
+    <string name="recording_card_body">Aukeratu programa bat Telebista-gidan eta sakatu Grabatu, edo luze sakatu kanal bat eta programatu ordu bat. Hemen agertzen da, beste zerbait ikusten ari zaren bitartean ere.</string>
+    <string name="recording_open_guide">Ireki Telebista-gida</string>
+    <plurals name="recording_card_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> grabazio</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> grabazio</item>
+    </plurals>
     <string name="settings_recording_mobile_data">Grabatu datu mugikorrekin</string>
     <string name="settings_record_watching">Grabatu ikusten ari naizena</string>
     <string name="settings_record_watching_description">Erreproduzigailuari grabatzeko botoi bat gehitzen dio, ikusten ari zaren kanala gordetzen duena. Kanala bere kabuz eskuratzen du, beraz zure hornitzailearen konexioetako bat erabiltzen du martxan dagoen bitartean, eta grabatzen jarraitzen du kanalez aldatu edo erreproduzigailua utzi ondoren ere.</string>
@@ -240,6 +294,15 @@
     <string name="sports_starting_soon">Laster hasiko da</string>
     <string name="sports_hint_match_page">Partidaren orria</string>
     <string name="sports_hint_follow_remind">Jarraitu · Gogorarazi</string>
+    <string name="sports_hint_day_matches">Eguneko partidak</string>
+    <string name="sports_hint_day">Eguna</string>
+    <string name="sports_hint_week">Astea</string>
+    <string name="sports_hint_show_score">Erakutsi emaitza</string>
+    <string name="sports_hint_back_to_day">Itzuli egunera</string>
+    <string name="sports_hint_open_league">Ireki liga</string>
+    <string name="sports_hint_sport_chips">Kirol-botoiak</string>
+    <string name="sports_hint_league_chips">Liga-botoiak</string>
+    <string name="sports_hint_follow_unfollow">Jarraitu · Utzi jarraitzeari</string>
     <string name="sports_reminder_set">Oroigarria</string>
     <string name="sports_until"><xliff:g id="time">%1$s</xliff:g> arte</string>
     <string name="sports_set"><xliff:g id="set">%1$d</xliff:g>. seta</string>
@@ -346,7 +409,6 @@
     <string name="sports_next_month">Hurrengo hilabetea</string>
     <string name="sports_next">Hurrengoa: <xliff:g id="match">%1$s</xliff:g></string>
     <string name="sports_next_badge">Hurrengoa</string>
-    <string name="sports_new_badge">Berria</string>
     <string name="sports_no_table_series">Sailkapenik ez — serieak astero aldatzen dira</string>
     <string name="sports_follow_league">Jarraitu ligari</string>
     <string name="sports_unfollow_league">Utzi ligari jarraitzeari</string>

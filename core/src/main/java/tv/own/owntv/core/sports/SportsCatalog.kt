@@ -153,25 +153,6 @@ object SportsCatalog {
 
     fun league(key: String): League? = byKey[key]
 
-    /** Leagues new in this version, tagged NEW in the settings picker until the next Sports release. */
-    val newLeagueKeys: Set<String> = setOf(
-        "soccer/uefa.super_cup", "soccer/uefa.wchampions", "soccer/fifa.wwc", "soccer/fifa.cwc",
-        "soccer/fifa.worldq.conmebol", "soccer/fifa.worldq.concacaf", "soccer/fifa.worldq.afc",
-        "soccer/fifa.worldq.caf", "soccer/fifa.friendly", "soccer/uefa.weuro", "soccer/eng.3",
-        "soccer/eng.charity", "soccer/sco.tennents", "soccer/sco.cis", "soccer/esp.2", "soccer/esp.super_cup",
-        "soccer/ita.2", "soccer/ita.super_cup", "soccer/fra.2", "soccer/ned.cup", "soccer/por.taca.portugal",
-        "soccer/den.1", "soccer/nor.1", "soccer/swe.1", "soccer/gre.1", "soccer/ksa.kings.cup", "soccer/afc.cup",
-        "soccer/afc.asian.cup", "soccer/caf.champions", "soccer/caf.nations", "soccer/usa.nwsl",
-        "soccer/concacaf.champions", "soccer/concacaf.leagues.cup", "soccer/concacaf.gold",
-        "soccer/bra.copa_do_brazil", "soccer/conmebol.sudamericana", "soccer/conmebol.america",
-        "basketball/womens-college-basketball", "basketball/fiba",
-        "racing/nascar-secondary", "racing/nascar-truck",
-        "hockey/olympics-mens-ice-hockey", "hockey/olympics-womens-ice-hockey",
-        "mma/pfl", "mma/ofc", "baseball/world-baseball-classic",
-        "rugby/17567", "rugby/289234", "rugby/272073", "rugby/268565", "rugby/289237",
-        "volleyball/womens-college-volleyball", "lacrosse/pll", "lacrosse/nll",
-    )
-
     /**
      * The names a guide or a channel may call [match]'s competition: the catalogue's brand name
      * ("Bundesliga") and ESPN's own ("German Bundesliga"). A cricket match keeps only its series name:

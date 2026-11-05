@@ -70,10 +70,23 @@
     </plurals>
     <string name="content_category_restore_order">cancella l’ordine personalizzato</string>
     <string name="content_category_restore_nothing">La categoria è già ai valori predefiniti della playlist</string>
+    <string name="content_category_lock">Blocca con PIN</string>
+    <string name="content_category_locked_placeholder">Questa categoria è bloccata</string>
+    <plurals name="content_category_pin_wait">
+        <item quantity="one">Troppi PIN errati. Riprova tra <xliff:g id="count">%1$d</xliff:g> secondo</item>
+        <item quantity="many">Troppi PIN errati. Riprova tra <xliff:g id="count">%1$d</xliff:g> secondi</item>
+        <item quantity="other">Troppi PIN errati. Riprova tra <xliff:g id="count">%1$d</xliff:g> secondi</item>
+    </plurals>
     <string name="content_move_to_category">Sposta nella categoria…</string>
     <string name="content_remove_from_category">Rimuovi da questa categoria</string>
     <string name="content_download">Scarica</string>
     <string name="content_download_all_episodes">Scarica tutti gli episodi</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one">Scaricare <xliff:g id="count">%1$d</xliff:g> episodio?</item>
+        <item quantity="many">Scaricare <xliff:g id="count">%1$d</xliff:g> di episodi?</item>
+        <item quantity="other">Scaricare <xliff:g id="count">%1$d</xliff:g> episodi?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">Vengono salvati su questo dispositivo e occupano spazio di archiviazione.</string>
     <string name="content_play">Riproduci</string>
     <string name="content_favorited">Nei preferiti</string>
     <string name="content_favorite">Aggiungi ai preferiti</string>
@@ -81,9 +94,7 @@
     <string name="content_episodes">Episodi</string>
     <string name="content_oldest_first">Prima i meno recenti</string>
     <string name="content_newest_first">Prima i più recenti</string>
-    <string name="content_play_external">Riproduci con un player esterno</string>
     <string name="content_delete_subtitles">Elimina i sottotitoli OpenSub</string>
-    <string name="content_tmdb_details">Dettagli TMDB</string>
     <string name="content_play_trailer">Riproduci il trailer</string>
     <string name="content_refetch_tmdb">Recupera di nuovo i dettagli TMDB</string>
     <string name="content_set_tmdb_name">Imposta nome TMDB</string>
@@ -134,6 +145,9 @@
     <string name="content_catchup_jump_prompt">Scegli un orario da cui iniziare a guardare. Non serve la guida.</string>
     <string name="content_catchup_jump_exact">Scegli l’orario esatto…</string>
     <string name="content_catchup_jump_hint">Premi OK su giorno, ora o minuto, modificalo con su e giù, poi premi di nuovo OK.</string>
+    <string name="content_catchup_jump_programme_start">Inizio di “<xliff:g id="title">%1$s</xliff:g>”</string>
+    <string name="content_catchup_jump_programme_start_untitled">Inizio del programma</string>
+    <string name="content_catchup_jump_programme_start_at">Iniziato alle <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">Scegli il canale della guida per “<xliff:g id="channel">%1$s</xliff:g>”.</string>
     <string name="content_epg_match_prompt_current">Scegli il canale della guida per “<xliff:g id="channel">%1$s</xliff:g>”. Attuale: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">Cerca canali della guida…</string>
@@ -182,6 +196,8 @@
     <string name="content_downloads_ready">Pronto da guardare</string>
     <string name="content_downloads_paused">In pausa</string>
     <string name="content_downloads_file_missing">File mancante: non è più sull\'unità</string>
+    <string name="content_downloads_delete_title">Eliminare “<xliff:g id="name">%1$s</xliff:g>”?</string>
+    <string name="content_downloads_delete_message">Rimuove il file da questo dispositivo. Potrà essere scaricato di nuovo in seguito.</string>
     <string name="content_downloads_reason_account_busy">Account occupato: un altro flusso sta usando la connessione</string>
     <string name="content_downloads_reason_refused">Il server ha rifiutato il link</string>
     <string name="content_downloads_reason_not_found">Il server non ha più questo file</string>

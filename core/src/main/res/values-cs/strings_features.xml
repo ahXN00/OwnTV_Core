@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Vlastní obrázek</string>
     <string name="profiles_kids">Dětský profil</string>
     <string name="profiles_kids_description">Zjednodušené a bezpečné procházení</string>
+    <string name="profiles_allow_downloads">Povolit stahování</string>
+    <string name="profiles_allow_downloads_description">Vypnuto skryje u tohoto profilu všechna tlačítka stahování</string>
     <string name="profiles_remove_pin">Odstranit zámek PIN</string>
     <string name="profiles_no_pin">Tento profil se otevírá bez kódu PIN</string>
     <string name="profiles_change_pin">Změnit PIN (prázdné = ponechat)</string>
@@ -45,6 +47,8 @@
     <string name="search_go_to_movie">Přejít na film</string>
     <string name="search_clear_recent">Vymazat nedávná hledání</string>
     <string name="search_field_hint">Kanály, filmy a seriály</string>
+    <string name="search_voice">Hlasové vyhledávání</string>
+    <string name="search_voice_prompt">Řekněte kanál, film nebo seriál</string>
     <string name="search_card_title">Najděte cokoli ve svých playlistech</string>
     <string name="search_card_body">Kanály, filmy a seriály ze všech zobrazených playlistů. Vyberte výsledek a přejděte rovnou k němu – tam ho přehrajete, stáhnete nebo otevřete jeho možnosti. Najde i televizní pořady, které běží teď nebo později dnes, podle jejich názvu.</string>
     <string name="search_nothing_found">Pro „<xliff:g id="query">%1$s</xliff:g>“ nic nenalezeno</string>
@@ -67,6 +71,13 @@
     <string name="launcher_recent_live_description">Nedávno sledované kanály živého vysílání</string>
     <string name="launcher_movie_type">Film</string>
     <string name="launcher_episode_number">Epizoda <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Načítání knihovny · zatím <xliff:g id="count">%1$s</xliff:g> titul</item>
+        <item quantity="few">Načítání knihovny · zatím <xliff:g id="count">%1$s</xliff:g> tituly</item>
+        <item quantity="many">Načítání knihovny · zatím <xliff:g id="count">%1$s</xliff:g> titulů</item>
+        <item quantity="other">Načítání knihovny · zatím <xliff:g id="count">%1$s</xliff:g> titulů</item>
+    </plurals>
+    <string name="home_library_loading_trending">Sekce Právě populární se zobrazí, jak se bude knihovna plnit.</string>
     <string name="home_no_preview">Zatím není k dispozici žádný náhled.</string>
     <string name="home_no_rows">Všechny řádky na domovské obrazovce jsou skryté.</string>
     <string name="home_enable_rows">Řádky znovu zapnete v Nastavení → Domovská obrazovka.</string>
@@ -195,6 +206,8 @@
     <string name="home_trending_pause">Pozastavit</string>
     <string name="home_trending_unavailable">Tato verze již není dostupná</string>
     <string name="recording_notification_title">Nahrávání</string>
+    <string name="auto_start_notification_channel">Automaticky spustit po probuzení</string>
+    <string name="auto_start_notification_text">OwnTV se otevře, když se televize probudí</string>
     <string name="recording_failed_no_space">Zastaveno: nedostatek místa</string>
     <string name="recording_failed_no_connection">Poskytovatel nemá volné připojení</string>
     <string name="recording_failed_clash">Připojení používalo jiné nahrávání</string>
@@ -211,6 +224,7 @@
     <string name="recording_group_missed">Zmeškáno</string>
     <string name="recording_record">Nahrát</string>
     <string name="recording_stop">Zastavit nahrávání</string>
+    <string name="recording_delete_message">Odstraní nahrávku a její soubor z tohoto zařízení. Tuto akci nelze vrátit zpět.</string>
     <string name="recording_record_series">Nahrávat každé uvedení</string>
     <string name="recording_stop_series">Přestat nahrávat každé uvedení</string>
     <string name="recording_from_archive">Nahrát z archivu</string>
@@ -223,6 +237,7 @@
     <string name="recording_scheduled_for">Nahraje se <xliff:g id="time">%1$s</xliff:g></string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line">Nahrává se <xliff:g id="title">%1$s</xliff:g></string>
+    <string name="recording_pill_line_locked">Nahrávání z uzamčené kategorie</string>
     <string name="recording_clash_with">Koliduje s <xliff:g id="programme">%1$s</xliff:g></string>
     <string name="recording_settings_group">Nahrávání</string>
     <string name="settings_recording_reserve">Ponechat jeden stream volný pro sledování</string>
@@ -311,6 +326,15 @@
     <string name="sports_starting_soon">Brzy začíná</string>
     <string name="sports_hint_match_page">Stránka zápasu</string>
     <string name="sports_hint_follow_remind">Sledovat · Připomenout</string>
+    <string name="sports_hint_day_matches">Zápasy dne</string>
+    <string name="sports_hint_day">Den</string>
+    <string name="sports_hint_week">Týden</string>
+    <string name="sports_hint_show_score">Zobrazit skóre</string>
+    <string name="sports_hint_back_to_day">Zpět na den</string>
+    <string name="sports_hint_open_league">Otevřít soutěž</string>
+    <string name="sports_hint_sport_chips">Tlačítka sportů</string>
+    <string name="sports_hint_league_chips">Tlačítka soutěží</string>
+    <string name="sports_hint_follow_unfollow">Sledovat · Přestat sledovat</string>
     <string name="sports_reminder_set">Připomínka</string>
     <string name="sports_until">do <xliff:g id="time">%1$s</xliff:g></string>
     <string name="sports_set"><xliff:g id="set">%1$d</xliff:g>. set</string>
@@ -423,7 +447,6 @@
     <string name="sports_next_month">Další měsíc</string>
     <string name="sports_next">Další: <xliff:g id="match">%1$s</xliff:g></string>
     <string name="sports_next_badge">Další</string>
-    <string name="sports_new_badge">Nové</string>
     <string name="sports_no_table_series">Bez tabulky — série se mění každý týden</string>
     <string name="sports_follow_league">Sledovat soutěž</string>
     <string name="sports_unfollow_league">Přestat sledovat soutěž</string>

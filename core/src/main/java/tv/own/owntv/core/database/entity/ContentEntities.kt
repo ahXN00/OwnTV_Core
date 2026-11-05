@@ -44,10 +44,9 @@ data class CategoryEntity(
         ForeignKey(entity = SourceEntity::class, parentColumns = ["id"], childColumns = ["sourceId"], onDelete = ForeignKey.CASCADE),
         ForeignKey(entity = CategoryEntity::class, parentColumns = ["id"], childColumns = ["categoryId"], onDelete = ForeignKey.SET_NULL),
     ],
+    // No single-column (sourceId) or (categoryId) index (v52): the composites below start with the
+    // same column and serve every query, and each extra index is one more B-tree every write updates.
     indices = [
-        Index("sourceId"),
-        Index("categoryId"),
-        Index("name"),
         Index("epgChannelId"),
         Index(value = ["sourceId", "remoteId"], unique = true),
         // Composite grid read-indices (v6): A–Z order (ORDER BY name) and playlist/provider order
@@ -113,7 +112,13 @@ data class ChannelEntity(
     /** M3U `catchup-correction` in minutes (v49): how far the provider's archive clock is from the
      *  guide's, from the entry or the `#EXTM3U` line. 0 for everything else. */
     @ColumnInfo(defaultValue = "0") val catchupCorrectionMin: Int = 0,
+    /** The provider's own name when the playlist's "Clean channel names" changed [name] (v51), so
+     *  guide matching keeps seeing what the provider wrote. Null when [name] is that name. */
+    val providerName: String? = null,
 )
+
+/** The name guide matching compares: the provider's own, not the cleaned display name. */
+val ChannelEntity.matchName: String get() = providerName ?: name
 
 /**
  * The stream URL to tune: the channel's own `.ts`, swapped to `.m3u8` when the playlist's "Prefer HLS"
@@ -146,9 +151,9 @@ fun resolveStreamUrl(url: String, source: SourceEntity?): String {
         ForeignKey(entity = SourceEntity::class, parentColumns = ["id"], childColumns = ["sourceId"], onDelete = ForeignKey.CASCADE),
         ForeignKey(entity = CategoryEntity::class, parentColumns = ["id"], childColumns = ["categoryId"], onDelete = ForeignKey.SET_NULL),
     ],
+    // No single-column (sourceId) or (categoryId) index (v52) — see ChannelEntity. (name) stays: the
+    // A–Z list across several playlists would otherwise sort the whole table.
     indices = [
-        Index("sourceId"),
-        Index("categoryId"),
         Index("name"),
         // Composite (filter + order) indices so the grid's "WHERE sourceId/categoryId ORDER BY name" never
         // falls back to a full temp-B-tree sort of the whole table (100k+ rows → 2–3s) — it seeks + scans.
@@ -209,9 +214,8 @@ data class MovieEntity(
         ForeignKey(entity = SourceEntity::class, parentColumns = ["id"], childColumns = ["sourceId"], onDelete = ForeignKey.CASCADE),
         ForeignKey(entity = CategoryEntity::class, parentColumns = ["id"], childColumns = ["categoryId"], onDelete = ForeignKey.SET_NULL),
     ],
+    // No single-column (sourceId) or (categoryId) index (v52) — see MovieEntity.
     indices = [
-        Index("sourceId"),
-        Index("categoryId"),
         Index("name"),
         // Composite (filter + order) indices — see MovieEntity: avoids a full table sort on the Series grid.
         // A–Z (ORDER BY name) → first pair; playlist/provider (ORDER BY sortOrder, name) → second pair.
@@ -332,7 +336,7 @@ data class ContentHashProjection(
 /**
  * The v26 fields ([ChannelEntity.catchupType] / [ChannelEntity.httpHeaders]), the v33
  * [ChannelEntity.drmConfig], the v43 [ChannelEntity.manifestType] / [ChannelEntity.directSource] and
- * the v49 [ChannelEntity.catchupCorrectionMin] are folded in ONLY when the channel actually carries
+ * the v49 [ChannelEntity.catchupCorrectionMin] and the v51 [ChannelEntity.providerName] are folded in ONLY when the channel actually carries
  * one. Adding them unconditionally would change every stored hash at once and turn the next resync of
  * a 100k-channel playlist into a full rewrite for everybody; this way only the (rare) channels that use
  * them pay a single re-upsert, while a later change to a header, a catch-up type, a licence URL, a
@@ -353,7 +357,8 @@ fun ChannelEntity.computeContentHash(): Int {
         if (manifestType == null && directSource == null) withDrm
         else Objects.hash(withDrm, manifestType, directSource)
     }
-    return if (catchupCorrectionMin == 0) withV43 else Objects.hash(withV43, catchupCorrectionMin)
+    val withV49 = if (catchupCorrectionMin == 0) withV43 else Objects.hash(withV43, catchupCorrectionMin)
+    return if (providerName == null) withV49 else Objects.hash(withV49, providerName)
 }
 
 /** [httpHeaders], [MovieEntity.drmConfig] and [MovieEntity.manifestType] are folded in only when the

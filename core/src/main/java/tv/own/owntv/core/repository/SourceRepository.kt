@@ -63,10 +63,12 @@ class SourceRepository(
         signature: String? = null, userAgent: String? = null,
         syncLive: Boolean = true, syncMovies: Boolean = true, syncSeries: Boolean = true,
         httpReferer: String? = null,
+        login: String? = null, password: String? = null,
     ): SourceEntity = addAndLink(
         profileId,
         SourceEntity(
             name = name, type = SourceType.STALKER, url = portalUrl, mac = mac,
+            username = login, password = password,
             stalkerSerialNumber = serialNumber, stalkerDeviceId = deviceId,
             stalkerDeviceId2 = deviceId2, stalkerSignature = signature, userAgent = userAgent,
             syncLive = syncLive, syncMovies = syncMovies, syncSeries = syncSeries,
@@ -105,8 +107,6 @@ class SourceRepository(
         listOf(tv.own.owntv.core.model.MediaType.LIVE, tv.own.owntv.core.model.MediaType.MOVIE, tv.own.owntv.core.model.MediaType.SERIES)
             .forEach { categoryDao.clear(sourceId, it) }
     }
-
-    suspend fun updateSource(source: SourceEntity) = sourceDao.update(source)
 
     /**
      * [onProgress] is deliberately **last**: Kotlin binds a trailing lambda to the final parameter,
@@ -164,14 +164,6 @@ class SourceRepository(
 
     fun getLastSyncStats(sourceId: Long): tv.own.owntv.core.sync.SyncRunStats? =
         syncManager.getLastSyncStats(sourceId)
-
-    /**
-     * Is this source's catalogue whole, or is a lazy add still filling it in?
-     *
-     * Not the same question as "has it synced" — a lazily-added Stalker source is stamped synced
-     * while only its first page per category is stored.
-     */
-    suspend fun catalogueComplete(sourceId: Long): Boolean = syncManager.catalogueComplete(sourceId)
 
     /** Per-mediaType row counts of a snapshot, e.g. "types={LIVE=8, MOVIE=6}" — upgrade-path diagnostics. */
     private fun org.json.JSONArray.typeCounts(): String {

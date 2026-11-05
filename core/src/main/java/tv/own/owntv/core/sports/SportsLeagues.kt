@@ -20,13 +20,20 @@ data class LeagueCard(val league: League, val leader: Team?, val leaderPoints: I
 
 object LeagueCards {
 
+    /** Sports whose tables rank by wins and losses; ESPN's "points" there mean nothing, and its rows are not in order. */
+    val RECORD_SPORTS = setOf(Sport.BASKETBALL, Sport.FOOTBALL, Sport.BASEBALL)
+
     /**
      * [league]'s card. The leader is the first row of the board's table (its first group, where a
-     * league has several) or ranking; the next match is the soonest still to come in [months] (the
-     * calendar's current month, and the next, so a card on the 31st still has one) or on the board.
+     * league has several) or ranking — in [RECORD_SPORTS] the best record in any group; the next match
+     * is the soonest still to come in [months] (the calendar's current month, and the next, so a card on
+     * the 31st still has one) or on the board.
      */
     fun card(league: League, board: SportsBoard, months: List<CalendarMonth>, now: Long): LeagueCard {
-        val row = board.standings[league.key]?.groups?.firstOrNull()?.rows?.firstOrNull()
+        val groups = board.standings[league.key]?.groups
+        val row = if (league.sport in RECORD_SPORTS) {
+            groups?.flatMap { it.rows }?.maxWithOrNull(compareBy({ it.won.toDouble() / (it.won + it.lost).coerceAtLeast(1) }, { it.won }))
+        } else groups?.firstOrNull()?.rows?.firstOrNull()
         val ranked = board.rankings[league.key]?.groups?.firstOrNull()?.rows?.firstOrNull()
         val next = (months.flatMap { it.days.values.flatten() } + board.matches)
             .filter { it.feed == league.key && it.state == MatchState.PRE && it.startMs > now }

@@ -65,10 +65,21 @@
     </plurals>
     <string name="content_category_restore_order">je eigen volgorde wordt gewist</string>
     <string name="content_category_restore_nothing">De categorie staat al op de standaard van de afspeellijst</string>
+    <string name="content_category_lock">Vergrendelen met PIN</string>
+    <string name="content_category_locked_placeholder">Deze categorie is vergrendeld</string>
+    <plurals name="content_category_pin_wait">
+        <item quantity="one">Te vaak een onjuiste PIN. Probeer het over <xliff:g id="count">%1$d</xliff:g> seconde opnieuw</item>
+        <item quantity="other">Te vaak een onjuiste PIN. Probeer het over <xliff:g id="count">%1$d</xliff:g> seconden opnieuw</item>
+    </plurals>
     <string name="content_move_to_category">Verplaatsen naar categorie…</string>
     <string name="content_remove_from_category">Uit deze categorie verwijderen</string>
     <string name="content_download">Downloaden</string>
     <string name="content_download_all_episodes">Alle afleveringen downloaden</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> aflevering downloaden?</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> afleveringen downloaden?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">Ze worden op dit apparaat opgeslagen en nemen opslagruimte in.</string>
     <string name="content_play">Afspelen</string>
     <string name="content_favorited">Favoriet</string>
     <string name="content_favorite">Favoriet maken</string>
@@ -76,9 +87,7 @@
     <string name="content_episodes">Afleveringen</string>
     <string name="content_oldest_first">Oudste eerst</string>
     <string name="content_newest_first">Nieuwste eerst</string>
-    <string name="content_play_external">Afspelen met externe speler</string>
     <string name="content_delete_subtitles">OpenSub-ondertiteling verwijderen</string>
-    <string name="content_tmdb_details">TMDB-details</string>
     <string name="content_play_trailer">Trailer afspelen</string>
     <string name="content_refetch_tmdb">TMDB-details opnieuw ophalen</string>
     <string name="content_set_tmdb_name">TMDB-naam instellen</string>
@@ -128,6 +137,9 @@
     <string name="content_catchup_jump_prompt">Kies een tijd om vanaf te kijken. Geen gids nodig.</string>
     <string name="content_catchup_jump_exact">Exacte tijd kiezen…</string>
     <string name="content_catchup_jump_hint">Druk op OK op de dag, het uur of de minuut, wijzig het met omhoog en omlaag en druk opnieuw op OK.</string>
+    <string name="content_catchup_jump_programme_start">Begin van “<xliff:g id="title">%1$s</xliff:g>”</string>
+    <string name="content_catchup_jump_programme_start_untitled">Begin van het programma</string>
+    <string name="content_catchup_jump_programme_start_at">Begonnen om <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">Kies de gidszender voor “<xliff:g id="channel">%1$s</xliff:g>”.</string>
     <string name="content_epg_match_prompt_current">Kies de gidszender voor “<xliff:g id="channel">%1$s</xliff:g>”. Huidig: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">Gidszenders zoeken…</string>
@@ -176,6 +188,8 @@
     <string name="content_downloads_ready">Klaar om te kijken</string>
     <string name="content_downloads_paused">Gepauzeerd</string>
     <string name="content_downloads_file_missing">Bestand ontbreekt: het staat niet meer op de schijf</string>
+    <string name="content_downloads_delete_title">“<xliff:g id="name">%1$s</xliff:g>” verwijderen?</string>
+    <string name="content_downloads_delete_message">Verwijdert het bestand van dit apparaat. U kunt het later opnieuw downloaden.</string>
     <string name="content_downloads_reason_account_busy">Account bezet: een andere stream gebruikt de verbinding</string>
     <string name="content_downloads_reason_refused">De server heeft de link geweigerd</string>
     <string name="content_downloads_reason_not_found">De server heeft dit bestand niet meer</string>

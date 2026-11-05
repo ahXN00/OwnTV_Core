@@ -70,6 +70,23 @@
     <string name="settings_remote_shortcuts_long_press">長按</string>
     <string name="settings_remote_shortcuts_unknown_button">遙控器按鍵 %1$d</string>
     <string name="settings_remote_shortcuts_help">• 預設情況下，CH+/CH− 和倒轉/快轉用於清單翻頁；長按會跳到第一個或最後一個項目。\n• 短按和長按可以分別指派。\n• 在非常大的「全部」清單中，跳到最後一項仍會停用。\n• 長按返回一律聚焦「正在播放」，且不能重新指派。\n• 通常可指派紅/綠/黃/藍、數字、CH+/CH− 和倒轉/快轉鍵。\n• 返回、方向、確定、音量、首頁和電源鍵會保持受保護。\n• 數字快速鍵在瀏覽時生效；全螢幕時頻道號碼輸入優先。</string>
+    <string name="settings_player_buttons">播放器按鍵</string>
+    <string name="settings_player_hold_ok">在播放器中長按確定</string>
+    <string name="settings_player_hold_ok_description">控制列隱藏時長按確定開啟的內容</string>
+    <string name="settings_help_player_hold_ok">在全螢幕直播播放器中控制列隱藏時長按確定,可開啟頻道清單、節目表或節目資訊。關閉則確定鍵維持原樣。開啟期間,短按確定會在放開時生效。電影和影集維持原本的確定鍵。</string>
+    <string name="settings_player_short_ok">控制列隱藏時的確定鍵</string>
+    <string name="settings_player_short_ok_description">在全螢幕播放器中短按確定的作用</string>
+    <string name="settings_help_player_short_ok">在全螢幕播放器中短按確定會顯示控制列。選擇頻道清單或節目表,則在直播頻道上改為開啟它;播放器不使用的其他按鍵仍會顯示控制列。電影和影集一律顯示控制列。</string>
+    <string name="settings_player_swap_channel_keys">互換頻道上/下</string>
+    <string name="settings_player_swap_channel_keys_description">CH+ 和上鍵切到上一個頻道</string>
+    <string name="settings_help_player_swap_channel_keys">通常 CH+ 和方向上鍵切到下一個頻道,CH− 和下鍵切到上一個。開啟後在觀看時互換它們,全螢幕和迷你播放器皆適用。瀏覽清單不受影響。</string>
+    <string name="settings_player_number_keys_tune">數字鍵切換頻道</string>
+    <string name="settings_player_number_keys_tune_description">在直播播放器中輸入頻道號碼</string>
+    <string name="settings_help_player_number_keys_tune">在全螢幕直播播放器中用遙控器輸入頻道號碼即可跳到該頻道。關閉後數字鍵留給遙控器捷徑。輸入號碼還需要在電視直播設定中開啟頻道編號。</string>
+    <string name="settings_player_ok_channel_list">頻道清單</string>
+    <string name="settings_player_ok_guide">節目表</string>
+    <string name="settings_player_ok_programme_info">節目資訊</string>
+    <string name="settings_player_ok_show_controls">顯示控制列</string>
     <string name="settings_remote_button_channel_up">頻道 +</string>
     <string name="settings_remote_button_channel_down">頻道 −</string>
     <string name="settings_remote_button_rewind">倒轉</string>
@@ -177,8 +194,9 @@
     <string name="settings_ch_paging">遙控器捷徑</string>
     <string name="settings_ch_paging_description">將遙控器的空閒按鍵指派給導覽、播放和瀏覽操作。必要的導覽按鍵會保持受保護。</string>
     <string name="settings_content_menus_title">長按選單</string>
-    <string name="settings_content_menus_description">重新排列頻道、電影、影集與分集選單中的動作</string>
-    <string name="settings_content_menus_hint">長按「確定」拿起某個動作，再用上下鍵移動，再次按「確定」放下。</string>
+    <string name="settings_content_menus_description">重新排列或隱藏頻道、電影、影集與分集選單中的動作</string>
+    <string name="settings_content_menus_hint">在某個動作上按「確定」可顯示或隱藏它。長按「確定」拿起它，用上下鍵移動，再次按「確定」放下。</string>
+    <string name="settings_content_menus_note">部分動作只會在適用的地方出現。</string>
     <string name="settings_browsing_lists">瀏覽與清單</string>
     <string name="settings_browsing_description">記住電視直播、電影和影集中的上一個分類及項目</string>
     <string name="settings_home_root">主畫面</string>
@@ -212,9 +230,13 @@
     <string name="settings_preview_audio_description">在直播預覽中播放聲音</string>
     <string name="settings_mini_player_root">迷你播放器</string>
     <string name="settings_mini_player_root_description">已停駐迷你播放器的大小和位置</string>
+    <string name="settings_pip_on_leave">離開應用程式時使用子母畫面</string>
+    <string name="settings_pip_on_leave_description">按首頁鍵時，影片會在小視窗中繼續播放</string>
     <string name="settings_prefer_sdr_description">當串流同時提供 SDR 和 HDR 畫面時，播放 SDR 畫面：適合 HDR 看起來泛白或過暗的電視。僅有 HDR 的串流仍為 HDR。僅限 ExoPlayer。</string>
-    <string name="settings_auto_frame_rate">自動影格率</string>
-    <string name="settings_auto_frame_rate_description">在全螢幕播放電視直播和隨選影片時，將電視更新率配合影片調整為 24/25/50/60 fps，並在結束時還原。如果您的電視或接收器每次切換頻道時都會重新進行 HDMI 交握並產生明顯干擾，請關閉此功能。</string>
+    <string name="settings_auto_frame_rate_films">電影和影集自動影格率</string>
+    <string name="settings_auto_frame_rate_films_description">在全螢幕播放電影或影集時，將電視更新率配合影片調整為 24/25/50/60 fps，並在結束時還原。</string>
+    <string name="settings_auto_frame_rate_live">電視直播自動影格率</string>
+    <string name="settings_auto_frame_rate_live_description">在全螢幕播放電視直播時，將電視更新率配合頻道調整為 25/50/60 fps，並在結束時還原。如果您的電視或接收器每次切換頻道時都會重新進行 HDMI 交握並產生明顯干擾，請關閉此功能。</string>
     <string name="settings_afr_pause">切換顯示時暫停</string>
     <string name="settings_afr_pause_description">僅限電影。電視需要重新同步到新的顯示模式時，電影會等待這段時間，以免開頭在黑畫面中錯過。無縫切換不會暫停。</string>
     <string name="settings_afr_resolution">配合解析度</string>
@@ -256,12 +278,20 @@
     <string name="settings_check_updates_description">從 GitHub Releases 取得最新版本</string>
     <string name="settings_update_startup">啟動時檢查更新</string>
     <string name="settings_update_startup_description">應用程式開啟時檢查是否有新版本</string>
+    <string name="settings_auto_start_boot">開機時自動啟動</string>
+    <string name="settings_auto_start_boot_description">電視開機後開啟 OwnTV</string>
+    <string name="settings_auto_start_wake">喚醒時自動啟動</string>
+    <string name="settings_auto_start_wake_description">電視從待機喚醒後開啟 OwnTV</string>
+    <string name="settings_auto_start_needs_overlay">需要「在其他應用程式上層顯示」</string>
     <string name="settings_about">關於</string>
     <string name="settings_live_latency">直播延遲</string>
     <string name="settings_no_settings_match">沒有符合「<xliff:g id="query">%1$s</xliff:g>」的設定</string>
+    <string name="settings_search_empty_hint">輸入設定的名稱</string>
     <string name="settings_breadcrumb"><xliff:g id="group">%1$s</xliff:g> › <xliff:g id="title">%2$s</xliff:g></string>
     <string name="settings_startup_home">主畫面</string>
     <string name="settings_startup_last_channel">上一個頻道</string>
+    <string name="settings_startup_last_channel_guide">上一個頻道 · 節目表</string>
+    <string name="settings_startup_last_channel_live">上一個頻道 · 電視直播</string>
     <string name="settings_startup_favorites">直播 · 我的最愛</string>
     <string name="settings_startup_specific_channel">指定頻道</string>
     <string name="settings_startup_channel_unavailable">啟動頻道無法使用，已開啟首頁。</string>
@@ -362,6 +392,7 @@
     <string name="settings_search_keywords_startup">啟動 開啟 起始頁</string>
     <string name="settings_search_keywords_updates">GitHub 發行版本 版本</string>
     <string name="settings_search_keywords_update_auto">自動 更新 新版本</string>
+    <string name="settings_search_keywords_auto_start">開機 啟動 喚醒 休眠 待機 自動 開啟</string>
     <string name="settings_language_default">預設（英文）</string>
     <string name="settings_language_device">裝置語言</string>
     <string name="settings_language_arabic">阿拉伯文</string>
@@ -584,6 +615,8 @@
     <string name="settings_browsing_last_category_description">重新開啟區段時回到您離開時的分類，而非「全部」。</string>
     <string name="settings_browsing_last_item">記住上次的項目</string>
     <string name="settings_browsing_last_item_description">每個分類都會保留各自的捲動位置，而非從頂端開始。電視直播也會恢復上次取得焦點的頻道。</string>
+    <string name="settings_browsing_live_categories">電視直播分類</string>
+    <string name="settings_browsing_live_categories_description">顯示在電視直播、節目表、播放器和多畫面中。關閉「所有頻道」後，電視直播會開啟你的第一個分類；若沒有分類，則開啟我的最愛。</string>
     <string name="settings_catchup_player">回看播放方式</string>
     <string name="settings_customize_title">自訂分類與項目</string>
     <string name="settings_customize_pin_locked">此畫面已由 PIN 鎖定。</string>
@@ -592,6 +625,8 @@
     <string name="settings_customize_set_pin">🔒 設定 PIN</string>
     <string name="settings_customize_change_pin">🔒 變更 PIN</string>
     <string name="settings_customize_remove_lock">移除鎖定</string>
+    <string name="settings_customize_settings_pin">開啟設定時要求輸入 PIN</string>
+    <string name="settings_customize_settings_pin_button">開啟設定時要求輸入 PIN：<xliff:g id="state">%1$s</xliff:g></string>
     <string name="settings_customize_description">為此使用者檔案隱藏或取消隱藏頻道、電影及影集，並重新命名或排列分類。重新同步後仍會保留。</string>
     <string name="settings_customize_new_category_behavior">新分類的顯示方式</string>
     <string name="settings_customize_hide">隱藏</string>
@@ -636,6 +671,7 @@
     <string name="settings_customize_rename_hint">僅適用於此使用者檔案。留白即可還原為「<xliff:g id="name">%1$s</xliff:g>」。</string>
     <string name="settings_customize_remove_pin_title">要移除 PIN 鎖定嗎？</string>
     <string name="settings_customize_remove_pin_message">之後開啟「自訂」畫面時，將不會再要求輸入 PIN。</string>
+    <string name="settings_customize_remove_pin_locks">以此 PIN 鎖定的所有分類也會一併解除鎖定。</string>
     <string name="settings_customize_remove">移除</string>
     <string name="settings_customize_confirm_pin">確認新的 PIN</string>
     <string name="settings_customize_pin_mismatch">PIN 不相符，請重新輸入</string>
@@ -677,7 +713,16 @@
     <string name="settings_sources_test_trial">試用帳號</string>
     <string name="settings_sources_test_expiry_none">未提供到期日</string>
     <string name="settings_sources_info">資訊</string>
+    <string name="settings_sources_clean_names">名稱</string>
+    <string name="settings_sources_clean_names_title">「<xliff:g id="name">%1$s</xliff:g>」中的頻道名稱</string>
+    <string name="settings_sources_clean_names_description">所有畫面顯示更短的頻道名稱。節目表仍依供應商傳送的名稱比對,在「自訂」中改過名稱的頻道會保留你的名稱。儲存後會重新整理播放清單。</string>
+    <string name="settings_sources_clean_names_toggle">清理頻道名稱</string>
+    <string name="settings_sources_clean_names_example">移除開頭的國家前綴與結尾的畫質標記:「UK| News One HD」會顯示為「News One」</string>
+    <string name="settings_sources_clean_names_custom">另外移除</string>
+    <string name="settings_sources_clean_names_custom_hint">以 ; 分隔的字詞,例如 VIP; Backup</string>
     <string name="settings_sources_retest">重新測試</string>
+    <string name="settings_sources_ignore_limit">忽略連線數限制</string>
+    <string name="settings_sources_ignore_limit_on">已忽略連線數限制：多畫面和錄影可能會開啟超過此播放清單所報告數量的串流。供應商拒絕的串流仍會照常提示。</string>
     <string name="settings_sources_probe_title">測試此播放清單？</string>
     <string name="settings_sources_probe_warning">許多供應商從不說明你可以同時觀看多少個頻道，因此 OwnTV 會開啟幾個頻道，看看哪些能持續播放來判斷。目前正在播放的內容會停止，此過程最多需要兩分鐘。</string>
     <string name="settings_sources_probe_running">正在檢測此供應商允許的頻道數量…（<xliff:g id="current">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g>）</string>
@@ -740,6 +785,7 @@
     <string name="settings_epg_sources_auto_refresh_title">自動更新</string>
     <string name="settings_epg_sources_auto_refresh_description">關閉、啟動時更新，或資料過期時更新</string>
     <string name="settings_epg_sources_not_synced">尚未同步</string>
+    <string name="settings_epg_sources_priority">節目表優先順序：第 <xliff:g id="position">%1$d</xliff:g> 位，共 <xliff:g id="total">%2$d</xliff:g> 個。兩個來源包含同一頻道時，會使用此清單中較上方的來源。</string>
     <string name="settings_epg_refresh_1h">1 小時</string>
     <string name="settings_epg_refresh_3h">3 小時</string>
     <string name="settings_epg_refresh_6h">6 小時</string>
@@ -821,6 +867,7 @@
         <item quantity="other">已略過 <xliff:g id="count">%1$d</xliff:g> 個來源，因為不支援其播放清單類型。</item>
     </plurals>
     <string name="settings_backup_export_error">匯出失敗。</string>
+    <string name="settings_backup_no_file_app">這支手機上沒有可以儲存檔案的應用程式。請改用「分享」。</string>
     <string name="settings_backup_read_error">無法讀取備份檔案。</string>
     <string name="settings_backup_import_error">匯入失敗。</string>
     <string name="settings_backup_invalid_locale">此備份包含不支援的應用程式語言。還原已成功，但保留了您目前的語言。</string>
@@ -1256,6 +1303,12 @@
     <string name="settings_nav_hide_after_desc">僅限懸浮：焦點離開後導覽列等待多久再隱藏</string>
     <string name="settings_nav_widen">取得焦點時展開</string>
     <string name="settings_nav_widen_desc">固定且精簡：導覽列取得焦點時在內容上方顯示名稱</string>
+    <string name="settings_nav_menu_labels">選單標籤</string>
+    <string name="settings_nav_menu_labels_desc">圖示旁的區塊名稱:不顯示、側欄取得焦點時、一律顯示</string>
+    <string name="settings_nav_menu_labels_focused">取得焦點時</string>
+    <string name="settings_nav_menu_labels_always">一律</string>
+    <string name="settings_nav_menu_labels_summary">標籤:<xliff:g id="choice">%1$s</xliff:g></string>
+    <string name="settings_search_keywords_menu_labels">標籤, 名稱, 文字, 僅圖示, 側欄, 側邊欄, 選單, 展開, 寬</string>
     <string name="settings_nav_menu_items">選單項目</string>
     <string name="settings_nav_menu_items_desc">動態：依播放清單內容 · 靜態：自行選擇</string>
     <string name="settings_nav_bar">導覽列</string>
@@ -1331,7 +1384,7 @@
     <string name="settings_line_guide_width">頻道清單和時間軸</string>
     <string name="settings_line_browsing">記住上次的分類和項目</string>
     <string name="settings_line_home">選擇、排序和篩選各列</string>
-    <string name="settings_line_content_menus">調整每個選單裡的動作</string>
+    <string name="settings_line_content_menus">調整或隱藏每個選單裡的動作</string>
     <string name="settings_line_remote_shortcuts">為遙控器閒置按鍵指定功能</string>
     <string name="settings_line_customize">隱藏與顯示、重新命名和排序</string>
     <string name="settings_line_metadata">電影和影集的海報、劇情、演員和評分</string>
@@ -1394,6 +1447,7 @@
     <string name="settings_line_autoplay">並接著播下一季</string>
     <string name="settings_line_tiles">每個畫面都占一路串流</string>
     <string name="settings_line_mini">大小和位置</string>
+    <string name="settings_line_pip">在小視窗中繼續觀看</string>
     <string name="settings_line_rec_reserve">絕不占滿所有連線錄製</string>
     <string name="settings_line_rec_watching">不占用第二路串流</string>
     <string name="settings_line_rec_pre_roll">節目開始之前</string>
@@ -1423,6 +1477,8 @@
     <string name="settings_help_startup">OwnTV 啟動時顯示的內容：首頁、上次觀看的頻道、你的收藏，或你指定的頻道。</string>
     <string name="settings_help_check_updates">立即在 GitHub 上尋找較新的 OwnTV 並提示安裝。你的播放清單、收藏和設定都會保留。</string>
     <string name="settings_help_update_startup">每次啟動 OwnTV 時尋找新版本，有新版本時會告訴你。未經詢問不會安裝任何內容。</string>
+    <string name="settings_help_auto_start_boot">電視啟動完成後自動開啟 OwnTV，並顯示應用程式啟動中選擇的畫面。Android 只允許可在其他應用程式上層顯示的應用程式自行開啟，因此開啟此選項會開啟該權限的設定畫面。部分電視沒有這項權限，在這些電視上無法自動啟動。</string>
+    <string name="settings_help_auto_start_wake">每次電視從待機喚醒時開啟 OwnTV，即使你是為了使用其他應用程式而喚醒電視。如果應用程式啟動設為開啟某個頻道，每次喚醒都會開始播放該串流。開啟期間，OwnTV 會保留一個帶有靜音通知的小型背景服務。與開機時自動啟動相同，它需要在其他應用程式上層顯示的權限。</string>
     <string name="settings_help_dns">使用你選擇的 DNS 伺服器（而不是網路內建的）解析供應商的位址——當你的網路封鎖或重新導向這些位址時很有用。</string>
     <string name="settings_help_live_engine">ExoPlayer 開啟頻道快得多，也是唯一支援直播字幕的播放器。mpv 能播放 ExoPlayer 無法播放的頻道，包括一些特殊音訊。組合選項會在第一個播放器失敗時嘗試另一個。</string>
     <string name="settings_help_hw">使用電視的硬體解碼器：4K 流暢、發熱更少。只有在部分串流卡頓或出現馬賽克時才關閉，屆時由軟體解碼器處理。</string>
@@ -1436,6 +1492,7 @@
     <string name="settings_help_timeshift_window">在沒有回看的頻道上，「暫停和倒轉直播電視」最多能倒轉多久。越長，此裝置儲存空間中保留的頻道內容越多。</string>
     <string name="settings_help_resume">「詢問是否繼續」會在電影或集數有已儲存位置時提供「繼續」或「從頭開始」。「一律繼續」從上次停止處播放；「永不繼續」從頭開始。</string>
     <string name="settings_help_mini">瀏覽時在角落繼續播放頻道的小播放器。可選擇大小和所在角落。</string>
+    <string name="settings_help_pip">影片以全螢幕或在迷你播放器中播放時，按首頁鍵或開啟其他應用程式，影片會在電視其他畫面上方的小視窗中繼續播放。再次開啟 OwnTV 即可回到全螢幕；關閉視窗即停止播放。多畫面只在 OwnTV 內使用。</string>
     <string name="settings_key_palette">調色盤</string>
     <string name="settings_live_preview_note">移動時變更就會顯示在這裡，無需離開該列。</string>
     <string name="settings_synced_at"><xliff:g id="when">%1$s</xliff:g>同步</string>
@@ -1512,6 +1569,8 @@
     <string name="settings_remote_scan">掃描或在瀏覽器中開啟</string>
     <string name="settings_remote_or_open">或開啟</string>
     <string name="settings_remote_details_note">詳細資料會顯示在這裡；用遙控器開始匯入。</string>
+    <string name="settings_remote_edit_note">變更會填入編輯畫面；由你用遙控器按「儲存」。</string>
+    <string name="settings_help_edit_from_phone">在同一 Wi-Fi 下的手機、平板或電腦瀏覽器中開啟此播放清單。密碼、MAC 位址和 M3U 播放清單位址絕不會顯示在那裡：留空即可保留。你傳送的內容會填入此畫面，在你按「儲存」之前不會有任何變更。</string>
     <string name="settings_key_stop_back">停止並返回</string>
     <string name="settings_source_type">類型</string>
     <string name="settings_line_source_type">Xtream、M3U 或 Stalker 入口網站</string>

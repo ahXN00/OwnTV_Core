@@ -31,6 +31,7 @@
     <string name="common_nav_series">Telesailak</string>
     <string name="common_nav_downloads">Deskargak</string>
     <string name="common_nav_guide">Gida</string>
+    <string name="common_nav_guide_short">Telebista-gida</string>
     <string name="common_nav_library">Liburutegia</string>
     <string name="common_nav_more">Gehiago</string>
     <string name="common_cast">Aktoreak</string>
@@ -81,6 +82,8 @@
     <string name="sync_status_cancelled">Sinkronizazioa bertan behera utzi da · <xliff:g id="source">%1$s</xliff:g></string>
     <string name="sync_status_download"><xliff:g id="title">%1$s</xliff:g> deskargatzen</string>
     <string name="sync_status_download_with_progress"><xliff:g id="title">%1$s</xliff:g> deskargatzen · <xliff:g id="percent">%2$d</xliff:g>%%</string>
+    <string name="sync_status_download_locked">Blokeatutako kategoria batetik deskargatzen</string>
+    <string name="sync_status_download_locked_with_progress">Blokeatutako kategoria batetik deskargatzen · <xliff:g id="percent">%1$d</xliff:g>%%</string>
     <string name="sync_status_trending_starting">Sinkronizazioa amaituta · <xliff:g id="source">%1$s</xliff:g> · Orain joeran dagoena sortzen</string>
     <string name="sync_status_trending_detail_waiting">TMDBren hautagaien erantzunaren zain</string>
     <string name="sync_status_trending_detail_received">TMDBren hautagaiak · Filmak: <xliff:g id="movies">%1$d</xliff:g> · Telesailak: <xliff:g id="series">%2$d</xliff:g></string>
@@ -100,42 +103,42 @@
         <item quantity="other">Azken <xliff:g id="count">%1$d</xliff:g> joera-elementuak jaso dira</item>
     </plurals>
     <plurals name="sync_status_trending_building">
-        <item quantity="one">Orain joeran dagoena sortzen · <xliff:g id="count">%1$d</xliff:g> parekatze</item>
+        <item quantity="one">Orain joeran dagoena sortzen · parekatze <xliff:g id="count">%1$d</xliff:g></item>
         <item quantity="other">Orain joeran dagoena sortzen · <xliff:g id="count">%1$d</xliff:g> parekatze</item>
     </plurals>
     <plurals name="sync_status_trending_publishing">
-        <item quantity="one">Orain joeran dagoena argitaratzen · <xliff:g id="count">%1$d</xliff:g> elementu</item>
+        <item quantity="one">Orain joeran dagoena argitaratzen · elementu <xliff:g id="count">%1$d</xliff:g></item>
         <item quantity="other">Orain joeran dagoena argitaratzen · <xliff:g id="count">%1$d</xliff:g> elementu</item>
     </plurals>
     <plurals name="sync_status_trending_ready">
-        <item quantity="one">Orain joeran dagoena prest · <xliff:g id="count">%1$d</xliff:g> parekatze</item>
+        <item quantity="one">Orain joeran dagoena prest · parekatze <xliff:g id="count">%1$d</xliff:g></item>
         <item quantity="other">Orain joeran dagoena prest · <xliff:g id="count">%1$d</xliff:g> parekatze</item>
     </plurals>
     <plurals name="sync_status_trending_below_minimum">
-        <item quantity="one">Orain joeran dagoena ezkutatuta · <xliff:g id="count">%1$d</xliff:g> parekatze bakarrik</item>
+        <item quantity="one">Orain joeran dagoena ezkutatuta · parekatze <xliff:g id="count">%1$d</xliff:g> bakarrik</item>
         <item quantity="other">Orain joeran dagoena ezkutatuta · <xliff:g id="count">%1$d</xliff:g> parekatze bakarrik</item>
     </plurals>
     <string name="sync_phase_live">Zuzeneko telebista</string>
     <string name="sync_phase_movies">Filmak</string>
     <string name="sync_phase_series">Telesailak</string>
     <plurals name="sync_count_channels">
-        <item quantity="one"><xliff:g id="count">%1$s</xliff:g> kanal</item>
+        <item quantity="one">kanal <xliff:g id="count">%1$s</xliff:g></item>
         <item quantity="other"><xliff:g id="count">%1$s</xliff:g> kanal</item>
     </plurals>
     <plurals name="sync_count_movies">
-        <item quantity="one"><xliff:g id="count">%1$s</xliff:g> film</item>
+        <item quantity="one">Film <xliff:g id="count">%1$s</xliff:g></item>
         <item quantity="other"><xliff:g id="count">%1$s</xliff:g> film</item>
     </plurals>
     <plurals name="sync_count_series">
-        <item quantity="one"><xliff:g id="count">%1$s</xliff:g> telesail</item>
+        <item quantity="one">Telesail <xliff:g id="count">%1$s</xliff:g></item>
         <item quantity="other"><xliff:g id="count">%1$s</xliff:g> telesail</item>
     </plurals>
     <plurals name="sync_count_epg">
-        <item quantity="one"><xliff:g id="count">%1$s</xliff:g> EPG sarrera</item>
+        <item quantity="one">EPG sarrera<xliff:g id="count">%1$s</xliff:g></item>
         <item quantity="other"><xliff:g id="count">%1$s</xliff:g> EPG sarrera</item>
     </plurals>
     <plurals name="sync_status_more">
-        <item quantity="one">+<xliff:g id="count">%1$d</xliff:g> sinkronizazio gehiago</item>
+        <item quantity="one">sinkronizazio+<xliff:g id="count">%1$d</xliff:g> gehiago</item>
         <item quantity="other">+<xliff:g id="count">%1$d</xliff:g> sinkronizazio gehiago</item>
     </plurals>
     <plurals name="sync_categories_added">
@@ -154,11 +157,26 @@
     <string name="sync_error_secure">Konexio seguruak huts egin du — baliteke zerbitzariaren ziurtagiria baliogabea izatea.</string>
     <string name="sync_error_malformed_guide">Zerbitzariaren gidaren datuak gaizki osatuta zeuden. Baliteke batzuk kargatu izana — saiatu berriro, edo egiaztatu EPGaren URLa.</string>
     <string name="sync_error_guide_empty">Gida hau hutsik dago oraintxe. Baliteke hornitzaileak oraindik argitaratu ez izana — saiatu berriro geroago, mesedez.</string>
+    <string name="sync_error_guide_no_matching_channels">Gida honetako kanaletako bat ere ez dator bat oraindik zure erreprodukzio-zerrendako kanalekin. Ireki Telebista-gida eta erabili Parekatu EPGa automatikoki izenaren arabera parekatzeko.</string>
     <string name="common_minutes">Minutuak</string>
     <string name="common_size_mb"><xliff:g id="size">%1$s</xliff:g> MB</string>
+    <string name="common_size_gb"><xliff:g id="size">%1$s</xliff:g> GB</string>
     <string name="common_plus">+</string>
     <string name="common_minus">–</string>
     <string name="common_hide">Ezkutatu</string>
     <string name="common_show">Erakutsi</string>
     <string name="common_qr_code_companion_url">Laguntzaile-aplikazioaren URLaren QR kodea</string>
+    <string name="shell_rail_profile_line"><xliff:g id="playlist">%1$s</xliff:g> · aldatu</string>
+    <string name="shell_rail_detail_last">Azkena: <xliff:g id="title">%1$s</xliff:g></string>
+    <string name="shell_rail_detail_resume">Jarraitu: <xliff:g id="title">%1$s</xliff:g></string>
+    <string name="shell_rail_detail_next">Hurrengoa: <xliff:g id="title">%1$s</xliff:g></string>
+    <string name="shell_rail_detail_episode"><xliff:g id="series">%1$s</xliff:g> <xliff:g id="episode">%2$s</xliff:g></string>
+    <string name="shell_rail_detail_more">Ezarpenak, gogokoak, babeskopia</string>
+    <plurals name="shell_rail_detail_downloads">
+        <item quantity="one">Deskargatzen <xliff:g id="count">%1$d</xliff:g> · <xliff:g id="progress">%2$s</xliff:g></item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> deskargatzen · <xliff:g id="progress">%2$s</xliff:g></item>
+    </plurals>
+    <string name="shell_now_playing_audio">Audioa</string>
+    <string name="common_weather_degrees_city"><xliff:g id="temperature">%1$d</xliff:g>° <xliff:g id="city">%2$s</xliff:g></string>
+    <string name="common_dismiss">Baztertu</string>
 </resources>

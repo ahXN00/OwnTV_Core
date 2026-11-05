@@ -161,7 +161,8 @@ class SourceTester(
 
     private fun classify(e: Exception): SourceTestResult = when {
         // The host answered — it just said no. That is an account answer, not a network one.
-        e is HttpClient.HttpStatusException && (e.code == 401 || e.code == 403) -> SourceTestResult.AuthFailed
+        // 513 is how some Xtream panels refuse a username or password — see `classifySyncFailure`.
+        e is HttpClient.HttpStatusException && (e.code == 401 || e.code == 403 || e.code == 513) -> SourceTestResult.AuthFailed
         // Same answer from a portal. 403 is a throttle while *crawling* a portal (see
         // `StalkerClient.httpFailure`), but the one request this test makes cannot be throttling
         // anybody — here it means the portal refused this MAC, which is what the user needs told.

@@ -80,6 +80,8 @@
         <item quantity="other"><xliff:g id="items">%1$d</xliff:g> elementu leheneratu dira. Birsinkronizatu zure iturburuak edukia kargatzeko.</item>
     </plurals>
     <string name="setup_passwords_omitted">Idatzi berriro gordetako pasahitzak ondoren.</string>
+    <string name="setup_need_password">Ez dago pasahitzik gordeta; beraz, oraindik ez da kargatu: <xliff:g id="names">%1$s</xliff:g>. Ireki erreprodukzio-zerrenda Ezarpenak atalean eta idatzi haren pasahitza.</string>
+    <string name="setup_name_numbered"><xliff:g id="name">%1$s</xliff:g> <xliff:g id="number">%2$d</xliff:g></string>
     <plurals name="setup_skipped_sources">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> iturburu saltatu da bertsio honek bere erreprodukzio-zerrenda mota onartzen ez duelako.</item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> iturburu saltatu dira bertsio honek haien erreprodukzio-zerrenda motak onartzen ez dituelako.</item>
@@ -90,6 +92,7 @@
     <string name="setup_opening">Irekitzen…</string>
     <string name="setup_add_source">Gehitu iturburu bat</string>
     <string name="setup_edit_source">Editatu iturburua</string>
+    <string name="setup_edit_from_phone">Editatu beste gailu batetik</string>
     <string name="setup_edit_source_description">Eguneratu iturburu honen datuak, edo aldatu bere freskatze automatikoaren ezarpena.</string>
     <string name="setup_byo_source_description">OwnTV erreproduzigailua da — ekarri zure Xtream, M3U edo Stalker iturburua.</string>
     <string name="setup_xtream">Xtream</string>
@@ -181,6 +184,12 @@
     <string name="companion_saved_heading">Zure telebistara bidali da ✓</string>
     <string name="companion_saved_source_body"><xliff:g id="name">%1$s</xliff:g> telebistaren Gehitu iturburua pantailan dago orain. Egiaztatu datuak bertan eta sakatu Hasi inportazioa urrutiko agintean.</string>
     <string name="companion_saved_send_another">Bidali beste iturburu bat</string>
+    <string name="companion_edit_page_title">OwnTV — Editatu iturburua</string>
+    <string name="companion_edit_heading">Editatu <xliff:g id="name">%1$s</xliff:g></string>
+    <string name="companion_edit_description">Aldatu behar duzuna eta sakatu Bidali telebistara. Hutsik uzten den eremuak bere uneko balioa gordetzen du. Aldaketak telebistan agertuko dira — sakatu han Gorde urruneko agintearekin.</string>
+    <string name="companion_keep_current">Utzi hutsik uneko balioa gordetzeko</string>
+    <string name="companion_saved_edit_body"><xliff:g id="name">%1$s</xliff:g> iturburuaren aldaketak telebistaren edizio-pantailan daude orain. Egiaztatu han eta sakatu Gorde urruneko agintearekin.</string>
+    <string name="companion_saved_edit_again">Aldatu beste zerbait</string>
     <string name="companion_saved_backup_body">Zure babeskopia telebistan dago orain. Hartu urrutiko agintea eta aukeratu zer zati leheneratu.</string>
     <string name="companion_saved_backup_link">Bidali beste fitxategi bat</string>
     <string name="companion_saved_image_body">Zure irudia telebistaren atzealdea da orain.</string>
@@ -243,10 +252,31 @@
     <string name="setup_hls_provider_does_not_advertise">Zure hornitzaileak ez du HLS iragartzen.</string>
     <string name="setup_hide_new_categories">Ezkutatu kategoria berriak lehenespenez</string>
     <string name="setup_hide_new_categories_description">Profil osoan: etorkizuneko sinkronizazioetan agertzen diren kategoriak ezkutatuta hasten dira. Ikusi edonoiz Pertsonalizatu atalean.</string>
+    <string name="setup_step_display">Pantaila</string>
+    <string name="setup_step_playlist">Erreprodukzio-zerrenda</string>
+    <string name="setup_step_ready">Prest</string>
+    <string name="setup_key_previous_step">Aurreko urratsa</string>
+    <string name="setup_welcome_title">Ongi etorri OwnTVra</string>
+    <string name="setup_welcome_sub">Zure IPTV erreproduzigailu propioa. Aukeratu hizkuntza bat hasteko — geroago alda dezakezu Ezarpenetan.</string>
     <string name="setup_display_sub_mobile">Interfazea eta haren testua zein handiak diren telefono honetan. Beheko errenkada aldatu egiten da doitu ahala.</string>
+    <string name="setup_line_zoom">Pantailako dena</string>
+    <string name="setup_line_font">Testua soilik</string>
+    <string name="setup_line_app_icon">OwnTV nola agertzen den telebistaren hasierako pantailan</string>
     <string name="setup_line_app_icon_mobile">Nola agertzen den OwnTV hasierako pantailan</string>
+    <string name="setup_restore_card_line">Fitxategi batetik, edo Urrutikoaz beste gailu batetik</string>
+    <string name="setup_device_appear">Sinkronizazio modua aktibatuta duten gailuak hemen agertzen dira</string>
+    <string name="setup_device_address_hint">edo idatzi beste gailuaren helbidea</string>
+    <string name="setup_profile_sub">Profil batek bere gogokoak, historia eta Hasiera mantentzen ditu. Gehitu gehiago geroago Ezarpenak › Profila atalean.</string>
+    <string name="setup_avatar">Avatarra</string>
+    <string name="setup_avatar_line">Aukeratu bat, edo mantendu letra</string>
+    <string name="setup_create_profile">Sortu profila</string>
+    <string name="setup_phone_card_line">Bete formularioa beste gailu bateko nabigatzailean — azkarrena</string>
+    <string name="setup_importing_title"><xliff:g id="name">%1$s</xliff:g> inportatzen</string>
+    <string name="setup_add_guide">Gehitu telebista-gida bat</string>
+    <string name="setup_add_guide_line">Instalazio berri batek ez du gidarik oraindik</string>
     <plurals name="setup_languages_all">
         <item quantity="one">Hizkuntza <xliff:g id="count">%1$d</xliff:g></item>
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> hizkuntza guztiak</item>
     </plurals>
+    <string name="setup_display_sub">Interfazea eta bere testua zein handiak diren telebista honetan. Beheko errenkada aldatzen doa aurrera egin ahala.</string>
 </resources>

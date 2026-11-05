@@ -65,10 +65,21 @@
     </plurals>
     <string name="content_category_restore_order">rensa din egen ordning</string>
     <string name="content_category_restore_nothing">Kategorin har redan spellistans standard</string>
+    <string name="content_category_lock">Lås med PIN</string>
+    <string name="content_category_locked_placeholder">Den här kategorin är låst</string>
+    <plurals name="content_category_pin_wait">
+        <item quantity="one">För många felaktiga PIN-koder. Försök igen om <xliff:g id="count">%1$d</xliff:g> sekund</item>
+        <item quantity="other">För många felaktiga PIN-koder. Försök igen om <xliff:g id="count">%1$d</xliff:g> sekunder</item>
+    </plurals>
     <string name="content_move_to_category">Flytta till kategori…</string>
     <string name="content_remove_from_category">Ta bort från den här kategorin</string>
     <string name="content_download">Ladda ned</string>
     <string name="content_download_all_episodes">Ladda ned alla avsnitt</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one">Ladda ned <xliff:g id="count">%1$d</xliff:g> avsnitt?</item>
+        <item quantity="other">Ladda ned <xliff:g id="count">%1$d</xliff:g> avsnitt?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">De sparas på den här enheten och tar lagringsutrymme.</string>
     <string name="content_play">Spela upp</string>
     <string name="content_favorited">Favoritmarkerad</string>
     <string name="content_favorite">Favoritmarkera</string>
@@ -76,9 +87,7 @@
     <string name="content_episodes">Avsnitt</string>
     <string name="content_oldest_first">Äldsta först</string>
     <string name="content_newest_first">Nyaste först</string>
-    <string name="content_play_external">Spela upp med extern spelare</string>
     <string name="content_delete_subtitles">Ta bort OpenSub-undertexter</string>
-    <string name="content_tmdb_details">TMDB-detaljer</string>
     <string name="content_play_trailer">Spela upp trailer</string>
     <string name="content_refetch_tmdb">Hämta TMDB-detaljer igen</string>
     <string name="content_set_tmdb_name">Ange TMDB-namn</string>
@@ -128,6 +137,9 @@
     <string name="content_catchup_jump_prompt">Välj en tid att börja titta från. Ingen tablå behövs.</string>
     <string name="content_catchup_jump_exact">Välj exakt tid…</string>
     <string name="content_catchup_jump_hint">Tryck på OK på dagen, timmen eller minuten, ändra med upp och ner och tryck på OK igen.</string>
+    <string name="content_catchup_jump_programme_start">Början av ”<xliff:g id="title">%1$s</xliff:g>”</string>
+    <string name="content_catchup_jump_programme_start_untitled">Början av programmet</string>
+    <string name="content_catchup_jump_programme_start_at">Började kl. <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">Välj kanalen i programguiden för ”<xliff:g id="channel">%1$s</xliff:g>”.</string>
     <string name="content_epg_match_prompt_current">Välj kanalen i programguiden för ”<xliff:g id="channel">%1$s</xliff:g>”. Nuvarande: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">Sök bland kanaler i programguiden…</string>
@@ -176,6 +188,8 @@
     <string name="content_downloads_ready">Klar att titta</string>
     <string name="content_downloads_paused">Pausad</string>
     <string name="content_downloads_file_missing">Filen saknas: den finns inte längre på enheten</string>
+    <string name="content_downloads_delete_title">Ta bort ”<xliff:g id="name">%1$s</xliff:g>”?</string>
+    <string name="content_downloads_delete_message">Tar bort filen från den här enheten. Den kan laddas ned igen senare.</string>
     <string name="content_downloads_reason_account_busy">Kontot är upptaget: en annan ström använder anslutningen</string>
     <string name="content_downloads_reason_refused">Servern nekade länken</string>
     <string name="content_downloads_reason_not_found">Servern har inte längre den här filen</string>

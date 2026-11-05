@@ -39,6 +39,12 @@ data class DrmConfig(
     enum class Scheme(val key: String) {
         WIDEVINE("widevine"),
         CLEARKEY("clearkey"),
+
+        /**
+         * Apple's DRM. No Android device has a FairPlay CDM, so nothing can decrypt it; the scheme is
+         * stored only so the player can say exactly that instead of failing like a broken stream.
+         */
+        FAIRPLAY("fairplay"),
     }
 
     companion object {
@@ -70,6 +76,7 @@ data class DrmConfig(
                 if (scheme != Scheme.CLEARKEY && clearKeys.isNotEmpty()) return null
                 if (clearKeys.any { (kid, key) -> !isHex128(kid) || !isHex128(key) }) return null
                 val license = o.optString(KEY_LICENSE)
+                if (scheme == Scheme.FAIRPLAY) return DrmConfig(scheme, licenseUrl = "")
                 if (license.isBlank() && clearKeys.isEmpty()) return null
                 val headers = o.optJSONObject(KEY_HEADERS)?.let { h ->
                     val out = LinkedHashMap<String, String>(4)
@@ -92,6 +99,9 @@ data class DrmConfig(
          * a missing config fails exactly as it does today:
          *
          *  - Only Widevine and ClearKey. PlayReady is untestable here and nobody has asked.
+         *  - FairPlay (`com.apple.fps…`, `fairplay`): inline `kid:key` or JWK keys under it are the same
+         *    key material as ClearKey and are stored as ClearKey. Anything else is real FairPlay, which
+         *    no Android device can decrypt; it is stored as [Scheme.FAIRPLAY] so the player names it.
          *  - An `http(s)` licence URL, or — ClearKey only — the keys inline, as Kodi allows: hex
          *    `kid:key` pairs separated by commas, or a JWK set `{"keys":[{"kty":"oct","kid":…,"k":…}]}`.
          *    Every key must be a 128-bit one; a single malformed pair drops the whole declaration.
@@ -104,9 +114,15 @@ data class DrmConfig(
             val scheme = when {
                 type.contains("widevine") -> Scheme.WIDEVINE
                 type.contains("clearkey") -> Scheme.CLEARKEY
+                type.contains("fairplay") || type.contains("com.apple.fps") -> Scheme.FAIRPLAY
                 else -> return null
             }
-            val raw = props[PROP_LICENSE_KEY]?.trim()?.takeIf { it.isNotEmpty() } ?: return null
+            val raw = props[PROP_LICENSE_KEY]?.trim()?.takeIf { it.isNotEmpty() }
+            if (scheme == Scheme.FAIRPLAY) {
+                raw?.let(::inlineClearKeys)?.let { return DrmConfig(Scheme.CLEARKEY, licenseUrl = "", clearKeys = it) }
+                return DrmConfig(Scheme.FAIRPLAY, licenseUrl = "")
+            }
+            if (raw == null) return null
             if (scheme == Scheme.CLEARKEY) {
                 inlineClearKeys(raw)?.let { return DrmConfig(scheme, licenseUrl = "", clearKeys = it) }
             }

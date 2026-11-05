@@ -19,6 +19,8 @@ fun DrmConfig.toMediaDrmConfiguration(multiSession: Boolean): androidx.media3.co
     val uuid = when (scheme) {
         DrmConfig.Scheme.WIDEVINE -> androidx.media3.common.C.WIDEVINE_UUID
         DrmConfig.Scheme.CLEARKEY -> androidx.media3.common.C.CLEARKEY_UUID
+        // Both engines refuse a FairPlay item before building one (no Android CDM); reaching here is a bug.
+        DrmConfig.Scheme.FAIRPLAY -> error("FairPlay has no Android CDM")
     }
     val licenseUri = if (clearKeys.isEmpty()) licenseUrl else {
         val jwks = org.json.JSONObject().apply {

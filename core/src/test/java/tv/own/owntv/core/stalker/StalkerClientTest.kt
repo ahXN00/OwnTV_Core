@@ -218,6 +218,36 @@ class StalkerClientTest {
         assertEquals("http://real/1.ts", StalkerClient.stripCmdPrefix("  http://real/1.ts  "))
     }
 
+    // ---- play_token left out of the re-sync comparison ----
+
+    @Test
+    fun withoutPlayToken_twoCallsOfOneChannelCompareEqual() {
+        val first = "ffmpeg http://host:80/play/live.php?mac=00:1A:79:00:00:01&stream=1745079&extension=ts&play_token=abc123"
+        val second = "ffmpeg http://host:80/play/live.php?mac=00:1A:79:00:00:01&stream=1745079&extension=ts&play_token=zz9"
+        assertEquals(StalkerClient.withoutPlayToken(first), StalkerClient.withoutPlayToken(second))
+        assertEquals(
+            "ffmpeg http://host:80/play/live.php?mac=00:1A:79:00:00:01&stream=1745079&extension=ts",
+            StalkerClient.withoutPlayToken(first),
+        )
+    }
+
+    @Test
+    fun withoutPlayToken_keepsEverythingElse() {
+        // Another channel, or a token in the middle, still compares by the remaining parameters.
+        val a = StalkerClient.withoutPlayToken("http://h/play/live.php?play_token=x&stream=1&extension=ts")
+        val b = StalkerClient.withoutPlayToken("http://h/play/live.php?play_token=y&stream=2&extension=ts")
+        assertTrue(a != b)
+        assertEquals("ffrt http://localhost/ch/12345_", StalkerClient.withoutPlayToken("ffrt http://localhost/ch/12345_"))
+        assertEquals("http://h/a.ts?token=keep", StalkerClient.withoutPlayToken("http://h/a.ts?token=keep"))
+    }
+
+    @Test
+    fun hasPlayToken_onlyForCmdsThatCarryOne() {
+        assertTrue(StalkerClient.hasPlayToken("ffmpeg http://h/play/live.php?stream=1&play_token=abc"))
+        assertTrue(!StalkerClient.hasPlayToken("ffrt http://localhost/ch/12345_"))
+        assertTrue(!StalkerClient.hasPlayToken("http://h/a.ts?token=keep"))
+    }
+
     // ---- direct-play URL detection (portals that embed the real URL in the cmd) ----
 
     @Test

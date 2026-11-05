@@ -97,14 +97,16 @@ jobs:
           python tools/i18n/sync_translations.py to-main
           if [ -n "$(git status --porcelain -- core/src/main/res)" ]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
+            # Coverage of a shipped language moved; the generated list and README tables follow it.
+            python tools/i18n/gen_supported_locales.py
           fi
 
-      - name: Set up JDK 21
+      - name: Set up JDK 25
         if: steps.to_main.outputs.changed == 'true'
         uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: '21'
+          java-version: '25'
 
       - name: Set up Android SDK
         if: steps.to_main.outputs.changed == 'true'
@@ -130,7 +132,7 @@ jobs:
         if: steps.to_main.outputs.changed == 'true'
         run: |
           langs=$(git status --porcelain -- core/src/main/res | sed -E 's#.*/res/values-([^/]+)/.*#\1#' | sort -u | paste -sd, -)
-          git add core/src/main/res
+          git add core/src/main/res core/src/main/java/tv/own/owntv/core/i18n/SupportedLocales.kt README.md tools/i18n/README.md
           git commit -q -m "Translations from Weblate ($langs)"
           git push origin HEAD:main
 

@@ -414,6 +414,11 @@ class LivePreviewEngine(
             "$name=${v.second}"
         }
     }
+    /** Whether a video renderer is ready, from [rendererReady]; null when none has reported. */
+    private fun videoRendererReady(): Boolean? {
+        val video = rendererReady.values.filter { it.first == C.TRACK_TYPE_VIDEO }
+        return if (video.isEmpty()) null else video.any { it.second }
+    }
     private val analytics = object : androidx.media3.exoplayer.analytics.AnalyticsListener {
         override fun onVideoCodecError(eventTime: androidx.media3.exoplayer.analytics.AnalyticsListener.EventTime, videoCodecError: Exception) {
             tune.lastCodecError = codecDetail("video", videoCodecError)
@@ -1028,6 +1033,12 @@ class LivePreviewEngine(
                         LiveDiagnosticsLog.TAG,
                         "open stalled — $detail" + (hlsShape()?.let { ", $it" } ?: ""),
                     )
+                    val decoderStall = LiveStartRungs.stalledOpenIsDecoder(tune.decoderRebuilds > 0, videoRendererReady())
+                    // Audio Mode disables the video track on purpose, so a video renderer not ready there is no verdict.
+                    if (decoderStall && !_audioOnly.value && LiveStartRungs.decoderRebuildDelayMs(tune.decoderRebuilds) != null) {
+                        rebuildDecoderAndRetry("rebuilt decoder never started, video=false")
+                        return
+                    }
                     failLoad("buffered but never started playing ($detail)")
                     return
                 }
@@ -1210,7 +1221,9 @@ class LivePreviewEngine(
         tune.gaveUp = true
         _stalledSinceMs.value = null
         _isPlaying.value = false; _buffering.value = false
-        _error.value = PlayerErrors.visibleFailure(reason, currentUrl, PlaybackFailure.Channel)
+        // A FairPlay channel keeps its own message through the ladder's give-up, which fails it again.
+        _error.value = if (currentDrm?.scheme == tv.own.owntv.core.drm.DrmConfig.Scheme.FAIRPLAY) PlaybackFailure.FairPlay
+            else PlayerErrors.visibleFailure(reason, currentUrl, PlaybackFailure.Channel)
         _errorInfo.value = ErrorInfo(PlayerErrors.reasonFor(reason), exoSpec(), reason)
         _state.value = State.ERROR
         // A load can fail while the picture is still running (a stall verdict, a watchdog). When the
@@ -1415,7 +1428,7 @@ class LivePreviewEngine(
                 sessionLimitSeen = tune.sessionLimitSeen,
                 sessionLimitRetryDone = tune.sessionLimitRetryDone,
                 fallbackUserAgentAvailable = !tune.uaRetryDone && !uaIsCustom && currentUa != HttpClient.FALLBACK_USER_AGENT,
-                decoderRetryDone = tune.decoderRetryDone,
+                decoderRebuildsDone = tune.decoderRebuilds,
                 altFormatRetryDone = tune.altFormatRetryDone,
                 directSourceUseful = shouldTryDirectSource(
                     directSource = tunedDirectSource,
@@ -1457,7 +1470,7 @@ class LivePreviewEngine(
                 }
                 // A hardware decoder that died before the first frame is usually recoverable on a FRESH
                 // MediaCodec (see [rebuildDecoderAndRetry]).
-                LiveStartRungs.Rung.REBUILD_DECODER -> { rebuildDecoderAndRetry(error); return }
+                LiveStartRungs.Rung.REBUILD_DECODER -> { rebuildDecoderAndRetry(error.errorCodeName); return }
                 // The endpoint we were given is the wrong shape for this channel (see [retryAlternateFormat]).
                 LiveStartRungs.Rung.ALT_FORMAT -> { retryAlternateFormat(); return }
                 // THE last rung: the panel's own address for this channel (see [retryDirectSource]).
@@ -1689,6 +1702,13 @@ class LivePreviewEngine(
         _videoQualities.value = emptyList()
         applyRememberedPrefs(meta.contentKey ?: url)
         recallTracks(meta.contentKey ?: url)
+        // Apple FairPlay: no Android device can decrypt it, so opening it would only end in a licence
+        // failure. Say so at once (failLoad also stops the previous channel).
+        if (currentDrm?.scheme == tv.own.owntv.core.drm.DrmConfig.Scheme.FAIRPLAY) {
+            LiveDiagnosticsLog.event("FairPlay-protected channel — not playable on Android")
+            failLoad(FAIRPLAY_REASON)
+            return
+        }
         _state.value = State.LOADING
         _buffering.value = true
         runCatching {
@@ -1944,7 +1964,7 @@ class LivePreviewEngine(
         LiveDiagnosticsLog.event("stop() — intentional")
         tune.stoppingIntentionally = true
         currentUrl = null
-        tune.hasPlayed = false; deadlineArmed = false; tune.retryCount = 0; tune.reconnectPending = false; tune.gaveUp = false; tune.decoderRetryDone = false
+        tune.hasPlayed = false; deadlineArmed = false; tune.retryCount = 0; tune.reconnectPending = false; tune.gaveUp = false; tune.decoderRebuilds = 0
         tune.failingSinceMs = 0L; _stalledSinceMs.value = null; pendingReload = null
         cancelProviderBackOff(); tune.providerBackOffs = 0
         mainHandler.removeCallbacks(stallWatchdog); mainHandler.removeCallbacks(progressWatchdog); mainHandler.removeCallbacks(fpsFastRefresh)
@@ -2623,7 +2643,7 @@ class LivePreviewEngine(
     }
 
     /**
-     * One-shot recovery from a decoder that died **before the first frame**.
+     * Recovery from a decoder that died **before the first frame**.
      *
      * Observed on Realtek TVs with 4K HEVC raw-TS: the codec is created, `format_supported=YES`, and
      * ~1.5s later `MediaCodec.dequeueOutputBuffer` throws IllegalStateException — `Decoder failed:
@@ -2632,20 +2652,25 @@ class LivePreviewEngine(
      * hand (mpv, then back to ExoPlayer on a freshly built player). ExoPlayer's own retry can't fix it
      * because `prepare()` reuses the wedged codec, so the player instance itself has to go.
      *
-     * Once per load ([TuneState.decoderRetryDone]): if the rebuild fails too, the normal ERROR path runs and the
-     * VM hands the channel to mpv as before — this only costs a genuinely undecodable channel one extra
-     * attempt before the fallback.
+     * Up to three times per load, each after a longer wait ([LiveStartRungs.decoderRebuildDelayMs]): when
+     * they are spent the normal ERROR path runs and the tune controller hands the channel to mpv as before.
+     * A genuinely undecodable channel pays those attempts before the fallback; the "Give up after" alarm
+     * still ends the tune on time.
      */
-    private fun rebuildDecoderAndRetry(error: PlaybackException) {
+    private fun rebuildDecoderAndRetry(why: String) {
         if (currentUrl == null) return
-        tune.decoderRetryDone = true
-        LiveDiagnosticsLog.event("decoder failed before first frame (${error.errorCodeName}) — rebuilding the decoder and retrying once")
-        android.util.Log.w(LiveDiagnosticsLog.TAG, "decoder failure before first frame — rebuild + retry once")
-        rebuildDecoderAndSurface()
+        val delayMs = LiveStartRungs.decoderRebuildDelayMs(tune.decoderRebuilds) ?: return
+        tune.decoderRebuilds++
+        LiveDiagnosticsLog.event("decoder failed before first frame ($why) — rebuild ${tune.decoderRebuilds} in ${delayMs}ms")
+        android.util.Log.w(LiveDiagnosticsLog.TAG, "decoder failure before first frame — rebuild ${tune.decoderRebuilds} in ${delayMs}ms")
+        rebuildDecoderAndSurface(delayMs)
     }
 
+    /** Decoder rebuilds this load has started; a new one is the tune still trying (see [LiveExoWatchdog]). */
+    val decoderRebuildsSpent: Int get() = tune.decoderRebuilds
+
     /** Release the player and its codec, recreate the surface, and reopen the current channel on both. */
-    private fun rebuildDecoderAndSurface() {
+    private fun rebuildDecoderAndSurface(delayMs: Long = DECODER_REBUILD_DELAY_MS) {
         val url = currentUrl ?: return
         _state.value = State.LOADING; _buffering.value = true
         _error.value = null; _errorInfo.value = null
@@ -2664,7 +2689,9 @@ class LivePreviewEngine(
         // Let the OMX component actually tear down before the replacement asks for it — the same
         // reason the mpv→ExoPlayer swap in LiveViewModel waits before re-tuning.
         mainHandler.postDelayed({
-            if (currentUrl != url) return@postDelayed // zapped away / stopped while we waited
+            // Zapped away or stopped while we waited, or the tune was given up ("Give up after"): a
+            // rebuild landing after that would bring a channel the HUD has already failed back to life.
+            if (currentUrl != url || tune.gaveUp) return@postDelayed
             runCatching {
                 val p = build().also { player = it }
                 surface?.let { p.setVideoSurface(it) }
@@ -2683,7 +2710,7 @@ class LivePreviewEngine(
                 _error.value = PlaybackFailure.Channel
                 _errorInfo.value = ErrorInfo(PlayerErrors.reasonFor(it.message ?: ""), exoSpec(), it.message ?: "")
             }
-        }, DECODER_REBUILD_DELAY_MS)
+        }, delayMs)
     }
 
     // --- Audio Mode: keep audio playing, release the video surface ---
@@ -3703,6 +3730,9 @@ class LivePreviewEngine(
             "reclaim",
         )
 
+        /** The diagnostics line behind [PlaybackFailure.FairPlay]; never shown to the user. */
+        private const val FAIRPLAY_REASON = "FairPlay DRM: no Android CDM"
+
         /** The diagnostics line behind [PlaybackFailure.DecoderExhausted]; never shown to the user. */
         internal const val DECODER_EXHAUSTED_REASON = "decoder exhausted: no MediaCodec instance available"
 
@@ -3851,8 +3881,8 @@ internal data class TuneState(
     var contentBroken: Boolean = false,
     /** When the current run of reconnects began (0 = none); see [LivePreviewEngine]'s RECONNECT_GIVE_UP_MS. */
     var failingSinceMs: Long = 0L,
-    /** One decoder rebuild+retry per load — see [LivePreviewEngine.rebuildDecoderAndRetry]. */
-    var decoderRetryDone: Boolean = false,
+    /** Decoder rebuilds started on this load — see [LivePreviewEngine.rebuildDecoderAndRetry]. */
+    var decoderRebuilds: Int = 0,
     /** Frozen-picture detections on this tune — see [FrozenPictureLadder]; reset by sustained playback. */
     var frozenHits: Int = 0,
     /** A single failed prepare() fires both onPlayerError AND the STATE_IDLE that follows it — without

@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Din egen bild</string>
     <string name="profiles_kids">Barnprofil</string>
     <string name="profiles_kids_description">Förenklad och säker navigering</string>
+    <string name="profiles_allow_downloads">Tillåt nedladdningar</string>
+    <string name="profiles_allow_downloads_description">Av döljer alla nedladdningsknappar för den här profilen</string>
     <string name="profiles_remove_pin">Ta bort PIN-lås</string>
     <string name="profiles_no_pin">Den här profilen öppnas utan PIN</string>
     <string name="profiles_change_pin">Ändra PIN (tomt = behåll)</string>
@@ -45,6 +47,8 @@
     <string name="search_go_to_movie">Gå till film</string>
     <string name="search_clear_recent">Rensa senaste sökningar</string>
     <string name="search_field_hint">Kanaler, filmer och serier</string>
+    <string name="search_voice">Röstsökning</string>
+    <string name="search_voice_prompt">Säg en kanal, film eller serie</string>
     <string name="search_card_title">Hitta allt i dina spellistor</string>
     <string name="search_card_body">Kanaler, filmer och serier från alla spellistor du visar. Välj ett resultat för att gå direkt dit och spela upp, ladda ner eller öppna alternativen där. Tv-program som sänds nu eller senare i dag hittas också på sin titel.</string>
     <string name="search_nothing_found">Inget hittades för ”<xliff:g id="query">%1$s</xliff:g>”</string>
@@ -63,6 +67,11 @@
     <string name="launcher_recent_live_description">Livekanaler du nyligen tittat på</string>
     <string name="launcher_movie_type">Film</string>
     <string name="launcher_episode_number">Avsnitt <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Biblioteket läses in · <xliff:g id="count">%1$s</xliff:g> titel hittills</item>
+        <item quantity="other">Biblioteket läses in · <xliff:g id="count">%1$s</xliff:g> titlar hittills</item>
+    </plurals>
+    <string name="home_library_loading_trending">Trendigt just nu visas allteftersom biblioteket fylls på.</string>
     <string name="home_no_preview">Det finns inget att förhandsvisa än.</string>
     <string name="home_no_rows">Alla rader på startskärmen är dolda.</string>
     <string name="home_enable_rows">Aktivera raderna igen under Inställningar → Startskärm.</string>
@@ -177,6 +186,8 @@
     <string name="home_trending_pause">Pausa</string>
     <string name="home_trending_unavailable">Den här versionen är inte längre tillgänglig</string>
     <string name="recording_notification_title">Spelar in</string>
+    <string name="auto_start_notification_channel">Starta automatiskt vid väckning</string>
+    <string name="auto_start_notification_text">OwnTV öppnas när tv:n vaknar</string>
     <string name="recording_failed_no_space">Stoppad: inget utrymme kvar</string>
     <string name="recording_failed_no_connection">Ingen ledig anslutning från din leverantör</string>
     <string name="recording_failed_clash">En annan inspelning använde anslutningen</string>
@@ -193,6 +204,7 @@
     <string name="recording_group_missed">Missad</string>
     <string name="recording_record">Spela in</string>
     <string name="recording_stop">Stoppa inspelningen</string>
+    <string name="recording_delete_message">Tar bort inspelningen och dess fil från den här enheten. Det går inte att ångra.</string>
     <string name="recording_record_series">Spela in varje sändning</string>
     <string name="recording_stop_series">Sluta spela in varje sändning</string>
     <string name="recording_from_archive">Spela in från arkivet</string>
@@ -205,6 +217,7 @@
     <string name="recording_scheduled_for">Spelar in <xliff:g id="time">%1$s</xliff:g></string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line">Spelar in <xliff:g id="title">%1$s</xliff:g></string>
+    <string name="recording_pill_line_locked">Spelar in från en låst kategori</string>
     <string name="recording_clash_with">Krockar med <xliff:g id="programme">%1$s</xliff:g></string>
     <string name="recording_settings_group">Inspelning</string>
     <string name="settings_recording_reserve">Håll en ström ledig att titta på</string>
@@ -281,6 +294,15 @@
     <string name="sports_starting_soon">Börjar snart</string>
     <string name="sports_hint_match_page">Matchsida</string>
     <string name="sports_hint_follow_remind">Följ · Påminn</string>
+    <string name="sports_hint_day_matches">Dagens matcher</string>
+    <string name="sports_hint_day">Dag</string>
+    <string name="sports_hint_week">Vecka</string>
+    <string name="sports_hint_show_score">Visa resultat</string>
+    <string name="sports_hint_back_to_day">Tillbaka till dagen</string>
+    <string name="sports_hint_open_league">Öppna liga</string>
+    <string name="sports_hint_sport_chips">Sportknappar</string>
+    <string name="sports_hint_league_chips">Ligaknappar</string>
+    <string name="sports_hint_follow_unfollow">Följ · Sluta följa</string>
     <string name="sports_reminder_set">Påminnelse</string>
     <string name="sports_until">till <xliff:g id="time">%1$s</xliff:g></string>
     <string name="sports_set">Set <xliff:g id="set">%1$d</xliff:g></string>
@@ -387,7 +409,6 @@
     <string name="sports_next_month">Nästa månad</string>
     <string name="sports_next">Härnäst: <xliff:g id="match">%1$s</xliff:g></string>
     <string name="sports_next_badge">Härnäst</string>
-    <string name="sports_new_badge">Ny</string>
     <string name="sports_no_table_series">Ingen tabell — serierna byts varje vecka</string>
     <string name="sports_follow_league">Följ liga</string>
     <string name="sports_unfollow_league">Sluta följa liga</string>

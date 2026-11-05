@@ -78,6 +78,8 @@
         <item quantity="other"><xliff:g id="items">%1$d</xliff:g>件を復元しました。コンテンツを読み込むにはソースを再同期してください。</item>
     </plurals>
     <string name="setup_passwords_omitted">保存済みのパスワードは後で再入力してください。</string>
+    <string name="setup_need_password">パスワードが保存されていないため、まだ読み込まれていません：<xliff:g id="names">%1$s</xliff:g>。設定でプレイリストを開き、パスワードを入力してください。</string>
+    <string name="setup_name_numbered"><xliff:g id="name">%1$s</xliff:g> <xliff:g id="number">%2$d</xliff:g></string>
     <plurals name="setup_skipped_sources">
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g>件のソースは、このバージョンでプレイリスト形式がサポートされていないためスキップされました。</item>
     </plurals>
@@ -87,6 +89,7 @@
     <string name="setup_opening">起動中…</string>
     <string name="setup_add_source">ソースを追加</string>
     <string name="setup_edit_source">ソースを編集</string>
+    <string name="setup_edit_from_phone">別の端末から編集</string>
     <string name="setup_edit_source_description">このソースの詳細を更新するか、自動更新設定を変更します。</string>
     <string name="setup_byo_source_description">OwnTVはプレーヤーです。ご自身のXtream、M3U、またはStalkerソースを追加してください。</string>
     <string name="setup_xtream">Xtream</string>
@@ -173,6 +176,12 @@
     <string name="companion_saved_heading">TVに送信しました ✓</string>
     <string name="companion_saved_source_body"><xliff:g id="name">%1$s</xliff:g>がTVの［ソースを追加］画面に表示されています。そこで詳細を確認し、リモコンで［インポートを開始］を押してください。</string>
     <string name="companion_saved_send_another">別のソースを送信</string>
+    <string name="companion_edit_page_title">OwnTV — ソースを編集</string>
+    <string name="companion_edit_heading"><xliff:g id="name">%1$s</xliff:g> を編集</string>
+    <string name="companion_edit_description">必要な箇所を変更して「TVに送信」を押してください。空欄のままの項目は現在の値が保たれます。変更は TV に表示されるので、リモコンで「保存」を押してください。</string>
+    <string name="companion_keep_current">空欄のままにすると現在の値を保持します</string>
+    <string name="companion_saved_edit_body"><xliff:g id="name">%1$s</xliff:g> の変更が TV の編集画面に届きました。そこで確認し、リモコンで「保存」を押してください。</string>
+    <string name="companion_saved_edit_again">ほかの項目を変更</string>
     <string name="companion_saved_backup_body">バックアップがTVに転送されました。リモコンを手に取り、復元する項目を選択してください。</string>
     <string name="companion_saved_backup_link">別のファイルを送信</string>
     <string name="companion_saved_image_body">画像がTVの背景になりました。</string>

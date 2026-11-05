@@ -55,14 +55,12 @@ data class EpgChannelEntity(
     tableName = "epg_programmes",
     indices = [
         Index(value = ["epgChannelId", "startMs"]),
-        Index("sourceId"),
         Index("stopMs"),
         // Time-bounded reads (a rail, an "on now" list) seek a range of start times rather than
         // walking the table. Without it a bounded window still examined every row in the database.
         Index(value = ["startMs", "stopMs"]),
-        // Guide read-index (v4.0.0 EPG-perf): also created at runtime by EpgRepository.ensureEpgIndexes()
-        // and in MIGRATION_3_4 — declared here so Room's schema validation expects it.
-        Index(value = ["sourceId", "epgChannelId"]),
+        // Also serves every read by source, or by source and channel: no separate index for either
+        // (v50 dropped both — each costs every guide write, on a TV several milliseconds a row).
         Index(value = ["sourceId", "epgChannelId", "startMs"], unique = true, name = "index_epg_programmes_natural_key"),
     ],
 )

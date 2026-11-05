@@ -63,7 +63,9 @@ fun connectionBudget(
     purpose: StreamPurpose,
     reserveOneForWatching: Boolean = true,
 ): StreamGrant {
-    val max = source?.maxConnections ?: 0
+    // "Ignore connection limit" on the playlist reads as an unknown limit: every stream may try, and
+    // the provider's own refusal is what stops one.
+    val max = source?.takeIf { !it.ignoreConnectionLimit }?.maxConnections ?: 0
     // 0 = the playlist never said. Allow everything and let the provider answer; warning text
     // elsewhere tells the user that is what happened if a tile does fail.
     if (max <= 0) return StreamGrant.Allowed

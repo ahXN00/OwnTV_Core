@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Sua própria imagem</string>
     <string name="profiles_kids">Perfil infantil</string>
     <string name="profiles_kids_description">Navegação simplificada e segura</string>
+    <string name="profiles_allow_downloads">Permitir downloads</string>
+    <string name="profiles_allow_downloads_description">Desativado oculta todos os botões de download deste perfil</string>
     <string name="profiles_remove_pin">Remover bloqueio por PIN</string>
     <string name="profiles_no_pin">Este perfil pode ser aberto sem PIN</string>
     <string name="profiles_change_pin">Alterar PIN (em branco = manter)</string>
@@ -45,6 +47,8 @@
     <string name="search_go_to_movie">Ir para o filme</string>
     <string name="search_clear_recent">Limpar pesquisas recentes</string>
     <string name="search_field_hint">Canais, filmes e séries</string>
+    <string name="search_voice">Busca por voz</string>
+    <string name="search_voice_prompt">Diga um canal, filme ou série</string>
     <string name="search_card_title">Encontre tudo nas suas playlists</string>
     <string name="search_card_body">Canais, filmes e séries de todas as playlists exibidas. Escolha um resultado para ir direto até ele e, lá, reproduzir, baixar ou abrir as opções. Também encontra pelo título os programas de TV passando agora ou mais tarde hoje.</string>
     <string name="search_nothing_found">Nada encontrado para “<xliff:g id="query">%1$s</xliff:g>”</string>
@@ -65,6 +69,12 @@
     <string name="launcher_recent_live_description">Canais ao vivo assistidos recentemente</string>
     <string name="launcher_movie_type">Filme</string>
     <string name="launcher_episode_number">Episódio <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Carregando sua biblioteca · <xliff:g id="count">%1$s</xliff:g> título até agora</item>
+        <item quantity="many">Carregando sua biblioteca · <xliff:g id="count">%1$s</xliff:g> de títulos até agora</item>
+        <item quantity="other">Carregando sua biblioteca · <xliff:g id="count">%1$s</xliff:g> títulos até agora</item>
+    </plurals>
+    <string name="home_library_loading_trending">Em alta agora aparece conforme sua biblioteca é carregada.</string>
     <string name="home_no_preview">Ainda não há nada para visualizar.</string>
     <string name="home_no_rows">Todas as linhas da tela inicial estão ocultas.</string>
     <string name="home_enable_rows">Reative as linhas em Configurações → Tela inicial.</string>
@@ -186,6 +196,8 @@
     <string name="home_trending_pause">Pausar</string>
     <string name="home_trending_unavailable">Esta versão não está mais disponível</string>
     <string name="recording_notification_title">Gravando</string>
+    <string name="auto_start_notification_channel">Iniciar ao despertar</string>
+    <string name="auto_start_notification_text">O OwnTV abre quando a TV desperta</string>
     <string name="recording_failed_no_space">Interrompido: sem espaço livre</string>
     <string name="recording_failed_no_connection">Nenhuma conexão livre do seu provedor</string>
     <string name="recording_failed_clash">Outra gravação estava usando a conexão</string>
@@ -202,6 +214,7 @@
     <string name="recording_group_missed">Perdida</string>
     <string name="recording_record">Gravar</string>
     <string name="recording_stop">Parar a gravação</string>
+    <string name="recording_delete_message">Remove a gravação e o arquivo dela deste dispositivo. Não é possível desfazer.</string>
     <string name="recording_record_series">Gravar todas as exibições</string>
     <string name="recording_stop_series">Parar de gravar todas as exibições</string>
     <string name="recording_from_archive">Gravar do acervo</string>
@@ -214,6 +227,7 @@
     <string name="recording_scheduled_for">Vai gravar <xliff:g id="time">%1$s</xliff:g></string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line">Gravando <xliff:g id="title">%1$s</xliff:g></string>
+    <string name="recording_pill_line_locked">Gravando de uma categoria bloqueada</string>
     <string name="recording_clash_with">Conflita com <xliff:g id="programme">%1$s</xliff:g></string>
     <string name="recording_settings_group">Gravação</string>
     <string name="settings_recording_reserve">Manter uma conexão livre para assistir</string>
@@ -296,6 +310,15 @@
     <string name="sports_starting_soon">Começa em breve</string>
     <string name="sports_hint_match_page">Página da partida</string>
     <string name="sports_hint_follow_remind">Seguir · Lembrar</string>
+    <string name="sports_hint_day_matches">Jogos do dia</string>
+    <string name="sports_hint_day">Dia</string>
+    <string name="sports_hint_week">Semana</string>
+    <string name="sports_hint_show_score">Mostrar placar</string>
+    <string name="sports_hint_back_to_day">Voltar ao dia</string>
+    <string name="sports_hint_open_league">Abrir liga</string>
+    <string name="sports_hint_sport_chips">Botões de esportes</string>
+    <string name="sports_hint_league_chips">Botões de ligas</string>
+    <string name="sports_hint_follow_unfollow">Seguir · Deixar de seguir</string>
     <string name="sports_reminder_set">Lembrete</string>
     <string name="sports_until">até <xliff:g id="time">%1$s</xliff:g></string>
     <string name="sports_set">Set <xliff:g id="set">%1$d</xliff:g></string>
@@ -405,7 +428,6 @@
     <string name="sports_next_month">Próximo mês</string>
     <string name="sports_next">A seguir: <xliff:g id="match">%1$s</xliff:g></string>
     <string name="sports_next_badge">Próximo</string>
-    <string name="sports_new_badge">Novo</string>
     <string name="sports_no_table_series">Sem tabela — as séries mudam toda semana</string>
     <string name="sports_follow_league">Seguir liga</string>
     <string name="sports_unfollow_league">Deixar de seguir a liga</string>

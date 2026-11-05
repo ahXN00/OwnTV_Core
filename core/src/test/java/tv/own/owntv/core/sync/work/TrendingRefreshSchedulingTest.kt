@@ -54,24 +54,10 @@ class TrendingRefreshSchedulingTest {
     }
 
     @Test
-    fun `no snapshot while a lazily-added catalogue is still draining`() {
-        // Every other condition says yes, but the source holds a fraction of its titles.
-        assertFalse(
-            schedule(
-                effective = allVod,
-                catalogueIncomplete = true,
-            ),
-        )
-    }
-
-    @Test
-    fun `a whole catalogue still schedules normally`() {
-        assertTrue(
-            schedule(
-                effective = allVod,
-                catalogueIncomplete = false,
-            ),
-        )
+    fun `a VOD sync schedules, whether or not a lazy drain is still filling the catalogue`() {
+        // A draining catalogue is no longer held back: its page-1 sweep holds each category's newest
+        // titles, and CatalogBackfillWorker re-matches the row from disk after every pass.
+        assertTrue(schedule(effective = allVod))
     }
 
     private fun schedule(
@@ -81,7 +67,6 @@ class TrendingRefreshSchedulingTest {
         enabledScope: SyncContentTypes = allVod,
         metadataEnabled: Boolean = true,
         trendingVisible: Boolean = true,
-        catalogueIncomplete: Boolean = false,
     ) = shouldScheduleTrendingRefresh(
         sourceWasNeverSynced,
         completesInitialSync,
@@ -89,6 +74,5 @@ class TrendingRefreshSchedulingTest {
         enabledScope,
         metadataEnabled,
         trendingVisible,
-        catalogueIncomplete,
     )
 }

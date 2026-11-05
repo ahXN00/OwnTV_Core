@@ -70,6 +70,23 @@
     <string name="settings_remote_shortcuts_long_press">길게 누르기</string>
     <string name="settings_remote_shortcuts_unknown_button">리모컨 버튼 %1$d</string>
     <string name="settings_remote_shortcuts_help">• 기본적으로 CH+/CH−와 되감기/빨리 감기는 목록을 페이지 이동하며, 길게 누르면 처음이나 끝으로 이동합니다.\n• 짧게 누르기와 길게 누르기는 따로 지정할 수 있습니다.\n• 매우 큰 ‘전체’ 목록에서는 끝으로 이동이 비활성화됩니다.\n• 뒤로 길게 누르기는 항상 지금 재생 중에 포커스를 두며 변경할 수 없습니다.\n• 일반적으로 빨강/초록/노랑/파랑, 숫자, CH+/CH−, 되감기/빨리 감기를 지정할 수 있습니다.\n• 뒤로, 방향, OK, 음량, 홈, 전원 버튼은 보호됩니다.\n• 숫자 단축키는 탐색 중 작동하며, 전체 화면에서는 채널 번호 입력이 우선합니다.</string>
+    <string name="settings_player_buttons">플레이어 버튼</string>
+    <string name="settings_player_hold_ok">플레이어에서 OK 길게 누르기</string>
+    <string name="settings_player_hold_ok_description">조작 화면이 숨겨져 있을 때 OK를 길게 누르면 여는 항목</string>
+    <string name="settings_help_player_hold_ok">전체 화면 실시간 플레이어에서 조작 화면이 숨겨져 있을 때 OK를 길게 누르면 채널 목록, 편성표 또는 프로그램 정보를 엽니다. 꺼짐은 OK를 기존대로 둡니다. 켜져 있는 동안 OK를 짧게 누르면 손을 뗄 때 동작합니다. 영화와 에피소드는 평소의 OK를 유지합니다.</string>
+    <string name="settings_player_short_ok">조작 화면이 숨겨져 있을 때 OK</string>
+    <string name="settings_player_short_ok_description">전체 화면 플레이어에서 OK를 짧게 눌렀을 때의 동작</string>
+    <string name="settings_help_player_short_ok">전체 화면 플레이어에서 OK를 짧게 누르면 조작 화면이 표시됩니다. 채널 목록이나 편성표를 고르면 실시간 채널에서는 대신 그것을 엽니다. 플레이어가 쓰지 않는 다른 버튼은 계속 조작 화면을 표시합니다. 영화와 에피소드는 항상 조작 화면을 표시합니다.</string>
+    <string name="settings_player_swap_channel_keys">채널 위/아래 바꾸기</string>
+    <string name="settings_player_swap_channel_keys_description">CH+와 위쪽이 이전 채널로 이동</string>
+    <string name="settings_help_player_swap_channel_keys">보통 CH+와 방향키 위쪽은 다음 채널로, CH−와 아래쪽은 이전 채널로 이동합니다. 켜면 시청 중 전체 화면과 미니 플레이어에서 이를 바꿉니다. 둘러보기 목록에는 영향이 없습니다.</string>
+    <string name="settings_player_number_keys_tune">숫자 키로 채널 변경</string>
+    <string name="settings_player_number_keys_tune_description">실시간 플레이어에서 채널 번호 입력</string>
+    <string name="settings_help_player_number_keys_tune">전체 화면 실시간 플레이어에서 리모컨으로 채널 번호를 입력하면 그 채널로 이동합니다. 끄면 숫자 버튼을 리모컨 바로가기용으로 남겨 둡니다. 번호를 입력하려면 실시간 TV 설정의 채널 번호도 켜져 있어야 합니다.</string>
+    <string name="settings_player_ok_channel_list">채널 목록</string>
+    <string name="settings_player_ok_guide">편성표</string>
+    <string name="settings_player_ok_programme_info">프로그램 정보</string>
+    <string name="settings_player_ok_show_controls">조작 화면 표시</string>
     <string name="settings_remote_button_channel_up">채널 +</string>
     <string name="settings_remote_button_channel_down">채널 −</string>
     <string name="settings_remote_button_rewind">되감기</string>
@@ -177,8 +194,9 @@
     <string name="settings_ch_paging">리모컨 바로가기</string>
     <string name="settings_ch_paging_description">리모컨의 여분 버튼에 탐색, 재생, 목록 작업을 지정합니다. 필수 탐색 버튼은 보호됩니다.</string>
     <string name="settings_content_menus_title">길게 누르기 메뉴</string>
-    <string name="settings_content_menus_description">채널·영화·시리즈·에피소드 메뉴의 항목 순서를 바꿉니다</string>
-    <string name="settings_content_menus_hint">항목에서 OK를 길게 눌러 집은 뒤 위·아래로 옮기세요. 다시 OK를 누르면 놓입니다.</string>
+    <string name="settings_content_menus_description">채널·영화·시리즈·에피소드 메뉴의 항목 순서를 바꾸거나 숨깁니다</string>
+    <string name="settings_content_menus_hint">항목에서 OK를 누르면 표시하거나 숨깁니다. OK를 길게 눌러 집은 뒤 위·아래로 옮기고, 다시 OK를 누르면 놓입니다.</string>
+    <string name="settings_content_menus_note">일부 항목은 해당되는 곳에서만 표시됩니다.</string>
     <string name="settings_browsing_lists">탐색 및 목록</string>
     <string name="settings_browsing_description">실시간 TV, 영화 및 시리즈에서 마지막 카테고리와 항목 기억</string>
     <string name="settings_home_root">홈 화면</string>
@@ -212,9 +230,13 @@
     <string name="settings_preview_audio_description">실시간 미리보기에서 소리를 재생합니다</string>
     <string name="settings_mini_player_root">미니 플레이어</string>
     <string name="settings_mini_player_root_description">고정된 미니 플레이어의 크기와 위치</string>
+    <string name="settings_pip_on_leave">앱을 나갈 때 화면 속 화면</string>
+    <string name="settings_pip_on_leave_description">홈을 누르면 동영상이 작은 창에서 계속 재생됩니다</string>
     <string name="settings_prefer_sdr_description">스트림에 SDR과 HDR 화면이 모두 있으면 SDR을 재생합니다. HDR이 바래 보이거나 너무 어둡게 보이는 TV를 위한 설정입니다. HDR만 있는 스트림은 HDR로 유지됩니다. ExoPlayer 전용.</string>
-    <string name="settings_auto_frame_rate">자동 프레임 레이트</string>
-    <string name="settings_auto_frame_rate_description">전체 화면에서 실시간 TV와 VOD의 동영상에 맞게 TV 화면 주사율(24/25/50/60fps)을 조정하고 종료할 때 복원합니다. 채널을 바꿀 때마다 TV 또는 리시버가 HDMI 핸드셰이크를 다시 수행해 소음이 발생하면 끄세요.</string>
+    <string name="settings_auto_frame_rate_films">영화 및 시리즈 자동 프레임 레이트</string>
+    <string name="settings_auto_frame_rate_films_description">전체 화면에서 영화나 에피소드에 맞게 TV 화면 주사율(24/25/50/60fps)을 조정하고 종료할 때 복원합니다.</string>
+    <string name="settings_auto_frame_rate_live">실시간 TV 자동 프레임 레이트</string>
+    <string name="settings_auto_frame_rate_live_description">전체 화면에서 채널에 맞게 TV 화면 주사율(25/50/60fps)을 조정하고 종료할 때 복원합니다. 채널을 바꿀 때마다 TV 또는 리시버가 HDMI 핸드셰이크를 다시 수행해 소음이 발생하면 끄세요.</string>
     <string name="settings_afr_pause">화면 전환 중 일시정지</string>
     <string name="settings_afr_pause_description">영화만 해당. TV가 새 화면 모드에 다시 동기화해야 할 때, 시작 부분이 검은 화면에서 사라지지 않도록 영화가 이 시간만큼 기다립니다. 매끄러운 전환에서는 일시정지하지 않습니다.</string>
     <string name="settings_afr_resolution">해상도 맞추기</string>
@@ -256,12 +278,20 @@
     <string name="settings_check_updates_description">GitHub Releases에서 최신 버전을 가져옵니다</string>
     <string name="settings_update_startup">시작할 때 업데이트 확인</string>
     <string name="settings_update_startup_description">앱을 열 때 새 버전이 있는지 확인합니다</string>
+    <string name="settings_auto_start_boot">켜질 때 자동 시작</string>
+    <string name="settings_auto_start_boot_description">TV가 켜지면 OwnTV 열기</string>
+    <string name="settings_auto_start_wake">절전 해제 시 자동 시작</string>
+    <string name="settings_auto_start_wake_description">TV가 절전 모드에서 깨어나면 OwnTV 열기</string>
+    <string name="settings_auto_start_needs_overlay">“다른 앱 위에 표시” 권한 필요</string>
     <string name="settings_about">정보</string>
     <string name="settings_live_latency">실시간 지연 시간</string>
     <string name="settings_no_settings_match">“<xliff:g id="query">%1$s</xliff:g>”과 일치하는 설정이 없습니다</string>
+    <string name="settings_search_empty_hint">설정 이름을 입력하세요</string>
     <string name="settings_breadcrumb"><xliff:g id="group">%1$s</xliff:g> › <xliff:g id="title">%2$s</xliff:g></string>
     <string name="settings_startup_home">홈</string>
     <string name="settings_startup_last_channel">마지막 채널</string>
+    <string name="settings_startup_last_channel_guide">마지막 채널 · 편성표</string>
+    <string name="settings_startup_last_channel_live">마지막 채널 · 실시간 TV</string>
     <string name="settings_startup_favorites">실시간 · 즐겨찾기</string>
     <string name="settings_startup_specific_channel">지정 채널</string>
     <string name="settings_startup_channel_unavailable">시작 채널을 사용할 수 없어 홈을 열었습니다.</string>
@@ -362,6 +392,7 @@
     <string name="settings_search_keywords_startup">실행 열기 시작 화면</string>
     <string name="settings_search_keywords_updates">GitHub 릴리스 버전</string>
     <string name="settings_search_keywords_update_auto">자동 업데이트 새 버전</string>
+    <string name="settings_search_keywords_auto_start">부팅 전원 켜기 절전 해제 대기 자동 시작 열기</string>
     <string name="settings_language_default">기본값(영어)</string>
     <string name="settings_language_device">기기 언어</string>
     <string name="settings_language_arabic">아랍어</string>
@@ -584,6 +615,8 @@
     <string name="settings_browsing_last_category_description">전체가 아닌 마지막으로 나간 카테고리에서 섹션을 다시 엽니다.</string>
     <string name="settings_browsing_last_item">마지막 항목 기억</string>
     <string name="settings_browsing_last_item_description">각 카테고리를 맨 위에서 시작하지 않고 자체 스크롤 위치를 유지합니다. 실시간 TV에서는 마지막으로 포커스된 채널도 복원됩니다.</string>
+    <string name="settings_browsing_live_categories">실시간 TV 카테고리</string>
+    <string name="settings_browsing_live_categories_description">실시간 TV, 편성표, 플레이어, 멀티뷰에 표시됩니다. 모든 채널을 끄면 실시간 TV가 첫 번째 카테고리에서 열리고, 카테고리가 없으면 즐겨찾기에서 열립니다.</string>
     <string name="settings_catchup_player">다시보기 재생 플레이어</string>
     <string name="settings_customize_title">카테고리 및 항목 맞춤 설정</string>
     <string name="settings_customize_pin_locked">이 화면은 PIN으로 잠겨 있습니다.</string>
@@ -592,6 +625,8 @@
     <string name="settings_customize_set_pin">🔒 PIN 설정</string>
     <string name="settings_customize_change_pin">🔒 PIN 변경</string>
     <string name="settings_customize_remove_lock">잠금 해제</string>
+    <string name="settings_customize_settings_pin">설정을 열 때 PIN 요청</string>
+    <string name="settings_customize_settings_pin_button">설정을 열 때 PIN 요청: <xliff:g id="state">%1$s</xliff:g></string>
     <string name="settings_customize_description">이 프로필의 채널, 영화 및 시리즈를 숨기거나 다시 표시하고 카테고리의 이름이나 순서를 변경합니다. 다시 동기화한 후에도 유지됩니다.</string>
     <string name="settings_customize_new_category_behavior">새 카테고리 동작</string>
     <string name="settings_customize_hide">숨기기</string>
@@ -636,6 +671,7 @@
     <string name="settings_customize_rename_hint">이 프로필에만 적용됩니다. 비워 두면 “<xliff:g id="name">%1$s</xliff:g>”(으)로 복원됩니다.</string>
     <string name="settings_customize_remove_pin_title">PIN 잠금을 해제하시겠습니까?</string>
     <string name="settings_customize_remove_pin_message">앞으로 맞춤 설정 화면을 열 때 PIN을 묻지 않습니다.</string>
+    <string name="settings_customize_remove_pin_locks">이 PIN으로 잠근 모든 카테고리도 잠금 해제됩니다.</string>
     <string name="settings_customize_remove">해제</string>
     <string name="settings_customize_confirm_pin">새 PIN 확인</string>
     <string name="settings_customize_pin_mismatch">PIN이 일치하지 않습니다. 다시 입력하세요</string>
@@ -677,7 +713,16 @@
     <string name="settings_sources_test_trial">체험 계정</string>
     <string name="settings_sources_test_expiry_none">만료일이 제공되지 않음</string>
     <string name="settings_sources_info">정보</string>
+    <string name="settings_sources_clean_names">이름</string>
+    <string name="settings_sources_clean_names_title">“<xliff:g id="name">%1$s</xliff:g>”의 채널 이름</string>
+    <string name="settings_sources_clean_names_description">모든 화면에서 채널 이름을 더 짧게 표시합니다. 편성표는 계속 제공업체가 보내는 이름으로 연결되며, 사용자 지정에서 바꾼 채널 이름은 그대로 유지됩니다. 저장하면 재생목록을 새로 고칩니다.</string>
+    <string name="settings_sources_clean_names_toggle">채널 이름 정리</string>
+    <string name="settings_sources_clean_names_example">앞의 국가 접두어와 끝의 화질 표시를 없앱니다: “UK| News One HD” → “News One”</string>
+    <string name="settings_sources_clean_names_custom">추가로 제거할 단어</string>
+    <string name="settings_sources_clean_names_custom_hint">; 로 구분한 단어, 예: VIP; Backup</string>
     <string name="settings_sources_retest">다시 테스트</string>
+    <string name="settings_sources_ignore_limit">연결 수 제한 무시</string>
+    <string name="settings_sources_ignore_limit_on">연결 수 제한을 무시하는 중: 멀티뷰와 녹화가 이 재생 목록에 표시된 것보다 많은 스트림을 열 수 있습니다. 제공업체가 거부한 스트림은 이전처럼 알려 드립니다.</string>
     <string name="settings_sources_probe_title">이 재생목록을 테스트할까요?</string>
     <string name="settings_sources_probe_warning">동시에 시청할 수 있는 채널 수를 알려 주지 않는 공급자가 많습니다. 그래서 OwnTV는 몇 개를 직접 열어 어느 것이 유지되는지 확인합니다. 지금 재생 중인 항목은 모두 멈추며, 최대 2분이 걸릴 수 있습니다.</string>
     <string name="settings_sources_probe_running">이 공급자가 허용하는 채널 수를 확인하는 중…(<xliff:g id="current">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g>)</string>
@@ -740,6 +785,7 @@
     <string name="settings_epg_sources_auto_refresh_title">자동 새로 고침</string>
     <string name="settings_epg_sources_auto_refresh_description">꺼짐, 앱 시작 시 또는 데이터가 오래되었을 때</string>
     <string name="settings_epg_sources_not_synced">아직 동기화되지 않음</string>
+    <string name="settings_epg_sources_priority">편성표 우선순위 <xliff:g id="position">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g>. 두 소스에 같은 채널이 있으면 이 목록에서 더 위에 있는 소스가 사용됩니다.</string>
     <string name="settings_epg_refresh_1h">1시간</string>
     <string name="settings_epg_refresh_3h">3시간</string>
     <string name="settings_epg_refresh_6h">6시간</string>
@@ -821,6 +867,7 @@
         <item quantity="other">플레이리스트 유형이 지원되지 않아 <xliff:g id="count">%1$d</xliff:g>개 소스를 건너뛰었습니다.</item>
     </plurals>
     <string name="settings_backup_export_error">내보내기에 실패했습니다.</string>
+    <string name="settings_backup_no_file_app">이 휴대전화에는 파일을 저장할 수 있는 앱이 없습니다. 대신 공유를 사용하세요.</string>
     <string name="settings_backup_read_error">백업 파일을 읽을 수 없습니다.</string>
     <string name="settings_backup_import_error">가져오기에 실패했습니다.</string>
     <string name="settings_backup_invalid_locale">이 백업에 지원되지 않는 앱 언어가 포함되어 있습니다. 복원은 완료되었지만 현재 언어가 유지되었습니다.</string>
@@ -1256,6 +1303,12 @@
     <string name="settings_nav_hide_after_desc">플로팅 전용: 포커스가 벗어난 뒤 메뉴가 기다리는 시간</string>
     <string name="settings_nav_widen">포커스 시 넓히기</string>
     <string name="settings_nav_widen_desc">고정 및 컴팩트: 레일에 포커스가 있는 동안 콘텐츠 위에 이름 표시</string>
+    <string name="settings_nav_menu_labels">메뉴 이름표</string>
+    <string name="settings_nav_menu_labels_desc">아이콘 옆 섹션 이름: 표시 안 함, 바에 포커스가 있는 동안, 항상</string>
+    <string name="settings_nav_menu_labels_focused">포커스 시</string>
+    <string name="settings_nav_menu_labels_always">항상</string>
+    <string name="settings_nav_menu_labels_summary">이름표: <xliff:g id="choice">%1$s</xliff:g></string>
+    <string name="settings_search_keywords_menu_labels">이름표, 이름, 텍스트, 아이콘만, 바, 사이드바, 메뉴, 넓히기, 넓게</string>
     <string name="settings_nav_menu_items">메뉴 항목</string>
     <string name="settings_nav_menu_items_desc">동적: 재생목록 내용에 맞춤 · 고정: 직접 선택</string>
     <string name="settings_nav_bar">바</string>
@@ -1331,7 +1384,7 @@
     <string name="settings_line_guide_width">채널 목록과 타임라인</string>
     <string name="settings_line_browsing">마지막 카테고리와 항목 기억</string>
     <string name="settings_line_home">행 선택, 순서 변경, 필터</string>
-    <string name="settings_line_content_menus">각 메뉴의 동작 재배치</string>
+    <string name="settings_line_content_menus">각 메뉴의 동작 재배치 또는 숨기기</string>
     <string name="settings_line_remote_shortcuts">남는 리모컨 버튼 지정</string>
     <string name="settings_line_customize">숨기기와 표시, 이름 변경, 순서 변경</string>
     <string name="settings_line_metadata">영화와 시리즈의 포스터, 줄거리, 출연진, 평점</string>
@@ -1394,6 +1447,7 @@
     <string name="settings_line_autoplay">다음 시즌까지 이어서</string>
     <string name="settings_line_tiles">타일마다 스트림이 하나씩</string>
     <string name="settings_line_mini">크기와 위치</string>
+    <string name="settings_line_pip">작은 창에서 계속 시청</string>
     <string name="settings_line_rec_reserve">모든 연결로 녹화하지 않음</string>
     <string name="settings_line_rec_watching">두 번째 스트림 없이</string>
     <string name="settings_line_rec_pre_roll">프로그램 시작 전</string>
@@ -1423,6 +1477,8 @@
     <string name="settings_help_startup">OwnTV를 시작할 때 보여 줄 화면: 홈, 마지막으로 본 채널, 즐겨찾기, 또는 직접 고른 채널.</string>
     <string name="settings_help_check_updates">지금 GitHub에서 새 OwnTV를 찾아 설치를 제안합니다. 재생목록, 즐겨찾기, 설정은 그대로 유지됩니다.</string>
     <string name="settings_help_update_startup">OwnTV가 시작될 때마다 새 버전을 찾고, 있으면 알려 줍니다. 묻지 않고 설치하지 않습니다.</string>
+    <string name="settings_help_auto_start_boot">TV가 시작되면 앱 시작 화면에서 고른 화면으로 OwnTV를 자동으로 엽니다. Android는 다른 앱 위에 표시할 수 있는 앱만 스스로 열리게 하므로, 이 옵션을 켜면 해당 권한 화면이 열립니다. 이 권한을 제공하지 않는 TV에서는 자동 시작이 작동하지 않습니다.</string>
+    <string name="settings_help_auto_start_wake">TV가 절전 모드에서 깨어날 때마다 OwnTV를 엽니다. 다른 앱을 쓰려고 깨운 경우에도 마찬가지입니다. 앱 시작 화면이 채널을 열도록 되어 있으면 깨어날 때마다 그 스트림이 시작됩니다. 켜져 있는 동안 OwnTV는 무음 알림과 함께 작은 백그라운드 서비스를 유지합니다. 켜질 때 자동 시작과 마찬가지로 다른 앱 위에 표시 권한이 필요합니다.</string>
     <string name="settings_help_dns">네트워크 자체 DNS 대신 원하는 DNS 서버로 제공자의 주소를 조회합니다. 네트워크가 주소를 차단하거나 우회시킬 때 유용합니다.</string>
     <string name="settings_help_live_engine">ExoPlayer는 채널을 훨씬 빨리 열고 실시간 자막을 지원하는 유일한 플레이어입니다. mpv는 ExoPlayer가 못 여는 채널과 일부 특이한 오디오도 재생합니다. 조합 옵션은 첫 번째가 실패하면 다른 플레이어를 시도합니다.</string>
     <string name="settings_help_hw">TV의 하드웨어 디코더를 사용합니다. 4K가 부드럽고 발열이 줄어듭니다. 일부 스트림이 끊기거나 깨질 때만 끄세요. 그러면 소프트웨어 디코더가 처리합니다.</string>
@@ -1436,6 +1492,7 @@
     <string name="settings_help_timeshift_window">다시보기가 없는 채널에서 실시간 TV 일시정지 및 되감기가 얼마나 뒤로 갈 수 있는지 정합니다. 길수록 이 기기 저장공간에 더 많이 보관합니다.</string>
     <string name="settings_help_resume">이어 보기 묻기는 영화나 에피소드에 저장된 위치가 있으면 이어 보기와 처음부터를 제안합니다. 항상 이어 보기는 멈춘 곳부터, 이어 보지 않기는 처음부터 재생합니다.</string>
     <string name="settings_help_mini">둘러보는 동안 모서리에서 채널을 계속 재생하는 작은 플레이어입니다. 크기와 위치할 모서리를 고르세요.</string>
+    <string name="settings_help_pip">전체 화면이나 미니 플레이어에서 동영상이 재생되는 동안 홈을 누르거나 다른 앱을 열면, TV의 다른 화면 위 작은 창에서 계속 재생됩니다. OwnTV를 다시 열면 전체 화면으로 돌아오고, 창을 닫으면 재생이 멈춥니다. 멀티뷰는 OwnTV 안에서만 됩니다.</string>
     <string name="settings_key_palette">팔레트</string>
     <string name="settings_live_preview_note">행을 벗어나기 전에도 변경 사항이 여기에 바로 보입니다.</string>
     <string name="settings_synced_at"><xliff:g id="when">%1$s</xliff:g> 동기화됨</string>
@@ -1512,6 +1569,8 @@
     <string name="settings_remote_scan">스캔하거나 브라우저에서 열기</string>
     <string name="settings_remote_or_open">또는 열기</string>
     <string name="settings_remote_details_note">세부 정보가 여기에 표시되며, 가져오기는 리모컨으로 시작합니다.</string>
+    <string name="settings_remote_edit_note">변경 내용이 편집 화면에 채워집니다. 저장은 리모컨으로 누릅니다.</string>
+    <string name="settings_help_edit_from_phone">같은 Wi-Fi에 있는 휴대전화, 태블릿 또는 컴퓨터의 브라우저에서 이 재생목록을 엽니다. 비밀번호, MAC 주소, M3U 재생목록 주소는 그곳에 표시되지 않습니다. 비워 두면 유지됩니다. 보낸 내용이 이 화면에 채워지며, 저장을 누르기 전에는 아무것도 바뀌지 않습니다.</string>
     <string name="settings_key_stop_back">중지하고 돌아가기</string>
     <string name="settings_source_type">유형</string>
     <string name="settings_line_source_type">Xtream, M3U 또는 Stalker 포털</string>

@@ -30,6 +30,12 @@ class EpgSyncRetryTest {
         assertFalse(shouldRetryEpgSync(EpgRepository.NoProgrammesInWindowException(), online = true, runAttemptCount = 0))
     }
 
+    /** Its channels aren't the playlists': the same feed gives the same answer until they're matched. */
+    @Test
+    fun `a feed matching no playlist channel is not retried`() {
+        assertFalse(shouldRetryEpgSync(EpgRepository.GuideMatchesNoChannelException(), online = true, runAttemptCount = 0))
+    }
+
     /** The playlist behind a portal guide was deleted; no amount of waiting brings it back. */
     @Test
     fun `a portal guide whose playlist is gone is not retried`() {

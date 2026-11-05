@@ -4,6 +4,8 @@ import androidx.paging.PagingSource
 import kotlinx.coroutines.flow.Flow
 import tv.own.owntv.core.customize.CustomizeKeys
 import tv.own.owntv.core.customize.SectionCustomizations
+import tv.own.owntv.core.customize.seals
+import tv.own.owntv.core.customize.sealsItemIn
 import tv.own.owntv.core.database.dao.ChannelDao
 import tv.own.owntv.core.database.dao.CustomCategoryDao
 import tv.own.owntv.core.database.entity.ChannelEntity
@@ -40,7 +42,7 @@ fun livePagingSource(
             LiveKey.Favorites -> channelDao.pagingFavoritesManual(profileId, ContentOrderEntity.FAV_CONTEXT, ids)
             LiveKey.History -> channelDao.pagingHistory(profileId, ids)
             LiveKey.Catchup -> if (playlist) channelDao.pagingCatchupOriginal(ids) else channelDao.pagingCatchup(ids)
-            is LiveKey.Custom -> if (playlist) customCategoryDao.pagingChannels(profileId, key.id, ids) else customCategoryDao.pagingChannelsAlpha(profileId, key.id, ids)
+            is LiveKey.Custom -> customCategoryDao.pagingChannels(profileId, key.id, ids, alpha = !playlist)
             is LiveKey.Folder -> {
                 val ctxKey = contextKey(key.id) ?: ""
                 // Fast path: no manual order in this folder → the plain indexed query has
@@ -48,7 +50,7 @@ fun livePagingSource(
                 if (!hasManualOrder(ctxKey)) {
                     if (playlist) channelDao.pagingByCategory(key.id) else channelDao.pagingByCategoryAlpha(key.id)
                 } else {
-                    if (playlist) channelDao.pagingByCategoryManual(key.id, profileId, ctxKey) else channelDao.pagingByCategoryManualAlpha(key.id, profileId, ctxKey)
+                    channelDao.pagingByCategoryManual(key.id, profileId, ctxKey, alpha = !playlist)
                 }
             }
         }
@@ -64,7 +66,10 @@ fun livePagingSource(
     }
 }
 
-/** The live row count for one rail selection. */
+/**
+ * The live row count for one rail selection. [sealedCats] are the locked provider folders: unlike
+ * [hiddenCats] they leave Favorites, History, Catch-up and custom categories too (see [isChannelVisible]).
+ */
 fun liveCountFlow(
     key: LiveKey,
     profileId: Long,
@@ -72,14 +77,20 @@ fun liveCountFlow(
     hiddenCats: Set<Long>,
     channelDao: ChannelDao,
     customCategoryDao: CustomCategoryDao,
+    sealedCats: Set<Long> = emptySet(),
 ): Flow<Int> {
     val ids = sourceIds.ifEmpty { listOf(-1L) }
+    val sealed = sealedCats.toList()
     return when (key) {
         LiveKey.All -> if (hiddenCats.isEmpty()) channelDao.countAll(ids) else channelDao.countAllExcluding(ids, hiddenCats.toList())
-        LiveKey.Favorites -> channelDao.countFavorites(profileId, ids)
-        LiveKey.History -> channelDao.countHistory(profileId, ids)
-        LiveKey.Catchup -> channelDao.observeCatchupCount(ids)
-        is LiveKey.Custom -> customCategoryDao.countMembers(profileId, MediaType.LIVE, key.id, ids)
+        LiveKey.Favorites -> if (sealed.isEmpty()) channelDao.countFavorites(profileId, ids)
+            else channelDao.countFavoritesExcluding(profileId, ids, sealed)
+        LiveKey.History -> if (sealed.isEmpty()) channelDao.countHistory(profileId, ids)
+            else channelDao.countHistoryExcluding(profileId, ids, sealed)
+        LiveKey.Catchup -> if (sealed.isEmpty()) channelDao.observeCatchupCount(ids)
+            else channelDao.observeCatchupCountExcluding(ids, sealed)
+        is LiveKey.Custom -> if (sealed.isEmpty()) customCategoryDao.countMembers(profileId, MediaType.LIVE, key.id, ids)
+            else customCategoryDao.countMembersExcluding(profileId, MediaType.LIVE, key.id, ids, sealed)
         is LiveKey.Folder -> channelDao.countByCategory(key.id)
     }
 }
@@ -89,10 +100,11 @@ fun liveCountFlow(
  *
  * A hidden provider category hides its channels only where they appear *because of* that category.
  * In a list the user built — a custom category, Favorites, History — the channel is there on its own
- * merit, so hiding its provider folder must not empty it (the Guide already worked this way).
+ * merit, so hiding its provider folder must not empty it (the Guide already worked this way). A
+ * locked category is stricter: its channels stay out of every list until the PIN opens it.
  */
 fun isChannelVisible(ch: ChannelEntity, cust: SectionCustomizations, hiddenCats: Set<Long>, key: LiveKey? = null): Boolean =
-    CustomizeKeys.channel(ch) !in cust.hiddenItems &&
+    CustomizeKeys.channel(ch) !in cust.hiddenItems && !cust.sealsItemIn(ch.categoryId) && !cust.seals(key) &&
         (!hiddenCategoryApplies(key) || ch.categoryId == null || ch.categoryId !in hiddenCats)
 
 /** Whether a hidden provider category filters the list shown for [key] (see [isChannelVisible]). */
