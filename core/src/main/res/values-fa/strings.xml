@@ -1,3 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="common_back">برگشت</string>
+    <string name="common_save">ذخیره</string>
+    <string name="common_edit">ویرایش</string>
+    <string name="common_delete">حذف</string>
+    <string name="common_clear">پاک کردن</string>
+    <string name="common_retry">دوباره انتخاب کردن</string>
+    <string name="common_create">ایجاد،ساختن</string>
+    <string name="common_reset">تنظیم مجدد</string>
+    <string name="common_done">انجام شده</string>
+    <string name="common_ok">تائید</string>
+    <string name="common_on">روشن کردن</string>
+    <string name="common_off">خاموش کردن</string>
+    <string name="common_share">اشتراک گذاری</string>
+    <string name="common_never">هرگز</string>
+    <string name="common_exit">خروج</string>
+    <string name="common_resume">رزومه</string>
+    <string name="common_start_over">از نو شروع کن</string>
+    <string name="common_name">نام</string>
+    <string name="common_own_tv_user">کاربر OwnTV</string>
+    <string name="common_proxy">پروکسی</string>
+    <string name="common_title">عنوان</string>
+    <string name="common_search_hint">جستجو کردن</string>
+    <string name="common_search">جستجو</string>
+    <string name="common_cancel">لغو کردن</string>
+    <string name="common_nav_search">جستجو کردن</string>
+    <string name="common_nav_home">خانه</string>
+    <string name="common_nav_live_tv">تلوزیون زنده</string>
+    <string name="common_nav_movies">فیلم ها</string>
+    <string name="common_nav_series">سریال ها</string>
+    <string name="common_nav_downloads">فارسی</string>
+    <string name="common_nav_guide">راهنمای تلوزیون</string>
+    <string name="common_nav_guide_short">راهنمای تلوزیون</string>
+    <string name="common_nav_library">کتابخانه</string>
+    <string name="common_nav_more">بیشتر</string>
+    <string name="common_cast">بازیگران</string>
+    <string name="common_nav_settings">تنظیمات</string>
+    <string name="shell_no_source">منبعى وجود ندارد</string>
+    <string name="shell_now_playing">در حال پخش</string>
+    <string name="common_number_grouped"><xliff:g id="count">%1$,d</xliff:g></string>
+    <string name="common_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="common_timestamp_minutes"><xliff:g id="minutes">%1$d</xliff:g>:<xliff:g id="seconds">%2$02d</xliff:g></string>
+    <string name="common_timestamp_hours"><xliff:g id="hours">%1$d</xliff:g>:<xliff:g id="minutes">%2$02d</xliff:g>:<xliff:g id="seconds">%3$02d</xliff:g></string>
+    <string name="common_resume_position">You stopped at <xliff:g id="position">%1$s</xliff:g>.</string>
+    <string name="common_resume_prompt">پخش را از ادامه ببینید؟</string>
+    <string name="sync_error_offline">به نظر می‌رسد آفلاین هستید. اتصال خود را بررسی کنید و دوباره تلاش کنید.</string>
+    <string name="sync_error_generic">Something went wrong. Please try again.</string>
+    <string name="sync_error_timeout">سرور دیر پاسخ داد. لطفاً دوباره تلاش کنید.</string>
+    <string name="sync_error_unreachable">اتصال به سرور برقرار نشد. نشانی و اتصال اینترنت خود را بررسی کنید.</string>
+    <string name="sync_error_connection">اتصال به سرور ممکن نشد. ممکن است سرور از کار افتاده باشد یا نشانی اشتباه باشد</string>
+    <string name="sync_error_interrupted">سرور دانلود را قطع کرد. لطفاً دوباره تلاش کنید</string>
+    <string name="sync_error_mac">پورتال این آدرس MAC را نپذیرفت. آدرس MAC (و تاریخ و ساعت تلویزیون) را بررسی کنید، یا ممکن است اشتراک منقضی شده باشد.</string>
+    <string name="sync_error_invalid_mac">آدرس MAC نامعتبر است — از قالب AA:BB:CC:DD:EE:FF استفاده کنید</string>
+    <string name="sync_counts_separator">"  ·  "</string>
+    <string name="sync_counts_success">همگام‌سازی با موفقیت انجام شد</string>
+    <string name="sync_counts_synced"><xliff:g id="counts">%1$s</xliff:g> همگام‌سازی شد.</string>
+    <string name="sync_import_warnings">با هشدار وارد شد: <xliff:g id="phases">%1$s</xliff:g></string>
+    <string name="sync_warning_phase_error"><xliff:g id="phase">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g></string>
+    <plurals name="sync_warning_catalog_shrink">
+        <item quantity="one"><xliff:g id="stored">%1‎d</xliff:g> مورد موجود حفظ شد — نتیجه این درون‌ریزی <xliff:g id="percent">%2‎d</xliff:g>%% کمتر بود. دوباره همگام‌سازی کنید، یا اگر ارائه‌دهنده واقعاً آن را حذف کرده است، از «همگام‌سازی پاک و اجباری» استفاده کنید.</item>
+        <item quantity="other"><xliff:g id="stored">%1‎d</xliff:g> مورد موجود حفظ شد — نتیجه این درون‌ریزی <xliff:g id="percent">%2‎d</xliff:g>%% کمتر بود. دوباره همگام‌سازی کنید، یا اگر ارائه‌دهنده واقعاً آن‌ها را حذف کرده است، از «همگام‌سازی پاک و اجباری» استفاده کنید.</item>
+    </plurals>
+    <string name="sync_warning_bulk_truncated">فهرست ارائه‌دهنده در میانه کار قطع شد، بنابراین بقیه آن دسته‌به‌دسته دریافت شد. همه چیز موجود است، اما این همگام‌سازی بیش از حد معمول طول کشید.</string>
+    <string name="sync_warning_bulk_truncated_partial">فهرست ارائه‌دهنده در میانه کار قطع شد و همه موارد قابل بازیابی نبود. ممکن است برخی عنوان‌ها تا همگام‌سازی بعدی موجود نباشند.</string>
+    <plurals name="sync_warning_page_failures">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> صفحه منبع ناموفق بود؛ ممکن است برخی محتواها تا همگام‌سازی بعدی موجود نباشند.</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> صفحه منبع ناموفق بود؛ ممکن است برخی محتواها تا همگام‌سازی بعدی موجود نباشند.</item>
+    </plurals>
+    <string name="sync_remainder_note">بقیه فهرست محتوا هنوز در پس‌زمینه همگام‌سازی می‌شود — می‌توانید همین حالا تماشا را شروع کنید. پیشرفت آن در نشانگر کوچک پایین صفحه نمایش داده می‌شود.</string>
+    <string name="sync_progress_preparing">در حال آماده‌سازی فهرست محتوا</string>
+    <string name="sync_progress_connecting">در حال اتصال به منبع…</string>
+    <string name="sync_progress_syncing">در حال همگام‌سازی فهرست محتوا</string>
+    <string name="sync_progress_percent">در حال همگام‌سازی <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="sync_status_catalog">در حال همگام‌سازی <xliff:g id="source">%1$s</xliff:g></string>
+    <string name="sync_status_catalog_with_counts">در حال همگام‌سازی <xliff:g id="source">%1‎s</xliff:g> · <xliff:g id="counts">%2‎s</xliff:g></string>
+    <string name="sync_status_epg">در حال به‌روزرسانی راهنمای برنامه‌ها · <xliff:g id="source">%1$s</xliff:g></string>
+    <string name="sync_status_epg_with_counts">در حال به‌روزرسانی راهنمای برنامه‌ها · <xliff:g id="source">%1‎s</xliff:g> · <xliff:g id="counts">%2‎s</xliff:g></string>
+    <string name="sync_status_complete">همگام‌سازی کامل شد · <xliff:g id="source">%1$s</xliff:g></string>
+    <string name="sync_status_complete_with_changes">همگام‌سازی کامل شد · <xliff:g id="source">%1‎s</xliff:g> · <xliff:g id="changes">%2‎s</xliff:g></string>
+    <string name="sync_status_failed">همگام‌سازی ناموفق بود · <xliff:g id="source">%1‎s</xliff:g>: <xliff:g id="reason">%2‎s</xliff:g></string>
+    <string name="sync_status_cancelled">همگام‌سازی لغو شد · &lt;xliff:g id=\"source\"&gt;%1$s&lt;/xliff:g</string>
+    <string name="sync_status_download">در حال دانلود <xliff:g id="title">%1$s</xliff:g></string>
+    <string name="sync_status_download_with_progress">در حال دانلود <xliff:g id="title">%1‎s</xliff:g> · <xliff:g id="percent">%2‎d</xliff:g>%%</string>
+    <string name="sync_status_download_locked">­دانلود از یک دسته‌بندی قفل‌شده</string>
+    <string name="sync_status_download_locked_with_progress">در حال دانلود از یک دسته‌بندی قفل‌شده · <xliff:g id="percent">%1$d</xliff:g>%%­</string>
+    <string name="sync_status_trending_starting">همگام‌سازی کامل شد · <xliff:g id="source">%1$s</xliff:g> · در حال ساخت «پرطرفدارهای این روزها</string>
+    <string name="sync_status_trending_detail_waiting">در انتظار پاسخ گزینه‌های TMDB</string>
+    <string name="sync_status_trending_detail_received">گزینه‌های TMDB · فیلم‌ها: <xliff:g id="movies">%1‎d</xliff:g> · سریال‌ها: <xliff:g id="series">%2‎d</xliff:g></string>
+    <string name="sync_status_trending_detail_preparing">نمایه عنوان‌های ارائه‌دهنده · <xliff:g id="processed">%1‎d</xliff:g> / <xliff:g id="total">%2‎d</xliff:g></string>
+    <string name="sync_status_trending_detail_movies">بررسی فیلم‌ها: <xliff:g id="checked">%1‎d</xliff:g>/<xliff:g id="candidates">%2‎d</xliff:g> · تطابق‌ها: <xliff:g id="matched">%3‎d</xliff:g>/<xliff:g id="target">%4‎d</xliff:g></string>
+    <string name="sync_status_trending_detail_series">بررسی سریال‌ها: <xliff:g id="checked">%1‎d</xliff:g>/<xliff:g id="candidates">%2‎d</xliff:g> · تطابق‌ها: <xliff:g id="matched">%3‎d</xliff:g>/<xliff:g id="target">%4‎d</xliff:g></string>
+    <string name="sync_status_trending_detail_selected">انتخاب‌شده · فیلم‌ها: <xliff:g id="movies">%1‎d</xliff:g> · سریال‌ها: <xliff:g id="series">%2‎d</xliff:g> · صفحه اصلی: <xliff:g id="home">%3$d</xliff:g></string>
+    <string name="sync_status_trending_detail_completed">تطابق‌یافته · فیلم‌ها: <xliff:g id="movie_matches">%1‎d</xliff:g>/<xliff:g id="movie candidates">%2‎d</xliff:g> · سریال‌ها: <xliff:g id="series_matches">%3‎d</xliff:g>/<xliff:g id="series candidates">%4‎d</xliff:g></string>
 </resources>

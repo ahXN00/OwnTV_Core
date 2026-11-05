@@ -1,3 +1,550 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="profiles_pin">PIN</string>
+    <string name="profiles_new">پرۆفایلی نوێ</string>
+    <string name="profiles_edit">دەستکاریی پرۆفایل</string>
+    <string name="profiles_name">ناو</string>
+    <string name="profiles_name_hint">بۆ نموونە.. ئەلێکس</string>
+    <string name="profiles_avatar">وێنەی پرۆفایل</string>
+    <string name="profiles_avatar_own_picture">وێنەی خۆت</string>
+    <string name="profiles_kids">پرۆفایلی منداڵان</string>
+    <string name="profiles_kids_description">گەڕانی ئاسان, سەلامەت</string>
+    <string name="profiles_allow_downloads">ڕێگەدان بە داگرتن</string>
+    <string name="profiles_allow_downloads_description">کوژاندنەوەی هەموو دوگمەکانی داگرتن بۆ ئەم پرۆفایلە دەشارێتەوە</string>
+    <string name="profiles_remove_pin">لابردنی قوفڵی PIN</string>
+    <string name="profiles_no_pin">ئەم پرۆفایلە بەبێ PIN دەکرێتەوە</string>
+    <string name="profiles_change_pin">گۆڕینی PIN (بەتاڵ = هێشتنەوە)</string>
+    <string name="profiles_optional_pin">PIN (ئارەزوومەندانە)</string>
+    <string name="profiles_pin_digits">4–6 ژمارە</string>
+    <string name="profiles_pin_placeholder">····</string>
+    <string name="profiles_name_taken">ئەم ناوە پێشتر بەکارهاتووە — تکایە ناوێکی تر هەڵبژێرە.</string>
+    <string name="profiles_create">دروستکردن</string>
+    <string name="profiles_save">پاشەکەوتکردن</string>
+    <string name="profiles_gate_title">کێ\' سەیر دەکات?</string>
+    <string name="profiles_gate_subtitle">هەر پرۆفایلێک دڵخوازەکان و مێژووی خۆی دەپارێزێت</string>
+    <string name="profiles_wrong_pin">PIN هەڵەیە — دووبارە هەوڵ بدەوە</string>
+    <string name="profiles_enter_pin"><xliff:g id="name">%1$s</xliff:g> — PIN بنووسە</string>
+    <string name="profiles_kids_badge">منداڵان</string>
+    <string name="profiles_add">زیادکردنی پرۆفایل</string>
+    <string name="profiles_title">پرۆفایلەکان</string>
+    <string name="profiles_delete_title">سڕینەوەی “<xliff:g id="name">%1$s</xliff:g>”?</string>
+    <string name="profiles_delete_message">ئەم پرۆفایلە و دڵخوازەکان و مێژووەکەی دەسڕێتەوە. سەرچاوەکان دەمێننەوە.</string>
+    <string name="profiles_kids_tag">منداڵان</string>
+    <string name="profiles_locked_tag">بە PIN قوفڵ کراوە</string>
+    <string name="search_title">گەڕان</string>
+    <string name="search_continue">بەردەوامبوون لە سەیرکردن</string>
+    <string name="search_unwatched">سەیر نەکراو</string>
+    <string name="search_recent">گەڕانەکانی ئەم دواییە</string>
+    <string name="search_nothing_in_list">هێشتا هیچ شتێک لە <xliff:g id="list">%1$s</xliff:g> نییە.</string>
+    <string name="search_clear">پاککردنەوە</string>
+    <string name="search_jump_to">چوون بۆ</string>
+    <string name="search_open_series">کردنەوەی زنجیرە</string>
+    <string name="search_movie">فیلم</string>
+    <string name="search_series">زنجیرەکان</string>
+    <string name="search_channels">کەناڵەکان</string>
+    <string name="search_on_tv">بەرنامە تەلەڤیزیۆنییەکان</string>
+    <string name="search_go_to_channel">بڕۆ بۆ کەناڵ</string>
+    <string name="search_go_to_movie">بڕۆ بۆ فیلم</string>
+    <string name="search_clear_recent">سڕینەوەی گەڕانە نوێیەکان</string>
+    <string name="search_field_hint">کەناڵەکان, فیلم و زنجیرەکان</string>
+    <string name="search_voice">گەڕانی دەنگی</string>
+    <string name="search_voice_prompt">ناوی کەناڵێک, فیلمێک یان زنجیرەیەک بڵێ</string>
+    <string name="search_card_title">هەر شتێک لە لیستەکانی پەخشەکەت بدۆزەوە</string>
+    <string name="search_card_body">کەناڵەکان, فیلم و زنجیرەکان لە هەموو لیستێکی پەخش کە پیشانی دەدەیت. ئەنجامێک هەڵبژێرە بۆ ئەوەی ڕاستەوخۆ بۆی بچیت, پاشان لەوێ پەخشی بکە, دایبگرە یان هەڵبژاردەکانی بکەرەوە. بەرنامە تەلەڤیزیۆنییەکانی ئێستا یان دواتری ئەمڕۆش بە ناونیشانیان دەدۆزرێنەوە.</string>
+    <string name="search_nothing_found">هیچ نەدۆزرایەوە بۆ “<xliff:g id="query">%1$s</xliff:g>”</string>
+    <string name="search_nothing_found_body">گەڕان لە ناوی کەناڵ, فیلم و زنجیرەکانی ئەو لیستانەی پەخش دەگەڕێت کە پیشانیان دەدەیت. لە پۆلە شاراوەکان ناگەڕێت. بەرنامە تەلەڤیزیۆنییەکان بە ناونیشانیان لە ڕێبەرە داگیراوەکەدا دەدۆزرێنەوە.</string>
+    <string name="search_query_quoted">“<xliff:g id="query">%1$s</xliff:g>”</string>
+    <plurals name="search_result_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> ئەنجام</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> ئەنجام</item>
+    </plurals>
+    <plurals name="search_all_channels">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> کەناڵ</item>
+        <item quantity="other">هەموو <xliff:g id="count">%1$d</xliff:g> کەناڵەکە</item>
+    </plurals>
+    <string name="profiles_default_name">پرۆفایل</string>
+    <string name="launcher_recent_live_title">پەخشی ڕاستەوخۆی نوێ</string>
+    <string name="launcher_recent_live_description">کەناڵە ڕاستەوخۆکان کە تازە سەیر کراون</string>
+    <string name="launcher_movie_type">فیلم</string>
+    <string name="launcher_episode_number">ئەڵقەی <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">کتێبخانەکەت بار دەکرێت · <xliff:g id="count">%1$s</xliff:g> ناونیشان تا ئێستا</item>
+        <item quantity="other">کتێبخانەکەت بار دەکرێت · <xliff:g id="count">%1$s</xliff:g> ناونیشان تا ئێستا</item>
+    </plurals>
+    <string name="home_library_loading_trending">لەگەڵ پڕبوونەوەی کتێبخانەکەت بەشی ئێستا باوەکان دەردەکەوێت.</string>
+    <string name="home_no_preview">هێشتا هیچ نییە بۆ پێشبینین.</string>
+    <string name="home_no_rows">هەموو ڕیزەکانی سەرەکی شاراونەتەوە.</string>
+    <string name="home_enable_rows">ڕیزەکان لە ڕێکخستنەکان → شاشەی سەرەکی دووبارە چالاک بکە.</string>
+    <string name="home_start_watching">دەست بە سەیرکردن بکە بۆ بینینی چالاکییەکانت لێرە.</string>
+    <string name="home_continue_empty">بەردەوامی-سەیرکردنی بابەتەکانت لێرە دەردەکەوێت کاتێک مێژووی پەخش بەردەست بێت.</string>
+    <string name="home_last_watched_now">دوا سەیرکردن هەر ئێستا</string>
+    <plurals name="home_last_watched_minutes">
+        <item quantity="one">دوا سەیرکردن <xliff:g id="count">%1$d</xliff:g> خولەک لەمەوبەر</item>
+        <item quantity="other">دوا سەیرکردن <xliff:g id="count">%1$d</xliff:g> خولەک لەمەوبەر</item>
+    </plurals>
+    <plurals name="home_last_watched_hours">
+        <item quantity="one">دوا سەیرکردن <xliff:g id="count">%1$d</xliff:g> کاتژمێر لەمەوبەر</item>
+        <item quantity="other">دوا سەیرکردن <xliff:g id="count">%1$d</xliff:g> کاتژمێر لەمەوبەر</item>
+    </plurals>
+    <plurals name="home_last_watched_days">
+        <item quantity="one">دوا سەیرکردن <xliff:g id="count">%1$d</xliff:g> ڕۆژ لەمەوبەر</item>
+        <item quantity="other">دوا سەیرکردن <xliff:g id="count">%1$d</xliff:g> ڕۆژ لەمەوبەر</item>
+    </plurals>
+    <string name="home_row_cards">کارتەکان</string>
+    <string name="home_row_now_trending">ئێستا باوەکان</string>
+    <string name="home_row_keep_watching">بەردەوام بە لە سەیرکردن</string>
+    <string name="home_row_continue_movies">بەردەوامبوون لە سەیرکردنی فیلمەکان</string>
+    <string name="home_row_continue_series">بەردەوامبوون لە سەیرکردنی زنجیرەکان</string>
+    <string name="home_row_recent_channels">کەناڵە نوێیەکان</string>
+    <string name="home_row_favorite_channels">کەناڵە دڵخوازەکان</string>
+    <string name="home_row_favorite_movies">فیلمە دڵخوازەکان</string>
+    <string name="home_row_favorite_series">زنجیرە دڵخوازەکان</string>
+    <string name="home_row_on_now">ئێستا پەخش دەکرێت</string>
+    <string name="home_row_hero_description">ڕیزی گەورەی پێشبینین لە سەرەوە</string>
+    <string name="home_row_trending_description">بابەتەکانی 4–10 تەنها کاتێک پیشان دەدات کە ناونیشانە باوەکانی TMDB لەگەڵ فیلم یان زنجیرەکانی کاتەلۆگی دابینکەرەکەت بگونجێن.</string>
+    <string name="home_trending_style">شێوازی ڕیزکردنی باوەکان</string>
+    <string name="home_trending_style_hero">کارتی وردەکاری</string>
+    <string name="home_trending_style_posters">تەنها پۆستەرەکان</string>
+    <string name="home_trending_rank">#<xliff:g id="rank">%1$d</xliff:g> لە بەناوبانگەکان · <xliff:g id="section">%2$s</xliff:g></string>
+    <string name="home_trending_in_playlist">لە لیستی پەخشەکەتدا</string>
+    <string name="home_trending_style_full_bleed">تەواو-بێ پەراوێز</string>
+    <string name="home_duration_hours_minutes"><xliff:g id="hours">%1$d</xliff:g> کاتژمێر <xliff:g id="minutes">%2$02d</xliff:g> خولەک</string>
+    <string name="home_time_left"><xliff:g id="duration">%1$s</xliff:g> ماوەتەوە</string>
+    <string name="settings_trending_status_off">بەناوبانگەکانی ئێستا ناچالاکە.</string>
+    <string name="settings_trending_status_building">بەناوبانگەکانی ئێستا دوای هاوکاتکردنی دابینکەر ئامادە دەکرێت.</string>
+    <string name="settings_trending_status_metadata_disabled">بەناوبانگەکانی ئێستا پێویستی بە مێتاداتای TMDB هەیە. تەنها TMDB یان دابینکەر + TMDB هەڵبژێرە.</string>
+    <string name="settings_trending_status_no_vod">بەناوبانگەکانی ئێستا شاراوەتەوە چونکە هیچ فیلم یان زنجیرەیەک بۆ ئەم دابینکەرە چالاک نییە.</string>
+    <string name="settings_trending_status_no_matches">بەناوبانگەکانی ئێستا شاراوەتەوە چونکە هیچ ناونیشانێکی دابینکەر هاوتا نەبوو.</string>
+    <string name="settings_trending_status_failed">بەناوبانگەکانی ئێستا نوێ نەکرایەوە. دووبارە هەوڵی هاوکاتکردنی دابینکەر بدە.</string>
+    <string name="settings_trending_status_waiting">بۆ دروستکردنی بەناوبانگەکانی ئێستا هاوکاتکردنی دابینکەر تەواو بکە.</string>
+    <plurals name="settings_trending_status_below_threshold">
+        <item quantity="one">بەشی باوەکانی ئێستا شاراوەتەوە چونکە تەنها <xliff:g id="count">%1$d</xliff:g> ناونیشانی دابینکەر هاوتا بوو. لانیکەم 4 پێویستە.</item>
+        <item quantity="other">بەشی باوەکانی ئێستا شاراوەتەوە چونکە تەنها <xliff:g id="count">%1$d</xliff:g> ناونیشانی دابینکەر هاوتا بوو. لانیکەم 4 پێویستە.</item>
+    </plurals>
+    <plurals name="settings_trending_status_showing">
+        <item quantity="one">بەشی باوەکانی ئێستا <xliff:g id="count">%1$d</xliff:g> ناونیشانی هاوتا پیشان دەدات.</item>
+        <item quantity="other">بەشی باوەکانی ئێستا <xliff:g id="count">%1$d</xliff:g> ناونیشانی هاوتا پیشان دەدات.</item>
+    </plurals>
+    <plurals name="settings_trending_status_showing_refresh_failed">
+        <item quantity="one">بەشی باوەکانی ئێستا <xliff:g id="count">%1$d</xliff:g> ناونیشان لە دوا نوێکردنەوەی سەرکەوتوو پیشان دەدات.</item>
+        <item quantity="other">بەشی باوەکانی ئێستا <xliff:g id="count">%1$d</xliff:g> ناونیشان لە دوا نوێکردنەوەی سەرکەوتوو پیشان دەدات.</item>
+    </plurals>
+    <string name="home_trending_movie">فیلم</string>
+    <string name="home_trending_series">زنجیرە</string>
+    <string name="home_trending_provider_match">هاوتای دابینکەر</string>
+    <string name="home_trending_why_label">بۆچی ئەم بڕگەیە پیشان دەدرێت</string>
+    <string name="home_trending_reason_title">پلەی TMDB #<xliff:g id="rank">%1$d</xliff:g> <xliff:g id="media_type">%2$s</xliff:g> + هاوتای دابینکەر</string>
+    <string name="home_trending_reason_preferred">وەشانی هەڵبژێردراوی <xliff:g id="language">%1$s</xliff:g> لە دابینکەر پێش وەشانەکانی زمانێکی تر دەخرێت.</string>
+    <string name="home_trending_reason_english">هیچ وەشانێکی <xliff:g id="language">%1$s</xliff:g> لە دابینکەر هاوتا نەبوو, بۆیە وەشانی ئینگلیزیی دابینکەر هەڵبژێردرا.</string>
+    <string name="home_trending_reason_untagged">هیچ تاگێکی زمانی <xliff:g id="language">%1$s</xliff:g> یان ئینگلیزی هاوتا نەبوو, بۆیە وەشانی بێ تاگی دابینکەر هەڵبژێردرا.</string>
+    <string name="home_trending_reason_other">نزیکترین وەشانی پەخشکراوی دابینکەر هەڵبژێردرا چونکە وەشانەکانی پەسەندکراو-زمان و ئینگلیزی بەردەست نەبوون.</string>
+    <plurals name="home_trending_seasons">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> وەرز</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> وەرز</item>
+    </plurals>
+    <string name="home_trending_play">پەخشکردن</string>
+    <string name="home_trending_open_episodes">کردنەوەی ئەڵقەکان</string>
+    <string name="home_trending_trailer">ترەیلەر</string>
+    <string name="home_trending_more_details">وردەکاریی زیاتر</string>
+    <string name="home_trending_all_versions">هەموو وەشانەکان</string>
+    <string name="home_trending_why_menu">بۆچی ئەم ناونیشانە لێرەیە</string>
+    <string name="home_trending_pause">ڕاگرتن</string>
+    <string name="home_trending_unavailable">ئەم وەشانە چیتر بەردەست نییە</string>
+    <string name="home_row_continue_movies_description">فیلمەکانی خاوەن خاڵی پەخشی پاشەکەوتکراو</string>
+    <string name="home_row_continue_series_description">ئەڵقەکان بۆ بەردەوامبوون یان پەخشکردنی دواتر</string>
+    <string name="home_row_recent_description">کەناڵە ڕاستەوخۆکان کە بەم دواییە سەیرت کردوون</string>
+    <string name="home_row_favorite_description">کەناڵە ڕاستەوخۆ دڵخوازەکانت</string>
+    <string name="home_row_favorite_movies_description">فیلمە دڵخوازەکانت</string>
+    <string name="home_row_favorite_series_description">زنجیرە دڵخوازەکانت</string>
+    <string name="update_title">نوێکردنەوەی ئەپ</string>
+    <string name="update_checking">پشکنینی نوێکردنەوەکان…</string>
+    <string name="update_whats_new">چی\' نوێیە</string>
+    <string name="update_downloading">داگرتنی نوێکردنەوە… <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="update_available">نوێکردنەوە بەردەستە</string>
+    <string name="update_latest">تۆ\' لەسەر نوێترین وەشانیت (v<xliff:g id="version">%1$s</xliff:g>).</string>
+    <string name="update_available_version">وەشانی <xliff:g id="available">%1$s</xliff:g> بەردەستە (وەشانی ئێستات v<xliff:g id="current">%2$s</xliff:g>ـە).</string>
+    <string name="update_installer">دامەزرێنەری سیستەم دوای تەواوبوونی داگرتن دەکرێتەوە.</string>
+    <string name="update_later">دواتر</string>
+    <string name="update_now">ئێستا نوێ بکەرەوە</string>
+    <string name="update_try_again">دووبارە هەوڵ بدەرەوە</string>
+    <string name="update_failed_check">نە\'کرا نوێکردنەوەکان بپشکنرێن.</string>
+    <string name="update_failed_check_http">سێرڤەری نوێکردنەوە لە کاتی پشکنین HTTP <xliff:g id="code">%1$s</xliff:g>ی گەڕاندەوە.</string>
+    <string name="update_no_compatible_apk">لەو وەشانەدا هیچ پاکێجی نوێکردنەوەیەک بۆ ئەم ئامێرە نەدۆزرایەوە.</string>
+    <string name="update_invalid_release_response">سێرڤەری نوێکردنەوە وەسفێکی نادروستی وەشانی گەڕاندەوە.</string>
+    <string name="update_failed_download">نە\'کرا نوێکردنەوەکە دابگیرێت چونکە داواکاریی تۆڕ شکستی هێنا.</string>
+    <string name="update_failed_download_http">داگرتنی نوێکردنەوە کۆدی HTTP <xliff:g id="code">%1$s</xliff:g>ی گەڕاندەوە.</string>
+    <string name="update_empty_download">سێرڤەری نوێکردنەوە APKێکی بەتاڵی گەڕاندەوە.</string>
+    <string name="update_install_failed">دامەزرێنەری سیستەم نەیتوانی نوێکردنەوە داگیراوەکە بکاتەوە.</string>
+    <string name="update_not_enough_space">بۆ نوێکردنەوە بۆشایی پێویست نییە. نزیکەی <xliff:g id="size">%1$s</xliff:g> بەتاڵ بکەرەوە و دووبارە هەوڵ بدەرەوە.</string>
+    <string name="update_damaged_download">نوێکردنەوەکە نە\'کرا بە تەواوی دابگیرێت. پەیوەندییەکەت بپشکنە و دووبارە هەوڵ بدەرەوە.</string>
+    <string name="update_install_rejected">دامەزرێنەری سیستەم نوێکردنەوەکەی ڕەت کردەوە: <xliff:g id="reason">%1$s</xliff:g></string>
+    <string name="update_ready">OwnTV v<xliff:g id="available">%1$s</xliff:g> ئامادەیە (وەشانی ئێستات v<xliff:g id="current">%2$s</xliff:g>ـە).</string>
+    <string name="recovery_title">OwnTV نەیتوانی بنکەدراوەکەی بکاتەوە</string>
+    <string name="recovery_data_safe_full">پرۆفایلەکانت, لیستەکانی لێدانت, دڵخوازەکان و مێژوو نەسڕاونەتەوە — ئەمە شکستی بەرزکردنەوەی وەشانی بنکەدراوەیە, و داتاکان هێشتا لەسەر ئەم ئامێرەن.\n\nتکایە ڕاپۆرتی ئەمە بنێرە تا چاک بکرێت, و پەیامی خوارەوەش لەگەڵیدا بنێرە.</string>
+    <string name="recovery_retry">دووبارە هەوڵ بدەرەوە</string>
+    <string name="recovery_backup_hint">ئەگەر فایلێکی پاشەکەوتت هەیە دەتوانیت ئەپەکە ڕێکبخەیتەوە و دواتر پاشەکەوتەکە بگەڕێنیتەوە. ڕێکخستنەوە هەموو شتێکی هەڵگیراو لەسەر ئەم ئامێرە دەسڕێتەوە.</string>
+    <string name="recovery_confirm_reset">پشتڕاستکردنەوە: سڕینەوەی هەموو داتاکانی ئەپ</string>
+    <string name="recovery_reset">ڕێکخستنەوەی داتاکانی ئەپ (دوایین چارە)</string>
+    <string name="recording_notification_title">تۆمارکردن</string>
+    <string name="auto_start_notification_channel">دەستپێکردنی خۆکار لە کاتی هەستان-ەوە</string>
+    <string name="auto_start_notification_text">OwnTV کاتێک تەلەڤیزیۆنەکە هەڵدەستێتەوە دەکرێتەوە</string>
+    <string name="recording_failed_no_space">وەستا: هیچ بۆشاییەک نەماوە</string>
+    <string name="recording_failed_no_connection">هیچ پەیوەندییەکی بەردەست لە دابینکەرەکەت نییە</string>
+    <string name="recording_failed_clash">تۆمارکردنێکی تر پەیوەندییەکەی بەکاردەهێنا</string>
+    <string name="recording_failed_network">پەیوەندییەکە پچڕا</string>
+    <string name="recording_failed_unavailable">کەناڵەکە لێنەدرا</string>
+    <string name="recording_failed_channel_gone">ئەو کەناڵە چیتر لە لیستی لێدانەکەتدا نییە</string>
+    <string name="recording_failed_unknown">تۆمار نەکرا</string>
+    <string name="recording_title">تۆمارکراوەکان</string>
+    <string name="recording_empty">هێشتا هیچ تۆمار نەکراوە. لە ڕێبەری تەلەڤیزیۆندا لەسەر بەرنامەیەک تۆمارکردن دابگرە, یان لەسەر کەناڵێک درێژ-دابگرە بۆ تۆمارکردنی یان دیاریکردنی کاتێک.</string>
+    <string name="recording_group_now">ئێستا تۆمار دەکرێت</string>
+    <string name="recording_group_scheduled">کاتی بۆ دیاریکراوە</string>
+    <string name="recording_group_completed">تۆمارکراو</string>
+    <string name="recording_group_failed">سەرکەوتوو نەبوو</string>
+    <string name="recording_group_missed">لەدەستچوو</string>
+    <string name="recording_record">تۆمار بکە</string>
+    <string name="recording_stop">تۆمارکردن بوەستێنە</string>
+    <string name="recording_delete_message">تۆمارەکە و فایلەکەی لەم ئامێرە دەسڕێتەوە. ئەمە ناگەڕێتەوە.</string>
+    <string name="recording_record_series">هەموو جارێکی پەخش تۆمار بکە</string>
+    <string name="recording_stop_series">تۆمارکردنی هەموو جارێکی پەخش بوەستێنە</string>
+    <string name="recording_from_archive">لە پەخشی-پێشوو تۆمار بکە</string>
+    <string name="recording_schedule">کاتی تۆمارکردن دیاری بکە…</string>
+    <string name="recording_schedule_hint">ڕۆژ, کاتی دەستپێک و کۆتایی هەڵبژێرە. تەنانەت ئەگەر ئەم کەناڵە ڕێبەری تەلەڤیزیۆنی نەبێت تۆمار دەکات.</string>
+    <string name="recording_schedule_start">دەستپێک</string>
+    <string name="recording_schedule_end">کۆتایی</string>
+    <string name="recording_schedule_next_day">ڕۆژی دواتر</string>
+    <string name="recording_schedule_past">ئەو کاتە تێپەڕیوە</string>
+    <string name="recording_scheduled_for">تۆمار دەکرێت <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="recording_badge">REC</string>
+    <string name="recording_pill_line">لە تۆمارکردندایە <xliff:g id="title">%1$s</xliff:g></string>
+    <string name="recording_pill_line_locked">لە پۆلێکی قوفڵکراوەوە تۆمار دەکرێت</string>
+    <string name="recording_clash_with">کاتەکەی تێکەڵ دەبێت لەگەڵ <xliff:g id="programme">%1$s</xliff:g></string>
+    <string name="recording_settings_group">تۆمارکردن</string>
+    <string name="settings_recording_reserve">یەک پەخش بۆ سەیرکردن بەتاڵ بهێڵەوە</string>
+    <string name="settings_recording_reserve_description">تۆمارکردن یەکێک لە پەیوەندییەکانی دابینکەر\'ەکەت بەتاڵ دەهێڵێتەوە, بۆ ئەوەی هەمیشە یەکێکیان بۆ سەیرکردن هەبێت. ئەمە ناچالاک بکە بۆ تۆمارکردن لەسەر هەموو پەیوەندییەکان.</string>
+    <string name="settings_recording_pre_roll">زووتر دەست پێ بکە</string>
+    <string name="settings_recording_pre_roll_description">بە ئەم ماوەیە پێش کاتی دەستپێکی دیاریکراو دەست پێ بکە, بۆ ئەوەی ئەگەر پەخش کەمێک زووتر دەستی پێکرد سەرەتاکەی تۆمار بکرێت.</string>
+    <string name="settings_recording_post_roll">دوای کۆتایی بەردەوام بە</string>
+    <string name="settings_recording_post_roll_description">بە ئەم ماوەیە دوای کاتی کۆتایی دیاریکراو بەردەوام بە, بۆ ئەوەی بەرنامەیەک کە درێژتر دەخایەنێت نەبڕدرێت.</string>
+    <string name="settings_recording_timers_inexact">ئەم ئامێرە ڕێگە بە OwnTV نادات ئاگادارکەرەوەی ورد دابنێت, بۆیە لەوانەیە تۆمارکردن چەند خولەکێک درەنگ دەست پێ بکات. تۆمارکردن زووتر دەست پێ دەکات بۆ قەرەبووکردنەوەی ئەمە.</string>
+    <plurals name="recording_minutes">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> خولەک</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> خولەک</item>
+    </plurals>
+    <string name="recording_failed_encrypted">ئەم کەناڵە کۆدکراوە و ناتوانرێت تۆمار بکرێت</string>
+    <string name="recording_failed_drm">ئەم کەناڵە بە DRM-پارێزراوە, بۆیە دەکرێت سەیر بکرێت بەڵام تۆمار ناکرێت. ئەم پاراستنە لەلایەن دابینکەرەکەتەوەیە, نەک OwnTV.</string>
+    <string name="recording_failed_metered">بە داتای مۆبایل تۆمار نەکرا</string>
+    <string name="recording_card_empty_title">هێشتا هیچ تۆمار نەکراوە</string>
+    <string name="recording_card_body">لە ڕێبەری تەلەڤیزیۆن بەرنامەیەک هەڵبژێرە و تۆمار بکە هەڵبژێرە, یان لەسەر کەناڵێک پەنجە-ڕابگرە و کاتێک دیاری بکە. تۆمارەکە لێرە دەردەکەوێت, تەنانەت کاتێک شتێکی تر سەیر دەکەیت.</string>
+    <string name="recording_open_guide">ڕێبەری تەلەڤیزیۆن بکەرەوە</string>
+    <plurals name="recording_card_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> تۆمار</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> تۆمار</item>
+    </plurals>
+    <string name="settings_recording_mobile_data">بە داتای مۆبایل تۆمار بکە</string>
+    <string name="settings_record_watching">ئەوەی سەیر’دەکەم تۆمار بکە</string>
+    <string name="settings_record_watching_description">دوگمەی تۆمارکردن بۆ پەخشکەر زیاد دەکات کە ئەو کەناڵە پاشەکەوت دەکات کە سەیری دەکەیت. کەناڵەکە سەربەخۆ وەردەگرێت, بۆیە لە کاتی کارکردندا یەکێک لە پەیوەندییەکانی دابینکەر’ەکەت بەکاردەهێنێت, دوای گۆڕینی کەناڵ یان دەرچوون لە پەخشکەر بەردەوام دەبێت لە تۆمارکردن.</string>
+    <string name="settings_record_watching_warning_title">تەنها یەک پەیوەندی</string>
+    <string name="settings_record_watching_warning_description">تۆمارکردن کەناڵەکە بۆ جاری دووەم وەردەگرێت, بۆیە پەیوەندییەکی تری دابینکەر’ەکەت بەکاردەهێنێت. لە هەژمارێکدا کە تەنها ڕێگە بە یەک پەیوەندی دەدات, لە کاتی سەیرکردندا تۆمارکردن ڕەت دەکرێتەوە. کە دەستی پێکرد خۆی بەردەوام دەبێت — کەناڵ بگۆڕە, لە پەخشکەر دەربچۆ, بەردەوام دەبێت تا بەرنامەکە کۆتایی دێت یان لە بەشی تۆمارەکان دەیوەستێنیت.</string>
+    <string name="settings_record_watching_keep_off">ناچالاک بهێڵەوە</string>
+    <string name="settings_record_watching_turn_on">چالاکی بکە</string>
+    <string name="player_recording_conflict">دابینکەرەکەت تەنها ڕێگە بە یەک پەخش لە هەر کاتێکدا دەدات, و تۆمارکردنەکە بەکاری دەهێنێت.</string>
+    <string name="player_keep_watching_stop_recording">بەردەوام بە لە سەیرکردن (تۆمارکردنەکە ڕادەگرێت)</string>
+    <string name="sports_channel_goal_alerts">ئاگادارکردنەوەکانی گۆڵ</string>
+    <string name="sports_channel_live_match">یاریی ڕاستەوخۆ</string>
+    <string name="sports_channel_match_reminders">بیرهێنەرەوەکانی یاری</string>
+    <string name="sports_score_line"><xliff:g id="home">%1$s</xliff:g> <xliff:g id="home_score">%2$s</xliff:g>–<xliff:g id="away_score">%3$s</xliff:g> <xliff:g id="away">%4$s</xliff:g></string>
+    <string name="sports_pair"><xliff:g id="home">%1$s</xliff:g> – <xliff:g id="away">%2$s</xliff:g></string>
+    <string name="sports_alert_goal">⚽ گۆڵ! <xliff:g id="score">%1$s</xliff:g></string>
+    <string name="sports_alert_wicket">ویکێت! <xliff:g id="score">%1$s</xliff:g></string>
+    <string name="sports_alert_red_card">کارتی سوور · <xliff:g id="score">%1$s</xliff:g></string>
+    <string name="sports_alert_half_time">کۆتایی نیوەی یەکەم · <xliff:g id="score">%1$s</xliff:g></string>
+    <string name="sports_alert_full_time">کۆتایی یاری · <xliff:g id="score">%1$s</xliff:g></string>
+    <string name="sports_alert_kickoff">دەست-پێکردنی یاری · <xliff:g id="match">%1$s</xliff:g></string>
+    <string name="sports_alert_postponed">دواخرا · <xliff:g id="match">%1$s</xliff:g></string>
+    <string name="sports_alert_cancelled">هەڵوەشێنرایەوە · <xliff:g id="match">%1$s</xliff:g></string>
+    <string name="sports_alert_corrected">ئەنجام ڕاستکرایەوە · <xliff:g id="score">%1$s</xliff:g></string>
+    <string name="sports_alert_detail"><xliff:g id="what">%1$s</xliff:g> · <xliff:g id="competition">%2$s</xliff:g></string>
+    <plurals name="sports_reminder_title">
+        <item quantity="one">دەست-پێکی یاری دوای <xliff:g id="minutes">%1$d</xliff:g> خولەک: <xliff:g id="match">%2$s</xliff:g></item>
+        <item quantity="other">دەست-پێکی یاری دوای <xliff:g id="minutes">%1$d</xliff:g> خولەک: <xliff:g id="match">%2$s</xliff:g></item>
+    </plurals>
+    <string name="sports_reminder_on">چالاکە <xliff:g id="channel">%1$s</xliff:g></string>
+    <plurals name="sports_reminder_on_more">
+        <item quantity="one">لە <xliff:g id="channel">%1$s</xliff:g> و <xliff:g id="count">%2$d</xliff:g> کەناڵی تر</item>
+        <item quantity="other">لە <xliff:g id="channel">%1$s</xliff:g> و <xliff:g id="count">%2$d</xliff:g> کەناڵی تر</item>
+    </plurals>
+    <string name="sports_action_stop_updates">ڕاگرتنی نوێکردنەوەکان</string>
+    <string name="sports_title">وەرزش</string>
+    <plurals name="sports_hub_live">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> ڕاستەوخۆ</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> ڕاستەوخۆ</item>
+    </plurals>
+    <plurals name="sports_hub_matches">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> یاری</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> یاری</item>
+    </plurals>
+    <string name="sports_scores_espn">ئەنجامەکان: ESPN</string>
+    <string name="sports_my_teams">تیمەکانم</string>
+    <string name="sports_live_now">ئێستا ڕاستەوخۆ</string>
+    <string name="sports_not_on_channels">لە کەناڵەکانت نییە</string>
+    <string name="sports_on_channels_now">وەرزش لە کەناڵەکانت ئێستا</string>
+    <string name="sports_on_channels_now_mobile">وەرزش لە کەناڵەکانت</string>
+    <string name="sports_on_channels_now_hint">لە ڕێبەرەکەتەوە — ئەو وەرزشانەش دەگرێتەوە کە ESPN پۆششیان نادات</string>
+    <string name="sports_starting_soon">بەم زووانە دەست پێدەکات</string>
+    <string name="sports_hint_match_page">پەڕەی یاری</string>
+    <string name="sports_hint_follow_remind">شوێنکەوتن · بیرهێنانەوە</string>
+    <string name="sports_hint_day_matches">یارییەکانی ڕۆژ’</string>
+    <string name="sports_hint_day">ڕۆژ</string>
+    <string name="sports_hint_week">هەفتە</string>
+    <string name="sports_hint_show_score">پیشاندانی ئەنجام</string>
+    <string name="sports_hint_back_to_day">گەڕانەوە بۆ ڕۆژەکە</string>
+    <string name="sports_hint_open_league">کردنەوەی خول</string>
+    <string name="sports_hint_sport_chips">دوگمەکانی وەرزش</string>
+    <string name="sports_hint_league_chips">دوگمەکانی خول</string>
+    <string name="sports_hint_follow_unfollow">شوێنکەوتن · وازهێنان لە شوێنکەوتن</string>
+    <string name="sports_reminder_set">بیرهێنەرەوە</string>
+    <string name="sports_until">تا <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="sports_set">سێت <xliff:g id="set">%1$d</xliff:g></string>
+    <string name="sports_overs"><xliff:g id="overs">%1$s</xliff:g> ئۆڤەر</string>
+    <string name="sports_empty_nothing">ئەمڕۆ لەوەی بەدوایدا دەچیت هیچ یارییەک نییە</string>
+    <string name="sports_empty_unreachable">ئەنجامەکان ئێستا بەردەست نین’. کەناڵەکانت هێشتا کار دەکەن.</string>
+    <string name="sports_paused">نوێکردنەوەی ئەنجامەکان ڕاگیراوە — چەند خولەکێکی تر هەوڵ دەدرێتەوە</string>
+    <string name="sports_sport_soccer">تۆپی پێ</string>
+    <string name="sports_sport_basketball">تۆپی سەبەتە</string>
+    <string name="sports_sport_tennis">تێنس</string>
+    <string name="sports_sport_cricket">کریکت</string>
+    <string name="sports_sport_hockey">هۆکی سەر سەهۆڵ</string>
+    <string name="sports_sport_football">NFL</string>
+    <string name="sports_sport_mma">MMA</string>
+    <string name="sports_sport_baseball">بەیسبۆڵ</string>
+    <string name="sports_sport_golf">گۆڵف</string>
+    <string name="sports_sport_rugby">ڕەگبی</string>
+    <string name="sports_sport_rugby_league">ڕەگبی لیگ</string>
+    <string name="sports_sport_aussie_rules">تۆپی پێی ئۆسترالی</string>
+    <string name="sports_sport_volleyball">تۆپی والی</string>
+    <string name="sports_sport_lacrosse">لاکرۆس</string>
+    <string name="sports_sport_handball">تۆپی دەست</string>
+    <string name="sports_sport_motorsport">وەرزشە ئۆتۆمبێلییەکان</string>
+    <string name="sports_sport_darts">دارت</string>
+    <string name="sports_sport_snooker">سنووکەر</string>
+    <string name="sports_sport_cycling">پاسکیل سواری</string>
+    <string name="sports_sport_combat">وەرزشە جەنگاوەرییەکان</string>
+    <string name="sports_sport_american_football">تۆپی پێی ئەمریکی</string>
+    <string name="sports_sport_athletics">مەیدان و گۆڕەپان</string>
+    <string name="sports_sport_winter">وەرزشە زستانییەکان</string>
+    <string name="sports_sport_other">وەرزش</string>
+    <string name="sports_tab_timeline">ڕووداوەکان</string>
+    <string name="sports_tab_stats">ئامار</string>
+    <string name="sports_tab_lineups">پێکهاتە-کان</string>
+    <string name="sports_tab_table">خشتە</string>
+    <string name="sports_following">بەدواداچوون</string>
+    <string name="sports_follow">بەدوادا بچۆ</string>
+    <string name="sports_event_goal">گۆڵ · <xliff:g id="player">%1$s</xliff:g></string>
+    <string name="sports_event_own_goal">گۆڵ لە خۆ · <xliff:g id="player">%1$s</xliff:g></string>
+    <string name="sports_event_penalty">پێناڵتی · <xliff:g id="player">%1$s</xliff:g></string>
+    <string name="sports_event_yellow">کارتی زەرد · <xliff:g id="player">%1$s</xliff:g></string>
+    <string name="sports_event_red">کارتی سوور · <xliff:g id="player">%1$s</xliff:g></string>
+    <string name="sports_event_sub">گۆڕینی یاریزان · <xliff:g id="player_on">%1$s</xliff:g> ↔ <xliff:g id="player_off">%2$s</xliff:g></string>
+    <string name="sports_event_assist">پاسی گۆڵ <xliff:g id="player">%1$s</xliff:g></string>
+    <string name="sports_event_wicket">ویکێت · <xliff:g id="player">%1$s</xliff:g></string>
+    <string name="sports_event_kickoff">دەستپێکی-یاری</string>
+    <string name="sports_event_half_time">پشووی نێوان دوو نیوە</string>
+    <string name="sports_event_full_time">کۆتایی یاری</string>
+    <string name="sports_stat_red_cards">کارتە سوورەکان</string>
+    <string name="sports_watch_live">سەیری ڕاستەوخۆ بکە</string>
+    <plurals name="sports_watch_live_count">
+        <item quantity="one">سەیری ڕاستەوخۆ بکە · <xliff:g id="count">%1$d</xliff:g> کەناڵ</item>
+        <item quantity="other">سەیری ڕاستەوخۆ بکە · <xliff:g id="count">%1$d</xliff:g> کەناڵ</item>
+    </plurals>
+    <string name="sports_language_first"><xliff:g id="language">%1$s</xliff:g> یەکەم · لە ڕێکخستنەکانەوە</string>
+    <string name="sports_any_country">هەر وڵاتێک</string>
+    <string name="sports_reason_guide">ڕێبەر: <xliff:g id="programme">%1$s</xliff:g></string>
+    <string name="sports_reason_event">کەناڵی ڕووداو · ناوەکەی لەگەڵ هەردوو تیمەکە دەگونجێت</string>
+    <string name="sports_reason_pick">هەڵبژاردەکەت بۆ <xliff:g id="competition">%1$s</xliff:g></string>
+    <string name="sports_reason_likely">زۆرجار <xliff:g id="competition">%1$s</xliff:g> پیشان دەدات</string>
+    <string name="sports_confirmed">لەلایەن ڕێبەرەوە پشتڕاست کراوەتەوە</string>
+    <plurals name="sports_hidden">
+        <item quantity="one">+ <xliff:g id="count">%1$d</xliff:g> بە فلتەرەکان شاراوەتەوە</item>
+        <item quantity="other">+ <xliff:g id="count">%1$d</xliff:g> بە فلتەرەکان شاراوەتەوە</item>
+    </plurals>
+    <string name="sports_watch_full_screen">بە پڕشاشە سەیر بکە</string>
+    <string name="sports_preview_another">پێشبینینی کەناڵێکی تر</string>
+    <string name="sports_always_use">هەمیشە بۆ <xliff:g id="competition">%1$s</xliff:g> بەکاری بهێنە</string>
+    <string name="sports_filter_title">پاڵاوتنی کەناڵەکان</string>
+    <string name="sports_showing_of">پیشاندانی <xliff:g id="shown">%1$d</xliff:g> لە <xliff:g id="total">%2$d</xliff:g></string>
+    <string name="sports_filter_country">وڵات</string>
+    <string name="sports_filter_match">یاری</string>
+    <string name="sports_unknown">نەناسراو</string>
+    <string name="sports_any">هەر یەکێک</string>
+    <string name="sports_all_playlists">هەموو لیستەکانی پەخش</string>
+    <string name="sports_quality_hd">HD و باشتر</string>
+    <string name="sports_quality_fhd">FHD و باشتر</string>
+    <string name="sports_quality_uhd">تەنها 4K</string>
+    <string name="sports_only_confirmed">تەنها کەناڵە پشتڕاستکراوەکان لەلایەن ڕێبەرەوە</string>
+    <string name="sports_only_confirmed_description">کەناڵە “ئەگەردارەکان” و لەبیرگیراوەکان بشارەوە</string>
+    <string name="sports_only_confirmed_mobile">تەنها پشتڕاستکراوەکانی ڕێبەر</string>
+    <string name="sports_remember_filters">ئەم پاڵێوەرانە بۆ هەموو یارییەک لەبیر بگرە</string>
+    <string name="sports_remember_filters_description">بۆ ئەم پرۆفایلە لە ڕێکخستنەکان → وەرزش پاشەکەوت دەکرێت</string>
+    <string name="sports_remember_filters_mobile">بۆ هەموو یارییەک لەبیر بگرە</string>
+    <plurals name="sports_show_channels">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> کەناڵ پیشان بدە</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> کەناڵ پیشان بدە</item>
+    </plurals>
+    <string name="sports_filter_only_this">تەنها ئەمە</string>
+    <string name="sports_filter_toggle">گۆڕینی دۆخ</string>
+    <string name="sports_goal_toast">گۆڵ بۆ تیمێک کە بەدوایدا دەچیت</string>
+    <string name="sports_switch">بگۆڕە</string>
+    <string name="sports_other_channels">کەناڵەکانی تر</string>
+    <string name="sports_other_channels_count">کەناڵەکانی تر · <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="sports_other_channels_title">کەناڵەکانی تر بۆ ئەم یارییە</string>
+    <string name="sports_playing_now">ئێستا پەخش دەکرێت</string>
+    <string name="sports_switch_channel">گۆڕینی کەناڵ</string>
+    <string name="sports_tab_fixtures">خشتەی یارییەکان</string>
+    <string name="sports_tab_results">ئەنجامەکان</string>
+    <string name="sports_tab_scores">ئەنجامی یارییەکان</string>
+    <string name="sports_tab_calendar">ڕۆژژمێر</string>
+    <string name="sports_tab_leagues">خولەکان</string>
+    <string name="sports_previous_month">مانگی پێشوو</string>
+    <string name="sports_next_month">مانگی داهاتوو</string>
+    <string name="sports_next">داهاتوو: <xliff:g id="match">%1$s</xliff:g></string>
+    <string name="sports_next_badge">داهاتوو</string>
+    <string name="sports_no_table_series">خشتە نییە — زنجیرەکان هەموو هەفتەیەک دەگۆڕێن</string>
+    <string name="sports_follow_league">شوێنکەوتنی خول</string>
+    <string name="sports_unfollow_league">وەستاندنی شوێنکەوتنی خول</string>
+    <string name="sports_no_matches_on">لە وەرزشەکانتدا هیچ یارییەک نییە لە <xliff:g id="day">%1$s</xliff:g></string>
+    <string name="sports_nothing_on_day">لەم ڕۆژەدا هیچ نییە</string>
+    <string name="sports_nothing_in_sport">لە <xliff:g id="sport">%1$s</xliff:g> لەم ڕۆژەدا هیچ نییە</string>
+    <string name="sports_change_leagues_hint">خولەکان زیاد بکە یان بیانسڕەوە لە ڕێکخستنەکان → وەرزش</string>
+    <string name="sports_loading_month">بارکردنی <xliff:g id="month">%1$s</xliff:g>…</string>
+    <string name="sports_offline_saved">پیشاندانی زانیارییە پاشەکەوتکراوەکان <xliff:g id="time">%1$s</xliff:g> — پەیوەندی بە ESPN نەکرا</string>
+    <string name="sports_team_page">پەڕەی تیم</string>
+    <string name="sports_next_match">یاریی داهاتوو</string>
+    <string name="sports_last_five">پێنج یاریی کۆتایی</string>
+    <string name="sports_league_position">پلە لە خول</string>
+    <string name="sports_in_my_teams">لە تیمەکانمدا</string>
+    <string name="sports_open_match_page">کردنەوەی پەڕەی یاری</string>
+    <string name="sports_open_team_page">کردنەوەی پەڕەی تیم</string>
+    <string name="sports_my_teams_leagues">ئەو خولانەی تیمەکانت تێیاندا یاری دەکەن</string>
+    <string name="sports_tab_drivers">شۆفێرەکان</string>
+    <string name="sports_tab_constructors">دروستکەرەکان</string>
+    <string name="sports_tab_races">پێشبڕکێکان</string>
+    <string name="sports_tab_rankings">پلەبەندی</string>
+    <string name="sports_tab_matches">یارییەکان</string>
+    <string name="sports_next_race_weekend">کۆتایی هەفتەی پێشبڕکێی داهاتوو</string>
+    <string name="sports_last_weekend">کۆتایی هەفتەی پێشوو</string>
+    <string name="sports_session_practice_1">ڕاهێنان 1</string>
+    <string name="sports_session_practice_2">ڕاهێنان 2</string>
+    <string name="sports_session_practice_3">ڕاهێنان 3</string>
+    <string name="sports_session_sprint_qualifying">دیاریکردنی ڕیزبەندیی سپرینت</string>
+    <string name="sports_session_qualifying">دیاریکردنی ڕیزبەندی</string>
+    <string name="sports_session_sprint">سپرینت</string>
+    <string name="sports_session_race">پێشبڕکێ</string>
+    <string name="sports_table_team">تیم</string>
+    <string name="sports_table_played">ی</string>
+    <string name="sports_table_won">ب</string>
+    <string name="sports_table_drawn">ی</string>
+    <string name="sports_table_lost">د</string>
+    <string name="sports_table_difference">جد</string>
+    <string name="sports_table_points">خاڵ</string>
+    <string name="sports_table_form">دۆخی ئەم دواییە</string>
+    <string name="sports_this_matchday">ئەم گەڕەی یارییەکان</string>
+    <string name="sports_settings_what">چی پیشان بدرێت</string>
+    <string name="sports_show_in_menu">وەرزش لە مینیو پیشان بدە</string>
+    <string name="sports_show_in_menu_description">بە بنەڕەت چالاکە, بە لیستی پەخش یان بەبێ ئەوە</string>
+    <string name="sports_leagues">وەرزش و خولەکان</string>
+    <plurals name="sports_league_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> لیگ</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> لیگ</item>
+    </plurals>
+    <string name="sports_spoiler_free">بێ-ئاشکراکردنی ئەنجام</string>
+    <string name="sports_spoiler_free_description">ئەنجامەکان بشارەوە تا OK لەسەریان دادەگریت</string>
+    <string name="sports_spoiler_free_description_mobile">لە ئەنجامێک بدە بۆ پیشاندانی</string>
+    <string name="sports_settings_watching">سەیرکردن</string>
+    <string name="sports_languages">زمانە پەسەندکراوەکانی لێدوان</string>
+    <string name="sports_languages_mobile">زمانەکانی لێدوان</string>
+    <string name="sports_languages_description">لە پێشەوە ڕیزکراوە لە “بینینی ڕاستەوخۆ”</string>
+    <string name="sports_countries">وڵاتە پەسەندکراوەکان</string>
+    <string name="sports_countries_description">لە پێشگرەکانی کەناڵەوە وەک “DE|”</string>
+    <string name="sports_picture_description">کەناڵەکانی خوار ئەم ئاستە بشارەوە</string>
+    <string name="sports_settings_while_watching">لە کاتی سەیرکردن</string>
+    <string name="sports_score_info_bar">ئەنجام لە شریتی زانیاری</string>
+    <string name="sports_score_info_bar_description">تەنها کاتێک شریتەکە کراوەیە پیشان دەدرێت, بۆ ئەوەی گۆڵێک ئاشکرا’نەکات</string>
+    <string name="sports_score_info_bar_description_mobile">تەنها کاتێک شریتەکە کراوەیە</string>
+    <string name="sports_goal_alerts_description">بۆ تیمەکانم, لە کاتی سەیرکردنی شتێکی تر</string>
+    <string name="sports_match_reminders_description">پێش دەست-پێکردن, لەگەڵ باشترین کەناڵ</string>
+    <string name="sports_remembered_channels">کەناڵە لەبیرگیراوەکان</string>
+    <string name="sports_remembered_one"><xliff:g id="competition">%1$s</xliff:g> → <xliff:g id="channel">%2$s</xliff:g></string>
+    <plurals name="sports_remembered_summary">
+        <item quantity="one"><xliff:g id="competition">%1$s</xliff:g> → <xliff:g id="channel">%2$s</xliff:g> · <xliff:g id="count">%3$d</xliff:g> زیاتر</item>
+        <item quantity="other"><xliff:g id="competition">%1$s</xliff:g> → <xliff:g id="channel">%2$s</xliff:g> · <xliff:g id="count">%3$d</xliff:g> زیاتر</item>
+    </plurals>
+    <string name="sports_show_likely">کەناڵە “ئەگەرییەکان” پیشان بدە</string>
+    <string name="sports_show_likely_description">کەناڵە وەرزشییەکان کە ڕێبەری پەخش پشتڕاستی نەکردوونەتەوە</string>
+    <string name="sports_settings_data">داتا</string>
+    <string name="sports_live_refresh">نوێکردنەوەی ڕاستەوخۆ</string>
+    <string name="sports_live_refresh_description">تەنها لە کاتی پیشاندانی پەڕەیەکی وەرزشی یان ئەنجامێک</string>
+    <string name="sports_about">دەربارەی داتای وەرزشی</string>
+    <string name="sports_about_summary">ئەنجامەکان: ESPN · کەناڵەکان: لیستی پەخش و ڕێبەری بەرنامەکانت</string>
+    <string name="sports_alerts_when_closed">ئاگادارکردنەوە کاتێک OwnTV داخراوە</string>
+    <string name="sports_alerts_when_closed_description">یەک جار داوای مۆڵەتی ئاگادارکردنەوە دەکات</string>
+    <string name="sports_alert_me_about">ئاگادارم بکەرەوە لە</string>
+    <string name="sports_kind_goals">گۆڵ و ویکێتەکان</string>
+    <string name="sports_kind_kickoff_full_time">دەست-پێک و کۆتایی یاری</string>
+    <string name="sports_alerts_for">بۆ</string>
+    <string name="sports_followed_leagues">خولە بەدواداچوونکراوەکان</string>
+    <string name="sports_followed_leagues_description">هەموو یارییەک, کە ڕەنگە زۆر بن</string>
+    <string name="sports_live_card">کارتی ئەنجامی ڕاستەوخۆ</string>
+    <string name="sports_live_card_offer">پێشنیاری کارتی ئەنجامی ڕاستەوخۆ بکە</string>
+    <string name="sports_live_card_description">هەر 30 چرکەیەک تا کۆتایی یاری نوێ دەبێتەوە; لە یارییەکەوە دەستی پێ دەکەیت</string>
+    <string name="sports_alerts_footnote">کاتێک OwnTV داخراوە, ئاگادارکردنەوەکان زۆرجار لە ماوەی خولەکێکدا دەگەن. ئەگەر مۆبایلەکە ماوەیەکی زۆر بێجووڵە و بە شاشەی کوژاوە مابێتەوە, ڕەنگە Android تا نزیکەی 15 خولەک دوايان بخات. کارتی ئەنجامی ڕاستەوخۆ دوا ناکەوێت.</string>
+    <string name="sports_search_teams">گەڕان بەدوای تیمەکان, یاریزانەکان, خولەکان</string>
+    <string name="sports_suggested">پێشنیارکراو بەپێی ئەوەی سەیری دەکەیت</string>
+    <plurals name="sports_watched_matches">
+        <item quantity="one">تۆ سەیری <xliff:g id="count">%1$d</xliff:g> لە یارییەکانیانت کردووە</item>
+        <item quantity="other">تۆ سەیری <xliff:g id="count">%1$d</xliff:g> لە یارییەکانیانت کردووە</item>
+    </plurals>
+    <string name="sports_league_label">خول</string>
+    <string name="sports_no_playlist_title">لیستی پەخشێک زیاد بکە بۆ سەیرکردنی یارییەکان</string>
+    <string name="sports_no_playlist_body">ئەنجامەکان, خشتەکان و ئاگادارکردنەوەکان بەبێ لیستی پەخشیش کار دەکەن. بە لیستی پەخشێک, OwnTV هەموو ئەو کەناڵانە دەدۆزێتەوە کە ئەم یارییە پەخش دەکەن.</string>
+    <string name="sports_add_playlist">زیادکردنی لیستی پەخش</string>
+    <string name="sports_home_row">وەرزشی ڕاستەوخۆ</string>
+    <string name="sports_home_row_description">یارییە بەدواداچوونکراوەکان, کاتێک یەکێکیان ڕاستەوخۆیە یان خەریکە دەست پێ دەکات</string>
+    <string name="sports_empty_nothing_followed">هێشتا هیچ وەرزش یان خولێک هەڵنەبژێردراوە</string>
+    <string name="sports_empty_choose_in">لە ڕێکخستنەکان → ئەپ → وەرزش → وەرزش و خولەکان هەڵیانبژێرە.</string>
+    <string name="sports_load_time_warning">هەرچی وەرزش و خولی زیاتر هەڵبژێریت, بارکردن و ئامادەکردن کاتی زیاتر دەخایەنێت.</string>
+    <string name="sports_sport_buttons">دوگمەکانی وەرزش</string>
+    <string name="sports_sport_buttons_mine">وەرزشەکانی من</string>
+    <string name="sports_sport_buttons_all">هەموو وەرزشەکان</string>
+    <string name="sports_sport_buttons_description">وەرزشەکانی من: تەنها ئەوانەی هەڵتبژاردوون. هەموو وەرزشەکان: هەموو ئەو خولانەی OwnTV دەیانناسێت, کە بارکردنیان کاتی زیاتر دەخایەنێت.</string>
+    <string name="sports_auto_rebuild">ئامادەکردنەوەی خۆکار</string>
+    <string name="sports_auto_rebuild_description">ئەنجامەکان, وردەکاریی یارییەکان و خشتەکان هەر چەند جارێک بە خۆکار دووبارە وەردەگیرێن</string>
+    <plurals name="sports_auto_rebuild_hours">
+        <item quantity="one">هەر <xliff:g id="count">%1$d</xliff:g> کاتژمێر</item>
+        <item quantity="other">هەر <xliff:g id="count">%1$d</xliff:g> کاتژمێر</item>
+    </plurals>
+    <string name="sports_auto_rebuild_app_start">لە هەر دەستپێکردنێکی ئەپدا</string>
+    <string name="sports_calendar_refresh">نوێکردنەوەی ڕۆژژمێر</string>
+    <string name="sports_calendar_refresh_description">مانگە پاشەکەوتکراوەکان هەر چەند جارێک دووبارە وەردەگیرێن</string>
+    <plurals name="sports_calendar_refresh_days">
+        <item quantity="one">هەر <xliff:g id="count">%1$d</xliff:g> ڕۆژ</item>
+        <item quantity="other">هەر <xliff:g id="count">%1$d</xliff:g> ڕۆژ</item>
+    </plurals>
+    <string name="sports_find_channels">دۆزینەوەی کەناڵەکان</string>
+    <string name="sports_find_channels_description">لە ڕێبەری بەرنامەکان و ناوی کەناڵەکانتدا بەدوای ئەم یارییە دەگەڕێت. لە لیستی پەخشێکی گەورەدا ڕەنگە کەمێک کات بخایەنێت.</string>
+    <string name="sports_finding_channels">گەڕان لە کەناڵەکانتدا…</string>
+    <string name="sports_strict_filter">پاڵاوتنی توند</string>
+    <string name="sports_strict_filter_description">چالاک: تەنها ئەو کەناڵانە پیشان دەدرێن کە لە پاڵێوەرەکانت تێدەپەڕن. ناچالاک: هەموو کەناڵەکان پیشان دەدرێن, ئەوانەی تێدەپەڕن لە سەرەتادا.</string>
+    <string name="sports_rebuilding">ئامادەکردنەوەی وەرزش…</string>
+    <string name="sports_rebuild_failed">نە’توانرا داتای وەرزشی نوێ بکرێتەوە</string>
+    <string name="sports_refresh_data_now">داتای وەرزشی ئێستا نوێ بکەرەوە</string>
+    <string name="sports_last_updated">دوا نوێکردنەوە <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="sports_find_channels_from">کەناڵەکان دەدۆزرێنەوە لە <xliff:g id="time">%1$s</xliff:g>, 30 خولەک پێش دەست-پێکی یاری.</string>
+    <string name="sports_find_channels_ended">ئەم یارییە تەواو بووە, بۆیە هیچ کەناڵێک نییە بۆ دۆزینەوە.</string>
+    <string name="sports_tab_broadcasts">پەخشەکان</string>
+    <string name="sports_broadcasts_guide">لە ڕێبەری پەخشی تۆدا</string>
+    <string name="sports_broadcasts_espn">لە ESPN (تەنها ویلایەتە یەکگرتووەکان)</string>
+    <string name="sports_broadcasts_find_first">دۆزینەوەی کەناڵەکان بەکاربهێنە بۆ لیستکردنی ئەو کەناڵانەی ڕێبەری پەخشەکەت کە ئەم یارییە پیشان دەدەن.</string>
+    <string name="sports_broadcasts_none">هیچیان لیست نەکراوە</string>
+    <string name="sports_move_instructions">▲/▼ بۆ هەڵبژاردن · OK بۆ هەڵگرتن یان دانان · پاش تەواوبوون پاشەکەوت بکە</string>
 </resources>

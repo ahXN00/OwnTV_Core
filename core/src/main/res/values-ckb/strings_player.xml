@@ -1,3 +1,321 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="player_trailer_exit">دەرچوون</string>
+    <string name="player_trailer_progress"><xliff:g id="current">%1$s</xliff:g> / <xliff:g id="duration">%2$s</xliff:g></string>
+    <string name="player_zoom_fit_screen">گونجاندن لەگەڵ شاشە</string>
+    <string name="player_zoom_fill_crop">پڕکردنەوە / بڕین</string>
+    <string name="player_zoom_stretch">ڕاکێشان</string>
+    <string name="player_zoom_original">ڕەسەن (1:1)</string>
+    <string name="player_zoom_force_16_9">بە زۆر 16:9</string>
+    <string name="player_zoom_force_4_3">بە زۆر 4:3</string>
+    <string name="player_mini_top_left">سەرەوەی چەپ</string>
+    <string name="player_mini_top_center">ناوەڕاستی سەرەوە</string>
+    <string name="player_mini_top_right">سەرەوەی ڕاست</string>
+    <string name="player_mini_bottom_left">خوارەوەی چەپ</string>
+    <string name="player_mini_bottom_center">ناوەڕاستی خوارەوە</string>
+    <string name="player_mini_bottom_right">خوارەوەی ڕاست</string>
+    <string name="player_channel_label">کەناڵ</string>
+    <string name="player_at_live_edge">● لە ئێستای پەخشی ڕاستەوخۆ</string>
+    <string name="player_behind_live">● <xliff:g id="offset">%1$s</xliff:g> دوا لە پەخشی ڕاستەوخۆ</string>
+    <string name="player_live_offset">−<xliff:g id="offset">%1$s</xliff:g></string>
+    <string name="player_go_live">بڕۆ بۆ پەخشی ڕاستەوخۆ</string>
+    <string name="player_timeshift_resume_title">لەو شوێنەوە بەردەوام بە کە وەستایت?</string>
+    <string name="player_timeshift_resume_message">ئەم کەناڵە لە کاتی نەبوونتدا پاشەکەوت کرا.</string>
+    <string name="player_previous_channel">کەناڵی پێشوو</string>
+    <string name="player_tool_sources">سەرچاوەکان</string>
+    <string name="player_sources_none">هیچ وەشانێکی تری ئەم کەناڵە نەدۆزرایەوە.</string>
+    <string name="player_next_channel_in_list">کەناڵی دواتر</string>
+    <string name="player_previous_channel_in_list">کەناڵی پێشوو لە لیست</string>
+    <string name="player_live_scrub_at"><xliff:g id="time">%1$s</xliff:g> · <xliff:g id="programme">%2$s</xliff:g></string>
+    <string name="player_tool_volume">ئاستی دەنگ</string>
+    <string name="player_tool_brightness">ڕووناکی</string>
+    <string name="player_skip_back">بگەڕێوە دواوە</string>
+    <string name="player_skip_forward">بڕۆ پێشەوە</string>
+    <string name="player_tool_audio">دەنگ</string>
+    <string name="player_tool_subtitles">ژێرنووس</string>
+    <string name="player_tool_favorite">دڵخواز</string>
+    <string name="player_tool_catchup">پەخشی-پێشوو</string>
+    <string name="player_tool_speed">خێرایی</string>
+    <string name="player_tool_aspect">ڕێژەی ڕەهەندەکان</string>
+    <string name="player_tool_quality">کوالێتی</string>
+    <string name="player_tool_mini">بچووک</string>
+    <string name="player_tool_audio_only">تەنها دەنگ</string>
+    <string name="player_tool_engine">لێدەر</string>
+    <string name="player_tool_info">زانیاری</string>
+    <string name="player_tool_report">ڕاپۆرت</string>
+    <string name="player_channel_not_found">کەناڵ نەدۆزرایەوە</string>
+    <string name="player_channel_number_entry">ژمارەی کەناڵ</string>
+    <string name="player_multiple_channels">چەند کەناڵێک</string>
+    <string name="player_tune_failed">گۆڕینی کەناڵ سەرکەوتوو نەبوو</string>
+    <string name="player_playback_error">هەڵەی لێدان</string>
+    <string name="player_raw_error">err: <xliff:g id="error">%1$s</xliff:g></string>
+    <string name="player_provider_retry_after">HTTP <xliff:g id="code">%1$d</xliff:g>: <xliff:g id="reason">%2$s</xliff:g> هەوڵدانەوە دوای <xliff:g id="seconds">%3$d</xliff:g> چرکە.</string>
+    <string name="player_provider_busy">دابینکەر سەرقاڵە.</string>
+    <string name="player_reconnecting">پەخش پچڕا. پەیوەستبوونەوە…</string>
+    <string name="player_audio_track">تراکی دەنگ</string>
+    <string name="player_subtitles">ژێرنووس</string>
+    <string name="player_subtitle_timing">کاتبەندی ژێرنووس</string>
+    <string name="player_add_subtitles">زیادکردنی ژێرنووس</string>
+    <string name="player_adjust">ڕێکخستن</string>
+    <string name="player_search_subtitles">گەڕان لە OpenSubtitles</string>
+    <string name="player_select_local_subtitle">هەڵبژاردنی فایلی ژێرنووسی ناوخۆیی</string>
+    <string name="player_no_tracks">هیچ تراکێک بەردەست نییە.</string>
+    <string name="player_image_track"><xliff:g id="label">%1$s</xliff:g> · وێنە</string>
+    <string name="player_av_sync">هاوکاتکردنی A/V</string>
+    <string name="player_av_sync_remember">ئەم دواخستنە لەبیر بهێڵە</string>
+    <string name="player_no_offset">بێ جیاوازیی کات</string>
+    <string name="player_subtitles_later">ژێرنووس دواتر پیشان دەدرێت</string>
+    <string name="player_subtitles_earlier">ژێرنووس زووتر پیشان دەدرێت</string>
+    <string name="player_delay_zero">0 میلیچرکە</string>
+    <string name="player_delay_positive">+<xliff:g id="ms">%1$d</xliff:g> میلیچرکە</string>
+    <string name="player_delay_negative"><xliff:g id="ms">%1$d</xliff:g> میلیچرکە</string>
+    <string name="player_speed_normal">1.0x (ئاسایی)</string>
+    <string name="player_speed_normal_short">1.0x</string>
+    <string name="player_speed"><xliff:g id="speed">%1$s</xliff:g>x</string>
+    <string name="player_next_episode">ئەڵقەی داهاتوو دوای <xliff:g id="seconds">%1$d</xliff:g> چرکە</string>
+    <string name="player_play_now">ئێستا لێی بدە</string>
+    <string name="player_volume">ئاستی دەنگ</string>
+    <string name="player_unmute">کردنەوەی دەنگ</string>
+    <string name="player_mute">بێدەنگکردن</string>
+    <string name="player_percent"><xliff:g id="value">%1$d</xliff:g>%%</string>
+    <string name="player_duration_minutes"><xliff:g id="minutes">%1$d</xliff:g> خولەک</string>
+    <string name="player_season_number">وەرزی <xliff:g id="season">%1$d</xliff:g></string>
+    <string name="player_episode_number">ئەڵقەی <xliff:g id="episode">%1$d</xliff:g></string>
+    <string name="player_episode_context_title"><xliff:g id="title">%1$s</xliff:g> · S<xliff:g id="season">%2$d</xliff:g>E<xliff:g id="episode">%3$d</xliff:g></string>
+    <string name="player_channel_number">#<xliff:g id="number">%1$s</xliff:g></string>
+    <string name="player_live">ڕاستەوخۆ</string>
+    <string name="player_subtitle_delay_zero">0.0 چرکە</string>
+    <string name="player_subtitle_delay_positive">+<xliff:g id="seconds">%1$.1f</xliff:g> چرکە</string>
+    <string name="player_subtitle_delay_negative">−<xliff:g id="seconds">%1$.1f</xliff:g> چرکە</string>
+    <string name="player_time_progress"><xliff:g id="position">%1$s</xliff:g> / <xliff:g id="duration">%2$s</xliff:g></string>
+    <string name="player_time_remaining">−<xliff:g id="time">%1$s</xliff:g></string>
+    <string name="player_switch_exo">گۆڕدرا بۆ ExoPlayer</string>
+    <string name="player_switch_mpv">گۆڕدرا بۆ MPV</string>
+    <string name="player_smoothness_hint">ئەم کەناڵە هەندێک فرەیم لەدەست دەدات. گۆڕینی پەخشکەر بۆ MPV لەوانەیە پەخشەکە ڕەوانتر بکات.</string>
+    <string name="player_error_image_subtitle_audio">ژێرنووسی وێنەیی بەردەست نییە\' بۆ فۆرماتی دەنگی ئەم ڤیدیۆیە\'.</string>
+    <string name="player_error_both_engines_exo_first">پەخش لە هەردوو بزوێنەری ڤیدیۆدا شکستی هێنا (ExoPlayer, پاشان mpv). لەوانەیە فایلەکە تێکچووبێت یان فۆرماتێکی هەبێت کە ئەم تەلەڤیزیۆنە ناتوانێت\' پەخشی بکات.</string>
+    <string name="player_error_both_engines_mpv_first">پەخش لە هەردوو بزوێنەری ڤیدیۆدا شکستی هێنا (mpv و ExoPlayer). لەوانەیە فایلەکە تێکچووبێت یان فۆرماتێکی هەبێت کە ئەم تەلەڤیزیۆنە ناتوانێت\' پەخشی بکات. (<xliff:g id="error">%1$s</xliff:g>)</string>
+    <string name="player_error_stream_link">نەتوانرا بەستەری پەخش لە پۆرتاڵەکە وەربگیرێت. پەیوەندییەکە بپشکنە و دووبارە هەوڵ بدەوە.</string>
+    <string name="player_error_not_streaming">ئەم ڤیدیۆیە ئامادە نەکراوە\' بۆ پەخشی ڕاستەوخۆ. داوا لە دابینکەر بکە دووبارە- کۆدی بکاتەوە بە دەستپێکی- خێرا, یان سەرەتا دایبگرە.</string>
+    <string name="player_error_lost_connection">پەیوەندی بە ئەم کەناڵەوە پچڕا.</string>
+    <string name="player_error_channel">نەتوانرا\' ئەم کەناڵە پەخش بکرێت.</string>
+    <string name="player_error_exo_decode">ExoPlayer ناتوانێت\' فۆرماتی ئەم ڤیدیۆیە\' لەسەر ئەم ئامێرە کۆد بکاتەوە (<xliff:g id="error">%1$s</xliff:g>).</string>
+    <string name="player_error_exo_play">ExoPlayer نەتوانی\' ئەم پەخشە بکات (<xliff:g id="error">%1$s</xliff:g>).</string>
+    <string name="player_error_image_format">ژێرنووسی وێنەیی بەردەست نییە\' بۆ فۆرماتی ئەم فایلە\'.</string>
+    <string name="player_error_image_show">نەتوانرا\' ژێرنووسی وێنەیی بۆ ئەم فایلە پیشان بدرێت.</string>
+    <string name="player_external_could_not_open">نەتوانرا ئەم پەخشە بکرێتەوە.</string>
+    <string name="player_external_not_found">هیچ پەخشکەرێکی دەرەکی نەدۆزرایەوە — VLC یان MX Player دابمەزرێنە.</string>
+    <string name="player_error_audio_no_video">دەنگ پەخش دەکرێت, بەڵام نەتوانرا ڤیدیۆ لەسەر ئەم ئامێرە پیشان بدرێت.</string>
+    <string name="player_error_file_corrupt">فایلی ئەم ڤیدیۆیە\' پێکهاتەکەی هەڵەیە یان تێکچووە و ناتوانرێت\' پەخش بکرێت.</string>
+    <string name="player_error_multiple_videos">پەخشکردنی چەند ڤیدیۆیەک شکستی هێنا. لەوانەیە سەرچاوەکە بەردەست نەبێت یان فایلەکان تێکچووبن.</string>
+    <string name="player_error_decoder_busy">کۆدکەرەوەی ڤیدیۆی ئەم تەلەڤیزیۆنە\' سەرقاڵە. کەمێکی تر دووبارە هەوڵ بدەوە.</string>
+    <string name="player_error_no_internet">پەیوەندی ئینتەرنێت نییە. تۆڕەکەت بپشکنە و دووبارە هەوڵ بدەوە.</string>
+    <string name="player_error_stream_unavailable">نەتوانرا\' ئەم پەخشە بکرێت. لەوانەیە سەرچاوەکە ئۆفلاین بێت یان فۆرماتەکەی پشتگیری نەکرێت. <xliff:g id="hint">%1$s</xliff:g></string>
+    <string name="player_error_account_in_use">ئەم هەژمارە ئێستا لە ئامێرێک یان ئەپێکی تردا پەخش دەکات. لەوێ پەخشەکە بوەستێنە, پاشان دووبارە هەوڵدانەوە دابگرە.</string>
+    <string name="player_error_mpv_open_decode">mpv نەتوانی\' ئەم فایلە بکاتەوە یان کۆدی بکاتەوە.</string>
+    <string name="player_error_mpv_stream_never_started">دوای چەند هەوڵدانەوەیەکیش پەخشەکە لە mpv دەستی پێ نەکرد.</string>
+    <string name="player_error_fairplay">ئەم پەخشە بە Apple FairPlay پارێزراوە, کە ئامێرەکانی Android ناتوانن\' پەخشی بکەن. لیستی پەخشەکە بۆ ئامێرەکانی Apple دروست کراوە.</string>
+    <string name="player_error_surround">ئەم دەرچوونەی دەنگ ناتوانێت\' دەنگی دەوروبەر پەخش بکات — گۆڕدرا بۆ ستێریۆ.</string>
+    <string name="player_error_hardware_fallback">فۆرماتی ئەم پەخشە\' نەتوانرا\' بە ڕەقەکاڵا- لەسەر ئەم تەلەڤیزیۆنە کۆد بکرێتەوە, بۆیە گەڕایەوە بۆ کۆدکردنەوەی نەرمەکاڵایی — کە ناتوانێت\' بەردەوام بێت لە پەخشی <xliff:g id="resolution">%1$s</xliff:g> بەبێ بارگرانی لەسەر تەلەڤیزیۆنەکە. لەوانەیە تەلەڤیزیۆنەکە هێشتا ناوەڕۆکی تری 4K بەباشی پەخش بکات; کێشەکە فۆرماتی ئەم پەخشەیە\'.</string>
+    <string name="player_error_hardware_disabled">کۆدکردنەوەی ڕەقەکاڵایی ناچالاکە — کۆدکردنەوەی نەرمەکاڵایی ناتوانێت\' ڤیدیۆی <xliff:g id="resolution">%1$s</xliff:g> پەخش بکات. چالاکی بکە لە ڕێکخستنەکان → پەخشکەری ڤیدیۆ.</string>
+    <string name="player_error_custom_user_agent">لەوانەیە ئەم دابینکەرە پێویستی بە User-Agentی تایبەت هەبێت لە ڕێکخستنەکانی سەرچاوەدا.</string>
+    <string name="player_reason_decoder_busy">کۆدکەرەوەی ڕەقەکاڵایی ڤیدیۆ سەرقاڵە یان ناتوانێت\' ئەم پەخشە بکات</string>
+    <string name="player_reason_decoder_transient">هەڵەی دیکۆدەری ڤیدیۆی ڕەقەواڵە — کاتییە, دووبارە هەوڵ بدە</string>
+    <string name="player_reason_unsupported_video">دیکۆدەری ئەم ئامێرە\' پشتگیری ناکات\' لەم فۆرماتەی ڤیدیۆ/پرۆفایلە (بۆ.نموونە. HEVC 10-بیت)</string>
+    <string name="player_reason_decoder_memory">بیرگەی ئامێر بۆ دیکۆدەر تەواو بوو — هەوڵ بدە ئەپەکانی تر دابخەیت</string>
+    <string name="player_reason_drm">DRM / هەڵەی دیکۆدەری-پارێزراو</string>
+    <string name="player_reason_http_509">دابینکەر پەیوەندییەکەی بلۆک کرد — ژمارەیەکی زۆر پەخش لە یەک کاتدا (HTTP 509)</string>
+    <string name="player_reason_http_403">دابینکەر ڕێگەی دەستگەیشتنی نەدا (HTTP 403) — زانیاریی چوونەژوورەوە, بەشداری, یان بلۆککردنی IP</string>
+    <string name="player_reason_http_401">دابینکەر چوونەژوورەوەکەتی ڕەت کردەوە (HTTP 401)</string>
+    <string name="player_reason_http_404">پەخشەکە لای دابینکەر نەدۆزرایەوە (HTTP 404)</string>
+    <string name="player_reason_http_400">دابینکەر داواکارییەکەی ڕەت کردەوە (HTTP 400) — بەستەری نادروست یان بەسەرچوو</string>
+    <string name="player_reason_ssl">بڕوانامەی SSLی دابینکەر\' نادروستە یان بەسەرچووە</string>
+    <string name="player_reason_format">فۆرماتی پەخشەکە نەناسراوە (پەخشی نادروست یان ناتەواو)</string>
+    <string name="player_reason_network">کێشەی تۆڕ لە پەیوەندیکردن بە دابینکەر</string>
+    <string name="player_reason_audio">هەڵەی دەرچوونی دەنگ — ئامێرەکە نەیتوانی\' ئەم فۆرماتەی دەنگ لێ بدات</string>
+    <string name="player_audio_track_number">دەنگ <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="player_subtitle_track_number">ژێرنووس <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="player_metadata_separator">" · "</string>
+    <string name="player_stream_info">زانیاریی پەخش</string>
+    <string name="player_stream_engine">بزوێنەر</string>
+    <string name="player_stream_format">فۆرمات</string>
+    <string name="player_stream_source">سەرچاوە</string>
+    <string name="player_stream_video">ڤیدیۆ</string>
+    <string name="player_stream_hdr">HDR</string>
+    <string name="player_stream_hdr10_pq">HDR10 (PQ)</string>
+    <string name="player_stream_hlg">HLG</string>
+    <string name="player_stream_sdr">SDR</string>
+    <string name="player_stream_interlacing">تێکئاڵانی هێڵەکان</string>
+    <string name="player_stream_progressive">نییە (پێشکەوتوو)</string>
+    <string name="player_stream_deinterlaced_by_player">هێڵەکان تێکئاڵاون · لەلایەن لێدەرەوە جیا کراونەتەوە</string>
+    <string name="player_stream_deinterlaced_by_device">هێڵەکان تێکئاڵاون · لەلایەن ئامێرەوە جیا کراونەتەوە</string>
+    <string name="player_stream_not_deinterlaced">هێڵەکان تێکئاڵاون · جیا نەکراونەتەوە</string>
+    <string name="player_stream_bitrate">ڕێژەی بیت</string>
+    <string name="player_stream_decoder">دیکۆدەر</string>
+    <string name="player_stream_audio">دەنگ</string>
+    <string name="player_stream_buffer">بەفەر</string>
+    <string name="player_stream_engine_exo_preferred">ExoPlayer (پەسەندکراو)</string>
+    <string name="player_stream_engine_exo_fallback">ExoPlayer (جێگرەوە دوای شکستی mpv)</string>
+    <string name="player_stream_engine_exo_image_subtitle">ExoPlayer (وێنە-گواستنەوەی ژێرنووس)</string>
+    <string name="player_stream_fps"><xliff:g id="fps">%1$.2f</xliff:g> fps</string>
+    <string name="player_stream_bit_depth"><xliff:g id="bits">%1$d</xliff:g>-بیت</string>
+    <string name="player_stream_mbps"><xliff:g id="value">%1$s</xliff:g> Mbps</string>
+    <string name="player_stream_khz"><xliff:g id="value">%1$s</xliff:g> kHz</string>
+    <string name="player_stream_kbps"><xliff:g id="value">%1$s</xliff:g> kbps</string>
+    <string name="player_stream_seconds"><xliff:g id="value">%1$s</xliff:g> چرکە بافەر کراوە</string>
+    <string name="player_audio_only_title">تەنها دەنگ</string>
+    <string name="player_audio_only_body">ئەمە دەنگی هەیە بەڵام وێنەی نییە. هیچ کێشەیەک نییە — ئەمە\' بە ئاسایی لێ دەدرێت.</string>
+    <string name="player_audio_mono">مۆنۆ</string>
+    <string name="player_audio_stereo">ستێریۆ</string>
+    <plurals name="player_audio_channels">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> کەناڵ</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> کەناڵ</item>
+    </plurals>
+    <plurals name="player_stream_dropped_frames">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> فریم لەدەست چوو</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> فریم لەدەست چوو</item>
+    </plurals>
+    <string name="player_decoder_hardware">دیکۆدەری ڕەقەکاڵا</string>
+    <string name="player_decoder_software">دیکۆدەری نەرمەکاڵا</string>
+    <string name="player_decoder_direct">ڕاستەوخۆ</string>
+    <string name="player_decoder_gpu">GPU</string>
+    <string name="player_subtitles_search_title">گەڕان لە OpenSubtitles</string>
+    <string name="player_subtitles_working">لە کاردایە…</string>
+    <string name="player_subtitles_edit_search">دەستکاریی گەڕان</string>
+    <string name="player_subtitles_title_label">ناونیشان</string>
+    <string name="player_subtitles_delete_title">سڕینەوەی ژێرنووسەکانی OpenSub</string>
+    <string name="player_subtitles_sign_in">چوونەژوورەوە</string>
+    <string name="player_subtitles_sign_out">چوونەدەرەوە</string>
+    <string name="player_subtitles_account">هەژمار</string>
+    <string name="player_subtitles_username">ناوی بەکارهێنەر</string>
+    <string name="player_subtitles_password">وشەی نهێنی</string>
+    <string name="player_subtitles_stay_signed_in">بە چوونەژوورەوە بمێنەوە</string>
+    <string name="player_subtitles_sign_in_title">چوونەژوورەوە بۆ OpenSubtitles</string>
+    <string name="player_subtitles_connect_description">ئەم پڕۆفایلە\' بە هەژماری OpenSubtitles ببەستەوە.</string>
+    <string name="player_subtitles_contacting">پەیوەندی بە OpenSubtitles دەکرێت…</string>
+    <string name="player_subtitles_api_notice">ئەم بەرهەمە APIی OpenSubtitles بەکاردەهێنێت بەڵام لەلایەن OpenSubtitles پشتگیری یان پەسەند نەکراوە.</string>
+    <string name="player_subtitles_delete_description">ئەو ژێرنووسانە بسڕەوە کە تۆ\' بۆ فیلم و زنجیرە داتگرتوون.</string>
+    <string name="player_subtitles_delete_login_message">زانیاریی چوونەژوورەوەی ئەم پڕۆفایلە\' بۆ OpenSubtitles لەم ئامێرە دەسڕێتەوە. ژێرنووسە داگیراوەکان بەبێ ئینتەرنێت بەردەست دەمێننەوە.</string>
+    <string name="player_subtitles_delete_action">سڕینەوەی ژێرنووسەکان</string>
+    <string name="player_subtitles_downloads">داگرتنەکان</string>
+    <string name="player_subtitles_vip">VIP</string>
+    <string name="player_subtitles_refresh">نوێکردنەوە</string>
+    <string name="player_subtitles_sign_in_to_use">هەژماری opensubtitles.comی خۆت بەکاربهێنە. دروستکردنی هەژمار بەخۆڕاییە.</string>
+    <plurals name="player_subtitles_remaining">
+        <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> داگرتن لە کۆی <xliff:g id="total">%2$d</xliff:g> بۆ ئەمڕۆ ماوەتەوە</item>
+        <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> داگرتن لە کۆی <xliff:g id="total">%2$d</xliff:g> بۆ ئەمڕۆ ماوەتەوە</item>
+    </plurals>
+    <plurals name="player_subtitles_remaining_short">
+        <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> داگرتن بۆ ئەمڕۆ ماوەتەوە</item>
+        <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> داگرتن بۆ ئەمڕۆ ماوەتەوە</item>
+    </plurals>
+    <plurals name="player_subtitles_remaining_reset">
+        <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> داگرتن بۆ ئەمڕۆ ماوەتەوە · دوای <xliff:g id="reset">%2$s</xliff:g> نوێ دەبێتەوە</item>
+        <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> داگرتن بۆ ئەمڕۆ ماوەتەوە · دوای <xliff:g id="reset">%2$s</xliff:g> نوێ دەبێتەوە</item>
+    </plurals>
+    <plurals name="player_subtitles_remaining_count">
+        <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> داگرتن بۆ ئەمڕۆ ماوەتەوە</item>
+        <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> داگرتن بۆ ئەمڕۆ ماوەتەوە</item>
+    </plurals>
+    <string name="player_subtitles_session">دانیشتنی پەیوەندییەکە بەسەر دەچێت. بۆ پاشەکەوتکردنی تەنها دانیشتنێکی کاتی ناچالاکی بکە.</string>
+    <string name="player_subtitles_free_description_full">OpenSubtitles خزمەتگوزارییەکی بەخۆڕایی, و کراوەی ژێرنووسی کۆمەڵگەیە. بە هەژماری opensubtitles.comی خۆت بچۆ ژوورەوە; دروستکردنی هەژمار بەخۆڕاییە. ئەمە تەنها بۆ پڕۆفایلی ئێستایە.</string>
+    <string name="player_subtitles_session_expired">دانیشتنی OpenSubtitlesی تۆ بەسەرچووە. بۆ بەردەوامبوون لە گەڕان و داگرتنی ژێرنووس, دووبارە بچۆ ژوورەوە لە ڕێکخستنەکان → لێدەری ڤیدیۆ → ژێرنووسەکان → OpenSubtitles.</string>
+    <string name="player_subtitles_account_needed">پێویستت بە هەژماری OpenSubtitles هەیە\n\nبۆ گەڕان و داگرتنی ژێرنووس, بچۆ ژوورەوە لە ڕێکخستنەکان → لێدەری ڤیدیۆ → ژێرنووسەکان → OpenSubtitles. OpenSubtitles خزمەتگوزارییەکی بەخۆڕایی, و کراوەی کۆمەڵگەیە — هەرکەسێک دەتوانێت هەژمارێکی بەخۆڕایی لە opensubtitles.com دروست بکات.</string>
+    <string name="player_subtitles_show_all_languages">پیشاندانی هەموو زمانەکان</string>
+    <string name="player_subtitles_all_languages">هەموو زمانەکان</string>
+    <string name="player_subtitles_try_again">دووبارە هەوڵ بدەوە</string>
+    <string name="player_subtitles_limit_reached">گەیشتوویتە سنووری ڕۆژانەی گەڕان بۆ ژێرنووس. سبەی دووبارە هەوڵ بدەرەوە.</string>
+    <string name="player_subtitles_network_error">نەتوانرا\' پەیوەندی بە OpenSubtitles بکرێت. پەیوەندییەکەت بپشکنە و دووبارە هەوڵ بدەرەوە.</string>
+    <string name="player_subtitles_subtitle">ژێرنووس</string>
+    <string name="player_subtitles_trusted">متمانەپێکراو</string>
+    <string name="player_subtitles_sdh">SDH</string>
+    <string name="player_subtitles_ai">AI</string>
+    <plurals name="player_subtitles_download_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> داگرتن</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> داگرتن</item>
+    </plurals>
+    <string name="player_subtitles_tags_separator">" · "</string>
+    <string name="player_subtitles_search">گەڕان</string>
+    <string name="player_subtitles_connected_as">پەیوەستە بە ناوی</string>
+    <string name="player_subtitles_connected_user">پەیوەستە بە ناوی <xliff:g id="username">%1$s</xliff:g></string>
+    <string name="player_subtitles_resets">نوێ دەبێتەوە</string>
+    <string name="player_subtitles_free_account">بەخۆڕایی</string>
+    <string name="player_subtitles_enter_credentials">ناوی بەکارهێنەر و وشەی نهێنیی OpenSubtitles بنووسە.</string>
+    <string name="player_subtitles_invalid_credentials">OpenSubtitles نەیتوانی بەو زانیارییانەی هەژمارەکە بچێتە ژوورەوە.</string>
+    <string name="player_subtitles_sign_in_network_error">نەتوانرا\' پەیوەندی بە OpenSubtitles بکرێت. پەیوەندیی ئینتەرنێتەکەت بپشکنە و دووبارە هەوڵ بدەرەوە.</string>
+    <string name="player_subtitles_sign_in_server_error">OpenSubtitles داواکارییەکەی ڕەت کردەوە (هەڵە <xliff:g id="code">%1$d</xliff:g>). پەیوەندیی ئینتەرنێتەکەت کار دەکات — دواتر دووبارە هەوڵ بدەرەوە, و ئەگەر کێشەکە ڕاپۆرت دەکەیت ئەم ژمارەیە بنووسە.</string>
+    <string name="player_subtitles_refresh_network_error">نەتوانرا\' OpenSubtitles نوێ بکرێتەوە. پەیوەندیی ئینتەرنێتەکەت بپشکنە.</string>
+    <string name="player_subtitles_no_matches_all_languages">هیچ ژێرنووسێکی گونجاو نەدۆزرایەوە. هەوڵ بدە ناونیشانی گەڕانەکە دەستکاری بکەیت.</string>
+    <string name="player_subtitles_no_matches_chosen_language">هیچ ژێرنووسێکی گونجاو بە زمانە هەڵبژێردراوەکەت نەدۆزرایەوە.</string>
+    <string name="player_subtitles_search_language">زمانی گەڕان</string>
+    <string name="player_reason_software_fallback">گۆڕا بۆ دیکۆدکردنی نەرمەواڵەیی</string>
+    <string name="player_reason_copy_mode_fallback">گۆڕا بۆ دیکۆدکردن بە دۆخی-کۆپی</string>
+    <string name="player_reason_archive_software_fallback">ئەرشیفی بینینەوەی-بەرنامەکان بە دیکۆدکردنی نەرمەواڵەیی دووبارە کرایەوە</string>
+    <string name="player_reason_stereo_fallback">گۆڕا بۆ دەنگی ستێریۆ</string>
+    <string name="player_reason_one_session_provider">دابینکەر لە هەر کاتێکدا تەنها ڕێگە بە یەک دانیشتن دەدات</string>
+    <string name="player_reason_mpv_handoff">ئەم کەناڵە سپێردرا بە mpv</string>
+    <string name="player_reason_live_fallback">لێدانی ڕاستەوخۆ گۆڕا بۆ جێگرەوە</string>
+    <string name="player_reason_live_no_fallback">لێدانی ڕاستەوخۆ شکستی هێنا — هیچ جێگرەوەیەک نەماوە</string>
+    <string name="player_reason_stream_report">ڕاپۆرتی ستریم</string>
+    <string name="player_stream_audio_output">دەرچوونی دەنگ</string>
+    <string name="player_stream_live_buffer">بەفەری ڕاستەوخۆ</string>
+    <string name="player_stream_audio_passthrough">تێپەڕاندنی دەنگ (تەلەڤیزیۆن/وەرگر دیکۆدی دەکات)</string>
+    <string name="player_stream_audio_decoded_in_app">لە ئەپەکەدا دیکۆد کراوە</string>
+    <string name="player_stream_audio_pcm"><xliff:g id="channels">%1$s</xliff:g> PCM</string>
+    <string name="player_stream_multichannel_allowed">فرەکەناڵ ڕێگەپێدراوە</string>
+    <string name="player_stream_fell_back">گۆڕا بۆ جێگرەوە: <xliff:g id="reason">%1$s</xliff:g></string>
+    <string name="player_stream_preroll_video">پێش-بەفەرکردنی <xliff:g id="seconds">%1$s</xliff:g>چرکە ڤیدیۆ</string>
+    <string name="player_stream_preroll_off">پێش-بەفەرکردن ناچالاکە</string>
+    <string name="player_stream_depth">قووڵایی <xliff:g id="seconds">%1$s</xliff:g>چرکە</string>
+    <string name="player_stream_readahead">پێشوەختە خوێندنەوە <xliff:g id="seconds">%1$s</xliff:g>چرکە</string>
+    <string name="player_stream_playlist_override">جێگرتنەوەی ڕێکخستنی لیستی پەخش</string>
+    <string name="player_error_hardware_format">هاردوێری ڤیدیۆی ئەم تەلەڤیزیۆنە\' ناتوانێت\' کۆدی <xliff:g id="resolution">%1$s</xliff:g> <xliff:g id="codec">%2$s</xliff:g>. بخوێنێتەوە فایلەکە دروستە, بەڵام تەلەڤیزیۆنەکە ناتوانێت\' ئەم فۆرماتە بەم وردییە پەخش بکات.</string>
+    <string name="player_report_saved">ڕاپۆرتی ستریم لە تۆماری پەخشدا پاشەکەوت کرا</string>
+    <string name="player_subtitles_filter_title">پاڵاوتن بەپێی زمان</string>
+    <string name="player_subtitles_filter_description">کاتێک ناچالاکە هەموو ئەو زمانانە پیشان دەدات کە OpenSubtitles بۆ ناونیشانێک هەیەتی, بۆ ئەوەی لە لیستە تەواوەکە هەڵبژێریت. کاتێک چالاکە تەنها زمانی هەڵبژێردراوت پیشان دەدات.</string>
+    <string name="player_subtitles_search_language_description">تەنها ژێرنووسەکانی ئەم زمانە لە ئەنجامەکانی گەڕاندا دەردەکەون. هێشتا دەتوانیت لە ئەنجامەکاندا “هەموو زمانەکان” دابگریت بۆ بینینی هەموو ئەنجامەکانی یەک گەڕان.</string>
+    <string name="player_subtitles_language_not_set">دیاری نەکراوە</string>
+    <string name="player_frame_rate_prompt_title">ڕەنگە ئەم کەناڵە بلەرزێت</string>
+    <string name="player_frame_rate_prompt_description">بە <xliff:g id="fps">%1$d</xliff:g> fps پەخش دەکرێت بەڵام تەلەڤیزیۆنەکەت بە <xliff:g id="current_hz">%2$d</xliff:g> Hz کار دەکات, کە ناتوانێت’ ئەو چوارچێوانە بە یەکسانی پیشان بدات — جووڵەکان کەمێک پچڕپچڕ دەردەکەون.\n\nڕێژەی چوارچێوەی خۆکار لە کاتی سەیرکردندا تەلەڤیزیۆنەکە دەگۆڕێت بۆ <xliff:g id="target_hz">%3$d</xliff:g> Hz و دواتر دەیگەڕێنێتەوە. هەندێک تەلەڤیزیۆن لە کاتی گۆڕینی ڕێژەکەدا بۆ ساتێک ڕەش دەبن; دەتوانیت دیسان ناچالاکی بکەیت لە ڕێکخستنەکان → وێنە → ڕێژەی چوارچێوە.</string>
+    <string name="player_frame_rate_turn_on">چالاک بکە</string>
+    <string name="player_error_data_saver">پاشەکەوتکردنی داتا چالاکە, بۆیە ستریم بە داتای مۆبایل ناچالاکە. پەیوەست بە Wi-Fi, یان لە ڕێکخستنەکاندا پاشەکەوتکردنی داتا ناچالاک بکە.</string>
+    <string name="player_sleep_timer">کاتژمێری خەوتن</string>
+    <string name="player_sleep_timer_end_of_programme">کۆتایی بەرنامە</string>
+    <string name="player_sleep_timer_end_of_movie">کۆتایی فیلم</string>
+    <string name="player_sleep_timer_end_of_episode">کۆتایی ئەڵقە</string>
+    <string name="player_sleep_timer_remaining">دەوەستێت دوای <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="player_sleep_timer_screen_off">شاشەکەش بکوژێنەوە</string>
+    <string name="player_sleep_timer_screen_off_explanation">تەنها بۆ کوژاندنەوەی شاشە بەکاردێت کاتێک کاتژمێری خەوتن کۆتایی دێت, نەک لە هیچ کاتێکی تر.</string>
+    <string name="player_sleep_timer_screen_off_unavailable">ئەم ئامێرە ڕێگە بە ئەپەکان نادات شاشەکە بکوژێننەوە.</string>
+    <string name="player_pip_expand">گەورە بکە</string>
+    <string name="player_error_cast_unsupported">ئەو ئامێرەی\' پەخشەکەی بۆ دەنێریت ناتوانێت\' ئەم ستریمە پەخش بکات. زۆر کەناڵی ڕاستەوخۆ فۆرماتێک بەکاردەهێنن کە پشتگیری\' ناکات — لەبری ئەوە لە مۆبایلەکەت پەخشی بکە.</string>
+    <string name="player_cast_playing_on">پەخش دەکرێت لەسەر <xliff:g id="device">%1$s</xliff:g></string>
+    <string name="multiview_button">فرەبینین</string>
+    <string name="multiview_add_channel">کەناڵ زیاد بکە</string>
+    <string name="multiview_refused_single">دابینکەرەکەت تەنها ڕێگە بە یەک ستریم لە هەر کاتێکدا دەدات.</string>
+    <string name="multiview_refused_single_recording">دابینکەرەکەت تەنها ڕێگە بە یەک ستریم لە هەر کاتێکدا دەدات, و تۆمارکردنێک بەکاری دەهێنێت.</string>
+    <plurals name="multiview_refused_all_in_use">
+        <item quantity="one">دابینکەرەکەت ڕێگە بە <xliff:g id="count">%1$d</xliff:g> پەخش لە یەک کاتدا دەدات, و ئێستا بەکاردێت.</item>
+        <item quantity="other">دابینکەرەکەت ڕێگە بە <xliff:g id="count">%1$d</xliff:g> پەخش لە یەک کاتدا دەدات, و هەموویان ئێستا بەکاردێن.</item>
+    </plurals>
+    <plurals name="multiview_refused_all_in_use_recording">
+        <item quantity="one">دابینکەرەکەت ڕێگە بە <xliff:g id="count">%1$d</xliff:g> پەخش لە یەک کاتدا دەدات. <xliff:g id="recording">%2$d</xliff:g> لەوان تۆمار دەکرێت.</item>
+        <item quantity="other">دابینکەرەکەت ڕێگە بە <xliff:g id="count">%1$d</xliff:g> پەخش لە یەک کاتدا دەدات. <xliff:g id="recording">%2$d</xliff:g> لەوان تۆمار دەکرێن.</item>
+    </plurals>
+    <string name="multiview_refused_reserved">یەک پەیوەندی بەردەست دەهێڵرێتەوە بۆ ئەوەی بتوانیت بەردەوام بیت لە سەیرکردن. ئەمە لە ڕێکخستنەکان بگۆڕە بۆ تۆمارکردن لەسەر هەموو پەیوەندییەکان.</string>
+    <string name="multiview_decoder_exhausted">ئەم تەلەڤیزیۆنە ناتوانێت\' لە هەمان کاتدا کۆدی کەناڵێکی تر بخوێنێتەوە.</string>
+    <string name="multiview_decoder_exhausted_mobile">ئەم ئامێرە ناتوانێت\' لە هەمان کاتدا کۆدی کەناڵێکی تر بخوێنێتەوە.</string>
+    <string name="multiview_tile_change_channel">کەناڵ بگۆڕە</string>
+    <string name="multiview_tile_fullscreen">تەواوی شاشە بکە</string>
+    <string name="multiview_tile_remove">خانە بسڕەوە</string>
+    <string name="multiview_audio_tile">دەنگ لەم خانەیە چالاکە</string>
+    <string name="multiview_add_to">زیاد بکە بۆ فرەبینین</string>
+    <string name="multiview_added">بۆ فرەبینین هێڵرایەوە · <xliff:g id="count">%1$d</xliff:g> لە <xliff:g id="total">%2$d</xliff:g>. کەناڵێک پەخش بکە بۆ کردنەوەی تۆڕی خانەکان.</string>
+    <string name="multiview_tile_sound_only">تەنها دەنگ</string>
+    <string name="multiview_tile_show_picture">وێنەکە پیشان بدە</string>
+    <string name="multiview_sound_only_note">تەنها دەنگ — هێشتا یەکێکە لە ستریمەکانی دابینکەرەکەت\'</string>
+    <string name="player_trailer_skip">تێپەڕاندن 10 چرکە</string>
+    <string name="player_trailer_blocked_title">ئەم ترەیلەرە ناتوانرێت’ لە OwnTV پەخش بکرێت</string>
+    <string name="player_trailer_blocked_body">خاوەنەکەی تەنها ڕێگە دەدات لە YouTube پەخش بکرێت.</string>
+    <string name="player_trailer_open_youtube">لە YouTube بیکەرەوە</string>
 </resources>
