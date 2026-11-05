@@ -6,6 +6,7 @@ import android.util.Xml
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
 import org.xmlpull.v1.XmlPullParser
+import java.io.IOException
 import java.io.InputStream
 import java.io.PushbackInputStream
 import java.util.zip.GZIPInputStream
@@ -83,7 +84,18 @@ object XmltvParser {
                 }
             }
             ctx.ensureActive()
-            event = try { parser.next() } catch (e: Exception) { break } // unrecoverable position → stop, keep what we have
+            event = try {
+                parser.next()
+            } catch (e: IOException) {
+                // A dropped connection or a cut gzip is not the end of the feed. Ending quietly here made
+                // a half guide look complete: the caller then pruned everything after the cut and kept
+                // the cut file as the trusted cache. Thrown, the caller keeps the rows read so far and
+                // neither prunes nor caches.
+                Log.w(TAG, "parse read failed channels=$channels programmes=$programmes: ${e.message}")
+                throw e
+            } catch (_: Exception) {
+                break // malformed past recovery → stop, keep what we have
+            }
         }
         Log.d(
             TAG,
@@ -159,6 +171,8 @@ object XmltvParser {
             }
         } catch (c: kotlin.coroutines.cancellation.CancellationException) {
             throw c
+        } catch (e: IOException) {
+            throw e // the stream failed, not this element — see parse()
         } catch (e: Exception) {
             if (trackedKey) seenChannelIds.remove(key)
             recoverElement(parser, startDepth)
@@ -232,6 +246,8 @@ object XmltvParser {
             }
         } catch (c: kotlin.coroutines.cancellation.CancellationException) {
             throw c
+        } catch (e: IOException) {
+            throw e // the stream failed, not this element — see parse()
         } catch (e: Exception) {
             recoverElement(parser, startDepth)
             Log.w(TAG, "Skipping malformed <programme> element", e)
@@ -303,6 +319,8 @@ object XmltvParser {
             ctx.ensureActive()
             val event = try {
                 parser.next()
+            } catch (e: IOException) {
+                throw e // the stream failed, not this element — see parse()
             } catch (_: Exception) {
                 return
             }
@@ -324,6 +342,8 @@ object XmltvParser {
             ctx.ensureActive()
             val event = try {
                 parser.next()
+            } catch (e: IOException) {
+                throw e // the stream failed, not this element — see parse()
             } catch (_: Exception) {
                 return
             }

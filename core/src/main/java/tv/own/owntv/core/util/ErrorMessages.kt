@@ -48,7 +48,9 @@ fun classifySyncFailure(raw: String?, online: Boolean): FriendlySyncFailure = wh
     raw.containsAny("timeout", "timed out") -> FriendlySyncFailure.Timeout
     raw.containsAny("Unable to resolve host", "UnknownHost", "No address associated") -> FriendlySyncFailure.Unreachable
     raw.containsAny("Failed to connect", "ECONNREFUSED", "Connection refused", "Connection reset") -> FriendlySyncFailure.ConnectionFailed
-    raw.containsAny("stream was reset", "PROTOCOL_ERROR", "StreamReset") -> FriendlySyncFailure.StreamInterrupted
+    // The last one is a gzip body cut off mid-download — a guide feed the server dropped.
+    raw.containsAny("stream was reset", "PROTOCOL_ERROR", "StreamReset", "Unexpected end of ZLIB input stream") ->
+        FriendlySyncFailure.StreamInterrupted
     raw.contains("Portal login rejected", ignoreCase = true) -> FriendlySyncFailure.AuthenticationRejected
     raw.containsAny("MAC may not be authorized", "MAC not authorized", "Portal rejected", "no valid MAC") -> FriendlySyncFailure.MacNotAuthorised
     // A portal's bare-text refusal of a MAC asking too fast — busy, not a bad login.
@@ -82,6 +84,8 @@ fun isTransientSyncError(raw: String?, online: Boolean): Boolean = when {
         "Unable to resolve host", "UnknownHost", "No address associated",
         "Failed to connect", "ECONNREFUSED", "Connection refused", "Connection reset",
         "Software caused connection abort", "unexpected end of stream",
+        // A gzip body cut off mid-download (a guide feed dropped by the server).
+        "Unexpected end of ZLIB input stream",
         "stream was reset", "PROTOCOL_ERROR", "StreamReset",
         "HTTP 429", "HTTP 500", "HTTP 502", "HTTP 503", "HTTP 504",
         "Authorization failed",
