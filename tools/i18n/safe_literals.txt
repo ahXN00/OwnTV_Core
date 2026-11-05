@@ -2544,6 +2544,7 @@
 1	technical	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	length
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	parse end channels=$channels programmes=$programmes skipped=${metrics.skippedProgrammes}
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	parse progress items=$items channels=$channels programmes=$programmes skipped=${metrics.skippedProgrammes}
+1	log	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	parse read failed channels=$channels programmes=$programmes: ${e.message}
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	parse start channelFilterSize=${normalizedFilter?.size ?: 0}
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	parseOrReadMs=$parseOrReadDelta callbackMs=$callbackDelta
 1	protocol	core/src/main/java/tv/own/owntv/core/parser/XmltvParser.kt	parseOrReadMs=${metrics.parseOrReadMs}
@@ -5411,6 +5412,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	Software caused connection abort
 2	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	StreamReset
 2	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	Unable to resolve host
+2	technical	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	Unexpected end of ZLIB input stream
 2	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	UnknownHost
 1	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	XmlPull
 1	protocol	core/src/main/java/tv/own/owntv/core/util/ErrorMessages.kt	no programmes in the guide window

@@ -48,6 +48,14 @@ class ErrorMessagesTest {
         )
     }
 
+    /** A guide download whose gzip was cut off is a dropped connection: told so, and retried. */
+    @Test
+    fun `a cut gzip download is an interrupted download, worth a retry`() {
+        val raw = "Unexpected end of ZLIB input stream"
+        assertEquals(FriendlySyncFailure.StreamInterrupted, classifySyncFailure(raw, online = true))
+        assertEquals(true, isTransientSyncError(raw, online = true))
+    }
+
     @Test
     fun `unmapped external failure preserves its raw text`() {
         val raw = "Provider-specific failure code X17"

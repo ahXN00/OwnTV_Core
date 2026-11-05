@@ -88,6 +88,7 @@
 - **A phone with no app to save a backup file is told so**
 - **Re-test measures the connection limit on Xtream, and the next sync keeps it (TV #244)**
 - **Series whose episodes carry two dates load their episodes again (TV #342)** (community PR #78 by @maikelmj94-cpu)
+- **A guide download cut off midway no longer deletes the rest of the guide**
 
 ## core-1.0.69 — 2026-10-21
 
