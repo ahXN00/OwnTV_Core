@@ -67,6 +67,9 @@ junit = "4.13.2"
 # Test-only: the real org.json, so JVM unit tests can exercise code built on JSONObject/JSONArray
 # (the android.jar stub returns defaults for every method under isReturnDefaultValues).
 orgJson = "20260814"
+# Test-only: Gson's streaming reader behind the JVM tests' stand-in for android.util.JsonReader
+# (the android.jar copy is a stub, so the Xtream/Stalker parsers could not be tested).
+gson = "2.11.0"
 junitExt = "1.3.0"
 # The instrumentation runner itself. `androidx.test.ext:junit` does NOT pull it in, so without this
 # every instrumentation test crashed before its first line with ClassNotFoundException on
@@ -139,6 +142,7 @@ koin-android = { group = "io.insert-koin", name = "koin-android" }
 # Test
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 org-json = { group = "org.json", name = "json", version.ref = "orgJson" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitExt" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTestRunner" }
 

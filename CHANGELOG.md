@@ -11,7 +11,7 @@
 
 ## core-1.0.70 — unreleased
 
-**Database v53 · Backup v26 · Backup: two new playlist fields · Moved items keep their place**
+**Database v53 · Backup v26 · Backup: two new playlist fields, each profile's last categories · Moved items keep their place**
 
 ### ✨ New features
 
@@ -46,6 +46,9 @@
 - **🔀 Sources: the other versions of the channel playing** (idea from community PR TV #317 by @Aaronnn17)
 - **🔁 Auto start on boot and on wake-up: strings in every language** (community PR #40 by @Kevsosmooth)
 - **📱 Edit a playlist from a browser on another device (TV #250)**
+- **👤 Each profile remembers its own last category and channel**
+- **🧭 TV Guide follows Live TV's category, as a switch (off by default)** (community PR TV #325 by @Zangetsu-Sama)
+- **📺 Live TV restores the remembered category once its list has loaded, and only a category you pick is remembered** (community PR TV #325 by @Zangetsu-Sama)
 
 ### 🐛 Fixes
 
@@ -87,6 +90,8 @@
 - **The loading note counts only the playlist Home shows**
 - **A phone with no app to save a backup file is told so**
 - **Re-test measures the connection limit on Xtream, and the next sync keeps it (TV #244)**
+- **Series whose episodes carry two dates load their episodes again (TV #342)** (community PR #78 by @maikelmj94-cpu)
+- **A guide download cut off midway no longer deletes the rest of the guide**
 
 ## core-1.0.69 — 2026-10-21
 
