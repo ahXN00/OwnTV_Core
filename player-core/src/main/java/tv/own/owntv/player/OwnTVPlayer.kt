@@ -3657,6 +3657,17 @@ class OwnTVPlayer(
 
     fun togglePlayPause() {
         if (exoActive) { exoEngine?.togglePlayPause(); return }
+        val url = currentUrl
+        val now = android.os.SystemClock.elapsedRealtime()
+        val pausedAt = load.pausedAtMs
+        if (url != null && !_isPlaying.value && LiveResume.backToLiveEdge(
+                live = isLiveContent, fromSavedCopy = TimeshiftServer.isLocal(url), pausedAtMs = pausedAt, nowMs = now,
+            )
+        ) {
+            LiveDiagnosticsLog.event("mpv play after ${(now - pausedAt) / 1000}s paused — back to the live edge")
+            reloadLive(url, resetRetries = false)
+            return
+        }
         if (initialized) mpvAsync { command(arrayOf("cycle", "pause")) }
     }
 
@@ -4973,7 +4984,10 @@ class OwnTVPlayer(
     override fun eventProperty(property: String, value: Boolean) {
         if (exoActive) return
         when (property) {
-            "pause" -> _isPlaying.value = !value
+            "pause" -> {
+                _isPlaying.value = !value
+                load.pausedAtMs = if (value) android.os.SystemClock.elapsedRealtime() else 0L
+            }
             "paused-for-cache" -> { mpvPausedForCache = value; _buffering.value = value }
         }
     }
@@ -5684,6 +5698,8 @@ internal data class LoadState(
     @field:Volatile var brokenPtsHits: Int = 0,
     @field:Volatile var brokenPtsHandled: Boolean = false,
     var expectingPlayback: Boolean = false,
+    /** elapsedRealtime when mpv last went paused on this load; 0 while playing. mpv's event thread. */
+    @field:Volatile var pausedAtMs: Long = 0L,
     var pendingSeekMs: Long = 0L,
     /** Decode watchdog: if a >1080p video ends up on the software decoder, playback is aborted with a
      *  friendly error - CPU-decoding 4K on a TV chip stutters, overheats and OOM-kills the app (observed

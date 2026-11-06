@@ -2769,7 +2769,22 @@ class LivePreviewEngine(
     // --- PlaybackEngine controls (full-screen HUD) ---
     override fun togglePlayPause() {
         val p = player ?: return
-        if (p.isPlaying) p.pause() else p.play()
+        if (p.isPlaying) {
+            p.pause()
+            tune.pausedAtMs = android.os.SystemClock.elapsedRealtime()
+            return
+        }
+        val now = android.os.SystemClock.elapsedRealtime()
+        if (LiveResume.backToLiveEdge(
+                live = true, fromSavedCopy = TimeshiftServer.isLocal(currentUrl), pausedAtMs = tune.pausedAtMs, nowMs = now,
+            )
+        ) {
+            LiveDiagnosticsLog.event("play after ${(now - tune.pausedAtMs) / 1000}s paused — back to the live edge")
+            retry()
+            return
+        }
+        tune.pausedAtMs = 0L
+        p.play()
     }
 
     override fun setZoomMode(mode: ZoomMode) { _zoomMode.value = mode } // ExoPreviewSurface observes this + videoAspect/Size and sizes the surface (see Modifier.videoZoom)
@@ -3977,6 +3992,8 @@ internal data class TuneState(
     /** `SystemClock.elapsedRealtime()` of the last forward position move. */
     var lastProgressWallMs: Long = 0L,
     var frozenChecks: Int = 0,
+    /** elapsedRealtime of the pause the user (or the media session) asked for; 0 while not paused. */
+    var pausedAtMs: Long = 0L,
     /** elapsedRealtime of the last play() call. Its first frame is timed by [FirstFrameGate]. */
     @field:Volatile var playStartedMs: Long = 0L,
 )

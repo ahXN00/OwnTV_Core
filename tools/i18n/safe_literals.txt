@@ -2681,7 +2681,7 @@
 1	empty	core/src/main/java/tv/own/owntv/core/player/AudioOutputDelay.kt	\0
 1	technical	core/src/main/java/tv/own/owntv/core/player/AudioOutputDelay.kt	${it.key.name}=${it.value}
 1	technical	core/src/main/java/tv/own/owntv/core/player/AudioOutputDelay.kt	,
-1	compiler	core/src/main/java/tv/own/owntv/core/player/AudioOutputDelay.kt	InlinedApi
+2	compiler	core/src/main/java/tv/own/owntv/core/player/AudioOutputDelay.kt	InlinedApi
 1	technical	core/src/main/java/tv/own/owntv/core/player/EnginePinKey.kt	$sourceId:$mediaType:$it
 1	preference-key	core/src/main/java/tv/own/owntv/core/player/EnginePinKey.kt	CATCHUP
 2	empty	core/src/main/java/tv/own/owntv/core/player/ExternalPlayerLauncher.kt	\0
@@ -2728,6 +2728,11 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/player/ManifestType.kt	mpd
 2	technical	core/src/main/java/tv/own/owntv/core/player/PlaybackPrefsStore.kt	LIVE
 1	technical	core/src/main/java/tv/own/owntv/core/player/PlaybackPrefsStore.kt	off
+1	log	core/src/main/java/tv/own/owntv/core/player/PlaybackVisibility.kt	OwnTV-Visibility
+1	log	core/src/main/java/tv/own/owntv/core/player/PlaybackVisibility.kt	audio output back
+1	log	core/src/main/java/tv/own/owntv/core/player/PlaybackVisibility.kt	hidden — freeing playback
+1	log	core/src/main/java/tv/own/owntv/core/player/PlaybackVisibility.kt	no audio output left
+1	log	core/src/main/java/tv/own/owntv/core/player/PlaybackVisibility.kt	visible — restoring playback
 1	technical	core/src/main/java/tv/own/owntv/core/player/PlayerBudget.kt	10
 1	technical	core/src/main/java/tv/own/owntv/core/player/PlayerBudget.kt	120
 1	technical	core/src/main/java/tv/own/owntv/core/player/PlayerBudget.kt	128MiB
@@ -5889,6 +5894,7 @@
 2	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	picture frozen
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	picture frozen a third time — giving up on ExoPlayer for this stream
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	picture frozen again — new decoder and surface
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	play after ${(now - tune.pausedAtMs) / 1000}s paused — back to the live edge
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	play() engine=$engineId url=${HttpClient.redactUrl(url)} muted=$muted
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	play() failed: ${it.message}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	playback healthy for ${HEALTHY_MS}ms — reconnect ladder reset
@@ -6323,6 +6329,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv live mid-play reconnects exhausted ($MAX_LIVE_RECONNECTS) — surfacing error
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv live open timed out after ${openingMs}ms — surfacing error
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv load waits for a fresh surface (previous item ${lastVideoHeightPx}p)
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv play after ${(now - pausedAt) / 1000}s paused — back to the live edge
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv ready: ${getPropertyString("mpv-version")} ffmpeg=${getPropertyString("ffmpeg-version")}
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv reported ${load.brokenPtsHits} broken video timestamps — switching to free-running video timing
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv surface attached in ${android.os.SystemClock.elapsedRealtime() - t0}ms, pending load=$pendingLoad
