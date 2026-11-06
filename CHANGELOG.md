@@ -95,6 +95,9 @@
 - **Re-test measures the connection limit on Xtream, and the next sync keeps it (TV #244)**
 - **Series whose episodes carry two dates load their episodes again (TV #342)** (community PR #78 by @maikelmj94-cpu)
 - **A guide download cut off midway no longer deletes the rest of the guide**
+- **An offline channel no longer stops a redirecting panel from opening its other channels as HLS** (community PR #76 by @SirKitboard)
+- **mpv opens a channel whose .ts address is really an HLS playlist in seconds, not after the 10 s timeout** (community PR #77 by @SirKitboard)
+- **Live comes back at the live edge when the TV is switched off and on, and after a pause of over a minute (TV #343)**
 
 ## core-1.0.69 — 2026-10-21
 
