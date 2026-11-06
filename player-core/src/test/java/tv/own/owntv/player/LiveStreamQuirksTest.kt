@@ -147,6 +147,44 @@ class LiveStreamQuirksTest {
     }
 
     @Test
+    fun `both FFmpeg wordings of the EOF reconnect are recognised`() {
+        assertEquals(222L, LiveStreamQuirks.eofReconnectOffset("http: Will retry at 222 in 0 second(s), error=End of file."))
+        assertEquals(65536L, LiveStreamQuirks.eofReconnectOffset("http: Will reconnect at 65536 in 0 second(s), error=End of file."))
+        assertNull(LiveStreamQuirks.eofReconnectOffset("http: Will reconnect at 65537 in 0 second(s), error=End of file."))
+    }
+
+    @Test
+    fun `only a body that starts with EXTM3U is a playlist`() {
+        val start = LiveStreamQuirks::classifyResponseStart
+        assertEquals(LiveStreamQuirks.ResponseStart.HLS_PLAYLIST, start("#EXTM3U\n#EXT-X-VERSION:3\n".toByteArray()))
+        // A byte-order mark and blank lines in front are allowed.
+        assertEquals(
+            LiveStreamQuirks.ResponseStart.HLS_PLAYLIST,
+            start(byteArrayOf(0xEF.toByte(), 0xBB.toByte(), 0xBF.toByte()) + "\r\n  #EXTM3U\n".toByteArray()),
+        )
+        assertEquals(LiveStreamQuirks.ResponseStart.HLS_PLAYLIST, start(" \n\t#EXTM3U".toByteArray()))
+        // The MPEG-TS sync byte: a real feed that ended early.
+        assertEquals(LiveStreamQuirks.ResponseStart.MPEG_TS, start(byteArrayOf(0x47, 0x40, 0x00, 0x10)))
+        // An HTML error page — even one served as "mpegurl" — an empty body, a cut tag: none is a playlist.
+        assertEquals(LiveStreamQuirks.ResponseStart.OTHER, start("<html><body>Stream offline</body></html>".toByteArray()))
+        assertEquals(LiveStreamQuirks.ResponseStart.OTHER, start(ByteArray(0)))
+        assertEquals(LiveStreamQuirks.ResponseStart.OTHER, start("#EXTM".toByteArray()))
+        assertEquals(LiveStreamQuirks.ResponseStart.OTHER, start("#EXTINF:-1,Channel".toByteArray()))
+    }
+
+    @Test
+    fun `an early EOF is checked only on a looping live ts open, once`() {
+        assertTrue(LiveStreamQuirks.eofCheckWanted(live = true, opening = true, loopingTsOpen = true, alreadyChecked = false))
+        // Already playing: an EOF there is a dropped feed, which reconnect_at_eof exists for.
+        assertFalse(LiveStreamQuirks.eofCheckWanted(live = true, opening = false, loopingTsOpen = true, alreadyChecked = false))
+        // Opened as HLS (no reconnect_at_eof), or a film / catch-up: no loop to break.
+        assertFalse(LiveStreamQuirks.eofCheckWanted(live = true, opening = true, loopingTsOpen = false, alreadyChecked = false))
+        assertFalse(LiveStreamQuirks.eofCheckWanted(live = false, opening = true, loopingTsOpen = true, alreadyChecked = false))
+        // Once per channel.
+        assertFalse(LiveStreamQuirks.eofCheckWanted(live = true, opening = true, loopingTsOpen = true, alreadyChecked = true))
+    }
+
+    @Test
     fun `a different provider is unaffected by what one panel taught us`() {
         LiveStreamQuirks.rememberHlsRedirect("http://panel.example:80/live/u/p/1.ts")
         assertFalse(LiveStreamQuirks.isKnownHls("http://other.example:80/live/u/p/1.ts"))

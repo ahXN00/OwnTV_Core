@@ -188,25 +188,53 @@ object LiveStreamQuirks {
         isFormatFailure && httpStatus == null
 
     /**
-     * The offset in FFmpeg's `reconnect_at_eof` line ("http: Will reconnect at 222 in 0 second(s),
-     * error=End of file."), or null for any other line.
+     * The offset in FFmpeg's `reconnect_at_eof` line, or null for any other line. Both wordings FFmpeg
+     * has used: "Will reconnect at 222 in 0 second(s), error=End of file." and "Will retry at …".
      *
-     * mpv learns a redirecting panel from this line. A live `.ts` that the panel redirects to a manifest
-     * is a short, finite response. Opened as raw TS, `reconnect_at_eof` re-reads the same few hundred
-     * bytes until the open times out. Before this, only ExoPlayer taught [rememberHlsRedirect], so with
-     * mpv as the only engine every redirected channel failed. Offsets above [MAX_EOF_LOOP_OFFSET] are
-     * ignored: a feed that delivered that much was a stream that dropped, not a playlist.
+     * A live `.ts` that the panel redirects to a manifest is a short, finite response. Opened as raw TS,
+     * `reconnect_at_eof` re-reads the same few hundred bytes, and FFmpeg resets its retry count on every
+     * read, so nothing ends the loop but the 10 s open timeout. Only ExoPlayer used to learn such a panel,
+     * so on mpv alone every channel there failed. Offsets of 0 and above [MAX_EOF_PROBE_OFFSET] are
+     * ignored: nothing was read, or a feed that delivered that much was a stream that dropped.
      */
     fun eofReconnectOffset(line: String): Long? {
         val offset = EOF_RECONNECT_RX.find(line)?.groupValues?.get(1)?.toLongOrNull() ?: return null
-        return offset.takeIf { it in 1..MAX_EOF_LOOP_OFFSET }
+        return offset.takeIf { it in 1..MAX_EOF_PROBE_OFFSET }
     }
 
-    /** Same-offset EOF reconnects during one open before mpv treats the response as a manifest. */
-    const val EOF_LOOP_HITS = 3
-    private const val MAX_EOF_LOOP_OFFSET = 64L * 1024
+    private const val MAX_EOF_PROBE_OFFSET = 64L * 1024
     private val EOF_RECONNECT_RX =
-        Regex("""Will reconnect at (\d+) in .*End of file""", RegexOption.IGNORE_CASE)
+        Regex("""Will (?:reconnect|retry) at (\d+) in .*End of file""", RegexOption.IGNORE_CASE)
+
+    /** What the first bytes of a live response are, read once to decide what an early EOF meant. */
+    enum class ResponseStart { HLS_PLAYLIST, MPEG_TS, OTHER }
+
+    /**
+     * Classify the first bytes of a response. A playlist only when the body itself starts with `#EXTM3U`
+     * (after an optional byte-order mark and whitespace) — a content type or a URL that says "mpegurl"
+     * is not enough, panels label HTML error pages that way. `0x47` is the MPEG-TS sync byte.
+     */
+    fun classifyResponseStart(bytes: ByteArray): ResponseStart {
+        var i = 0
+        if (bytes.size >= 3 && bytes[0] == 0xEF.toByte() && bytes[1] == 0xBB.toByte() && bytes[2] == 0xBF.toByte()) i = 3
+        if (i == 0 && bytes.isNotEmpty() && bytes[0] == 0x47.toByte()) return ResponseStart.MPEG_TS
+        while (i < bytes.size && bytes[i].toInt().toChar().isWhitespace()) i++
+        val tag = "#EXTM3U".toByteArray(Charsets.US_ASCII)
+        if (bytes.size - i >= tag.size && tag.indices.all { bytes[i + it] == tag[it] }) return ResponseStart.HLS_PLAYLIST
+        return ResponseStart.OTHER
+    }
+
+    /**
+     * Whether an early-EOF line during a live open is worth checking what the response really is: only
+     * while the open is still pending, only for a load that mpv opened as raw `.ts` with
+     * `reconnect_at_eof` (that option is what loops), and once per channel.
+     */
+    fun eofCheckWanted(
+        live: Boolean,
+        opening: Boolean,
+        loopingTsOpen: Boolean,
+        alreadyChecked: Boolean,
+    ): Boolean = live && opening && loopingTsOpen && !alreadyChecked
 
     /**
      * Record that [url]'s host serves DASH manifests from URLs that do not say `.mpd` (v43).
