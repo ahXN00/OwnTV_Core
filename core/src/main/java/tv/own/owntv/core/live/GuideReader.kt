@@ -80,15 +80,21 @@ class GuideReader(
         globalShiftMinutes: Int,
         from: Long,
         to: Long,
+        /**
+         * Whole rows — synopsis and XMLTV details — for one channel's day on the Program details page.
+         * A grid row leaves both out: thousands of rows of text are what filled the cursor window.
+         */
+        withText: Boolean = false,
     ): List<EpgProgrammeEntity> = withContext(Dispatchers.IO) {
         val startedAt = SystemClock.elapsedRealtime()
         val epgKey = epgKeyOf(channel, cust)
         val shift = EpgShift.minutesFor(cust, channel, globalShiftMinutes)
+        val read: suspend (String, Long, Long) -> List<EpgProgrammeEntity> =
+            if (withText) epgDao::programmesForChannel else epgDao::programmeSummariesForChannel
         val stored = when {
             epgKey == null -> emptyList()
-            shift == 0 -> epgDao.programmeSummariesForChannel(epgKey, from, to)
-            else -> epgDao
-                .programmeSummariesForChannel(epgKey, EpgShift.toStored(from, shift), EpgShift.toStored(to, shift))
+            shift == 0 -> read(epgKey, from, to)
+            else -> read(epgKey, EpgShift.toStored(from, shift), EpgShift.toStored(to, shift))
                 .map { EpgShift.apply(it, shift) }
         }
         if (stored.isNotEmpty()) {
