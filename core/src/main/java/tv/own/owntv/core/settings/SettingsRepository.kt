@@ -384,6 +384,11 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val RESTORE_IN_PROGRESS = stringPreferencesKey("restore_in_progress")
         val LIVE_PREVIEW = booleanPreferencesKey("live_preview")
         val LIVE_PREVIEW_AUDIO = booleanPreferencesKey("live_preview_audio")
+        // OK on a channel first plays it in the preview pane; OK again goes full screen. One switch
+        // per screen: the TV Guide (on by default, its behaviour before the switch existed) and
+        // Live TV (off by default — focus auto-previews there instead).
+        val GUIDE_PREVIEW_ON_OK = booleanPreferencesKey("guide_preview_on_ok")
+        val LIVE_PREVIEW_ON_OK = booleanPreferencesKey("live_preview_on_ok")
         // Whether the expanded Home hero plays its video. Unset means "device default" — see
         // heroPreviewEnabled.
         val HERO_PREVIEW = booleanPreferencesKey("hero_preview")
@@ -2479,6 +2484,20 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         context.dataStore.edit { it[Keys.LIVE_PREVIEW_AUDIO] = enabled }
     }
 
+    /** TV Guide: OK on a channel first plays it in the preview, OK again goes full screen. */
+    val guidePreviewOnOk: Flow<Boolean> = prefsFlow { it[Keys.GUIDE_PREVIEW_ON_OK] ?: true }
+
+    suspend fun setGuidePreviewOnOk(enabled: Boolean) {
+        context.dataStore.edit { it[Keys.GUIDE_PREVIEW_ON_OK] = enabled }
+    }
+
+    /** Live TV: focus no longer auto-previews; OK previews first, OK again goes full screen. */
+    val livePreviewOnOk: Flow<Boolean> = prefsFlow { it[Keys.LIVE_PREVIEW_ON_OK] ?: false }
+
+    suspend fun setLivePreviewOnOk(enabled: Boolean) {
+        context.dataStore.edit { it[Keys.LIVE_PREVIEW_ON_OK] = enabled }
+    }
+
     /**
      * An HLS stream offering both an SDR and an HDR picture plays the SDR one, for a TV whose HDR looks
      * washed out. Streams with one kind only are untouched. ExoPlayer only: mpv's HLS reader does not see
@@ -3234,7 +3253,7 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             Keys.TIMESHIFT_WINDOW_MINUTES)
         val bools = listOf(
             Keys.GUIDE_SHOW_EMPTY, Keys.GUIDE_PREVIEW,
-            Keys.LIVE_PREVIEW, Keys.LIVE_PREVIEW_AUDIO, Keys.HERO_PREVIEW, Keys.PREFER_SDR, Keys.AUTO_FRAME_RATE, Keys.AUTO_FRAME_RATE_LIVE, Keys.AFR_MATCH_RESOLUTION, Keys.AUTO_FRAME_RATE_PROMPTED, Keys.ANDROID_TV_HOME, Keys.HW_DECODING, Keys.SOFTWARE_DECODE_ABOVE_1080P,
+            Keys.LIVE_PREVIEW, Keys.LIVE_PREVIEW_AUDIO, Keys.GUIDE_PREVIEW_ON_OK, Keys.LIVE_PREVIEW_ON_OK, Keys.HERO_PREVIEW, Keys.PREFER_SDR, Keys.AUTO_FRAME_RATE, Keys.AUTO_FRAME_RATE_LIVE, Keys.AFR_MATCH_RESOLUTION, Keys.AUTO_FRAME_RATE_PROMPTED, Keys.ANDROID_TV_HOME, Keys.HW_DECODING, Keys.SOFTWARE_DECODE_ABOVE_1080P,
             Keys.VOD_PREFER_EXO, Keys.MEASURED_STREAM_STATS, Keys.DETAILED_DIAGNOSTICS, Keys.DIRECT_TUNE, Keys.LIVE_LEFT_RIGHT_REWINDS, Keys.EXTERNAL_PLAYER,
             Keys.EXTERNAL_PLAYER_LIVE, Keys.EXTERNAL_PLAYER_MOVIES, Keys.EXTERNAL_PLAYER_SERIES, Keys.UPDATE_CHECK_ON_START, Keys.SURROUND_SOUND, Keys.AUTO_PLAY_NEXT, Keys.PROXY_ENABLED,
             Keys.WEATHER_ENABLED, Keys.WEATHER_FAHRENHEIT, Keys.RESUME_LAST_CHANNEL, Keys.METADATA_ENABLED, Keys.CH_NAV_ENABLED, Keys.PLAYER_SWAP_CHANNEL_KEYS, Keys.PLAYER_NUMBER_KEYS_TUNE,
