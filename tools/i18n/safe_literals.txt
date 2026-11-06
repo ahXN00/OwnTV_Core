@@ -5663,7 +5663,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	, init ${initializationDurationMs}ms)
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	-
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	.
-2	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	.m3u8
+1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	.m3u8
 2	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	.mpd
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	16:10
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	16:9
@@ -5768,9 +5768,10 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	idle mid-live
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	isLiveContent=$isLiveContent buffering=${_buffering.value} reconnect=${tune.retryCount}/$MAX_RECONNECTS
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	kind unknown
-1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	knownHlsHost=$knownHlsHost knownDashHost=$knownDashHost
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	knownHlsHost=$knownHls knownDashHost=$knownDashHost
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	lang=$it
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	latencySec=${liveBufferSecs ?: -1}
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	learned HLS route could not parse this channel — retrying it as TS
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	length=${response.body.contentLength()} signature=${HttpDiagnostics.mediaSignature(prefix)}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	liveOffsetMs=${p.currentLiveOffset.takeUnless { it == C.TIME_UNSET } ?: -1}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	live_buffer preroll=${effectivePrerollSecs()}s start=${lc.bufferForPlaybackMs}ms
@@ -5795,7 +5796,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	open stalled: $detail — the stream is buffered but unplayable here
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	output audio delay: $ms ms, engine total ${_audioDelayMs.value + ms} ms
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	owntv-http-evict
-1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	panel serves both HLS and plain TS — dropped the HLS lesson, retrying as TS
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	panel serves both HLS and plain TS — dropped the HLS lesson
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	panel to mpv
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	passthrough audio: re-priming the output after the track change
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	pdt=${playlist.hasProgramDateTime} startOffsetUs=${playlist.startOffsetUs}
