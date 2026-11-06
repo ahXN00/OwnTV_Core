@@ -104,7 +104,8 @@ sealed interface HlsInconclusiveReason {
 
 /** Declaration + real probe. [declared] is null when the panel couldn't be reached at all. */
 data class HlsTest(val declared: Boolean?, val probe: HlsProbe)
-data class XtEpgEntry(val title: String, val description: String?, val startMs: Long, val stopMs: Long)
+/** A schedule row. [programmeId] is the stored programme's id, or 0 for a row only the provider gave. */
+data class XtEpgEntry(val title: String, val description: String?, val startMs: Long, val stopMs: Long, val programmeId: Long = 0)
 
 /**
  * Xtream Codes `player_api.php` client. Category lists are small and collected to a list; the large
