@@ -75,6 +75,11 @@
     <string name="content_remove_from_category">Ta bort från den här kategorin</string>
     <string name="content_download">Ladda ned</string>
     <string name="content_download_all_episodes">Ladda ned alla avsnitt</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one">Ladda ned <xliff:g id="count">%1$d</xliff:g> avsnitt?</item>
+        <item quantity="other">Ladda ned <xliff:g id="count">%1$d</xliff:g> avsnitt?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">De sparas på den här enheten och tar lagringsutrymme.</string>
     <string name="content_play">Spela upp</string>
     <string name="content_favorited">Favoritmarkerad</string>
     <string name="content_favorite">Favoritmarkera</string>
@@ -82,9 +87,7 @@
     <string name="content_episodes">Avsnitt</string>
     <string name="content_oldest_first">Äldsta först</string>
     <string name="content_newest_first">Nyaste först</string>
-    <string name="content_play_external">Spela upp med extern spelare</string>
     <string name="content_delete_subtitles">Ta bort OpenSub-undertexter</string>
-    <string name="content_tmdb_details">TMDB-detaljer</string>
     <string name="content_play_trailer">Spela upp trailer</string>
     <string name="content_refetch_tmdb">Hämta TMDB-detaljer igen</string>
     <string name="content_set_tmdb_name">Ange TMDB-namn</string>
@@ -134,6 +137,9 @@
     <string name="content_catchup_jump_prompt">Välj en tid att börja titta från. Ingen tablå behövs.</string>
     <string name="content_catchup_jump_exact">Välj exakt tid…</string>
     <string name="content_catchup_jump_hint">Tryck på OK på dagen, timmen eller minuten, ändra med upp och ner och tryck på OK igen.</string>
+    <string name="content_catchup_jump_programme_start">Början av ”<xliff:g id="title">%1$s</xliff:g>”</string>
+    <string name="content_catchup_jump_programme_start_untitled">Början av programmet</string>
+    <string name="content_catchup_jump_programme_start_at">Började kl. <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">Välj kanalen i programguiden för ”<xliff:g id="channel">%1$s</xliff:g>”.</string>
     <string name="content_epg_match_prompt_current">Välj kanalen i programguiden för ”<xliff:g id="channel">%1$s</xliff:g>”. Nuvarande: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">Sök bland kanaler i programguiden…</string>
@@ -282,7 +288,6 @@
     <string name="content_search_in">Sök i <xliff:g id="name">%1$s</xliff:g></string>
     <string name="content_live_guide_view">Guidevy</string>
     <string name="content_key_watch">Titta</string>
-    <string name="content_key_schedule">Tablå</string>
     <string name="content_key_options">Alternativ</string>
     <string name="content_live_groups">Grupper</string>
     <string name="content_menu_group_watch">Titta</string>
@@ -347,6 +352,9 @@
     <string name="content_sort_date_added_hint">Nyast först</string>
     <string name="content_menu_group_library">Bibliotek</string>
     <string name="content_menu_group_details">Detaljer</string>
+    <string name="content_programme_details">Programdetaljer</string>
+    <string name="content_programmes_earlier">Tidigare</string>
+    <string name="content_programmes_later">Senare</string>
     <string name="content_movie_details">Filminformation</string>
     <string name="content_series_details">Serieinformation</string>
     <plurals name="content_vod_title_count">

@@ -97,12 +97,16 @@ class DownloadManager(
      * A root that still cannot produce a file — the volume went away mid-way — still gets a row, with no path. The engine then fails it in the ordinary way and the user sees
      * a failed download saying so, which is what happened before this could fail at all. Queuing
      * nothing would leave the Download button looking broken.
+     *
+     * A profile with downloads switched off queues nothing: the apps hide every Download action for
+     * it, and this is the guard behind them, so a path that was missed still cannot fill the box.
      */
     fun enqueue(
         profileId: Long, mediaType: MediaType, itemId: Long, title: String, posterUrl: String?,
         streamUrl: String, relativeDir: String, fileName: String,
     ) {
         scope.launch {
+            if (!settings.downloadsAllowed(profileId).first()) return@launch
             val root = MediaRoot.of(context, settings.downloadRoot.first())
             val target = root.child(relativeDir, fileName)
             if (target == null) {

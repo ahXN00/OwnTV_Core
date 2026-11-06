@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Din egen bild</string>
     <string name="profiles_kids">Barnprofil</string>
     <string name="profiles_kids_description">Förenklad och säker navigering</string>
+    <string name="profiles_allow_downloads">Tillåt nedladdningar</string>
+    <string name="profiles_allow_downloads_description">Av döljer alla nedladdningsknappar för den här profilen</string>
     <string name="profiles_remove_pin">Ta bort PIN-lås</string>
     <string name="profiles_no_pin">Den här profilen öppnas utan PIN</string>
     <string name="profiles_change_pin">Ändra PIN (tomt = behåll)</string>
@@ -65,6 +67,11 @@
     <string name="launcher_recent_live_description">Livekanaler du nyligen tittat på</string>
     <string name="launcher_movie_type">Film</string>
     <string name="launcher_episode_number">Avsnitt <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Biblioteket läses in · <xliff:g id="count">%1$s</xliff:g> titel hittills</item>
+        <item quantity="other">Biblioteket läses in · <xliff:g id="count">%1$s</xliff:g> titlar hittills</item>
+    </plurals>
+    <string name="home_library_loading_trending">Trendigt just nu visas allteftersom biblioteket fylls på.</string>
     <string name="home_no_preview">Det finns inget att förhandsvisa än.</string>
     <string name="home_no_rows">Alla rader på startskärmen är dolda.</string>
     <string name="home_enable_rows">Aktivera raderna igen under Inställningar → Startskärm.</string>
@@ -179,6 +186,8 @@
     <string name="home_trending_pause">Pausa</string>
     <string name="home_trending_unavailable">Den här versionen är inte längre tillgänglig</string>
     <string name="recording_notification_title">Spelar in</string>
+    <string name="auto_start_notification_channel">Starta automatiskt vid väckning</string>
+    <string name="auto_start_notification_text">OwnTV öppnas när tv:n vaknar</string>
     <string name="recording_failed_no_space">Stoppad: inget utrymme kvar</string>
     <string name="recording_failed_no_connection">Ingen ledig anslutning från din leverantör</string>
     <string name="recording_failed_clash">En annan inspelning använde anslutningen</string>

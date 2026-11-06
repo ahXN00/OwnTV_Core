@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Własny obraz</string>
     <string name="profiles_kids">Profil dziecięcy</string>
     <string name="profiles_kids_description">Uproszczone, bezpieczne przeglądanie</string>
+    <string name="profiles_allow_downloads">Zezwalaj na pobieranie</string>
+    <string name="profiles_allow_downloads_description">Wyłączenie ukrywa wszystkie przyciski pobierania w tym profilu</string>
     <string name="profiles_remove_pin">Usuń blokadę PIN</string>
     <string name="profiles_no_pin">Ten profil otwiera się bez PIN-u</string>
     <string name="profiles_change_pin">Zmień PIN (puste pole = bez zmian)</string>
@@ -69,6 +71,13 @@
     <string name="launcher_recent_live_description">Ostatnio oglądane kanały na żywo</string>
     <string name="launcher_movie_type">Film</string>
     <string name="launcher_episode_number">Odcinek <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Wczytywanie biblioteki · na razie <xliff:g id="count">%1$s</xliff:g> tytuł</item>
+        <item quantity="few">Wczytywanie biblioteki · na razie <xliff:g id="count">%1$s</xliff:g> tytuły</item>
+        <item quantity="many">Wczytywanie biblioteki · na razie <xliff:g id="count">%1$s</xliff:g> tytułów</item>
+        <item quantity="other">Wczytywanie biblioteki · na razie <xliff:g id="count">%1$s</xliff:g> tytułów</item>
+    </plurals>
+    <string name="home_library_loading_trending">Sekcja Teraz popularne pojawi się w miarę wczytywania biblioteki.</string>
     <string name="home_no_preview">Nie ma jeszcze niczego do wyświetlenia w podglądzie.</string>
     <string name="home_no_rows">Wszystkie wiersze ekranu głównego są ukryte.</string>
     <string name="home_enable_rows">Włącz ponownie wiersze: Ustawienia → Ekran główny.</string>
@@ -197,6 +206,8 @@
     <string name="home_trending_pause">Wstrzymaj</string>
     <string name="home_trending_unavailable">Ta wersja nie jest już dostępna</string>
     <string name="recording_notification_title">Nagrywanie</string>
+    <string name="auto_start_notification_channel">Autostart po wybudzeniu</string>
+    <string name="auto_start_notification_text">OwnTV otworzy się, gdy telewizor się wybudzi</string>
     <string name="recording_failed_no_space">Zatrzymano: brak miejsca</string>
     <string name="recording_failed_no_connection">Brak wolnego połączenia u dostawcy</string>
     <string name="recording_failed_clash">Połączenia używało inne nagranie</string>

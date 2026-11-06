@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 import tv.own.owntv.core.database.entity.CatalogBackfillEntity
 import tv.own.owntv.core.model.MediaType
 
@@ -87,15 +88,18 @@ interface CatalogBackfillDao {
     suspend fun pendingCount(sourceId: Long, mediaType: MediaType): Int
 
     /**
-     * How many categories this *source* still owes pages, across every media type — the one-read
-     * "is the catalogue whole?" answer.
-     *
-     * Zero is the complete state, and it is also the answer for a source that has no plan at all:
-     * an Xtream or M3U playlist, or a Stalker source imported before the lazy add existed. Both are
-     * genuinely complete, so callers need no special case for them.
+     * Which of [sourceIds] still owe pages. Observes only this small table, so it re-runs on each
+     * cursor advance for the price of an indexed lookup — never a scan of the content tables.
      */
-    @Query("SELECT COUNT(*) FROM catalog_backfill WHERE sourceId = :sourceId AND done = 0")
-    suspend fun pendingCountForSource(sourceId: Long): Int
+    @Query("SELECT DISTINCT sourceId FROM catalog_backfill WHERE done = 0 AND sourceId IN (:sourceIds) ORDER BY sourceId")
+    fun observeFilling(sourceIds: List<Long>): Flow<List<Long>>
+
+    /** Films and series stored so far for [sourceIds] — two counts on the `sourceId` index. */
+    @Query(
+        "SELECT (SELECT COUNT(*) FROM movies WHERE sourceId IN (:sourceIds)) + " +
+            "(SELECT COUNT(*) FROM series WHERE sourceId IN (:sourceIds))",
+    )
+    suspend fun titlesStored(sourceIds: List<Long>): Int
 
     /** The phase's reconciliation target: the sum of the portal's own per-category totals. */
     @Query("SELECT COALESCE(SUM(totalItems), 0) FROM catalog_backfill WHERE sourceId = :sourceId AND mediaType = :mediaType")

@@ -69,6 +69,10 @@
     <string name="content_remove_from_category">이 카테고리에서 삭제</string>
     <string name="content_download">다운로드</string>
     <string name="content_download_all_episodes">모든 에피소드 다운로드</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="other">에피소드 <xliff:g id="count">%1$d</xliff:g>개를 다운로드할까요?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">이 기기에 저장되며 저장 공간을 차지합니다.</string>
     <string name="content_play">재생</string>
     <string name="content_favorited">즐겨찾기에 추가됨</string>
     <string name="content_favorite">즐겨찾기</string>
@@ -76,9 +80,7 @@
     <string name="content_episodes">에피소드</string>
     <string name="content_oldest_first">오래된 항목부터</string>
     <string name="content_newest_first">최신 항목부터</string>
-    <string name="content_play_external">외부 플레이어로 재생</string>
     <string name="content_delete_subtitles">OpenSub 자막 삭제</string>
-    <string name="content_tmdb_details">TMDB 상세 정보</string>
     <string name="content_play_trailer">예고편 재생</string>
     <string name="content_refetch_tmdb">TMDB 상세 정보 다시 가져오기</string>
     <string name="content_set_tmdb_name">TMDB 이름 설정</string>
@@ -127,6 +129,9 @@
     <string name="content_catchup_jump_prompt">시청을 시작할 시간을 선택하세요. 편성표가 필요 없습니다.</string>
     <string name="content_catchup_jump_exact">정확한 시간 선택…</string>
     <string name="content_catchup_jump_hint">날짜, 시 또는 분에서 OK를 누르고 위아래로 바꾼 다음 OK를 다시 누르세요.</string>
+    <string name="content_catchup_jump_programme_start">“<xliff:g id="title">%1$s</xliff:g>” 처음부터</string>
+    <string name="content_catchup_jump_programme_start_untitled">프로그램 처음부터</string>
+    <string name="content_catchup_jump_programme_start_at"><xliff:g id="time">%1$s</xliff:g>에 시작</string>
     <string name="content_epg_match_prompt">“<xliff:g id="channel">%1$s</xliff:g>”에 연결할 편성표 채널을 선택하세요.</string>
     <string name="content_epg_match_prompt_current">“<xliff:g id="channel">%1$s</xliff:g>”에 연결할 편성표 채널을 선택하세요. 현재: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">편성표 채널 검색…</string>
@@ -272,7 +277,6 @@
     <string name="content_search_in"><xliff:g id="name">%1$s</xliff:g> 검색</string>
     <string name="content_live_guide_view">편성표 보기</string>
     <string name="content_key_watch">시청</string>
-    <string name="content_key_schedule">편성</string>
     <string name="content_key_options">옵션</string>
     <string name="content_live_groups">그룹</string>
     <string name="content_menu_group_watch">시청</string>
@@ -334,6 +338,9 @@
     <string name="content_sort_date_added_hint">최신순</string>
     <string name="content_menu_group_library">보관함</string>
     <string name="content_menu_group_details">상세 정보</string>
+    <string name="content_programme_details">프로그램 상세 정보</string>
+    <string name="content_programmes_earlier">이전</string>
+    <string name="content_programmes_later">이후</string>
     <string name="content_movie_details">영화 상세 정보</string>
     <string name="content_series_details">시리즈 상세 정보</string>
     <plurals name="content_vod_title_count">

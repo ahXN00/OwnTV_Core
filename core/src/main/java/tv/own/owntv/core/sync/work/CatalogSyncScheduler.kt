@@ -5,12 +5,14 @@ import androidx.work.Constraints
 import androidx.work.ExistingWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import tv.own.owntv.core.sync.SyncContentTypes
@@ -92,16 +94,6 @@ class CatalogSyncScheduler(private val context: Context) {
     }
 
     /**
-     * Finish a Stalker catalogue in the background.
-     *
-     * KEEP, not REPLACE: a drain already running has a live position in a category, and replacing it
-     * would throw that away to start the identical work over. Enqueued after a sync that left pages
-     * outstanding, and re-enqueued by the worker itself when it yields to playback.
-     *
-     * Deliberately no battery/idle constraint beyond a network: a TV is mains-powered, and the point
-     * is for the catalogue to be whole by the time the user scrolls that far, not overnight.
-     */
-    /**
      * Measure this provider's stream limit in the background.
      *
      * KEEP, not REPLACE: the measurement runs at most once per playlist, and a second enqueue from a
@@ -126,7 +118,42 @@ class CatalogSyncScheduler(private val context: Context) {
         android.util.Log.i("ConnectionMeasurement", "measurement enqueued sourceId=$sourceId")
     }
 
-    fun enqueueCatalogBackfill(sourceId: Long, initialDelayMinutes: Long = 0) {
+    /**
+     * Finish a Stalker catalogue in the background — start its drain now.
+     *
+     * A pass already running is left alone: it has a live position in a category and re-reads the
+     * category priority between categories, so replacing it would only throw that position away. A
+     * pass waiting out its retry delay is replaced by one that starts now — leaving it (KEEP) would
+     * make the user's opened category, or a sync that just finished, wait up to that delay.
+     *
+     * [initialDelayMinutes] and [onlyIfWaiting] are for the resume after playback: start soon, and only
+     * when a pass is actually waiting, so a playlist with nothing left to fill never gets a worker.
+     *
+     * Deliberately no battery/idle constraint beyond a network: a TV is mains-powered, and the point
+     * is for the catalogue to be whole by the time the user scrolls that far, not overnight.
+     */
+    suspend fun enqueueCatalogBackfill(
+        sourceId: Long,
+        initialDelayMinutes: Long = 0,
+        onlyIfWaiting: Boolean = false,
+    ) {
+        val infos = WorkManager.getInstance(context)
+            .getWorkInfosForUniqueWorkFlow(CatalogBackfillWorker.workName(sourceId))
+            .first()
+        if (infos.any { it.state == WorkInfo.State.RUNNING }) return
+        if (onlyIfWaiting && infos.none { !it.state.isFinished }) return
+        submitBackfill(sourceId, initialDelayMinutes, ExistingWorkPolicy.REPLACE)
+    }
+
+    /**
+     * The worker's own "come back later". Not [enqueueCatalogBackfill]: the calling pass is still
+     * running under the same unique name, so anything but an append would either be dropped (KEEP)
+     * or cancel the caller (REPLACE). APPEND_OR_REPLACE queues the next pass behind the one ending.
+     */
+    internal fun enqueueNextBackfillPass(sourceId: Long, delayMinutes: Long) =
+        submitBackfill(sourceId, delayMinutes, ExistingWorkPolicy.APPEND_OR_REPLACE)
+
+    private fun submitBackfill(sourceId: Long, initialDelayMinutes: Long, policy: ExistingWorkPolicy) {
         val request = OneTimeWorkRequestBuilder<CatalogBackfillWorker>()
             .setInputData(workDataOf(CatalogBackfillWorker.KEY_SOURCE_ID to sourceId))
             .setConstraints(
@@ -144,12 +171,12 @@ class CatalogSyncScheduler(private val context: Context) {
             .build()
         WorkManager.getInstance(context).enqueueUniqueWork(
             CatalogBackfillWorker.workName(sourceId),
-            ExistingWorkPolicy.KEEP,
+            policy,
             request,
         )
         android.util.Log.i(
             "CatalogBackfillWorker",
-            "backfill enqueued sourceId=$sourceId delayMinutes=$initialDelayMinutes",
+            "backfill enqueued sourceId=$sourceId delayMinutes=$initialDelayMinutes policy=$policy",
         )
     }
 
@@ -179,12 +206,15 @@ class CatalogSyncScheduler(private val context: Context) {
      * stored counts may have changed. The background backfill counts as catalogue work: it keeps
      * adding titles for many minutes after the sync itself has finished, and a Playlists row that
      * re-counted only after the sync went on showing the few per cent stored by setup.
+     *
+     * Only a *running* pass is busy. Between passes the next one is already queued behind its retry
+     * delay, and counting that as busy would hold the re-count until the whole catalogue is done.
      */
     fun catalogueSettled(sourceId: Long): Flow<Unit> {
         val syncing = observeSync(sourceId).map { it.isActive }.onStart { emit(false) }
         val backfilling = WorkManager.getInstance(context)
             .getWorkInfosForUniqueWorkFlow(CatalogBackfillWorker.workName(sourceId))
-            .map { infos -> infos.any { !it.state.isFinished } }
+            .map { infos -> infos.any { it.state == WorkInfo.State.RUNNING } }
             .onStart { emit(false) }
         return combine(syncing, backfilling) { a, b -> a || b }
             .distinctUntilChanged()

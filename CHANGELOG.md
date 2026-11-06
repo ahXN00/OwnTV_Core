@@ -11,7 +11,7 @@
 
 ## core-1.0.70 — unreleased
 
-**Database v52 · Backup v26 · Backup: two new playlist fields · Moved items keep their place**
+**Database v53 · Backup v26 · Backup: two new playlist fields, each profile's last categories · Moved items keep their place**
 
 ### ✨ New features
 
@@ -35,6 +35,23 @@
 - **🪟 Picture-in-picture when leaving the app** (community PR #39 by @Kevsosmooth)
 - **🔑 Stalker portals: an optional username and password**
 - **⌨️ Key hints for the Sports Calendar and Leagues tabs**
+- **📚 Home says the library is still loading while a large playlist fills in** (community PR #72 by @DevenP)
+- **👁️ Long-press menus: hide actions, and the default order matches the menus**
+- **📺 Hide All channels or Catch-up from the Live TV categories** (community PR #73 by @sarmadsoomro)
+- **⬇️ Allow downloads per profile; a whole show or season asks first with the episode count**
+- **📅 Catch-up channels get their past days in the guide from the provider's archive** (community PRs #64 by @Zangetsu-Sama and TV #324)
+- **⏮️ "Start of the programme" first in "Go back to…"** (community PRs #65 by @Zangetsu-Sama and TV #326)
+- **🎞️ Auto frame rate: separate switches for films and series, and Live TV (TV #318)**
+- **🔓 Ignore connection limit, per playlist (TV #244)**
+- **🔀 Sources: the other versions of the channel playing** (idea from community PR TV #317 by @Aaronnn17)
+- **🔁 Auto start on boot and on wake-up: strings in every language** (community PR #40 by @Kevsosmooth)
+- **📱 Edit a playlist from a browser on another device (TV #250)**
+- **👤 Each profile remembers its own last category and channel**
+- **🧭 TV Guide follows Live TV's category, as a switch (off by default)** (community PR TV #325 by @Zangetsu-Sama)
+- **📺 Live TV restores the remembered category once its list has loaded, and only a category you pick is remembered** (community PR TV #325 by @Zangetsu-Sama)
+- **👆 OK previews first: one switch for Live TV, one for the TV Guide (TV #344)**
+- **📄 Program details: schedule rows carry their programme (TV #345)**
+- **📄 Program details page: a channel's day with whole descriptions and details**
 
 ### 🐛 Fixes
 
@@ -69,6 +86,15 @@
 - **🍎 FairPlay entries: inline keys play as ClearKey; real FairPlay says it cannot play on Android**
 - **🎨 Dolby Vision profile 5 on mpv opens the device's Dolby Vision decoder (libmpv 2026.11.0, TV #313)**
 - **🏀 League cards in basketball, NFL and baseball lead with the best record**
+- **Background catalogue download keeps going after a pause; an unfinished category loads when opened** (community PR #68 by @DevenP)
+- **Background catalogue download resumes a minute after playback stops (#70)**
+- **Films tagged " - CAM" find their poster** (community PR #69 by @DevenP)
+- **Stalker series filed under films get their episodes** (community PR #67 by @DevenP)
+- **The loading note counts only the playlist Home shows**
+- **A phone with no app to save a backup file is told so**
+- **Re-test measures the connection limit on Xtream, and the next sync keeps it (TV #244)**
+- **Series whose episodes carry two dates load their episodes again (TV #342)** (community PR #78 by @maikelmj94-cpu)
+- **A guide download cut off midway no longer deletes the rest of the guide**
 
 ## core-1.0.69 — 2026-10-21
 

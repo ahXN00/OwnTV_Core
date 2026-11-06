@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">صورتك الخاصة</string>
     <string name="profiles_kids">ملف الأطفال الشخصي</string>
     <string name="profiles_kids_description">تصفح مبسّط وآمن</string>
+    <string name="profiles_allow_downloads">السماح بالتنزيلات</string>
+    <string name="profiles_allow_downloads_description">عند الإيقاف تُخفى كل أزرار التنزيل لهذا الملف الشخصي</string>
     <string name="profiles_remove_pin">إزالة قفل PIN</string>
     <string name="profiles_no_pin">يمكن فتح هذا الملف الشخصي من دون PIN</string>
     <string name="profiles_change_pin">تغيير PIN (اتركه فارغًا للاحتفاظ بالحالي)</string>
@@ -73,6 +75,15 @@
     <string name="launcher_recent_live_description">قنوات البث المباشر التي شوهدت مؤخرًا</string>
     <string name="launcher_movie_type">فيلم</string>
     <string name="launcher_episode_number">الحلقة <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="zero">جارٍ تحميل مكتبتك · <xliff:g id="count">%1$s</xliff:g> عنوان حتى الآن</item>
+        <item quantity="one">جارٍ تحميل مكتبتك · <xliff:g id="count">%1$s</xliff:g> عنوان حتى الآن</item>
+        <item quantity="two">جارٍ تحميل مكتبتك · <xliff:g id="count">%1$s</xliff:g> عنوانان حتى الآن</item>
+        <item quantity="few">جارٍ تحميل مكتبتك · <xliff:g id="count">%1$s</xliff:g> عناوين حتى الآن</item>
+        <item quantity="many">جارٍ تحميل مكتبتك · <xliff:g id="count">%1$s</xliff:g> عنوانًا حتى الآن</item>
+        <item quantity="other">جارٍ تحميل مكتبتك · <xliff:g id="count">%1$s</xliff:g> عنوان حتى الآن</item>
+    </plurals>
+    <string name="home_library_loading_trending">سيظهر «الرائج الآن» مع امتلاء مكتبتك.</string>
     <string name="home_no_preview">لا يوجد شيء لمعاينته حتى الآن.</string>
     <string name="home_no_rows">جميع صفوف الشاشة الرئيسية مخفية.</string>
     <string name="home_enable_rows">فعّل الصفوف مجددًا من الإعدادات ← الشاشة الرئيسية.</string>
@@ -215,6 +226,8 @@
     <string name="home_trending_pause">إيقاف مؤقت</string>
     <string name="home_trending_unavailable">لم يعد هذا الإصدار متاحًا</string>
     <string name="recording_notification_title">جارٍ التسجيل</string>
+    <string name="auto_start_notification_channel">التشغيل التلقائي عند الاستيقاظ</string>
+    <string name="auto_start_notification_text">يُفتح OwnTV عندما يستيقظ التلفزيون</string>
     <string name="recording_failed_no_space">توقّف: لا توجد مساحة كافية</string>
     <string name="recording_failed_no_connection">لا يوجد اتصال متاح من مزوّدك</string>
     <string name="recording_failed_clash">كان تسجيل آخر يستخدم الاتصال</string>

@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Dit eget billede</string>
     <string name="profiles_kids">Børneprofil</string>
     <string name="profiles_kids_description">Forenklet, sikker browsing</string>
+    <string name="profiles_allow_downloads">Tillad downloads</string>
+    <string name="profiles_allow_downloads_description">Fra skjuler alle downloadknapper for denne profil</string>
     <string name="profiles_remove_pin">Fjern PIN-lås</string>
     <string name="profiles_no_pin">Denne profil åbnes uden en PIN</string>
     <string name="profiles_change_pin">Skift PIN (tomt felt = behold)</string>
@@ -65,6 +67,11 @@
     <string name="launcher_recent_live_description">Senest sete livekanaler</string>
     <string name="launcher_movie_type">Film</string>
     <string name="launcher_episode_number">Afsnit <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Indlæser dit bibliotek · <xliff:g id="count">%1$s</xliff:g> titel indtil videre</item>
+        <item quantity="other">Indlæser dit bibliotek · <xliff:g id="count">%1$s</xliff:g> titler indtil videre</item>
+    </plurals>
+    <string name="home_library_loading_trending">Populært lige nu vises, efterhånden som dit bibliotek fyldes op.</string>
     <string name="home_no_preview">Intet at forhåndsvise endnu.</string>
     <string name="home_no_rows">Alle rækker på startskærmen er skjult.</string>
     <string name="home_enable_rows">Slå rækkerne til igen under Indstillinger → Startskærm.</string>
@@ -179,6 +186,8 @@
     <string name="home_trending_pause">Sæt på pause</string>
     <string name="home_trending_unavailable">Denne version er ikke længere tilgængelig</string>
     <string name="recording_notification_title">Optager</string>
+    <string name="auto_start_notification_channel">Start automatisk ved opvågning</string>
+    <string name="auto_start_notification_text">OwnTV åbner, når tv’et vågner</string>
     <string name="recording_failed_no_space">Stoppet: ingen plads tilbage</string>
     <string name="recording_failed_no_connection">Ingen ledig forbindelse fra din udbyder</string>
     <string name="recording_failed_clash">En anden optagelse brugte forbindelsen</string>

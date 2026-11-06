@@ -43,9 +43,12 @@ internal class XtreamSyncer(
                 tv.own.owntv.core.model.HlsSupport.of(details.hlsSupported),
             )
             // The panel states its session limit up front; the app used to learn it only by failing a
-            // tune and reading the 458 back. Stored, so it also survives a restart.
-            support.sourceDao.updateMaxConnections(s.id, details.maxConnections)
-            if (details.maxConnections == 1) tv.own.owntv.core.player.LiveSessionLimit.singleSession(s.url)
+            // tune and reading the 458 back. Stored, so it also survives a restart. A limit the user
+            // measured (Re-test) is kept: it outranks the panel's number, which is why it was measured.
+            support.sourceDao.updateMaxConnectionsUnlessMeasured(s.id, details.maxConnections)
+            if (details.maxConnections == 1 && s.maxConnectionsProbedAt <= 0) {
+                tv.own.owntv.core.player.LiveSessionLimit.singleSession(s.url)
+            }
             // The zone its timeshift `start` is written in — catch-up's Automatic time zone.
             support.sourceDao.updateServerTimeZone(s.id, details.serverTimeZone)
         }

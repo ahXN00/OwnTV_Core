@@ -117,6 +117,7 @@ class ProfileManager(
         // …and its picture, which nothing else would ever clean up.
         avatars.clear(profile.id)
         settings.setStartupChannel(profile.id, null)
+        settings.forgetProfilePositions(profile.id)
         profileDao.delete(profile)
         if (activeProfileId == profile.id) settings.setActiveProfile(remainingProfileId ?: -1L)
     }

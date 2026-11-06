@@ -75,6 +75,11 @@
     <string name="content_remove_from_category">Fjern fra denne kategorien</string>
     <string name="content_download">Last ned</string>
     <string name="content_download_all_episodes">Last ned alle episodene</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one">Laste ned <xliff:g id="count">%1$d</xliff:g> episode?</item>
+        <item quantity="other">Laste ned <xliff:g id="count">%1$d</xliff:g> episoder?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">De lagres på denne enheten og tar opp lagringsplass.</string>
     <string name="content_play">Spill av</string>
     <string name="content_favorited">Lagt til som favoritt</string>
     <string name="content_favorite">Legg til som favoritt</string>
@@ -82,9 +87,7 @@
     <string name="content_episodes">Episoder</string>
     <string name="content_oldest_first">Eldste først</string>
     <string name="content_newest_first">Nyeste først</string>
-    <string name="content_play_external">Spill av med ekstern avspiller</string>
     <string name="content_delete_subtitles">Slett OpenSub-undertekster</string>
-    <string name="content_tmdb_details">TMDB-detaljer</string>
     <string name="content_play_trailer">Spill av trailer</string>
     <string name="content_refetch_tmdb">Hent TMDB-detaljer på nytt</string>
     <string name="content_set_tmdb_name">Angi TMDB-navn</string>
@@ -134,6 +137,9 @@
     <string name="content_catchup_jump_prompt">Velg et tidspunkt å starte fra. Du trenger ingen programoversikt.</string>
     <string name="content_catchup_jump_exact">Velg nøyaktig tidspunkt…</string>
     <string name="content_catchup_jump_hint">Trykk OK på dagen, timen eller minuttet, endre med opp og ned, og trykk OK igjen.</string>
+    <string name="content_catchup_jump_programme_start">Starten av «<xliff:g id="title">%1$s</xliff:g>»</string>
+    <string name="content_catchup_jump_programme_start_untitled">Starten av programmet</string>
+    <string name="content_catchup_jump_programme_start_at">Startet kl. <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">Velg kanalen i programoversikten for «<xliff:g id="channel">%1$s</xliff:g>».</string>
     <string name="content_epg_match_prompt_current">Velg kanalen i programoversikten for «<xliff:g id="channel">%1$s</xliff:g>». Nåværende: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">Søk etter kanaler i programoversikten…</string>
@@ -282,7 +288,6 @@
     <string name="content_search_in">Søk i <xliff:g id="name">%1$s</xliff:g></string>
     <string name="content_live_guide_view">Guidevisning</string>
     <string name="content_key_watch">Se</string>
-    <string name="content_key_schedule">Program</string>
     <string name="content_key_options">Alternativer</string>
     <string name="content_live_groups">Grupper</string>
     <string name="content_menu_group_watch">Se</string>
@@ -347,6 +352,9 @@
     <string name="content_sort_date_added_hint">Nyeste først</string>
     <string name="content_menu_group_library">Bibliotek</string>
     <string name="content_menu_group_details">Detaljer</string>
+    <string name="content_programme_details">Programdetaljer</string>
+    <string name="content_programmes_earlier">Tidligere</string>
+    <string name="content_programmes_later">Senere</string>
     <string name="content_movie_details">Filmdetaljer</string>
     <string name="content_series_details">Seriedetaljer</string>
     <plurals name="content_vod_title_count">

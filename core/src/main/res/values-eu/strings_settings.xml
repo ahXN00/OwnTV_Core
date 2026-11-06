@@ -246,8 +246,9 @@
     <string name="settings_ch_paging">Urrutiko aginteko lasterbideak</string>
     <string name="settings_ch_paging_description">Esleitu urrutiko aginteko botoi libreak nabigazio funtsezkoa babestuta mantenduz</string>
     <string name="settings_content_menus_title">Luze sakatzeko menuak</string>
-    <string name="settings_content_menus_description">Berrantolatu kanal-, film-, telesail- eta atal-menuetako ekintzak</string>
-    <string name="settings_content_menus_hint">Eutsi Ados ekintza bati hartzeko, gero Gora eta Behera mugitzeko. Sakatu Ados berriro uzteko.</string>
+    <string name="settings_content_menus_description">Berrantolatu edo ezkutatu kanal-, film-, telesail- eta atal-menuetako ekintzak</string>
+    <string name="settings_content_menus_hint">Sakatu Ados ekintza batean hura erakusteko edo ezkutatzeko. Eutsi Ados hartzeko, mugitu Gora eta Behera, eta sakatu Ados berriro uzteko.</string>
+    <string name="settings_content_menus_note">Ekintza batzuk dagozkien lekuetan bakarrik agertzen dira.</string>
     <string name="settings_browsing_lists">Arakatzea eta zerrendak</string>
     <string name="settings_browsing_description">Gogoratu azken kategoria eta azken elementua Zuzeneko telebistan, Filmetan eta Telesailetan</string>
     <string name="settings_home_root">Hasierako pantaila</string>
@@ -296,13 +297,17 @@
     <string name="settings_live_preview_description">Erreproduzitu kanal bat automatikoki fokuratzen duzunean</string>
     <string name="settings_preview_audio">Aurrebistaren audioa</string>
     <string name="settings_preview_audio_description">Erreproduzitu soinua Zuzeneko aurrebistan</string>
+    <string name="settings_preview_on_ok">OK sakatzean, lehenik aurrebista</string>
+    <string name="settings_preview_on_ok_description">OK sakatzean kanala aurrebistan erreproduzitzen da, eta berriro OK sakatzean pantaila osoan irekitzen da</string>
     <string name="settings_mini_player_root">Mini erreproduzigailua</string>
     <string name="settings_mini_player_root_description">Ainguratutako mini erreproduzigailuaren tamaina eta kokalekua</string>
     <string name="settings_pip_on_leave">Irudi-barruko irudia aplikaziotik irtetean</string>
     <string name="settings_pip_on_leave_description">Bideoak leiho txiki batean jarraitzen du Hasiera sakatzean</string>
     <string name="settings_prefer_sdr_description">Jario batek SDR eta HDR irudiak eskaintzen dituenean, SDR irudia erreproduzitzen da: HDRa margul edo ilunegi ikusten den telebistetarako. HDR soilik duen jarioa HDR geratzen da. ExoPlayer soilik.</string>
-    <string name="settings_auto_frame_rate">Fotograma-maiztasun automatikoa</string>
-    <string name="settings_auto_frame_rate_description">Egokitu telebistaren freskatze-maiztasuna bideoari (24/25/50/60 fps) pantaila osoan, Zuzeneko telebistan eta VODean, eta lehengoratu irtetean. Desaktibatu zure telebistak edo hartzaileak HDMI azkar berrehunkatzen badu kanal-aldaketa bakoitzean.</string>
+    <string name="settings_auto_frame_rate_films">Fotograma-maiztasun automatikoa filmetarako eta telesailetarako</string>
+    <string name="settings_auto_frame_rate_films_description">Egokitu telebistaren freskatze-maiztasuna filmari edo atalari (24/25/50/60 fps) pantaila osoan, eta lehengoratu irtetean.</string>
+    <string name="settings_auto_frame_rate_live">Fotograma-maiztasun automatikoa Zuzeneko telebistarako</string>
+    <string name="settings_auto_frame_rate_live_description">Egokitu telebistaren freskatze-maiztasuna kanalari (25/50/60 fps) pantaila osoan, eta lehengoratu irtetean. Desaktibatu zure telebistak edo hartzaileak HDMI azkar berrehunkatzen badu kanal-aldaketa bakoitzean.</string>
     <string name="settings_afr_pause">Pausatu pantaila-aldaketan zehar</string>
     <string name="settings_afr_pause_description">Filmetarako soilik. Telebistak pantaila-modu berri batera berriro sinkronizatu behar duenean, filmak hainbeste itxaroten du hasiera pantaila beltzean galdu ez dadin. Aldaketa leunak ez du inoiz pausatzen.</string>
     <string name="settings_afr_resolution">Parekatu bereizmena</string>
@@ -352,6 +357,11 @@
     <string name="settings_check_updates_description">Lortu azken bertsioa GitHub Releases-etik</string>
     <string name="settings_update_startup">Bilatu eguneraketak abiatzean</string>
     <string name="settings_update_startup_description">Bilatu bertsio berri bat aplikazioa irekitzean</string>
+    <string name="settings_auto_start_boot">Abiarazi automatikoki piztean</string>
+    <string name="settings_auto_start_boot_description">Ireki OwnTV telebista pizten denean</string>
+    <string name="settings_auto_start_wake">Abiarazi automatikoki esnatzean</string>
+    <string name="settings_auto_start_wake_description">Ireki OwnTV telebista lo-egoeratik esnatzen denean</string>
+    <string name="settings_auto_start_needs_overlay">“Bistaratu beste aplikazioen gainean” behar da</string>
     <string name="settings_about">Honi buruz</string>
     <string name="settings_live_latency">Zuzeneko latentzia</string>
     <string name="settings_no_settings_match">Ez dago <xliff:g id="query">%1$s</xliff:g> bilaketarekin bat datorren ezarpenik</string>
@@ -461,6 +471,7 @@
     <string name="settings_search_keywords_startup">abiarazi ireki hasierako orria launch open landing</string>
     <string name="settings_search_keywords_updates">github bertsioa release version</string>
     <string name="settings_search_keywords_update_auto">eguneraketa automatikoa bertsio berria auto update new version</string>
+    <string name="settings_search_keywords_auto_start">abioa piztu esnatu lo egonean automatikoki ireki</string>
     <string name="settings_language_default">Lehenetsia (ingelesa)</string>
     <string name="settings_language_device">Gailuaren hizkuntza</string>
     <string name="settings_language_arabic">Arabiera</string>
@@ -706,8 +717,13 @@
     <string name="settings_history_all">dena</string>
     <string name="settings_browsing_last_category">Gogoratu azken kategoria</string>
     <string name="settings_browsing_last_category_description">Berrireki atala utzi zenuen kategorian, ez Denak atalean.</string>
+    <string name="settings_guide_follows_live">Gidak zuzeneko telebista jarraitzen du</string>
+    <string name="settings_guide_follows_live_description">Ireki Gida zuzeneko telebistaren kategorian.</string>
+    <string name="settings_help_guide_follows_live">Aktibatuta: Gida zuzeneko telebistak gogoratzen duen kategorian irekitzen da, eta Gidan aukeratzen duzun kategoria zuzeneko telebistarena ere bihurtzen da. Desaktibatuta: Gidak bere kategoria propioa du.</string>
     <string name="settings_browsing_last_item">Gogoratu azken elementua</string>
     <string name="settings_browsing_last_item_description">Kategoria bakoitzak bere korritze-posizioa mantentzen du goian hasi beharrean. Zuzeneko telebistak fokuan egon zen azken kanala ere leheneratzen du.</string>
+    <string name="settings_browsing_live_categories">Zuzeneko telebistaren kategoriak</string>
+    <string name="settings_browsing_live_categories_description">Zuzeneko telebistan, gidan, erreproduzigailuan eta Multiview-n erakusten dira. Kanal guztiak desaktibatuta badago, zuzeneko telebista zure lehen kategorian irekitzen da, edo Gogokoetan kategoriarik ez baduzu.</string>
     <string name="settings_catchup_player">Erreproduzitu berrikustea hemen</string>
     <string name="settings_customize_title">Pertsonalizatu kategoriak eta elementuak</string>
     <string name="settings_customize_pin_locked">Pantaila hau PINez blokeatuta dago.</string>
@@ -814,6 +830,8 @@
     <string name="settings_sources_clean_names_custom">Kendu hauek ere</string>
     <string name="settings_sources_clean_names_custom_hint">; bidez bereizitako hitzak, adib. VIP; Backup</string>
     <string name="settings_sources_retest">Probatu berriro</string>
+    <string name="settings_sources_ignore_limit">Ez ikusiarena egin konexio-mugari</string>
+    <string name="settings_sources_ignore_limit_on">Konexio-muga ez da kontuan hartzen: Multiview-ek eta grabazioek erreprodukzio-zerrenda honek dioena baino transmisio gehiago ireki ditzakete. Hornitzaileak transmisio bat ukatzen badu, hala esango da.</string>
     <string name="settings_sources_probe_title">Erreprodukzio-zerrenda hau probatu?</string>
     <string name="settings_sources_probe_warning">Hornitzaile askok ez dute inoiz esaten zenbat kanal ikus ditzakezun aldi berean, beraz OwnTVk hainbat ireki eta zeintzuk irauten duten ikusiz jakiten du. Orain erreproduzitzen ari den guztia gelditu egingo da, eta honek bi minutu arte iraun dezake.</string>
     <string name="settings_sources_probe_running">Hornitzaile honek zenbat kanal onartzen dituen egiaztatzen… (<xliff:g id="current">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g>)</string>
@@ -965,6 +983,7 @@
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> iturburu saltatu dira beren erreprodukzio-zerrenda motak onartzen ez direlako.</item>
     </plurals>
     <string name="settings_backup_export_error">Esportazioak huts egin du.</string>
+    <string name="settings_backup_no_file_app">Telefono honetako aplikazio batek ere ezin du fitxategia gorde. Erabili Partekatu horren ordez.</string>
     <string name="settings_backup_read_error">Ezin izan da babeskopia-fitxategia irakurri.</string>
     <string name="settings_backup_import_error">Inportazioak huts egin du.</string>
     <string name="settings_backup_invalid_locale">Babeskopia honek onartzen ez den aplikazio-hizkuntza bat zeukan. Leheneratzeak arrakasta izan du, baina zure uneko hizkuntza mantendu da.</string>
@@ -1398,7 +1417,7 @@
     <string name="settings_line_guide_width">Kanal-zerrenda eta kronologia</string>
     <string name="settings_line_browsing">Gogoratu azken kategoria eta elementua</string>
     <string name="settings_line_home">Aukeratu, berrantolatu eta iragazi errenkadak</string>
-    <string name="settings_line_content_menus">Berrantolatu ekintzak menu bakoitzean</string>
+    <string name="settings_line_content_menus">Berrantolatu edo ezkutatu ekintzak menu bakoitzean</string>
     <string name="settings_line_remote_shortcuts">Esleitu urrutiko aginteko botoi libreak</string>
     <string name="settings_line_customize">Ezkutatu eta erakutsi, aldatu izena eta berrantolatu</string>
     <string name="settings_line_metadata">Posterrak, sinopsiak, aktoreak eta balorazioak Filmetarako eta Telesailetarako</string>
@@ -1411,6 +1430,7 @@
     <string name="settings_line_dns">DNS zerbitzari pertsonalizatu bat</string>
     <string name="settings_line_quick_live_preview">Erreproduzitu fokuan dagoen kanala Zuzeneko telebistan</string>
     <string name="settings_line_preview_sound">Zuzeneko aurrebistaren soinua</string>
+    <string name="settings_line_preview_on_ok">Lehenik aurrebista, gero pantaila osoa</string>
     <string name="settings_line_quick_channel_numbers">Idatzi zenbaki bat urrutiko agintean sintonizatzeko</string>
     <string name="more_backup_never_body_mobile"><xliff:g id="playlists">%1$s</xliff:g>, <xliff:g id="favorites">%2$s</xliff:g>, <xliff:g id="history">%3$s</xliff:g> eta pertsonalizazio guztiak telefono honetan bakarrik daude.</string>
     <string name="more_backup_now">Egin babeskopia orain</string>
@@ -1589,6 +1609,8 @@
     <string name="settings_help_startup">OwnTVk abiatzean zer erakusten duen: Hasiera, azkenekoz ikusi duzun kanala, zure gogokoak, edo zuk aukeratutako kanal bat.</string>
     <string name="settings_help_check_updates">GitHuben OwnTV berriago bat bilatzen du orain eta instalatzea eskaintzen du. Zure erreprodukzio-zerrendak, gogokoak eta ezarpenak berdin geratzen dira.</string>
     <string name="settings_help_update_startup">Bertsio berri bat bilatzen du OwnTV abiatzen den bakoitzean eta jakinarazten dizu dagoenean. Ez da ezer instalatzen galdetu gabe.</string>
+    <string name="settings_help_auto_start_boot">OwnTV bere kabuz irekitzen du telebista abiarazi ondoren, Aplikazioaren abioa ezarpenean aukeratutako pantailan. Android-ek aplikazio bati bere kabuz irekitzen uzten dio beste aplikazioen gainean bistara badaiteke soilik; beraz, hau aktibatzean baimen horren pantaila irekitzen da. Telebista batzuek ez dute eskaintzen, eta haietan abiarazte automatikoak ezin du funtzionatu.</string>
+    <string name="settings_help_auto_start_wake">OwnTV irekitzen du telebista lo-egoeratik esnatzen den bakoitzean, beste aplikazio baterako esnatu baduzu ere. Aplikazioaren abioak kanal bat irekitzen badu, esnatze bakoitzak jario hori abiarazten du. Aktibatuta dagoen bitartean, OwnTV-k atzeko planoko zerbitzu txiki bat mantentzen du jakinarazpen isil batekin. Piztean abiaraztea bezala, beste aplikazioen gainean bistaratzeko baimena behar du.</string>
     <string name="settings_help_dns">Zure hornitzailearen helbideak zuk aukeratutako DNS zerbitzari batekin bilatzen ditu zure sarearen berberaren ordez — baliagarria zure sareak blokeatu edo birbideratzen dituenean.</string>
     <string name="settings_help_live_engine">ExoPlayerrek kanalak askoz azkarrago irekitzen ditu eta zuzeneko azpitituluak dituen bakarra da. mpv-k ExoPlayerrek ezin dituen kanalak erreproduzitzen ditu, audio bereziko batzuk barne. Aukera konbinatuek beste erreproduzigailua saiatzen dute lehenengoak huts egiten duenean.</string>
     <string name="settings_help_hw">Telebistaren hardware-deskodetzailea erabiltzen du: 4K leuna eta bero gutxiago. Desaktibatu soilik jario batzuk eten-etenka badabiltza edo blokeak erakusten badituzte; orduan software bidezko deskodetzaileak egiten du lana.</string>
@@ -1599,6 +1621,7 @@
     <string name="settings_help_sub_lang">Hizkuntza honetako azpitituluak bere kabuz aktibatzen dira jarioak dituenean. Bestela azpitituluak desaktibatuta geratzen dira erreproduzigailuan pista bat aukeratu arte.</string>
     <string name="settings_help_live_preview">Fokuan dagoen kanala Zuzeneko telebistaren zerrendaren ondoko aurrebistan erreproduzitzen da, zer dagoen ikus dezazun ireki aurretik. Aurrebistarentzat lekua duen diseinu bat behar du.</string>
     <string name="settings_help_preview_audio">Aurrebistaren soinua ere erreproduzitzen du, ez irudia bakarrik. Desaktibatuta arakatzea isilik mantentzen du.</string>
+    <string name="settings_help_preview_on_ok">Aukeratu non erreproduzitzen den kanal bat lehenik aurrebistan OK sakatzean, eta kanal berean berriro OK sakatzean pantaila osoan irekitzen den. Zuzeneko telebistan, aurrebista kanal horretan geratzen da nabigatzen duzun bitartean. Desaktibatuta dagoen tokietan, OK sakatzean kanala berehala irekitzen da pantaila osoan, eta aurrebistak hautapenari jarraitzen dio.</string>
     <string name="settings_help_timeshift_window">Berrikusterik gabeko kanal batean Pausatu eta atzeratu zuzeneko telebistak zenbat atzera egin dezakeen. Luzeagoak kanalaren zati handiago bat mantentzen du gailu honen biltegiratzean.</string>
     <string name="settings_help_resume">Galdetu jarraitzeko aukerak Jarraitu edo Hasi berriro eskaintzen du film edo atal batek gordetako posizioa duenean. Jarraitu beti gelditu zinen tokian jarraitzen du; Ez jarraitu inoiz hasieratik hasten da.</string>
     <string name="settings_help_mini">Arakatzen ari zaren bitartean kanal bat izkina batean martxan mantentzen duen erreproduzigailu txikia. Aukeratu bere tamaina eta kokatzen den izkina.</string>
@@ -1685,6 +1708,8 @@
     <string name="settings_remote_scan">Eskaneatu edo ireki nabigatzailean</string>
     <string name="settings_remote_or_open">edo ireki</string>
     <string name="settings_remote_details_note">Xehetasunak hemen agertzen dira; zuk Hasi inportazioa sakatzen duzu urrutiko agintearekin.</string>
+    <string name="settings_remote_edit_note">Aldaketek edizio-pantaila betetzen dute; zuk sakatzen duzu Gorde urruneko agintearekin.</string>
+    <string name="settings_help_edit_from_phone">Erreprodukzio-zerrenda hau Wi-Fi sare bereko telefono, tableta edo ordenagailu bateko arakatzailean irekitzen du. Pasahitzak, MAC helbideak eta M3U zerrenden helbideak ez dira inoiz han erakusten: utzi hutsik gordetzeko. Bidaltzen duzunak pantaila hau betetzen du, eta ez da ezer aldatzen Gorde sakatu arte.</string>
     <string name="settings_key_stop_back">Gelditu eta itzuli</string>
     <string name="settings_source_type">Mota</string>
     <string name="settings_line_source_type">Xtream, M3U edo Stalker ataria</string>

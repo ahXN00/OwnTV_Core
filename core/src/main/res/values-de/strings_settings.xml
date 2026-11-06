@@ -195,8 +195,9 @@
     <string name="settings_ch_paging">Fernbedienungs-Kurzbefehle</string>
     <string name="settings_ch_paging_description">Freie Fernbedienungstasten mit Navigation, Wiedergabe und Listenaktionen belegen. Wichtige Navigationstasten bleiben geschützt.</string>
     <string name="settings_content_menus_title">Menüs bei langem Druck</string>
-    <string name="settings_content_menus_description">Ordne die Aktionen in den Menüs für Sender, Filme, Serien und Folgen neu an</string>
-    <string name="settings_content_menus_hint">Halte OK auf einer Aktion gedrückt, um sie aufzunehmen, und verschiebe sie mit Auf und Ab. Erneut OK legt sie ab.</string>
+    <string name="settings_content_menus_description">Ordne die Aktionen in den Menüs für Sender, Filme, Serien und Folgen neu an oder blende sie aus</string>
+    <string name="settings_content_menus_hint">Drücke OK auf einer Aktion, um sie ein- oder auszublenden. Halte OK gedrückt, um sie aufzunehmen, verschiebe sie mit Auf und Ab und lege sie mit erneutem OK ab.</string>
+    <string name="settings_content_menus_note">Manche Aktionen erscheinen nur dort, wo sie passen.</string>
     <string name="settings_browsing_lists">Durchsuchen und Listen</string>
     <string name="settings_browsing_description">Letzte Kategorie und letztes Element in Live-TV, Filmen und Serien merken</string>
     <string name="settings_home_root">Startbildschirm</string>
@@ -228,13 +229,17 @@
     <string name="settings_live_preview_description">Einen Sender automatisch wiedergeben, wenn er fokussiert wird</string>
     <string name="settings_preview_audio">Vorschauton</string>
     <string name="settings_preview_audio_description">Ton in der Live-Vorschau wiedergeben</string>
+    <string name="settings_preview_on_ok">OK zeigt zuerst die Vorschau</string>
+    <string name="settings_preview_on_ok_description">OK spielt den Sender in der Vorschau ab, ein zweites OK öffnet ihn im Vollbild</string>
     <string name="settings_mini_player_root">Mini-Player</string>
     <string name="settings_mini_player_root_description">Größe und Position des angedockten Mini-Players</string>
     <string name="settings_pip_on_leave">Bild-im-Bild beim Verlassen der App</string>
     <string name="settings_pip_on_leave_description">Das Video läuft in einem kleinen Fenster weiter, wenn Sie Home drücken</string>
     <string name="settings_prefer_sdr_description">Bietet ein Stream ein SDR- und ein HDR-Bild, wird das SDR-Bild abgespielt: für Fernseher, auf denen HDR blass oder zu dunkel aussieht. Ein Stream nur mit HDR bleibt HDR. Nur ExoPlayer.</string>
-    <string name="settings_auto_frame_rate">Automatische Bildrate</string>
-    <string name="settings_auto_frame_rate_description">Die Bildwiederholfrequenz des Fernsehers im Vollbild für Live-TV und VOD an das Video anpassen (24/25/50/60 Bilder/s) und beim Beenden wiederherstellen. Deaktivieren Sie dies, wenn Ihr Fernseher oder Receiver bei jedem Senderwechsel geräuschvoll einen neuen HDMI-Handshake durchführt.</string>
+    <string name="settings_auto_frame_rate_films">Automatische Bildrate für Filme und Serien</string>
+    <string name="settings_auto_frame_rate_films_description">Die Bildwiederholfrequenz des Fernsehers im Vollbild an den Film oder die Folge anpassen (24/25/50/60 Bilder/s) und beim Beenden wiederherstellen.</string>
+    <string name="settings_auto_frame_rate_live">Automatische Bildrate für Live-TV</string>
+    <string name="settings_auto_frame_rate_live_description">Die Bildwiederholfrequenz des Fernsehers im Vollbild an den Sender anpassen (25/50/60 Bilder/s) und beim Beenden wiederherstellen. Deaktivieren Sie dies, wenn Ihr Fernseher oder Receiver bei jedem Senderwechsel geräuschvoll einen neuen HDMI-Handshake durchführt.</string>
     <string name="settings_afr_pause">Pause beim Umschalten der Anzeige</string>
     <string name="settings_afr_pause_description">Nur Filme. Muss sich der Fernseher auf einen neuen Anzeigemodus neu synchronisieren, wartet der Film so lange, damit sein Anfang nicht im schwarzen Bild verloren geht. Ein nahtloser Wechsel pausiert nie.</string>
     <string name="settings_afr_resolution">Auflösung anpassen</string>
@@ -277,6 +282,11 @@
     <string name="settings_check_updates_description">Die neueste Version von GitHub Releases abrufen</string>
     <string name="settings_update_startup">Beim Start auf Updates prüfen</string>
     <string name="settings_update_startup_description">Beim Öffnen der App nach einer neuen Version suchen</string>
+    <string name="settings_auto_start_boot">Autostart beim Einschalten</string>
+    <string name="settings_auto_start_boot_description">OwnTV öffnen, wenn der Fernseher eingeschaltet wird</string>
+    <string name="settings_auto_start_wake">Autostart beim Aufwachen</string>
+    <string name="settings_auto_start_wake_description">OwnTV öffnen, wenn der Fernseher aus dem Standby aufwacht</string>
+    <string name="settings_auto_start_needs_overlay">Benötigt „Über anderen Apps einblenden“</string>
     <string name="settings_about">Über</string>
     <string name="settings_live_latency">Live-Latenz</string>
     <string name="settings_no_settings_match">Keine Einstellungen entsprechen „<xliff:g id="query">%1$s</xliff:g>“</string>
@@ -386,6 +396,7 @@
     <string name="settings_search_keywords_startup">starten öffnen Startseite</string>
     <string name="settings_search_keywords_updates">github Release Version</string>
     <string name="settings_search_keywords_update_auto">automatisch Update neue Version</string>
+    <string name="settings_search_keywords_auto_start">start booten einschalten aufwachen standby ruhezustand automatisch öffnen</string>
     <string name="settings_language_default">Standard (Englisch)</string>
     <string name="settings_language_device">Gerätesprache</string>
     <string name="settings_language_arabic">Arabisch</string>
@@ -607,8 +618,13 @@
     <string name="settings_history_all">alle</string>
     <string name="settings_browsing_last_category">Letzte Kategorie merken</string>
     <string name="settings_browsing_last_category_description">Den Bereich wieder mit der zuletzt geöffneten Kategorie statt mit „Alle“ öffnen.</string>
+    <string name="settings_guide_follows_live">Programmübersicht folgt Live-TV</string>
+    <string name="settings_guide_follows_live_description">Die Programmübersicht mit der Kategorie von Live-TV öffnen.</string>
+    <string name="settings_help_guide_follows_live">An: Die Programmübersicht öffnet sich mit der Kategorie, die sich Live-TV merkt, und eine in der Programmübersicht gewählte Kategorie wird auch die von Live-TV. Aus: Die Programmübersicht behält eine eigene Kategorie.</string>
     <string name="settings_browsing_last_item">Letztes Element merken</string>
     <string name="settings_browsing_last_item_description">Jede Kategorie behält ihre eigene Scrollposition, statt wieder ganz oben zu beginnen. Live-TV stellt außerdem den zuletzt fokussierten Sender wieder her.</string>
+    <string name="settings_browsing_live_categories">Live-TV-Kategorien</string>
+    <string name="settings_browsing_live_categories_description">Gilt für Live-TV, die Programmübersicht, den Player und Multiview. Ist „Alle Sender“ aus, öffnet Live-TV deine erste Kategorie oder die Favoriten, wenn du keine hast.</string>
     <string name="settings_catchup_player">Catch-up wiedergeben mit</string>
     <string name="settings_customize_title">Kategorien und Elemente anpassen</string>
     <string name="settings_customize_pin_locked">Dieser Bildschirm ist mit einer PIN gesperrt.</string>
@@ -715,6 +731,8 @@
     <string name="settings_sources_clean_names_custom">Außerdem entfernen</string>
     <string name="settings_sources_clean_names_custom_hint">Wörter durch ; getrennt, z. B. VIP; Backup</string>
     <string name="settings_sources_retest">Erneut testen</string>
+    <string name="settings_sources_ignore_limit">Verbindungslimit ignorieren</string>
+    <string name="settings_sources_ignore_limit_on">Verbindungslimit wird ignoriert: Multiview und Aufnahmen können mehr Streams öffnen, als diese Playlist angibt. Ein Stream, den der Anbieter ablehnt, meldet das weiterhin.</string>
     <string name="settings_sources_probe_title">Diese Playlist testen?</string>
     <string name="settings_sources_probe_warning">Viele Anbieter verraten nie, wie viele Kanäle Sie gleichzeitig sehen dürfen. OwnTV findet es deshalb heraus, indem es einige öffnet und beobachtet, welche bestehen bleiben. Alles, was gerade läuft, wird beendet, und das kann bis zu zwei Minuten dauern.</string>
     <string name="settings_sources_probe_running">Es wird geprüft, wie viele Kanäle dieser Anbieter erlaubt… (<xliff:g id="current">%1$d</xliff:g> von <xliff:g id="total">%2$d</xliff:g>)</string>
@@ -866,6 +884,7 @@
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> Quellen wurden übersprungen, weil ihre Wiedergabelistentypen nicht unterstützt werden.</item>
     </plurals>
     <string name="settings_backup_export_error">Export fehlgeschlagen.</string>
+    <string name="settings_backup_no_file_app">Keine App auf diesem Telefon kann die Datei speichern. Nutze stattdessen „Teilen“.</string>
     <string name="settings_backup_read_error">Die Sicherungsdatei konnte nicht gelesen werden.</string>
     <string name="settings_backup_import_error">Importieren fehlgeschlagen.</string>
     <string name="settings_backup_invalid_locale">Diese Sicherung enthielt eine nicht unterstützte App-Sprache. Die Wiederherstellung war erfolgreich, aber deine aktuelle Sprache wurde beibehalten.</string>
@@ -1398,7 +1417,7 @@
     <string name="settings_line_guide_width">Senderliste und Zeitleiste</string>
     <string name="settings_line_browsing">Letzte Kategorie und letzten Eintrag merken</string>
     <string name="settings_line_home">Zeilen auswählen, sortieren und filtern</string>
-    <string name="settings_line_content_menus">Aktionen in jedem Menü neu anordnen</string>
+    <string name="settings_line_content_menus">Aktionen in jedem Menü neu anordnen oder ausblenden</string>
     <string name="settings_line_remote_shortcuts">Freie Fernbedienungstasten belegen</string>
     <string name="settings_line_customize">Aus- und einblenden, umbenennen und sortieren</string>
     <string name="settings_line_metadata">Poster, Handlung, Besetzung und Bewertungen für Filme und Serien</string>
@@ -1411,6 +1430,7 @@
     <string name="settings_line_dns">Ein eigener DNS-Server</string>
     <string name="settings_line_quick_live_preview">Den fokussierten Sender in Live-TV abspielen</string>
     <string name="settings_line_preview_sound">Ton in der Live-Vorschau</string>
+    <string name="settings_line_preview_on_ok">Erst Vorschau, dann Vollbild</string>
     <string name="settings_line_quick_channel_numbers">Zum Umschalten eine Nummer auf der Fernbedienung eingeben</string>
     <string name="settings_line_prefer_sdr">SDR, wenn ein Stream beides bietet</string>
     <string name="settings_line_quick_autoplay">Die nächste Folge von selbst starten</string>
@@ -1491,6 +1511,8 @@
     <string name="settings_help_startup">Was OwnTV beim Start zeigt: die Startseite, den zuletzt gesehenen Sender, Ihre Favoriten oder einen Sender Ihrer Wahl.</string>
     <string name="settings_help_check_updates">Sucht jetzt auf GitHub nach einer neueren OwnTV-Version und bietet die Installation an. Playlists, Favoriten und Einstellungen bleiben, wie sie sind.</string>
     <string name="settings_help_update_startup">Sucht bei jedem Start von OwnTV nach einer neuen Version und meldet sich, wenn es eine gibt. Ohne Rückfrage wird nichts installiert.</string>
+    <string name="settings_help_auto_start_boot">Öffnet OwnTV von selbst, sobald der Fernseher gestartet ist, auf dem unter App-Start gewählten Bildschirm. Android erlaubt einer App das selbstständige Öffnen nur, wenn sie über anderen Apps eingeblendet werden darf; beim Einschalten öffnet sich daher die Seite für diese Berechtigung. Manche Fernseher bieten sie nicht an, dann funktioniert der Autostart dort nicht.</string>
+    <string name="settings_help_auto_start_wake">Öffnet OwnTV jedes Mal, wenn der Fernseher aus dem Standby aufwacht – auch wenn er für eine andere App geweckt wurde. Öffnet App-Start einen Sender, startet jedes Aufwachen diesen Stream. Solange dies an ist, läuft ein kleiner Hintergrunddienst mit einer stummen Benachrichtigung. Wie der Autostart beim Einschalten braucht er die Berechtigung, über anderen Apps eingeblendet zu werden.</string>
     <string name="settings_help_dns">Löst die Adressen Ihres Anbieters über einen DNS-Server Ihrer Wahl statt über den Ihres Netzes auf — hilfreich, wenn Ihr Netz sie sperrt oder umleitet.</string>
     <string name="settings_help_live_engine">ExoPlayer öffnet Sender viel schneller und kann als einziger Live-Untertitel. mpv spielt Sender, die ExoPlayer nicht schafft, auch manche ungewöhnliche Tonspur. Die kombinierten Optionen versuchen den anderen Player, wenn der erste scheitert.</string>
     <string name="settings_help_hw">Nutzt den Hardware-Decoder des Fernsehers: flüssiges 4K und weniger Wärme. Schalten Sie ihn nur aus, wenn Streams ruckeln oder Blöcke zeigen; dann übernimmt der Software-Decoder.</string>
@@ -1501,6 +1523,7 @@
     <string name="settings_help_sub_lang">Untertitel in dieser Sprache werden von selbst eingeschaltet, wenn der Stream sie hat. Sonst bleiben sie aus, bis Sie im Player eine Spur wählen.</string>
     <string name="settings_help_live_preview">Der fokussierte Sender läuft in der Vorschau neben der Live-TV-Liste, damit Sie sehen, was läuft, bevor Sie ihn öffnen. Braucht ein Layout mit Platz für die Vorschau.</string>
     <string name="settings_help_preview_audio">Spielt neben dem Bild auch den Ton der Vorschau. Aus lässt das Stöbern leise.</string>
+    <string name="settings_help_preview_on_ok">Wählen Sie, wo OK einen Sender zuerst in der Vorschau abspielt und ein weiteres OK auf demselben Sender ihn im Vollbild öffnet. In Live-TV bleibt die Vorschau dann beim Blättern auf diesem Sender. Wo es aus ist, öffnet OK den Sender sofort im Vollbild, und die Vorschau folgt der Auswahl.</string>
     <string name="settings_help_timeshift_window">Wie weit „Live-TV pausieren und zurückspulen“ bei einem Sender ohne Catch-up zurückgehen kann. Länger hält mehr vom Sender im Speicher dieses Geräts.</string>
     <string name="settings_help_resume">Fragen bietet Fortsetzen oder Von vorn an, wenn ein Film oder eine Folge eine gespeicherte Position hat. Immer fortsetzen macht dort weiter, wo Sie aufgehört haben; Nie fortsetzen beginnt von vorn.</string>
     <string name="settings_help_mini">Der kleine Player, der einen Sender in einer Ecke weiterlaufen lässt, während Sie stöbern. Wählen Sie Größe und Ecke.</string>
@@ -1587,6 +1610,8 @@
     <string name="settings_remote_scan">Scannen oder im Browser öffnen</string>
     <string name="settings_remote_or_open">oder öffnen</string>
     <string name="settings_remote_details_note">Die Angaben erscheinen hier; den Import starten Sie mit der Fernbedienung.</string>
+    <string name="settings_remote_edit_note">Die Änderungen füllen den Bearbeiten-Bildschirm; Speichern drückst du mit der Fernbedienung.</string>
+    <string name="settings_help_edit_from_phone">Öffnet diese Playlist in einem Browser auf einem Handy, Tablet oder Computer im selben WLAN. Passwörter, MAC-Adressen und M3U-Playlist-Adressen werden dort nie angezeigt: Leer lassen behält sie. Was du sendest, füllt diesen Bildschirm, und nichts ändert sich, bevor du Speichern drückst.</string>
     <string name="settings_key_stop_back">Stoppen und zurück</string>
     <string name="settings_source_type">Typ</string>
     <string name="settings_line_source_type">Xtream, M3U oder Stalker-Portal</string>

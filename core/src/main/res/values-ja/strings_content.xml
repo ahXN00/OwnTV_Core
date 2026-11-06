@@ -69,6 +69,10 @@
     <string name="content_remove_from_category">このカテゴリから削除</string>
     <string name="content_download">ダウンロード</string>
     <string name="content_download_all_episodes">すべてのエピソードをダウンロード</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> 件のエピソードをダウンロードしますか？</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">この端末に保存され、ストレージ容量を使います。</string>
     <string name="content_play">再生</string>
     <string name="content_favorited">お気に入り登録済み</string>
     <string name="content_favorite">お気に入りに追加</string>
@@ -76,9 +80,7 @@
     <string name="content_episodes">エピソード</string>
     <string name="content_oldest_first">古い順</string>
     <string name="content_newest_first">新しい順</string>
-    <string name="content_play_external">外部プレーヤーで再生</string>
     <string name="content_delete_subtitles">OpenSubの字幕を削除</string>
-    <string name="content_tmdb_details">TMDBの詳細</string>
     <string name="content_play_trailer">予告編を再生</string>
     <string name="content_refetch_tmdb">TMDBの詳細を再取得</string>
     <string name="content_set_tmdb_name">TMDB名を設定</string>
@@ -127,6 +129,9 @@
     <string name="content_catchup_jump_prompt">視聴を開始する時刻を選んでください。番組表は不要です。</string>
     <string name="content_catchup_jump_exact">時刻を指定…</string>
     <string name="content_catchup_jump_hint">日付・時・分で OK を押し、上下で変更してから、もう一度 OK を押します。</string>
+    <string name="content_catchup_jump_programme_start">「<xliff:g id="title">%1$s</xliff:g>」の最初から</string>
+    <string name="content_catchup_jump_programme_start_untitled">番組の最初から</string>
+    <string name="content_catchup_jump_programme_start_at"><xliff:g id="time">%1$s</xliff:g> に開始</string>
     <string name="content_epg_match_prompt">「<xliff:g id="channel">%1$s</xliff:g>」に対応する番組表チャンネルを選択してください。</string>
     <string name="content_epg_match_prompt_current">「<xliff:g id="channel">%1$s</xliff:g>」に対応する番組表チャンネルを選択してください。現在：<xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">番組表チャンネルを検索…</string>
@@ -272,7 +277,6 @@
     <string name="content_search_in"><xliff:g id="name">%1$s</xliff:g>を検索</string>
     <string name="content_live_guide_view">番組表ビュー</string>
     <string name="content_key_watch">視聴</string>
-    <string name="content_key_schedule">番組予定</string>
     <string name="content_key_options">オプション</string>
     <string name="content_live_groups">グループ</string>
     <string name="content_menu_group_watch">視聴</string>
@@ -334,6 +338,9 @@
     <string name="content_sort_date_added_hint">新しい順</string>
     <string name="content_menu_group_library">ライブラリ</string>
     <string name="content_menu_group_details">詳細</string>
+    <string name="content_programme_details">番組の詳細</string>
+    <string name="content_programmes_earlier">これまで</string>
+    <string name="content_programmes_later">このあと</string>
     <string name="content_movie_details">映画の詳細</string>
     <string name="content_series_details">シリーズの詳細</string>
     <plurals name="content_vod_title_count">

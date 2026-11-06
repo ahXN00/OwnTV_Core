@@ -50,6 +50,7 @@ enum class StageGlyph(val path: String) {
     TREND("M3 17l6-6 4 4 8-8M15 7h6v6"), // trend
     LAYERS("M12 3l9 5-9 5-9-5zM3 13l9 5 9-5"), // layers
     PENCIL("M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"), // pencil
+    EYE("M2.5 12S6 5 12 5s9.5 7 9.5 7-3.5 7-9.5 7-9.5-7-9.5-7zM12 9a3 3 0 1 0 0 6 3 3 0 1 0 0-6"), // eye
     EYE_OFF("M3 3l18 18M10.6 5.1A9.8 9.8 0 0 1 12 5c6 0 9.5 7 9.5 7a17 17 0 0 1-2.7 3.6M6.6 6.6A16.7 16.7 0 0 0 2.5 12S6 19 12 19a9.4 9.4 0 0 0 4.4-1.1M9.9 9.9a3 3 0 0 0 4.2 4.2"), // eye-off
     MOVE("M12 3v18M8 7l4-4 4 4M8 17l4 4 4-4"), // move
     EXTERNAL("M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"), // external

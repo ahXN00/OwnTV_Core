@@ -17,7 +17,6 @@
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	Saved uploaded playlist (${file.length()} bytes) → ${file.name}
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	companion-playlists
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	playlist-${System.currentTimeMillis()}.m3u
-2	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	\0
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	%1$d
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	,username:(document.getElementById('user').value||''),password:(document.getElementById('pass').value||'')
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<div class="card"> <h1>${title.h()}</h1><p>${description.h()}</p> <form id="f" onsubmit="return false"> $credentialFields <label>${keyLabel.h()} <input id="key" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"></label> <label>${urlLabel.h()} <input id="url" type="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://"></label> <button class="go" id="send" type="submit">${send.h()}</button> </form><p id="status" class="hint"></p> </div> <script> var k=document.getElementById('key'),u=document.getElementById('url'),b=document.getElementById('send'),s=document.getElementById('status'); document.getElementById('f').addEventListener('submit',function(){ var body=new URLSearchParams({apiKey:(k.value||'').trim(),serverUrl:(u.value||'').trim()$credentialBody}).toString(); b.disabled=true;s.textContent=${sending.js()}; fetch('/serviceconfig?pin=$pin',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body}) .then(function(res){if(res.ok){return res.text().then(function(t){document.open();document.write(t);document.close();});}b.disabled=false;s.textContent=${failed.js()}.replace('__STATUS__',String(res.status));}) .catch(function(){b.disabled=false;s.textContent=${unreachable.js()};});return false; }); </script>
@@ -208,14 +207,11 @@
 1	core/src/main/java/tv/own/owntv/core/settings/SubtitleStyle.kt	top_right
 1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	$apiBase?type=epg&action=get_simple_data_table&ch_id=${enc(channelId)}
 1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	&date=${enc(date)}&p=$page&JsHttpRequest=1-xml
-1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	data
 1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	mark_archive
-1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	max_page_items
 1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	start_timestamp
 1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	stop_timestamp
 1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	time
 1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	time_to
-1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	total_items
 1	core/src/main/java/tv/own/owntv/core/stalker/StreamUrlResolver.kt	StreamUrlResolver
 1	core/src/main/java/tv/own/owntv/core/stalker/StreamUrlResolver.kt	archive guide lookup failed ch=$channelRemoteId
 1	core/src/main/java/tv/own/owntv/core/stalker/StreamUrlResolver.kt	auto /media/$programmeId.mpg

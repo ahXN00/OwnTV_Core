@@ -133,6 +133,13 @@
     <string name="content_download">Download</string>
     <!-- Translators: Context-menu option to download all episodes of a series. -->
     <string name="content_download_all_episodes">Download all episodes</string>
+    <!-- Translators: Title of the confirmation before downloading every episode of a series or season. The number is how many episodes will be downloaded. -->
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one">Download <xliff:g id="count">%1$d</xliff:g> episode?</item>
+        <item quantity="other">Download <xliff:g id="count">%1$d</xliff:g> episodes?</item>
+    </plurals>
+    <!-- Translators: Text of the confirmation before downloading many episodes at once. -->
+    <string name="content_download_episodes_confirm_message">They are saved on this device and take up storage space.</string>
     <!-- Translators: Button or context-menu option to play content. -->
     <string name="content_play">Play</string>
     <!-- Translators: Status chip indicating content has been favorited. This is a state, not a command. -->
@@ -147,12 +154,8 @@
     <string name="content_oldest_first">Oldest first</string>
     <!-- Translators: Sort option to show newest items first. -->
     <string name="content_newest_first">Newest first</string>
-    <!-- Translators: Context-menu option to play content in an external player app. -->
-    <string name="content_play_external">Play with external player</string>
     <!-- Translators: Context-menu option to delete downloaded OpenSubtitles subtitles. "OpenSub" is an abbreviation of OpenSubtitles. -->
     <string name="content_delete_subtitles">Delete OpenSubtitles subtitles</string>
-    <!-- Translators: Context-menu option to view TMDB details for a movie/series. "TMDB" is a brand name. -->
-    <string name="content_tmdb_details">TMDB Details</string>
     <!-- Translators: Context-menu option to play the trailer for a movie or series. -->
     <string name="content_play_trailer">Play trailer</string>
     <!-- Translators: Context-menu option to re-fetch TMDB metadata. "TMDB" is a brand name. -->
@@ -247,6 +250,12 @@
     <string name="content_catchup_jump_exact">Choose exact time…</string>
     <!-- Translators: TV remote instructions in the exact-time picker. "OK" is the select/enter button on the remote; keep whatever name that button is given elsewhere in this app. -->
     <string name="content_catchup_jump_hint">Press OK on the day, hour or minute, change it with up and down, then press OK again.</string>
+    <!-- Translators: First row of the catch-up time list: go back to the start of the programme on air. "title" is the programme's name from the TV guide. -->
+    <string name="content_catchup_jump_programme_start">Start of “<xliff:g id="title">%1$s</xliff:g>”</string>
+    <!-- Translators: Same row as content_catchup_jump_programme_start, when the TV guide gives the programme no name. -->
+    <string name="content_catchup_jump_programme_start_untitled">Start of the programme</string>
+    <!-- Translators: Second line of the "Start of …" row in the catch-up time list. "time" is the clock time the programme began, formatted for the active UI locale. -->
+    <string name="content_catchup_jump_programme_start_at">Began at <xliff:g id="time">%1$s</xliff:g></string>
     <!-- Translators: Prompt in the EPG match dialog. "channel" is the channel name to match. -->
     <string name="content_epg_match_prompt">Pick the guide channel for \u201c<xliff:g id="channel">%1$s</xliff:g>\u201d.</string>
     <!-- Translators: Prompt in the EPG match dialog showing the current match. "match" is the current guide channel name. -->
@@ -295,7 +304,7 @@
     <string name="content_progress_percent"><xliff:g id="percent">%1$d</xliff:g>%%</string>
     <!-- Translators: Time range display in the EPG programme info. "start" and "end" are times. The en-dash is a range indicator. -->
     <string name="content_live_time_range"><xliff:g id="start">%1$s</xliff:g> \u2013 <xliff:g id="end">%2$s</xliff:g></string>
-    <!-- Translators: Remaining time display for a live programme. "end" is the end time; "minutes" is the minutes remaining. -->
+    <!-- Translators: Remaining time display for a live programme. "end" is the programme's time slot, e.g. "20:10 – 21:42"; "minutes" is the minutes remaining. -->
     <string name="content_live_time_remaining"><xliff:g id="end">%1$s</xliff:g> \u00b7 <xliff:g id="minutes">%2$d</xliff:g> min left</string>
 
 
@@ -530,8 +539,6 @@
     <string name="content_live_guide_view">Guide view</string>
     <!-- Translators: Remote-key hint: pressing OK watches the channel. Short verb. -->
     <string name="content_key_watch">Watch</string>
-    <!-- Translators: Remote-key hint: pressing Right shows the channel's upcoming programmes. Short noun. -->
-    <string name="content_key_schedule">Schedule</string>
     <!-- Translators: Remote-key hint: pressing Menu opens the options menu. Short noun. -->
     <string name="content_key_options">Options</string>
     <!-- Translators: Heading above the provider's channel groups in the Live TV category list. Shown in capitals by the style. -->
@@ -651,6 +658,12 @@
     <string name="content_menu_group_library">Library</string>
     <!-- Translators: Group label in a movie / series options menu above the details actions. Shown in capitals by the style. -->
     <string name="content_menu_group_details">Details</string>
+    <!-- Translators: Menu item and popup: shows everything the guide knows about one TV programme (full title, times, categories, description). -->
+    <string name="content_programme_details">Program details</string>
+    <!-- Translators: Group heading on the Program details page: today's programmes that have already been on. -->
+    <string name="content_programmes_earlier">Earlier</string>
+    <!-- Translators: Group heading on the Program details page: programmes still to come today, after the one on now. -->
+    <string name="content_programmes_later">Later</string>
     <!-- Translators: Options menu item: open the details window of a movie. -->
     <string name="content_movie_details">Movie details</string>
     <!-- Translators: Options menu item: open the details window of a series. -->

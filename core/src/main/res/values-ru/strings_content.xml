@@ -87,6 +87,13 @@
     <string name="content_remove_from_category">Удалить из этой категории</string>
     <string name="content_download">Скачать</string>
     <string name="content_download_all_episodes">Скачать все серии</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one">Скачать <xliff:g id="count">%1$d</xliff:g> серию?</item>
+        <item quantity="few">Скачать <xliff:g id="count">%1$d</xliff:g> серии?</item>
+        <item quantity="many">Скачать <xliff:g id="count">%1$d</xliff:g> серий?</item>
+        <item quantity="other">Скачать <xliff:g id="count">%1$d</xliff:g> серий?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">Они сохранятся на этом устройстве и займут место в памяти.</string>
     <string name="content_play">Воспроизвести</string>
     <string name="content_favorited">В избранном</string>
     <string name="content_favorite">В избранное</string>
@@ -94,9 +101,7 @@
     <string name="content_episodes">Серии</string>
     <string name="content_oldest_first">Сначала старые</string>
     <string name="content_newest_first">Сначала новые</string>
-    <string name="content_play_external">Воспроизвести во внешнем плеере</string>
     <string name="content_delete_subtitles">Удалить субтитры OpenSub</string>
-    <string name="content_tmdb_details">Сведения TMDB</string>
     <string name="content_play_trailer">Воспроизвести трейлер</string>
     <string name="content_refetch_tmdb">Повторно загрузить сведения TMDB</string>
     <string name="content_set_tmdb_name">Задать название для TMDB</string>
@@ -148,6 +153,9 @@
     <string name="content_catchup_jump_prompt">Выберите время, с которого начать просмотр. Телепрограмма не нужна.</string>
     <string name="content_catchup_jump_exact">Выбрать точное время…</string>
     <string name="content_catchup_jump_hint">Нажмите OK на дне, часе или минуте, измените значение стрелками вверх и вниз, затем нажмите OK ещё раз.</string>
+    <string name="content_catchup_jump_programme_start">Начало «<xliff:g id="title">%1$s</xliff:g>»</string>
+    <string name="content_catchup_jump_programme_start_untitled">Начало передачи</string>
+    <string name="content_catchup_jump_programme_start_at">Началось в <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">Выберите канал программы передач для «<xliff:g id="channel">%1$s</xliff:g>».</string>
     <string name="content_epg_match_prompt_current">Выберите канал программы передач для «<xliff:g id="channel">%1$s</xliff:g>». Текущее сопоставление: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">Поиск каналов программы передач…</string>
@@ -302,7 +310,6 @@
     <string name="content_search_in">Поиск: <xliff:g id="name">%1$s</xliff:g></string>
     <string name="content_live_guide_view">Вид телегида</string>
     <string name="content_key_watch">Смотреть</string>
-    <string name="content_key_schedule">Расписание</string>
     <string name="content_key_options">Параметры</string>
     <string name="content_live_groups">Группы</string>
     <string name="content_menu_group_watch">Смотреть</string>
@@ -373,6 +380,9 @@
     <string name="content_sort_date_added_hint">Сначала новые</string>
     <string name="content_menu_group_library">Библиотека</string>
     <string name="content_menu_group_details">Подробности</string>
+    <string name="content_programme_details">О телепередаче</string>
+    <string name="content_programmes_earlier">Ранее</string>
+    <string name="content_programmes_later">Позже</string>
     <string name="content_movie_details">О фильме</string>
     <string name="content_series_details">О сериале</string>
     <plurals name="content_vod_title_count">

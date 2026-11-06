@@ -75,6 +75,11 @@
     <string name="content_remove_from_category">এই বিভাগ থেকে সরান</string>
     <string name="content_download">ডাউনলোড করুন</string>
     <string name="content_download_all_episodes">সব পর্ব ডাউনলোড করুন</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g>টি পর্ব ডাউনলোড করবেন?</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g>টি পর্ব ডাউনলোড করবেন?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">এগুলি এই ডিভাইসে সংরক্ষিত হয় এবং স্টোরেজের জায়গা নেয়।</string>
     <string name="content_play">চালান</string>
     <string name="content_favorited">পছন্দের হিসেবে যোগ করা হয়েছে</string>
     <string name="content_favorite">পছন্দের করুন</string>
@@ -82,9 +87,7 @@
     <string name="content_episodes">পর্বগুলো</string>
     <string name="content_oldest_first">সবচেয়ে পুরোনো আগে</string>
     <string name="content_newest_first">সবচেয়ে নতুন আগে</string>
-    <string name="content_play_external">বাহ্যিক প্লেয়ার দিয়ে চালান</string>
     <string name="content_delete_subtitles">OpenSub সাবটাইটেল মুছুন</string>
-    <string name="content_tmdb_details">TMDB-এর বিস্তারিত</string>
     <string name="content_play_trailer">ট্রেলার চালান</string>
     <string name="content_refetch_tmdb">TMDB-এর বিস্তারিত আবার আনুন</string>
     <string name="content_set_tmdb_name">TMDB নাম সেট করুন</string>
@@ -134,6 +137,9 @@
     <string name="content_catchup_jump_prompt">কোন সময় থেকে দেখতে চান তা বেছে নিন। গাইড লাগবে না।</string>
     <string name="content_catchup_jump_exact">নির্দিষ্ট সময় বাছুন…</string>
     <string name="content_catchup_jump_hint">দিন, ঘণ্টা বা মিনিটে OK চাপুন, উপর-নিচ দিয়ে বদলান, তারপর আবার OK চাপুন।</string>
+    <string name="content_catchup_jump_programme_start">“<xliff:g id="title">%1$s</xliff:g>”-এর শুরু</string>
+    <string name="content_catchup_jump_programme_start_untitled">অনুষ্ঠানের শুরু</string>
+    <string name="content_catchup_jump_programme_start_at">শুরু হয়েছে <xliff:g id="time">%1$s</xliff:g>-এ</string>
     <string name="content_epg_match_prompt">“<xliff:g id="channel">%1$s</xliff:g>”-এর জন্য অনুষ্ঠান নির্দেশিকার চ্যানেল বেছে নিন।</string>
     <string name="content_epg_match_prompt_current">“<xliff:g id="channel">%1$s</xliff:g>”-এর জন্য অনুষ্ঠান নির্দেশিকার চ্যানেল বেছে নিন। বর্তমানে: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">অনুষ্ঠান নির্দেশিকার চ্যানেল অনুসন্ধান করুন…</string>
@@ -282,7 +288,6 @@
     <string name="content_search_in"><xliff:g id="name">%1$s</xliff:g>-এ খুঁজুন</string>
     <string name="content_live_guide_view">গাইড ভিউ</string>
     <string name="content_key_watch">দেখুন</string>
-    <string name="content_key_schedule">সূচি</string>
     <string name="content_key_options">বিকল্প</string>
     <string name="content_live_groups">গ্রুপ</string>
     <string name="content_menu_group_watch">দেখুন</string>
@@ -347,6 +352,9 @@
     <string name="content_sort_date_added_hint">নতুনতম আগে</string>
     <string name="content_menu_group_library">লাইব্রেরি</string>
     <string name="content_menu_group_details">বিস্তারিত</string>
+    <string name="content_programme_details">অনুষ্ঠানের বিস্তারিত</string>
+    <string name="content_programmes_earlier">আগে</string>
+    <string name="content_programmes_later">পরে</string>
     <string name="content_movie_details">চলচ্চিত্রের বিবরণ</string>
     <string name="content_series_details">সিরিজের বিবরণ</string>
     <plurals name="content_vod_title_count">

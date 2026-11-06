@@ -61,8 +61,8 @@ class CatalogPriority(
             "priority category sourceId=${row.sourceId} type=${row.mediaType} cat=${row.categoryRemoteId} " +
                 "pagesLeft=${row.lastPage - row.nextPage + 1}",
         )
-        // KEEP inside the scheduler, so this cannot restart a pass that is already running or
-        // already waiting for playback to stop.
+        // A running pass is left alone (it re-reads the request between categories); one resting
+        // behind its retry delay is replaced by one that starts now.
         scheduler.enqueueCatalogBackfill(row.sourceId)
     }
 

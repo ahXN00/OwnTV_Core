@@ -195,8 +195,9 @@
     <string name="settings_ch_paging">रिमोट शॉर्टकट</string>
     <string name="settings_ch_paging_description">नेविगेशन, प्लेबैक और ब्राउज़िंग के लिए रिमोट के अतिरिक्त बटन तय करें। ज़रूरी नेविगेशन बटन सुरक्षित रहेंगे।</string>
     <string name="settings_content_menus_title">लॉन्ग-प्रेस मेन्यू</string>
-    <string name="settings_content_menus_description">चैनल, मूवी, सीरीज़ और एपिसोड मेन्यू की क्रियाओं का क्रम बदलें</string>
-    <string name="settings_content_menus_hint">किसी क्रिया पर OK दबाए रखकर उसे उठाएँ, फिर ऊपर-नीचे से हिलाएँ। छोड़ने के लिए फिर से OK दबाएँ।</string>
+    <string name="settings_content_menus_description">चैनल, मूवी, सीरीज़ और एपिसोड मेन्यू की क्रियाओं का क्रम बदलें या उन्हें छिपाएँ</string>
+    <string name="settings_content_menus_hint">किसी क्रिया को दिखाने या छिपाने के लिए उस पर OK दबाएँ। उठाने के लिए OK दबाए रखें, ऊपर-नीचे से हिलाएँ और छोड़ने के लिए फिर से OK दबाएँ।</string>
+    <string name="settings_content_menus_note">कुछ क्रियाएँ सिर्फ़ वहीं दिखती हैं जहाँ वे लागू होती हैं।</string>
     <string name="settings_browsing_lists">ब्राउज़िंग और सूचियाँ</string>
     <string name="settings_browsing_description">लाइव टीवी, फ़िल्मों और सीरीज़ में पिछली श्रेणी और पिछला आइटम याद रखें</string>
     <string name="settings_home_root">होम स्क्रीन</string>
@@ -228,13 +229,17 @@
     <string name="settings_live_preview_description">चैनल पर फ़ोकस करने पर उसे अपने-आप चलाएँ</string>
     <string name="settings_preview_audio">पूर्वावलोकन का ऑडियो</string>
     <string name="settings_preview_audio_description">लाइव पूर्वावलोकन में ध्वनि चलाएँ</string>
+    <string name="settings_preview_on_ok">OK पहले प्रीव्यू दिखाए</string>
+    <string name="settings_preview_on_ok_description">OK चैनल को प्रीव्यू में चलाता है, दोबारा OK उसे फ़ुल स्क्रीन में खोलता है</string>
     <string name="settings_mini_player_root">मिनी-प्लेयर</string>
     <string name="settings_mini_player_root_description">डॉक किए गए मिनी-प्लेयर का आकार और स्थिति</string>
     <string name="settings_pip_on_leave">ऐप छोड़ने पर पिक्चर-इन-पिक्चर</string>
     <string name="settings_pip_on_leave_description">होम दबाने पर वीडियो एक छोटी विंडो में चलता रहता है</string>
     <string name="settings_prefer_sdr_description">जब किसी स्ट्रीम में SDR और HDR दोनों तस्वीरें हों, तो SDR चलती है: उस टीवी के लिए जिस पर HDR फीका या बहुत गहरा दिखता है। सिर्फ़ HDR वाली स्ट्रीम HDR ही रहती है। सिर्फ़ ExoPlayer।</string>
-    <string name="settings_auto_frame_rate">अपने-आप फ़्रेम दर मिलाना</string>
-    <string name="settings_auto_frame_rate_description">फ़ुल स्क्रीन में लाइव टीवी और VOD के लिए TV की रीफ़्रेश दर को वीडियो (24/25/50/60 fps) से मिलाएँ और बाहर निकलने पर उसे पहले जैसा करें। यदि हर चैनल बदलने पर आपका TV या रिसीवर शोर के साथ फिर से HDMI हैंडशेक करता है, तो इसे बंद कर दें।</string>
+    <string name="settings_auto_frame_rate_films">फ़िल्मों और सीरीज़ के लिए अपने-आप फ़्रेम दर मिलाना</string>
+    <string name="settings_auto_frame_rate_films_description">फ़ुल स्क्रीन में TV की रीफ़्रेश दर को फ़िल्म या एपिसोड (24/25/50/60 fps) से मिलाएँ और बाहर निकलने पर उसे पहले जैसा करें।</string>
+    <string name="settings_auto_frame_rate_live">लाइव टीवी के लिए अपने-आप फ़्रेम दर मिलाना</string>
+    <string name="settings_auto_frame_rate_live_description">फ़ुल स्क्रीन में TV की रीफ़्रेश दर को चैनल (25/50/60 fps) से मिलाएँ और बाहर निकलने पर उसे पहले जैसा करें। यदि हर चैनल बदलने पर आपका TV या रिसीवर शोर के साथ फिर से HDMI हैंडशेक करता है, तो इसे बंद कर दें।</string>
     <string name="settings_afr_pause">डिस्प्ले बदलते समय रोकें</string>
     <string name="settings_afr_pause_description">सिर्फ़ फ़िल्में। जब टीवी को नए डिस्प्ले मोड पर दोबारा सिंक होना पड़ता है, तो फ़िल्म इतनी देर रुकती है ताकि उसकी शुरुआत काली स्क्रीन में न छूटे। सहज बदलाव पर कभी नहीं रुकती।</string>
     <string name="settings_afr_resolution">रिज़ॉल्यूशन मिलाएँ</string>
@@ -277,6 +282,11 @@
     <string name="settings_check_updates_description">GitHub Releases से नवीनतम संस्करण प्राप्त करें</string>
     <string name="settings_update_startup">शुरू होने पर अपडेट जाँचें</string>
     <string name="settings_update_startup_description">ऐप खुलने पर नया संस्करण खोजें</string>
+    <string name="settings_auto_start_boot">चालू होने पर अपने-आप शुरू करें</string>
+    <string name="settings_auto_start_boot_description">टीवी चालू होने पर OwnTV खोलें</string>
+    <string name="settings_auto_start_wake">जागने पर अपने-आप शुरू करें</string>
+    <string name="settings_auto_start_wake_description">टीवी के स्लीप से जागने पर OwnTV खोलें</string>
+    <string name="settings_auto_start_needs_overlay">“दूसरे ऐप्लिकेशन के ऊपर दिखाएं” ज़रूरी है</string>
     <string name="settings_about">परिचय</string>
     <string name="settings_live_latency">लाइव विलंबता</string>
     <string name="settings_no_settings_match">“<xliff:g id="query">%1$s</xliff:g>” से मेल खाने वाली कोई सेटिंग नहीं है</string>
@@ -386,6 +396,7 @@
     <string name="settings_search_keywords_startup">लॉन्च खोलें आरंभ पेज</string>
     <string name="settings_search_keywords_updates">GitHub रिलीज़ संस्करण</string>
     <string name="settings_search_keywords_update_auto">अपने-आप अपडेट नया संस्करण</string>
+    <string name="settings_search_keywords_auto_start">बूट चालू जागना स्लीप स्टैंडबाय अपने-आप खोलें</string>
     <string name="settings_language_default">डिफ़ॉल्ट (अंग्रेज़ी)</string>
     <string name="settings_language_device">डिवाइस की भाषा</string>
     <string name="settings_language_arabic">अरबी</string>
@@ -607,8 +618,13 @@
     <string name="settings_history_all">सभी</string>
     <string name="settings_browsing_last_category">पिछली श्रेणी याद रखें</string>
     <string name="settings_browsing_last_category_description">अनुभाग को सभी के बजाय उसी श्रेणी पर दोबारा खोलें जहाँ आपने उसे छोड़ा था।</string>
+    <string name="settings_guide_follows_live">कार्यक्रम गाइड लाइव टीवी का अनुसरण करे</string>
+    <string name="settings_guide_follows_live_description">कार्यक्रम गाइड को लाइव टीवी की श्रेणी पर खोलें।</string>
+    <string name="settings_help_guide_follows_live">चालू: कार्यक्रम गाइड उसी श्रेणी पर खुलती है जो लाइव टीवी याद रखता है, और कार्यक्रम गाइड में चुनी गई श्रेणी लाइव टीवी की भी श्रेणी बन जाती है। बंद: कार्यक्रम गाइड अपनी अलग श्रेणी रखती है।</string>
     <string name="settings_browsing_last_item">पिछला आइटम याद रखें</string>
     <string name="settings_browsing_last_item_description">हर श्रेणी ऊपर से शुरू होने के बजाय अपनी स्क्रॉल स्थिति बनाए रखती है। लाइव टीवी पिछली बार फ़ोकस में रहा चैनल भी वापस लाता है।</string>
+    <string name="settings_browsing_live_categories">लाइव टीवी श्रेणियाँ</string>
+    <string name="settings_browsing_live_categories_description">लाइव टीवी, गाइड, प्लेयर और मल्टीव्यू में दिखती हैं। सभी channels बंद होने पर लाइव टीवी आपकी पहली श्रेणी में खुलता है, और कोई श्रेणी न हो तो पसंदीदा में।</string>
     <string name="settings_catchup_player">कैच-अप इसमें चलाएँ</string>
     <string name="settings_customize_title">श्रेणियाँ और आइटम कस्टमाइज़ करें</string>
     <string name="settings_customize_pin_locked">यह स्क्रीन PIN से लॉक है।</string>
@@ -715,6 +731,8 @@
     <string name="settings_sources_clean_names_custom">यह भी हटाएँ</string>
     <string name="settings_sources_clean_names_custom_hint">; से अलग किए शब्द, जैसे VIP; Backup</string>
     <string name="settings_sources_retest">फिर से जाँचें</string>
+    <string name="settings_sources_ignore_limit">कनेक्शन सीमा अनदेखी करें</string>
+    <string name="settings_sources_ignore_limit_on">कनेक्शन सीमा अनदेखी की जा रही है: मल्टीव्यू और रिकॉर्डिंग इस प्लेलिस्ट की बताई संख्या से ज़्यादा स्ट्रीम खोल सकते हैं। प्रदाता किसी स्ट्रीम को मना करे तो यह पहले की तरह बताया जाएगा।</string>
     <string name="settings_sources_probe_title">इस प्लेलिस्ट की जाँच करें?</string>
     <string name="settings_sources_probe_warning">कई प्रदाता कभी नहीं बताते कि आप एक साथ कितने चैनल देख सकते हैं, इसलिए OwnTV कुछ चैनल खोलकर और यह देखकर पता लगाता है कि कौन से चलते रहते हैं। अभी जो कुछ चल रहा है वह रुक जाएगा, और इसमें दो मिनट तक लग सकते हैं।</string>
     <string name="settings_sources_probe_running">जाँचा जा रहा है कि यह प्रदाता कितने चैनलों की अनुमति देता है… (<xliff:g id="total">%2$d</xliff:g> में से <xliff:g id="current">%1$d</xliff:g>)</string>
@@ -866,6 +884,7 @@
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> स्रोत छोड़ दिए गए क्योंकि उनकी प्लेलिस्ट के प्रकार समर्थित नहीं हैं।</item>
     </plurals>
     <string name="settings_backup_export_error">एक्सपोर्ट नहीं हो सका।</string>
+    <string name="settings_backup_no_file_app">इस फ़ोन पर कोई ऐप फ़ाइल सेव नहीं कर सकता। इसके बजाय शेयर करें का उपयोग करें।</string>
     <string name="settings_backup_read_error">बैकअप फ़ाइल पढ़ी नहीं जा सकी।</string>
     <string name="settings_backup_import_error">इंपोर्ट नहीं हो सका।</string>
     <string name="settings_backup_invalid_locale">इस बैकअप में ऐप की एक असमर्थित भाषा थी। रीस्टोर सफल रहा, लेकिन आपकी वर्तमान भाषा रखी गई।</string>
@@ -1398,7 +1417,7 @@
     <string name="settings_line_guide_width">चैनल सूची और टाइमलाइन</string>
     <string name="settings_line_browsing">आखिरी श्रेणी और आइटम याद रखें</string>
     <string name="settings_line_home">पंक्तियाँ चुनें, क्रम बदलें और फ़िल्टर करें</string>
-    <string name="settings_line_content_menus">हर मेनू की क्रियाएँ फिर से व्यवस्थित करें</string>
+    <string name="settings_line_content_menus">हर मेनू की क्रियाएँ फिर से व्यवस्थित करें या छिपाएँ</string>
     <string name="settings_line_remote_shortcuts">रिमोट के खाली बटन असाइन करें</string>
     <string name="settings_line_customize">छिपाएँ और दिखाएँ, नाम बदलें और क्रम बदलें</string>
     <string name="settings_line_metadata">मूवी और सीरीज़ के पोस्टर, कहानी, कलाकार और रेटिंग</string>
@@ -1411,6 +1430,7 @@
     <string name="settings_line_dns">एक कस्टम DNS सर्वर</string>
     <string name="settings_line_quick_live_preview">लाइव टीवी में फ़ोकस किया चैनल चलाएँ</string>
     <string name="settings_line_preview_sound">लाइव प्रीव्यू में आवाज़</string>
+    <string name="settings_line_preview_on_ok">पहले प्रीव्यू, फिर फ़ुल स्क्रीन</string>
     <string name="settings_line_quick_channel_numbers">चैनल बदलने के लिए रिमोट पर नंबर दबाएँ</string>
     <string name="settings_line_prefer_sdr">स्ट्रीम में दोनों हों तो SDR</string>
     <string name="settings_line_quick_autoplay">अगला एपिसोड अपने आप शुरू करें</string>
@@ -1491,6 +1511,8 @@
     <string name="settings_help_startup">शुरू होने पर OwnTV क्या दिखाए: होम, आखिरी देखा चैनल, आपके पसंदीदा, या आपका चुना चैनल।</string>
     <string name="settings_help_check_updates">अभी GitHub पर नया OwnTV खोजता है और इंस्टॉल करने का विकल्प देता है। आपकी प्लेलिस्ट, पसंदीदा और सेटिंग्स जैसी हैं वैसी रहती हैं।</string>
     <string name="settings_help_update_startup">हर बार OwnTV शुरू होने पर नया संस्करण खोजता है और मिलने पर बताता है। बिना पूछे कुछ इंस्टॉल नहीं होता।</string>
+    <string name="settings_help_auto_start_boot">टीवी शुरू होने के बाद OwnTV को अपने-आप खोलता है, ऐप शुरू होने पर सेटिंग में चुनी गई स्क्रीन पर। Android किसी ऐप को अपने-आप खुलने तभी देता है जब वह दूसरे ऐप्लिकेशन के ऊपर दिख सके, इसलिए इसे चालू करने पर उस अनुमति की स्क्रीन खुलती है। कुछ टीवी यह अनुमति नहीं देते, और उन पर अपने-आप शुरू होना काम नहीं कर सकता।</string>
+    <string name="settings_help_auto_start_wake">हर बार टीवी के स्लीप से जागने पर OwnTV खोलता है, तब भी जब आपने उसे किसी दूसरे ऐप के लिए जगाया हो। अगर ऐप शुरू होने पर सेटिंग कोई चैनल खोलती है, तो हर बार जागने पर वह स्ट्रीम शुरू हो जाती है। यह चालू रहने तक OwnTV एक छोटी बैकग्राउंड सेवा और एक बिना आवाज़ वाली सूचना रखता है। चालू होने पर अपने-आप शुरू करने की तरह, इसे भी दूसरे ऐप्लिकेशन के ऊपर दिखने की अनुमति चाहिए।</string>
     <string name="settings_help_dns">आपके नेटवर्क के अपने DNS की जगह आपके चुने DNS सर्वर से प्रोवाइडर के पते खोजता है — जब नेटवर्क उन्हें रोके या मोड़ दे, तब काम आता है।</string>
     <string name="settings_help_live_engine">ExoPlayer चैनल बहुत तेज़ी से खोलता है और लाइव सबटाइटल सिर्फ़ इसी में हैं। mpv वे चैनल चलाता है जो ExoPlayer नहीं चला पाता, कुछ असामान्य ऑडियो समेत। मिले-जुले विकल्प पहले के विफल होने पर दूसरा प्लेयर आज़माते हैं।</string>
     <string name="settings_help_hw">टीवी का हार्डवेयर डिकोडर इस्तेमाल करता है: स्मूद 4K और कम गर्मी। अगर कुछ स्ट्रीम अटकें या ब्लॉक दिखें तभी बंद करें; तब सॉफ़्टवेयर डिकोडर काम करता है।</string>
@@ -1501,6 +1523,7 @@
     <string name="settings_help_sub_lang">स्ट्रीम में हों तो इस भाषा के सबटाइटल अपने आप चालू हो जाते हैं। नहीं तो प्लेयर में ट्रैक चुनने तक सबटाइटल बंद रहते हैं।</string>
     <string name="settings_help_live_preview">फ़ोकस किया चैनल लाइव टीवी सूची के पास प्रीव्यू में चलता है, ताकि खोलने से पहले देख सकें क्या चल रहा है। प्रीव्यू के लिए जगह वाला लेआउट चाहिए।</string>
     <string name="settings_help_preview_audio">प्रीव्यू की तस्वीर के साथ उसकी आवाज़ भी चलाता है। बंद होने पर ब्राउज़ करना शांत रहता है।</string>
+    <string name="settings_help_preview_on_ok">चुनें कि कहाँ किसी चैनल पर OK उसे पहले प्रीव्यू में चलाए और उसी चैनल पर दोबारा OK उसे फ़ुल स्क्रीन में खोले। लाइव टीवी में तब ब्राउज़ करते समय प्रीव्यू उसी चैनल पर रहता है। जहाँ यह बंद है, वहाँ OK चैनल को तुरंत फ़ुल स्क्रीन में खोलता है और प्रीव्यू चुने गए चैनल के साथ चलता है।</string>
     <string name="settings_help_timeshift_window">बिना कैच-अप वाले चैनल पर लाइव टीवी रोकें और पीछे करें कितना पीछे जा सकता है। ज़्यादा रखने पर चैनल का ज़्यादा हिस्सा इस डिवाइस के स्टोरेज में रहता है।</string>
     <string name="settings_help_resume">पूछें, फ़िल्म या एपिसोड की सहेजी स्थिति होने पर फिर से शुरू या शुरुआत से चलाने का विकल्प देता है। हमेशा फिर से शुरू वहीं से चलाता है जहाँ रुके थे; कभी नहीं शुरू से चलाता है।</string>
     <string name="settings_help_mini">छोटा प्लेयर, जो ब्राउज़ करते समय कोने में चैनल चलाता रहता है। उसका आकार और कोना चुनें।</string>
@@ -1587,6 +1610,8 @@
     <string name="settings_remote_scan">स्कैन करें या ब्राउज़र में खोलें</string>
     <string name="settings_remote_or_open">या खोलें</string>
     <string name="settings_remote_details_note">जानकारी यहाँ दिखेगी; इम्पोर्ट आप रिमोट से शुरू करते हैं।</string>
+    <string name="settings_remote_edit_note">बदलाव बदलाव स्क्रीन में भर जाते हैं; सहेजें आप रिमोट से दबाते हैं।</string>
+    <string name="settings_help_edit_from_phone">इस प्लेलिस्ट को उसी वाई-फ़ाई पर किसी फ़ोन, टैबलेट या कंप्यूटर के ब्राउज़र में खोलता है। पासवर्ड, MAC पते और M3U प्लेलिस्ट के पते वहां कभी नहीं दिखाए जाते: उन्हें रखने के लिए खाली छोड़ दें। आप जो भेजते हैं वह इस स्क्रीन में भर जाता है, और सहेजें दबाने तक कुछ नहीं बदलता।</string>
     <string name="settings_key_stop_back">रोकें और वापस जाएँ</string>
     <string name="settings_source_type">प्रकार</string>
     <string name="settings_line_source_type">Xtream, M3U या Stalker पोर्टल</string>

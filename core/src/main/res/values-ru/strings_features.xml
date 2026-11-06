@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Своё изображение</string>
     <string name="profiles_kids">Детский профиль</string>
     <string name="profiles_kids_description">Упрощённый и безопасный просмотр</string>
+    <string name="profiles_allow_downloads">Разрешить загрузки</string>
+    <string name="profiles_allow_downloads_description">Если выключено, в этом профиле скрыты все кнопки скачивания</string>
     <string name="profiles_remove_pin">Удалить блокировку с помощью PIN</string>
     <string name="profiles_no_pin">Этот профиль открывается без PIN</string>
     <string name="profiles_change_pin">Изменить PIN (пусто = сохранить текущий)</string>
@@ -69,6 +71,13 @@
     <string name="launcher_recent_live_description">Каналы, недавно просмотренные в прямом эфире</string>
     <string name="launcher_movie_type">Фильм</string>
     <string name="launcher_episode_number">Серия <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Загрузка библиотеки · пока <xliff:g id="count">%1$s</xliff:g> название</item>
+        <item quantity="few">Загрузка библиотеки · пока <xliff:g id="count">%1$s</xliff:g> названия</item>
+        <item quantity="many">Загрузка библиотеки · пока <xliff:g id="count">%1$s</xliff:g> названий</item>
+        <item quantity="other">Загрузка библиотеки · пока <xliff:g id="count">%1$s</xliff:g> названий</item>
+    </plurals>
+    <string name="home_library_loading_trending">Раздел «Сейчас в тренде» появится по мере загрузки библиотеки.</string>
     <string name="home_no_preview">Пока нечего показывать.</string>
     <string name="home_no_rows">Все ряды на главном экране скрыты.</string>
     <string name="home_enable_rows">Включите ряды в разделе «Настройки» → «Главный экран».</string>
@@ -197,6 +206,8 @@
     <string name="home_trending_pause">Пауза</string>
     <string name="home_trending_unavailable">Эта версия больше недоступна</string>
     <string name="recording_notification_title">Идёт запись</string>
+    <string name="auto_start_notification_channel">Автозапуск при пробуждении</string>
+    <string name="auto_start_notification_text">OwnTV откроется, когда телевизор проснётся</string>
     <string name="recording_failed_no_space">Остановлено: нет свободного места</string>
     <string name="recording_failed_no_connection">У провайдера нет свободных подключений</string>
     <string name="recording_failed_clash">Подключение занимала другая запись</string>

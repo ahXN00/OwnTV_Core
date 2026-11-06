@@ -19,6 +19,10 @@
     <string name="profiles_kids">Kids profile</string>
     <!-- Translators: Description beneath the kids-mode toggle in the profile editor. -->
     <string name="profiles_kids_description">Simplified, safe browsing</string>
+    <!-- Translators: Switch in the profile editor: whether this profile may download films and episodes. -->
+    <string name="profiles_allow_downloads">Allow downloads</string>
+    <!-- Translators: Description under the Allow downloads switch in the profile editor. -->
+    <string name="profiles_allow_downloads_description">Off hides every Download button for this profile</string>
     <!-- Translators: Button in the profile editor to remove the PIN lock. -->
     <string name="profiles_remove_pin">Remove PIN lock</string>
     <!-- Translators: Status text indicating the profile has no PIN lock. -->
@@ -129,6 +133,13 @@
     <string name="launcher_movie_type">Movie</string>
     <!-- Translators: Episode number display for the Android TV home screen. "episode" is the episode number. -->
     <string name="launcher_episode_number">Episode <xliff:g id="episode">%1$d</xliff:g></string>
+    <!-- Translators: Home note while a large playlist keeps loading in the background after setup. "count" is the number of movies and series stored so far, already formatted (e.g. "34,120"). -->
+    <plurals name="home_library_loading">
+        <item quantity="one">Loading your library · <xliff:g id="count">%1$s</xliff:g> title so far</item>
+        <item quantity="other">Loading your library · <xliff:g id="count">%1$s</xliff:g> titles so far</item>
+    </plurals>
+    <!-- Translators: Second line of the Home loading note, shown only while the Now Trending row is switched on but not showing yet. Use the same name for the row as elsewhere in the app. -->
+    <string name="home_library_loading_trending">Now Trending appears as your library fills in.</string>
     <!-- Translators: Empty-state message on the Home screen when nothing is available to preview. -->
     <string name="home_no_preview">Nothing to preview yet.</string>
     <!-- Translators: Empty-state message when all Home rows are hidden. -->
@@ -311,6 +322,10 @@
 
     <!-- Translators: Title of the ongoing notification shown while a live TV programme is being recorded. -->
     <string name="recording_notification_title">Recording</string>
+    <!-- Translators: Name of the notification channel for the silent notification kept while the app waits for the TV to wake up (Settings: Auto start on wake-up). -->
+    <string name="auto_start_notification_channel">Auto start on wake-up</string>
+    <!-- Translators: Text of the silent ongoing notification kept while the app waits for the TV to wake up. OwnTV is a brand name. -->
+    <string name="auto_start_notification_text">OwnTV opens when the TV wakes up</string>
     <!-- Translators: Shown on a recording that stopped because the storage volume was nearly full. Whatever was captured is kept and is still playable. -->
     <string name="recording_failed_no_space">Stopped: no space left</string>
     <!-- Translators: Shown on a recording that never started because the TV provider allows no more simultaneous streams. -->

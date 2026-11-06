@@ -75,6 +75,11 @@
     <string name="content_remove_from_category">Uit deze categorie verwijderen</string>
     <string name="content_download">Downloaden</string>
     <string name="content_download_all_episodes">Alle afleveringen downloaden</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> aflevering downloaden?</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> afleveringen downloaden?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">Ze worden op dit apparaat opgeslagen en nemen opslagruimte in.</string>
     <string name="content_play">Afspelen</string>
     <string name="content_favorited">Favoriet</string>
     <string name="content_favorite">Favoriet maken</string>
@@ -82,9 +87,7 @@
     <string name="content_episodes">Afleveringen</string>
     <string name="content_oldest_first">Oudste eerst</string>
     <string name="content_newest_first">Nieuwste eerst</string>
-    <string name="content_play_external">Afspelen met externe speler</string>
     <string name="content_delete_subtitles">OpenSub-ondertiteling verwijderen</string>
-    <string name="content_tmdb_details">TMDB-details</string>
     <string name="content_play_trailer">Trailer afspelen</string>
     <string name="content_refetch_tmdb">TMDB-details opnieuw ophalen</string>
     <string name="content_set_tmdb_name">TMDB-naam instellen</string>
@@ -134,6 +137,9 @@
     <string name="content_catchup_jump_prompt">Kies een tijd om vanaf te kijken. Geen gids nodig.</string>
     <string name="content_catchup_jump_exact">Exacte tijd kiezen…</string>
     <string name="content_catchup_jump_hint">Druk op OK op de dag, het uur of de minuut, wijzig het met omhoog en omlaag en druk opnieuw op OK.</string>
+    <string name="content_catchup_jump_programme_start">Begin van “<xliff:g id="title">%1$s</xliff:g>”</string>
+    <string name="content_catchup_jump_programme_start_untitled">Begin van het programma</string>
+    <string name="content_catchup_jump_programme_start_at">Begonnen om <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">Kies de gidszender voor “<xliff:g id="channel">%1$s</xliff:g>”.</string>
     <string name="content_epg_match_prompt_current">Kies de gidszender voor “<xliff:g id="channel">%1$s</xliff:g>”. Huidig: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">Gidszenders zoeken…</string>
@@ -282,7 +288,6 @@
     <string name="content_search_in">Zoeken in <xliff:g id="name">%1$s</xliff:g></string>
     <string name="content_live_guide_view">Gidsweergave</string>
     <string name="content_key_watch">Kijken</string>
-    <string name="content_key_schedule">Programma</string>
     <string name="content_key_options">Opties</string>
     <string name="content_live_groups">Groepen</string>
     <string name="content_menu_group_watch">Kijken</string>
@@ -347,6 +352,9 @@
     <string name="content_sort_date_added_hint">Nieuwste eerst</string>
     <string name="content_menu_group_library">Bibliotheek</string>
     <string name="content_menu_group_details">Details</string>
+    <string name="content_programme_details">Programmadetails</string>
+    <string name="content_programmes_earlier">Eerder</string>
+    <string name="content_programmes_later">Later</string>
     <string name="content_movie_details">Filmdetails</string>
     <string name="content_series_details">Seriedetails</string>
     <plurals name="content_vod_title_count">

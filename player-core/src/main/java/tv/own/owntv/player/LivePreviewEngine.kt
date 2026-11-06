@@ -37,6 +37,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import tv.own.owntv.core.network.HttpClient
 import java.util.Locale
 import tv.own.owntv.core.drm.toMediaDrmConfiguration
@@ -1351,7 +1352,21 @@ class LivePreviewEngine(
 
         override fun onIsPlayingChanged(isPlaying: Boolean) { _isPlaying.value = isPlaying }
 
-        override fun onRenderedFirstFrame() { tune.firstFrameRendered = true }
+        override fun onRenderedFirstFrame() {
+            tune.firstFrameRendered = true
+            // The plain-TS retry played: this channel is TS on a panel that redirects others, so the
+            // panel-wide HLS lesson is wrong there. Proved once, then never re-learned this session.
+            val url = currentUrl
+            if (url != null && LiveStreamQuirks.firstFrameProvesMixed(
+                    lessonIgnored = tune.hlsLessonIgnored,
+                    progressiveRoute = activeRoute == StreamRoute.PROGRESSIVE,
+                )
+            ) {
+                tune.hlsLessonIgnored = false
+                LiveStreamQuirks.forgetHlsRedirect(url)
+                LiveDiagnosticsLog.event("panel serves both HLS and plain TS — dropped the HLS lesson")
+            }
+        }
 
         override fun onVideoSizeChanged(videoSize: VideoSize) {
             if (videoSize.height > 0) {
@@ -1415,6 +1430,7 @@ class LivePreviewEngine(
             val rungInput = LiveStartRungs.Input(
                 containerUnsupported = error.errorCode == PlaybackException.ERROR_CODE_PARSING_CONTAINER_UNSUPPORTED,
                 formatFailure = isFormatFailure(error),
+                httpStatus = http,
                 decoderFailure = isDecoderFailure(error),
                 decoderExhausted = isDecoderExhausted(error),
                 identityRefusal = http?.let { LiveStreamQuirks.isIdentityRefusal(it) } == true,
@@ -1440,9 +1456,9 @@ class LivePreviewEngine(
             when (LiveStartRungs.before(rungInput)) {
                 // OkHttp follows the redirect again, now with the correct manifest/segment parser.
                 LiveStartRungs.Rung.REDIRECT_HLS -> { retryRedirectedStreamAsHls(); return }
-                // Bug 8 — the panel was learned as HLS from another channel, but THIS one is plain TS and the
-                // manifest parser choked on it. Reopen the same URL as TS, instead of trying an `.m3u8`
-                // sibling and then handing to mpv.
+                // Bug 8 — the panel was learned as HLS from another channel, but the manifest parser choked
+                // on THIS one, so it may be plain TS. Reopen the same URL as TS, instead of trying an `.m3u8`
+                // sibling and then handing to mpv; the panel is marked mixed only if that shows a picture.
                 LiveStartRungs.Rung.DROP_HOST_HLS_LESSON -> { retryWithoutHostHlsLesson(); return }
                 // The ONLY route for a stream that declares nothing: a Stalker portal hands back its own `cmd`
                 // and an Xtream panel's URL we build ourselves, so neither can ever carry a `manifest_type`.
@@ -2526,14 +2542,19 @@ class LivePreviewEngine(
         }
     }
 
+    /**
+     * The learned HLS route could not parse this channel: reopen it as plain TS for this tune only. The
+     * lesson itself is not touched here — a dead channel or an HTML stub fails both ways and proves nothing
+     * about the panel. It is dropped in [onRenderedFirstFrame] once the TS open actually shows a picture.
+     */
     private fun retryWithoutHostHlsLesson() {
         val p = player ?: return
         val url = currentUrl ?: return
         tune.hlsFromHostLesson = false
-        LiveStreamQuirks.forgetHlsRedirect(url)
+        tune.hlsLessonIgnored = true
         _state.value = State.LOADING; _buffering.value = true
         _error.value = null; _errorInfo.value = null
-        LiveDiagnosticsLog.event("panel serves both HLS and plain TS — dropped the HLS lesson, retrying as TS")
+        LiveDiagnosticsLog.event("learned HLS route could not parse this channel — retrying it as TS")
         mainHandler.post {
             if (currentUrl != url) return@post
             runCatching {
@@ -3106,9 +3127,14 @@ class LivePreviewEngine(
                     if (isHlsResponse(finalUrl, response.header("Content-Type"))) {
                         tune.responseWasHls = true
                         // The panel — not just this URL — serves HLS behind a `.ts` endpoint. mpv needs to
-                        // know that too, or FFmpeg reconnects to the manifest's EOF forever.
-                        if (!request.url.toString().substringBefore('?').endsWith(".m3u8", ignoreCase = true)) {
-                            LiveStreamQuirks.rememberHlsRedirect(request.url.toString())
+                        // know that too, or FFmpeg reconnects to the manifest's EOF forever. Learned only
+                        // from the channel's own address: this client also fetches variant playlists, and
+                        // one of those with no `.m3u8` in its path says nothing about the `.ts` endpoint.
+                        val channelUrl = currentUrl
+                        if (channelUrl != null && request.url == channelUrl.toHttpUrlOrNull() &&
+                            !LiveStreamQuirks.isExplicitHlsUrl(channelUrl)
+                        ) {
+                            LiveStreamQuirks.rememberHlsRedirect(channelUrl)
                         }
                     } else if (isDashResponse(finalUrl, response.header("Content-Type"))) {
                         tune.responseWasDash = true
@@ -3371,24 +3397,25 @@ class LivePreviewEngine(
             activeRoute = StreamRoute.PROGRESSIVE
             return cachedDefaultFactory!!.createMediaSource(item)
         }
-        // A panel already caught redirecting `.ts` → manifest goes straight to the HLS factory: without
-        // this every channel on it repeats the container-unsupported failure + retry before recovering.
-        val knownHlsHost = LiveStreamQuirks.isKnownHlsHost(url)
+        // A channel or panel already caught redirecting `.ts` → manifest goes straight to the HLS factory:
+        // without this every channel on it repeats the container-unsupported failure + retry before
+        // recovering. Not once this tune has seen that route fail to parse the channel.
+        val knownHls = !tune.hlsLessonIgnored && LiveStreamQuirks.isKnownHls(url)
         val knownDashHost = LiveStreamQuirks.isKnownDashHost(url)
         val route = routeFor(
             declared = currentManifestType,
             forceHls = tune.forceHlsForCurrentLoad,
             forceDash = tune.forceDashForCurrentLoad,
-            knownHlsHost = knownHlsHost,
+            knownHlsHost = knownHls,
             knownDashHost = knownDashHost,
             inferredHls = Util.inferContentType(uri) == C.CONTENT_TYPE_HLS,
         )
         activeRoute = route
-        tune.hlsFromHostLesson = route == StreamRoute.HLS && knownHlsHost && !tune.forceHlsForCurrentLoad &&
+        tune.hlsFromHostLesson = route == StreamRoute.HLS && knownHls && !tune.forceHlsForCurrentLoad &&
             currentManifestType == null && Util.inferContentType(uri) != C.CONTENT_TYPE_HLS
         LiveDiagnosticsLog.event(
             "media_source inferred=${route.logName} declared=${currentManifestType?.key ?: "-"} " +
-                "knownHlsHost=$knownHlsHost knownDashHost=$knownDashHost " +
+                "knownHlsHost=$knownHls knownDashHost=$knownDashHost " +
                 "targetOffsetSec=${targetOffsetSecs ?: -1} " +
                 "url=${HttpClient.redactUrl(url)}",
         )
@@ -3906,6 +3933,9 @@ internal data class TuneState(
     /** This load went to the HLS parser only because the panel was learned as redirecting `.ts` to a
      *  manifest — nothing about this channel said HLS (bug 8). */
     var hlsFromHostLesson: Boolean = false,
+    /** The learned HLS route failed to parse this channel, so this tune opens it as plain TS. The panel is
+     *  marked mixed only if that then shows a picture ([LiveStreamQuirks.firstFrameProvesMixed]). */
+    var hlsLessonIgnored: Boolean = false,
     /** The top-level request ended at a DASH manifest even though nothing about the submitted URL said
      *  so — the only signal available for a stream that declares no `manifest_type` (v43). */
     @field:Volatile var responseWasDash: Boolean = false,

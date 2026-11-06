@@ -81,6 +81,12 @@
     <string name="content_remove_from_category">Remover desta categoria</string>
     <string name="content_download">Transferir</string>
     <string name="content_download_all_episodes">Transferir todos os episódios</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one">Transferir <xliff:g id="count">%1$d</xliff:g> episódio?</item>
+        <item quantity="many">Transferir <xliff:g id="count">%1$d</xliff:g> de episódios?</item>
+        <item quantity="other">Transferir <xliff:g id="count">%1$d</xliff:g> episódios?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">São guardados neste dispositivo e ocupam espaço de armazenamento.</string>
     <string name="content_play">Reproduzir</string>
     <string name="content_favorited">Nos favoritos</string>
     <string name="content_favorite">Adicionar aos favoritos</string>
@@ -88,9 +94,7 @@
     <string name="content_episodes">Episódios</string>
     <string name="content_oldest_first">Mais antigos primeiro</string>
     <string name="content_newest_first">Mais recentes primeiro</string>
-    <string name="content_play_external">Reproduzir com um leitor externo</string>
     <string name="content_delete_subtitles">Eliminar legendas OpenSub</string>
-    <string name="content_tmdb_details">Detalhes do TMDB</string>
     <string name="content_play_trailer">Reproduzir trailer</string>
     <string name="content_refetch_tmdb">Voltar a obter detalhes do TMDB</string>
     <string name="content_set_tmdb_name">Definir nome no TMDB</string>
@@ -141,6 +145,9 @@
     <string name="content_catchup_jump_prompt">Escolha uma hora para começar a ver. Não é preciso guia.</string>
     <string name="content_catchup_jump_exact">Escolher hora exata…</string>
     <string name="content_catchup_jump_hint">Prima OK no dia, na hora ou no minuto, altere com cima e baixo e prima OK novamente.</string>
+    <string name="content_catchup_jump_programme_start">Início de “<xliff:g id="title">%1$s</xliff:g>”</string>
+    <string name="content_catchup_jump_programme_start_untitled">Início do programa</string>
+    <string name="content_catchup_jump_programme_start_at">Começou às <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">Escolha o canal do guia para “<xliff:g id="channel">%1$s</xliff:g>”.</string>
     <string name="content_epg_match_prompt_current">Escolha o canal do guia para “<xliff:g id="channel">%1$s</xliff:g>”. Atual: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">Pesquisar canais do guia…</string>
@@ -292,7 +299,6 @@
     <string name="content_search_in">Pesquisar em <xliff:g id="name">%1$s</xliff:g></string>
     <string name="content_live_guide_view">Vista do guia</string>
     <string name="content_key_watch">Ver</string>
-    <string name="content_key_schedule">Programação</string>
     <string name="content_key_options">Opções</string>
     <string name="content_live_groups">Grupos</string>
     <string name="content_menu_group_watch">Ver</string>
@@ -360,6 +366,9 @@
     <string name="content_sort_date_added_hint">Mais recentes primeiro</string>
     <string name="content_menu_group_library">Biblioteca</string>
     <string name="content_menu_group_details">Detalhes</string>
+    <string name="content_programme_details">Detalhes do programa</string>
+    <string name="content_programmes_earlier">Antes</string>
+    <string name="content_programmes_later">Depois</string>
     <string name="content_movie_details">Detalhes do filme</string>
     <string name="content_series_details">Detalhes da série</string>
     <plurals name="content_vod_title_count">

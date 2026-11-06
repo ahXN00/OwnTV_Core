@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Tu propia imagen</string>
     <string name="profiles_kids">Perfil infantil</string>
     <string name="profiles_kids_description">Navegación sencilla y segura</string>
+    <string name="profiles_allow_downloads">Permitir descargas</string>
+    <string name="profiles_allow_downloads_description">Desactivado oculta todos los botones de descarga de este perfil</string>
     <string name="profiles_remove_pin">Quitar bloqueo con PIN</string>
     <string name="profiles_no_pin">Este perfil se abre sin un PIN</string>
     <string name="profiles_change_pin">Cambiar PIN (en blanco = conservar)</string>
@@ -67,6 +69,12 @@
     <string name="launcher_recent_live_description">Canales en directo vistos recientemente</string>
     <string name="launcher_movie_type">Película</string>
     <string name="launcher_episode_number">Episodio <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Cargando tu biblioteca · <xliff:g id="count">%1$s</xliff:g> título por ahora</item>
+        <item quantity="many">Cargando tu biblioteca · <xliff:g id="count">%1$s</xliff:g> de títulos por ahora</item>
+        <item quantity="other">Cargando tu biblioteca · <xliff:g id="count">%1$s</xliff:g> títulos por ahora</item>
+    </plurals>
+    <string name="home_library_loading_trending">Tendencias actuales aparecerá a medida que se cargue tu biblioteca.</string>
     <string name="home_no_preview">Todavía no hay nada que previsualizar.</string>
     <string name="home_no_rows">Todas las filas de inicio están ocultas.</string>
     <string name="home_enable_rows">Vuelve a activar las filas en Ajustes → Pantalla de inicio.</string>
@@ -188,6 +196,8 @@
     <string name="home_trending_pause">Pausar</string>
     <string name="home_trending_unavailable">Esta versión ya no está disponible</string>
     <string name="recording_notification_title">Grabando</string>
+    <string name="auto_start_notification_channel">Inicio automático al reactivar</string>
+    <string name="auto_start_notification_text">OwnTV se abre cuando la TV se reactiva</string>
     <string name="recording_failed_no_space">Detenida: no queda espacio</string>
     <string name="recording_failed_no_connection">Tu proveedor no tiene conexiones libres</string>
     <string name="recording_failed_clash">Otra grabación estaba usando la conexión</string>

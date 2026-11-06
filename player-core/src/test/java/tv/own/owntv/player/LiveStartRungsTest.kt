@@ -11,7 +11,7 @@ import tv.own.owntv.player.LiveStartRungs.Rung
 class LiveStartRungsTest {
 
     private val none = LiveStartRungs.Input(
-        containerUnsupported = false, formatFailure = false, decoderFailure = false, decoderExhausted = false,
+        containerUnsupported = false, formatFailure = false, httpStatus = null, decoderFailure = false, decoderExhausted = false,
         identityRefusal = false, activeIsHls = false, activeIsDash = false, responseWasHls = false,
         responseWasDash = false, hlsFromHostLesson = false, redirectedHlsRetryDone = false,
         redirectedDashRetryDone = false, sessionLimitSeen = false, sessionLimitRetryDone = false,
@@ -30,6 +30,15 @@ class LiveStartRungsTest {
     @Test
     fun `a wrong HLS lesson, DASH and the session wait`() {
         assertEquals(Rung.DROP_HOST_HLS_LESSON, LiveStartRungs.before(none.copy(hlsFromHostLesson = true, formatFailure = true)))
+        // An offline channel 404s on its manifest whatever the panel serves: not proof the lesson is wrong.
+        assertNull(LiveStartRungs.before(none.copy(hlsFromHostLesson = true, formatFailure = true, httpStatus = 404)))
+        // Any status, and any failure that is not about the format, leaves the lesson for the ladder.
+        for (status in listOf(410, 500)) {
+            assertNull(LiveStartRungs.before(none.copy(hlsFromHostLesson = true, formatFailure = true, httpStatus = status)))
+        }
+        assertNull(LiveStartRungs.before(none.copy(hlsFromHostLesson = true)))
+        // A lesson-free load never drops it, whatever failed.
+        assertNull(LiveStartRungs.before(none.copy(formatFailure = true)))
         assertEquals(Rung.REDIRECT_DASH, LiveStartRungs.before(none.copy(responseWasDash = true, containerUnsupported = true)))
         assertNull(LiveStartRungs.before(none.copy(responseWasDash = true, containerUnsupported = true, activeIsDash = true)))
         assertEquals(Rung.SESSION_WAIT, LiveStartRungs.before(none.copy(sessionLimitSeen = true)))

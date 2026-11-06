@@ -148,6 +148,8 @@ class BackupV17ScopingTest {
             "catchupTimezone", "catchupOffsetMin", "vodEnginePreference", "liveTuneTimeoutSecs", "httpReferer",
             // v50: the playlist's "Clean channel names" choice and its custom words.
             "cleanChannelNames", "channelNameStrip",
+            // v53: the playlist's "Ignore connection limit" choice.
+            "ignoreConnectionLimit",
         )
         // v49 `serverTimeZone`: the Xtream panel's own report, re-read at EVERY sync (unlike a measured
         // `maxConnections`, nothing expensive is lost) and only ever set for Xtream. A restored row

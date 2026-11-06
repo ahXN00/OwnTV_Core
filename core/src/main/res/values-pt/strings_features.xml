@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Sua própria imagem</string>
     <string name="profiles_kids">Perfil infantil</string>
     <string name="profiles_kids_description">Navegação simplificada e segura</string>
+    <string name="profiles_allow_downloads">Permitir downloads</string>
+    <string name="profiles_allow_downloads_description">Desativado oculta todos os botões de download deste perfil</string>
     <string name="profiles_remove_pin">Remover bloqueio por PIN</string>
     <string name="profiles_no_pin">Este perfil pode ser aberto sem PIN</string>
     <string name="profiles_change_pin">Alterar PIN (em branco = manter)</string>
@@ -67,6 +69,12 @@
     <string name="launcher_recent_live_description">Canais ao vivo assistidos recentemente</string>
     <string name="launcher_movie_type">Filme</string>
     <string name="launcher_episode_number">Episódio <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Carregando sua biblioteca · <xliff:g id="count">%1$s</xliff:g> título até agora</item>
+        <item quantity="many">Carregando sua biblioteca · <xliff:g id="count">%1$s</xliff:g> de títulos até agora</item>
+        <item quantity="other">Carregando sua biblioteca · <xliff:g id="count">%1$s</xliff:g> títulos até agora</item>
+    </plurals>
+    <string name="home_library_loading_trending">Em alta agora aparece conforme sua biblioteca é carregada.</string>
     <string name="home_no_preview">Ainda não há nada para visualizar.</string>
     <string name="home_no_rows">Todas as linhas da tela inicial estão ocultas.</string>
     <string name="home_enable_rows">Reative as linhas em Configurações → Tela inicial.</string>
@@ -188,6 +196,8 @@
     <string name="home_trending_pause">Pausar</string>
     <string name="home_trending_unavailable">Esta versão não está mais disponível</string>
     <string name="recording_notification_title">Gravando</string>
+    <string name="auto_start_notification_channel">Iniciar ao despertar</string>
+    <string name="auto_start_notification_text">O OwnTV abre quando a TV desperta</string>
     <string name="recording_failed_no_space">Interrompido: sem espaço livre</string>
     <string name="recording_failed_no_connection">Nenhuma conexão livre do seu provedor</string>
     <string name="recording_failed_clash">Outra gravação estava usando a conexão</string>

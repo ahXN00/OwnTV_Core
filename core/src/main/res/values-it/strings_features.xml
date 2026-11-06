@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Una tua immagine</string>
     <string name="profiles_kids">Profilo per bambini</string>
     <string name="profiles_kids_description">Navigazione semplificata e sicura</string>
+    <string name="profiles_allow_downloads">Consenti i download</string>
+    <string name="profiles_allow_downloads_description">Disattivato nasconde tutti i pulsanti di download per questo profilo</string>
     <string name="profiles_remove_pin">Rimuovi blocco con PIN</string>
     <string name="profiles_no_pin">Questo profilo si apre senza PIN</string>
     <string name="profiles_change_pin">Modifica PIN (vuoto = mantieni quello attuale)</string>
@@ -67,6 +69,12 @@
     <string name="launcher_recent_live_description">Canali in diretta visti di recente</string>
     <string name="launcher_movie_type">Film</string>
     <string name="launcher_episode_number">Episodio <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Caricamento della libreria · <xliff:g id="count">%1$s</xliff:g> titolo finora</item>
+        <item quantity="many">Caricamento della libreria · <xliff:g id="count">%1$s</xliff:g> di titoli finora</item>
+        <item quantity="other">Caricamento della libreria · <xliff:g id="count">%1$s</xliff:g> titoli finora</item>
+    </plurals>
+    <string name="home_library_loading_trending">Di tendenza ora comparirà man mano che la libreria si riempie.</string>
     <string name="home_no_preview">Ancora niente da visualizzare in anteprima.</string>
     <string name="home_no_rows">Tutte le righe della schermata Home sono nascoste.</string>
     <string name="home_enable_rows">Riattiva le righe in Impostazioni → schermata Home.</string>
@@ -188,6 +196,8 @@
     <string name="home_trending_pause">Pausa</string>
     <string name="home_trending_unavailable">Questa versione non è più disponibile</string>
     <string name="recording_notification_title">Registrazione in corso</string>
+    <string name="auto_start_notification_channel">Avvio automatico al risveglio</string>
+    <string name="auto_start_notification_text">OwnTV si apre quando la TV si risveglia</string>
     <string name="recording_failed_no_space">Interrotta: spazio esaurito</string>
     <string name="recording_failed_no_connection">Nessuna connessione libera dal tuo provider</string>
     <string name="recording_failed_clash">Un’altra registrazione stava usando la connessione</string>

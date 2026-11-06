@@ -165,14 +165,6 @@ class SourceRepository(
     fun getLastSyncStats(sourceId: Long): tv.own.owntv.core.sync.SyncRunStats? =
         syncManager.getLastSyncStats(sourceId)
 
-    /**
-     * Is this source's catalogue whole, or is a lazy add still filling it in?
-     *
-     * Not the same question as "has it synced" — a lazily-added Stalker source is stamped synced
-     * while only its first page per category is stored.
-     */
-    suspend fun catalogueComplete(sourceId: Long): Boolean = syncManager.catalogueComplete(sourceId)
-
     /** Per-mediaType row counts of a snapshot, e.g. "types={LIVE=8, MOVIE=6}" — upgrade-path diagnostics. */
     private fun org.json.JSONArray.typeCounts(): String {
         val counts = LinkedHashMap<String, Int>()

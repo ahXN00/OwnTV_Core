@@ -49,6 +49,18 @@ interface SourceDao {
     )
     suspend fun updateHlsSupportFromSync(id: Long, hlsSupported: HlsSupport)
 
+    /**
+     * The provider's published limit, as a sync reads it — unless the limit was measured (Re-test),
+     * which outranks the panel's own number: a panel that says 1 while allowing more is exactly why
+     * the user measured it.
+     */
+    @Query("UPDATE sources SET maxConnections = :maxConnections WHERE id = :id AND maxConnectionsProbedAt <= 0")
+    suspend fun updateMaxConnectionsUnlessMeasured(id: Long, maxConnections: Int)
+
+    /** Per-playlist "Ignore connection limit" (see [SourceEntity.ignoreConnectionLimit]). */
+    @Query("UPDATE sources SET ignoreConnectionLimit = :ignore WHERE id = :id")
+    suspend fun updateIgnoreConnectionLimit(id: Long, ignore: Boolean)
+
     /** Simultaneous streams the provider allows (Xtream `user_info.max_connections`); 0 = unknown. */
     @Query("UPDATE sources SET maxConnections = :maxConnections WHERE id = :id")
     suspend fun updateMaxConnections(id: Long, maxConnections: Int)

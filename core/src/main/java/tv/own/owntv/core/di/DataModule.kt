@@ -272,6 +272,20 @@ val dataModule = module {
     // App-wide "sync running" signal for the shell status pill (every sync funnels through SyncManager).
     // Which VOD category the user is looking at, so the lazy-catalogue drain serves it first.
     single { tv.own.owntv.core.sync.CatalogPriority(get(), get()) }
+    // settings, sourceDao, catalogBackfillDao — Home's "library still loading" note, in both apps.
+    single { tv.own.owntv.core.sync.LibraryLoading(get(), get(), get()) }
+    // The drain comes back soon after playback stops instead of waiting out its retry delay.
+    // createdAtStart: it has to be listening before the first playback closes.
+    single(createdAtStart = true) {
+        val scheduler: CatalogSyncScheduler = get()
+        tv.own.owntv.core.sync.BackfillResume(get(), { sourceId ->
+            scheduler.enqueueCatalogBackfill(
+                sourceId,
+                initialDelayMinutes = tv.own.owntv.core.sync.BackfillResume.RESUME_DELAY_MINUTES,
+                onlyIfWaiting = true,
+            )
+        })
+    }
     single { tv.own.owntv.core.sync.SyncActivityTracker() }
     // Same idea for EPG: EpgSyncWorker reports started/progress/finished here so the pill also reflects
     // guide/EPG downloads (manual resync from Settings, auto startup refresh, …).
@@ -293,6 +307,9 @@ val dataModule = module {
             stalkerEpg = get(),
         )
     }
+    single { tv.own.owntv.core.epg.ArchiveGuideFiller(get()) }
+    // channelDao, categoryDao, sourceDao, profileDao, customize, settings
+    single { tv.own.owntv.core.live.ChannelVersions(get(), get(), get(), get(), get(), get()) }
     // seriesDao, sourceDao, xtreamClient, userDataResolver, stalkerClient, stalkerAuthManager
     single { SeriesRepository(get(), get(), get(), get(), get(), get()) }
     // sourceDao, movieDao, seriesDao, progressDao

@@ -143,6 +143,7 @@ class SeriesRepository(
     private suspend fun fetchStalkerEpisodes(series: SeriesEntity, source: SourceEntity, remoteId: String): List<EpisodeEntity>? {
         val mac = source.mac?.let { StalkerClient.canonicalizeMac(it) } ?: return null
         val creds = source.stalkerCredentials(mac)
+        if (source.id in vodTreeSources) return fetchStalkerVodTree(series, mac, creds, remoteId)
         suspend fun seasonsFrom(type: String): List<StalkerClient.SeasonItem> {
             val seasons = ArrayList<StalkerClient.SeasonItem>()
             var page = 1
@@ -163,6 +164,7 @@ class SeriesRepository(
         }
         // A portal with no series section files its shows in the film catalogue, and lists their
         // seasons there too; the series listing is asked first, as it always was.
+        var filmListingFailure: Exception? = null
         val seasons = try {
             seasonsFrom("series")
         } catch (c: kotlinx.coroutines.CancellationException) {
@@ -170,7 +172,16 @@ class SeriesRepository(
         } catch (e: Exception) {
             android.util.Log.i(TAG, "stalker seasons via type=series failed remoteId=$remoteId (${e.message})")
             emptyList()
-        }.ifEmpty { seasonsFrom("vod") }
+        }.ifEmpty {
+            try {
+                seasonsFrom("vod")
+            } catch (c: kotlinx.coroutines.CancellationException) {
+                throw c
+            } catch (e: Exception) {
+                filmListingFailure = e
+                emptyList()
+            }
+        }
         val episodes = ArrayList<EpisodeEntity>()
         seasons.forEachIndexed { index, season ->
             val cmd = season.cmd ?: return@forEachIndexed
@@ -196,8 +207,83 @@ class SeriesRepository(
             TAG,
             "stalker episodes seriesId=${series.id} remoteId=$remoteId seasons=${seasons.size} episodes=${episodes.size}",
         )
+        if (episodes.isNotEmpty()) return episodes
+        // Some portals answer the film listing with seasons that carry neither an episode list nor a
+        // cmd: Ministra's three-level tree, where each season is one more request. Asked only when
+        // nothing playable came back, so every other portal costs nothing extra.
+        val tree = try {
+            fetchStalkerVodTree(series, mac, creds, remoteId)
+        } catch (c: kotlinx.coroutines.CancellationException) {
+            throw c
+        } catch (e: Exception) {
+            filmListingFailure?.let { throw it }
+            android.util.Log.i(TAG, "stalker vod tree failed remoteId=$remoteId (${e.message})")
+            emptyList()
+        }
+        if (tree.isNotEmpty()) vodTreeSources += source.id
+        return tree
+    }
+
+    /**
+     * A show from the film catalogue's three-level tree: seasons from `type=vod&movie_id=…&season_id=0`,
+     * then each season's episodes. These rows carry the episode's own title. Each stores a
+     * [StalkerClient.vodEpisodeRef]; its file is listed, and its URL minted, at play time.
+     */
+    private suspend fun fetchStalkerVodTree(
+        series: SeriesEntity, mac: String, creds: StalkerCredentials, remoteId: String,
+    ): List<EpisodeEntity> {
+        suspend fun <T> pages(fetch: suspend (Int) -> StalkerClient.Page<T>): List<T> {
+            val out = ArrayList<T>()
+            var page = 1
+            while (page <= MAX_SEASON_PAGES) {
+                val p = fetch(page)
+                out += p.items
+                val maxPer = p.maxPageItems.takeIf { it > 0 } ?: p.items.size
+                val total = if (maxPer > 0) (p.totalItems + maxPer - 1) / maxPer else 1
+                if (p.items.isEmpty() || page >= total) break
+                page++
+            }
+            return out
+        }
+        val seasons = pages { page ->
+            stalkerAuth.withAuthRetry(creds) { s -> stalkerClient.getVodSeasons(s.apiBase, mac, s.token, creds.userAgent, remoteId, page) }
+        }
+        val episodes = ArrayList<EpisodeEntity>()
+        seasons.forEachIndexed { index, season ->
+            val seasonNo = season.number ?: StalkerClient.seasonNumberOf(season.id, season.name) ?: (index + 1)
+            val rows = pages { page ->
+                stalkerAuth.withAuthRetry(creds) { s ->
+                    stalkerClient.getVodEpisodes(s.apiBase, mac, s.token, creds.userAgent, remoteId, season.id, page)
+                }
+            }
+            rows.forEachIndexed { i, ep ->
+                episodes.add(
+                    EpisodeEntity(
+                        seriesId = series.id,
+                        seasonId = null,
+                        seasonNumber = seasonNo,
+                        episodeNumber = ep.number ?: (i + 1),
+                        name = ep.title.orEmpty(),
+                        streamUrl = StalkerClient.vodEpisodeRef(remoteId, season.id, ep.id),
+                        containerExt = null,
+                        remoteId = ep.id,
+                    )
+                )
+            }
+        }
+        android.util.Log.i(
+            TAG,
+            "stalker vod tree episodes seriesId=${series.id} remoteId=$remoteId seasons=${seasons.size} episodes=${episodes.size}",
+        )
         return episodes
     }
+
+    /**
+     * Stalker playlists whose shows turned out to use the three-level tree. Asking the series and
+     * film listings first costs such a portal two wasted requests on every show opened; once one show
+     * has answered from the tree, the rest of the session goes there directly.
+     */
+    private val vodTreeSources: MutableSet<Long> = java.util.concurrent.ConcurrentHashMap.newKeySet()
 
     private companion object {
         const val TAG = "SeriesRepository"

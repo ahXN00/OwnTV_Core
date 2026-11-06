@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Vlastní obrázek</string>
     <string name="profiles_kids">Dětský profil</string>
     <string name="profiles_kids_description">Zjednodušené a bezpečné procházení</string>
+    <string name="profiles_allow_downloads">Povolit stahování</string>
+    <string name="profiles_allow_downloads_description">Vypnuto skryje u tohoto profilu všechna tlačítka stahování</string>
     <string name="profiles_remove_pin">Odstranit zámek PIN</string>
     <string name="profiles_no_pin">Tento profil se otevírá bez kódu PIN</string>
     <string name="profiles_change_pin">Změnit PIN (prázdné = ponechat)</string>
@@ -69,6 +71,13 @@
     <string name="launcher_recent_live_description">Nedávno sledované kanály živého vysílání</string>
     <string name="launcher_movie_type">Film</string>
     <string name="launcher_episode_number">Epizoda <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Načítání knihovny · zatím <xliff:g id="count">%1$s</xliff:g> titul</item>
+        <item quantity="few">Načítání knihovny · zatím <xliff:g id="count">%1$s</xliff:g> tituly</item>
+        <item quantity="many">Načítání knihovny · zatím <xliff:g id="count">%1$s</xliff:g> titulů</item>
+        <item quantity="other">Načítání knihovny · zatím <xliff:g id="count">%1$s</xliff:g> titulů</item>
+    </plurals>
+    <string name="home_library_loading_trending">Sekce Právě populární se zobrazí, jak se bude knihovna plnit.</string>
     <string name="home_no_preview">Zatím není k dispozici žádný náhled.</string>
     <string name="home_no_rows">Všechny řádky na domovské obrazovce jsou skryté.</string>
     <string name="home_enable_rows">Řádky znovu zapnete v Nastavení → Domovská obrazovka.</string>
@@ -197,6 +206,8 @@
     <string name="home_trending_pause">Pozastavit</string>
     <string name="home_trending_unavailable">Tato verze již není dostupná</string>
     <string name="recording_notification_title">Nahrávání</string>
+    <string name="auto_start_notification_channel">Automaticky spustit po probuzení</string>
+    <string name="auto_start_notification_text">OwnTV se otevře, když se televize probudí</string>
     <string name="recording_failed_no_space">Zastaveno: nedostatek místa</string>
     <string name="recording_failed_no_connection">Poskytovatel nemá volné připojení</string>
     <string name="recording_failed_clash">Připojení používalo jiné nahrávání</string>

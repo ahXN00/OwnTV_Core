@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">使用自己的图片</string>
     <string name="profiles_kids">儿童用户档案</string>
     <string name="profiles_kids_description">简洁、安全的浏览体验</string>
+    <string name="profiles_allow_downloads">允许下载</string>
+    <string name="profiles_allow_downloads_description">关闭后，此个人资料将隐藏所有下载按钮</string>
     <string name="profiles_remove_pin">移除 PIN 锁</string>
     <string name="profiles_no_pin">此用户档案无需 PIN 即可打开</string>
     <string name="profiles_change_pin">更改 PIN（留空则保留原 PIN）</string>
@@ -63,6 +65,10 @@
     <string name="launcher_recent_live_description">最近观看的直播频道</string>
     <string name="launcher_movie_type">电影</string>
     <string name="launcher_episode_number">第 <xliff:g id="episode">%1$d</xliff:g> 集</string>
+    <plurals name="home_library_loading">
+        <item quantity="other">正在加载你的媒体库 · 目前已有 <xliff:g id="count">%1$s</xliff:g> 部作品</item>
+    </plurals>
+    <string name="home_library_loading_trending">“当下热门”会随着媒体库加载逐步显示。</string>
     <string name="home_no_preview">暂时没有可预览的内容。</string>
     <string name="home_no_rows">所有主屏幕内容行均已隐藏。</string>
     <string name="home_enable_rows">请前往设置 → 主屏幕，重新开启内容行。</string>
@@ -170,6 +176,8 @@
     <string name="home_trending_pause">暂停</string>
     <string name="home_trending_unavailable">此版本已不可用</string>
     <string name="recording_notification_title">正在录制</string>
+    <string name="auto_start_notification_channel">唤醒时自动启动</string>
+    <string name="auto_start_notification_text">电视唤醒时将打开 OwnTV</string>
     <string name="recording_failed_no_space">已停止：存储空间不足</string>
     <string name="recording_failed_no_connection">运营商没有空闲连接</string>
     <string name="recording_failed_clash">另一项录制正在占用连接</string>

@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">自分の画像</string>
     <string name="profiles_kids">子ども用プロフィール</string>
     <string name="profiles_kids_description">シンプルで安全な閲覧</string>
+    <string name="profiles_allow_downloads">ダウンロードを許可</string>
+    <string name="profiles_allow_downloads_description">オフにすると、このプロフィールではダウンロードボタンがすべて非表示になります</string>
     <string name="profiles_remove_pin">PINロックを解除</string>
     <string name="profiles_no_pin">このプロフィールはPINなしで開きます</string>
     <string name="profiles_change_pin">PINを変更（空欄＝変更しない）</string>
@@ -63,6 +65,10 @@
     <string name="launcher_recent_live_description">最近視聴したライブチャンネル</string>
     <string name="launcher_movie_type">映画</string>
     <string name="launcher_episode_number">エピソード <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="other">ライブラリを読み込み中 · これまでに <xliff:g id="count">%1$s</xliff:g> 件</item>
+    </plurals>
+    <string name="home_library_loading_trending">「現在のトレンド」はライブラリの読み込みが進むと表示されます。</string>
     <string name="home_no_preview">プレビューできるコンテンツはまだありません。</string>
     <string name="home_no_rows">ホーム画面の行はすべて非表示です。</string>
     <string name="home_enable_rows">設定 → ホーム画面で行を再度オンにしてください。</string>
@@ -170,6 +176,8 @@
     <string name="home_trending_pause">一時停止</string>
     <string name="home_trending_unavailable">このバージョンは利用できなくなりました</string>
     <string name="recording_notification_title">録画中</string>
+    <string name="auto_start_notification_channel">スリープ解除時に自動で開く</string>
+    <string name="auto_start_notification_text">テレビが復帰すると OwnTV が開きます</string>
     <string name="recording_failed_no_space">停止しました: 空き容量がありません</string>
     <string name="recording_failed_no_connection">プロバイダーに空き接続がありません</string>
     <string name="recording_failed_clash">別の録画が接続を使用していました</string>

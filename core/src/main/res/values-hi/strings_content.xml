@@ -75,6 +75,11 @@
     <string name="content_remove_from_category">इस श्रेणी से हटाएँ</string>
     <string name="content_download">डाउनलोड करें</string>
     <string name="content_download_all_episodes">सभी episodes डाउनलोड करें</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> एपिसोड डाउनलोड करें?</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> एपिसोड डाउनलोड करें?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">ये इस डिवाइस पर सेव होते हैं और स्टोरेज की जगह लेते हैं।</string>
     <string name="content_play">चलाएँ</string>
     <string name="content_favorited">पसंदीदा</string>
     <string name="content_favorite">पसंदीदा बनाएँ</string>
@@ -82,9 +87,7 @@
     <string name="content_episodes">episodes</string>
     <string name="content_oldest_first">सबसे पुराने पहले</string>
     <string name="content_newest_first">सबसे नए पहले</string>
-    <string name="content_play_external">बाहरी प्लेयर से चलाएँ</string>
     <string name="content_delete_subtitles">OpenSub subtitles हटाएँ</string>
-    <string name="content_tmdb_details">TMDB विवरण</string>
     <string name="content_play_trailer">ट्रेलर चलाएँ</string>
     <string name="content_refetch_tmdb">TMDB विवरण फिर से प्राप्त करें</string>
     <string name="content_set_tmdb_name">TMDB नाम सेट करें</string>
@@ -134,6 +137,9 @@
     <string name="content_catchup_jump_prompt">देखना शुरू करने का समय चुनें। गाइड की जरूरत नहीं।</string>
     <string name="content_catchup_jump_exact">सटीक समय चुनें…</string>
     <string name="content_catchup_jump_hint">दिन, घंटे या मिनट पर OK दबाएँ, ऊपर-नीचे से बदलें, फिर दोबारा OK दबाएँ।</string>
+    <string name="content_catchup_jump_programme_start">“<xliff:g id="title">%1$s</xliff:g>” की शुरुआत</string>
+    <string name="content_catchup_jump_programme_start_untitled">कार्यक्रम की शुरुआत</string>
+    <string name="content_catchup_jump_programme_start_at"><xliff:g id="time">%1$s</xliff:g> पर शुरू हुआ</string>
     <string name="content_epg_match_prompt">“<xliff:g id="channel">%1$s</xliff:g>” के लिए कार्यक्रम गाइड का चैनल चुनें।</string>
     <string name="content_epg_match_prompt_current">“<xliff:g id="channel">%1$s</xliff:g>” के लिए कार्यक्रम गाइड का चैनल चुनें। वर्तमान: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">कार्यक्रम गाइड चैनल खोजें…</string>
@@ -282,7 +288,6 @@
     <string name="content_search_in"><xliff:g id="name">%1$s</xliff:g> में खोजें</string>
     <string name="content_live_guide_view">गाइड व्यू</string>
     <string name="content_key_watch">देखें</string>
-    <string name="content_key_schedule">शेड्यूल</string>
     <string name="content_key_options">विकल्प</string>
     <string name="content_live_groups">समूह</string>
     <string name="content_menu_group_watch">देखें</string>
@@ -347,6 +352,9 @@
     <string name="content_sort_date_added_hint">सबसे नए पहले</string>
     <string name="content_menu_group_library">लाइब्रेरी</string>
     <string name="content_menu_group_details">विवरण</string>
+    <string name="content_programme_details">कार्यक्रम का विवरण</string>
+    <string name="content_programmes_earlier">पहले</string>
+    <string name="content_programmes_later">बाद में</string>
     <string name="content_movie_details">फ़िल्म का विवरण</string>
     <string name="content_series_details">सीरीज़ का विवरण</string>
     <plurals name="content_vod_title_count">

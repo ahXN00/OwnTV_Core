@@ -192,6 +192,8 @@ internal class SyncSupport(
         type: MediaType,
         parsed: List<tv.own.owntv.core.parser.XtCategory>,
         stats: SyncStatsCollector,
+        /** Categories that come back as new rows without being new to the user: not counted, not hidden. */
+        quietRemoteIds: Set<String> = emptySet(),
     ): CategoryRefresh {
         val start = SystemClock.elapsedRealtime()
         // s.lastSyncAt never changes during a sync run (SyncManager stamps it only after the syncer
@@ -222,9 +224,10 @@ internal class SyncSupport(
         )
         // Everything is technically "new" on a fresh source's first sync — neither the hide-by-default
         // preference nor the sync summary is meaningful there, only on a genuine resync.
-        if (!freshSource && upsert.newRows.isNotEmpty()) {
-            stats.processedCounts.merge(CATEGORIES_ADDED_KEY, upsert.newRows.size, Int::plus)
-            applyHideNewCategoriesDefault(s.id, type, upsert.newRows)
+        val announced = upsert.newRows.filter { it.remoteId !in quietRemoteIds }
+        if (!freshSource && announced.isNotEmpty()) {
+            stats.processedCounts.merge(CATEGORIES_ADDED_KEY, announced.size, Int::plus)
+            applyHideNewCategoriesDefault(s.id, type, announced)
         }
         // Ids come straight from the upsert (existing rows + returned insert rowids) — the old
         // second existingCategoriesByRemoteId round-trip only re-fetched just-upserted rows.
@@ -232,6 +235,29 @@ internal class SyncSupport(
             Log.d(TAG, "refreshCategories end sourceId=${s.id} type=$type mapped=${it.idsByRemoteId.size} totalMs=${SystemClock.elapsedRealtime() - start}")
         }
     }
+
+    suspend fun categoryRemoteIds(sourceId: Long, type: MediaType): Set<String> =
+        categoryDao.remoteIdsForSource(sourceId, type).toSet()
+
+    suspend fun categoryIdsByRemoteId(sourceId: Long, type: MediaType, remoteIds: List<String>): Map<String, Long> =
+        existingCategoriesByRemoteId(sourceId, type, remoteIds).mapValues { it.value.id }
+
+    /**
+     * The [type] category with [remoteId], created when there is none yet with the name and position
+     * of the category [likeId] — the same portal category, seen from the other tab. Null when [likeId]
+     * is gone too; the rows then land in that tab's "All" only.
+     */
+    suspend fun ensureCategoryLike(sourceId: Long, type: MediaType, remoteId: String, likeId: Long?): Long? {
+        existingCategoriesByRemoteId(sourceId, type, listOf(remoteId))[remoteId]?.let { return it.id }
+        val like = likeId?.let { categoryDao.getById(it) } ?: return null
+        val id = categoryDao.insertAll(
+            listOf(CategoryEntity(sourceId = sourceId, mediaType = type, name = like.name, remoteId = remoteId, sortOrder = like.sortOrder)),
+        ).firstOrNull() ?: -1L
+        return if (id > 0) id else existingCategoriesByRemoteId(sourceId, type, listOf(remoteId))[remoteId]?.id
+    }
+
+    /** A source's film categories that hold no film. Returns how many went. */
+    suspend fun deleteEmptyFilmCategories(sourceId: Long): Int = categoryDao.deleteEmptyMovieCategories(sourceId)
 
     private suspend fun existingCategoriesByRemoteId(sourceId: Long, type: MediaType, remoteIds: List<String>): Map<String, CategoryEntity> =
         remoteIds.distinct().chunked(QUERY_CHUNK).flatMap { categoryDao.findByRemoteIds(sourceId, type, it) }

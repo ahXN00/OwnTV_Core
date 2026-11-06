@@ -99,6 +99,15 @@
     <string name="content_remove_from_category">إزالة من هذه الفئة</string>
     <string name="content_download">تنزيل</string>
     <string name="content_download_all_episodes">تنزيل جميع الحلقات</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="zero">تنزيل <xliff:g id="count">%1$d</xliff:g> حلقة؟</item>
+        <item quantity="one">تنزيل <xliff:g id="count">%1$d</xliff:g> حلقة؟</item>
+        <item quantity="two">تنزيل <xliff:g id="count">%1$d</xliff:g> حلقتين؟</item>
+        <item quantity="few">تنزيل <xliff:g id="count">%1$d</xliff:g> حلقات؟</item>
+        <item quantity="many">تنزيل <xliff:g id="count">%1$d</xliff:g> حلقة؟</item>
+        <item quantity="other">تنزيل <xliff:g id="count">%1$d</xliff:g> حلقة؟</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">تُحفَظ على هذا الجهاز وتشغل مساحة من التخزين.</string>
     <string name="content_play">تشغيل</string>
     <string name="content_favorited">مضاف إلى المفضّلة</string>
     <string name="content_favorite">إضافة إلى المفضّلة</string>
@@ -106,9 +115,7 @@
     <string name="content_episodes">الحلقات</string>
     <string name="content_oldest_first">الأقدم أولًا</string>
     <string name="content_newest_first">الأحدث أولًا</string>
-    <string name="content_play_external">تشغيل باستخدام مشغّل خارجي</string>
     <string name="content_delete_subtitles">حذف ترجمات OpenSub</string>
-    <string name="content_tmdb_details">تفاصيل TMDB</string>
     <string name="content_play_trailer">تشغيل الإعلان التشويقي</string>
     <string name="content_refetch_tmdb">إعادة جلب تفاصيل TMDB</string>
     <string name="content_set_tmdb_name">تعيين اسم TMDB</string>
@@ -162,6 +169,9 @@
     <string name="content_catchup_jump_prompt">اختر وقتًا لبدء المشاهدة منه. لا حاجة إلى دليل.</string>
     <string name="content_catchup_jump_exact">اختيار وقت محدد…</string>
     <string name="content_catchup_jump_hint">اضغط OK على اليوم أو الساعة أو الدقيقة، وغيّرها بالأعلى والأسفل، ثم اضغط OK مرة أخرى.</string>
+    <string name="content_catchup_jump_programme_start">بداية «<xliff:g id="title">%1$s</xliff:g>»</string>
+    <string name="content_catchup_jump_programme_start_untitled">بداية البرنامج</string>
+    <string name="content_catchup_jump_programme_start_at">بدأ الساعة <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">اختر قناة دليل البرامج المطابقة لـ «<xliff:g id="channel">%1$s</xliff:g>».</string>
     <string name="content_epg_match_prompt_current">اختر قناة دليل البرامج المطابقة لـ «<xliff:g id="channel">%1$s</xliff:g>». المطابقة الحالية: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">بحث في قنوات دليل البرامج…</string>
@@ -322,7 +332,6 @@
     <string name="content_search_in">ابحث في <xliff:g id="name">%1$s</xliff:g></string>
     <string name="content_live_guide_view">عرض الدليل</string>
     <string name="content_key_watch">مشاهدة</string>
-    <string name="content_key_schedule">الجدول</string>
     <string name="content_key_options">الخيارات</string>
     <string name="content_live_groups">المجموعات</string>
     <string name="content_menu_group_watch">مشاهدة</string>
@@ -399,6 +408,9 @@
     <string name="content_sort_date_added_hint">الأحدث أولًا</string>
     <string name="content_menu_group_library">المكتبة</string>
     <string name="content_menu_group_details">التفاصيل</string>
+    <string name="content_programme_details">تفاصيل البرنامج</string>
+    <string name="content_programmes_earlier">في وقت سابق</string>
+    <string name="content_programmes_later">لاحقًا</string>
     <string name="content_movie_details">تفاصيل الفيلم</string>
     <string name="content_series_details">تفاصيل المسلسل</string>
     <plurals name="content_vod_title_count">

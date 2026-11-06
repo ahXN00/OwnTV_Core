@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Je eigen foto</string>
     <string name="profiles_kids">Kinderprofiel</string>
     <string name="profiles_kids_description">Vereenvoudigd en veilig bladeren</string>
+    <string name="profiles_allow_downloads">Downloads toestaan</string>
+    <string name="profiles_allow_downloads_description">Uit verbergt alle downloadknoppen voor dit profiel</string>
     <string name="profiles_remove_pin">PIN-vergrendeling verwijderen</string>
     <string name="profiles_no_pin">Dit profiel wordt zonder PIN geopend</string>
     <string name="profiles_change_pin">PIN wijzigen (leeg = behouden)</string>
@@ -65,6 +67,11 @@
     <string name="launcher_recent_live_description">Onlangs bekeken livezenders</string>
     <string name="launcher_movie_type">Film</string>
     <string name="launcher_episode_number">Aflevering <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Je bibliotheek wordt geladen · tot nu toe <xliff:g id="count">%1$s</xliff:g> titel</item>
+        <item quantity="other">Je bibliotheek wordt geladen · tot nu toe <xliff:g id="count">%1$s</xliff:g> titels</item>
+    </plurals>
+    <string name="home_library_loading_trending">Nu populair verschijnt naarmate je bibliotheek zich vult.</string>
     <string name="home_no_preview">Nog geen voorbeeld beschikbaar.</string>
     <string name="home_no_rows">Alle rijen op het startscherm zijn verborgen.</string>
     <string name="home_enable_rows">Schakel rijen weer in via Instellingen → Startscherm.</string>
@@ -179,6 +186,8 @@
     <string name="home_trending_pause">Pauzeren</string>
     <string name="home_trending_unavailable">Deze versie is niet meer beschikbaar</string>
     <string name="recording_notification_title">Opnemen</string>
+    <string name="auto_start_notification_channel">Automatisch starten bij ontwaken</string>
+    <string name="auto_start_notification_text">OwnTV opent wanneer de tv ontwaakt</string>
     <string name="recording_failed_no_space">Gestopt: geen ruimte meer</string>
     <string name="recording_failed_no_connection">Geen vrije verbinding van je provider</string>
     <string name="recording_failed_clash">Een andere opname gebruikte de verbinding</string>

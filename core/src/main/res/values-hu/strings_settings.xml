@@ -223,8 +223,9 @@
     <string name="settings_ch_paging">Távirányító-gyorsbillentyűk</string>
     <string name="settings_ch_paging_description">Rendelj műveleteket a szabad távirányítógombokhoz, miközben a fontos navigáció védett marad</string>
     <string name="settings_content_menus_title">Hosszú nyomásos menük</string>
-    <string name="settings_content_menus_description">Rendezd át a műveleteket a csatorna-, film-, sorozat- és epizódmenükben</string>
-    <string name="settings_content_menus_hint">Tartsd lenyomva az OK-t egy műveleten a felvételéhez, majd a Fel és Le gombokkal mozgasd. Az OK ismételt megnyomásával leteszed.</string>
+    <string name="settings_content_menus_description">Rendezd át vagy rejtsd el a műveleteket a csatorna-, film-, sorozat- és epizódmenükben</string>
+    <string name="settings_content_menus_hint">Egy műveleten az OK megnyomásával megjelenítheted vagy elrejtheted. Az OK lenyomva tartásával felveszed, a Fel és Le gombokkal mozgatod, az OK ismételt megnyomásával leteszed.</string>
+    <string name="settings_content_menus_note">Egyes műveletek csak ott jelennek meg, ahol értelmük van.</string>
     <string name="settings_browsing_lists">Böngészés és listák</string>
     <string name="settings_browsing_description">Az utolsó kategória és az utolsó elem megjegyzése az Élő TV-ben, a Filmekben és a Sorozatokban</string>
     <string name="settings_home_root">Kezdőképernyő</string>
@@ -273,13 +274,17 @@
     <string name="settings_live_preview_description">Csatorna automatikus lejátszása, amikor ráfókuszálsz</string>
     <string name="settings_preview_audio">Előnézet hangja</string>
     <string name="settings_preview_audio_description">Hang lejátszása az élő előnézetben</string>
+    <string name="settings_preview_on_ok">Az OK először előnézetet mutat</string>
+    <string name="settings_preview_on_ok_description">Az OK az előnézetben játssza le a csatornát, egy újabb OK teljes képernyőn nyitja meg</string>
     <string name="settings_mini_player_root">Mini lejátszó</string>
     <string name="settings_mini_player_root_description">A dokkolt mini lejátszó mérete és pozíciója</string>
     <string name="settings_pip_on_leave">Kép a képben az alkalmazás elhagyásakor</string>
     <string name="settings_pip_on_leave_description">A videó egy kis ablakban folytatódik, ha megnyomod a Kezdőlap gombot</string>
     <string name="settings_prefer_sdr_description">Ha egy stream SDR és HDR képet is kínál, az SDR kép játszódik le: olyan tévéhez, amelyen a HDR fakónak vagy túl sötétnek tűnik. A csak HDR-es stream HDR marad. Csak ExoPlayer.</string>
-    <string name="settings_auto_frame_rate">Automatikus képkockasebesség</string>
-    <string name="settings_auto_frame_rate_description">Teljes képernyőn a TV frissítési frekvenciáját a videóhoz igazítja (24/25/50/60 fps) élő TV és VOD esetén is, kilépéskor pedig visszaállítja. Kapcsold ki, ha a TV-d vagy a vevőd minden csatornaváltásnál zajosan újraegyezteti a HDMI-t.</string>
+    <string name="settings_auto_frame_rate_films">Automatikus képkockasebesség filmekhez és sorozatokhoz</string>
+    <string name="settings_auto_frame_rate_films_description">Teljes képernyőn a TV frissítési frekvenciáját a filmhez vagy epizódhoz igazítja (24/25/50/60 fps), kilépéskor pedig visszaállítja.</string>
+    <string name="settings_auto_frame_rate_live">Automatikus képkockasebesség élő TV-hez</string>
+    <string name="settings_auto_frame_rate_live_description">Teljes képernyőn a TV frissítési frekvenciáját a csatornához igazítja (25/50/60 fps), kilépéskor pedig visszaállítja. Kapcsold ki, ha a TV-d vagy a vevőd minden csatornaváltásnál zajosan újraegyezteti a HDMI-t.</string>
     <string name="settings_afr_pause">Szünet a kijelzőváltás alatt</string>
     <string name="settings_afr_pause_description">Csak filmeknél. Ha a tévének újra kell szinkronizálnia egy új kijelzőmódra, a film ennyit vár, hogy az eleje ne vesszen el a fekete képben. Zökkenőmentes váltásnál sosem áll meg.</string>
     <string name="settings_afr_resolution">Felbontás igazítása</string>
@@ -329,6 +334,11 @@
     <string name="settings_check_updates_description">Szerezd meg a legújabb verziót a GitHub Releases oldalról</string>
     <string name="settings_update_startup">Frissítés keresése induláskor</string>
     <string name="settings_update_startup_description">Új verzió keresése az alkalmazás megnyitásakor</string>
+    <string name="settings_auto_start_boot">Automatikus indítás bekapcsoláskor</string>
+    <string name="settings_auto_start_boot_description">Az OwnTV megnyitása a tévé bekapcsolásakor</string>
+    <string name="settings_auto_start_wake">Automatikus indítás ébredéskor</string>
+    <string name="settings_auto_start_wake_description">Az OwnTV megnyitása, amikor a tévé felébred alvó módból</string>
+    <string name="settings_auto_start_needs_overlay">Szükséges: „Megjelenítés más alkalmazások felett”</string>
     <string name="settings_about">Névjegy</string>
     <string name="settings_live_latency">Élő késleltetés</string>
     <string name="settings_no_settings_match">Egyetlen beállítás sem egyezik ezzel: „<xliff:g id="query">%1$s</xliff:g>”</string>
@@ -438,6 +448,7 @@
     <string name="settings_search_keywords_startup">indítás megnyitás nyitóképernyő</string>
     <string name="settings_search_keywords_updates">github kiadás verzió</string>
     <string name="settings_search_keywords_update_auto">automatikus frissítés új verzió</string>
+    <string name="settings_search_keywords_auto_start">indítás bekapcsolás ébredés alvás készenlét automatikus megnyitás</string>
     <string name="settings_language_default">Alapértelmezett (angol)</string>
     <string name="settings_language_device">Eszköz nyelve</string>
     <string name="settings_language_arabic">Arab</string>
@@ -646,8 +657,13 @@
     <string name="settings_history_all">összes</string>
     <string name="settings_browsing_last_category">Utolsó kategória megjegyzése</string>
     <string name="settings_browsing_last_category_description">A szakasz azon a kategórián nyíljon meg, ahol elhagytad, ne az Összesen.</string>
+    <string name="settings_guide_follows_live">A Műsorújság követi az Élő TV-t</string>
+    <string name="settings_guide_follows_live_description">A Műsorújság az Élő TV kategóriájában nyíljon meg.</string>
+    <string name="settings_help_guide_follows_live">Be: a Műsorújság az Élő TV által megjegyzett kategóriában nyílik meg, és a Műsorújságban választott kategória az Élő TV kategóriája is lesz. Ki: a Műsorújság saját kategóriát tart meg.</string>
     <string name="settings_browsing_last_item">Utolsó elem megjegyzése</string>
     <string name="settings_browsing_last_item_description">Minden kategória megőrzi a saját görgetési pozícióját ahelyett, hogy a tetejéről indulna. Az Élő TV az utoljára fókuszált csatornát is visszaállítja.</string>
+    <string name="settings_browsing_live_categories">Élő TV-kategóriák</string>
+    <string name="settings_browsing_live_categories_description">Megjelennek az Élő TV-ben, a műsorújságban, a lejátszóban és a Többnézetben. Ha az Összes csatorna ki van kapcsolva, az Élő TV az első kategóriádon nyílik meg, vagy a Kedvencekben, ha nincs kategóriád.</string>
     <string name="settings_catchup_player">Visszanézés lejátszása ebben</string>
     <string name="settings_customize_title">Kategóriák és elemek testreszabása</string>
     <string name="settings_customize_pin_locked">Ez a képernyő PIN-kóddal védett.</string>
@@ -754,6 +770,8 @@
     <string name="settings_sources_clean_names_custom">Ezeket is törölje</string>
     <string name="settings_sources_clean_names_custom_hint">Pontosvesszővel (;) elválasztott szavak, pl. VIP; Backup</string>
     <string name="settings_sources_retest">Újratesztelés</string>
+    <string name="settings_sources_ignore_limit">Kapcsolatkorlát figyelmen kívül hagyása</string>
+    <string name="settings_sources_ignore_limit_on">A kapcsolatkorlát figyelmen kívül marad: a Többnézet és a felvételek több streamet nyithatnak, mint amennyit ez a lejátszási lista jelez. Ha a szolgáltató elutasít egy streamet, azt továbbra is jelezzük.</string>
     <string name="settings_sources_probe_title">Teszteli ezt a lejátszási listát?</string>
     <string name="settings_sources_probe_warning">Sok szolgáltató soha nem árulja el, hány csatornát nézhet egyszerre, ezért az OwnTV úgy deríti ki, hogy megnyit néhányat, és megnézi, melyik marad életben. Minden, ami most szól, le fog állni, és ez akár két percig is eltarthat.</string>
     <string name="settings_sources_probe_running">Annak ellenőrzése, hány csatornát enged ez a szolgáltató… (<xliff:g id="current">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g>)</string>
@@ -905,6 +923,7 @@
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> forrás kimaradt, mert a lejátszásilista-típusuk nem támogatott.</item>
     </plurals>
     <string name="settings_backup_export_error">Az exportálás nem sikerült.</string>
+    <string name="settings_backup_no_file_app">Ezen a telefonon egyik alkalmazás sem tudja menteni a fájlt. Használd inkább a Megosztást.</string>
     <string name="settings_backup_read_error">A mentésfájl nem olvasható.</string>
     <string name="settings_backup_import_error">Az importálás nem sikerült.</string>
     <string name="settings_backup_invalid_locale">Ez a mentés nem támogatott alkalmazásnyelvet tartalmazott. A visszaállítás sikerült, de a jelenlegi nyelved megmaradt.</string>
@@ -1398,7 +1417,7 @@
     <string name="settings_line_guide_width">Csatornalista és idővonal</string>
     <string name="settings_line_browsing">Az utolsó kategória és elem megjegyzése</string>
     <string name="settings_line_home">Sorok kiválasztása, sorrendje és szűrése</string>
-    <string name="settings_line_content_menus">Az egyes menük műveleteinek átrendezése</string>
+    <string name="settings_line_content_menus">Az egyes menük műveleteinek átrendezése vagy elrejtése</string>
     <string name="settings_line_remote_shortcuts">Szabad távirányító-gombok kiosztása</string>
     <string name="settings_line_customize">Elrejtés és megjelenítés, átnevezés és sorrend</string>
     <string name="settings_line_metadata">Plakátok, cselekmény, szereplők és értékelések filmekhez és sorozatokhoz</string>
@@ -1411,6 +1430,7 @@
     <string name="settings_line_dns">Egyéni DNS-kiszolgáló</string>
     <string name="settings_line_quick_live_preview">A kijelölt csatorna lejátszása az élő tévében</string>
     <string name="settings_line_preview_sound">Hang az élő előnézetben</string>
+    <string name="settings_line_preview_on_ok">Előbb előnézet, aztán teljes képernyő</string>
     <string name="settings_line_quick_channel_numbers">Hangoláshoz írjon be egy számot a távirányítón</string>
     <string name="settings_line_prefer_sdr">SDR, ha a stream mindkettőt kínálja</string>
     <string name="settings_line_quick_autoplay">A következő rész magától indul</string>
@@ -1491,6 +1511,8 @@
     <string name="settings_help_startup">Amit az OwnTV induláskor mutat: a kezdőlap, a legutóbb nézett csatorna, a kedvencek vagy egy választott csatorna.</string>
     <string name="settings_help_check_updates">Most megkeresi a GitHubon az OwnTV újabb verzióját, és felajánlja a telepítését. A lejátszási listák, kedvencek és beállítások változatlanok maradnak.</string>
     <string name="settings_help_update_startup">Az OwnTV minden indításakor új verziót keres, és szól, ha van. Kérdezés nélkül semmi sem települ.</string>
+    <string name="settings_help_auto_start_boot">Magától megnyitja az OwnTV-t, amint a tévé elindult, az Alkalmazás indulása beállításban választott képernyőn. Az Android csak akkor engedi, hogy egy alkalmazás magától megnyíljon, ha megjelenhet más alkalmazások felett, ezért bekapcsoláskor megnyílik ennek az engedélynek a képernyője. Egyes tévék nem kínálják, és ott az automatikus indítás nem működhet.</string>
+    <string name="settings_help_auto_start_wake">Megnyitja az OwnTV-t minden alkalommal, amikor a tévé felébred alvó módból, akkor is, ha egy másik alkalmazás miatt ébresztetted fel. Ha az Alkalmazás indulása egy csatornát nyit meg, minden ébredés elindítja azt az adást. Amíg ez be van kapcsolva, az OwnTV egy kis háttérszolgáltatást futtat néma értesítéssel. Ahogy a bekapcsoláskori indításnak, ennek is engedély kell a más alkalmazások feletti megjelenítéshez.</string>
     <string name="settings_help_dns">A szolgáltató címeit a választott DNS-kiszolgálóval keresi fel a hálózat saját kiszolgálója helyett — hasznos, ha a hálózat letiltja vagy átirányítja őket.</string>
     <string name="settings_help_live_engine">Az ExoPlayer sokkal gyorsabban nyitja meg a csatornákat, és csak ez tud élő feliratot. Az mpv lejátssza azokat a csatornákat is, amelyeket az ExoPlayer nem, néhány szokatlan hanggal együtt. A kombinált lehetőségek a másik lejátszót próbálják, ha az első elakad.</string>
     <string name="settings_help_hw">A tévé hardveres dekóderét használja: akadásmentes 4K és kevesebb hő. Csak akkor kapcsolja ki, ha egyes adások akadoznak vagy kockásodnak; ekkor a szoftveres dekóder végzi a munkát.</string>
@@ -1501,6 +1523,7 @@
     <string name="settings_help_sub_lang">Az ezen a nyelven elérhető feliratok maguktól bekapcsolnak, ha az adásban vannak. Ellenkező esetben kikapcsolva maradnak, amíg nem választ sávot a lejátszóban.</string>
     <string name="settings_help_live_preview">A kijelölt csatorna az élő tévé listája melletti előnézetben megy, így megnyitás előtt látja, mi megy rajta. Olyan elrendezés kell hozzá, amelyben van hely az előnézetnek.</string>
     <string name="settings_help_preview_audio">Az előnézet képe mellett a hangját is lejátssza. Kikapcsolva csendes marad a böngészés.</string>
+    <string name="settings_help_preview_on_ok">Válassza ki, hol játssza le az OK a csatornát először az előnézetben, és hol nyitja meg ugyanazon a csatornán egy újabb OK teljes képernyőn. Az élő tévében az előnézet ekkor ezen a csatornán marad, amíg böngészik. Ahol ki van kapcsolva, az OK azonnal teljes képernyőn nyitja meg a csatornát, és az előnézet követi a kijelölést.</string>
     <string name="settings_help_timeshift_window">Mennyit tud visszamenni az Élő tévé szüneteltetése és visszatekerése visszanézés nélküli csatornán. A hosszabb több tartalmat tárol a készüléken.</string>
     <string name="settings_help_resume">A Kérdezzen felajánlja a Folytatást vagy az Elölről kezdést, ha a filmnek vagy résznek van mentett pozíciója. A Mindig folytassa ott folytatja, ahol abbahagyta; a Soha ne folytassa az elejéről indít.</string>
     <string name="settings_help_mini">A kis lejátszó, amely böngészés közben egy sarokban tovább viszi a csatornát. Válassza ki a méretét és a sarkot.</string>
@@ -1587,6 +1610,8 @@
     <string name="settings_remote_scan">Olvasd be vagy nyisd meg böngészőben</string>
     <string name="settings_remote_or_open">vagy nyisd meg</string>
     <string name="settings_remote_details_note">Az adatok itt jelennek meg; az importálást a távirányítóval indítod.</string>
+    <string name="settings_remote_edit_note">A módosítások kitöltik a szerkesztőképernyőt; a Mentés gombot a távirányítóval nyomod meg.</string>
+    <string name="settings_help_edit_from_phone">Megnyitja ezt a lejátszási listát egy böngészőben egy telefonon, táblagépen vagy számítógépen ugyanazon a Wi-Fi-n. A jelszavak, MAC-címek és M3U-listacímek ott soha nem jelennek meg: hagyd őket üresen a megtartásukhoz. Amit elküldesz, kitölti ezt a képernyőt, és semmi sem változik, amíg meg nem nyomod a Mentés gombot.</string>
     <string name="settings_key_stop_back">Leállítás és vissza</string>
     <string name="settings_source_type">Típus</string>
     <string name="settings_line_source_type">Xtream, M3U vagy Stalker-portál</string>

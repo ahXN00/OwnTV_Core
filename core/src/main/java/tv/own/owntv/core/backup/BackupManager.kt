@@ -107,7 +107,7 @@ class BackupManager(
             val seal: ((String) -> JSONObject)? = key?.let { k -> { plain -> BackupCrypto.encrypt(k, plain) } }
 
             val root = JSONObject().apply {
-                put("version", 26) // v26: a Move keeps only the moved items' positions (customizations "catPos" for categories, userData "order" rows for items); older files saved every item of a list, so their folder item orders and category orders ("catOrder") are dropped on import, Favorites kept. v25: "sportsConfigs" — each profile's Settings → Sports blob ({ "<profileId>": { ... } }: followed leagues and teams, filters, alerts, remembered channels by portable name); a file without it restores with the defaults. v24: "preferredLanguages" — each profile's preferred audio/subtitle language ({ "<profileId>": { "a", "s" } }); the shared pref_audio_lang/pref_sub_lang settings stay as the fallback for a profile with no entry. v23: "playbackQuirks" — what a stream needs, shared by every profile (sound-only marks and audio delays; the engine pins stay in compatMode so older readers still get them), and playbackPrefs carry the remembered track languages ("al"/"sl"). A playbackPrefs "d" from an older file restores into the shared delay. v22: sources carry the measured stream limit (maxConnections + maxConnectionsProbedAt), because measuring it costs minutes and interrupts playback and the answer belongs to the account, not the device. v21: "tombstones" — the user data the user DELETED, so a merge (restore or local sync) does not reinstate it. Older readers ignore the block and behave exactly as they do today. v20: playbackPrefs carry the per-item A/V-sync offset. v19: sources carry the per-playlist Live TV engine and Live latency overrides. v18: per-profile specific-channel startup targets. v17: startupModes/customizePins moved SOURCES→SETTINGS (readers accept both); PIN hashes and legacy URL-shaped player keys are encrypted-only; sources carry preferHls/livePrerollSecs/hlsSupported; source-keyed blocks scoped to the ticked profiles' sources. v16: optional Stalker serial/device IDs/signature. v15: custom category membership rides userData as kind "member"; customCategories blobs pass through unremapped. v14: .own container (wallpaper rides along). v13: sources.syncLive/Movies/Series. v12: per-profile OpenSubtitles login (encrypted-only). v11: profile-scoped export. v10: sources.mac. v9: custom TMDB names, encrypted TMDB key
+                put("version", 26) // v26: "downloadsAllowed" — each profile's Allow downloads switch ({ "<profileId>": false }); a profile with no entry may download. "lastCategories" — each profile's remembered Live TV / Movies / Series category in portable form ({ "<profileId>": { "last_live_category": "FAV", … } }); the device-wide last_*_category values in "settings" are no longer written and, from older files, restore as the fallback for profiles with none of their own. Sources carry "ignoreConnectionLimit" (absent = off). A Move keeps only the moved items' positions (customizations "catPos" for categories, userData "order" rows for items); older files saved every item of a list, so their folder item orders and category orders ("catOrder") are dropped on import, Favorites kept. v25: "sportsConfigs" — each profile's Settings → Sports blob ({ "<profileId>": { ... } }: followed leagues and teams, filters, alerts, remembered channels by portable name); a file without it restores with the defaults. v24: "preferredLanguages" — each profile's preferred audio/subtitle language ({ "<profileId>": { "a", "s" } }); the shared pref_audio_lang/pref_sub_lang settings stay as the fallback for a profile with no entry. v23: "playbackQuirks" — what a stream needs, shared by every profile (sound-only marks and audio delays; the engine pins stay in compatMode so older readers still get them), and playbackPrefs carry the remembered track languages ("al"/"sl"). A playbackPrefs "d" from an older file restores into the shared delay. v22: sources carry the measured stream limit (maxConnections + maxConnectionsProbedAt), because measuring it costs minutes and interrupts playback and the answer belongs to the account, not the device. v21: "tombstones" — the user data the user DELETED, so a merge (restore or local sync) does not reinstate it. Older readers ignore the block and behave exactly as they do today. v20: playbackPrefs carry the per-item A/V-sync offset. v19: sources carry the per-playlist Live TV engine and Live latency overrides. v18: per-profile specific-channel startup targets. v17: startupModes/customizePins moved SOURCES→SETTINGS (readers accept both); PIN hashes and legacy URL-shaped player keys are encrypted-only; sources carry preferHls/livePrerollSecs/hlsSupported; source-keyed blocks scoped to the ticked profiles' sources. v16: optional Stalker serial/device IDs/signature. v15: custom category membership rides userData as kind "member"; customCategories blobs pass through unremapped. v14: .own container (wallpaper rides along). v13: sources.syncLive/Movies/Series. v12: per-profile OpenSubtitles login (encrypted-only). v11: profile-scoped export. v10: sources.mac. v9: custom TMDB names, encrypted TMDB key
                 put("sections", JSONArray().apply { sections.forEach { put(it.name) } })
                 if (salt != null) put("crypto", BackupCrypto.cryptoBlock(salt))
                 // Ticked profiles always ride (backup is profile-based); restore needs SOURCES to apply them.
@@ -188,6 +188,8 @@ class BackupManager(
                 put("startupChannels", filterByProfile(settings.exportStartupChannels(), pidKeys))
                 put("preferredLanguages", filterByProfile(settings.exportPreferredLanguages(), pidKeys))
                 put("sportsConfigs", filterByProfile(settings.exportSportsConfigs(), pidKeys))
+                put("downloadsAllowed", filterByProfile(settings.exportDownloadsAllowed(), pidKeys))
+                put("lastCategories", filterByProfile(settings.exportLastCategories(), pidKeys))
                     // The Customize PIN is stored as a salted hash, but a 4-digit PIN behind one SHA-256
                     // pass is seconds of offline brute force — so it follows the same rule as every other
                     // secret: encrypted with the backup passphrase, or left out entirely.
@@ -978,6 +980,7 @@ class BackupManager(
                                         httpReferer = if (srcJson.has("httpReferer")) incoming.httpReferer else existing.httpReferer,
                                         cleanChannelNames = if (srcJson.has("cleanChannelNames")) incoming.cleanChannelNames else existing.cleanChannelNames,
                                         channelNameStrip = if (srcJson.has("channelNameStrip")) incoming.channelNameStrip else existing.channelNameStrip,
+                                        ignoreConnectionLimit = if (srcJson.has("ignoreConnectionLimit")) incoming.ignoreConnectionLimit else existing.ignoreConnectionLimit,
                                         liveLatencyCustomSecs = if (srcJson.has("liveLatencyCustomSecs")) incoming.liveLatencyCustomSecs else existing.liveLatencyCustomSecs,
                                         // A measurement this device already took beats the file's: it
                                         // was taken on this network, against this provider, now.
@@ -1188,6 +1191,8 @@ class BackupManager(
                 settings.repairSpecificStartupModes(pids)
                 root.optJSONObject("preferredLanguages")?.let { settings.importPreferredLanguages(remapProfileKeys(it, profileIdMap), pids) }
                 root.optJSONObject("sportsConfigs")?.let { settings.importSportsConfigs(remapProfileKeys(it, profileIdMap), pids) }
+                root.optJSONObject("downloadsAllowed")?.let { settings.importDownloadsAllowed(remapProfileKeys(it, profileIdMap), pids) }
+                root.optJSONObject("lastCategories")?.let { settings.importLastCategories(remapProfileKeys(it, profileIdMap), pids) }
                     // Encrypted-only since v17, so this restores the lock exactly when the passphrase
                     // is available and otherwise leaves the device's own Customize PIN untouched.
                     root.optJSONObject("customizePins")?.let { o ->
@@ -1571,6 +1576,7 @@ class BackupManager(
         put("httpReferer", s.httpReferer ?: JSONObject.NULL)
         put("cleanChannelNames", s.cleanChannelNames)
         put("channelNameStrip", s.channelNameStrip ?: JSONObject.NULL)
+        put("ignoreConnectionLimit", s.ignoreConnectionLimit)
         put("liveLatencyCustomSecs", s.liveLatencyCustomSecs)
         // v22: the measured stream limit and when it was measured.
         //
@@ -1633,6 +1639,7 @@ class BackupManager(
             httpReferer = o.optStringOrNull("httpReferer"),
             cleanChannelNames = o.optBoolean("cleanChannelNames", false),
             channelNameStrip = o.optStringOrNull("channelNameStrip"),
+            ignoreConnectionLimit = o.optBoolean("ignoreConnectionLimit", false),
             // Pre-v22 backups omit both, which restores as "nothing known, never measured" — exactly
             // what those installs had, and what makes a Re-test the obvious next step.
             maxConnections = o.optInt("maxConnections", 0),

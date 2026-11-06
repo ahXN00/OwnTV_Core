@@ -167,6 +167,13 @@ data class SourceEntity(
     @ColumnInfo(defaultValue = "0") val cleanChannelNames: Boolean = false,
     /** The user's own words [cleanChannelNames] also removes, `;`-separated (v51). Null = none. */
     val channelNameStrip: String? = null,
+    /**
+     * "Ignore connection limit" (v53): Multiview and recordings no longer refuse a stream because of
+     * [maxConnections], for a provider whose stated limit is lower than what it really allows. The
+     * provider's own refusal (HTTP 458) still stops a stream and says so. The user's choice, so it is
+     * backed up. Live tuning's single-session handover still follows [maxConnections].
+     */
+    @ColumnInfo(defaultValue = "0") val ignoreConnectionLimit: Boolean = false,
 )
 
 /** Many-to-many link letting a source be shared across profiles (hybrid model). */

@@ -55,6 +55,11 @@
     <string name="content_move_to_category">Mugitu kategoriara…</string>
     <string name="content_download">Deskargatu</string>
     <string name="content_download_all_episodes">Deskargatu atal guztiak</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> atal deskargatu?</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> atal deskargatu?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">Gailu honetan gordetzen dira eta biltegiratze-lekua hartzen dute.</string>
     <string name="content_play">Erreproduzitu</string>
     <string name="content_favorited">Gogokoetan</string>
     <string name="content_favorite">Gogokoa</string>
@@ -62,9 +67,7 @@
     <string name="content_episodes">Atalak</string>
     <string name="content_oldest_first">Zaharrenak lehenik</string>
     <string name="content_newest_first">Berrienak lehenik</string>
-    <string name="content_play_external">Erreproduzitu kanpoko erreproduzigailuarekin</string>
     <string name="content_delete_subtitles">Ezabatu OpenSub azpitituluak</string>
-    <string name="content_tmdb_details">TMDB xehetasunak</string>
     <string name="content_play_trailer">Erreproduzitu trailerra</string>
     <string name="content_refetch_tmdb">Eguneratu xehetasunak</string>
     <string name="content_set_tmdb_name">Ezarri TMDB izena</string>
@@ -114,6 +117,9 @@
     <string name="content_catchup_jump_prompt">Aukeratu ikusten hasteko ordua. Ez da gidarik behar.</string>
     <string name="content_catchup_jump_exact">Aukeratu ordu zehatza…</string>
     <string name="content_catchup_jump_hint">Sakatu Ados egunean, orduan edo minutuan, aldatu gora eta behera teklekin, eta sakatu Ados berriro.</string>
+    <string name="content_catchup_jump_programme_start">Hasiera: “<xliff:g id="title">%1$s</xliff:g>”</string>
+    <string name="content_catchup_jump_programme_start_untitled">Saioaren hasiera</string>
+    <string name="content_catchup_jump_programme_start_at">Hasiera-ordua: <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">Aukeratu <xliff:g id="channel">%1$s</xliff:g> kanalaren gida-kanala.</string>
     <string name="content_epg_match_prompt_current">Aukeratu <xliff:g id="channel">%1$s</xliff:g> kanalaren gida-kanala. Unekoa: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">Bilatu gida-kanalak…</string>
@@ -282,7 +288,6 @@
     <string name="content_search_in">Bilatu: <xliff:g id="name">%1$s</xliff:g></string>
     <string name="content_live_guide_view">Gida-ikuspegia</string>
     <string name="content_key_watch">Ikusi</string>
-    <string name="content_key_schedule">Programatu</string>
     <string name="content_key_options">Aukerak</string>
     <string name="content_live_groups">Taldeak</string>
     <string name="content_menu_group_watch">Ikusi</string>
@@ -347,6 +352,9 @@
     <string name="content_sort_date_added_hint">Berrienak lehenik</string>
     <string name="content_menu_group_library">Liburutegia</string>
     <string name="content_menu_group_details">Xehetasunak</string>
+    <string name="content_programme_details">Programaren xehetasunak</string>
+    <string name="content_programmes_earlier">Lehenago</string>
+    <string name="content_programmes_later">Geroago</string>
     <string name="content_movie_details">Filmaren xehetasunak</string>
     <string name="content_series_details">Telesailaren xehetasunak</string>
     <plurals name="content_vod_title_count">

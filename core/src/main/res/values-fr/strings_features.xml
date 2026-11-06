@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Votre propre image</string>
     <string name="profiles_kids">Profil enfant</string>
     <string name="profiles_kids_description">Navigation simplifiée et sécurisée</string>
+    <string name="profiles_allow_downloads">Autoriser les téléchargements</string>
+    <string name="profiles_allow_downloads_description">Désactivé masque tous les boutons de téléchargement de ce profil</string>
     <string name="profiles_remove_pin">Supprimer le verrouillage par PIN</string>
     <string name="profiles_no_pin">Ce profil s’ouvre sans PIN</string>
     <string name="profiles_change_pin">Modifier le PIN (laisser vide pour le conserver)</string>
@@ -67,6 +69,12 @@
     <string name="launcher_recent_live_description">Chaînes en direct vues récemment</string>
     <string name="launcher_movie_type">Film</string>
     <string name="launcher_episode_number">Épisode <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Chargement de votre bibliothèque · <xliff:g id="count">%1$s</xliff:g> titre pour l’instant</item>
+        <item quantity="many">Chargement de votre bibliothèque · <xliff:g id="count">%1$s</xliff:g> de titres pour l’instant</item>
+        <item quantity="other">Chargement de votre bibliothèque · <xliff:g id="count">%1$s</xliff:g> titres pour l’instant</item>
+    </plurals>
+    <string name="home_library_loading_trending">Tendances actuelles apparaîtra à mesure que votre bibliothèque se remplit.</string>
     <string name="home_no_preview">Rien à prévisualiser pour le moment.</string>
     <string name="home_no_rows">Toutes les rangées de l’écran d’accueil sont masquées.</string>
     <string name="home_enable_rows">Réactivez les rangées dans Paramètres → Écran d’accueil.</string>
@@ -188,6 +196,8 @@
     <string name="home_trending_pause">Pause</string>
     <string name="home_trending_unavailable">Cette version n’est plus disponible</string>
     <string name="recording_notification_title">Enregistrement</string>
+    <string name="auto_start_notification_channel">Démarrage auto au réveil</string>
+    <string name="auto_start_notification_text">OwnTV s’ouvre quand le téléviseur se réveille</string>
     <string name="recording_failed_no_space">Arrêté : plus d’espace disponible</string>
     <string name="recording_failed_no_connection">Aucune connexion disponible chez votre fournisseur</string>
     <string name="recording_failed_clash">Un autre enregistrement utilisait la connexion</string>

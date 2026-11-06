@@ -69,6 +69,10 @@
     <string name="content_remove_from_category">從此分類中移除</string>
     <string name="content_download">下載</string>
     <string name="content_download_all_episodes">下載所有集數</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="other">要下載 <xliff:g id="count">%1$d</xliff:g> 集嗎？</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">這些內容會儲存在此裝置上並占用儲存空間。</string>
     <string name="content_play">播放</string>
     <string name="content_favorited">已加入最愛</string>
     <string name="content_favorite">加入最愛</string>
@@ -76,9 +80,7 @@
     <string name="content_episodes">集</string>
     <string name="content_oldest_first">最舊優先</string>
     <string name="content_newest_first">最新優先</string>
-    <string name="content_play_external">使用外部播放器播放</string>
     <string name="content_delete_subtitles">刪除 OpenSub 字幕</string>
-    <string name="content_tmdb_details">TMDB 詳細資料</string>
     <string name="content_play_trailer">播放預告片</string>
     <string name="content_refetch_tmdb">重新擷取 TMDB 詳細資料</string>
     <string name="content_set_tmdb_name">設定 TMDB 名稱</string>
@@ -127,6 +129,9 @@
     <string name="content_catchup_jump_prompt">選擇開始觀看的時間。不需要節目表。</string>
     <string name="content_catchup_jump_exact">選擇確切時間…</string>
     <string name="content_catchup_jump_hint">在日期、小時或分鐘上按 OK，用上下鍵調整，然後再按一次 OK。</string>
+    <string name="content_catchup_jump_programme_start">「<xliff:g id="title">%1$s</xliff:g>」的開頭</string>
+    <string name="content_catchup_jump_programme_start_untitled">節目開頭</string>
+    <string name="content_catchup_jump_programme_start_at">開始於 <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">選擇「<xliff:g id="channel">%1$s</xliff:g>」對應的節目表頻道。</string>
     <string name="content_epg_match_prompt_current">選擇「<xliff:g id="channel">%1$s</xliff:g>」對應的節目表頻道。目前：<xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">搜尋節目表頻道…</string>
@@ -272,7 +277,6 @@
     <string name="content_search_in">搜尋<xliff:g id="name">%1$s</xliff:g></string>
     <string name="content_live_guide_view">節目表檢視</string>
     <string name="content_key_watch">觀看</string>
-    <string name="content_key_schedule">節目單</string>
     <string name="content_key_options">選項</string>
     <string name="content_live_groups">群組</string>
     <string name="content_menu_group_watch">觀看</string>
@@ -334,6 +338,9 @@
     <string name="content_sort_date_added_hint">最新優先</string>
     <string name="content_menu_group_library">媒體庫</string>
     <string name="content_menu_group_details">詳細資料</string>
+    <string name="content_programme_details">節目詳細資料</string>
+    <string name="content_programmes_earlier">稍早</string>
+    <string name="content_programmes_later">稍後</string>
     <string name="content_movie_details">電影詳細資料</string>
     <string name="content_series_details">影集詳細資料</string>
     <plurals name="content_vod_title_count">

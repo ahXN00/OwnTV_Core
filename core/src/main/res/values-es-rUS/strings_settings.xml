@@ -196,8 +196,9 @@
     <string name="settings_ch_paging">Atajos del control remoto</string>
     <string name="settings_ch_paging_description">Asigna botones libres del control a navegación, reproducción y exploración. Los botones esenciales siguen protegidos.</string>
     <string name="settings_content_menus_title">Menús de pulsación larga</string>
-    <string name="settings_content_menus_description">Reordená las acciones de los menús de canales, películas, series y episodios</string>
-    <string name="settings_content_menus_hint">Mantené OK sobre una acción para tomarla y movela con Arriba y Abajo. Presioná OK otra vez para soltarla.</string>
+    <string name="settings_content_menus_description">Reordená u ocultá las acciones de los menús de canales, películas, series y episodios</string>
+    <string name="settings_content_menus_hint">Presioná OK sobre una acción para mostrarla u ocultarla. Mantené OK para tomarla, movela con Arriba y Abajo y presioná OK otra vez para soltarla.</string>
+    <string name="settings_content_menus_note">Algunas acciones aparecen solo donde corresponden.</string>
     <string name="settings_browsing_lists">Navegación y listas</string>
     <string name="settings_browsing_description">Recuerda la última categoría y el último elemento en TV en vivo, Películas y Series</string>
     <string name="settings_home_root">Pantalla de inicio</string>
@@ -229,13 +230,17 @@
     <string name="settings_live_preview_description">Reproduce automáticamente un canal al enfocarlo</string>
     <string name="settings_preview_audio">Audio de la vista previa</string>
     <string name="settings_preview_audio_description">Reproduce sonido en la vista previa en vivo</string>
+    <string name="settings_preview_on_ok">OK muestra primero la vista previa</string>
+    <string name="settings_preview_on_ok_description">OK reproduce el canal en la vista previa y otro OK lo abre en pantalla completa</string>
     <string name="settings_mini_player_root">Minirreproductor</string>
     <string name="settings_mini_player_root_description">Tamaño y posición del minirreproductor acoplado</string>
     <string name="settings_pip_on_leave">Imagen en imagen al salir de la app</string>
     <string name="settings_pip_on_leave_description">El video sigue en una ventana pequeña al presionar Inicio</string>
     <string name="settings_prefer_sdr_description">Si una transmisión ofrece imagen SDR y HDR, se reproduce la SDR: para televisores en los que el HDR se ve deslavado o demasiado oscuro. Una transmisión solo en HDR sigue en HDR. Solo ExoPlayer.</string>
-    <string name="settings_auto_frame_rate">Frecuencia de fotogramas automática</string>
-    <string name="settings_auto_frame_rate_description">Ajusta la frecuencia de actualización del televisor a la del video (24/25/50/60 fps) en pantalla completa para TV en vivo y VOD, y la restaura al salir. Desactívalo si tu televisor o receptor vuelve a negociar la conexión HDMI de forma molesta cada vez que cambias de canal.</string>
+    <string name="settings_auto_frame_rate_films">Frecuencia de fotogramas automática para películas y series</string>
+    <string name="settings_auto_frame_rate_films_description">Ajusta la frecuencia de actualización del televisor a la de la película o el episodio (24/25/50/60 fps) en pantalla completa, y la restaura al salir.</string>
+    <string name="settings_auto_frame_rate_live">Frecuencia de fotogramas automática para TV en vivo</string>
+    <string name="settings_auto_frame_rate_live_description">Ajusta la frecuencia de actualización del televisor a la del canal (25/50/60 fps) en pantalla completa, y la restaura al salir. Desactívalo si tu televisor o receptor vuelve a negociar la conexión HDMI de forma molesta cada vez que cambias de canal.</string>
     <string name="settings_afr_pause">Pausa durante el cambio de pantalla</string>
     <string name="settings_afr_pause_description">Solo películas. Cuando el televisor tiene que resincronizarse a un nuevo modo de pantalla, la película espera este tiempo para que su comienzo no se pierda en la pantalla negra. Un cambio sin cortes nunca pausa.</string>
     <string name="settings_afr_resolution">Ajustar la resolución</string>
@@ -279,6 +284,11 @@
     <string name="settings_check_updates_description">Obtén la versión más reciente de GitHub Releases</string>
     <string name="settings_update_startup">Buscar actualizaciones al iniciar</string>
     <string name="settings_update_startup_description">Busca una versión nueva cuando se abre la aplicación</string>
+    <string name="settings_auto_start_boot">Inicio automático al encender</string>
+    <string name="settings_auto_start_boot_description">Abrir OwnTV cuando se enciende la TV</string>
+    <string name="settings_auto_start_wake">Inicio automático al reactivar</string>
+    <string name="settings_auto_start_wake_description">Abrir OwnTV cuando la TV sale del modo de espera</string>
+    <string name="settings_auto_start_needs_overlay">Requiere “Mostrar sobre otras apps”</string>
     <string name="settings_about">Acerca de</string>
     <string name="settings_live_latency">Latencia de la transmisión en vivo</string>
     <string name="settings_no_settings_match">Ninguna opción de configuración coincide con “<xliff:g id="query">%1$s</xliff:g>”</string>
@@ -388,6 +398,7 @@
     <string name="settings_search_keywords_startup">iniciar abrir destino</string>
     <string name="settings_search_keywords_updates">GitHub lanzamiento versión</string>
     <string name="settings_search_keywords_update_auto">automático actualización nueva versión</string>
+    <string name="settings_search_keywords_auto_start">arranque encender reactivar suspensión espera inicio automático abrir</string>
     <string name="settings_language_default">Predeterminado (inglés)</string>
     <string name="settings_language_device">Idioma del dispositivo</string>
     <string name="settings_language_arabic">Árabe</string>
@@ -610,8 +621,13 @@
     <string name="settings_history_all">todo</string>
     <string name="settings_browsing_last_category">Recordar la última categoría</string>
     <string name="settings_browsing_last_category_description">Vuelve a abrir la sección en la categoría donde la dejaste, no en Todas.</string>
+    <string name="settings_guide_follows_live">La Guía de TV sigue a TV en vivo</string>
+    <string name="settings_guide_follows_live_description">Abre la Guía de TV en la categoría de TV en vivo.</string>
+    <string name="settings_help_guide_follows_live">Activado: la Guía de TV se abre en la categoría que recuerda TV en vivo, y la categoría que elijas en la Guía de TV pasa a ser también la de TV en vivo. Desactivado: la Guía de TV mantiene su propia categoría.</string>
     <string name="settings_browsing_last_item">Recordar el último elemento</string>
     <string name="settings_browsing_last_item_description">Cada categoría conserva su propia posición de desplazamiento en lugar de comenzar desde arriba. TV en vivo también restaura el último canal enfocado.</string>
+    <string name="settings_browsing_live_categories">Categorías de TV en vivo</string>
+    <string name="settings_browsing_live_categories_description">Se muestran en TV en vivo, la guía de TV, el reproductor y Multivista. Con Todos los canales desactivado, TV en vivo se abre en tu primera categoría, o en Favoritos si no tenés ninguna.</string>
     <string name="settings_catchup_player">Reproducir TV en diferido en</string>
     <string name="settings_customize_title">Personalizar categorías y elementos</string>
     <string name="settings_customize_pin_locked">Esta pantalla está bloqueada con PIN.</string>
@@ -720,6 +736,8 @@
     <string name="settings_sources_clean_names_custom">Quitar también</string>
     <string name="settings_sources_clean_names_custom_hint">Palabras separadas por ; p. ej. VIP; Backup</string>
     <string name="settings_sources_retest">Volver a probar</string>
+    <string name="settings_sources_ignore_limit">Ignorar el límite de conexiones</string>
+    <string name="settings_sources_ignore_limit_on">Límite de conexiones ignorado: Multivista y las grabaciones pueden abrir más transmisiones de las que indica esta lista. Si el proveedor rechaza una transmisión, igual se avisa.</string>
     <string name="settings_sources_probe_title">¿Probar esta lista?</string>
     <string name="settings_sources_probe_warning">Muchos proveedores nunca informan cuántos canales puedes ver al mismo tiempo, así que OwnTV lo averigua abriendo algunos y viendo cuáles siguen. Todo lo que se esté reproduciendo se detendrá, y esto puede tardar hasta dos minutos.</string>
     <string name="settings_sources_probe_running">Comprobando cuántos canales permite este proveedor… (<xliff:g id="current">%1$d</xliff:g> de <xliff:g id="total">%2$d</xliff:g>)</string>
@@ -878,6 +896,7 @@
         <item quantity="other">Se omitieron <xliff:g id="count">%1$d</xliff:g> fuentes porque sus tipos de lista de reproducción no son compatibles.</item>
     </plurals>
     <string name="settings_backup_export_error">No se pudo exportar.</string>
+    <string name="settings_backup_no_file_app">Ninguna app de este teléfono puede guardar el archivo. Usa Compartir.</string>
     <string name="settings_backup_read_error">No se pudo leer el archivo de copia de seguridad.</string>
     <string name="settings_backup_import_error">No se pudo importar.</string>
     <string name="settings_backup_invalid_locale">Esta copia de seguridad contenía un idioma de la aplicación no compatible. La restauración se completó, pero se conservó el idioma actual.</string>
@@ -1426,7 +1445,7 @@
     <string name="settings_line_guide_width">Lista de canales y línea de tiempo</string>
     <string name="settings_line_browsing">Recuerda la última categoría y el último elemento</string>
     <string name="settings_line_home">Elige, ordena y filtra las filas</string>
-    <string name="settings_line_content_menus">Reorganiza las acciones de cada menú</string>
+    <string name="settings_line_content_menus">Reorganiza u oculta las acciones de cada menú</string>
     <string name="settings_line_remote_shortcuts">Asigna los botones libres del control remoto</string>
     <string name="settings_line_customize">Oculta y muestra, cambia nombres y ordena</string>
     <string name="settings_line_metadata">Pósters, sinopsis, elenco y calificaciones de películas y series</string>
@@ -1439,6 +1458,7 @@
     <string name="settings_line_dns">Un servidor DNS personalizado</string>
     <string name="settings_line_quick_live_preview">Reproduce el canal enfocado en TV en vivo</string>
     <string name="settings_line_preview_sound">Sonido en la vista previa en vivo</string>
+    <string name="settings_line_preview_on_ok">Primero vista previa, luego pantalla completa</string>
     <string name="settings_line_quick_channel_numbers">Escribe un número en el control remoto para sintonizar</string>
     <string name="settings_line_prefer_sdr">SDR cuando la transmisión ofrece ambos</string>
     <string name="settings_line_quick_autoplay">Inicia el siguiente episodio solo</string>
@@ -1519,6 +1539,8 @@
     <string name="settings_help_startup">Lo que muestra OwnTV al iniciarse: Inicio, el último canal que viste, tus favoritos o un canal que elijas.</string>
     <string name="settings_help_check_updates">Busca ahora en GitHub una versión más reciente de OwnTV y ofrece instalarla. Tus listas, favoritos y configuración se quedan como están.</string>
     <string name="settings_help_update_startup">Busca una versión nueva cada vez que se inicia OwnTV y te avisa si hay una. No se instala nada sin preguntar.</string>
+    <string name="settings_help_auto_start_boot">Abre OwnTV por sí solo cuando la TV termina de arrancar, en la pantalla elegida en Inicio de la aplicación. Android solo deja que una app se abra sola si puede mostrarse sobre otras apps, así que al activar esto se abre la pantalla de ese permiso. Algunas TV no lo ofrecen y, en ellas, el inicio automático no puede funcionar.</string>
+    <string name="settings_help_auto_start_wake">Abre OwnTV cada vez que la TV sale del modo de espera, también si la activaste para otra app. Si Inicio de la aplicación abre un canal, cada reactivación inicia esa emisión. Mientras esté activado, OwnTV mantiene un pequeño servicio en segundo plano con una notificación silenciosa. Como el inicio automático al encender, necesita permiso para mostrarse sobre otras apps.</string>
     <string name="settings_help_dns">Resuelve las direcciones de tu proveedor con un servidor DNS a tu elección en lugar del de tu red; útil cuando tu red las bloquea o redirige.</string>
     <string name="settings_help_live_engine">ExoPlayer abre los canales mucho más rápido y es el único con subtítulos en vivo. mpv reproduce canales que ExoPlayer no puede, incluido algún audio poco común. Las opciones combinadas prueban el otro reproductor si el primero falla.</string>
     <string name="settings_help_hw">Usa el decodificador por hardware del televisor: 4K fluido y menos calor. Desactívalo solo si algunas transmisiones se entrecortan o muestran bloques; entonces trabaja el decodificador por software.</string>
@@ -1529,6 +1551,7 @@
     <string name="settings_help_sub_lang">Los subtítulos en este idioma se activan solos cuando la transmisión los tiene. Si no, siguen desactivados hasta que elijas una pista en el reproductor.</string>
     <string name="settings_help_live_preview">El canal enfocado se reproduce en la vista previa junto a la lista de TV en vivo, para que veas qué transmiten antes de abrirlo. Necesita un diseño con espacio para la vista previa.</string>
     <string name="settings_help_preview_audio">Reproduce el sonido de la vista previa además de la imagen. Desactivado, navegas en silencio.</string>
+    <string name="settings_help_preview_on_ok">Elige dónde OK en un canal lo reproduce primero en la vista previa y otro OK en el mismo canal lo abre en pantalla completa. En TV en vivo, la vista previa se queda en ese canal mientras navegas. Donde está desactivado, OK abre el canal en pantalla completa de inmediato y la vista previa sigue a la selección.</string>
     <string name="settings_help_timeshift_window">Hasta dónde puede retroceder Pausar y rebobinar la TV en vivo en un canal sin catch-up. Más tiempo guarda más del canal en el almacenamiento del dispositivo.</string>
     <string name="settings_help_resume">Preguntar ofrece Reanudar o Empezar de nuevo cuando una película o episodio tiene una posición guardada. Reanudar siempre continúa donde lo dejaste; No reanudar nunca empieza desde el principio.</string>
     <string name="settings_help_mini">El reproductor pequeño que mantiene un canal en una esquina mientras navegas. Elige su tamaño y la esquina donde va.</string>
@@ -1621,6 +1644,8 @@
     <string name="settings_remote_scan">Escanea o abre en un navegador</string>
     <string name="settings_remote_or_open">o abre</string>
     <string name="settings_remote_details_note">Los datos aparecerán aquí; tú inicias la importación con el control.</string>
+    <string name="settings_remote_edit_note">Los cambios completan la pantalla de edición; tú presionas Guardar con el control remoto.</string>
+    <string name="settings_help_edit_from_phone">Abre esta lista en un navegador de un teléfono, tableta o computadora en la misma red Wi-Fi. Las contraseñas, las direcciones MAC y las direcciones de listas M3U nunca se muestran allí: déjalas vacías para conservarlas. Lo que envíes completa esta pantalla, y nada cambia hasta que presiones Guardar.</string>
     <string name="settings_key_stop_back">Detener y volver</string>
     <string name="settings_source_type">Tipo</string>
     <string name="settings_line_source_type">Xtream, M3U o portal Stalker</string>

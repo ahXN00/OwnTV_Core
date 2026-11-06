@@ -195,8 +195,9 @@
     <string name="settings_ch_paging">Afstandsbedieningssnelkoppelingen</string>
     <string name="settings_ch_paging_description">Wijs vrije knoppen toe aan navigatie, afspelen en bladeren. Essentiële navigatieknoppen blijven beveiligd.</string>
     <string name="settings_content_menus_title">Menu’s bij lang indrukken</string>
-    <string name="settings_content_menus_description">Wijzig de volgorde van de acties in de menu’s voor zenders, films, series en afleveringen</string>
-    <string name="settings_content_menus_hint">Houd OK op een actie ingedrukt om hem op te pakken en verplaats hem met Omhoog en Omlaag. Druk nogmaals op OK om hem neer te zetten.</string>
+    <string name="settings_content_menus_description">Wijzig de volgorde van de acties in de menu’s voor zenders, films, series en afleveringen, of verberg ze</string>
+    <string name="settings_content_menus_hint">Druk op OK op een actie om hem te tonen of te verbergen. Houd OK ingedrukt om hem op te pakken, verplaats hem met Omhoog en Omlaag en druk nogmaals op OK om hem neer te zetten.</string>
+    <string name="settings_content_menus_note">Sommige acties verschijnen alleen waar ze van toepassing zijn.</string>
     <string name="settings_browsing_lists">Bladeren en lijsten</string>
     <string name="settings_browsing_description">Onthoud de laatste categorie en het laatste item in live-tv, Films en Series</string>
     <string name="settings_home_root">Startscherm</string>
@@ -228,13 +229,17 @@
     <string name="settings_live_preview_description">Speel automatisch een zender af wanneer je deze focust</string>
     <string name="settings_preview_audio">Geluid bij voorvertoning</string>
     <string name="settings_preview_audio_description">Speel geluid af tijdens de livevoorvertoning</string>
+    <string name="settings_preview_on_ok">OK toont eerst het voorbeeld</string>
+    <string name="settings_preview_on_ok_description">OK speelt het kanaal af in het voorbeeld, nog een keer OK opent het schermvullend</string>
     <string name="settings_mini_player_root">Minispeler</string>
     <string name="settings_mini_player_root_description">Grootte en positie van de vastgezette minispeler</string>
     <string name="settings_pip_on_leave">Beeld-in-beeld bij het verlaten van de app</string>
     <string name="settings_pip_on_leave_description">De video speelt verder in een klein venster als je op Home drukt</string>
     <string name="settings_prefer_sdr_description">Als een stream zowel een SDR- als een HDR-beeld biedt, wordt het SDR-beeld afgespeeld: voor een tv waarop HDR flets of te donker oogt. Een stream met alleen HDR blijft HDR. Alleen ExoPlayer.</string>
-    <string name="settings_auto_frame_rate">Automatische beeldfrequentie</string>
-    <string name="settings_auto_frame_rate_description">Stem in volledig scherm de vernieuwingsfrequentie van de tv af op de video (24/25/50/60 fps), voor live-tv en VOD, en herstel deze bij afsluiten. Schakel dit uit als je tv of ontvanger bij elke zenderwissel de HDMI-verbinding hoorbaar opnieuw opbouwt.</string>
+    <string name="settings_auto_frame_rate_films">Automatische beeldfrequentie voor films en series</string>
+    <string name="settings_auto_frame_rate_films_description">Stem in volledig scherm de vernieuwingsfrequentie van de tv af op de film of aflevering (24/25/50/60 fps), en herstel deze bij afsluiten.</string>
+    <string name="settings_auto_frame_rate_live">Automatische beeldfrequentie voor live-tv</string>
+    <string name="settings_auto_frame_rate_live_description">Stem in volledig scherm de vernieuwingsfrequentie van de tv af op de zender (25/50/60 fps), en herstel deze bij afsluiten. Schakel dit uit als je tv of ontvanger bij elke zenderwissel de HDMI-verbinding hoorbaar opnieuw opbouwt.</string>
     <string name="settings_afr_pause">Pauzeren tijdens de beeldwissel</string>
     <string name="settings_afr_pause_description">Alleen films. Als de tv opnieuw moet synchroniseren op een nieuwe beeldmodus, wacht de film zo lang, zodat het begin niet in het zwarte beeld verloren gaat. Een naadloze wissel pauzeert nooit.</string>
     <string name="settings_afr_resolution">Resolutie aanpassen</string>
@@ -277,6 +282,11 @@
     <string name="settings_check_updates_description">Download de nieuwste versie via GitHub Releases</string>
     <string name="settings_update_startup">Bij opstarten controleren op updates</string>
     <string name="settings_update_startup_description">Zoek naar een nieuwe versie wanneer de app wordt geopend</string>
+    <string name="settings_auto_start_boot">Automatisch starten bij opstarten</string>
+    <string name="settings_auto_start_boot_description">OwnTV openen wanneer de tv wordt aangezet</string>
+    <string name="settings_auto_start_wake">Automatisch starten bij ontwaken</string>
+    <string name="settings_auto_start_wake_description">OwnTV openen wanneer de tv uit de slaapstand komt</string>
+    <string name="settings_auto_start_needs_overlay">Vereist “Weergeven vóór andere apps”</string>
     <string name="settings_about">Over</string>
     <string name="settings_live_latency">Livevertraging</string>
     <string name="settings_no_settings_match">Geen instellingen gevonden voor ‘<xliff:g id="query">%1$s</xliff:g>’</string>
@@ -386,6 +396,7 @@
     <string name="settings_search_keywords_startup">starten openen beginpagina</string>
     <string name="settings_search_keywords_updates">github release versie</string>
     <string name="settings_search_keywords_update_auto">automatisch update nieuwe versie</string>
+    <string name="settings_search_keywords_auto_start">opstarten aanzetten ontwaken slaapstand stand-by automatisch openen starten</string>
     <string name="settings_language_default">Standaard (Engels)</string>
     <string name="settings_language_device">Taal van apparaat</string>
     <string name="settings_language_arabic">Arabisch</string>
@@ -607,8 +618,13 @@
     <string name="settings_history_all">alles</string>
     <string name="settings_browsing_last_category">Laatste categorie onthouden</string>
     <string name="settings_browsing_last_category_description">Open het onderdeel opnieuw in de categorie die u hebt verlaten, niet in Alles.</string>
+    <string name="settings_guide_follows_live">Tv-gids volgt Live-tv</string>
+    <string name="settings_guide_follows_live_description">Open de tv-gids in de categorie van Live-tv.</string>
+    <string name="settings_help_guide_follows_live">Aan: de tv-gids opent in de categorie die Live-tv onthoudt, en een categorie die u in de tv-gids kiest, wordt ook die van Live-tv. Uit: de tv-gids houdt een eigen categorie.</string>
     <string name="settings_browsing_last_item">Laatste item onthouden</string>
     <string name="settings_browsing_last_item_description">Elke categorie behoudt zijn eigen scrollpositie in plaats van bovenaan te beginnen. Live-tv herstelt ook de laatst gefocuste zender.</string>
+    <string name="settings_browsing_live_categories">Live-tv-categorieën</string>
+    <string name="settings_browsing_live_categories_description">Getoond in Live-tv, de tv-gids, de speler en Multiview. Met Alle zenders uit opent Live-tv op je eerste categorie, of op Favorieten als je er geen hebt.</string>
     <string name="settings_catchup_player">Terugkijken afspelen in</string>
     <string name="settings_customize_title">Categorieën en items aanpassen</string>
     <string name="settings_customize_pin_locked">Dit scherm is met een PIN vergrendeld.</string>
@@ -715,6 +731,8 @@
     <string name="settings_sources_clean_names_custom">Ook verwijderen</string>
     <string name="settings_sources_clean_names_custom_hint">Woorden gescheiden door ; bijv. VIP; Backup</string>
     <string name="settings_sources_retest">Opnieuw testen</string>
+    <string name="settings_sources_ignore_limit">Verbindingslimiet negeren</string>
+    <string name="settings_sources_ignore_limit_on">Verbindingslimiet genegeerd: Multiview en opnames kunnen meer streams openen dan deze playlist opgeeft. Een stream die de provider weigert, meldt dat nog steeds.</string>
     <string name="settings_sources_probe_title">Deze afspeellijst testen?</string>
     <string name="settings_sources_probe_warning">Veel providers zeggen nooit hoeveel kanalen je tegelijk mag kijken, dus OwnTV zoekt het uit door er een paar te openen en te kijken welke blijven werken. Alles wat nu speelt, stopt en dit kan tot twee minuten duren.</string>
     <string name="settings_sources_probe_running">Bezig met nagaan hoeveel kanalen deze provider toestaat… (<xliff:g id="current">%1$d</xliff:g> van <xliff:g id="total">%2$d</xliff:g>)</string>
@@ -866,6 +884,7 @@
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> bronnen zijn overgeslagen omdat de typen afspeellijsten niet worden ondersteund.</item>
     </plurals>
     <string name="settings_backup_export_error">Exporteren mislukt.</string>
+    <string name="settings_backup_no_file_app">Geen app op deze telefoon kan het bestand opslaan. Gebruik in plaats daarvan Delen.</string>
     <string name="settings_backup_read_error">Kan het back-upbestand niet lezen.</string>
     <string name="settings_backup_import_error">Importeren mislukt.</string>
     <string name="settings_backup_invalid_locale">Deze back-up bevatte een niet-ondersteunde app-taal. Het herstellen is gelukt, maar uw huidige taal is behouden.</string>
@@ -1398,7 +1417,7 @@
     <string name="settings_line_guide_width">Zenderlijst en tijdlijn</string>
     <string name="settings_line_browsing">De laatste categorie en het laatste item onthouden</string>
     <string name="settings_line_home">Rijen kiezen, ordenen en filteren</string>
-    <string name="settings_line_content_menus">De acties in elk menu herschikken</string>
+    <string name="settings_line_content_menus">De acties in elk menu herschikken of verbergen</string>
     <string name="settings_line_remote_shortcuts">Vrije knoppen op de afstandsbediening toewijzen</string>
     <string name="settings_line_customize">Verbergen en tonen, hernoemen en ordenen</string>
     <string name="settings_line_metadata">Posters, verhalen, cast en beoordelingen voor films en series</string>
@@ -1411,6 +1430,7 @@
     <string name="settings_line_dns">Een eigen DNS-server</string>
     <string name="settings_line_quick_live_preview">Het geselecteerde kanaal afspelen in Live tv</string>
     <string name="settings_line_preview_sound">Geluid in het livevoorbeeld</string>
+    <string name="settings_line_preview_on_ok">Eerst voorbeeld, dan schermvullend</string>
     <string name="settings_line_quick_channel_numbers">Typ een nummer op de afstandsbediening om af te stemmen</string>
     <string name="settings_line_prefer_sdr">SDR als een stream beide biedt</string>
     <string name="settings_line_quick_autoplay">De volgende aflevering vanzelf starten</string>
@@ -1491,6 +1511,8 @@
     <string name="settings_help_startup">Wat OwnTV toont bij het starten: Start, het laatst bekeken kanaal, je favorieten of een kanaal naar keuze.</string>
     <string name="settings_help_check_updates">Zoekt nu op GitHub naar een nieuwere OwnTV en biedt aan die te installeren. Je afspeellijsten, favorieten en instellingen blijven zoals ze zijn.</string>
     <string name="settings_help_update_startup">Zoekt bij elke start van OwnTV naar een nieuwe versie en meldt het als die er is. Er wordt niets geïnstalleerd zonder te vragen.</string>
+    <string name="settings_help_auto_start_boot">Opent OwnTV vanzelf zodra de tv is opgestart, op het scherm dat bij Opstartgedrag van app is gekozen. Android laat een app alleen vanzelf openen als die vóór andere apps mag worden weergegeven; als je dit aanzet, opent daarom het scherm voor die toestemming. Sommige tv’s bieden dat niet, en daar kan automatisch starten niet werken.</string>
+    <string name="settings_help_auto_start_wake">Opent OwnTV telkens wanneer de tv uit de slaapstand komt, ook als je hem voor een andere app hebt gewekt. Opent Opstartgedrag van app een zender, dan start elke keer ontwaken die stream. Zolang dit aan staat, houdt OwnTV een kleine achtergronddienst met een stille melding actief. Net als automatisch starten bij opstarten is toestemming nodig om vóór andere apps te worden weergegeven.</string>
     <string name="settings_help_dns">Zoekt de adressen van je aanbieder op met een DNS-server naar keuze in plaats van die van je netwerk — handig als je netwerk ze blokkeert of omleidt.</string>
     <string name="settings_help_live_engine">ExoPlayer opent zenders veel sneller en is de enige met live-ondertitels. mpv speelt zenders af die ExoPlayer niet aankan, ook wat ongebruikelijk geluid. De gecombineerde opties proberen de andere speler als de eerste faalt.</string>
     <string name="settings_help_hw">Gebruikt de hardwaredecoder van de tv: vloeiende 4K en minder warmte. Zet het alleen uit als streams haperen of blokjes tonen; dan doet de softwaredecoder het werk.</string>
@@ -1501,6 +1523,7 @@
     <string name="settings_help_sub_lang">Ondertitels in deze taal gaan vanzelf aan als de stream ze heeft. Anders blijven ze uit tot je in de speler een spoor kiest.</string>
     <string name="settings_help_live_preview">Het geselecteerde kanaal speelt in het voorbeeld naast de Live tv-lijst, zodat je ziet wat er op is voordat je het opent. Vereist een indeling met ruimte voor het voorbeeld.</string>
     <string name="settings_help_preview_audio">Speelt het geluid van het voorbeeld af naast het beeld. Uit houdt bladeren stil.</string>
+    <string name="settings_help_preview_on_ok">Kies waar OK op een kanaal het eerst in het voorbeeld afspeelt en nog een keer OK op hetzelfde kanaal het schermvullend opent. In Live tv blijft het voorbeeld dan op dat kanaal terwijl je bladert. Waar het uit staat, opent OK het kanaal meteen schermvullend en volgt het voorbeeld de selectie.</string>
     <string name="settings_help_timeshift_window">Hoe ver Live tv pauzeren en terugspoelen terug kan op een zender zonder terugkijken. Langer bewaart meer van de zender in de opslag van dit apparaat.</string>
     <string name="settings_help_resume">Vragen biedt Hervatten of Opnieuw beginnen als een film of aflevering een opgeslagen positie heeft. Altijd hervatten gaat verder waar je was; Nooit hervatten begint vooraan.</string>
     <string name="settings_help_mini">De kleine speler die een zender in een hoek laat doorlopen terwijl je bladert. Kies de grootte en de hoek.</string>
@@ -1587,6 +1610,8 @@
     <string name="settings_remote_scan">Scannen of openen in een browser</string>
     <string name="settings_remote_or_open">of open</string>
     <string name="settings_remote_details_note">De gegevens verschijnen hier; je start de import met de afstandsbediening.</string>
+    <string name="settings_remote_edit_note">De wijzigingen vullen het bewerkscherm; je drukt op Opslaan met de afstandsbediening.</string>
+    <string name="settings_help_edit_from_phone">Opent deze playlist in een browser op een telefoon, tablet of computer op hetzelfde wifi-netwerk. Wachtwoorden, MAC-adressen en adressen van M3U-playlists worden daar nooit getoond: laat ze leeg om ze te houden. Wat je verzendt vult dit scherm, en er verandert niets tot je op Opslaan drukt.</string>
     <string name="settings_key_stop_back">Stoppen en terug</string>
     <string name="settings_source_type">Type</string>
     <string name="settings_line_source_type">Xtream, M3U of Stalker-portaal</string>
