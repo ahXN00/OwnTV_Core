@@ -873,7 +873,7 @@ class OwnTVPlayer(
             MpvLoadOptions.Input(
                 url = url,
                 live = isLiveContent,
-                knownHlsHost = LiveStreamQuirks.isKnownHlsHost(url),
+                knownHlsHost = LiveStreamQuirks.isKnownHls(url),
                 prerollSecs = effectivePrerollSecs(),
                 liveBufferSecs = effectiveLiveBufferSecs(),
                 filmBufferSecs = film?.vodBufferSecs ?: 0,
