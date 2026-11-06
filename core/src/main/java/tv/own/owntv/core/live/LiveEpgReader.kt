@@ -428,7 +428,8 @@ class LiveEpgReader(
     /** The programme airing at [at] in start-ordered rows: the latest to have started, if two overlap. */
     private fun List<EpgProgrammeEntity>.onAirAt(at: Long): EpgProgrammeEntity? =
         lastOrNull { it.startMs <= at && it.stopMs > at }
-
-    private fun EpgProgrammeEntity.toXt() =
-        XtEpgEntry(title = title, description = description, startMs = startMs, stopMs = stopMs)
 }
+
+/** A stored programme as a schedule row; its id lets a screen open the full programme (details, synopsis). */
+internal fun EpgProgrammeEntity.toXt() =
+    XtEpgEntry(title = title, description = description, startMs = startMs, stopMs = stopMs, programmeId = id)
