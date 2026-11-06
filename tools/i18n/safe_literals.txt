@@ -2681,7 +2681,7 @@
 1	empty	core/src/main/java/tv/own/owntv/core/player/AudioOutputDelay.kt	\0
 1	technical	core/src/main/java/tv/own/owntv/core/player/AudioOutputDelay.kt	${it.key.name}=${it.value}
 1	technical	core/src/main/java/tv/own/owntv/core/player/AudioOutputDelay.kt	,
-1	compiler	core/src/main/java/tv/own/owntv/core/player/AudioOutputDelay.kt	InlinedApi
+2	compiler	core/src/main/java/tv/own/owntv/core/player/AudioOutputDelay.kt	InlinedApi
 1	technical	core/src/main/java/tv/own/owntv/core/player/EnginePinKey.kt	$sourceId:$mediaType:$it
 1	preference-key	core/src/main/java/tv/own/owntv/core/player/EnginePinKey.kt	CATCHUP
 2	empty	core/src/main/java/tv/own/owntv/core/player/ExternalPlayerLauncher.kt	\0
@@ -2728,6 +2728,11 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/player/ManifestType.kt	mpd
 2	technical	core/src/main/java/tv/own/owntv/core/player/PlaybackPrefsStore.kt	LIVE
 1	technical	core/src/main/java/tv/own/owntv/core/player/PlaybackPrefsStore.kt	off
+1	log	core/src/main/java/tv/own/owntv/core/player/PlaybackVisibility.kt	OwnTV-Visibility
+1	log	core/src/main/java/tv/own/owntv/core/player/PlaybackVisibility.kt	audio output back
+1	log	core/src/main/java/tv/own/owntv/core/player/PlaybackVisibility.kt	hidden — freeing playback
+1	log	core/src/main/java/tv/own/owntv/core/player/PlaybackVisibility.kt	no audio output left
+1	log	core/src/main/java/tv/own/owntv/core/player/PlaybackVisibility.kt	visible — restoring playback
 1	technical	core/src/main/java/tv/own/owntv/core/player/PlayerBudget.kt	10
 1	technical	core/src/main/java/tv/own/owntv/core/player/PlayerBudget.kt	120
 1	technical	core/src/main/java/tv/own/owntv/core/player/PlayerBudget.kt	128MiB
@@ -5749,7 +5754,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	, init ${initializationDurationMs}ms)
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	-
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	.
-2	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	.m3u8
+1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	.m3u8
 2	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	.mpd
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	16:10
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	16:9
@@ -5854,9 +5859,10 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	idle mid-live
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	isLiveContent=$isLiveContent buffering=${_buffering.value} reconnect=${tune.retryCount}/$MAX_RECONNECTS
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	kind unknown
-1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	knownHlsHost=$knownHlsHost knownDashHost=$knownDashHost
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	knownHlsHost=$knownHls knownDashHost=$knownDashHost
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	lang=$it
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	latencySec=${liveBufferSecs ?: -1}
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	learned HLS route could not parse this channel — retrying it as TS
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	length=${response.body.contentLength()} signature=${HttpDiagnostics.mediaSignature(prefix)}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	liveOffsetMs=${p.currentLiveOffset.takeUnless { it == C.TIME_UNSET } ?: -1}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	live_buffer preroll=${effectivePrerollSecs()}s start=${lc.bufferForPlaybackMs}ms
@@ -5881,13 +5887,14 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	open stalled: $detail — the stream is buffered but unplayable here
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	output audio delay: $ms ms, engine total ${_audioDelayMs.value + ms} ms
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	owntv-http-evict
-1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	panel serves both HLS and plain TS — dropped the HLS lesson, retrying as TS
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	panel serves both HLS and plain TS — dropped the HLS lesson
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	panel to mpv
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	passthrough audio: re-priming the output after the track change
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	pdt=${playlist.hasProgramDateTime} startOffsetUs=${playlist.startOffsetUs}
 2	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	picture frozen
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	picture frozen a third time — giving up on ExoPlayer for this stream
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	picture frozen again — new decoder and surface
+1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	play after ${(now - tune.pausedAtMs) / 1000}s paused — back to the live edge
 1	log	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	play() engine=$engineId url=${HttpClient.redactUrl(url)} muted=$muted
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	play() failed: ${it.message}
 1	technical	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	playback healthy for ${HEALTHY_MS}ms — reconnect ladder reset
@@ -5982,10 +5989,12 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/LiveRouting.kt	mpv
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveRouting.kt	mpv (panel refuses segments)
 1	empty	player-core/src/main/java/tv/own/owntv/player/LiveStreamQuirks.kt	\0
+1	protocol	player-core/src/main/java/tv/own/owntv/player/LiveStreamQuirks.kt	#EXTM3U
 1	protocol	player-core/src/main/java/tv/own/owntv/player/LiveStreamQuirks.kt	$rewritten?$query
 2	protocol	player-core/src/main/java/tv/own/owntv/player/LiveStreamQuirks.kt	.m3u8
 1	protocol	player-core/src/main/java/tv/own/owntv/player/LiveStreamQuirks.kt	.ts
 1	protocol	player-core/src/main/java/tv/own/owntv/player/LiveStreamQuirks.kt	://
+1	regex	player-core/src/main/java/tv/own/owntv/player/LiveStreamQuirks.kt	Will (?:reconnect|retry) at (\\d+) in .*End of file
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	$reason — gave up after ${armedBudgetMs / 1000}s
 1	technical	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	${channel.sourceId}:${channel.id}
 1	log	player-core/src/main/java/tv/own/owntv/player/LiveTuneController.kt	'${channel.name}' falling back to $label ($reason)
@@ -6130,6 +6139,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	OwnTVPlayer
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	PlayerBudget: $budget
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	STEREO
+1	protocol	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	User-Agent
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	VOD ended mid-stream at ${pos}ms of ${dur}ms — reloading from position ($next/$budget)
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	VOD ended mid-stream at ${pos}ms of ${dur}ms, reconnects spent — surfacing error
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	VOD failed on BOTH engines — exo first: '$exoErr' / mpv: '$mpvMsg'
@@ -6284,6 +6294,7 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	level=$level $safe
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live died mid-play — reconnect attempt ${item.liveStallReconnects}/$MAX_LIVE_RECONNECTS
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live died mid-play — reconnect budget exhausted after $MAX_LIVE_RECONNECTS attempts, surfacing error
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live eof check
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live open timeout
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live playback healthy (mpv, Live) after reconnect — budget reset
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	live stall (mpv, Live) — frozen ~${frozenMs}ms but offline; showing spinner, waiting for network
@@ -6313,10 +6324,12 @@
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv $line
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv $why — reopening with tolerant demuxing (discardcorrupt/genpts/ignore_err)
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv frames: est-vf-fps=${m.getPropertyString("estimated-vf-fps")}
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv hit EOF at $offset bytes opening a live .ts — checking what the response is
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv live first position after ${now - l.loadStartTime}ms
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv live mid-play reconnects exhausted ($MAX_LIVE_RECONNECTS) — surfacing error
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv live open timed out after ${openingMs}ms — surfacing error
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv load waits for a fresh surface (previous item ${lastVideoHeightPx}p)
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv play after ${(now - pausedAt) / 1000}s paused — back to the live edge
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv ready: ${getPropertyString("mpv-version")} ffmpeg=${getPropertyString("ffmpeg-version")}
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv reported ${load.brokenPtsHits} broken video timestamps — switching to free-running video timing
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv surface attached in ${android.os.SystemClock.elapsedRealtime() - t0}ms, pending load=$pendingLoad
@@ -6325,6 +6338,9 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv-cmd
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv-version
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv: $reason
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv: the live .ts answered neither a stream nor a playlist — failing now
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv: the live .ts is a stream that ended early — reopening
+1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv: the live .ts is an HLS playlist — reopening as .m3u8
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mpv_load live=$isLive url=${HttpClient.redactUrl(url)}
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	msg-level
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	mute
