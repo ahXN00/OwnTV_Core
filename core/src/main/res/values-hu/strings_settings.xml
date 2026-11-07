@@ -669,11 +669,21 @@
     <string name="settings_customize_pin_locked">Ez a képernyő PIN-kóddal védett.</string>
     <string name="settings_customize_wrong_pin">Hibás PIN — próbáld újra</string>
     <string name="settings_customize_enter_pin">Add meg a PIN-kódot</string>
-    <string name="settings_customize_set_pin">🔒 PIN beállítása</string>
-    <string name="settings_customize_change_pin">🔒 PIN módosítása</string>
+    <string name="settings_customize_set_pin">🔒 Kategóriazár PIN-kódjának beállítása</string>
+    <string name="settings_customize_change_pin">🔒 Kategóriazár PIN-kódjának módosítása</string>
+    <string name="settings_customize_remove_pin">Kategóriazár PIN-kódjának eltávolítása</string>
     <string name="settings_customize_remove_lock">Zár eltávolítása</string>
-    <string name="settings_customize_settings_pin">PIN-kód kérése a Beállítások megnyitásához</string>
-    <string name="settings_customize_settings_pin_button">PIN-kód kérése a Beállítások megnyitásához: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">Beállítások zárolása</string>
+    <string name="settings_lock_description">A Beállítások, a Mentés és visszaállítás és a Helyi szinkronizálás saját PIN-kódot kér. Minden profil a sajátját állítja be.</string>
+    <string name="settings_line_settings_lock">Saját PIN-kód a Beállításokhoz</string>
+    <string name="settings_help_settings_lock">A profil PIN-kódja, amelyet a Beállítások, a Mentés és visszaállítás és a Helyi szinkronizálás kér megnyitás előtt. Nem azonos a profil PIN-kódjával és a kategóriazár PIN-kódjával sem: minden zárnak saját PIN-kódja van, és egyik sem nyit meg egy másikat. A PIN módosítása és a Kikapcsolás a jelenlegi beállítási PIN-kódot kéri.</string>
+    <string name="settings_lock_menus">A hosszan nyomott menü módosításainak zárolása is</string>
+    <string name="settings_lock_menus_description">Az Elrejtés, Áthelyezés, Átnevezés, egy kategória zárolása és az Eltávolítás az előzményekből szintén a beállítási PIN-kódot kéri. A Kedvencek és a Lejátszás soha.</string>
+    <string name="settings_line_settings_lock_menus">A hosszan nyomott módosítások a beállítási PIN-kódot kérik</string>
+    <string name="settings_help_settings_lock_menus">Ha be van kapcsolva, a hosszan nyomott módosítások (Elrejtés, Áthelyezés, Átnevezés, Kategória zárolása és Eltávolítás az előzményekből) először a beállítási PIN-kódot kérik. Egy helyes PIN-kód feloldja őket, amíg ki nem lépsz az alkalmazásból vagy profilt nem váltasz. A kedvencekhez adás és a lejátszás soha nem kéri.</string>
+    <string name="settings_lock_change_pin">PIN módosítása</string>
+    <string name="settings_lock_turn_off">Kikapcsolás</string>
+    <string name="settings_search_keywords_settings_lock">zár pin jelszó szülői beállítások</string>
     <string name="settings_customize_description">Csatornák, filmek és sorozatok elrejtése és megjelenítése, valamint kategóriák átnevezése vagy átrendezése ehhez a profilhoz. Az újraszinkronizálást is túléli.</string>
     <string name="settings_customize_new_category_behavior">Új kategóriák kezelése</string>
     <string name="settings_customize_hide">Elrejtés</string>
@@ -717,8 +727,7 @@
     <string name="settings_customize_restore_defaults_title"><xliff:g id="section">%1$s</xliff:g> (<xliff:g id="playlist">%2$s</xliff:g>) visszaállítása?</string>
     <string name="settings_customize_restore_defaults_description">A rejtett kategóriák és elemek újra megjelennek, az átnevezések és az egyéni sorrend törlődnek, az áthelyezett elemek pedig visszakerülnek. A vegyes kategóriák, a kedvencek és a műsorújság-párosítások megmaradnak.</string>
     <string name="settings_customize_rename_hint">Csak ehhez a profilhoz. Hagyd üresen a(z) „<xliff:g id="name">%1$s</xliff:g>” visszaállításához.</string>
-    <string name="settings_customize_remove_pin_title">Eltávolítod a PIN-zárat?</string>
-    <string name="settings_customize_remove_pin_message">A Testreszabás képernyő ezután PIN-kód kérése nélkül nyílik meg.</string>
+    <string name="settings_customize_remove_pin_title">Eltávolítod a kategóriazár PIN-kódját?</string>
     <string name="settings_customize_remove_pin_locks">Az ezzel a PIN-kóddal zárolt összes kategória zárolása is feloldódik.</string>
     <string name="settings_customize_remove">Eltávolítás</string>
     <string name="settings_customize_confirm_pin">Erősítsd meg az új PIN-kódot</string>
@@ -882,7 +891,6 @@
     <string name="settings_backup_kids_profile">Gyerekprofil</string>
     <string name="settings_backup_profile_current">„<xliff:g id="name">%1$s</xliff:g>” (jelenlegi)</string>
     <string name="settings_backup_profile_locked">A(z) „<xliff:g id="name">%1$s</xliff:g>” zárolva van</string>
-    <string name="settings_backup_profile_pin">Profil PIN-kódja</string>
     <string name="settings_backup_pin_incorrect">Hibás PIN-kód.</string>
     <string name="settings_backup_pin_locked">PIN-kóddal zárolva</string>
     <string name="settings_backup_unlock">Feloldás</string>
@@ -930,6 +938,15 @@
     <string name="settings_backup_which_profiles">Mely profilokat mentse</string>
     <string name="settings_backup_selected_profiles">A mentés csak a kijelölt profilokat és azok adatait fogja tartalmazni. A zárolt profilokhoz szükséges a PIN-kódjuk.</string>
     <string name="settings_backup_profile_pin_description">Ez nem a jelenlegi profilod. Add meg a PIN-kódját, hogy bekerüljön a mentésbe — PIN nélkül az adatai nem lesznek elmentve.</string>
+    <string name="settings_backup_profile_clash_title">„<xliff:g id="name">%1$s</xliff:g>” már szerepel ezen az eszközön</string>
+    <string name="settings_backup_profile_clash_body">A mentésben van egy ugyanilyen nevű profil. Mi történjen vele?</string>
+    <string name="settings_backup_profile_merge">Összefésülés vele</string>
+    <string name="settings_backup_profile_merge_description">Megtartja, ami itt van, és hozzáadja, amit a mentés hoz.</string>
+    <string name="settings_backup_profile_replace">Csere</string>
+    <string name="settings_backup_profile_replace_description">Itteni kedvencei, előzményei, folytatási pontjai, testreszabásai és kézi sorrendje előbb törlődnek a visszaállított részekre.</string>
+    <string name="settings_backup_profile_keep_both">Mindkettő megtartása</string>
+    <string name="settings_backup_profile_keep_both_description">A mentés profilja új profilként érkezik: „<xliff:g id="name">%1$s</xliff:g>”.</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (visszaállított)</string>
     <string name="settings_metadata_optional">nem kötelező</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">Tömeges átnevezés</string>
@@ -1232,6 +1249,32 @@
     <string name="local_sync_last_synced">Utolsó szinkronizálás: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Már párosítva</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">Csak a használt profil szinkronizálódik: itt <xliff:g id="profile">%1$s</xliff:g>, a másik eszközön használt profillal.</string>
+    <string name="local_auto_sync_title">Automatikus szinkronizálás</string>
+    <string name="local_auto_sync_for_device">Mit szinkronizál ez az eszköz magától ezzel: <xliff:g id="device">%1$s</xliff:g>, és milyen gyakran.</string>
+    <string name="local_auto_sync_enable">Automatikus szinkronizálás ezzel az eszközzel</string>
+    <string name="local_auto_sync_enable_hint">Nyisd meg a Helyi szinkronizálást a másik eszközön is: ott engedélyt kér.</string>
+    <string name="local_auto_sync_waiting">Várakozás, hogy <xliff:g id="device">%1$s</xliff:g> engedélyezze…</string>
+    <string name="local_auto_sync_declined"><xliff:g id="device">%1$s</xliff:g> nem engedélyezte az automatikus szinkronizálást.</string>
+    <string name="local_auto_sync_accept_title">Engedélyezed az automatikus szinkronizálást?</string>
+    <string name="local_auto_sync_accept_body"><xliff:g id="device">%1$s</xliff:g> magától szeretne szinkronizálni ezzel az eszközzel, amikor az OwnTV mindkettőn nyitva van. Csak az jön be, amit ezen az eszközön engedélyezel, és bármelyikük kikapcsolhatja.</string>
+    <string name="local_auto_sync_accept">Engedélyezés</string>
+    <string name="local_auto_sync_decline">Elutasítás</string>
+    <string name="local_auto_sync_what_to_sync">Mit szinkronizál ez az eszköz</string>
+    <string name="local_auto_sync_when">Milyen gyakran</string>
+    <string name="local_auto_sync_timing_immediately">Minden alkalommal, amikor valamelyik alkalmazás megnyílik vagy bezárul</string>
+    <string name="local_auto_sync_timing_daily">Naponta</string>
+    <string name="local_auto_sync_timing_weekly">Hetente</string>
+    <string name="local_auto_sync_note">Az automatikus szinkronizálás mindkét irányban összefésül, és ami törölve lett, törölve marad. Minden eszköz maga dönti el, mit enged át: a lejátszási listák a belépési adataikkal és a Beállítások csak oda kerülnek, ahol be vannak jelölve.</string>
+    <string name="local_auto_sync_last_run">Utolsó automatikus szinkronizálás: <xliff:g id="when">%1$s</xliff:g></string>
+    <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> ezt szinkronizálja: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">Profilok: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">Összekapcsolja ezt a profilt (<xliff:g id="profile">%1$s</xliff:g>) a(z) <xliff:g id="device">%2$s</xliff:g> eszközön használt profillal.</string>
+    <string name="local_auto_sync_turned_off">Az automatikus szinkronizálás kikapcsolva itt: <xliff:g id="device">%1$s</xliff:g></string>
+    <string name="local_auto_sync_unreachable"><xliff:g id="device">%1$s</xliff:g> nem érhető el, később újra próbálja</string>
+    <string name="local_auto_sync_listen">Automatikus szinkronizálás figyelése</string>
+    <string name="local_auto_sync_listen_description">Be: a párosított eszközök szinkronizálhatnak ezzel, amikor az OwnTV itt nyitva van. Ki: csak bekapcsolt szinkronizálási módban.</string>
+    <string name="local_auto_sync_listening">Figyel</string>
     <string name="more_pane_last_backup">Legutóbbi mentés</string>
     <string name="more_pane_encrypted">Titkosítva</string>
     <string name="more_group_your_things">Saját dolgaid</string>

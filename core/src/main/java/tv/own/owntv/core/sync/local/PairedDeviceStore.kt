@@ -37,7 +37,12 @@ data class PairedDevice(
     val secret: String,
     val pairedAt: Long,
     val lastSyncAt: Long = 0,
+    /** Where its automatic-sync listener answers; that listener's fixed port unless it said otherwise. */
+    val autoPort: Int = AUTO_SYNC_PORT,
 )
+
+/** The automatic-sync listener's port: not the manual one, which every companion mode restarts. */
+const val AUTO_SYNC_PORT = 8090
 
 /**
  * Short codes for the paired devices whose names alone would not tell them apart.
@@ -122,6 +127,18 @@ class PairedDeviceStore(context: Context) {
      * can reach across and delete it — but the secret it holds stops being accepted immediately,
      * which is what "unpaired" has to mean.
      */
+    /**
+     * [id] answered from [address]: an automatic-sync request reached it there, or it reached this
+     * device from there. Its manual port and last-sync time are left as they are; [autoPort] is
+     * stored when the other device said it.
+     */
+    suspend fun updateAddress(id: String, address: String, autoPort: Int? = null) {
+        store.edit { prefs ->
+            val all = parse(prefs[DEVICES_KEY])
+            prefs[DEVICES_KEY] = write(all.map { if (it.id == id) it.copy(address = address, autoPort = autoPort ?: it.autoPort) else it })
+        }
+    }
+
     suspend fun remove(id: String) {
         store.edit { prefs ->
             prefs[DEVICES_KEY] = write(parse(prefs[DEVICES_KEY]).filterNot { it.id == id })
@@ -141,6 +158,7 @@ class PairedDeviceStore(context: Context) {
                 secret = o.optString("secret"),
                 pairedAt = o.optLong("pairedAt"),
                 lastSyncAt = o.optLong("lastSyncAt"),
+                autoPort = o.optInt("autoPort", AUTO_SYNC_PORT),
             )
         }
     }
@@ -155,7 +173,8 @@ class PairedDeviceStore(context: Context) {
                     .put("port", it.port)
                     .put("secret", it.secret)
                     .put("pairedAt", it.pairedAt)
-                    .put("lastSyncAt", it.lastSyncAt),
+                    .put("lastSyncAt", it.lastSyncAt)
+                    .put("autoPort", it.autoPort),
             )
         }
     }.toString()

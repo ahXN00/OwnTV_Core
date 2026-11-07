@@ -1298,16 +1298,36 @@
     <string name="settings_customize_wrong_pin">Wrong PIN — try again</string>
     <!-- Translators: Heading on the Customize PIN entry screen. -->
     <string name="settings_customize_enter_pin">Enter PIN</string>
-    <!-- Translators: Button to set a PIN on the Customize screen. The lock emoji is part of the display. -->
-    <string name="settings_customize_set_pin">🔒 Set PIN</string>
-    <!-- Translators: Button to change the PIN on the Customize screen. The lock emoji is part of the display. -->
-    <string name="settings_customize_change_pin">🔒 Change PIN</string>
+    <!-- Translators: Customize screen menu entry: set the PIN that opens locked categories. The lock emoji is part of the display. -->
+    <string name="settings_customize_set_pin">🔒 Set category lock PIN</string>
+    <!-- Translators: Customize screen menu entry: change the PIN that opens locked categories. The lock emoji is part of the display. -->
+    <string name="settings_customize_change_pin">🔒 Change category lock PIN</string>
+    <!-- Translators: Customize screen menu entry: remove the PIN that opens locked categories (every category lock goes with it). -->
+    <string name="settings_customize_remove_pin">Remove category lock PIN</string>
     <!-- Translators: Button to remove the PIN lock from the Customize screen. -->
     <string name="settings_customize_remove_lock">Remove lock</string>
-    <!-- Translators: Name of the option, in the Customize screen menu, that makes opening Settings ask for the Customize PIN. Also a Settings search result. -->
-    <string name="settings_customize_settings_pin">Ask for PIN to open Settings</string>
-    <!-- Translators: The same option as a Customize menu entry showing its state. "state" is On or Off. -->
-    <string name="settings_customize_settings_pin_button">Ask for PIN to open Settings: <xliff:g id="state">%1$s</xliff:g></string>
+    <!-- Translators: Settings › App row: a PIN of its own that Settings, Backup & Restore and Local sync ask for. Also the popup title. -->
+    <string name="settings_lock">Settings lock</string>
+    <!-- Translators: Description under the Settings lock row and in its popup. -->
+    <string name="settings_lock_description">Settings, Backup &amp; Restore and Local sync ask for a PIN of their own. Each profile sets its own.</string>
+    <!-- Translators: Short line for the Settings lock row on the TV. -->
+    <string name="settings_line_settings_lock">A PIN of its own for Settings</string>
+    <!-- Translators: Help panel text for the Settings lock row. -->
+    <string name="settings_help_settings_lock">A PIN for this profile that Settings, Backup &amp; Restore and Local sync ask for before they open. It is neither the profile PIN nor the category lock PIN: each lock has its own PIN, and none of them opens another. Change PIN and Turn off ask for the current Settings PIN.</string>
+    <!-- Translators: Switch shown under the Settings lock while it is on: the long-press menu's organising actions ask for the Settings PIN too. -->
+    <string name="settings_lock_menus">Also lock long-press menu changes</string>
+    <!-- Translators: Description of the switch above. -->
+    <string name="settings_lock_menus_description">Hide, Move, Rename, locking a category and Remove from History ask for the Settings PIN too. Favorites and Play never do.</string>
+    <!-- Translators: Short line for the long-press switch on the TV. -->
+    <string name="settings_line_settings_lock_menus">Long-press changes ask for the Settings PIN</string>
+    <!-- Translators: Help panel text for the long-press switch. -->
+    <string name="settings_help_settings_lock_menus">With this on, the long-press changes (Hide, Move, Rename, Lock category and Remove from History) ask for the Settings PIN first. One right PIN opens them until you leave the app or switch profile. Adding to Favorites and playing never ask.</string>
+    <!-- Translators: Button in the Settings lock popup: set a new Settings PIN (asks for the current one first). -->
+    <string name="settings_lock_change_pin">Change PIN</string>
+    <!-- Translators: Button in the Settings lock popup: turn the Settings lock off (asks for the current PIN first). -->
+    <string name="settings_lock_turn_off">Turn off</string>
+    <!-- Translators: Settings search keywords for the Settings lock, space-separated, lowercase. -->
+    <string name="settings_search_keywords_settings_lock">lock pin password parental settings</string>
     <!-- Translators: Description of the Customize Categories & Items feature. -->
     <string name="settings_customize_description">Hide &amp; unhide channels, movies and series, and rename or reorder categories for this profile. Survives re-syncs.</string>
     <!-- Translators: Setting label for new-category visibility behavior. -->
@@ -1392,10 +1412,8 @@
     <string name="settings_customize_restore_defaults_description">Hidden categories and items show again, renames and custom order are cleared, and moved-out items return. Combined categories, favorites and guide matches are kept.</string>
     <!-- Translators: Hint text in the rename dialog. 'name' is the current category name. -->
     <string name="settings_customize_rename_hint">Only for this profile. Leave blank to restore “<xliff:g id="name">%1$s</xliff:g>”.</string>
-    <!-- Translators: Dialog title for removing the Customize screen PIN lock. -->
-    <string name="settings_customize_remove_pin_title">Remove PIN lock?</string>
-    <!-- Translators: Description of what removing the PIN lock does. -->
-    <string name="settings_customize_remove_pin_message">The Customize screen will open without asking for a PIN again.</string>
+    <!-- Translators: Dialog title for removing the PIN that opens locked categories. -->
+    <string name="settings_customize_remove_pin_title">Remove the category lock PIN?</string>
     <!-- Translators: Second sentence of the remove-PIN confirmation: categories locked from the Live TV, Movies or Series menu lose their lock as well. -->
     <string name="settings_customize_remove_pin_locks">Every category locked with this PIN is unlocked too.</string>
     <!-- Translators: Button to confirm removal. -->
@@ -1708,8 +1726,6 @@
     <string name="settings_backup_profile_current">“<xliff:g id="name">%1$s</xliff:g>” (current)</string>
     <!-- Translators: Profile label indicating a locked profile. 'name' is the profile name. -->
     <string name="settings_backup_profile_locked">“<xliff:g id="name">%1$s</xliff:g>” is locked</string>
-    <!-- Translators: Text-field label for the profile PIN in backup settings. -->
-    <string name="settings_backup_profile_pin">Profile PIN</string>
     <!-- Translators: Error text when the PIN is incorrect. -->
     <string name="settings_backup_pin_incorrect">PIN incorrect.</string>
     <!-- Translators: Status text when the profile is PIN-locked. -->
@@ -1798,6 +1814,24 @@
     <string name="settings_backup_selected_profiles">The backup will contain only the selected profiles and their data. Locked profiles need their PIN.</string>
     <!-- Translators: Description explaining why a PIN is needed for locked profiles in backups. -->
     <string name="settings_backup_profile_pin_description">This isn\'t your current profile. Enter its PIN to include it in the backup — without the PIN, its data won\'t be backed up.</string>
+    <!-- Translators: Restore, a profile in the backup has the name of one already on this device. %1$s is the name. -->
+    <string name="settings_backup_profile_clash_title">“<xliff:g id="name">%1$s</xliff:g>” is already on this device</string>
+    <!-- Translators: Under that title. -->
+    <string name="settings_backup_profile_clash_body">The backup has a profile with the same name. What should happen to it?</string>
+    <!-- Translators: Choice: merge the backup's profile into the one already here. -->
+    <string name="settings_backup_profile_merge">Merge into it</string>
+    <!-- Translators: What merging does. -->
+    <string name="settings_backup_profile_merge_description">Keeps what it has here and adds what the backup brings.</string>
+    <!-- Translators: Choice: clear the profile here, then restore the backup's. -->
+    <string name="settings_backup_profile_replace">Replace it</string>
+    <!-- Translators: What replacing does. -->
+    <string name="settings_backup_profile_replace_description">Its favorites, watch history, resume positions, customizations and manual order here are cleared first, for the parts being restored.</string>
+    <!-- Translators: Choice: keep the profile here and add the backup's as a new profile. -->
+    <string name="settings_backup_profile_keep_both">Keep both</string>
+    <!-- Translators: What keeping both does. %1$s is the new profile's name. -->
+    <string name="settings_backup_profile_keep_both_description">The backup\'s profile comes in as a new profile, “<xliff:g id="name">%1$s</xliff:g>”.</string>
+    <!-- Translators: Name of a restored profile kept beside one with the same name. %1$s is the original name. -->
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (restored)</string>
 
     <!-- Translators: Label for an optional field. Lowercase is intentional. -->
     <string name="settings_metadata_optional">optional</string>
@@ -2325,6 +2359,59 @@
     <string name="local_sync_already_paired">Already paired</string>
     <!-- Translators: A device name followed by a short code, used only when two paired devices are the same model and share a name. %1$s is the device name, %2$s a four-character code. -->
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <!-- Translators: Local sync, before a sync starts: only the profile in use is synced. %1$s is its name. -->
+    <string name="local_sync_profile_note">Only the profile in use syncs: <xliff:g id="profile">%1$s</xliff:g> here, with the profile in use on the other device.</string>
+    <!-- Auto-sync: two paired devices syncing by themselves while OwnTV is open on both. -->
+    <!-- Translators: Name of the feature, and of the button on a paired device's row in Local sync that opens its settings. -->
+    <string name="local_auto_sync_title">Auto-sync</string>
+    <!-- Translators: Line under the title of one paired device's Auto-sync settings. -->
+    <string name="local_auto_sync_for_device">What this device syncs with <xliff:g id="device">%1$s</xliff:g> by itself, and how often.</string>
+    <!-- Translators: The switch that turns auto-sync with one paired device on or off. -->
+    <string name="local_auto_sync_enable">Auto-sync with this device</string>
+    <!-- Translators: Under the switch while it is off: what turning it on needs. -->
+    <string name="local_auto_sync_enable_hint">Open Local sync on the other device too: it is asked to allow it.</string>
+    <!-- Translators: Under the switch while the other device is being asked. -->
+    <string name="local_auto_sync_waiting">Waiting for <xliff:g id="device">%1$s</xliff:g> to allow…</string>
+    <!-- Translators: The other device said no, or nobody answered. -->
+    <string name="local_auto_sync_declined"><xliff:g id="device">%1$s</xliff:g> didn\'t allow auto-sync.</string>
+    <!-- Translators: Title of the question on the other device. -->
+    <string name="local_auto_sync_accept_title">Allow auto-sync?</string>
+    <!-- Translators: The question on the other device. %1$s is the asking device's name. -->
+    <string name="local_auto_sync_accept_body"><xliff:g id="device">%1$s</xliff:g> wants to sync with this device by itself whenever OwnTV is open on both. Only what you allow on this device comes in, and either device can turn it off.</string>
+    <!-- Translators: Button that allows it. -->
+    <string name="local_auto_sync_accept">Allow</string>
+    <!-- Translators: Button that refuses it; focused by default. -->
+    <string name="local_auto_sync_decline">Don\'t allow</string>
+    <!-- Translators: Heading over the sections this device lets travel. -->
+    <string name="local_auto_sync_what_to_sync">What this device syncs</string>
+    <!-- Translators: Heading over the timing choices: the least time between two automatic syncs. -->
+    <string name="local_auto_sync_when">How often</string>
+    <!-- Translators: Timing choice: every time either device opens or leaves OwnTV. -->
+    <string name="local_auto_sync_timing_immediately">Each time either app opens or closes</string>
+    <!-- Translators: Timing choice: at most once a day. -->
+    <string name="local_auto_sync_timing_daily">Daily</string>
+    <!-- Translators: Timing choice: at most once a week. -->
+    <string name="local_auto_sync_timing_weekly">Weekly</string>
+    <!-- Translators: Note at the bottom of one device's Auto-sync settings. -->
+    <string name="local_auto_sync_note">Auto-sync merges both ways, and deletions stay deleted. Each device decides what it lets through: playlists with their logins and Settings travel only where they are ticked.</string>
+    <!-- Translators: Line under a paired device's row: when the last automatic sync with it completed. %1$s is a relative time such as “2 hours ago”. -->
+    <string name="local_auto_sync_last_run">Last auto-sync: <xliff:g id="when">%1$s</xliff:g></string>
+    <!-- Translators: What the other device lets travel. %1$s is its name, %2$s a list of sections. -->
+    <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> syncs: <xliff:g id="sections">%2$s</xliff:g></string>
+    <!-- Translators: The two profiles an auto-sync keeps as one: this device's, then the other device's. -->
+    <string name="local_auto_sync_profiles">Profiles: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <!-- Translators: In an auto-sync's settings before it is on. %1$s is the profile in use here, %2$s the other device. -->
+    <string name="local_auto_sync_profile_hint">Pairs this profile, <xliff:g id="profile">%1$s</xliff:g>, with the profile in use on <xliff:g id="device">%2$s</xliff:g>.</string>
+    <!-- Translators: Line under a paired device's row: the other device turned auto-sync off. -->
+    <string name="local_auto_sync_turned_off">Auto-sync turned off on <xliff:g id="device">%1$s</xliff:g></string>
+    <!-- Translators: Line under a paired device's row: the last automatic sync could not reach it. -->
+    <string name="local_auto_sync_unreachable">Couldn\'t reach <xliff:g id="device">%1$s</xliff:g>, will try again</string>
+    <!-- Translators: Switch on the Local sync page: whether the auto-sync listener runs while OwnTV is open, not only in Sync mode. -->
+    <string name="local_auto_sync_listen">Keep auto-sync listening</string>
+    <!-- Translators: Description of that switch: the trade-off in one line. -->
+    <string name="local_auto_sync_listen_description">On: paired devices can auto-sync with this one whenever OwnTV is open here. Off: only while Sync mode is on.</string>
+    <!-- Translators: State of that switch's listener: it is running now. -->
+    <string name="local_auto_sync_listening">Listening</string>
     <!-- Translators: Label for the date of the most recent backup, in the More screen's Backup preview pane. -->
     <string name="more_pane_last_backup">Last backup</string>
     <!-- Translators: Shown beside a backup file size when that backup is password-encrypted. -->

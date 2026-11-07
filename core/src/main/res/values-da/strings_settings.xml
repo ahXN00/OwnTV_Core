@@ -630,11 +630,21 @@
     <string name="settings_customize_pin_locked">Denne skærm er PIN-låst.</string>
     <string name="settings_customize_wrong_pin">Forkert PIN — prøv igen</string>
     <string name="settings_customize_enter_pin">Indtast PIN</string>
-    <string name="settings_customize_set_pin">🔒 Angiv PIN</string>
-    <string name="settings_customize_change_pin">🔒 Skift PIN</string>
+    <string name="settings_customize_set_pin">🔒 Angiv pinkode til kategorilås</string>
+    <string name="settings_customize_change_pin">🔒 Skift pinkode til kategorilås</string>
+    <string name="settings_customize_remove_pin">Fjern pinkode til kategorilås</string>
     <string name="settings_customize_remove_lock">Fjern lås</string>
-    <string name="settings_customize_settings_pin">Bed om PIN for at åbne Indstillinger</string>
-    <string name="settings_customize_settings_pin_button">Bed om PIN for at åbne Indstillinger: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">Lås af indstillinger</string>
+    <string name="settings_lock_description">Indstillinger, Sikkerhedskopi og gendannelse og Lokal synkronisering beder om deres egen pinkode. Hver profil vælger sin egen.</string>
+    <string name="settings_line_settings_lock">En egen pinkode til Indstillinger</string>
+    <string name="settings_help_settings_lock">En pinkode til denne profil, som Indstillinger, Sikkerhedskopi og gendannelse og Lokal synkronisering beder om, før de åbner. Den er hverken profilens pinkode eller pinkoden til kategorilås: hver lås har sin egen pinkode, og ingen af dem åbner en anden. Skift pinkode og Slå fra beder om den nuværende pinkode til indstillinger.</string>
+    <string name="settings_lock_menus">Lås også ændringer i menuen ved langt tryk</string>
+    <string name="settings_lock_menus_description">Skjul, Flyt, Omdøb, låsning af en kategori og Fjern fra historik beder også om pinkoden til indstillinger. Favoritter og Afspil gør aldrig.</string>
+    <string name="settings_line_settings_lock_menus">Ændringer ved langt tryk beder om pinkoden til indstillinger</string>
+    <string name="settings_help_settings_lock_menus">Når dette er slået til, beder ændringerne ved langt tryk (Skjul, Flyt, Omdøb, Lås kategori og Fjern fra historik) først om pinkoden til indstillinger. Én korrekt pinkode åbner dem, indtil du forlader appen eller skifter profil. Tilføj til favoritter og afspilning beder aldrig om den.</string>
+    <string name="settings_lock_change_pin">Skift pinkode</string>
+    <string name="settings_lock_turn_off">Slå fra</string>
+    <string name="settings_search_keywords_settings_lock">lås pinkode adgangskode forældre indstillinger</string>
     <string name="settings_customize_description">Skjul og vis kanaler, film og serier, og omdøb eller omarranger kategorier for denne profil. Bevares ved synkronisering igen.</string>
     <string name="settings_customize_new_category_behavior">Adfærd for nye kategorier</string>
     <string name="settings_customize_hide">Skjul</string>
@@ -678,8 +688,7 @@
     <string name="settings_customize_restore_defaults_title">Gendan <xliff:g id="section">%1$s</xliff:g> i <xliff:g id="playlist">%2$s</xliff:g>\?</string>
     <string name="settings_customize_restore_defaults_description">Skjulte kategorier og elementer vises igen, omdøbninger og egen rækkefølge ryddes, og flyttede elementer vender tilbage. Kombinerede kategorier, favoritter og programguide-koblinger bevares.</string>
     <string name="settings_customize_rename_hint">Kun for denne profil. Lad feltet være tomt for at gendanne “<xliff:g id="name">%1$s</xliff:g>”.</string>
-    <string name="settings_customize_remove_pin_title">Fjern PIN-lås?</string>
-    <string name="settings_customize_remove_pin_message">Skærmen Tilpas åbnes fremover uden at bede om en PIN.</string>
+    <string name="settings_customize_remove_pin_title">Fjern pinkoden til kategorilås?</string>
     <string name="settings_customize_remove_pin_locks">Alle kategorier, der er låst med denne PIN, låses også op.</string>
     <string name="settings_customize_remove">Fjern</string>
     <string name="settings_customize_confirm_pin">Bekræft ny PIN</string>
@@ -843,7 +852,6 @@
     <string name="settings_backup_kids_profile">Børneprofil</string>
     <string name="settings_backup_profile_current">“<xliff:g id="name">%1$s</xliff:g>” (aktuel)</string>
     <string name="settings_backup_profile_locked">“<xliff:g id="name">%1$s</xliff:g>” er låst</string>
-    <string name="settings_backup_profile_pin">Profilens PIN</string>
     <string name="settings_backup_pin_incorrect">Forkert PIN.</string>
     <string name="settings_backup_pin_locked">PIN-låst</string>
     <string name="settings_backup_unlock">Lås op</string>
@@ -891,6 +899,15 @@
     <string name="settings_backup_which_profiles">Hvilke profiler der skal sikkerhedskopieres</string>
     <string name="settings_backup_selected_profiles">Sikkerhedskopien vil kun indeholde de valgte profiler og deres data. Låste profiler kræver deres PIN.</string>
     <string name="settings_backup_profile_pin_description">Dette er ikke din aktuelle profil. Indtast dens PIN for at medtage den i sikkerhedskopien — uden PIN-koden bliver dens data ikke sikkerhedskopieret.</string>
+    <string name="settings_backup_profile_clash_title">“<xliff:g id="name">%1$s</xliff:g>” findes allerede på denne enhed</string>
+    <string name="settings_backup_profile_clash_body">Sikkerhedskopien har en profil med samme navn. Hvad skal der ske med den?</string>
+    <string name="settings_backup_profile_merge">Flet ind i den</string>
+    <string name="settings_backup_profile_merge_description">Beholder det, den har her, og tilføjer det, sikkerhedskopien har med.</string>
+    <string name="settings_backup_profile_replace">Erstat den</string>
+    <string name="settings_backup_profile_replace_description">Dens favoritter, historik, genoptagelsespunkter, tilpasninger og manuelle rækkefølge her ryddes først for de dele, der gendannes.</string>
+    <string name="settings_backup_profile_keep_both">Behold begge</string>
+    <string name="settings_backup_profile_keep_both_description">Profilen fra sikkerhedskopien kommer ind som en ny profil: “<xliff:g id="name">%1$s</xliff:g>”.</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (gendannet)</string>
     <string name="settings_metadata_optional">valgfri</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">Masseomdøbning</string>
@@ -1232,6 +1249,32 @@
     <string name="local_sync_last_synced">Sidst synkroniseret: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Allerede parret</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">Kun den profil, der er i brug, synkroniseres: <xliff:g id="profile">%1$s</xliff:g> her, med den profil, der er i brug på den anden enhed.</string>
+    <string name="local_auto_sync_title">Automatisk synkronisering</string>
+    <string name="local_auto_sync_for_device">Hvad denne enhed selv synkroniserer med <xliff:g id="device">%1$s</xliff:g>, og hvor ofte.</string>
+    <string name="local_auto_sync_enable">Automatisk synkronisering med denne enhed</string>
+    <string name="local_auto_sync_enable_hint">Åbn også Lokal synkronisering på den anden enhed: den bliver spurgt, om den vil tillade det.</string>
+    <string name="local_auto_sync_waiting">Venter på, at <xliff:g id="device">%1$s</xliff:g> tillader det …</string>
+    <string name="local_auto_sync_declined"><xliff:g id="device">%1$s</xliff:g> tillod ikke automatisk synkronisering.</string>
+    <string name="local_auto_sync_accept_title">Tillad automatisk synkronisering?</string>
+    <string name="local_auto_sync_accept_body"><xliff:g id="device">%1$s</xliff:g> vil selv synkronisere med denne enhed, når OwnTV er åben på begge. Kun det, du tillader på denne enhed, kommer ind, og begge enheder kan slå det fra.</string>
+    <string name="local_auto_sync_accept">Tillad</string>
+    <string name="local_auto_sync_decline">Tillad ikke</string>
+    <string name="local_auto_sync_what_to_sync">Hvad denne enhed synkroniserer</string>
+    <string name="local_auto_sync_when">Hvor ofte</string>
+    <string name="local_auto_sync_timing_immediately">Hver gang en af apperne åbnes eller lukkes</string>
+    <string name="local_auto_sync_timing_daily">Dagligt</string>
+    <string name="local_auto_sync_timing_weekly">Ugentligt</string>
+    <string name="local_auto_sync_note">Automatisk synkronisering fletter begge veje, og det slettede forbliver slettet. Hver enhed bestemmer, hvad den lukker ind: playlister med deres login og Indstillinger rejser kun derhen, hvor de er markeret.</string>
+    <string name="local_auto_sync_last_run">Seneste automatiske synkronisering: <xliff:g id="when">%1$s</xliff:g></string>
+    <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> synkroniserer: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">Profiler: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">Parrer denne profil, <xliff:g id="profile">%1$s</xliff:g>, med den profil, der bruges på <xliff:g id="device">%2$s</xliff:g>.</string>
+    <string name="local_auto_sync_turned_off">Automatisk synkronisering slået fra på <xliff:g id="device">%1$s</xliff:g></string>
+    <string name="local_auto_sync_unreachable">Kunne ikke nå <xliff:g id="device">%1$s</xliff:g>, prøver igen</string>
+    <string name="local_auto_sync_listen">Lyt efter automatisk synkronisering</string>
+    <string name="local_auto_sync_listen_description">Til: parrede enheder kan synkronisere med denne, når OwnTV er åben her. Fra: kun mens synkroniseringstilstand er slået til.</string>
+    <string name="local_auto_sync_listening">Lytter</string>
     <string name="more_pane_last_backup">Seneste sikkerhedskopi</string>
     <string name="more_pane_encrypted">Krypteret</string>
     <string name="more_group_your_things">Dine ting</string>

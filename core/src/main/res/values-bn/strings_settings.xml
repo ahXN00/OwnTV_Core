@@ -630,11 +630,21 @@
     <string name="settings_customize_pin_locked">এই স্ক্রিনটি PIN দিয়ে লক করা।</string>
     <string name="settings_customize_wrong_pin">ভুল PIN—আবার চেষ্টা করুন</string>
     <string name="settings_customize_enter_pin">PIN লিখুন</string>
-    <string name="settings_customize_set_pin">🔒 PIN সেট করুন</string>
-    <string name="settings_customize_change_pin">🔒 PIN পরিবর্তন করুন</string>
+    <string name="settings_customize_set_pin">🔒 ক্যাটাগরি লকের PIN সেট করুন</string>
+    <string name="settings_customize_change_pin">🔒 ক্যাটাগরি লকের PIN বদলান</string>
+    <string name="settings_customize_remove_pin">ক্যাটাগরি লকের PIN সরান</string>
     <string name="settings_customize_remove_lock">লক সরান</string>
-    <string name="settings_customize_settings_pin">সেটিংস খুলতে PIN চাওয়া হবে</string>
-    <string name="settings_customize_settings_pin_button">সেটিংস খুলতে PIN চাওয়া হবে: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">সেটিংস লক</string>
+    <string name="settings_lock_description">সেটিংস, ব্যাকআপ ও পুনরুদ্ধার এবং লোকাল সিঙ্ক নিজেদের আলাদা PIN চায়। প্রতিটি প্রোফাইল নিজের PIN সেট করে।</string>
+    <string name="settings_line_settings_lock">সেটিংসের জন্য আলাদা PIN</string>
+    <string name="settings_help_settings_lock">এই প্রোফাইলের একটি PIN, যা সেটিংস, ব্যাকআপ ও পুনরুদ্ধার এবং লোকাল সিঙ্ক খোলার আগে চায়। এটি প্রোফাইলের PIN নয়, ক্যাটাগরি লকের PIN-ও নয়: প্রতিটি লকের নিজস্ব PIN আছে, এবং কোনোটি অন্যটি খোলে না। PIN বদলান ও বন্ধ করুন বর্তমান সেটিংস PIN চায়।</string>
+    <string name="settings_lock_menus">লং-প্রেস মেনুর পরিবর্তনগুলোও লক করুন</string>
+    <string name="settings_lock_menus_description">লুকান, সরান, নাম বদলান, কোনো ক্যাটাগরি লক করা এবং দেখার ইতিহাস থেকে সরানোও সেটিংস PIN চায়। ফেভারিট ও প্লে কখনো চায় না।</string>
+    <string name="settings_line_settings_lock_menus">লং-প্রেসের পরিবর্তন সেটিংস PIN চায়</string>
+    <string name="settings_help_settings_lock_menus">এটি চালু থাকলে লং-প্রেসের পরিবর্তনগুলো (লুকান, সরান, নাম বদলান, ক্যাটাগরি লক করুন এবং দেখার ইতিহাস থেকে সরান) আগে সেটিংস PIN চায়। একটি সঠিক PIN অ্যাপ ছেড়ে যাওয়া বা প্রোফাইল বদলানো পর্যন্ত সেগুলো খুলে রাখে। ফেভারিটে যোগ করা ও প্লে করা কখনো চায় না।</string>
+    <string name="settings_lock_change_pin">PIN বদলান</string>
+    <string name="settings_lock_turn_off">বন্ধ করুন</string>
+    <string name="settings_search_keywords_settings_lock">লক pin পাসওয়ার্ড প্যারেন্টাল সেটিংস</string>
     <string name="settings_customize_description">এই প্রোফাইলের জন্য চ্যানেল, সিনেমা ও সিরিজ লুকান বা আবার দেখান এবং বিভাগগুলোর নাম পরিবর্তন বা ক্রম বদলান। পুনরায় সিঙ্ক করলেও এগুলো বজায় থাকবে।</string>
     <string name="settings_customize_new_category_behavior">নতুন বিভাগের আচরণ</string>
     <string name="settings_customize_hide">লুকান</string>
@@ -678,8 +688,7 @@
     <string name="settings_customize_restore_defaults_title"><xliff:g id="playlist">%2$s</xliff:g>-এর <xliff:g id="section">%1$s</xliff:g> ডিফল্টে ফিরিয়ে আনবেন?</string>
     <string name="settings_customize_restore_defaults_description">লুকানো বিভাগ ও আইটেম আবার দেখাবে, নাম পরিবর্তন ও কাস্টম ক্রম মুছে যাবে এবং সরিয়ে নেওয়া আইটেম ফিরে আসবে। সম্মিলিত বিভাগ, পছন্দেরগুলো ও অনুষ্ঠান নির্দেশিকার মিল অপরিবর্তিত থাকবে।</string>
     <string name="settings_customize_rename_hint">শুধু এই প্রোফাইলের জন্য। “<xliff:g id="name">%1$s</xliff:g>” ফিরিয়ে আনতে ফাঁকা রাখুন।</string>
-    <string name="settings_customize_remove_pin_title">PIN লক সরাবেন?</string>
-    <string name="settings_customize_remove_pin_message">নিজের মতো সাজানোর স্ক্রিনটি আবার PIN না চেয়েই খুলবে।</string>
+    <string name="settings_customize_remove_pin_title">ক্যাটাগরি লকের PIN সরাবেন?</string>
     <string name="settings_customize_remove_pin_locks">এই PIN দিয়ে লক করা সব বিভাগও আনলক হয়ে যাবে।</string>
     <string name="settings_customize_remove">সরান</string>
     <string name="settings_customize_confirm_pin">নতুন PIN নিশ্চিত করুন</string>
@@ -843,7 +852,6 @@
     <string name="settings_backup_kids_profile">শিশুদের প্রোফাইল</string>
     <string name="settings_backup_profile_current">“<xliff:g id="name">%1$s</xliff:g>” (বর্তমান)</string>
     <string name="settings_backup_profile_locked">“<xliff:g id="name">%1$s</xliff:g>” লক করা</string>
-    <string name="settings_backup_profile_pin">প্রোফাইল PIN</string>
     <string name="settings_backup_pin_incorrect">PIN সঠিক নয়।</string>
     <string name="settings_backup_pin_locked">PIN দিয়ে লক করা</string>
     <string name="settings_backup_unlock">আনলক করুন</string>
@@ -891,6 +899,15 @@
     <string name="settings_backup_which_profiles">কোন প্রোফাইলগুলো ব্যাকআপ করবেন</string>
     <string name="settings_backup_selected_profiles">ব্যাকআপে শুধু নির্বাচিত প্রোফাইল ও সেগুলোর ডেটা থাকবে। লক করা প্রোফাইলের PIN প্রয়োজন।</string>
     <string name="settings_backup_profile_pin_description">এটি আপনার বর্তমান প্রোফাইল নয়। ব্যাকআপে অন্তর্ভুক্ত করতে এর PIN লিখুন—PIN ছাড়া এর ডেটা ব্যাকআপ করা হবে না।</string>
+    <string name="settings_backup_profile_clash_title">“<xliff:g id="name">%1$s</xliff:g>” এই ডিভাইসে আগেই আছে</string>
+    <string name="settings_backup_profile_clash_body">ব্যাকআপে একই নামের একটি প্রোফাইল আছে। এটি নিয়ে কী করা হবে?</string>
+    <string name="settings_backup_profile_merge">এর সঙ্গে মেলান</string>
+    <string name="settings_backup_profile_merge_description">এখানে যা আছে তা রাখে এবং ব্যাকআপ যা আনে তা যোগ করে।</string>
+    <string name="settings_backup_profile_replace">এটি বদলে দিন</string>
+    <string name="settings_backup_profile_replace_description">যে অংশগুলো পুনরুদ্ধার হচ্ছে, তার জন্য এখানের ফেভারিট, দেখার ইতিহাস, চালিয়ে যাওয়ার অবস্থান, কাস্টমাইজেশন ও নিজের সাজানো ক্রম আগে মুছে ফেলা হয়।</string>
+    <string name="settings_backup_profile_keep_both">দুটোই রাখুন</string>
+    <string name="settings_backup_profile_keep_both_description">ব্যাকআপের প্রোফাইল নতুন প্রোফাইল হিসেবে আসবে: “<xliff:g id="name">%1$s</xliff:g>”।</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (পুনরুদ্ধার করা)</string>
     <string name="settings_metadata_optional">ঐচ্ছিক</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">একসঙ্গে নাম পরিবর্তন</string>
@@ -1232,6 +1249,32 @@
     <string name="local_sync_last_synced">শেষ সিঙ্ক: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">ইতিমধ্যে যুক্ত</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">শুধু ব্যবহৃত প্রোফাইলটি সিঙ্ক হয়: এখানে <xliff:g id="profile">%1$s</xliff:g>, অন্য ডিভাইসে ব্যবহৃত প্রোফাইলের সঙ্গে।</string>
+    <string name="local_auto_sync_title">অটো-সিঙ্ক</string>
+    <string name="local_auto_sync_for_device">এই ডিভাইস <xliff:g id="device">%1$s</xliff:g>-এর সঙ্গে নিজে থেকে কী সিঙ্ক করে, আর কত ঘন ঘন।</string>
+    <string name="local_auto_sync_enable">এই ডিভাইসের সঙ্গে অটো-সিঙ্ক</string>
+    <string name="local_auto_sync_enable_hint">অন্য ডিভাইসেও লোকাল সিঙ্ক খুলুন: সেখানে অনুমতি চাওয়া হবে।</string>
+    <string name="local_auto_sync_waiting"><xliff:g id="device">%1$s</xliff:g>-এর অনুমতির অপেক্ষায়…</string>
+    <string name="local_auto_sync_declined"><xliff:g id="device">%1$s</xliff:g> অটো-সিঙ্কের অনুমতি দেয়নি।</string>
+    <string name="local_auto_sync_accept_title">অটো-সিঙ্কের অনুমতি দেবেন?</string>
+    <string name="local_auto_sync_accept_body">দুটোতেই OwnTV খোলা থাকলে <xliff:g id="device">%1$s</xliff:g> এই ডিভাইসের সঙ্গে নিজে থেকে সিঙ্ক করতে চায়। এই ডিভাইসে আপনি যা অনুমতি দেবেন শুধু সেটুকুই আসবে, আর যেকোনো ডিভাইস এটি বন্ধ করতে পারে।</string>
+    <string name="local_auto_sync_accept">অনুমতি দিন</string>
+    <string name="local_auto_sync_decline">অনুমতি দেবেন না</string>
+    <string name="local_auto_sync_what_to_sync">এই ডিভাইস কী সিঙ্ক করে</string>
+    <string name="local_auto_sync_when">কত ঘন ঘন</string>
+    <string name="local_auto_sync_timing_immediately">যেকোনো অ্যাপ খোলা বা বন্ধ হওয়ার সময়</string>
+    <string name="local_auto_sync_timing_daily">প্রতিদিন</string>
+    <string name="local_auto_sync_timing_weekly">প্রতি সপ্তাহে</string>
+    <string name="local_auto_sync_note">অটো-সিঙ্ক দুই দিকেই মেলায়, আর মুছে ফেলা জিনিস মোছাই থাকে। প্রতিটি ডিভাইস ঠিক করে কী ঢুকতে দেবে: লগইনসহ প্লেলিস্ট আর সেটিংস শুধু সেখানেই যায় যেখানে টিক দেওয়া আছে।</string>
+    <string name="local_auto_sync_last_run">শেষ অটো-সিঙ্ক: <xliff:g id="when">%1$s</xliff:g></string>
+    <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> সিঙ্ক করে: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">প্রোফাইল: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">এই প্রোফাইল, <xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="device">%2$s</xliff:g>-এ ব্যবহৃত প্রোফাইলের সঙ্গে জোড়া দেয়।</string>
+    <string name="local_auto_sync_turned_off"><xliff:g id="device">%1$s</xliff:g>-এ অটো-সিঙ্ক বন্ধ করা হয়েছে</string>
+    <string name="local_auto_sync_unreachable"><xliff:g id="device">%1$s</xliff:g>-এ পৌঁছানো যায়নি, আবার চেষ্টা করা হবে</string>
+    <string name="local_auto_sync_listen">অটো-সিঙ্কের জন্য শুনতে থাকুন</string>
+    <string name="local_auto_sync_listen_description">চালু: এখানে OwnTV খোলা থাকলেই পেয়ার করা ডিভাইস এর সঙ্গে সিঙ্ক করতে পারে। বন্ধ: শুধু সিঙ্ক মোড চালু থাকার সময়।</string>
+    <string name="local_auto_sync_listening">শুনছে</string>
     <string name="more_pane_last_backup">সর্বশেষ ব্যাকআপ</string>
     <string name="more_pane_encrypted">এনক্রিপ্ট করা</string>
     <string name="more_group_your_things">আপনার জিনিস</string>

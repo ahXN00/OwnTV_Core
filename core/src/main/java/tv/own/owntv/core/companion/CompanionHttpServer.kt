@@ -91,13 +91,18 @@ class CompanionHttpServer(
 
     /**
      * Local sync only (see [CompanionMode.LOCAL_SYNC]). [syncInfo] answers `/sync/hello`, [onPair]
-     * mints and stores a secret for a device that just typed the right PIN, and [pairedSecrets] are
-     * the secrets already issued — any one of them is accepted in place of the PIN, which is what
-     * makes the second sync one tap instead of a fresh six digits.
+     * mints and stores a secret for a device that just typed the right PIN, and [pairedSecrets] maps
+     * the secrets already issued to the device each one belongs to — any of them is accepted in
+     * place of the PIN, which is what makes the second sync one tap instead of a fresh six digits,
+     * and the mapping is what lets a request be attributed to a device rather than to "someone".
+     *
+     * [onAutoSyncAsk] is a paired device asking to set up automatic sync, with its terms: it suspends
+     * until the person here accepts or declines, and its answer is the answer that device receives.
      */
     @Volatile private var syncInfo: () -> String = { "{}" }
     @Volatile private var onPair: (name: String, address: String, deviceId: String) -> String? = { _, _, _ -> null }
-    @Volatile private var pairedSecrets: () -> Set<String> = { emptySet() }
+    @Volatile private var pairedSecrets: () -> Map<String, String> = { emptyMap() }
+    @Volatile private var onAutoSyncAsk: suspend (deviceId: String, request: org.json.JSONObject) -> org.json.JSONObject = NO_AUTO_SYNC
 
     /**
      * Bind [port] and start accepting. [pin] gates the pages and POST endpoints. [fontBytes], when
@@ -119,7 +124,8 @@ class CompanionHttpServer(
         downloadFile: File? = null,
         syncInfo: () -> String = { "{}" },
         onPair: (name: String, address: String, deviceId: String) -> String? = { _, _, _ -> null },
-        pairedSecrets: () -> Set<String> = { emptySet() },
+        pairedSecrets: () -> Map<String, String> = { emptyMap() },
+        onAutoSyncAsk: suspend (deviceId: String, request: org.json.JSONObject) -> org.json.JSONObject = NO_AUTO_SYNC,
         onLocked: () -> Unit = {},
     ): List<String> {
         stop()
@@ -137,6 +143,7 @@ class CompanionHttpServer(
         this.syncInfo = syncInfo
         this.onPair = onPair
         this.pairedSecrets = pairedSecrets
+        this.onAutoSyncAsk = onAutoSyncAsk
         val socket = ServerSocket()
         socket.reuseAddress = true
         socket.bind(InetSocketAddress(port))
@@ -157,7 +164,8 @@ class CompanionHttpServer(
         downloadFile = null
         syncInfo = { "{}" }
         onPair = { _, _, _ -> null }
-        pairedSecrets = { emptySet() }
+        pairedSecrets = { emptyMap() }
+        onAutoSyncAsk = NO_AUTO_SYNC
         runCatching { serverSocket?.close() }
         serverSocket = null
     }
@@ -271,7 +279,7 @@ class CompanionHttpServer(
             // so a phone can show "Living Room TV" before anyone commits to anything.
             if (method == "GET" && path == "/sync/hello") {
                 if (mode != CompanionMode.LOCAL_SYNC) return sendText(socket, 404, localized(R.string.companion_error_not_found))
-                if (!requireSyncAuth(queryPin.ifBlank { headers["x-companion-pin"].orEmpty() })) {
+                if (syncCaller(queryPin.ifBlank { headers["x-companion-pin"].orEmpty() }) == null) {
                     return sendText(socket, 401, localized(R.string.companion_error_unauthorized))
                 }
                 return sendJson(socket, 200, syncInfo())
@@ -300,12 +308,32 @@ class CompanionHttpServer(
                 return sendJson(socket, 200, org.json.JSONObject().put("secret", secret).toString())
             }
 
+            // A paired device asking to sync automatically from now on. The question goes to the
+            // person here and this call waits for their answer; nothing is enabled on either side
+            // until they accept. The PIN alone is not an identity, so it cannot ask: automatic sync
+            // is an agreement between two devices that already know each other.
+            if (method == "POST" && path == "/sync/auto-sync") {
+                if (mode != CompanionMode.LOCAL_SYNC) return sendText(socket, 404, localized(R.string.companion_error_not_found))
+                val caller = syncCaller(queryPin.ifBlank { headers["x-companion-pin"].orEmpty() })
+                    ?: return sendText(socket, 401, localized(R.string.companion_error_unauthorized))
+                // The PIN authenticates but names nobody, and a consent is per device. Refusing
+                // here is not "revoked": this caller never had a consent to begin with.
+                if (caller.isBlank()) {
+                    return sendText(socket, 401, localized(R.string.companion_error_unauthorized))
+                }
+                val body = CompanionHttpProtocol.readBody(input, headers, CompanionHttpProtocol.maxBodyBytes(path))
+                    ?: return sendText(socket, 413, localized(R.string.companion_error_body_too_large))
+                val request = runCatching { org.json.JSONObject(body) }.getOrElse { org.json.JSONObject() }
+                return sendJson(socket, 200, onAutoSyncAsk(caller, request).toString())
+            }
+
             // Backup download (BACKUP_DOWNLOAD mode) — PIN required, streams the exported container.
             // `/backup.json` stays routed here: the old path costs nothing to keep and a remote browser that
             // bookmarked it still works. What it serves is whatever export produced — a `.own` file.
             if (method == "GET" && (path == "/backup.own" || path == "/backup.json")) {
                 val headerPin = headers["x-companion-pin"].orEmpty()
-                if (!requireSyncAuth(queryPin.ifBlank { headerPin })) return sendText(socket, 401, localized(R.string.companion_error_unauthorized))
+                val caller = syncCaller(queryPin.ifBlank { headerPin })
+                    ?: return sendText(socket, 401, localized(R.string.companion_error_unauthorized))
                 val file = downloadFile
                 val bytes = file?.takeIf { it.exists() }?.let { runCatching { it.readBytes() }.getOrNull() }
                     ?: return sendText(socket, 404, localized(R.string.companion_error_no_backup))
@@ -315,7 +343,8 @@ class CompanionHttpServer(
             // Backup upload (BACKUP_RESTORE mode) — PIN required, JSON body is the backup file.
             if (method == "POST" && path == "/backup") {
                 val headerPin = headers["x-companion-pin"].orEmpty()
-                if (!requireSyncAuth(queryPin.ifBlank { headerPin })) return sendText(socket, 401, localized(R.string.companion_error_unauthorized))
+                val caller = syncCaller(queryPin.ifBlank { headerPin })
+                    ?: return sendText(socket, 401, localized(R.string.companion_error_unauthorized))
                 val body = CompanionHttpProtocol.readBody(input, headers, CompanionHttpProtocol.maxBodyBytes(path))
                     ?: return sendText(socket, 413, localized(R.string.companion_error_backup_too_large))
                 if (body.isBlank()) return sendText(socket, 400, localized(R.string.companion_error_empty_backup))
@@ -413,18 +442,23 @@ class CompanionHttpServer(
      * [requirePin], widened for local sync: a paired device's stored secret is accepted in place of
      * the six digits, so only the FIRST sync between two devices asks the user for anything.
      *
+     * Returns *who* presented it — the device id the secret was issued to — or null when the caller
+     * may not proceed. [PIN_CALLER] (empty) means the PIN itself was used: the request is
+     * authenticated, but no device is named, so there is no consent that could be checked against it.
+     *
      * The secret is 256 random bits against the PIN's million, and it is only ever issued to a caller
      * that already typed the PIN — so this widens who may connect, never how easily. Outside
      * [CompanionMode.LOCAL_SYNC] it is exactly [requirePin], because no other mode issues secrets.
      */
-    private suspend fun requireSyncAuth(candidate: String): Boolean {
-        if (mode == CompanionMode.LOCAL_SYNC && candidate.isNotBlank() &&
-            pairedSecrets().any { CompanionHttpProtocol.pinEquals(candidate, it) }
-        ) {
-            pinAccepted()
-            return true
+    private suspend fun syncCaller(candidate: String): String? {
+        if (mode == CompanionMode.LOCAL_SYNC && candidate.isNotBlank()) {
+            pairedSecrets().entries.firstOrNull { CompanionHttpProtocol.pinEquals(candidate, it.key) }
+                ?.let { (_, deviceId) ->
+                    pinAccepted()
+                    return deviceId
+                }
         }
-        return requirePin(candidate)
+        return if (requirePin(candidate)) PIN_CALLER else null
     }
 
     /** A correct PIN clears the strike count — the limit is on *consecutive* failures. */
@@ -513,8 +547,8 @@ class CompanionHttpServer(
 
     private fun sendBytes(socket: Socket, code: Int, contentType: String, bytes: ByteArray) {
         val status = when (code) {
-            200 -> "OK"; 400 -> "Bad Request"; 401 -> "Unauthorized"; 404 -> "Not Found"
-            413 -> "Payload Too Large"; else -> "OK"
+            200 -> "OK"; 400 -> "Bad Request"; 401 -> "Unauthorized"; 403 -> "Forbidden"
+            404 -> "Not Found"; 413 -> "Payload Too Large"; 500 -> "Internal Server Error"; else -> "OK"
         }
         runCatching {
             socket.getOutputStream().use { out ->
@@ -569,6 +603,12 @@ class CompanionHttpServer(
 
         /** Consecutive wrong PINs before the link closes itself. */
         internal const val MAX_PIN_ATTEMPTS = 10
+
+        /** [syncCaller]'s answer when the PIN, not a pairing secret, authenticated the request. */
+        private const val PIN_CALLER = ""
+
+        /** No automatic-sync setup in this mode: every ask is answered no. */
+        private val NO_AUTO_SYNC: suspend (String, org.json.JSONObject) -> org.json.JSONObject = { _, _ -> org.json.JSONObject().put("accepted", false) }
 
         /** Fixed pause before answering a wrong PIN — fixed so it carries no timing signal. */
         internal const val FAILED_PIN_DELAY_MS = 500L

@@ -9,9 +9,9 @@
 > in one bolded line of its own (e.g. **Database v46 · Backup v24 · Breaking**). The detail — what,
 > why, files and verification — belongs in the commit message, never here.
 
-## core-1.0.70 — unreleased
+## core-1.0.70 — 2026-11-07
 
-**Database v53 · Backup v26 · Backup: two new playlist fields, each profile's last categories · Moved items keep their place**
+**Database v53 · Backup v26 · Backup: two new playlist fields, each profile's last categories, Settings lock PINs · Moved items keep their place**
 
 ### ✨ New features
 
@@ -30,8 +30,13 @@
 - **🚀 Start on the last channel in the TV Guide or Live TV** (community PR #49 by @Kevsosmooth)
 - **🏷️ Menu labels: off, when focused or always** (community PR #41 by @Kevsosmooth)
 - **🎤 Voice search** (community PR #42 by @Kevsosmooth)
-- **🔒 Lock a category with the Customize PIN** (community PR #37 by @Kevsosmooth)
-- **🔐 Ask for the PIN to open Settings** (community PR #47 by @Kevsosmooth)
+- **🔒 Lock a category with its own category lock PIN** (community PR #37 by @Kevsosmooth)
+- **🔐 Settings lock: a PIN of its own per profile, optionally for long-press changes too** (community PR #47 by @Kevsosmooth)
+- **🛡️ Protected profiles: new profiles, backups, restores and profile edits respect profile and Settings locks**
+- **🔀 Restore: a profile with the same name asks Merge, Replace or Keep both**
+- **👤 Local sync syncs the profile in use with the one in use on the other device**
+- **🔁 Local auto-sync: paired devices keep each other in step by themselves, with what each one allows** (community PR #56 by @igebara)
+- **👂 Keep auto-sync listening, as a switch (off by default)**
 - **🪟 Picture-in-picture when leaving the app** (community PR #39 by @Kevsosmooth)
 - **🔑 Stalker portals: an optional username and password**
 - **⌨️ Key hints for the Sports Calendar and Leagues tabs**

@@ -218,6 +218,8 @@ dependencies {
     // Preferences + durable background sync
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.work.runtime)
+    // Whether OwnTV is in front: "Keep auto-sync listening" runs the listener only then.
+    implementation(libs.androidx.lifecycle.process)
 
     // Android TV launcher integration (Watch Next / preview channels). TV-only in practice, but
     // core's LauncherIntegrationRepository is the facade the sync worker calls, so the publisher it

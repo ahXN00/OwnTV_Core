@@ -17,6 +17,10 @@ interface FavoriteDao {
     @Query("DELETE FROM favorites WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId")
     suspend fun remove(profileId: Long, type: MediaType, itemId: Long)
 
+    /** Every favorite of one profile: a restore's Replace, before the backup's are put back. */
+    @Query("DELETE FROM favorites WHERE profileId = :profileId")
+    suspend fun clearProfile(profileId: Long)
+
     /**
      * Deletes the row only when it is older than [at] — the local-sync merge rule for an
      * incoming deletion. A row the user re-created after the other device deleted it is newer,

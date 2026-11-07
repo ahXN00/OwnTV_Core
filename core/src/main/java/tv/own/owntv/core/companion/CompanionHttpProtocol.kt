@@ -19,6 +19,10 @@ internal object CompanionHttpProtocol {
     /** PIN posts and source forms — a few hundred bytes in practice. */
     const val FORM_BODY_LIMIT = 64 * 1024
 
+    /** Where a paired device posts its container during an automatic sync (see LocalAutoSyncServer). */
+    const val AUTO_SYNC_IMPORT_PATH = "/sync/auto/import"
+
+
     private const val INITIAL_BODY_BUFFER = 64 * 1024
     private const val BODY_CHUNK = 16 * 1024
 
@@ -48,6 +52,8 @@ internal object CompanionHttpProtocol {
         // `/m3u` joins the upload group: the M3U panel can carry a whole playlist file inline, and a
         // real playlist is far past the 64 KB a form field needs.
         path == "/backup" || path == "/background" || path == "/m3u" -> UPLOAD_BODY_LIMIT
+        // An automatic sync's container, raw: a whole library's favourites and history.
+        path == AUTO_SYNC_IMPORT_PATH -> UPLOAD_BODY_LIMIT
         else -> FORM_BODY_LIMIT
     }
 
@@ -57,10 +63,14 @@ internal object CompanionHttpProtocol {
      * Content-Length throws [java.io.EOFException]: half an uploaded backup used to be kept and then
      * failed to decrypt, which the TV could only report as a wrong password.
      */
-    fun readBody(input: BufferedInputStream, headers: Map<String, String>, limit: Int): String? {
+    fun readBody(input: BufferedInputStream, headers: Map<String, String>, limit: Int): String? =
+        readBodyBytes(input, headers, limit)?.toString(StandardCharsets.UTF_8)
+
+    /** [readBody] for a binary body: the bytes as sent. */
+    fun readBodyBytes(input: BufferedInputStream, headers: Map<String, String>, limit: Int): ByteArray? {
         val declared = headers["content-length"]?.toLongOrNull() ?: 0L
         if (declared > limit) return null
-        if (declared == 0L) return ""
+        if (declared == 0L) return ByteArray(0)
         val buffer = ByteArrayOutputStream(declared.coerceAtMost(INITIAL_BODY_BUFFER.toLong()).toInt())
         val chunk = ByteArray(BODY_CHUNK)
         var total = 0L
@@ -73,7 +83,7 @@ internal object CompanionHttpProtocol {
             buffer.write(chunk, 0, read)
         }
         if (total < declared) throw java.io.EOFException("Body ended at $total of $declared bytes")
-        return buffer.toString(StandardCharsets.UTF_8.name())
+        return buffer.toByteArray()
     }
 
     /** Parse a submitted form/JSON body, or null when its required fields are missing. */

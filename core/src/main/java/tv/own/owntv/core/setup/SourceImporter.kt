@@ -63,6 +63,7 @@ class SourceImporter(
     private val catalogSyncScheduler: CatalogSyncScheduler,
     private val stalkerAuth: StalkerAuthManager,
     private val xtreamClient: XtreamClient,
+    private val protection: tv.own.owntv.core.profile.ProfileProtection,
     private val context: Context,
 ) {
 
@@ -357,14 +358,15 @@ class SourceImporter(
         }
     }
 
-    /** Playlists belonging to unlocked (no-PIN) profiles that aren't already on the new profile. */
+    /**
+     * Other profiles' playlists that aren't already on the new profile, leaving out every playlist a
+     * protected profile uses (see [tv.own.owntv.core.profile.inheritableSourceIds]).
+     */
     suspend fun availableExistingSources(): List<SourceEntity> {
-        val unlocked = profileDao.getAllOnce().filter { it.pinHash == null && it.id != createdProfileId }.map { it.id }.toSet()
-        if (unlocked.isEmpty()) return emptyList()
         val links = sourceDao.allLinks()
-        val fromUnlocked = links.filter { it.profileId in unlocked }.map { it.sourceId }.toSet()
+        val fromOthers = links.filter { it.profileId != createdProfileId }.map { it.sourceId }.toSet()
         val alreadyMine = links.filter { it.profileId == createdProfileId }.map { it.sourceId }.toSet()
-        val wanted = fromUnlocked - alreadyMine
+        val wanted = (fromOthers intersect protection.inheritableSourceIds().toSet()) - alreadyMine
         return sourceDao.getAllOnce().filter { it.id in wanted }
     }
 
@@ -457,7 +459,11 @@ class SourceImporter(
         sections: Set<BackupManager.Section>,
         deviceSettings: Boolean,
     ): Boolean =
-        backup.import(file, sections, backupPassword = password, deviceSettings = deviceSettings).fold(
+        // Setup has no PIN step: a protected profile already on this device is left as it is.
+        backup.import(
+            file, sections, backupPassword = password, deviceSettings = deviceSettings,
+            holdBack = protection.heldBack(activeId = createdProfileId),
+        ).fold(
             onSuccess = { summary ->
                 val needPassword = if (BackupManager.Section.SOURCES in sections) syncRestoredSources() else emptyList()
                 _state.value = ImportState.Success(

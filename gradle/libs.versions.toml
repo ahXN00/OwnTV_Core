@@ -37,6 +37,8 @@ room = "2.8.5"
 # The SQLiteDriver API (androidx.sqlite) and its bundled engine.
 sqlite = "2.6.2"
 paging = "3.5.1"
+# Process lifecycle: the automatic-sync listener follows whether OwnTV is in front.
+lifecycle = "2.11.0"
 
 # --- Media playback ---
 # Bumped to 1.11.0: AudioTrack init + HLS live timestamp/refresh fixes, TTML timing, MPEG-TS DTS-HD.
@@ -101,6 +103,7 @@ androidx-datastore-preferences = { group = "androidx.datastore", name = "datasto
 
 # WorkManager (durable background sync)
 androidx-work-runtime = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
+androidx-lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-process", version.ref = "lifecycle" }
 
 # Room (database) + Paging. No paging-compose — that is UI.
 androidx-sqlite = { group = "androidx.sqlite", name = "sqlite", version.ref = "sqlite" }

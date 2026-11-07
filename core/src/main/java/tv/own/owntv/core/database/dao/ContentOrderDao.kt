@@ -22,6 +22,10 @@ interface ContentOrderDao {
     @Query("DELETE FROM content_order WHERE profileId = :profileId AND mediaType = :type AND contextKey = :contextKey")
     suspend fun clearContext(profileId: Long, type: MediaType, contextKey: String)
 
+    /** Every manual position of one profile: a restore's Replace, before the backup's are put back. */
+    @Query("DELETE FROM content_order WHERE profileId = :profileId")
+    suspend fun clearProfile(profileId: Long)
+
     /** Context keys that actually have manual-order rows for this profile/section — the fast
      *  path: folders with no overrides use the plain indexed paging query instead of the
      *  unindexable content_order join-sort (which materializes the whole folder per page). */

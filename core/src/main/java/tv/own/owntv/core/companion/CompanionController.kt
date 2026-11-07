@@ -5,12 +5,16 @@ import android.util.Log
 import java.io.File
 import java.net.BindException
 import java.security.SecureRandom
+import java.util.UUID
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.withTimeoutOrNull
 import tv.own.owntv.core.R
 import tv.own.owntv.core.database.entity.SourceEntity
 import tv.own.owntv.core.i18n.LocaleStore
@@ -63,6 +67,77 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
     /** A fresh 6-digit PIN per [start], so a leaked code is short-lived. */
     @Volatile private var currentPin: String = ""
 
+    /**
+     * A device waiting for the answer to "may I sync with you automatically?".
+     *
+     * The request names the device rather than its secret: the secret never leaves the server's auth
+     * check, and all the person answering needs to see is which paired device is asking, and what it
+     * would sync ([theirSections]).
+     */
+    data class AutoSyncRequest(
+        val id: String,
+        val deviceId: String,
+        val deviceName: String,
+        val theirSections: Set<tv.own.owntv.core.backup.BackupManager.Section> = emptySet(),
+        /** The asking device's profile in use: the one this device's profile in use will be synced with. */
+        val theirProfileName: String = "",
+    )
+
+    private val _autoSyncRequests = MutableStateFlow<List<AutoSyncRequest>>(emptyList())
+
+    /** The requests still waiting for an answer, oldest first. Usually zero or one. */
+    val autoSyncRequests: StateFlow<List<AutoSyncRequest>> = _autoSyncRequests.asStateFlow()
+
+    /** The answer each request is waiting on, keyed by [AutoSyncRequest.id]. */
+    private val autoSyncAnswers = java.util.concurrent.ConcurrentHashMap<String, CompletableDeferred<Boolean>>()
+
+    /**
+     * Puts [deviceName]'s request on screen and suspends until the person here answers, or until the
+     * caller's own timeout would run out.
+     *
+     * Answering `false` on timeout is deliberate: a request nobody saw must not enable anything, and
+     * the device that asked is told so rather than left waiting for an answer that is not coming.
+     */
+    suspend fun askAutoSync(
+        deviceId: String,
+        deviceName: String,
+        theirSections: Set<tv.own.owntv.core.backup.BackupManager.Section> = emptySet(),
+        theirProfileName: String = "",
+    ): Boolean {
+        // A device that asks again is asking a fresh question: its previous request belongs to a
+        // screen that has already stopped waiting, and leaving it up would put two prompts for the
+        // same device in front of the person — who could answer the stale one and believe they
+        // answered the new one.
+        _autoSyncRequests.update { requests ->
+            requests.filter { it.deviceId == deviceId }.forEach { stale ->
+                autoSyncAnswers.remove(stale.id)?.complete(false)
+            }
+            requests.filterNot { it.deviceId == deviceId }
+        }
+        val request = AutoSyncRequest(UUID.randomUUID().toString(), deviceId, deviceName, theirSections, theirProfileName)
+        val answer = CompletableDeferred<Boolean>()
+        autoSyncAnswers[request.id] = answer
+        _autoSyncRequests.update { it + request }
+        return try {
+            withTimeoutOrNull(AUTO_SYNC_ANSWER_TIMEOUT_MS) { answer.await() } ?: false
+        } finally {
+            autoSyncAnswers.remove(request.id)
+            _autoSyncRequests.update { requests -> requests.filterNot { it.id == request.id } }
+        }
+    }
+
+    /** The answer from the screen. Unknown or already-timed-out requests are ignored. */
+    fun answerAutoSync(requestId: String, accepted: Boolean) {
+        autoSyncAnswers[requestId]?.complete(accepted)
+    }
+
+    /** Fails every waiting request, so no answer outlives the listener that asked for it. */
+    private fun cancelAutoSyncRequests() {
+        autoSyncAnswers.values.forEach { it.complete(false) }
+        autoSyncAnswers.clear()
+        _autoSyncRequests.update { emptyList() }
+    }
+
     /** Bundled Lora TTF bytes, loaded once and served on the web form; null if the resource can't be read. */
     private val loraBytes: ByteArray? by lazy {
         // openRawResource serves any file-backed resource, not just res/raw; a font is exactly that,
@@ -95,19 +170,21 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
      * Starts the companion server for local sync between two OwnTV devices.
      *
      * The only mode that both receives and serves in one session, because a merge does both: an
-     * uploaded container arrives on [backups] exactly as it does in backup-restore mode, and [file]
-     * — this device's own export, prepared by the caller — is what the other device downloads.
+     * uploaded container arrives on [backups] exactly as it does in backup-restore mode, and [file],
+     * this device's own export prepared by the caller, is what the other device downloads.
      *
      * [info] answers "who are you", [onPair] mints a lasting secret for a device that presented the
      * right PIN, and [secrets] are the ones already issued, each accepted in place of the PIN so only
-     * the first sync between two devices asks the user for anything.
+     * the first sync between two devices asks the user for anything. [onAutoSyncAsk] is a paired
+     * device asking to set up automatic sync: it gets the asker's terms and returns the answer.
      */
     fun startForLocalSync(
         port: Int,
         file: File?,
         info: () -> String,
         onPair: (name: String, address: String, deviceId: String) -> String?,
-        secrets: () -> Set<String>,
+        secrets: () -> Map<String, String>,
+        onAutoSyncAsk: suspend (deviceId: String, request: org.json.JSONObject) -> org.json.JSONObject,
     ) = startInternal(
         port = port,
         mode = CompanionMode.LOCAL_SYNC,
@@ -115,6 +192,7 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
         syncInfo = info,
         onPair = onPair,
         pairedSecrets = secrets,
+        onAutoSyncAsk = onAutoSyncAsk,
     )
 
     /** Starts the companion server in image-upload mode: the remote device sends a background image, emitted on [images]. */
@@ -129,7 +207,8 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
         downloadFile: File? = null,
         syncInfo: () -> String = { "{}" },
         onPair: (name: String, address: String, deviceId: String) -> String? = { _, _, _ -> null },
-        pairedSecrets: () -> Set<String> = { emptySet() },
+        pairedSecrets: () -> Map<String, String> = { emptyMap() },
+        onAutoSyncAsk: suspend (deviceId: String, request: org.json.JSONObject) -> org.json.JSONObject = { _, _ -> org.json.JSONObject() },
         editSource: SourceEntity? = null,
     ) {
         editing = editSource
@@ -169,6 +248,7 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
                 syncInfo = syncInfo,
                 onPair = onPair,
                 pairedSecrets = pairedSecrets,
+                onAutoSyncAsk = onAutoSyncAsk,
                 onLocked = {
                     // The server has already stopped itself; just reflect it on the TV so the user
                     // knows why the link went away and that restarting gives them a new PIN.
@@ -271,6 +351,7 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
 
     fun stop() {
         server.stop()
+        cancelAutoSyncRequests()
         currentPin = ""
         editing = null
         _state.value = CompanionServerState.Idle
@@ -284,6 +365,7 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
     /** Permanent teardown for the app-wide singleton. */
     fun dispose() {
         server.close()
+        cancelAutoSyncRequests()
         _state.value = CompanionServerState.Idle
     }
 
@@ -300,5 +382,11 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
         /** Under `filesDir`, so an upload survives until the TV user actually imports it. */
         const val PLAYLIST_UPLOAD_DIR = "companion-playlists"
         const val MAX_KEPT_UPLOADS = 5
+
+        /**
+         * How long the person here has to answer an auto-sync request. Shorter than the client's
+         * 60 s read timeout on purpose: the answer has to be written back before the caller gives up.
+         */
+        const val AUTO_SYNC_ANSWER_TIMEOUT_MS = 50_000L
     }
 }
