@@ -82,6 +82,7 @@ class LiveExoWatchdog(
         val openBudgetMs = OPEN_TIMEOUT_MS + engine.activePrerollSecs.coerceAtLeast(0) * 1000L
         var terminal: LivePreviewEngine.State?
         var waitsSeen = 0
+        var rebuildsSeen = 0
         while (true) {
             terminal = withTimeoutOrNull(openBudgetMs) {
                 engine.state.first {
@@ -91,13 +92,20 @@ class LiveExoWatchdog(
             if (terminal != null) break
             if (!stillOurs()) return@coroutineScope
             val waits = engine.providerBackOffsSpent
-            // Nothing pending and no new wait since the last deadline → this really is a stuck open.
-            if (engine.providerBackOff.value == null && waits == waitsSeen) break
+            val waited = engine.providerBackOff.value != null || waits != waitsSeen
+            // A decoder rebuild started since the last deadline: the engine is still trying a channel
+            // whose data arrives. Its rebuilds are finite, and this time IS charged to the whole-tune
+            // budget, so "Give up after" still ends it on time.
+            val rebuilds = engine.decoderRebuildsSpent
+            val rebuilt = rebuilds != rebuildsSeen
+            // Nothing pending, no new wait and no new rebuild since the last deadline → a stuck open.
+            if (!waited && !rebuilt) break
             waitsSeen = waits
+            rebuildsSeen = rebuilds
             // The budget just spent was the panel's own countdown, not this channel failing to open,
             // so give it back — otherwise the whole-tune deadline would abandon a channel that is
             // simply queued behind a wait we agreed to.
-            postponeDeadline(openBudgetMs)
+            if (waited) postponeDeadline(openBudgetMs)
         }
         if (!stillOurs()) return@coroutineScope
 

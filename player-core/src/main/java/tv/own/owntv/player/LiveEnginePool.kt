@@ -100,6 +100,9 @@ class LiveEnginePool(private val newEngine: () -> LivePreviewEngine) {
     /** Back in front: every tile re-tunes the channel it had, at the live edge. */
     fun onAppForegrounded() = engines.values.forEach { it.onAppForegrounded() }
 
+    /** Forget what [onAppForegrounded] would bring back — see [PlaybackEngines.discardBackgroundRestore]. */
+    fun discardBackgroundRestore() = engines.values.forEach { it.discardBackgroundRestore() }
+
     /** Critical memory pressure — see [LivePreviewEngine.onMemoryPressure]. */
     fun onMemoryPressure() = engines.values.forEach { it.onMemoryPressure() }
 

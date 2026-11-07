@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Dit eget billede</string>
     <string name="profiles_kids">Børneprofil</string>
     <string name="profiles_kids_description">Forenklet, sikker browsing</string>
+    <string name="profiles_allow_downloads">Tillad downloads</string>
+    <string name="profiles_allow_downloads_description">Fra skjuler alle downloadknapper for denne profil</string>
     <string name="profiles_remove_pin">Fjern PIN-lås</string>
     <string name="profiles_no_pin">Denne profil åbnes uden en PIN</string>
     <string name="profiles_change_pin">Skift PIN (tomt felt = behold)</string>
@@ -22,6 +24,8 @@
     <string name="profiles_gate_subtitle">Hver profil har sine egne favoritter og sin egen historik</string>
     <string name="profiles_wrong_pin">Forkert PIN — prøv igen</string>
     <string name="profiles_enter_pin"><xliff:g id="name">%1$s</xliff:g> — indtast PIN</string>
+    <string name="profiles_protected_include">Den har en profillås eller en lås af indstillinger. Indtast en af de to pinkoder for at tage den med. Uden en pinkode bliver den udeladt og forbliver, som den er.</string>
+    <string name="profiles_protected_edit">Den har en profillås eller en lås af indstillinger. Indtast en af de to pinkoder for at ændre den.</string>
     <string name="profiles_kids_badge">BØRN</string>
     <string name="profiles_add">Tilføj profil</string>
     <string name="profiles_title">Profiler</string>
@@ -45,6 +49,8 @@
     <string name="search_go_to_movie">Gå til film</string>
     <string name="search_clear_recent">Ryd seneste søgninger</string>
     <string name="search_field_hint">Kanaler, film og serier</string>
+    <string name="search_voice">Stemmesøgning</string>
+    <string name="search_voice_prompt">Sig en kanal, film eller serie</string>
     <string name="search_card_title">Find alt i dine playlister</string>
     <string name="search_card_body">Kanaler, film og serier fra alle de playlister, du viser. Vælg et resultat for at gå direkte til det og afspille, downloade eller åbne dets valgmuligheder der. Tv-programmer, der vises nu eller senere i dag, findes også på deres titel.</string>
     <string name="search_nothing_found">Intet fundet for »<xliff:g id="query">%1$s</xliff:g>«</string>
@@ -63,6 +69,11 @@
     <string name="launcher_recent_live_description">Senest sete livekanaler</string>
     <string name="launcher_movie_type">Film</string>
     <string name="launcher_episode_number">Afsnit <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Indlæser dit bibliotek · <xliff:g id="count">%1$s</xliff:g> titel indtil videre</item>
+        <item quantity="other">Indlæser dit bibliotek · <xliff:g id="count">%1$s</xliff:g> titler indtil videre</item>
+    </plurals>
+    <string name="home_library_loading_trending">Populært lige nu vises, efterhånden som dit bibliotek fyldes op.</string>
     <string name="home_no_preview">Intet at forhåndsvise endnu.</string>
     <string name="home_no_rows">Alle rækker på startskærmen er skjult.</string>
     <string name="home_enable_rows">Slå rækkerne til igen under Indstillinger → Startskærm.</string>
@@ -177,6 +188,8 @@
     <string name="home_trending_pause">Sæt på pause</string>
     <string name="home_trending_unavailable">Denne version er ikke længere tilgængelig</string>
     <string name="recording_notification_title">Optager</string>
+    <string name="auto_start_notification_channel">Start automatisk ved opvågning</string>
+    <string name="auto_start_notification_text">OwnTV åbner, når tv’et vågner</string>
     <string name="recording_failed_no_space">Stoppet: ingen plads tilbage</string>
     <string name="recording_failed_no_connection">Ingen ledig forbindelse fra din udbyder</string>
     <string name="recording_failed_clash">En anden optagelse brugte forbindelsen</string>
@@ -193,6 +206,7 @@
     <string name="recording_group_missed">Gik glip af</string>
     <string name="recording_record">Optag</string>
     <string name="recording_stop">Stop optagelsen</string>
+    <string name="recording_delete_message">Fjerner optagelsen og dens fil fra denne enhed. Det kan ikke fortrydes.</string>
     <string name="recording_record_series">Optag alle visninger</string>
     <string name="recording_stop_series">Stop med at optage alle visninger</string>
     <string name="recording_from_archive">Optag fra arkivet</string>
@@ -205,6 +219,7 @@
     <string name="recording_scheduled_for">Optager <xliff:g id="time">%1$s</xliff:g></string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line">Optager <xliff:g id="title">%1$s</xliff:g></string>
+    <string name="recording_pill_line_locked">Optager fra en låst kategori</string>
     <string name="recording_clash_with">Overlapper med <xliff:g id="programme">%1$s</xliff:g></string>
     <string name="recording_settings_group">Optagelse</string>
     <string name="settings_recording_reserve">Hold én stream fri til at se på</string>
@@ -281,6 +296,15 @@
     <string name="sports_starting_soon">Starter snart</string>
     <string name="sports_hint_match_page">Kampside</string>
     <string name="sports_hint_follow_remind">Følg · Påmind</string>
+    <string name="sports_hint_day_matches">Dagens kampe</string>
+    <string name="sports_hint_day">Dag</string>
+    <string name="sports_hint_week">Uge</string>
+    <string name="sports_hint_show_score">Vis resultat</string>
+    <string name="sports_hint_back_to_day">Tilbage til dagen</string>
+    <string name="sports_hint_open_league">Åbn liga</string>
+    <string name="sports_hint_sport_chips">Sportsknapper</string>
+    <string name="sports_hint_league_chips">Ligaknapper</string>
+    <string name="sports_hint_follow_unfollow">Følg · Stop med at følge</string>
     <string name="sports_reminder_set">Påmindelse</string>
     <string name="sports_until">til <xliff:g id="time">%1$s</xliff:g></string>
     <string name="sports_set"><xliff:g id="set">%1$d</xliff:g>. sæt</string>
@@ -387,7 +411,6 @@
     <string name="sports_next_month">Næste måned</string>
     <string name="sports_next">Næste: <xliff:g id="match">%1$s</xliff:g></string>
     <string name="sports_next_badge">Næste</string>
-    <string name="sports_new_badge">Ny</string>
     <string name="sports_no_table_series">Ingen tabel — serierne skifter hver uge</string>
     <string name="sports_follow_league">Følg liga</string>
     <string name="sports_unfollow_league">Stop med at følge liga</string>

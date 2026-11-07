@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Kendi resminiz</string>
     <string name="profiles_kids">Çocuk profili</string>
     <string name="profiles_kids_description">Basitleştirilmiş, güvenli gezinme</string>
+    <string name="profiles_allow_downloads">İndirmelere izin ver</string>
+    <string name="profiles_allow_downloads_description">Kapalıyken bu profilde tüm İndir düğmeleri gizlenir</string>
     <string name="profiles_remove_pin">PIN kilidini kaldır</string>
     <string name="profiles_no_pin">Bu profil PIN olmadan açılır</string>
     <string name="profiles_change_pin">PIN\'i değiştir (boş bırakırsanız korunur)</string>
@@ -22,6 +24,8 @@
     <string name="profiles_gate_subtitle">Her profil kendi favorilerini ve geçmişini tutar</string>
     <string name="profiles_wrong_pin">Yanlış PIN — tekrar deneyin</string>
     <string name="profiles_enter_pin"><xliff:g id="name">%1$s</xliff:g> — PIN\'i girin</string>
+    <string name="profiles_protected_include">Bir profil kilidi veya ayarlar kilidi var. Dahil etmek için iki PIN’den birini girin. PIN olmadan dışarıda bırakılır ve olduğu gibi kalır.</string>
+    <string name="profiles_protected_edit">Bir profil kilidi veya ayarlar kilidi var. Değiştirmek için iki PIN’den birini girin.</string>
     <string name="profiles_kids_badge">ÇOCUK</string>
     <string name="profiles_add">Profil ekle</string>
     <string name="profiles_title">Profiller</string>
@@ -45,6 +49,8 @@
     <string name="search_go_to_movie">Filme git</string>
     <string name="search_clear_recent">Son aramaları temizle</string>
     <string name="search_field_hint">Kanallar, filmler ve diziler</string>
+    <string name="search_voice">Sesli arama</string>
+    <string name="search_voice_prompt">Bir kanal, film veya dizi söyleyin</string>
     <string name="search_card_title">Oynatma listelerinizdeki her şeyi bulun</string>
     <string name="search_card_body">Gösterdiğiniz tüm oynatma listelerinden kanallar, filmler ve diziler. Doğrudan ona gitmek için bir sonuç seçin; orada oynatın, indirin veya seçeneklerini açın. Şu an veya bugün daha sonra yayınlanan TV programları da adlarıyla bulunur.</string>
     <string name="search_nothing_found">“<xliff:g id="query">%1$s</xliff:g>” için hiçbir şey bulunamadı</string>
@@ -63,6 +69,11 @@
     <string name="launcher_recent_live_description">Son izlenen canlı kanallar</string>
     <string name="launcher_movie_type">Film</string>
     <string name="launcher_episode_number">Bölüm <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Kitaplığınız yükleniyor · şimdiye kadar <xliff:g id="count">%1$s</xliff:g> içerik</item>
+        <item quantity="other">Kitaplığınız yükleniyor · şimdiye kadar <xliff:g id="count">%1$s</xliff:g> içerik</item>
+    </plurals>
+    <string name="home_library_loading_trending">Şu Anda Trend Olanlar, kitaplığınız doldukça görünür.</string>
     <string name="home_no_preview">Henüz önizlenecek bir şey yok.</string>
     <string name="home_no_rows">Tüm ana ekran satırları gizli.</string>
     <string name="home_enable_rows">Ayarlar → Ana ekran bölümünden satırları yeniden açın.</string>
@@ -177,6 +188,8 @@
     <string name="home_trending_pause">Duraklat</string>
     <string name="home_trending_unavailable">Bu sürüm artık kullanılamıyor</string>
     <string name="recording_notification_title">Kaydediliyor</string>
+    <string name="auto_start_notification_channel">Uyanınca otomatik başlat</string>
+    <string name="auto_start_notification_text">TV uyandığında OwnTV açılır</string>
     <string name="recording_failed_no_space">Durduruldu: yer kalmadı</string>
     <string name="recording_failed_no_connection">Sağlayıcınızda boş bağlantı yok</string>
     <string name="recording_failed_clash">Bağlantıyı başka bir kayıt kullanıyordu</string>
@@ -193,6 +206,7 @@
     <string name="recording_group_missed">Kaçırıldı</string>
     <string name="recording_record">Kaydet</string>
     <string name="recording_stop">Kaydı durdur</string>
+    <string name="recording_delete_message">Kaydı ve dosyasını bu cihazdan kaldırır. Bu işlem geri alınamaz.</string>
     <string name="recording_record_series">Her yayını kaydet</string>
     <string name="recording_stop_series">Her yayını kaydetmeyi bırak</string>
     <string name="recording_from_archive">Arşivden kaydet</string>
@@ -205,6 +219,7 @@
     <string name="recording_scheduled_for"><xliff:g id="time">%1$s</xliff:g> kaydedecek</string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line"><xliff:g id="title">%1$s</xliff:g> kaydediliyor</string>
+    <string name="recording_pill_line_locked">Kilitli bir kategoriden kaydediliyor</string>
     <string name="recording_clash_with"><xliff:g id="programme">%1$s</xliff:g> ile çakışıyor</string>
     <string name="recording_settings_group">Kayıt</string>
     <string name="settings_recording_reserve">İzlemek için bir bağlantıyı boş bırak</string>
@@ -281,6 +296,15 @@
     <string name="sports_starting_soon">Birazdan başlıyor</string>
     <string name="sports_hint_match_page">Maç sayfası</string>
     <string name="sports_hint_follow_remind">Takip et · Hatırlat</string>
+    <string name="sports_hint_day_matches">Günün maçları</string>
+    <string name="sports_hint_day">Gün</string>
+    <string name="sports_hint_week">Hafta</string>
+    <string name="sports_hint_show_score">Skoru göster</string>
+    <string name="sports_hint_back_to_day">Güne dön</string>
+    <string name="sports_hint_open_league">Ligi aç</string>
+    <string name="sports_hint_sport_chips">Spor düğmeleri</string>
+    <string name="sports_hint_league_chips">Lig düğmeleri</string>
+    <string name="sports_hint_follow_unfollow">Takip et · Takipten çık</string>
     <string name="sports_reminder_set">Hatırlatıcı</string>
     <string name="sports_until"><xliff:g id="time">%1$s</xliff:g>’e kadar</string>
     <string name="sports_set"><xliff:g id="set">%1$d</xliff:g>. set</string>
@@ -387,7 +411,6 @@
     <string name="sports_next_month">Sonraki ay</string>
     <string name="sports_next">Sıradaki: <xliff:g id="match">%1$s</xliff:g></string>
     <string name="sports_next_badge">Sıradaki</string>
-    <string name="sports_new_badge">Yeni</string>
     <string name="sports_no_table_series">Puan tablosu yok — seriler her hafta değişir</string>
     <string name="sports_follow_league">Ligi takip et</string>
     <string name="sports_unfollow_league">Ligi takipten çık</string>

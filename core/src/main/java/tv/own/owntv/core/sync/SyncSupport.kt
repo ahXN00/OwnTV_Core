@@ -110,7 +110,7 @@ internal class SyncSupport(
      */
     suspend fun <T> upsertStable(
         rows: List<T>,
-        hashDeferred: Deferred<Map<String, StoredRow>>,
+        hashDeferred: Deferred<StoredRows>,
         adapter: ContentAdapter<T>,
     ): UpsertStats = upsertStable(rows, hashDeferred.await(), adapter)
 
@@ -121,18 +121,18 @@ internal class SyncSupport(
         return UpsertStats(inserted = hashed.size)
     }
 
-    private fun List<ContentHashProjection>.toHashLookup(): Map<String, StoredRow> =
-        associateBy({ it.remoteId }, { StoredRow(it.id, it.contentHash, it.sortOrder) })
+    private fun List<ContentHashProjection>.toHashLookup(): StoredRows =
+        StoredRows(associateBy({ it.remoteId }, { StoredRow(it.id, it.contentHash, it.sortOrder) }))
 
     fun asyncHashLoad(
         scope: CoroutineScope,
         label: String,
         sourceId: Long,
         load: suspend () -> List<ContentHashProjection>,
-    ): Deferred<Map<String, StoredRow>> = scope.async {
+    ): Deferred<StoredRows> = scope.async {
         val start = SystemClock.elapsedRealtime()
         load().toHashLookup().also {
-            Log.d(TAG, "$label hash map loaded sourceId=$sourceId size=${it.size} ms=${SystemClock.elapsedRealtime() - start}")
+            Log.d(TAG, "$label hash map loaded sourceId=$sourceId size=${it.byRemoteId.size} ms=${SystemClock.elapsedRealtime() - start}")
         }
     }
 
@@ -192,6 +192,8 @@ internal class SyncSupport(
         type: MediaType,
         parsed: List<tv.own.owntv.core.parser.XtCategory>,
         stats: SyncStatsCollector,
+        /** Categories that come back as new rows without being new to the user: not counted, not hidden. */
+        quietRemoteIds: Set<String> = emptySet(),
     ): CategoryRefresh {
         val start = SystemClock.elapsedRealtime()
         // s.lastSyncAt never changes during a sync run (SyncManager stamps it only after the syncer
@@ -222,9 +224,10 @@ internal class SyncSupport(
         )
         // Everything is technically "new" on a fresh source's first sync — neither the hide-by-default
         // preference nor the sync summary is meaningful there, only on a genuine resync.
-        if (!freshSource && upsert.newRows.isNotEmpty()) {
-            stats.processedCounts.merge(CATEGORIES_ADDED_KEY, upsert.newRows.size, Int::plus)
-            applyHideNewCategoriesDefault(s.id, type, upsert.newRows)
+        val announced = upsert.newRows.filter { it.remoteId !in quietRemoteIds }
+        if (!freshSource && announced.isNotEmpty()) {
+            stats.processedCounts.merge(CATEGORIES_ADDED_KEY, announced.size, Int::plus)
+            applyHideNewCategoriesDefault(s.id, type, announced)
         }
         // Ids come straight from the upsert (existing rows + returned insert rowids) — the old
         // second existingCategoriesByRemoteId round-trip only re-fetched just-upserted rows.
@@ -232,6 +235,29 @@ internal class SyncSupport(
             Log.d(TAG, "refreshCategories end sourceId=${s.id} type=$type mapped=${it.idsByRemoteId.size} totalMs=${SystemClock.elapsedRealtime() - start}")
         }
     }
+
+    suspend fun categoryRemoteIds(sourceId: Long, type: MediaType): Set<String> =
+        categoryDao.remoteIdsForSource(sourceId, type).toSet()
+
+    suspend fun categoryIdsByRemoteId(sourceId: Long, type: MediaType, remoteIds: List<String>): Map<String, Long> =
+        existingCategoriesByRemoteId(sourceId, type, remoteIds).mapValues { it.value.id }
+
+    /**
+     * The [type] category with [remoteId], created when there is none yet with the name and position
+     * of the category [likeId] — the same portal category, seen from the other tab. Null when [likeId]
+     * is gone too; the rows then land in that tab's "All" only.
+     */
+    suspend fun ensureCategoryLike(sourceId: Long, type: MediaType, remoteId: String, likeId: Long?): Long? {
+        existingCategoriesByRemoteId(sourceId, type, listOf(remoteId))[remoteId]?.let { return it.id }
+        val like = likeId?.let { categoryDao.getById(it) } ?: return null
+        val id = categoryDao.insertAll(
+            listOf(CategoryEntity(sourceId = sourceId, mediaType = type, name = like.name, remoteId = remoteId, sortOrder = like.sortOrder)),
+        ).firstOrNull() ?: -1L
+        return if (id > 0) id else existingCategoriesByRemoteId(sourceId, type, listOf(remoteId))[remoteId]?.id
+    }
+
+    /** A source's film categories that hold no film. Returns how many went. */
+    suspend fun deleteEmptyFilmCategories(sourceId: Long): Int = categoryDao.deleteEmptyMovieCategories(sourceId)
 
     private suspend fun existingCategoriesByRemoteId(sourceId: Long, type: MediaType, remoteIds: List<String>): Map<String, CategoryEntity> =
         remoteIds.distinct().chunked(QUERY_CHUNK).flatMap { categoryDao.findByRemoteIds(sourceId, type, it) }
@@ -453,23 +479,28 @@ internal class SyncSupport(
          */
         suspend fun <T> upsertStable(
             rows: List<T>,
-            stored: Map<String, StoredRow>,
+            stored: StoredRows,
             adapter: ContentAdapter<T>,
         ): UpsertStats {
             val inserts = ArrayList<T>()
             val updates = ArrayList<T>()
+            // Stored position → new position of each content update, so [StoredRows.occupied] can follow it.
+            val updatedPositions = ArrayList<Pair<Int, Int>>()
             // Stored position → the new position, for rows whose content did not change at all.
             val moves = ArrayList<Pair<Int, PositionMove>>()
             // Every moved row belongs to the same playlist — a pass only ever covers one.
             var moveSourceId = -1L
             var skipped = 0
             rows.forEach { row ->
-                val existing = adapter.remoteIdOf(row)?.let { stored[it] }
+                val existing = adapter.remoteIdOf(row)?.let { stored.byRemoteId[it] }
                 val hash = adapter.hashOf(row)
                 val order = adapter.sortOrderOf(row)
                 when {
                     existing == null -> inserts.add(adapter.copyWith(row, null, hash))
-                    hash != existing.contentHash -> updates.add(adapter.copyWith(row, existing.id, hash))
+                    hash != existing.contentHash -> {
+                        updates.add(adapter.copyWith(row, existing.id, hash))
+                        updatedPositions.add(existing.sortOrder to order)
+                    }
                     // The content is byte-identical and only the provider's position
                     // changed, so this must not go through @Update: that writes all ~20 columns,
                     // re-runs the title parse in withProviderCatalogMetadata, and fires the FTS
@@ -485,9 +516,9 @@ internal class SyncSupport(
 
             // Where a whole span shifted by one delta — the usual shape, because removing
             // an item renumbers everything below it — one statement replaces one write per row.
-            val occupied = HashMap<Int, Int>(stored.size)
-            stored.values.forEach { occupied[it.sortOrder] = (occupied[it.sortOrder] ?: 0) + 1 }
-            val (ranges, singles) = collapsePositionRuns(moves, occupied)
+            // Checked against where rows are NOW: earlier chunks of this pass have already moved,
+            // updated and inserted rows, and a span holding one of those must not be shifted.
+            val (ranges, singles) = collapsePositionRuns(moves, stored.occupied)
 
             // Order matters. Ranges shift by stored position, so they must run before anything
             // rewrites a row to its final position — otherwise a range would shift an already-
@@ -497,6 +528,9 @@ internal class SyncSupport(
             if (singles.isNotEmpty()) adapter.moveAll(singles)
             if (updates.isNotEmpty()) adapter.updateAll(updates)
             if (inserts.isNotEmpty()) adapter.insertAll(inserts)
+            moves.forEach { (from, move) -> stored.relocate(from, move.sortOrder) }
+            updatedPositions.forEach { (from, to) -> stored.relocate(from, to) }
+            inserts.forEach { stored.place(adapter.sortOrderOf(it)) }
             return UpsertStats(
                 inserted = inserts.size,
                 updated = updates.size,
@@ -511,8 +545,9 @@ internal class SyncSupport(
          * Collapse position changes into range statements where it is provably safe.
          *
          * [moves] is every row whose content is unchanged and whose position moved, as
-         * (storedSortOrder → [PositionMove]). [occupied] counts how many stored rows of this source
-         * sit at each stored position — *all* of them, not only the ones being moved.
+         * (storedSortOrder → [PositionMove]). [occupied] counts how many rows of this source sit at
+         * each position at the moment the ranges will run — *all* of them, not only the ones being
+         * moved ([StoredRows.occupied]).
          *
          * A range statement says `sortOrder = sortOrder + delta WHERE sortOrder BETWEEN lo AND hi`,
          * so it hits every stored row in that span, including ones the caller never mentioned. That
@@ -550,16 +585,35 @@ internal class SyncSupport(
                     j++
                 }
                 val run = sorted.subList(i, j)
-                val lo = run.first().first
-                val hi = run.last().first
-                // The guard: every stored row in [lo, hi] must be one of the rows we are moving.
-                val rowsInSpan = (lo..hi).sumOf { occupied[it] ?: 0 }
-                // A delta of zero is not a move at all, and a single row is cheaper as one statement
-                // than as a range.
-                if (delta != 0 && run.size > 1 && rowsInSpan == run.size) {
-                    ranges.add(PositionRange(fromSortOrder = lo, toSortOrder = hi, delta = delta))
-                } else {
-                    run.forEach { if (it.second.sortOrder != it.first) singles.add(it.second) }
+                // The guard, position by position: a position is safe to shift only when every row
+                // there is one we are moving. An unsafe one — a row an earlier chunk already moved
+                // in, a row awaiting prune — splits the run; its own rows go one by one and the
+                // safe stretches either side stay ranges.
+                var k = 0
+                while (k < run.size) {
+                    val segment = ArrayList<Pair<Int, PositionMove>>()
+                    while (k < run.size) {
+                        val at = run[k].first
+                        var end = k
+                        while (end < run.size && run[end].first == at) end++
+                        val here = run.subList(k, end)
+                        val safe = (occupied[at] ?: 0) == here.size
+                        if (!safe) {
+                            if (segment.isNotEmpty()) break
+                            here.forEach { if (delta != 0) singles.add(it.second) }
+                            k = end
+                            break
+                        }
+                        segment.addAll(here)
+                        k = end
+                    }
+                    // A delta of zero is not a move at all, and a single row is cheaper as one
+                    // statement than as a range.
+                    if (delta != 0 && segment.size > 1) {
+                        ranges.add(PositionRange(fromSortOrder = segment.first().first, toSortOrder = segment.last().first, delta = delta))
+                    } else if (delta != 0) {
+                        segment.forEach { singles.add(it.second) }
+                    }
                 }
                 i = j
             }
@@ -584,7 +638,7 @@ internal class SyncSupport(
  * implementation serves channels, movies and series — any fix to the hash-diff/prune logic now
  * lands once.
  */
-internal class ContentAdapter<T>(
+internal data class ContentAdapter<T>(
     val remoteIdOf: (T) -> String?,
     val hashOf: (T) -> Int,
     /** Provider position, compared against the stored one outside the hash — see [SyncSupport.upsertStable]. */
@@ -612,6 +666,31 @@ internal class ContentAdapter<T>(
 
 /** What the DB already holds for one remote id: local row id, content hash, and provider position. */
 internal data class StoredRow(val id: Long, val contentHash: Int, val sortOrder: Int)
+
+/**
+ * One source's stored rows as loaded at the start of a pass, plus how many rows sit at each
+ * position right now. [byRemoteId] never changes during the pass; [occupied] follows every write,
+ * because a pass is written chunk by chunk and a range statement shifts whatever is in its span
+ * when it runs. Judged against the start-of-pass positions instead, a chunk shifted rows an earlier
+ * chunk had already put in place: one TV re-sync left 1,129 positions shared by two to four films,
+ * and each later re-sync moved those films again.
+ */
+internal class StoredRows(
+    val byRemoteId: Map<String, StoredRow>,
+    val occupied: HashMap<Int, Int> = HashMap<Int, Int>(byRemoteId.size).also { counts ->
+        byRemoteId.values.forEach { counts.merge(it.sortOrder, 1, Int::plus) }
+    },
+) {
+    fun place(at: Int) {
+        occupied.merge(at, 1, Int::plus)
+    }
+
+    fun relocate(from: Int, to: Int) {
+        if (from == to) return
+        occupied.computeIfPresent(from) { _, n -> (n - 1).takeIf { it > 0 } }
+        place(to)
+    }
+}
 
 /** One row that only changed position: write the single column, never the whole entity. */
 internal data class PositionMove(val id: Long, val sortOrder: Int)

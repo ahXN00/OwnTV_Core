@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">अपनी खुद की तस्वीर</string>
     <string name="profiles_kids">बच्चों की प्रोफ़ाइल</string>
     <string name="profiles_kids_description">सरल और सुरक्षित ब्राउज़िंग</string>
+    <string name="profiles_allow_downloads">डाउनलोड की अनुमति दें</string>
+    <string name="profiles_allow_downloads_description">बंद करने पर इस प्रोफ़ाइल में सभी डाउनलोड बटन छिप जाते हैं</string>
     <string name="profiles_remove_pin">PIN लॉक हटाएँ</string>
     <string name="profiles_no_pin">यह प्रोफ़ाइल PIN के बिना खुलती है</string>
     <string name="profiles_change_pin">PIN बदलें (खाली छोड़ें = मौजूदा PIN रखें)</string>
@@ -22,6 +24,8 @@
     <string name="profiles_gate_subtitle">हर प्रोफ़ाइल अपने पसंदीदा और इतिहास अलग रखती है</string>
     <string name="profiles_wrong_pin">गलत PIN — फिर से कोशिश करें</string>
     <string name="profiles_enter_pin"><xliff:g id="name">%1$s</xliff:g> — PIN दर्ज करें</string>
+    <string name="profiles_protected_include">इस पर प्रोफ़ाइल लॉक या सेटिंग लॉक है। इसे शामिल करने के लिए दोनों में से कोई एक PIN डालें। PIN के बिना यह छोड़ दिया जाएगा और जैसा है वैसा ही रहेगा।</string>
+    <string name="profiles_protected_edit">इस पर प्रोफ़ाइल लॉक या सेटिंग लॉक है। इसे बदलने के लिए दोनों में से कोई एक PIN डालें।</string>
     <string name="profiles_kids_badge">बच्चे</string>
     <string name="profiles_add">प्रोफ़ाइल जोड़ें</string>
     <string name="profiles_title">प्रोफ़ाइलें</string>
@@ -45,6 +49,8 @@
     <string name="search_go_to_movie">फ़िल्म पर जाएँ</string>
     <string name="search_clear_recent">हाल की खोजें साफ़ करें</string>
     <string name="search_field_hint">चैनल, फ़िल्में और सीरीज़</string>
+    <string name="search_voice">आवाज़ से खोज</string>
+    <string name="search_voice_prompt">किसी चैनल, फ़िल्म या सीरीज़ का नाम बोलें</string>
     <string name="search_card_title">अपनी प्लेलिस्ट में कुछ भी खोजें</string>
     <string name="search_card_body">आपकी दिखाई गई सभी प्लेलिस्ट से चैनल, फ़िल्में और सीरीज़। सीधे वहाँ जाने के लिए कोई परिणाम चुनें, फिर वहीं चलाएँ, डाउनलोड करें या उसके विकल्प खोलें। अभी या आज बाद में आने वाले टीवी कार्यक्रम भी उनके शीर्षक से मिलते हैं।</string>
     <string name="search_nothing_found">“<xliff:g id="query">%1$s</xliff:g>” के लिए कुछ नहीं मिला</string>
@@ -63,6 +69,11 @@
     <string name="launcher_recent_live_description">हाल में देखे गए लाइव चैनल</string>
     <string name="launcher_movie_type">फ़िल्म</string>
     <string name="launcher_episode_number">एपिसोड <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">आपकी लाइब्रेरी लोड हो रही है · अब तक <xliff:g id="count">%1$s</xliff:g> शीर्षक</item>
+        <item quantity="other">आपकी लाइब्रेरी लोड हो रही है · अब तक <xliff:g id="count">%1$s</xliff:g> शीर्षक</item>
+    </plurals>
+    <string name="home_library_loading_trending">लाइब्रेरी भरने के साथ अभी लोकप्रिय सूची दिखाई देगी।</string>
     <string name="home_no_preview">अभी पूर्वावलोकन के लिए कुछ नहीं है।</string>
     <string name="home_no_rows">होम स्क्रीन की सभी पंक्तियाँ छिपी हुई हैं।</string>
     <string name="home_enable_rows">सेटिंग → होम स्क्रीन में पंक्तियाँ फिर से चालू करें।</string>
@@ -177,6 +188,8 @@
     <string name="home_trending_pause">रोकें</string>
     <string name="home_trending_unavailable">यह संस्करण अब उपलब्ध नहीं है</string>
     <string name="recording_notification_title">रिकॉर्ड हो रहा है</string>
+    <string name="auto_start_notification_channel">जागने पर अपने-आप शुरू करें</string>
+    <string name="auto_start_notification_text">टीवी जागने पर OwnTV खुल जाता है</string>
     <string name="recording_failed_no_space">रुक गया: जगह नहीं बची</string>
     <string name="recording_failed_no_connection">आपके प्रदाता के पास कोई खाली कनेक्शन नहीं है</string>
     <string name="recording_failed_clash">कनेक्शन दूसरी रिकॉर्डिंग इस्तेमाल कर रही थी</string>
@@ -193,6 +206,7 @@
     <string name="recording_group_missed">छूट गया</string>
     <string name="recording_record">रिकॉर्ड करें</string>
     <string name="recording_stop">रिकॉर्डिंग रोकें</string>
+    <string name="recording_delete_message">इस डिवाइस से रिकॉर्डिंग और उसकी फ़ाइल हटाता है। इसे पूर्ववत नहीं किया जा सकता।</string>
     <string name="recording_record_series">हर प्रसारण रिकॉर्ड करें</string>
     <string name="recording_stop_series">हर प्रसारण रिकॉर्ड करना बंद करें</string>
     <string name="recording_from_archive">आर्काइव से रिकॉर्ड करें</string>
@@ -205,6 +219,7 @@
     <string name="recording_scheduled_for"><xliff:g id="time">%1$s</xliff:g> को रिकॉर्ड होगा</string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line"><xliff:g id="title">%1$s</xliff:g> रिकॉर्ड हो रहा है</string>
+    <string name="recording_pill_line_locked">लॉक की गई श्रेणी से रिकॉर्ड हो रहा है</string>
     <string name="recording_clash_with"><xliff:g id="programme">%1$s</xliff:g> से टकराव है</string>
     <string name="recording_settings_group">रिकॉर्डिंग</string>
     <string name="settings_recording_reserve">देखने के लिए एक स्ट्रीम खाली रखें</string>
@@ -281,6 +296,15 @@
     <string name="sports_starting_soon">जल्द शुरू</string>
     <string name="sports_hint_match_page">मैच पेज</string>
     <string name="sports_hint_follow_remind">फ़ॉलो करें · याद दिलाएँ</string>
+    <string name="sports_hint_day_matches">दिन के मैच</string>
+    <string name="sports_hint_day">दिन</string>
+    <string name="sports_hint_week">सप्ताह</string>
+    <string name="sports_hint_show_score">स्कोर दिखाएँ</string>
+    <string name="sports_hint_back_to_day">दिन पर वापस</string>
+    <string name="sports_hint_open_league">लीग खोलें</string>
+    <string name="sports_hint_sport_chips">खेल बटन</string>
+    <string name="sports_hint_league_chips">लीग बटन</string>
+    <string name="sports_hint_follow_unfollow">फ़ॉलो करें · अनफ़ॉलो करें</string>
     <string name="sports_reminder_set">रिमाइंडर</string>
     <string name="sports_until"><xliff:g id="time">%1$s</xliff:g> तक</string>
     <string name="sports_set">सेट <xliff:g id="set">%1$d</xliff:g></string>
@@ -387,7 +411,6 @@
     <string name="sports_next_month">अगला महीना</string>
     <string name="sports_next">अगला: <xliff:g id="match">%1$s</xliff:g></string>
     <string name="sports_next_badge">अगला</string>
-    <string name="sports_new_badge">नया</string>
     <string name="sports_no_table_series">कोई तालिका नहीं — सीरीज़ हर हफ़्ते बदलती हैं</string>
     <string name="sports_follow_league">लीग फ़ॉलो करें</string>
     <string name="sports_unfollow_league">लीग अनफ़ॉलो करें</string>

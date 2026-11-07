@@ -65,10 +65,21 @@
     </plurals>
     <string name="content_category_restore_order">Az egyéni sorrend törlődik</string>
     <string name="content_category_restore_nothing">A kategória már a lista alapértelmezésén áll</string>
+    <string name="content_category_lock">Zárolás PIN-kóddal</string>
+    <string name="content_category_locked_placeholder">Ez a kategória zárolva van</string>
+    <plurals name="content_category_pin_wait">
+        <item quantity="one">Túl sok hibás PIN-kód. Próbáld újra <xliff:g id="count">%1$d</xliff:g> másodperc múlva</item>
+        <item quantity="other">Túl sok hibás PIN-kód. Próbáld újra <xliff:g id="count">%1$d</xliff:g> másodperc múlva</item>
+    </plurals>
     <string name="content_move_to_category">Áthelyezés kategóriába…</string>
     <string name="content_remove_from_category">Eltávolítás ebből a kategóriából</string>
     <string name="content_download">Letöltés</string>
     <string name="content_download_all_episodes">Összes epizód letöltése</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one">Letöltesz <xliff:g id="count">%1$d</xliff:g> epizódot?</item>
+        <item quantity="other">Letöltesz <xliff:g id="count">%1$d</xliff:g> epizódot?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">Ezen az eszközön tárolódnak, és tárhelyet foglalnak.</string>
     <string name="content_play">Lejátszás</string>
     <string name="content_favorited">Kedvencekhez adva</string>
     <string name="content_favorite">Kedvenc</string>
@@ -76,9 +87,7 @@
     <string name="content_episodes">Epizódok</string>
     <string name="content_oldest_first">Legrégebbi elöl</string>
     <string name="content_newest_first">Legújabb elöl</string>
-    <string name="content_play_external">Lejátszás külső lejátszóval</string>
     <string name="content_delete_subtitles">OpenSub-feliratok törlése</string>
-    <string name="content_tmdb_details">TMDB-adatok</string>
     <string name="content_play_trailer">Előzetes lejátszása</string>
     <string name="content_refetch_tmdb">TMDB-adatok újbóli lekérése</string>
     <string name="content_set_tmdb_name">TMDB-név megadása</string>
@@ -128,6 +137,9 @@
     <string name="content_catchup_jump_prompt">Válaszd ki, mikortól szeretnéd nézni. Műsorújság nem szükséges.</string>
     <string name="content_catchup_jump_exact">Pontos idő megadása…</string>
     <string name="content_catchup_jump_hint">Nyomd meg az OK gombot a napon, órán vagy percen, állítsd a Fel és Le gombokkal, majd nyomd meg újra az OK gombot.</string>
+    <string name="content_catchup_jump_programme_start">„<xliff:g id="title">%1$s</xliff:g>” eleje</string>
+    <string name="content_catchup_jump_programme_start_untitled">A műsor eleje</string>
+    <string name="content_catchup_jump_programme_start_at">Kezdés: <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">Válaszd ki a(z) „<xliff:g id="channel">%1$s</xliff:g>” csatornához tartozó műsorújság-csatornát.</string>
     <string name="content_epg_match_prompt_current">Válaszd ki a(z) „<xliff:g id="channel">%1$s</xliff:g>” csatornához tartozó műsorújság-csatornát. Jelenleg: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">EPG-csatornák keresése…</string>
@@ -176,6 +188,8 @@
     <string name="content_downloads_ready">Megtekinthető</string>
     <string name="content_downloads_paused">Szüneteltetve</string>
     <string name="content_downloads_file_missing">Hiányzó fájl: már nincs a meghajtón</string>
+    <string name="content_downloads_delete_title">Törlöd ezt: „<xliff:g id="name">%1$s</xliff:g>”?</string>
+    <string name="content_downloads_delete_message">Eltávolítja a fájlt erről az eszközről. Később újra letölthető.</string>
     <string name="content_downloads_reason_account_busy">A fiók foglalt: egy másik adatfolyam használja a kapcsolatot</string>
     <string name="content_downloads_reason_refused">A szerver elutasította a hivatkozást</string>
     <string name="content_downloads_reason_not_found">A szerveren már nincs meg ez a fájl</string>
@@ -274,7 +288,6 @@
     <string name="content_search_in">Keresés: <xliff:g id="name">%1$s</xliff:g></string>
     <string name="content_live_guide_view">Műsorújság nézet</string>
     <string name="content_key_watch">Nézés</string>
-    <string name="content_key_schedule">Műsor</string>
     <string name="content_key_options">Beállítások</string>
     <string name="content_live_groups">Csoportok</string>
     <string name="content_menu_group_watch">Nézés</string>
@@ -339,6 +352,9 @@
     <string name="content_sort_date_added_hint">Legújabb elöl</string>
     <string name="content_menu_group_library">Könyvtár</string>
     <string name="content_menu_group_details">Részletek</string>
+    <string name="content_programme_details">Műsor részletei</string>
+    <string name="content_programmes_earlier">Korábban</string>
+    <string name="content_programmes_later">Később</string>
     <string name="content_movie_details">Film részletei</string>
     <string name="content_series_details">Sorozat részletei</string>
     <plurals name="content_vod_title_count">

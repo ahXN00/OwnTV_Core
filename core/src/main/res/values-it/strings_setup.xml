@@ -82,6 +82,8 @@
         <item quantity="other"><xliff:g id="items">%1$d</xliff:g> elementi ripristinati. Risincronizza le fonti per caricare i contenuti.</item>
     </plurals>
     <string name="setup_passwords_omitted">Reinserisci in seguito le password salvate.</string>
+    <string name="setup_need_password">Nessuna password salvata, quindi non ancora caricata: <xliff:g id="names">%1$s</xliff:g>. Apri la playlist nelle Impostazioni e inserisci la sua password.</string>
+    <string name="setup_name_numbered"><xliff:g id="name">%1$s</xliff:g> <xliff:g id="number">%2$d</xliff:g></string>
     <plurals name="setup_skipped_sources">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> fonte è stata ignorata perché questa versione non supporta il relativo tipo di playlist.</item>
         <item quantity="many"><xliff:g id="count">%1$d</xliff:g> fonti sono state ignorate perché questa versione non supporta i relativi tipi di playlist.</item>
@@ -93,6 +95,7 @@
     <string name="setup_opening">Apertura…</string>
     <string name="setup_add_source">Aggiungi una fonte</string>
     <string name="setup_edit_source">Modifica fonte</string>
+    <string name="setup_edit_from_phone">Modifica da un altro dispositivo</string>
     <string name="setup_edit_source_description">Aggiorna i dettagli di questa fonte oppure modifica l\'impostazione di aggiornamento automatico.</string>
     <string name="setup_byo_source_description">OwnTV è un player: aggiungi la tua fonte Xtream, M3U o Stalker.</string>
     <string name="setup_xtream">Xtream</string>
@@ -179,6 +182,12 @@
     <string name="companion_saved_heading">Inviato alla tua TV ✓</string>
     <string name="companion_saved_source_body"><xliff:g id="name">%1$s</xliff:g> è ora nella schermata Aggiungi fonte della TV. Controlla lì i dettagli e premi Avvia importazione con il telecomando.</string>
     <string name="companion_saved_send_another">Invia un\'altra fonte</string>
+    <string name="companion_edit_page_title">OwnTV — Modifica fonte</string>
+    <string name="companion_edit_heading">Modifica <xliff:g id="name">%1$s</xliff:g></string>
+    <string name="companion_edit_description">Cambia ciò che serve e premi Invia alla TV. Un campo lasciato vuoto mantiene il valore attuale. Le modifiche compaiono sulla TV: premi Salva lì con il telecomando.</string>
+    <string name="companion_keep_current">Lascia vuoto per mantenere il valore attuale</string>
+    <string name="companion_saved_edit_body">Le modifiche a <xliff:g id="name">%1$s</xliff:g> sono ora nella schermata di modifica della TV. Controllale lì e premi Salva con il telecomando.</string>
+    <string name="companion_saved_edit_again">Cambia qualcos’altro</string>
     <string name="companion_saved_backup_body">Il backup è ora sulla TV. Prendi il telecomando e scegli quali parti ripristinare.</string>
     <string name="companion_saved_backup_link">Invia un altro file</string>
     <string name="companion_saved_image_body">L\'immagine è ora lo sfondo della TV.</string>

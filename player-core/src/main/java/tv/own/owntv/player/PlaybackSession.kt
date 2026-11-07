@@ -10,6 +10,7 @@ import android.media.AudioManager
 import android.media.MediaMetadata
 import android.media.session.MediaSession
 import android.media.session.PlaybackState
+import android.os.Build
 import android.view.KeyEvent
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.CoroutineScope
@@ -50,9 +51,11 @@ import kotlinx.coroutines.launch
  * That table is the right answer for a television and the wrong one for a handset: a phone call must
  * **stop** the film, not play it quietly under the caller's voice, and the user expects it back when
  * the call ends. So the policy is a constructor choice — [FocusPolicy.DUCK] is what the TV app has
- * always done and stays the default, [FocusPolicy.PAUSE] is what the mobile app passes. A short
- * notification beep still only ducks under either policy, because that is `CAN_DUCK` and the platform
- * attenuates us without ever telling us.
+ * always done and stays the default, [FocusPolicy.PAUSE] is what the mobile app passes. A notification
+ * sound still only ducks under either policy: it is `CAN_DUCK`, and the platform attenuates us itself.
+ * Under PAUSE a `CAN_DUCK` pauses only while the phone is ringing or in a call (some dialers ask for a
+ * duck, not a pause) — see [FocusPolicy.onTransientLoss]. A VoIP call that takes no focus at all is
+ * caught from the mode change itself ([FocusPolicy.pausesForMode], Android 12 and later).
  *
  * [pauseWhenOutputDisconnects] is the other phone-shaped difference: pulling headphones out mid-film
  * must not carry on through the loudspeaker. It is off by default, because a television's speakers
@@ -69,9 +72,32 @@ class PlaybackSession(
         /** Quieten by [DUCK_DB] and keep playing — a television. */
         DUCK,
 
-        /** Pause, and resume on the next gain unless the user paused by hand — a phone. */
+        /** Pause for a call or another app's transient focus, duck under a notification, and resume on
+         *  the next gain unless the user paused by hand — a phone. */
         PAUSE,
+        ;
+
+        /**
+         * What a transient focus loss does under this policy. [audioMode] is `AudioManager.mode` at the
+         * moment of the loss. A phone used to ask the platform to turn every duck into a pause, so a
+         * notification sound stopped the film; now only a call does, read from the mode because some
+         * dialers hand out `CAN_DUCK` for a ringing phone.
+         */
+        internal fun onTransientLoss(canDuck: Boolean, audioMode: Int): FocusReaction = when (this) {
+            DUCK -> if (canDuck) FocusReaction.NOTHING else FocusReaction.DUCK
+            PAUSE -> if (!canDuck || audioMode in CALL_MODES) FocusReaction.PAUSE else FocusReaction.NOTHING
+        }
+
+        /**
+         * Whether a change of `AudioManager.mode` to [audioMode] pauses playback by itself. WhatsApp rings
+         * and talks without ever taking audio focus from us — it only switches the mode — so on a phone
+         * the mode is watched as well. A television never pauses for a call.
+         */
+        internal fun pausesForMode(audioMode: Int): Boolean = this == PAUSE && audioMode in CALL_MODES
     }
+
+    /** See [FocusPolicy.onTransientLoss]. NOTHING on a `CAN_DUCK` means the platform attenuates us. */
+    internal enum class FocusReaction { NOTHING, DUCK, PAUSE }
 
     private val scope = CoroutineScope(Dispatchers.Main.immediate)
     private val audioManager by lazy { context.getSystemService(Context.AUDIO_SERVICE) as AudioManager }
@@ -119,6 +145,7 @@ class PlaybackSession(
             unduck()
             abandonFocus()
             unregisterNoisy()
+            unregisterModeWatch()
             pausedByUs = false
             runCatching { session?.apply { isActive = false; release() } }
             session = null
@@ -130,6 +157,7 @@ class PlaybackSession(
         val s = runCatching { session ?: createSession().also { session = it } }.getOrNull()
         runCatching { s?.isActive = true }
         registerNoisy()
+        registerModeWatch()
         collectJob = combine(
             engine.isPlaying,
             engine.currentMeta,
@@ -279,19 +307,18 @@ class PlaybackSession(
                 unduck()
                 resumeAfterInterruption()
             }
-            // Transient: duck on a television, pause on a phone — see the class doc. Ducking a live
-            // stream costs a quiet moment; pausing one costs the live edge, which is why the TV never
-            // does it. A call, on the other hand, is not something to talk over.
-            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT -> when (focusPolicy) {
-                FocusPolicy.DUCK -> duck()
-                FocusPolicy.PAUSE -> pauseForInterruption()
-            }
-            // Under PAUSE, setWillPauseWhenDucked(true) is supposed to turn every duck into the
-            // LOSS_TRANSIENT above — but some builds (and some dialers) hand out CAN_DUCK anyway, and
-            // the result was a call that only turned the sound down while the film kept running.
-            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> when (focusPolicy) {
-                FocusPolicy.DUCK -> {} // the platform attenuates us; nothing to do
-                FocusPolicy.PAUSE -> pauseForInterruption()
+            // Transient: duck on a television, pause on a phone only for a call — see the class doc.
+            // Ducking a live stream costs a quiet moment; pausing one costs the live edge, which is why
+            // the TV never does it. A call, on the other hand, is not something to talk over.
+            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT,
+            AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK -> {
+                val canDuck = change == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK
+                val mode = runCatching { audioManager.mode }.getOrDefault(AudioManager.MODE_NORMAL)
+                when (focusPolicy.onTransientLoss(canDuck, mode)) {
+                    FocusReaction.DUCK -> duck()
+                    FocusReaction.PAUSE -> pauseForInterruption()
+                    FocusReaction.NOTHING -> {}
+                }
             }
             AudioManager.AUDIOFOCUS_LOSS -> {
                 hasFocus = false
@@ -301,7 +328,6 @@ class PlaybackSession(
                 pausedByUs = false
                 withEngine { if (it.isPlaying.value) it.togglePlayPause() }
             }
-            // AUDIOFOCUS_LOSS_TRANSIENT_CAN_DUCK: the platform attenuates us, nothing to do.
         }
     }
 
@@ -363,6 +389,37 @@ class PlaybackSession(
         runCatching { context.unregisterReceiver(noisyReceiver) }
     }
 
+    // --- Calls that never take focus ----------------------------------------------------------------
+
+    /** The `AudioManager.OnModeChangedListener` while registered (Android 12+, phone policy only). Typed
+     *  as Any so the class is never named on an older device. */
+    private var modeListener: Any? = null
+
+    private fun registerModeWatch() {
+        // Same reason as in requestFocus: a call on this phone has nothing to do with a cast stream.
+        if (focusPolicy != FocusPolicy.PAUSE || modeListener != null || engine?.playsLocally == false) return
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return
+        val listener = AudioManager.OnModeChangedListener(::onModeChanged)
+        if (runCatching { audioManager.addOnModeChangedListener(ContextCompat.getMainExecutor(context), listener) }.isSuccess) {
+            modeListener = listener
+        }
+    }
+
+    private fun unregisterModeWatch() {
+        val listener = modeListener ?: return
+        modeListener = null
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            runCatching { audioManager.removeOnModeChangedListener(listener as AudioManager.OnModeChangedListener) }
+        }
+    }
+
+    /** A call rang or started without taking focus (see [FocusPolicy.pausesForMode]); back to normal is its
+     *  end. A resume owed after a regular call arrives here and on the focus gain alike — it runs once. */
+    private fun onModeChanged(mode: Int) {
+        if (focusPolicy.pausesForMode(mode)) pauseForInterruption()
+        else if (mode == AudioManager.MODE_NORMAL) resumeAfterInterruption()
+    }
+
     private val focusRequest by lazy {
         AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN)
             .setAudioAttributes(
@@ -371,10 +428,10 @@ class PlaybackSession(
                     .setContentType(AudioAttributes.CONTENT_TYPE_MOVIE)
                     .build(),
             )
-            // DUCK: false, so the platform attenuates us automatically instead of handing us a callback.
-            // PAUSE: true, which is what makes the system send LOSS_TRANSIENT for an incoming call
-            // rather than ducking us behind our back and never telling us to stop.
-            .setWillPauseWhenDucked(focusPolicy == FocusPolicy.PAUSE)
+            // False under both policies, so the platform attenuates us for a notification sound by
+            // itself. True made the system turn that duck into a pause on a phone; a call is caught
+            // from the audio mode instead (see onTransientLoss).
+            .setWillPauseWhenDucked(false)
             .setOnAudioFocusChangeListener(focusListener)
             .build()
     }
@@ -432,5 +489,9 @@ class PlaybackSession(
          *  In dB, so it is the same drop on every engine and from any starting volume (a quarter of
          *  the HUD number used to be −12 dB on ExoPlayer and −36 dB, effectively mute, on mpv). */
         const val DUCK_DB = -12.0
+        /** `AudioManager.mode` values meaning the phone is ringing or in a call (voice or VoIP). */
+        val CALL_MODES = setOf(
+            AudioManager.MODE_RINGTONE, AudioManager.MODE_IN_CALL, AudioManager.MODE_IN_COMMUNICATION,
+        )
     }
 }

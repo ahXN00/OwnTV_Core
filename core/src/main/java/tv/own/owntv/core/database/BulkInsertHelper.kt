@@ -4,6 +4,7 @@ import android.os.SystemClock
 import android.util.Log
 import androidx.room.Transactor
 import androidx.room.execSQL
+import androidx.room.immediateTransaction
 import androidx.room.useWriterConnection
 import androidx.sqlite.SQLiteStatement
 import kotlinx.coroutines.NonCancellable
@@ -161,6 +162,30 @@ class BulkInsertHelper(
         val indexCreateSqls: List<String>,
         val triggerSql: String?,
     )
+
+    /**
+     * Write only `streamUrl` for [urls] (remoteId → url) of one playlist, through one prepared
+     * statement in one transaction — the batch shape that avoids a per-row SAVEPOINT. For channels
+     * whose content is unchanged but whose stored URL carries a value the provider renews on every
+     * call, so the newest one is kept without rewriting the whole row.
+     */
+    suspend fun updateChannelStreamUrls(sourceId: Long, urls: Map<String, String>) {
+        if (urls.isEmpty()) return
+        db.useWriterConnection { connection ->
+            connection.immediateTransaction {
+                usePrepared("UPDATE `channels` SET `streamUrl` = ? WHERE `sourceId` = ? AND `remoteId` = ? AND `streamUrl` != ?") { statement ->
+                    urls.forEach { (remoteId, url) ->
+                        statement.bindText(1, url)
+                        statement.bindLong(2, sourceId)
+                        statement.bindText(3, remoteId)
+                        statement.bindText(4, url)
+                        statement.step()
+                        statement.reset()
+                    }
+                }
+            }
+        }
+    }
 
     companion object {
         const val CHUNK = 5_000

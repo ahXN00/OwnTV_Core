@@ -80,6 +80,8 @@
         <item quantity="other"><xliff:g id="items">%1$d</xliff:g>টি আইটেম পুনরুদ্ধার করা হয়েছে। কনটেন্ট লোড করতে আপনার উৎসগুলো পুনরায় সিঙ্ক করুন।</item>
     </plurals>
     <string name="setup_passwords_omitted">এরপর সংরক্ষিত পাসওয়ার্ডগুলো আবার লিখুন।</string>
+    <string name="setup_need_password">কোনো পাসওয়ার্ড সংরক্ষিত নেই, তাই এখনও লোড হয়নি: <xliff:g id="names">%1$s</xliff:g>। সেটিংসে প্লেলিস্টটি খুলে তার পাসওয়ার্ড লিখুন।</string>
+    <string name="setup_name_numbered"><xliff:g id="name">%1$s</xliff:g> <xliff:g id="number">%2$d</xliff:g></string>
     <plurals name="setup_skipped_sources">
         <item quantity="one">এই সংস্করণে প্লেলিস্টের ধরনটি সমর্থিত নয় বলে <xliff:g id="count">%1$d</xliff:g>টি উৎস এড়িয়ে যাওয়া হয়েছে।</item>
         <item quantity="other">এই সংস্করণে প্লেলিস্টের ধরনগুলো সমর্থিত নয় বলে <xliff:g id="count">%1$d</xliff:g>টি উৎস এড়িয়ে যাওয়া হয়েছে।</item>
@@ -90,6 +92,7 @@
     <string name="setup_opening">খোলা হচ্ছে…</string>
     <string name="setup_add_source">একটি উৎস যোগ করুন</string>
     <string name="setup_edit_source">উৎস সম্পাদনা করুন</string>
+    <string name="setup_edit_from_phone">অন্য ডিভাইস থেকে সম্পাদনা করুন</string>
     <string name="setup_edit_source_description">এই উৎসের তথ্য আপডেট করুন, অথবা এর স্বয়ংক্রিয় রিফ্রেশ সেটিং পরিবর্তন করুন।</string>
     <string name="setup_byo_source_description">OwnTV একটি প্লেয়ার — আপনার নিজস্ব Xtream, M3U বা Stalker উৎস যোগ করুন।</string>
     <string name="setup_xtream">Xtream</string>
@@ -176,6 +179,12 @@
     <string name="companion_saved_heading">আপনার TV-তে পাঠানো হয়েছে ✓</string>
     <string name="companion_saved_source_body"><xliff:g id="name">%1$s</xliff:g> এখন TV-র উৎস যোগ করুন স্ক্রিনে রয়েছে। সেখানে তথ্যগুলো পরীক্ষা করে রিমোট দিয়ে ইমপোর্ট শুরু করুন চাপুন।</string>
     <string name="companion_saved_send_another">আরেকটি উৎস পাঠান</string>
+    <string name="companion_edit_page_title">OwnTV — উৎস সম্পাদনা করুন</string>
+    <string name="companion_edit_heading"><xliff:g id="name">%1$s</xliff:g> সম্পাদনা করুন</string>
+    <string name="companion_edit_description">যা দরকার বদলান এবং TV-তে পাঠান চাপুন। খালি রাখা ঘর তার বর্তমান মান রাখে। পরিবর্তনগুলো TV-তে দেখা যাবে — সেখানে রিমোট দিয়ে সংরক্ষণ করুন চাপুন।</string>
+    <string name="companion_keep_current">বর্তমান মান রাখতে খালি রাখুন</string>
+    <string name="companion_saved_edit_body"><xliff:g id="name">%1$s</xliff:g>-এর পরিবর্তনগুলো এখন TV-র সম্পাদনা স্ক্রিনে। সেখানে দেখে নিয়ে রিমোট দিয়ে সংরক্ষণ করুন চাপুন।</string>
+    <string name="companion_saved_edit_again">আরও কিছু বদলান</string>
     <string name="companion_saved_backup_body">আপনার ব্যাকআপটি এখন TV-তে রয়েছে। রিমোট হাতে নিয়ে কোন অংশগুলো পুনরুদ্ধার করবেন তা বেছে নিন।</string>
     <string name="companion_saved_backup_link">অন্য একটি ফাইল পাঠান</string>
     <string name="companion_saved_image_body">আপনার ছবিটি এখন TV-র পটভূমি।</string>

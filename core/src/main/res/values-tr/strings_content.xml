@@ -65,10 +65,21 @@
     </plurals>
     <string name="content_category_restore_order">Özel sıralama temizlenir</string>
     <string name="content_category_restore_nothing">Kategori zaten oynatma listesi varsayılanında</string>
+    <string name="content_category_lock">PIN ile kilitle</string>
+    <string name="content_category_locked_placeholder">Bu kategori kilitli</string>
+    <plurals name="content_category_pin_wait">
+        <item quantity="one">Çok fazla yanlış PIN. <xliff:g id="count">%1$d</xliff:g> saniye sonra tekrar deneyin</item>
+        <item quantity="other">Çok fazla yanlış PIN. <xliff:g id="count">%1$d</xliff:g> saniye sonra tekrar deneyin</item>
+    </plurals>
     <string name="content_move_to_category">Kategoriye taşı…</string>
     <string name="content_remove_from_category">Bu kategoriden kaldır</string>
     <string name="content_download">İndir</string>
     <string name="content_download_all_episodes">Tüm bölümleri indir</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> bölüm indirilsin mi?</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> bölüm indirilsin mi?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">Bu cihaza kaydedilir ve depolama alanı kaplar.</string>
     <string name="content_play">Oynat</string>
     <string name="content_favorited">Favorilerde</string>
     <string name="content_favorite">Favoriye ekle</string>
@@ -76,9 +87,7 @@
     <string name="content_episodes">Bölümler</string>
     <string name="content_oldest_first">Önce en eskiler</string>
     <string name="content_newest_first">Önce en yeniler</string>
-    <string name="content_play_external">Harici oynatıcıyla oynat</string>
     <string name="content_delete_subtitles">OpenSubtitles altyazılarını sil</string>
-    <string name="content_tmdb_details">TMDB Ayrıntıları</string>
     <string name="content_play_trailer">Fragmanı oynat</string>
     <string name="content_refetch_tmdb">Ayrıntıları güncelle</string>
     <string name="content_set_tmdb_name">TMDB adını belirle</string>
@@ -128,6 +137,9 @@
     <string name="content_catchup_jump_prompt">İzlemeye başlamak istediğiniz saati seçin. Yayın akışı gerekmez.</string>
     <string name="content_catchup_jump_exact">Tam saat seç…</string>
     <string name="content_catchup_jump_hint">Gün, saat veya dakikada OK tuşuna basın, yukarı ve aşağı ile değiştirin, sonra tekrar OK tuşuna basın.</string>
+    <string name="content_catchup_jump_programme_start">“<xliff:g id="title">%1$s</xliff:g>” başından</string>
+    <string name="content_catchup_jump_programme_start_untitled">Programın başından</string>
+    <string name="content_catchup_jump_programme_start_at">Başlangıç: <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">“<xliff:g id="channel">%1$s</xliff:g>” için rehber kanalını seçin.</string>
     <string name="content_epg_match_prompt_current">“<xliff:g id="channel">%1$s</xliff:g>” için rehber kanalını seçin. Geçerli: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">Rehber kanallarında ara…</string>
@@ -176,6 +188,8 @@
     <string name="content_downloads_ready">İzlemeye hazır</string>
     <string name="content_downloads_paused">Duraklatıldı</string>
     <string name="content_downloads_file_missing">Dosya yok: artık sürücüde değil</string>
+    <string name="content_downloads_delete_title">“<xliff:g id="name">%1$s</xliff:g>” silinsin mi?</string>
+    <string name="content_downloads_delete_message">Dosyayı bu cihazdan kaldırır. Daha sonra yeniden indirilebilir.</string>
     <string name="content_downloads_reason_account_busy">Hesap meşgul: bağlantıyı başka bir akış kullanıyor</string>
     <string name="content_downloads_reason_refused">Sunucu bağlantıyı reddetti</string>
     <string name="content_downloads_reason_not_found">Sunucuda artık bu dosya yok</string>
@@ -274,7 +288,6 @@
     <string name="content_search_in"><xliff:g id="name">%1$s</xliff:g> içinde ara</string>
     <string name="content_live_guide_view">Rehber görünümü</string>
     <string name="content_key_watch">İzle</string>
-    <string name="content_key_schedule">Yayın akışı</string>
     <string name="content_key_options">Seçenekler</string>
     <string name="content_live_groups">Gruplar</string>
     <string name="content_menu_group_watch">İzle</string>
@@ -339,6 +352,9 @@
     <string name="content_sort_date_added_hint">En yeni önce</string>
     <string name="content_menu_group_library">Kitaplık</string>
     <string name="content_menu_group_details">Ayrıntılar</string>
+    <string name="content_programme_details">Program ayrıntıları</string>
+    <string name="content_programmes_earlier">Daha önce</string>
+    <string name="content_programmes_later">Daha sonra</string>
     <string name="content_movie_details">Film ayrıntıları</string>
     <string name="content_series_details">Dizi ayrıntıları</string>
     <plurals name="content_vod_title_count">

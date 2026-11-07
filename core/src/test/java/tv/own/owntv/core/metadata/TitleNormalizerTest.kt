@@ -30,6 +30,19 @@ class TitleNormalizerTest {
     }
 
     @Test
+    fun stripsTrailingCamReleaseTags() {
+        // How some Stalker portals label a cinema recording: " - CAM" after the title.
+        assertEquals("Tum Mere Ho", q("Tum Mere Ho - CAM"))
+        assertEquals("Jailer 2", q("Jailer 2 - CAM (Hindi)"))
+        assertEquals("Drishyam 3", q("Drishyam 3 - HDTS"))
+        assertEquals("Some Film", q("Some Film - PRE-DVD"))
+        // Only the upper-case tag at the very end: real titles keep the word.
+        assertEquals("Cam", q("Cam"))
+        assertEquals("Cam Girl", q("Cam Girl"))
+        assertEquals("Webcam - Live", q("Webcam - Live"))
+    }
+
+    @Test
     fun stripsTrailingSeasonEpisodeTails() {
         assertEquals("Breaking Bad", q("Breaking Bad S05"))
         assertEquals("Loki", q("Loki Season 2"))

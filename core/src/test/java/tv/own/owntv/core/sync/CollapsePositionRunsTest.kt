@@ -108,6 +108,20 @@ class CollapsePositionRunsTest {
     }
 
     @Test
+    fun `a row an earlier chunk moved into the span splits the run instead of cancelling it`() {
+        // An earlier chunk shifted its rows down by one, so its last row now shares position 10
+        // with this chunk's first. Only that position is unsafe; the rest is still one range.
+        val moves = movesOf(10 to 11, 11 to 12, 12 to 13, 13 to 14)
+        val occupied = occupiedOf(10, 10, 11, 12, 13)
+
+        val (ranges, singles) = SyncSupport.collapsePositionRuns(moves, occupied)
+
+        assertEquals(listOf(PositionRange(11, 13, 1)), ranges)
+        assertEquals(listOf(PositionMove(1L, 11)), singles)
+        assertEquivalent(moves, occupied, tableOf(moves, extras = mapOf(99L to 10)))
+    }
+
+    @Test
     fun `a delta of zero is never emitted`() {
         val moves = movesOf(4 to 4, 5 to 5)
         val occupied = occupiedOf(4, 5)

@@ -65,10 +65,21 @@
     </plurals>
     <string name="content_category_restore_order">rydde din egen rækkefølge</string>
     <string name="content_category_restore_nothing">Kategorien har allerede afspilningslistens standard</string>
+    <string name="content_category_lock">Lås med PIN</string>
+    <string name="content_category_locked_placeholder">Denne kategori er låst</string>
+    <plurals name="content_category_pin_wait">
+        <item quantity="one">For mange forkerte PIN-koder. Prøv igen om <xliff:g id="count">%1$d</xliff:g> sekund</item>
+        <item quantity="other">For mange forkerte PIN-koder. Prøv igen om <xliff:g id="count">%1$d</xliff:g> sekunder</item>
+    </plurals>
     <string name="content_move_to_category">Flyt til kategori…</string>
     <string name="content_remove_from_category">Fjern fra denne kategori</string>
     <string name="content_download">Download</string>
     <string name="content_download_all_episodes">Download alle afsnit</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one">Download <xliff:g id="count">%1$d</xliff:g> afsnit?</item>
+        <item quantity="other">Download <xliff:g id="count">%1$d</xliff:g> afsnit?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">De gemmes på denne enhed og fylder på lageret.</string>
     <string name="content_play">Afspil</string>
     <string name="content_favorited">Føjet til favoritter</string>
     <string name="content_favorite">Føj til favoritter</string>
@@ -76,9 +87,7 @@
     <string name="content_episodes">Afsnit</string>
     <string name="content_oldest_first">Ældste først</string>
     <string name="content_newest_first">Nyeste først</string>
-    <string name="content_play_external">Afspil med ekstern afspiller</string>
     <string name="content_delete_subtitles">Slet OpenSub-undertekster</string>
-    <string name="content_tmdb_details">TMDB-oplysninger</string>
     <string name="content_play_trailer">Afspil trailer</string>
     <string name="content_refetch_tmdb">Hent TMDB-oplysninger igen</string>
     <string name="content_set_tmdb_name">Angiv TMDB-navn</string>
@@ -128,6 +137,9 @@
     <string name="content_catchup_jump_prompt">Vælg et tidspunkt at starte fra. Der kræves ingen programoversigt.</string>
     <string name="content_catchup_jump_exact">Vælg præcist tidspunkt…</string>
     <string name="content_catchup_jump_hint">Tryk på OK på dagen, timen eller minuttet, skift værdien med op og ned, og tryk på OK igen.</string>
+    <string name="content_catchup_jump_programme_start">Starten af “<xliff:g id="title">%1$s</xliff:g>”</string>
+    <string name="content_catchup_jump_programme_start_untitled">Programmets start</string>
+    <string name="content_catchup_jump_programme_start_at">Startede kl. <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">Vælg kanalen i programguiden for “<xliff:g id="channel">%1$s</xliff:g>”.</string>
     <string name="content_epg_match_prompt_current">Vælg kanalen i programguiden for “<xliff:g id="channel">%1$s</xliff:g>”. Nuværende: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">Søg efter kanaler i programguiden…</string>
@@ -176,6 +188,8 @@
     <string name="content_downloads_ready">Klar til at se</string>
     <string name="content_downloads_paused">Sat på pause</string>
     <string name="content_downloads_file_missing">Filen mangler: den er ikke længere på drevet</string>
+    <string name="content_downloads_delete_title">Slet “<xliff:g id="name">%1$s</xliff:g>”?</string>
+    <string name="content_downloads_delete_message">Fjerner filen fra denne enhed. Den kan downloades igen senere.</string>
     <string name="content_downloads_reason_account_busy">Kontoen er optaget: en anden stream bruger forbindelsen</string>
     <string name="content_downloads_reason_refused">Serveren afviste linket</string>
     <string name="content_downloads_reason_not_found">Serveren har ikke længere denne fil</string>
@@ -274,7 +288,6 @@
     <string name="content_search_in">Søg i <xliff:g id="name">%1$s</xliff:g></string>
     <string name="content_live_guide_view">Guidevisning</string>
     <string name="content_key_watch">Se</string>
-    <string name="content_key_schedule">Program</string>
     <string name="content_key_options">Indstillinger</string>
     <string name="content_live_groups">Grupper</string>
     <string name="content_menu_group_watch">Se</string>
@@ -339,6 +352,9 @@
     <string name="content_sort_date_added_hint">Nyeste først</string>
     <string name="content_menu_group_library">Bibliotek</string>
     <string name="content_menu_group_details">Detaljer</string>
+    <string name="content_programme_details">Programdetaljer</string>
+    <string name="content_programmes_earlier">Tidligere</string>
+    <string name="content_programmes_later">Senere</string>
     <string name="content_movie_details">Filmdetaljer</string>
     <string name="content_series_details">Seriedetaljer</string>
     <plurals name="content_vod_title_count">

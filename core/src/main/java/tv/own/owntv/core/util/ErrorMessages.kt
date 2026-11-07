@@ -23,6 +23,12 @@ sealed interface FriendlySyncFailure {
      * provider has not published this week's guide yet, so it is worth trying again another day.
      */
     data object GuideEmpty : FriendlySyncFailure
+
+    /**
+     * The guide answered in full and has programmes, but none of its channels is one the playlists
+     * use, so nothing was kept. Trying again later does not help; Auto-match in the Guide does.
+     */
+    data object GuideMatchesNoChannel : FriendlySyncFailure
     data object PlaylistFileUnavailable : FriendlySyncFailure
     data object PlaylistPathUnsupported : FriendlySyncFailure
     data class Unknown(val rawMessage: String) : FriendlySyncFailure
@@ -42,15 +48,23 @@ fun classifySyncFailure(raw: String?, online: Boolean): FriendlySyncFailure = wh
     raw.containsAny("timeout", "timed out") -> FriendlySyncFailure.Timeout
     raw.containsAny("Unable to resolve host", "UnknownHost", "No address associated") -> FriendlySyncFailure.Unreachable
     raw.containsAny("Failed to connect", "ECONNREFUSED", "Connection refused", "Connection reset") -> FriendlySyncFailure.ConnectionFailed
-    raw.containsAny("stream was reset", "PROTOCOL_ERROR", "StreamReset") -> FriendlySyncFailure.StreamInterrupted
+    // The last one is a gzip body cut off mid-download — a guide feed the server dropped.
+    raw.containsAny("stream was reset", "PROTOCOL_ERROR", "StreamReset", "Unexpected end of ZLIB input stream") ->
+        FriendlySyncFailure.StreamInterrupted
+    raw.contains("Portal login rejected", ignoreCase = true) -> FriendlySyncFailure.AuthenticationRejected
     raw.containsAny("MAC may not be authorized", "MAC not authorized", "Portal rejected", "no valid MAC") -> FriendlySyncFailure.MacNotAuthorised
+    // A portal's bare-text refusal of a MAC asking too fast — busy, not a bad login.
+    raw.contains("Authorization failed", ignoreCase = true) -> FriendlySyncFailure.ServerError
     raw.containsAny("Portal handshake", "portal API endpoint") -> FriendlySyncFailure.PortalHandshakeFailed
     raw.containsAny("token may have expired", "returned no cmd") -> FriendlySyncFailure.PortalSessionExpired
-    raw.containsAny("HTTP 401", "HTTP 403") -> FriendlySyncFailure.AuthenticationRejected
+    // 513 is not a standard status; Xtream panels on that software answer it, with an empty body, to
+    // every call made with a username or password they do not accept.
+    raw.containsAny("HTTP 401", "HTTP 403", "HTTP 513") -> FriendlySyncFailure.AuthenticationRejected
     raw.contains("HTTP 404", ignoreCase = true) -> FriendlySyncFailure.NotFound
     raw.containsAny("HTTP 500", "HTTP 502", "HTTP 503", "HTTP 504") -> FriendlySyncFailure.ServerError
     raw.containsAny("CertPath", "SSLHandshake", "trust anchor", "CertificateException") -> FriendlySyncFailure.SecureConnectionFailed
     raw.containsAny("END_TAG", "START_TAG", "XmlPull", "PullParser", "ParserException") -> FriendlySyncFailure.MalformedGuide
+    raw.contains("Guide channels match no playlist channel") -> FriendlySyncFailure.GuideMatchesNoChannel
     raw.containsAny("Portal returned no guide", "no programmes in the guide window") -> FriendlySyncFailure.GuideEmpty
     raw.contains("playlist_file_unavailable", ignoreCase = true) -> FriendlySyncFailure.PlaylistFileUnavailable
     raw.contains("playlist_path_unsupported", ignoreCase = true) -> FriendlySyncFailure.PlaylistPathUnsupported
@@ -70,8 +84,11 @@ fun isTransientSyncError(raw: String?, online: Boolean): Boolean = when {
         "Unable to resolve host", "UnknownHost", "No address associated",
         "Failed to connect", "ECONNREFUSED", "Connection refused", "Connection reset",
         "Software caused connection abort", "unexpected end of stream",
+        // A gzip body cut off mid-download (a guide feed dropped by the server).
+        "Unexpected end of ZLIB input stream",
         "stream was reset", "PROTOCOL_ERROR", "StreamReset",
         "HTTP 429", "HTTP 500", "HTTP 502", "HTTP 503", "HTTP 504",
+        "Authorization failed",
     )
 }
 

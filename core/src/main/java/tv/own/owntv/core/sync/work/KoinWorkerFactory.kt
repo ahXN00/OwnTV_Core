@@ -83,10 +83,12 @@ class KoinWorkerFactory : WorkerFactory() {
                 workerParameters,
                 koin.get(),
                 koin.get(),
+                koin.get(),
             )
             RecordingWorker::class.java.name -> RecordingWorker(
                 appContext,
                 workerParameters,
+                koin.get(),
                 koin.get(),
                 koin.get(),
             )

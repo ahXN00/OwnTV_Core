@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Eigenes Bild</string>
     <string name="profiles_kids">Kinderprofil</string>
     <string name="profiles_kids_description">Vereinfachtes, sicheres Stöbern</string>
+    <string name="profiles_allow_downloads">Downloads erlauben</string>
+    <string name="profiles_allow_downloads_description">Aus blendet für dieses Profil alle Download-Schaltflächen aus</string>
     <string name="profiles_remove_pin">PIN-Sperre entfernen</string>
     <string name="profiles_no_pin">Dieses Profil wird ohne PIN geöffnet</string>
     <string name="profiles_change_pin">PIN ändern (leer lassen = beibehalten)</string>
@@ -22,6 +24,8 @@
     <string name="profiles_gate_subtitle">Jedes Profil hat eigene Favoriten und einen eigenen Verlauf</string>
     <string name="profiles_wrong_pin">Falsche PIN — erneut versuchen</string>
     <string name="profiles_enter_pin"><xliff:g id="name">%1$s</xliff:g> — PIN eingeben</string>
+    <string name="profiles_protected_include">Es hat eine Profilsperre oder eine Einstellungssperre. Gib eine der beiden PINs ein, um es einzubeziehen. Ohne PIN wird es ausgelassen und bleibt, wie es ist.</string>
+    <string name="profiles_protected_edit">Es hat eine Profilsperre oder eine Einstellungssperre. Gib eine der beiden PINs ein, um es zu ändern.</string>
     <string name="profiles_kids_badge">KINDER</string>
     <string name="profiles_add">Profil hinzufügen</string>
     <string name="profiles_title">Profile</string>
@@ -45,6 +49,8 @@
     <string name="search_go_to_movie">Zum Film</string>
     <string name="search_clear_recent">Letzte Suchanfragen löschen</string>
     <string name="search_field_hint">Sender, Filme und Serien</string>
+    <string name="search_voice">Sprachsuche</string>
+    <string name="search_voice_prompt">Sagen Sie einen Sender, einen Film oder eine Serie</string>
     <string name="search_card_title">Finde alles in deinen Playlists</string>
     <string name="search_card_body">Sender, Filme und Serien aus allen Playlists, die du anzeigst. Wähle ein Ergebnis, um direkt dorthin zu gehen – dort kannst du abspielen, herunterladen oder die Optionen öffnen. Auch Sendungen, die jetzt oder später heute laufen, werden über ihren Titel gefunden.</string>
     <string name="search_nothing_found">Nichts gefunden für „<xliff:g id="query">%1$s</xliff:g>“</string>
@@ -63,6 +69,11 @@
     <string name="launcher_recent_live_description">Zuletzt angesehene Live-Sender</string>
     <string name="launcher_movie_type">Film</string>
     <string name="launcher_episode_number">Folge <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Mediathek wird geladen · bisher <xliff:g id="count">%1$s</xliff:g> Titel</item>
+        <item quantity="other">Mediathek wird geladen · bisher <xliff:g id="count">%1$s</xliff:g> Titel</item>
+    </plurals>
+    <string name="home_library_loading_trending">„Jetzt im Trend“ erscheint, während sich deine Mediathek füllt.</string>
     <string name="home_no_preview">Noch nichts für die Vorschau verfügbar.</string>
     <string name="home_no_rows">Alle Startseitenzeilen sind ausgeblendet.</string>
     <string name="home_enable_rows">Zeilen unter Einstellungen → Startbildschirm wieder aktivieren.</string>
@@ -177,6 +188,8 @@
     <string name="home_trending_pause">Pause</string>
     <string name="home_trending_unavailable">Diese Version ist nicht mehr verfügbar</string>
     <string name="recording_notification_title">Aufnahme läuft</string>
+    <string name="auto_start_notification_channel">Autostart beim Aufwachen</string>
+    <string name="auto_start_notification_text">OwnTV öffnet sich, wenn der Fernseher aufwacht</string>
     <string name="recording_failed_no_space">Gestoppt: kein Speicherplatz mehr</string>
     <string name="recording_failed_no_connection">Keine freie Verbindung bei deinem Anbieter</string>
     <string name="recording_failed_clash">Eine andere Aufnahme belegte die Verbindung</string>
@@ -193,6 +206,7 @@
     <string name="recording_group_missed">Verpasst</string>
     <string name="recording_record">Aufnehmen</string>
     <string name="recording_stop">Aufnahme beenden</string>
+    <string name="recording_delete_message">Entfernt die Aufnahme und ihre Datei von diesem Gerät. Das lässt sich nicht rückgängig machen.</string>
     <string name="recording_record_series">Jede Ausstrahlung aufnehmen</string>
     <string name="recording_stop_series">Nicht mehr jede Ausstrahlung aufnehmen</string>
     <string name="recording_from_archive">Aus der Mediathek aufnehmen</string>
@@ -205,6 +219,7 @@
     <string name="recording_scheduled_for">Nimmt <xliff:g id="time">%1$s</xliff:g> auf</string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line"><xliff:g id="title">%1$s</xliff:g> wird aufgenommen</string>
+    <string name="recording_pill_line_locked">Aufnahme aus einer gesperrten Kategorie</string>
     <string name="recording_clash_with">Überschneidet sich mit <xliff:g id="programme">%1$s</xliff:g></string>
     <string name="recording_settings_group">Aufnahme</string>
     <string name="settings_recording_reserve">Eine Verbindung zum Zuschauen frei halten</string>
@@ -281,6 +296,15 @@
     <string name="sports_starting_soon">Gleich geht’s los</string>
     <string name="sports_hint_match_page">Spielseite</string>
     <string name="sports_hint_follow_remind">Folgen · Erinnern</string>
+    <string name="sports_hint_day_matches">Spiele des Tages</string>
+    <string name="sports_hint_day">Tag</string>
+    <string name="sports_hint_week">Woche</string>
+    <string name="sports_hint_show_score">Ergebnis zeigen</string>
+    <string name="sports_hint_back_to_day">Zurück zum Tag</string>
+    <string name="sports_hint_open_league">Liga öffnen</string>
+    <string name="sports_hint_sport_chips">Sport-Schaltflächen</string>
+    <string name="sports_hint_league_chips">Liga-Schaltflächen</string>
+    <string name="sports_hint_follow_unfollow">Folgen · Nicht mehr folgen</string>
     <string name="sports_reminder_set">Erinnerung</string>
     <string name="sports_until">bis <xliff:g id="time">%1$s</xliff:g></string>
     <string name="sports_set"><xliff:g id="set">%1$d</xliff:g>. Satz</string>
@@ -387,7 +411,6 @@
     <string name="sports_next_month">Nächster Monat</string>
     <string name="sports_next">Als Nächstes: <xliff:g id="match">%1$s</xliff:g></string>
     <string name="sports_next_badge">Als Nächstes</string>
-    <string name="sports_new_badge">Neu</string>
     <string name="sports_no_table_series">Keine Tabelle — die Serien wechseln jede Woche</string>
     <string name="sports_follow_league">Liga folgen</string>
     <string name="sports_unfollow_league">Liga nicht mehr folgen</string>

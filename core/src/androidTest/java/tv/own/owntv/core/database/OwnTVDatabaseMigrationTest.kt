@@ -119,7 +119,15 @@ class OwnTVDatabaseMigrationTest {
             assertIndexExists(sqlite, "index_movies_sourceId_remoteId")
             assertIndexExists(sqlite, "index_series_sourceId_remoteId")
             assertIndexExists(sqlite, "index_epg_programmes_natural_key")
-            assertIndexExists(sqlite, "index_epg_programmes_sourceId_epgChannelId")
+            // v50 dropped it again: the natural key serves its reads.
+            assertIndexMissing(sqlite, "index_epg_programmes_sourceId_epgChannelId")
+            // v52: the catalogue's single-column (sourceId) / (categoryId) indexes, and channels (name).
+            for (table in listOf("channels", "movies", "series")) {
+                assertIndexMissing(sqlite, "index_${table}_sourceId")
+                assertIndexMissing(sqlite, "index_${table}_categoryId")
+            }
+            assertIndexMissing(sqlite, "index_channels_name")
+            assertIndexExists(sqlite, "index_movies_name")
             assertTableExists(sqlite, "metadata_cache")
             assertColumnExists(sqlite, "metadata_cache", "logoPath")
             assertColumnExists(sqlite, "sources", "mac")
@@ -353,7 +361,7 @@ class OwnTVDatabaseMigrationTest {
             // Simulate the interrupted-import drift.
             db12.execSQL("DROP INDEX IF EXISTS `index_movies_sourceId_rating_name`")
             db12.execSQL("DROP INDEX IF EXISTS `index_series_categoryId_rating_name`")
-            db12.execSQL("DROP INDEX IF EXISTS `index_channels_sourceId`")
+            db12.execSQL("DROP INDEX IF EXISTS `index_channels_sourceId_sortOrder_name`")
             db12.execSQL("DROP INDEX IF EXISTS `index_epg_programmes_stopMs`")
             db12.version = 12
         } finally {
@@ -366,7 +374,7 @@ class OwnTVDatabaseMigrationTest {
             val sqlite = openForAssertions(db)
             assertIndexExists(sqlite, "index_movies_sourceId_rating_name")
             assertIndexExists(sqlite, "index_series_categoryId_rating_name")
-            assertIndexExists(sqlite, "index_channels_sourceId")
+            assertIndexExists(sqlite, "index_channels_sourceId_sortOrder_name")
             assertIndexExists(sqlite, "index_epg_programmes_stopMs")
             assertColumnExists(sqlite, "metadata_cache", "logoPath")
             assertColumnExists(sqlite, "sources", "mac")
@@ -795,6 +803,44 @@ class OwnTVDatabaseMigrationTest {
         }
     }
 
+    /**
+     * v50: the guide's (sourceId) and (sourceId, epgChannelId) indexes are dropped. Every programme
+     * comes through untouched, hash included (a changed hash would rewrite the guide on the next sync),
+     * and the natural key that now serves those reads is still there.
+     */
+    @Test
+    fun migrateVersion49To50_dropsRedundantGuideIndexes_keepingProgrammes() {
+        context.deleteDatabase(DB_NAME)
+        val db49 = context.openOrCreateDatabase(DB_NAME, Context.MODE_PRIVATE, null)
+        try {
+            executeSchemaQueries(db49, "tv.own.owntv.core.database.OwnTVDatabase/49.json")
+            db49.execSQL(
+                "INSERT INTO epg_programmes (id, sourceId, epgChannelId, startMs, stopMs, title, description, contentHash) " +
+                    "VALUES (10, -1, 'news', 1000, 2000, 'News One', 'A', 77)",
+            )
+            db49.version = 49
+        } finally {
+            db49.close()
+        }
+
+        val db = openWithAllMigrations()
+        try {
+            val sqlite = openForAssertions(db)
+            assertIndexMissing(sqlite, "index_epg_programmes_sourceId")
+            assertIndexMissing(sqlite, "index_epg_programmes_sourceId_epgChannelId")
+            assertIndexExists(sqlite, "index_epg_programmes_natural_key")
+            sqlite.prepare("SELECT id, epgChannelId, title, contentHash FROM epg_programmes WHERE sourceId = -1").use {
+                assertTrue(it.step())
+                assertEquals(10L, it.getLong(0))
+                assertEquals("news", it.getText(1))
+                assertEquals("News One", it.getText(2))
+                assertEquals(77L, it.getLong(3))
+            }
+        } finally {
+            db.close()
+        }
+    }
+
     private fun normNameOf(db: SQLiteConnection, epgChannelId: String): String? =
         db.prepare("SELECT normName FROM epg_channels WHERE epgChannelId = ?").use {
             it.bindText(1, epgChannelId)
@@ -1036,6 +1082,10 @@ class OwnTVDatabaseMigrationTest {
 
     private fun assertIndexExists(db: SQLiteConnection, index: String) {
         assertEquals(1L, countRows(db, "SELECT COUNT(*) FROM sqlite_master WHERE type = 'index' AND name = ?", arrayOf<Any?>(index)))
+    }
+
+    private fun assertIndexMissing(db: SQLiteConnection, index: String) {
+        assertEquals(0L, countRows(db, "SELECT COUNT(*) FROM sqlite_master WHERE type = 'index' AND name = ?", arrayOf<Any?>(index)))
     }
 
     private fun assertColumnExists(db: SQLiteConnection, table: String, column: String) {

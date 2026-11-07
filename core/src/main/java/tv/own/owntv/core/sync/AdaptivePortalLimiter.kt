@@ -12,6 +12,14 @@ import kotlinx.coroutines.sync.withLock
  * permit per [growAfter] consecutive successes up to [max], and halves (never below [min])
  * whenever a request fails with a throttle signal ([isThrottle] — 429/5xx/timeouts).
  *
+ * A limit that drew a throttle becomes this run's ceiling: the gate never grows back to it. Without
+ * that, a strict portal was halved, climbed straight back to the limit that had just failed twenty
+ * pages later, and was refused again — over and over for the whole crawl.
+ *
+ * One burst of refusals is learned from once. Requests already in flight when the first refusal
+ * arrives were sent at the old limit, and halving again for each of them used to drop a gate at
+ * eight straight to one.
+ *
  * Callers wrap each raw request in [withPermit]; retries/backoff must live OUTSIDE it so a
  * backoff delay doesn't hold a slot and every throttled attempt is learned from.
  */
@@ -26,31 +34,41 @@ internal class AdaptivePortalLimiter(
     private var limit = start.coerceIn(min, max)
     private var inFlight = 0
     private var successStreak = 0
+    private var generation = 0
+    private var ceiling: Int? = null
+    private var peak = limit
     private val waiters = ArrayDeque<CompletableDeferred<Unit>>()
 
     /** Snapshot for logging. */
     val currentLimit: Int get() = limit
 
+    /** The lowest limit a throttle happened at in this run, or null when the portal never refused. */
+    val throttledAt: Int? get() = ceiling
+
+    /** Whether this run ever got all the way to [max]. */
+    val reachedMax: Boolean get() = peak >= max
+
     suspend fun <T> withPermit(block: suspend () -> T): T {
-        acquire()
+        val sentAt = acquire()
         try {
             val result = block()
             onSuccess()
             return result
         } catch (e: Throwable) {
-            if (e !is CancellationException && isThrottle(e)) onThrottle()
+            if (e !is CancellationException && isThrottle(e)) onThrottle(sentAt)
             throw e
         } finally {
             release()
         }
     }
 
-    private suspend fun acquire() {
+    /** Takes a slot and returns the generation it was taken in. */
+    private suspend fun acquire(): Int {
         while (true) {
             val waiter = mutex.withLock {
                 if (inFlight < limit) {
                     inFlight++
-                    return
+                    return generation
                 }
                 CompletableDeferred<Unit>().also { waiters.addLast(it) }
             }
@@ -72,17 +90,23 @@ internal class AdaptivePortalLimiter(
 
     private suspend fun onSuccess() {
         mutex.withLock {
-            if (++successStreak >= growAfter && limit < max) {
-                limit++
+            val next = limit + 1
+            if (++successStreak >= growAfter && limit < max && ceiling.let { it == null || next < it }) {
+                limit = next
+                if (limit > peak) peak = limit
                 successStreak = 0
                 wakeLocked()
             }
         }
     }
 
-    private suspend fun onThrottle() {
+    private suspend fun onThrottle(sentAt: Int) {
         mutex.withLock {
+            // Sent before the last back-off: already answered by it.
+            if (sentAt != generation) return
+            generation++
             successStreak = 0
+            ceiling = minOf(ceiling ?: limit, limit)
             limit = (limit / 2).coerceAtLeast(min)
         }
     }
@@ -106,5 +130,11 @@ internal class AdaptivePortalLimiter(
         const val DEFAULT_MAX = 8
         /** Consecutive successful requests before adding one permit (~20 pages ≈ 300 items). */
         const val DEFAULT_GROW_AFTER = 20
+
+        /** A gate for a portal whose stored ceiling is [learned] (null = never refused us). */
+        fun forCeiling(learned: Int?, isThrottle: (Throwable) -> Boolean): AdaptivePortalLimiter {
+            val max = learned?.let { (it - 1).coerceIn(DEFAULT_MIN, DEFAULT_MAX) } ?: DEFAULT_MAX
+            return AdaptivePortalLimiter(start = minOf(DEFAULT_START, max), max = max, isThrottle = isThrottle)
+        }
     }
 }

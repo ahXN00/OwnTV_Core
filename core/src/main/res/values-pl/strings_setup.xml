@@ -84,6 +84,8 @@
         <item quantity="other">Przywrócono <xliff:g id="items">%1$d</xliff:g> elementów. Ponownie zsynchronizuj źródła, aby wczytać treści.</item>
     </plurals>
     <string name="setup_passwords_omitted">Później ponownie wpisz wszystkie zapisane hasła.</string>
+    <string name="setup_need_password">Brak zapisanego hasła, więc jeszcze nie wczytano: <xliff:g id="names">%1$s</xliff:g>. Otwórz listę odtwarzania w Ustawieniach i wpisz jej hasło.</string>
+    <string name="setup_name_numbered"><xliff:g id="name">%1$s</xliff:g> <xliff:g id="number">%2$d</xliff:g></string>
     <plurals name="setup_skipped_sources">
         <item quantity="one">Pominięto <xliff:g id="count">%1$d</xliff:g> źródło, ponieważ ta wersja nie obsługuje typu jego listy odtwarzania.</item>
         <item quantity="few">Pominięto <xliff:g id="count">%1$d</xliff:g> źródła, ponieważ ta wersja nie obsługuje typów ich list odtwarzania.</item>
@@ -96,6 +98,7 @@
     <string name="setup_opening">Uruchamianie…</string>
     <string name="setup_add_source">Dodaj źródło</string>
     <string name="setup_edit_source">Edytuj źródło</string>
+    <string name="setup_edit_from_phone">Edytuj z innego urządzenia</string>
     <string name="setup_edit_source_description">Zaktualizuj dane tego źródła albo zmień ustawienie automatycznego odświeżania.</string>
     <string name="setup_byo_source_description">OwnTV jest odtwarzaczem — dodaj własne źródło Xtream, M3U lub Stalker.</string>
     <string name="setup_xtream">Xtream</string>
@@ -182,6 +185,12 @@
     <string name="companion_saved_heading">Wysłano do telewizora ✓</string>
     <string name="companion_saved_source_body">Źródło <xliff:g id="name">%1$s</xliff:g> jest teraz widoczne na ekranie Dodaj źródło na telewizorze. Sprawdź tam jego dane i wybierz pilotem opcję Rozpocznij import.</string>
     <string name="companion_saved_send_another">Wyślij kolejne źródło</string>
+    <string name="companion_edit_page_title">OwnTV — Edytuj źródło</string>
+    <string name="companion_edit_heading">Edytuj <xliff:g id="name">%1$s</xliff:g></string>
+    <string name="companion_edit_description">Zmień, co trzeba, i naciśnij Wyślij do telewizora. Puste pole zachowuje obecną wartość. Zmiany pojawią się na telewizorze — naciśnij tam Zapisz na pilocie.</string>
+    <string name="companion_keep_current">Zostaw puste, aby zachować obecną wartość</string>
+    <string name="companion_saved_edit_body">Zmiany w <xliff:g id="name">%1$s</xliff:g> są już na ekranie edycji telewizora. Sprawdź je tam i naciśnij Zapisz na pilocie.</string>
+    <string name="companion_saved_edit_again">Zmień coś jeszcze</string>
     <string name="companion_saved_backup_body">Kopia zapasowa jest teraz dostępna na telewizorze. Weź pilot i wybierz elementy, które chcesz przywrócić.</string>
     <string name="companion_saved_backup_link">Wyślij inny plik</string>
     <string name="companion_saved_image_body">Obraz jest teraz tłem telewizora.</string>

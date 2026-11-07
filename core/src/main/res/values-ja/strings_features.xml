@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">自分の画像</string>
     <string name="profiles_kids">子ども用プロフィール</string>
     <string name="profiles_kids_description">シンプルで安全な閲覧</string>
+    <string name="profiles_allow_downloads">ダウンロードを許可</string>
+    <string name="profiles_allow_downloads_description">オフにすると、このプロフィールではダウンロードボタンがすべて非表示になります</string>
     <string name="profiles_remove_pin">PINロックを解除</string>
     <string name="profiles_no_pin">このプロフィールはPINなしで開きます</string>
     <string name="profiles_change_pin">PINを変更（空欄＝変更しない）</string>
@@ -22,6 +24,8 @@
     <string name="profiles_gate_subtitle">プロフィールごとにお気に入りと履歴が分かれます</string>
     <string name="profiles_wrong_pin">PINが正しくありません — もう一度お試しください</string>
     <string name="profiles_enter_pin"><xliff:g id="name">%1$s</xliff:g> — PINを入力</string>
+    <string name="profiles_protected_include">プロフィールロックまたは設定ロックがあります。含めるにはどちらかの PIN を入力してください。PIN がない場合は除外され、そのまま残ります。</string>
+    <string name="profiles_protected_edit">プロフィールロックまたは設定ロックがあります。変更するにはどちらかの PIN を入力してください。</string>
     <string name="profiles_kids_badge">キッズ</string>
     <string name="profiles_add">プロフィールを追加</string>
     <string name="profiles_title">プロフィール</string>
@@ -45,6 +49,8 @@
     <string name="search_go_to_movie">映画へ移動</string>
     <string name="search_clear_recent">最近の検索を消去</string>
     <string name="search_field_hint">チャンネル、映画、シリーズ</string>
+    <string name="search_voice">音声検索</string>
+    <string name="search_voice_prompt">チャンネル、映画、シリーズ名を話してください</string>
     <string name="search_card_title">プレイリストのすべてを検索</string>
     <string name="search_card_body">表示しているすべてのプレイリストのチャンネル、映画、シリーズ。結果を選ぶとその場所へ直接移動し、そこで再生、ダウンロード、オプションの表示ができます。放送中や今日この後のテレビ番組もタイトルで見つかります。</string>
     <string name="search_nothing_found">「<xliff:g id="query">%1$s</xliff:g>」 は見つかりませんでした</string>
@@ -61,6 +67,10 @@
     <string name="launcher_recent_live_description">最近視聴したライブチャンネル</string>
     <string name="launcher_movie_type">映画</string>
     <string name="launcher_episode_number">エピソード <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="other">ライブラリを読み込み中 · これまでに <xliff:g id="count">%1$s</xliff:g> 件</item>
+    </plurals>
+    <string name="home_library_loading_trending">「現在のトレンド」はライブラリの読み込みが進むと表示されます。</string>
     <string name="home_no_preview">プレビューできるコンテンツはまだありません。</string>
     <string name="home_no_rows">ホーム画面の行はすべて非表示です。</string>
     <string name="home_enable_rows">設定 → ホーム画面で行を再度オンにしてください。</string>
@@ -168,6 +178,8 @@
     <string name="home_trending_pause">一時停止</string>
     <string name="home_trending_unavailable">このバージョンは利用できなくなりました</string>
     <string name="recording_notification_title">録画中</string>
+    <string name="auto_start_notification_channel">スリープ解除時に自動で開く</string>
+    <string name="auto_start_notification_text">テレビが復帰すると OwnTV が開きます</string>
     <string name="recording_failed_no_space">停止しました: 空き容量がありません</string>
     <string name="recording_failed_no_connection">プロバイダーに空き接続がありません</string>
     <string name="recording_failed_clash">別の録画が接続を使用していました</string>
@@ -184,6 +196,7 @@
     <string name="recording_group_missed">録り逃し</string>
     <string name="recording_record">録画</string>
     <string name="recording_stop">録画を停止</string>
+    <string name="recording_delete_message">このデバイスから録画とそのファイルを削除します。元に戻すことはできません。</string>
     <string name="recording_record_series">毎回録画する</string>
     <string name="recording_stop_series">毎回録画するのをやめる</string>
     <string name="recording_from_archive">見逃し配信から録画</string>
@@ -196,6 +209,7 @@
     <string name="recording_scheduled_for"><xliff:g id="time">%1$s</xliff:g> に録画します</string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line"><xliff:g id="title">%1$s</xliff:g> を録画中</string>
+    <string name="recording_pill_line_locked">ロック中のカテゴリから録画中</string>
     <string name="recording_clash_with"><xliff:g id="programme">%1$s</xliff:g> と重複しています</string>
     <string name="recording_settings_group">録画</string>
     <string name="settings_recording_reserve">視聴用に1本の接続を空けておく</string>
@@ -266,6 +280,15 @@
     <string name="sports_starting_soon">まもなく開始</string>
     <string name="sports_hint_match_page">試合ページ</string>
     <string name="sports_hint_follow_remind">フォロー · リマインダー</string>
+    <string name="sports_hint_day_matches">その日の試合</string>
+    <string name="sports_hint_day">日</string>
+    <string name="sports_hint_week">週</string>
+    <string name="sports_hint_show_score">スコアを表示</string>
+    <string name="sports_hint_back_to_day">日に戻る</string>
+    <string name="sports_hint_open_league">リーグを開く</string>
+    <string name="sports_hint_sport_chips">競技ボタン</string>
+    <string name="sports_hint_league_chips">リーグボタン</string>
+    <string name="sports_hint_follow_unfollow">フォロー · フォロー解除</string>
     <string name="sports_reminder_set">リマインダー</string>
     <string name="sports_until"><xliff:g id="time">%1$s</xliff:g> まで</string>
     <string name="sports_set">第<xliff:g id="set">%1$d</xliff:g>セット</string>
@@ -369,7 +392,6 @@
     <string name="sports_next_month">次の月</string>
     <string name="sports_next">次：<xliff:g id="match">%1$s</xliff:g></string>
     <string name="sports_next_badge">次</string>
-    <string name="sports_new_badge">新着</string>
     <string name="sports_no_table_series">順位表なし — シリーズは毎週変わります</string>
     <string name="sports_follow_league">リーグをフォロー</string>
     <string name="sports_unfollow_league">リーグのフォローを解除</string>

@@ -144,6 +144,8 @@ sealed interface PlaybackFailure {
     /** HTTP 458: the account is already streaming elsewhere — said plainly, so nobody blames the stream. */
     data object AccountInUse : PlaybackFailure
     data object MpvStreamNeverStarted : PlaybackFailure
+    /** The playlist marks the stream as Apple FairPlay protected, which no Android device can decrypt. */
+    data object FairPlay : PlaybackFailure
     /** Genuine unknown engine/provider text; intentionally not translated. */
     data class Raw(val message: String) : PlaybackFailure
 }
@@ -194,6 +196,7 @@ fun PlaybackFailure.describe(resolve: (Int, List<Any>) -> String): String {
         PlaybackFailure.MpvOpenDecode -> str(R.string.player_error_mpv_open_decode)
         PlaybackFailure.AccountInUse -> str(R.string.player_error_account_in_use)
         PlaybackFailure.MpvStreamNeverStarted -> str(R.string.player_error_mpv_stream_never_started)
+        PlaybackFailure.FairPlay -> str(R.string.player_error_fairplay)
         is PlaybackFailure.Raw -> message
     }
 }

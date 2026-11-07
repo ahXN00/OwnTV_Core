@@ -60,10 +60,19 @@
     </plurals>
     <string name="content_category_restore_order">清除自定义排序</string>
     <string name="content_category_restore_nothing">此分类已是播放列表默认设置</string>
+    <string name="content_category_lock">用 PIN 锁定</string>
+    <string name="content_category_locked_placeholder">此分类已锁定</string>
+    <plurals name="content_category_pin_wait">
+        <item quantity="other">PIN 错误次数过多。请在 <xliff:g id="count">%1$d</xliff:g> 秒后重试</item>
+    </plurals>
     <string name="content_move_to_category">移动到分类…</string>
     <string name="content_remove_from_category">从此分类中移除</string>
     <string name="content_download">下载</string>
     <string name="content_download_all_episodes">下载所有集</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="other">要下载 <xliff:g id="count">%1$d</xliff:g> 集吗？</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">它们会保存在此设备上并占用存储空间。</string>
     <string name="content_play">播放</string>
     <string name="content_favorited">已收藏</string>
     <string name="content_favorite">收藏</string>
@@ -71,9 +80,7 @@
     <string name="content_episodes">集</string>
     <string name="content_oldest_first">最早优先</string>
     <string name="content_newest_first">最新优先</string>
-    <string name="content_play_external">使用外部播放器播放</string>
     <string name="content_delete_subtitles">删除 OpenSub 字幕</string>
-    <string name="content_tmdb_details">TMDB 详情</string>
     <string name="content_play_trailer">播放预告片</string>
     <string name="content_refetch_tmdb">重新获取 TMDB 详情</string>
     <string name="content_set_tmdb_name">设置 TMDB 名称</string>
@@ -122,6 +129,9 @@
     <string name="content_catchup_jump_prompt">选择开始观看的时间。无需节目单。</string>
     <string name="content_catchup_jump_exact">选择具体时间…</string>
     <string name="content_catchup_jump_hint">在日期、小时或分钟上按 OK，用上下键调整，然后再次按 OK。</string>
+    <string name="content_catchup_jump_programme_start">“<xliff:g id="title">%1$s</xliff:g>”的开头</string>
+    <string name="content_catchup_jump_programme_start_untitled">节目开头</string>
+    <string name="content_catchup_jump_programme_start_at">开始于 <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">为“<xliff:g id="channel">%1$s</xliff:g>”选择节目指南频道。</string>
     <string name="content_epg_match_prompt_current">为“<xliff:g id="channel">%1$s</xliff:g>”选择节目指南频道。当前：<xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">搜索节目指南频道…</string>
@@ -170,6 +180,8 @@
     <string name="content_downloads_ready">可以观看</string>
     <string name="content_downloads_paused">已暂停</string>
     <string name="content_downloads_file_missing">文件丢失：它已不在驱动器上</string>
+    <string name="content_downloads_delete_title">删除“<xliff:g id="name">%1$s</xliff:g>”？</string>
+    <string name="content_downloads_delete_message">从此设备移除该文件。之后可以重新下载。</string>
     <string name="content_downloads_reason_account_busy">账户繁忙：另一个串流正在使用该连接</string>
     <string name="content_downloads_reason_refused">服务器拒绝了该链接</string>
     <string name="content_downloads_reason_not_found">服务器上已没有此文件</string>
@@ -265,7 +277,6 @@
     <string name="content_search_in">搜索<xliff:g id="name">%1$s</xliff:g></string>
     <string name="content_live_guide_view">节目指南视图</string>
     <string name="content_key_watch">观看</string>
-    <string name="content_key_schedule">节目单</string>
     <string name="content_key_options">选项</string>
     <string name="content_live_groups">分组</string>
     <string name="content_menu_group_watch">观看</string>
@@ -327,6 +338,9 @@
     <string name="content_sort_date_added_hint">最新优先</string>
     <string name="content_menu_group_library">媒体库</string>
     <string name="content_menu_group_details">详情</string>
+    <string name="content_programme_details">节目详情</string>
+    <string name="content_programmes_earlier">此前</string>
+    <string name="content_programmes_later">稍后</string>
     <string name="content_movie_details">电影详情</string>
     <string name="content_series_details">剧集详情</string>
     <plurals name="content_vod_title_count">

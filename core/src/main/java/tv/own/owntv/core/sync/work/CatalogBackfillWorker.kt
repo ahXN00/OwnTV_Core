@@ -54,6 +54,8 @@ class CatalogBackfillWorker(
             // Never Result.failure(): an unfinished catalogue is not an error the user can act on,
             // and the plan rows survive, so a retry is always the right answer.
             Log.w(TAG, "backfill failed sourceId=$sourceId — retrying later", it)
+            // Usually WorkManager stopping a long pass at its time limit, with plenty landed by then.
+            rematchTrending(sourceId)
             return Result.retry()
         }
 
@@ -64,10 +66,13 @@ class CatalogBackfillWorker(
                 "pending=${outcome.pendingCategories}",
         )
         if (!outcome.complete) {
+            if (outcome.inserted > 0) rematchTrending(sourceId)
             // Paused for playback, or a category hit a page the portal would not serve. Either way
             // the plan still holds the position, so come back after a pause long enough that a
-            // yielding drain is not re-woken into the same stream it just stepped away from.
-            scheduler.enqueueCatalogBackfill(sourceId, initialDelayMinutes = RETRY_DELAY_MINUTES)
+            // yielding drain is not re-woken into the same stream it just stepped away from. When the
+            // pause was for playback, [tv.own.owntv.core.sync.BackfillResume] brings this pass
+            // forward once the player closes.
+            scheduler.enqueueNextBackfillPass(sourceId, RETRY_DELAY_MINUTES)
             return Result.success()
         }
         // `pagesFetched > 0` is what distinguishes "this pass finished the catalogue" from "there
@@ -75,6 +80,16 @@ class CatalogBackfillWorker(
         // and must not re-run either of the two jobs below.
         if (outcome.pagesFetched > 0) onCatalogueComplete(sourceId)
         return Result.success()
+    }
+
+    /**
+     * Re-match Now Trending against what has landed so far rather than only at completion, which on a
+     * large catalogue can be hours of interrupted passes away. After the first build this only
+     * re-matches from disk, with no TMDB calls.
+     */
+    private fun rematchTrending(sourceId: Long) {
+        runCatching { scheduler.enqueueTrendingRefresh(sourceId) }
+            .onFailure { Log.w(TAG, "mid-backfill trending enqueue failed sourceId=$sourceId", it) }
     }
 
     /**
@@ -91,9 +106,7 @@ class CatalogBackfillWorker(
         runCatching { importFinalizer.ensureContentIndexes() }
             .onFailure { Log.w(TAG, "post-backfill index refresh failed sourceId=$sourceId", it) }
 
-        // Trending is a snapshot, and a snapshot of a part-filled catalogue sits behind a
-        // multi-day timer. CatalogSyncWorker now declines to take one while a drain is outstanding,
-        // which makes this the only place it can be taken for a lazily-added source.
+        // The last of the per-pass re-matches: the row now matches against the whole catalogue.
         runCatching { scheduler.enqueueTrendingRefresh(sourceId) }
             .onFailure { Log.w(TAG, "post-backfill trending enqueue failed sourceId=$sourceId", it) }
 

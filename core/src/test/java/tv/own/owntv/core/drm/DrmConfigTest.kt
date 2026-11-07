@@ -142,6 +142,48 @@ class DrmConfigTest {
         assertEquals("https://host/live/cenc.mpd", entries[0].streamUrl)
     }
 
+    // --- FairPlay ---
+
+    @Test
+    fun `inline keys under a fairplay type are clearkey`() {
+        for (type in listOf("com.apple.fps", "com.apple.fps.1_0", "fairplay")) {
+            val cfg = DrmConfig.fromKodiProps(mapOf("license_type" to type, "license_key" to "$KID:$KEY"))
+            assertEquals(DrmConfig.Scheme.CLEARKEY, cfg?.scheme)
+            assertEquals(mapOf(KID to KEY), cfg?.clearKeys)
+        }
+        val jwks = """{"keys":[{"kty":"oct","kid":"${b64url(KID)}","k":"${b64url(KEY)}"}]}"""
+        assertEquals(
+            mapOf(KID to KEY),
+            DrmConfig.fromKodiProps(mapOf("license_type" to "com.apple.fps", "license_key" to jwks))?.clearKeys,
+        )
+    }
+
+    @Test
+    fun `real fairplay is kept as fairplay, so the player can say why it will not play`() {
+        val withServer = DrmConfig.fromKodiProps(mapOf("license_type" to "com.apple.fps", "license_key" to "https://host/fps"))
+        assertEquals(DrmConfig.Scheme.FAIRPLAY, withServer?.scheme)
+        assertEquals(DrmConfig.Scheme.FAIRPLAY, DrmConfig.fromKodiProps(mapOf("license_type" to "fairplay"))?.scheme)
+        // Stored and read back, with no licence address needed.
+        val stored = DrmConfig.decode(DrmConfig.encode(withServer))
+        assertEquals(DrmConfig.Scheme.FAIRPLAY, stored?.scheme)
+        assertEquals("", stored?.licenseUrl)
+    }
+
+    @Test
+    fun `a fairplay playlist entry parses into the fairplay marker`() {
+        val entries = parse(
+            """
+            #EXTM3U
+            #EXTINF:-1,Apple only
+            #KODIPROP:inputstream.adaptive.manifest_type=hls
+            #KODIPROP:inputstream.adaptive.license_type=com.apple.fps.1_0
+            #KODIPROP:inputstream.adaptive.license_key=https://host/fps/cert
+            https://host/live/master.m3u8
+            """.trimIndent(),
+        )
+        assertEquals(DrmConfig.Scheme.FAIRPLAY, entries[0].drm?.scheme)
+    }
+
     private fun b64url(hex: String): String = java.util.Base64.getUrlEncoder().withoutPadding()
         .encodeToString(ByteArray(hex.length / 2) { hex.substring(it * 2, it * 2 + 2).toInt(16).toByte() })
 

@@ -21,14 +21,20 @@ internal object DownloadNotifications {
     private var lastChannelLocaleKey: String? = null
     private val channelLock = Any()
 
-    fun foregroundInfo(context: Context, progress: DownloadProgress?, localeStore: LocaleStore): ForegroundInfo {
+    /** [showTitle] false leaves the title out, for a download from a locked category. */
+    fun foregroundInfo(
+        context: Context,
+        progress: DownloadProgress?,
+        localeStore: LocaleStore,
+        showTitle: Boolean = true,
+    ): ForegroundInfo {
         val localized = localizedContext(context, localeStore)
         ensureChannel(context, localized)
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.owntv_notification)
             .setContentTitle(localized.getString(R.string.app_name))
-            .setContentText(progress?.title ?: localized.getString(R.string.app_name))
+            .setContentText(progress?.title?.takeIf { showTitle } ?: localized.getString(R.string.app_name))
             .setOngoing(true)
             .setSilent(true)
             .setPriority(NotificationCompat.PRIORITY_LOW)

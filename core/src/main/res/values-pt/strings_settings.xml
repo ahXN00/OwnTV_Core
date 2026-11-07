@@ -70,6 +70,23 @@
     <string name="settings_remote_shortcuts_long_press">Toque longo</string>
     <string name="settings_remote_shortcuts_unknown_button">Botão do controle %1$d</string>
     <string name="settings_remote_shortcuts_help">• Por padrão, CH+/CH− e retroceder/avançar percorrem listas; segurar salta ao primeiro ou último item.\n• Toques curtos e longos podem ser atribuídos separadamente.\n• Ir ao último continua desativado em listas “Tudo” muito grandes.\n• Segurar Voltar sempre foca Em reprodução e não pode ser alterado.\n• Botões normalmente atribuíveis: vermelho/verde/amarelo/azul, números, CH+/CH− e retroceder/avançar.\n• Voltar, direcional, OK, volume, Início e energia continuam protegidos.\n• Atalhos numéricos funcionam ao navegar; em tela cheia, a entrada de canal tem prioridade.</string>
+    <string name="settings_player_buttons">Botões do player</string>
+    <string name="settings_player_hold_ok">Segurar OK no player</string>
+    <string name="settings_player_hold_ok_description">O que segurar OK abre enquanto os controles estão ocultos</string>
+    <string name="settings_help_player_hold_ok">Segure OK no player ao vivo em tela cheia, com os controles ocultos, para abrir a lista de canais, o guia ou as informações do programa. Desativado deixa o OK como sempre. Enquanto estiver ativado, um toque curto em OK age ao soltar. Filmes e episódios mantêm o OK de sempre.</string>
+    <string name="settings_player_short_ok">OK com os controles ocultos</string>
+    <string name="settings_player_short_ok_description">O que um toque curto em OK faz no player em tela cheia</string>
+    <string name="settings_help_player_short_ok">Um toque curto em OK no player em tela cheia mostra os controles. Escolha Lista de canais ou Guia para abrir isso nos canais ao vivo; qualquer outro botão que o player não usa continua mostrando os controles. Filmes e episódios sempre mostram os controles.</string>
+    <string name="settings_player_swap_channel_keys">Inverter canal acima/abaixo</string>
+    <string name="settings_player_swap_channel_keys_description">CH+ e Cima vão para o canal anterior</string>
+    <string name="settings_help_player_swap_channel_keys">Normalmente CH+ e Cima vão para o próximo canal, e CH− e Baixo para o anterior. Ative para invertê-los enquanto assiste, em tela cheia e no miniplayer. As listas de navegação não mudam.</string>
+    <string name="settings_player_number_keys_tune">Números trocam de canal</string>
+    <string name="settings_player_number_keys_tune_description">Digitar um número de canal no player ao vivo</string>
+    <string name="settings_help_player_number_keys_tune">Digite um número de canal no controle remoto no player ao vivo em tela cheia para ir até esse canal. Desative para deixar os botões numéricos livres para seus atalhos do controle remoto. Digitar um número também exige Números dos canais ativado nas configurações de TV ao vivo.</string>
+    <string name="settings_player_ok_channel_list">Lista de canais</string>
+    <string name="settings_player_ok_guide">Guia</string>
+    <string name="settings_player_ok_programme_info">Informações do programa</string>
+    <string name="settings_player_ok_show_controls">Mostrar controles</string>
     <string name="settings_remote_button_channel_up">Canal +</string>
     <string name="settings_remote_button_channel_down">Canal −</string>
     <string name="settings_remote_button_rewind">Retroceder</string>
@@ -179,8 +196,9 @@
     <string name="settings_ch_paging">Atalhos do controle remoto</string>
     <string name="settings_ch_paging_description">Atribua botões livres à navegação, reprodução e exploração. Os botões essenciais continuam protegidos.</string>
     <string name="settings_content_menus_title">Menus de toque longo</string>
-    <string name="settings_content_menus_description">Reordene as ações nos menus de canais, filmes, séries e episódios</string>
-    <string name="settings_content_menus_hint">Mantenha OK numa ação para a pegar e mova-a com Cima e Baixo. Prima OK novamente para a largar.</string>
+    <string name="settings_content_menus_description">Reordene ou oculte as ações nos menus de canais, filmes, séries e episódios</string>
+    <string name="settings_content_menus_hint">Pressione OK numa ação para mostrá-la ou ocultá-la. Mantenha OK para pegá-la, mova-a com Cima e Baixo e pressione OK novamente para soltá-la.</string>
+    <string name="settings_content_menus_note">Algumas ações aparecem apenas onde se aplicam.</string>
     <string name="settings_browsing_lists">Navegação e listas</string>
     <string name="settings_browsing_description">Lembre a última categoria e o último item em TV ao vivo, filmes e séries</string>
     <string name="settings_home_root">Tela inicial</string>
@@ -212,11 +230,17 @@
     <string name="settings_live_preview_description">Reproduza automaticamente um canal quando ele ficar em foco</string>
     <string name="settings_preview_audio">Áudio da prévia</string>
     <string name="settings_preview_audio_description">Reproduza som na prévia ao vivo</string>
+    <string name="settings_preview_on_ok">OK mostra a prévia primeiro</string>
+    <string name="settings_preview_on_ok_description">OK toca o canal na prévia e outro OK abre em tela cheia</string>
     <string name="settings_mini_player_root">Minirreprodutor</string>
     <string name="settings_mini_player_root_description">Tamanho e posição do minirreprodutor encaixado</string>
+    <string name="settings_pip_on_leave">Picture-in-picture ao sair do app</string>
+    <string name="settings_pip_on_leave_description">O vídeo continua em uma janela pequena quando você pressiona Início</string>
     <string name="settings_prefer_sdr_description">Quando um stream oferece imagem SDR e HDR, a SDR é reproduzida: para TVs em que o HDR parece desbotado ou escuro demais. Um stream só com HDR continua em HDR. Só ExoPlayer.</string>
-    <string name="settings_auto_frame_rate">Taxa de quadros automática</string>
-    <string name="settings_auto_frame_rate_description">Ajuste a taxa de atualização da TV ao vídeo (24/25/50/60 fps) em tela cheia, para TV ao vivo e VOD, e restaure-a ao sair. Desative se a TV ou o receiver refizer a negociação HDMI com ruído a cada troca de canal.</string>
+    <string name="settings_auto_frame_rate_films">Taxa de quadros automática para filmes e séries</string>
+    <string name="settings_auto_frame_rate_films_description">Ajuste a taxa de atualização da TV ao filme ou episódio (24/25/50/60 fps) em tela cheia e restaure-a ao sair.</string>
+    <string name="settings_auto_frame_rate_live">Taxa de quadros automática para TV ao vivo</string>
+    <string name="settings_auto_frame_rate_live_description">Ajuste a taxa de atualização da TV ao canal (25/50/60 fps) em tela cheia e restaure-a ao sair. Desative se a TV ou o receiver refizer a negociação HDMI com ruído a cada troca de canal.</string>
     <string name="settings_afr_pause">Pausar durante a troca de tela</string>
     <string name="settings_afr_pause_description">Somente filmes. Quando a TV precisa se ressincronizar com um novo modo de tela, o filme espera esse tempo para que o início não se perca na tela preta. Uma troca sem interrupção nunca pausa.</string>
     <string name="settings_afr_resolution">Ajustar a resolução</string>
@@ -260,12 +284,20 @@
     <string name="settings_check_updates_description">Obtenha a versão mais recente no GitHub Releases</string>
     <string name="settings_update_startup">Verificar atualizações ao iniciar</string>
     <string name="settings_update_startup_description">Procure uma nova versão quando o aplicativo for aberto</string>
+    <string name="settings_auto_start_boot">Iniciar ao ligar</string>
+    <string name="settings_auto_start_boot_description">Abrir o OwnTV quando a TV for ligada</string>
+    <string name="settings_auto_start_wake">Iniciar ao despertar</string>
+    <string name="settings_auto_start_wake_description">Abrir o OwnTV quando a TV sair do modo de espera</string>
+    <string name="settings_auto_start_needs_overlay">Requer “Sobrepor a outros apps”</string>
     <string name="settings_about">Sobre</string>
     <string name="settings_live_latency">Latência da transmissão ao vivo</string>
     <string name="settings_no_settings_match">Nenhuma configuração corresponde a “<xliff:g id="query">%1$s</xliff:g>”</string>
+    <string name="settings_search_empty_hint">Digite o nome de uma configuração</string>
     <string name="settings_breadcrumb"><xliff:g id="group">%1$s</xliff:g> › <xliff:g id="title">%2$s</xliff:g></string>
     <string name="settings_startup_home">Início</string>
     <string name="settings_startup_last_channel">Último canal</string>
+    <string name="settings_startup_last_channel_guide">Último canal · Guia de TV</string>
+    <string name="settings_startup_last_channel_live">Último canal · TV ao vivo</string>
     <string name="settings_startup_favorites">Ao vivo · Favoritos</string>
     <string name="settings_startup_specific_channel">Canal específico</string>
     <string name="settings_startup_channel_unavailable">O canal de inicialização não está disponível. A tela inicial foi aberta.</string>
@@ -366,6 +398,7 @@
     <string name="settings_search_keywords_startup">iniciar abrir entrada</string>
     <string name="settings_search_keywords_updates">GitHub lançamento versão</string>
     <string name="settings_search_keywords_update_auto">automática atualização nova versão</string>
+    <string name="settings_search_keywords_auto_start">inicialização ligar despertar suspensão espera abrir automaticamente</string>
     <string name="settings_language_default">Padrão (inglês)</string>
     <string name="settings_language_device">Idioma do dispositivo</string>
     <string name="settings_language_arabic">Árabe</string>
@@ -588,16 +621,33 @@
     <string name="settings_history_all">todos</string>
     <string name="settings_browsing_last_category">Lembrar última categoria</string>
     <string name="settings_browsing_last_category_description">Reabra a seção na categoria em que você estava, em vez de em Todas.</string>
+    <string name="settings_guide_follows_live">Guia de TV segue a TV ao vivo</string>
+    <string name="settings_guide_follows_live_description">Abra o Guia de TV na categoria da TV ao vivo.</string>
+    <string name="settings_help_guide_follows_live">Ativado: o Guia de TV abre na categoria que a TV ao vivo lembra, e uma categoria escolhida no Guia de TV passa a ser também a da TV ao vivo. Desativado: o Guia de TV mantém uma categoria própria.</string>
     <string name="settings_browsing_last_item">Lembrar último item</string>
     <string name="settings_browsing_last_item_description">Cada categoria mantém sua própria posição de rolagem, em vez de começar no topo. A TV ao vivo também restaura o último canal em foco.</string>
+    <string name="settings_browsing_live_categories">Categorias da TV ao vivo</string>
+    <string name="settings_browsing_live_categories_description">Exibidas na TV ao vivo, no guia, no player e na Multivisão. Com Todos os canais desativado, a TV ao vivo abre na sua primeira categoria, ou em Favoritos se você não tiver nenhuma.</string>
     <string name="settings_catchup_player">Reproduzir programação retroativa em</string>
     <string name="settings_customize_title">Personalizar categorias e itens</string>
     <string name="settings_customize_pin_locked">Esta tela está bloqueada por PIN.</string>
     <string name="settings_customize_wrong_pin">PIN incorreto — tente novamente</string>
     <string name="settings_customize_enter_pin">Insira o PIN</string>
-    <string name="settings_customize_set_pin">🔒 Definir PIN</string>
-    <string name="settings_customize_change_pin">🔒 Alterar PIN</string>
+    <string name="settings_customize_set_pin">🔒 Definir PIN de bloqueio de categorias</string>
+    <string name="settings_customize_change_pin">🔒 Alterar PIN de bloqueio de categorias</string>
+    <string name="settings_customize_remove_pin">Remover PIN de bloqueio de categorias</string>
     <string name="settings_customize_remove_lock">Remover bloqueio</string>
+    <string name="settings_lock">Bloqueio das configurações</string>
+    <string name="settings_lock_description">Configurações, Cópia de segurança e restauração e Sincronização local pedem um PIN próprio. Cada perfil define o seu.</string>
+    <string name="settings_line_settings_lock">Um PIN próprio para as Configurações</string>
+    <string name="settings_help_settings_lock">Um PIN deste perfil que Configurações, Cópia de segurança e restauração e Sincronização local pedem antes de abrir. Não é o PIN do perfil nem o PIN de bloqueio de categorias: cada bloqueio tem o seu próprio PIN, e nenhum abre outro. Alterar PIN e Desativar pedem o PIN atual das configurações.</string>
+    <string name="settings_lock_menus">Bloquear também as alterações do menu de toque longo</string>
+    <string name="settings_lock_menus_description">Ocultar, Mover, Renomear, bloquear uma categoria e Remover do histórico também pedem o PIN das configurações. Favoritos e Reproduzir nunca.</string>
+    <string name="settings_line_settings_lock_menus">As alterações do toque longo pedem o PIN das configurações</string>
+    <string name="settings_help_settings_lock_menus">Com isto ativado, as alterações do toque longo (Ocultar, Mover, Renomear, Bloquear categoria e Remover do histórico) pedem primeiro o PIN das configurações. Um PIN correto as libera até você sair do aplicativo ou trocar de perfil. Adicionar aos favoritos e reproduzir nunca pedem.</string>
+    <string name="settings_lock_change_pin">Alterar PIN</string>
+    <string name="settings_lock_turn_off">Desativar</string>
+    <string name="settings_search_keywords_settings_lock">bloqueio pin senha parental configurações</string>
     <string name="settings_customize_description">Oculte e reexiba canais, filmes e séries e renomeie ou reordene categorias deste perfil. As alterações são mantidas após ressincronizações.</string>
     <string name="settings_customize_new_category_behavior">Comportamento de novas categorias</string>
     <string name="settings_customize_hide">Ocultar</string>
@@ -642,8 +692,8 @@
     <string name="settings_customize_restore_defaults_title">Restaurar <xliff:g id="section">%1$s</xliff:g> em <xliff:g id="playlist">%2$s</xliff:g>\?</string>
     <string name="settings_customize_restore_defaults_description">Categorias e itens ocultos voltam a aparecer, renomeações e a ordem personalizada são limpas, e os itens movidos voltam. Categorias combinadas, favoritos e associações do guia são mantidos.</string>
     <string name="settings_customize_rename_hint">Apenas para este perfil. Deixe em branco para restaurar “<xliff:g id="name">%1$s</xliff:g>”.</string>
-    <string name="settings_customize_remove_pin_title">Remover o bloqueio por PIN?</string>
-    <string name="settings_customize_remove_pin_message">A tela Personalizar voltará a ser aberta sem solicitar um PIN.</string>
+    <string name="settings_customize_remove_pin_title">Remover o PIN de bloqueio de categorias?</string>
+    <string name="settings_customize_remove_pin_locks">Todas as categorias bloqueadas com este PIN também serão desbloqueadas.</string>
     <string name="settings_customize_remove">Remover</string>
     <string name="settings_customize_confirm_pin">Confirme o novo PIN</string>
     <string name="settings_customize_pin_mismatch">Os PINs não coincidem — insira-os novamente</string>
@@ -687,7 +737,16 @@
     <string name="settings_sources_test_trial">Conta de teste</string>
     <string name="settings_sources_test_expiry_none">Nenhuma data de expiração informada</string>
     <string name="settings_sources_info">Informações</string>
+    <string name="settings_sources_clean_names">Nomes</string>
+    <string name="settings_sources_clean_names_title">Nomes dos canais em “<xliff:g id="name">%1$s</xliff:g>”</string>
+    <string name="settings_sources_clean_names_description">Nomes de canal mais curtos em todas as telas. O guia continua usando os nomes enviados pelo seu provedor, e os canais que você renomeou em Personalizar mantêm o seu nome. Salvar atualiza a playlist.</string>
+    <string name="settings_sources_clean_names_toggle">Limpar nomes dos canais</string>
+    <string name="settings_sources_clean_names_example">Remove um prefixo de país e uma marca de qualidade no final: “UK| News One HD” aparece como “News One”</string>
+    <string name="settings_sources_clean_names_custom">Remover também</string>
+    <string name="settings_sources_clean_names_custom_hint">Palavras separadas por ; ex.: VIP; Backup</string>
     <string name="settings_sources_retest">Testar novamente</string>
+    <string name="settings_sources_ignore_limit">Ignorar limite de conexões</string>
+    <string name="settings_sources_ignore_limit_on">Limite de conexões ignorado: a Multivisão e as gravações podem abrir mais streams do que esta playlist informa. Um stream recusado pelo provedor continua avisando.</string>
     <string name="settings_sources_probe_title">Testar esta lista?</string>
     <string name="settings_sources_probe_warning">Muitos provedores nunca informam quantos canais você pode assistir ao mesmo tempo, então o OwnTV descobre abrindo alguns e vendo quais continuam. Tudo o que estiver em reprodução será interrompido, e isso pode levar até dois minutos.</string>
     <string name="settings_sources_probe_running">Verificando quantos canais este provedor permite… (<xliff:g id="current">%1$d</xliff:g> de <xliff:g id="total">%2$d</xliff:g>)</string>
@@ -756,6 +815,7 @@
     <string name="settings_epg_sources_auto_refresh_title">Atualização automática</string>
     <string name="settings_epg_sources_auto_refresh_description">Desativada, na inicialização ou quando os dados estiverem desatualizados</string>
     <string name="settings_epg_sources_not_synced">Ainda não sincronizado</string>
+    <string name="settings_epg_sources_priority">Prioridade do guia: <xliff:g id="position">%1$d</xliff:g> de <xliff:g id="total">%2$d</xliff:g>. Quando duas fontes listam o mesmo canal, é usada a que está mais acima nesta lista.</string>
     <string name="settings_epg_refresh_1h">1 hora</string>
     <string name="settings_epg_refresh_3h">3 horas</string>
     <string name="settings_epg_refresh_6h">6 horas</string>
@@ -845,6 +905,7 @@
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> fontes foram ignoradas porque os tipos das listas de reprodução não são compatíveis.</item>
     </plurals>
     <string name="settings_backup_export_error">Falha na exportação.</string>
+    <string name="settings_backup_no_file_app">Nenhum app neste celular consegue salvar o arquivo. Use Compartilhar.</string>
     <string name="settings_backup_read_error">Não foi possível ler o arquivo de cópia de segurança.</string>
     <string name="settings_backup_import_error">Falha na importação.</string>
     <string name="settings_backup_invalid_locale">Esta cópia de segurança continha um idioma do aplicativo sem suporte. A restauração foi concluída, mas seu idioma atual foi mantido.</string>
@@ -1310,6 +1371,12 @@
     <string name="settings_nav_hide_after_desc">Só flutuante: quanto tempo a barra espera depois que o foco sai dela</string>
     <string name="settings_nav_widen">Ampliar ao focar</string>
     <string name="settings_nav_widen_desc">Fixo e compacto: mostra os nomes sobre o conteúdo enquanto o menu está em foco</string>
+    <string name="settings_nav_menu_labels">Rótulos do menu</string>
+    <string name="settings_nav_menu_labels_desc">Os nomes das seções ao lado dos ícones: nunca, enquanto a barra tem o foco ou sempre</string>
+    <string name="settings_nav_menu_labels_focused">Com foco</string>
+    <string name="settings_nav_menu_labels_always">Sempre</string>
+    <string name="settings_nav_menu_labels_summary">Rótulos: <xliff:g id="choice">%1$s</xliff:g></string>
+    <string name="settings_search_keywords_menu_labels">rótulos, nomes, texto, só ícones, barra, barra lateral, menu, ampliar, larga</string>
     <string name="settings_nav_menu_items">Itens do menu</string>
     <string name="settings_nav_menu_items_desc">Dinâmico: segue o conteúdo da playlist · Estático: você escolhe</string>
     <string name="settings_nav_bar">Barra</string>
@@ -1387,7 +1454,7 @@
     <string name="settings_line_guide_width">Lista de canais e linha do tempo</string>
     <string name="settings_line_browsing">Lembra a última categoria e o último item</string>
     <string name="settings_line_home">Escolha, reordene e filtre as linhas</string>
-    <string name="settings_line_content_menus">Reorganize as ações de cada menu</string>
+    <string name="settings_line_content_menus">Reorganize ou oculte as ações de cada menu</string>
     <string name="settings_line_remote_shortcuts">Atribua botões livres do controle remoto</string>
     <string name="settings_line_customize">Oculte e mostre, renomeie e reordene</string>
     <string name="settings_line_metadata">Pôsteres, sinopses, elenco e notas de filmes e séries</string>
@@ -1400,6 +1467,7 @@
     <string name="settings_line_dns">Um servidor DNS personalizado</string>
     <string name="settings_line_quick_live_preview">Reproduz o canal em foco na TV ao vivo</string>
     <string name="settings_line_preview_sound">Som na prévia ao vivo</string>
+    <string name="settings_line_preview_on_ok">Primeiro a prévia, depois tela cheia</string>
     <string name="settings_line_quick_channel_numbers">Digite um número no controle remoto para sintonizar</string>
     <string name="settings_line_prefer_sdr">SDR quando o stream oferece os dois</string>
     <string name="settings_line_quick_autoplay">Inicia o próximo episódio sozinho</string>
@@ -1450,6 +1518,7 @@
     <string name="settings_line_autoplay">E também para a próxima temporada</string>
     <string name="settings_line_tiles">Cada bloco é outro stream</string>
     <string name="settings_line_mini">Tamanho e posição</string>
+    <string name="settings_line_pip">Continue assistindo em uma janela pequena</string>
     <string name="settings_line_rec_reserve">Nunca gravar em todas as conexões</string>
     <string name="settings_line_rec_watching">Sem um segundo stream</string>
     <string name="settings_line_rec_pre_roll">Antes de o programa começar</string>
@@ -1479,6 +1548,8 @@
     <string name="settings_help_startup">O que o OwnTV mostra ao iniciar: a Página inicial, o último canal assistido, seus favoritos ou um canal que você escolher.</string>
     <string name="settings_help_check_updates">Procura agora no GitHub por um OwnTV mais novo e oferece a instalação. Suas playlists, favoritos e configurações continuam como estão.</string>
     <string name="settings_help_update_startup">Procura uma nova versão sempre que o OwnTV inicia e avisa quando houver. Nada é instalado sem perguntar.</string>
+    <string name="settings_help_auto_start_boot">Abre o OwnTV sozinho quando a TV termina de iniciar, na tela escolhida em Inicialização do aplicativo. O Android só deixa um app abrir sozinho se ele puder se sobrepor a outros apps, então ativar esta opção abre a tela dessa permissão. Algumas TVs não a oferecem e, nelas, o início automático não funciona.</string>
+    <string name="settings_help_auto_start_wake">Abre o OwnTV sempre que a TV sai do modo de espera, mesmo se você a despertou para outro app. Se Inicialização do aplicativo abrir um canal, cada despertar inicia essa transmissão. Enquanto estiver ativado, o OwnTV mantém um pequeno serviço em segundo plano com uma notificação silenciosa. Como o início ao ligar, precisa da permissão para se sobrepor a outros apps.</string>
     <string name="settings_help_dns">Consulta os endereços do seu provedor com um servidor DNS escolhido por você em vez do da sua rede — útil quando sua rede os bloqueia ou redireciona.</string>
     <string name="settings_help_live_engine">O ExoPlayer abre os canais muito mais rápido e é o único com legendas ao vivo. O mpv reproduz canais que o ExoPlayer não consegue, incluindo alguns áudios incomuns. As opções combinadas tentam o outro player quando o primeiro falha.</string>
     <string name="settings_help_hw">Usa o decodificador de hardware da TV: 4K suave e menos calor. Desligue só se alguns streams travarem ou mostrarem blocos; aí o decodificador de software faz o trabalho.</string>
@@ -1489,9 +1560,11 @@
     <string name="settings_help_sub_lang">Legendas neste idioma são ativadas sozinhas quando o stream as tem. Caso contrário, ficam desligadas até você escolher uma faixa no player.</string>
     <string name="settings_help_live_preview">O canal em foco toca na prévia ao lado da lista da TV ao vivo, para você ver o que está passando antes de abrir. Precisa de um layout com espaço para a prévia.</string>
     <string name="settings_help_preview_audio">Toca o som da prévia além da imagem. Desligado, a navegação fica em silêncio.</string>
+    <string name="settings_help_preview_on_ok">Escolha onde OK em um canal primeiro o toca na prévia e outro OK no mesmo canal o abre em tela cheia. Na TV ao vivo, a prévia fica nesse canal enquanto você navega. Onde estiver desativado, OK abre o canal em tela cheia na hora e a prévia acompanha a seleção.</string>
     <string name="settings_help_timeshift_window">Até onde Pausar e voltar a TV ao vivo pode ir em um canal sem catch-up. Mais tempo guarda mais do canal no armazenamento deste aparelho.</string>
     <string name="settings_help_resume">Perguntar oferece Retomar ou Começar de novo quando um filme ou episódio tem uma posição salva. Sempre retomar continua de onde você parou; Nunca retomar começa do início.</string>
     <string name="settings_help_mini">O player pequeno que mantém um canal num canto enquanto você navega. Escolha o tamanho e o canto.</string>
+    <string name="settings_help_pip">Pressione Início ou abra outro app enquanto um vídeo é reproduzido em tela cheia ou no minirreprodutor, e ele continua em uma janela pequena sobre o resto da TV. Abra o OwnTV de novo para voltar à tela cheia; feche a janela para parar a reprodução. A Multivisão fica no OwnTV.</string>
     <string name="settings_key_palette">Paleta</string>
     <string name="settings_live_preview_note">As mudanças aparecem aqui enquanto você se move, antes de sair da linha.</string>
     <string name="settings_synced_at">Sincronizada <xliff:g id="when">%1$s</xliff:g></string>
@@ -1580,6 +1653,8 @@
     <string name="settings_remote_scan">Escaneie ou abra em um navegador</string>
     <string name="settings_remote_or_open">ou abra</string>
     <string name="settings_remote_details_note">Os dados aparecem aqui; você inicia a importação pelo controle.</string>
+    <string name="settings_remote_edit_note">As alterações preenchem a tela de edição; você pressiona Salvar com o controle remoto.</string>
+    <string name="settings_help_edit_from_phone">Abre esta playlist em um navegador de um celular, tablet ou computador na mesma rede Wi-Fi. Senhas, endereços MAC e endereços de playlists M3U nunca aparecem lá: deixe-os vazios para mantê-los. O que você enviar preenche esta tela, e nada muda até você pressionar Salvar.</string>
     <string name="settings_key_stop_back">Parar e voltar</string>
     <string name="settings_source_type">Tipo</string>
     <string name="settings_line_source_type">Xtream, M3U ou portal Stalker</string>

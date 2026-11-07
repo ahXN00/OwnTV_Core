@@ -70,6 +70,23 @@
     <string name="settings_remote_shortcuts_long_press">Долгое нажатие</string>
     <string name="settings_remote_shortcuts_unknown_button">Кнопка пульта %1$d</string>
     <string name="settings_remote_shortcuts_help">• По умолчанию CH+/CH− и назад/вперёд листают списки; удержание переходит к первому или последнему элементу.\n• Короткое и долгое нажатия назначаются отдельно.\n• Переход к концу отключён в очень больших списках «Все».\n• Долгое нажатие Назад всегда переводит фокус на «Сейчас воспроизводится» и не изменяется.\n• Обычно можно назначить красную/зелёную/жёлтую/синюю, цифры, CH+/CH− и перемотку.\n• Назад, крестовина, OK, громкость, Главная и питание остаются защищёнными.\n• Цифровые сочетания работают при просмотре; в полноэкранном режиме ввод канала имеет приоритет.</string>
+    <string name="settings_player_buttons">Кнопки плеера</string>
+    <string name="settings_player_hold_ok">Удержание OK в плеере</string>
+    <string name="settings_player_hold_ok_description">Что открывает удержание OK, пока элементы управления скрыты</string>
+    <string name="settings_help_player_hold_ok">Удерживайте OK в полноэкранном плеере прямого эфира со скрытыми элементами управления, чтобы открыть список каналов, телегид или сведения о передаче. «Выкл.» оставляет OK как раньше. Пока параметр включён, короткое нажатие OK срабатывает при отпускании. Для фильмов и серий OK работает как обычно.</string>
+    <string name="settings_player_short_ok">OK при скрытых элементах управления</string>
+    <string name="settings_player_short_ok_description">Что делает короткое нажатие OK в полноэкранном плеере</string>
+    <string name="settings_help_player_short_ok">Короткое нажатие OK в полноэкранном плеере показывает элементы управления. Выберите «Список каналов» или «Телегид», чтобы на каналах прямого эфира открывалось это; любая другая кнопка, которую плеер не использует, по-прежнему показывает элементы управления. Фильмы и серии всегда показывают элементы управления.</string>
+    <string name="settings_player_swap_channel_keys">Поменять канал вверх/вниз</string>
+    <string name="settings_player_swap_channel_keys_description">CH+ и Вверх переключают на предыдущий канал</string>
+    <string name="settings_help_player_swap_channel_keys">Обычно CH+ и Вверх переключают на следующий канал, а CH− и Вниз — на предыдущий. Включите, чтобы поменять их местами при просмотре, на весь экран и в мини-плеере. Списки при просмотре каталога не меняются.</string>
+    <string name="settings_player_number_keys_tune">Цифры переключают каналы</string>
+    <string name="settings_player_number_keys_tune_description">Ввод номера канала в плеере прямого эфира</string>
+    <string name="settings_help_player_number_keys_tune">Введите номер канала на пульте в полноэкранном плеере прямого эфира, чтобы перейти на этот канал. Выключите, чтобы оставить цифровые кнопки для команд пульта. Для ввода номера также нужно включить «Номера каналов» в настройках прямого эфира.</string>
+    <string name="settings_player_ok_channel_list">Список каналов</string>
+    <string name="settings_player_ok_guide">Телегид</string>
+    <string name="settings_player_ok_programme_info">Сведения о передаче</string>
+    <string name="settings_player_ok_show_controls">Показать управление</string>
     <string name="settings_remote_button_channel_up">Канал +</string>
     <string name="settings_remote_button_channel_down">Канал −</string>
     <string name="settings_remote_button_rewind">Перемотка назад</string>
@@ -180,8 +197,9 @@
     <string name="settings_ch_paging">Команды пульта</string>
     <string name="settings_ch_paging_description">Назначьте свободным кнопкам навигацию, воспроизведение и просмотр списков. Основные кнопки навигации останутся защищёнными.</string>
     <string name="settings_content_menus_title">Меню долгого нажатия</string>
-    <string name="settings_content_menus_description">Измените порядок действий в меню каналов, фильмов, сериалов и серий</string>
-    <string name="settings_content_menus_hint">Удерживайте OK на действии, чтобы взять его, затем перемещайте вверх и вниз. Повторное OK опускает его.</string>
+    <string name="settings_content_menus_description">Измените порядок действий в меню каналов, фильмов, сериалов и серий или скройте их</string>
+    <string name="settings_content_menus_hint">Нажмите OK на действии, чтобы показать или скрыть его. Удерживайте OK, чтобы взять его, перемещайте вверх и вниз, а повторное OK опускает его.</string>
+    <string name="settings_content_menus_note">Некоторые действия появляются только там, где они применимы.</string>
     <string name="settings_browsing_lists">Просмотр и списки</string>
     <string name="settings_browsing_description">Запоминание последней категории и последнего элемента в прямом эфире, фильмах и сериалах</string>
     <string name="settings_home_root">Главный экран</string>
@@ -213,11 +231,17 @@
     <string name="settings_live_preview_description">Автоматически воспроизводить канал при переводе на него фокуса</string>
     <string name="settings_preview_audio">Звук предпросмотра</string>
     <string name="settings_preview_audio_description">Воспроизводить звук при предпросмотре эфира</string>
+    <string name="settings_preview_on_ok">OK сначала включает превью</string>
+    <string name="settings_preview_on_ok_description">OK включает канал в превью, повторное OK открывает его на весь экран</string>
     <string name="settings_mini_player_root">Мини-плеер</string>
     <string name="settings_mini_player_root_description">Размер и положение закреплённого мини-плеера</string>
+    <string name="settings_pip_on_leave">Картинка в картинке при выходе из приложения</string>
+    <string name="settings_pip_on_leave_description">Видео продолжает играть в маленьком окне, когда вы нажимаете «Главная»</string>
     <string name="settings_prefer_sdr_description">Если поток предлагает и SDR, и HDR изображение, воспроизводится SDR: для телевизора, на котором HDR выглядит блёклым или слишком тёмным. Поток только с HDR остаётся в HDR. Только ExoPlayer.</string>
-    <string name="settings_auto_frame_rate">Автоматическая частота кадров</string>
-    <string name="settings_auto_frame_rate_description">Согласовывать частоту обновления телевизора с видео (24/25/50/60 кадров/с) в полноэкранном режиме для прямого эфира и VOD и восстанавливать её при выходе. Отключите, если телевизор или ресивер при каждой смене канала заново устанавливает соединение HDMI с заметными помехами.</string>
+    <string name="settings_auto_frame_rate_films">Автоматическая частота кадров для фильмов и сериалов</string>
+    <string name="settings_auto_frame_rate_films_description">Согласовывать частоту обновления телевизора с фильмом или серией (24/25/50/60 кадров/с) в полноэкранном режиме и восстанавливать её при выходе.</string>
+    <string name="settings_auto_frame_rate_live">Автоматическая частота кадров для прямого эфира</string>
+    <string name="settings_auto_frame_rate_live_description">Согласовывать частоту обновления телевизора с каналом (25/50/60 кадров/с) в полноэкранном режиме и восстанавливать её при выходе. Отключите, если телевизор или ресивер при каждой смене канала заново устанавливает соединение HDMI с заметными помехами.</string>
     <string name="settings_afr_pause">Пауза при переключении экрана</string>
     <string name="settings_afr_pause_description">Только фильмы. Когда телевизору нужно заново синхронизироваться с новым режимом экрана, фильм ждёт столько, чтобы начало не потерялось в чёрном экране. При плавном переключении пауза не делается.</string>
     <string name="settings_afr_resolution">Подбирать разрешение</string>
@@ -262,12 +286,20 @@
     <string name="settings_check_updates_description">Получить последнюю версию из GitHub Releases</string>
     <string name="settings_update_startup">Проверять обновления при запуске</string>
     <string name="settings_update_startup_description">Искать новую версию при открытии приложения</string>
+    <string name="settings_auto_start_boot">Автозапуск при включении</string>
+    <string name="settings_auto_start_boot_description">Открывать OwnTV при включении телевизора</string>
+    <string name="settings_auto_start_wake">Автозапуск при пробуждении</string>
+    <string name="settings_auto_start_wake_description">Открывать OwnTV, когда телевизор выходит из спящего режима</string>
+    <string name="settings_auto_start_needs_overlay">Нужно разрешение «Поверх других приложений»</string>
     <string name="settings_about">О приложении</string>
     <string name="settings_live_latency">Задержка прямого эфира</string>
     <string name="settings_no_settings_match">Нет настроек, соответствующих запросу «<xliff:g id="query">%1$s</xliff:g>»</string>
+    <string name="settings_search_empty_hint">Введите название настройки</string>
     <string name="settings_breadcrumb"><xliff:g id="group">%1$s</xliff:g> › <xliff:g id="title">%2$s</xliff:g></string>
     <string name="settings_startup_home">Главный экран</string>
     <string name="settings_startup_last_channel">Последний канал</string>
+    <string name="settings_startup_last_channel_guide">Последний канал · Программа передач</string>
+    <string name="settings_startup_last_channel_live">Последний канал · Прямой эфир</string>
     <string name="settings_startup_favorites">Прямой эфир · Избранное</string>
     <string name="settings_startup_specific_channel">Выбранный канал</string>
     <string name="settings_startup_channel_unavailable">Стартовый канал недоступен. Открыт главный экран.</string>
@@ -368,6 +400,7 @@
     <string name="settings_search_keywords_startup">запуск открыть начальный экран</string>
     <string name="settings_search_keywords_updates">GitHub выпуск версия</string>
     <string name="settings_search_keywords_update_auto">автоматически обновление новая версия</string>
+    <string name="settings_search_keywords_auto_start">загрузка включение пробуждение сон ожидание автозапуск открыть</string>
     <string name="settings_language_default">По умолчанию (английский)</string>
     <string name="settings_language_device">Язык устройства</string>
     <string name="settings_language_arabic">Арабский</string>
@@ -591,16 +624,33 @@
     <string name="settings_history_all">всё</string>
     <string name="settings_browsing_last_category">Запоминать последнюю категорию</string>
     <string name="settings_browsing_last_category_description">Снова открывать раздел с той категорией, которую вы покинули, а не со «Все».</string>
+    <string name="settings_guide_follows_live">Программа передач следует за прямым эфиром</string>
+    <string name="settings_guide_follows_live_description">Открывать программу передач в категории прямого эфира.</string>
+    <string name="settings_help_guide_follows_live">Вкл.: программа передач открывается в категории, которую запомнил прямой эфир, а категория, выбранная в программе передач, становится и категорией прямого эфира. Выкл.: у программы передач своя категория.</string>
     <string name="settings_browsing_last_item">Запоминать последний элемент</string>
     <string name="settings_browsing_last_item_description">В каждой категории сохраняется собственная позиция прокрутки, поэтому она не открывается с самого начала. В прямом эфире также восстанавливается последний канал в фокусе.</string>
+    <string name="settings_browsing_live_categories">Категории прямого эфира</string>
+    <string name="settings_browsing_live_categories_description">Показываются в прямом эфире, программе передач, плеере и мультиэкране. Если «Все каналы» выключены, прямой эфир открывается на первой категории, а если категорий нет — на «Избранном».</string>
     <string name="settings_catchup_player">Воспроизводить архив через</string>
     <string name="settings_customize_title">Настройка категорий и элементов</string>
     <string name="settings_customize_pin_locked">Этот экран заблокирован с помощью PIN.</string>
     <string name="settings_customize_wrong_pin">Неверный PIN — попробуйте снова</string>
     <string name="settings_customize_enter_pin">Введите PIN</string>
-    <string name="settings_customize_set_pin">🔒 Установить PIN</string>
-    <string name="settings_customize_change_pin">🔒 Изменить PIN</string>
+    <string name="settings_customize_set_pin">🔒 Задать PIN-код блокировки категорий</string>
+    <string name="settings_customize_change_pin">🔒 Изменить PIN-код блокировки категорий</string>
+    <string name="settings_customize_remove_pin">Удалить PIN-код блокировки категорий</string>
     <string name="settings_customize_remove_lock">Снять блокировку</string>
+    <string name="settings_lock">Блокировка настроек</string>
+    <string name="settings_lock_description">Настройки, Резервная копия и восстановление и Локальная синхронизация запрашивают собственный PIN-код. Каждый профиль задаёт свой.</string>
+    <string name="settings_line_settings_lock">Отдельный PIN-код для настроек</string>
+    <string name="settings_help_settings_lock">PIN-код этого профиля, который Настройки, Резервная копия и восстановление и Локальная синхронизация запрашивают перед открытием. Это не PIN-код профиля и не PIN-код блокировки категорий: у каждой блокировки свой PIN-код, и ни один не открывает другую. Изменить PIN и Выключить запрашивают текущий PIN-код настроек.</string>
+    <string name="settings_lock_menus">Блокировать и изменения через долгое нажатие</string>
+    <string name="settings_lock_menus_description">Скрыть, Переместить, Переименовать, блокировка категории и Удалить из истории тоже запрашивают PIN-код настроек. Избранное и Воспроизведение — никогда.</string>
+    <string name="settings_line_settings_lock_menus">Изменения долгим нажатием запрашивают PIN-код настроек</string>
+    <string name="settings_help_settings_lock_menus">Когда это включено, изменения долгим нажатием (Скрыть, Переместить, Переименовать, Заблокировать категорию и Удалить из истории) сначала запрашивают PIN-код настроек. Один верный PIN-код открывает их, пока вы не выйдете из приложения или не смените профиль. Добавление в избранное и воспроизведение его никогда не запрашивают.</string>
+    <string name="settings_lock_change_pin">Изменить PIN</string>
+    <string name="settings_lock_turn_off">Выключить</string>
+    <string name="settings_search_keywords_settings_lock">блокировка pin пароль родительский настройки</string>
     <string name="settings_customize_description">Скрывайте и показывайте каналы, фильмы и сериалы, а также переименовывайте или меняйте порядок категорий для этого профиля. Изменения сохраняются после повторной синхронизации.</string>
     <string name="settings_customize_new_category_behavior">Поведение новых категорий</string>
     <string name="settings_customize_hide">Скрыть</string>
@@ -646,8 +696,8 @@
     <string name="settings_customize_restore_defaults_title">Вернуть настройки: <xliff:g id="section">%1$s</xliff:g> (<xliff:g id="playlist">%2$s</xliff:g>)?</string>
     <string name="settings_customize_restore_defaults_description">Скрытые категории и элементы снова появятся, переименования и свой порядок будут сброшены, а перемещённые элементы вернутся. Объединённые категории, избранное и привязки программы передач сохранятся.</string>
     <string name="settings_customize_rename_hint">Только для этого профиля. Оставьте поле пустым, чтобы восстановить «<xliff:g id="name">%1$s</xliff:g>».</string>
-    <string name="settings_customize_remove_pin_title">Снять блокировку с помощью PIN?</string>
-    <string name="settings_customize_remove_pin_message">Экран настройки категорий и элементов будет открываться без запроса PIN.</string>
+    <string name="settings_customize_remove_pin_title">Удалить PIN-код блокировки категорий?</string>
+    <string name="settings_customize_remove_pin_locks">Все категории, заблокированные этим PIN-кодом, тоже будут разблокированы.</string>
     <string name="settings_customize_remove">Удалить</string>
     <string name="settings_customize_confirm_pin">Подтвердите новый PIN</string>
     <string name="settings_customize_pin_mismatch">PIN не совпадают — введите снова</string>
@@ -692,7 +742,16 @@
     <string name="settings_sources_test_trial">Пробная учётная запись</string>
     <string name="settings_sources_test_expiry_none">Дата окончания не указана</string>
     <string name="settings_sources_info">Сведения</string>
+    <string name="settings_sources_clean_names">Названия</string>
+    <string name="settings_sources_clean_names_title">Названия каналов в «<xliff:g id="name">%1$s</xliff:g>»</string>
+    <string name="settings_sources_clean_names_description">Более короткие названия каналов на всех экранах. Телегид по-прежнему сопоставляет названия, которые присылает провайдер, а каналы, переименованные в «Настройке», сохраняют ваше название. Сохранение обновляет плейлист.</string>
+    <string name="settings_sources_clean_names_toggle">Очищать названия каналов</string>
+    <string name="settings_sources_clean_names_example">Убирает префикс страны и отметку качества в конце: «UK| News One HD» показывается как «News One»</string>
+    <string name="settings_sources_clean_names_custom">Также удалять</string>
+    <string name="settings_sources_clean_names_custom_hint">Слова через ; например VIP; Backup</string>
     <string name="settings_sources_retest">Проверить снова</string>
+    <string name="settings_sources_ignore_limit">Не учитывать лимит подключений</string>
+    <string name="settings_sources_ignore_limit_on">Лимит подключений не учитывается: мультиэкран и записи могут открыть больше потоков, чем указано для этого плейлиста. Если провайдер отклонит поток, об этом по-прежнему будет сообщено.</string>
     <string name="settings_sources_probe_title">Проверить этот плейлист?</string>
     <string name="settings_sources_probe_warning">Многие провайдеры не сообщают, сколько каналов можно смотреть одновременно, поэтому OwnTV выясняет это, открывая несколько каналов и наблюдая, какие из них продолжают работать. Всё, что сейчас воспроизводится, остановится, и это может занять до двух минут.</string>
     <string name="settings_sources_probe_running">Проверяем, сколько каналов разрешает этот провайдер… (<xliff:g id="current">%1$d</xliff:g> из <xliff:g id="total">%2$d</xliff:g>)</string>
@@ -764,6 +823,7 @@
     <string name="settings_epg_sources_auto_refresh_title">Автоматическое обновление</string>
     <string name="settings_epg_sources_auto_refresh_description">Отключено, при запуске или при устаревании данных</string>
     <string name="settings_epg_sources_not_synced">Ещё не синхронизировано</string>
+    <string name="settings_epg_sources_priority">Приоритет телепрограммы: <xliff:g id="position">%1$d</xliff:g> из <xliff:g id="total">%2$d</xliff:g>. Если два источника содержат один и тот же канал, используется тот, что выше в этом списке.</string>
     <string name="settings_epg_refresh_1h">1 час</string>
     <string name="settings_epg_refresh_3h">3 часа</string>
     <string name="settings_epg_refresh_6h">6 часов</string>
@@ -857,6 +917,7 @@
         <item quantity="other">Пропущено <xliff:g id="count">%1$d</xliff:g> источников, поскольку типы их плейлистов не поддерживаются.</item>
     </plurals>
     <string name="settings_backup_export_error">Не удалось выполнить экспорт.</string>
+    <string name="settings_backup_no_file_app">На этом телефоне нет приложения, которое может сохранить файл. Используйте «Поделиться».</string>
     <string name="settings_backup_read_error">Не удалось прочитать файл резервной копии.</string>
     <string name="settings_backup_import_error">Не удалось выполнить импорт.</string>
     <string name="settings_backup_invalid_locale">Эта резервная копия содержала неподдерживаемый язык приложения. Восстановление выполнено, но текущий язык не изменён.</string>
@@ -1337,6 +1398,12 @@
     <string name="settings_nav_hide_after_desc">Только плавающая: сколько панель ждёт после ухода фокуса</string>
     <string name="settings_nav_widen">Расширять при фокусе</string>
     <string name="settings_nav_widen_desc">Закреплённая и компактная: показывает названия поверх контента, пока панель в фокусе</string>
+    <string name="settings_nav_menu_labels">Подписи меню</string>
+    <string name="settings_nav_menu_labels_desc">Названия разделов рядом со значками: никогда, когда панель в фокусе, или всегда</string>
+    <string name="settings_nav_menu_labels_focused">При фокусе</string>
+    <string name="settings_nav_menu_labels_always">Всегда</string>
+    <string name="settings_nav_menu_labels_summary">Подписи: <xliff:g id="choice">%1$s</xliff:g></string>
+    <string name="settings_search_keywords_menu_labels">подписи, названия, текст, только значки, панель, боковая панель, меню, расширять, широкая</string>
     <string name="settings_nav_menu_items">Пункты меню</string>
     <string name="settings_nav_menu_items_desc">Динамически: по содержимому плейлиста · Вручную: выбираете вы</string>
     <string name="settings_nav_bar">Панель</string>
@@ -1415,7 +1482,7 @@
     <string name="settings_line_guide_width">Список каналов и шкала времени</string>
     <string name="settings_line_browsing">Запоминать последнюю категорию и элемент</string>
     <string name="settings_line_home">Выбор, порядок и фильтр строк</string>
-    <string name="settings_line_content_menus">Порядок действий в каждом меню</string>
+    <string name="settings_line_content_menus">Порядок и видимость действий в каждом меню</string>
     <string name="settings_line_remote_shortcuts">Назначить свободные кнопки пульта</string>
     <string name="settings_line_customize">Скрыть и показать, переименовать и упорядочить</string>
     <string name="settings_line_metadata">Постеры, сюжеты, актёры и рейтинги фильмов и сериалов</string>
@@ -1428,6 +1495,7 @@
     <string name="settings_line_dns">Свой DNS-сервер</string>
     <string name="settings_line_quick_live_preview">Воспроизводить выбранный канал в прямом эфире</string>
     <string name="settings_line_preview_sound">Звук в живом превью</string>
+    <string name="settings_line_preview_on_ok">Сначала превью, потом весь экран</string>
     <string name="settings_line_quick_channel_numbers">Наберите номер на пульте, чтобы переключить</string>
     <string name="settings_line_prefer_sdr">SDR, если в потоке есть оба</string>
     <string name="settings_line_quick_autoplay">Следующая серия запускается сама</string>
@@ -1478,6 +1546,7 @@
     <string name="settings_line_autoplay">И дальше в следующий сезон</string>
     <string name="settings_line_tiles">Каждая плитка — отдельный поток</string>
     <string name="settings_line_mini">Размер и положение</string>
+    <string name="settings_line_pip">Смотреть дальше в маленьком окне</string>
     <string name="settings_line_rec_reserve">Не записывать на всех подключениях</string>
     <string name="settings_line_rec_watching">Без второго потока</string>
     <string name="settings_line_rec_pre_roll">До начала передачи</string>
@@ -1507,6 +1576,8 @@
     <string name="settings_help_startup">Что OwnTV показывает при запуске: главную, последний просмотренный канал, избранное или выбранный вами канал.</string>
     <string name="settings_help_check_updates">Сейчас же ищет на GitHub новую версию OwnTV и предлагает установить её. Плейлисты, избранное и настройки останутся прежними.</string>
     <string name="settings_help_update_startup">Ищет новую версию при каждом запуске OwnTV и сообщает, если она есть. Ничего не устанавливается без вашего согласия.</string>
+    <string name="settings_help_auto_start_boot">Открывает OwnTV сам по себе после загрузки телевизора — на экране, выбранном в настройке Запуск приложения. Android разрешает приложению открываться самому, только если ему можно показываться поверх других приложений, поэтому при включении открывается экран этого разрешения. На некоторых телевизорах его нет, и там автозапуск работать не может.</string>
+    <string name="settings_help_auto_start_wake">Открывает OwnTV каждый раз, когда телевизор выходит из спящего режима, даже если его разбудили ради другого приложения. Если Запуск приложения открывает канал, каждое пробуждение запускает этот поток. Пока параметр включён, OwnTV держит небольшую фоновую службу с беззвучным уведомлением. Как и автозапуску при включении, ему нужно разрешение на показ поверх других приложений.</string>
     <string name="settings_help_dns">Ищет адреса провайдера через выбранный вами DNS-сервер вместо сервера вашей сети — полезно, если сеть их блокирует или перенаправляет.</string>
     <string name="settings_help_live_engine">ExoPlayer открывает каналы намного быстрее и единственный поддерживает субтитры в эфире. mpv воспроизводит каналы, с которыми ExoPlayer не справляется, в том числе с необычным звуком. Комбинированные варианты пробуют второй плеер, если первый не смог.</string>
     <string name="settings_help_hw">Использует аппаратный декодер телевизора: плавное 4K и меньше нагрева. Выключайте, только если некоторые потоки дёргаются или рассыпаются на блоки; тогда работу берёт программный декодер.</string>
@@ -1517,9 +1588,11 @@
     <string name="settings_help_sub_lang">Субтитры на этом языке включаются сами, если они есть в потоке. Иначе они остаются выключенными, пока вы не выберете дорожку в плеере.</string>
     <string name="settings_help_live_preview">Выбранный канал играет в превью рядом со списком эфира, чтобы вы видели, что идёт, до открытия. Нужен макет с местом для превью.</string>
     <string name="settings_help_preview_audio">Воспроизводит звук превью вместе с изображением. Если выключить, просмотр списка будет тихим.</string>
+    <string name="settings_help_preview_on_ok">Выберите, где OK на канале сначала включает его в превью, а повторное OK на том же канале открывает его на весь экран. В прямом эфире превью тогда остаётся на этом канале, пока вы листаете. Там, где это выключено, OK сразу открывает канал на весь экран, а превью следует за выделением.</string>
     <string name="settings_help_timeshift_window">Насколько далеко назад можно отмотать паузой и перемоткой эфира на канале без архива. Чем больше, тем больше канала хранится на этом устройстве.</string>
     <string name="settings_help_resume">«Спрашивать» предлагает «Продолжить» или «Сначала», если у фильма или серии есть сохранённая позиция. «Всегда продолжать» продолжает с места остановки; «Никогда не продолжать» начинает сначала.</string>
     <string name="settings_help_mini">Маленький плеер, который продолжает показывать канал в углу, пока вы листаете. Выберите размер и угол.</string>
+    <string name="settings_help_pip">Нажмите «Главная» или откройте другое приложение, пока видео идёт на весь экран или в мини-плеере, и оно продолжит играть в маленьком окне поверх остального экрана телевизора. Откройте OwnTV снова, чтобы вернуть его на весь экран; закройте окно, чтобы остановить воспроизведение. Мультиэкран остаётся в OwnTV.</string>
     <string name="settings_key_palette">Палитра</string>
     <string name="settings_live_preview_note">Изменения видны здесь сразу, ещё до того, как вы уйдёте со строки.</string>
     <string name="settings_synced_at">Синхронизировано: <xliff:g id="when">%1$s</xliff:g></string>
@@ -1614,6 +1687,8 @@
     <string name="settings_remote_scan">Отсканируйте или откройте в браузере</string>
     <string name="settings_remote_or_open">или откройте</string>
     <string name="settings_remote_details_note">Данные появятся здесь; импорт вы запускаете пультом.</string>
+    <string name="settings_remote_edit_note">Изменения заполнят экран редактирования; «Сохранить» вы нажимаете на пульте.</string>
+    <string name="settings_help_edit_from_phone">Открывает этот плейлист в браузере на телефоне, планшете или компьютере в той же сети Wi-Fi. Пароли, MAC-адреса и адреса плейлистов M3U там никогда не показываются: оставьте их пустыми, чтобы сохранить. То, что вы отправите, заполнит этот экран, и ничего не изменится, пока вы не нажмёте «Сохранить».</string>
     <string name="settings_key_stop_back">Остановить и назад</string>
     <string name="settings_source_type">Тип</string>
     <string name="settings_line_source_type">Xtream, M3U или портал Stalker</string>

@@ -5,7 +5,6 @@
 # Format: <count>\t<relative path>\t<content with \t/\n escaped>
 
 1	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	$mapped:${contextKey.substringAfter(':')}
-3	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	ctx
 1	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	movedFrom
 4	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	opensub_api_key_enc
 1	core/src/main/java/tv/own/owntv/core/backup/UserDataResolver.kt	oid
@@ -18,10 +17,8 @@
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	Saved uploaded playlist (${file.length()} bytes) → ${file.name}
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	companion-playlists
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	playlist-${System.currentTimeMillis()}.m3u
-2	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	\0
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	%1$d
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	,username:(document.getElementById('user').value||''),password:(document.getElementById('pass').value||'')
-1	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<div class="card"> <h1>${c.addHeading.h()}</h1> <p>${c.addDescription.h()}</p> <div class="tabs"> <button type="button" class="tab active" data-k="xtream">${c.xtream.h()}</button> <button type="button" class="tab" data-k="m3u">${c.m3u.h()}</button> <button type="button" class="tab" data-k="stalker">${c.stalker.h()}</button> </div> <form class="panel active" data-k="xtream" method="post" action="/xtream?pin=$pin"> <input type="hidden" name="type" value="xtream"> <div class="grid"> <label>${c.name.h()} <input name="name" placeholder="${c.defaultIptv.h()}"></label> ${autoRefreshSelect(c)} </div> <label>${c.serverUrl.h()} <input name="server" placeholder="${c.serverExample.h()}" required></label> <div class="grid"> <label>${c.username.h()} <input name="user" autocomplete="username" required></label> <label>${c.password.h()} <input name="pass" type="password" autocomplete="current-password" required></label> </div> <label>${c.userAgent.h()} <input name="userAgent" placeholder="${c.optional.h()}"></label> <label>${c.epgUrl.h()} <input name="epgUrl" placeholder="${c.optional.h()}"></label> <p class="hint">${c.syncXtreamHint.h()}</p> <div class="grid"> ${scopeSelect(c, "syncLive", c.live)} ${scopeSelect(c, "syncMovies", c.movies)} ${scopeSelect(c, "syncSeries", c.series)} </div> <input type="hidden" name="isDefault" value="false"> <label class="check"><input type="checkbox" name="isDefault" value="true"> ${c.defaultPlaylistLabel.h()}</label> <button class="go" type="submit">${c.sendToTv.h()}</button> </form> <form class="panel" id="m3uForm" data-k="m3u" method="post" action="/m3u?pin=$pin"> <input type="hidden" name="type" value="m3u"> <div class="grid"> <label>${c.name.h()} <input name="name" placeholder="${c.defaultPlaylist.h()}"></label> ${autoRefreshSelect(c)} </div> <label>${c.playlistUrl.h()} <input id="m3uUrl" name="server" placeholder="${c.playlistExample.h()}"></label> <label>${c.playlistFile.h()} <input id="m3uFile" type="file" accept=".m3u,.m3u8,audio/x-mpegurl,application/vnd.apple.mpegurl,text/plain"></label> <label>${c.userAgent.h()} <input name="userAgent" placeholder="${c.optional.h()}"></label> <label>${c.epgUrl.h()} <input name="epgUrl" placeholder="${c.optional.h()}"></label> <input type="hidden" name="isDefault" value="false"> <label class="check"><input type="checkbox" name="isDefault" value="true"> ${c.defaultPlaylistLabel.h()}</label> <button class="go" id="m3uSend" type="submit">${c.sendToTv.h()}</button> <p id="m3uStatus" class="hint"></p> </form> <form class="panel" data-k="stalker" method="post" action="/stalker?pin=$pin"> <input type="hidden" name="type" value="stalker"> <div class="grid"> <label>${c.name.h()} <input name="name" placeholder="${c.defaultPortal.h()}"></label> ${autoRefreshSelect(c)} </div> <label>${c.portalUrl.h()} <input name="portalUrl" placeholder="${c.portalExample.h()}" required></label> <label>${context.getString(R.string.setup_mac_address).h()} <input name="mac" placeholder="${context.getString(R.string.setup_mac_example).h()}" required></label> <h3>${context.getString(R.string.setup_stalker_advanced_identity).h()}</h3> <div class="grid"> <label>${context.getString(R.string.setup_stalker_serial_number_optional).h()} <input name="serialNumber"></label> <label>${context.getString(R.string.setup_stalker_device_id_optional).h()} <input name="deviceId"></label> <label>${context.getString(R.string.setup_stalker_device_id2_optional).h()} <input name="deviceId2"></label> <label>${context.getString(R.string.setup_stalker_signature_optional).h()} <input name="signature"></label> </div> <label>${c.userAgent.h()} <input name="userAgent" placeholder="${c.optional.h()}"></label> <p class="hint">${c.syncStalkerHint.h()}</p> <div class="grid"> ${scopeSelect(c, "syncLive", c.live, "now")} ${scopeSelect(c, "syncMovies", c.movies, "later")} ${scopeSelect(c, "syncSeries", c.series, "later")} </div> <input type="hidden" name="isDefault" value="false"> <label class="check"><input type="checkbox" name="isDefault" value="true"> ${c.defaultPlaylistLabel.h()}</label> <button class="go" type="submit">${c.sendToTv.h()}</button> </form> </div> <script> var tabs=document.querySelectorAll('.tab'), panels=document.querySelectorAll('.panel'); tabs.forEach(function(t){t.addEventListener('click',function(){ var k=t.getAttribute('data-k'); tabs.forEach(function(x){x.classList.toggle('active',x===t)}); panels.forEach(function(p){p.classList.toggle('active',p.getAttribute('data-k')===k)}); });}); // M3U panel only. With no file chosen this stays a plain form post, exactly as before. // With a file chosen the browser reads it as text and posts it as JSON, because a file // input cannot travel in a normal urlencoded body and the TV has no multipart parser. var mf=document.getElementById('m3uFile'), mu=document.getElementById('m3uUrl'), mb=document.getElementById('m3uSend'), ms=document.getElementById('m3uStatus'); document.getElementById('m3uForm').addEventListener('submit',function(ev){ var file=mf.files&&mf.files[0]; if(!file){ if(!(mu.value||'').trim()){ms.textContent=${c.playlistUrlOrFile.js()};ev.preventDefault();return false;} return true; // URL only — let the browser submit the form the old way. } ev.preventDefault(); mb.disabled=true; ms.textContent=${c.sending.js()}; var body={}; new FormData(document.getElementById('m3uForm')).forEach(function(v,k){body[k]=v;}); var r=new FileReader(); r.onload=function(){ body.playlistFile=r.result; body.playlistFileName=file.name; fetch('/m3u?pin=$pin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}) .then(function(res){ if(res.ok){document.open();res.text().then(function(t){document.write(t);document.close();});} else{mb.disabled=false;ms.textContent=${c.uploadFailed.js()}.replace('__STATUS__',String(res.status));} }) .catch(function(){mb.disabled=false;ms.textContent=${c.couldNotReach.js()};}); }; r.onerror=function(){mb.disabled=false;ms.textContent=${c.couldNotRead.js()};}; r.readAsText(file); return false; }); </script>
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<div class="card"> <h1>${title.h()}</h1><p>${description.h()}</p> <form id="f" onsubmit="return false"> $credentialFields <label>${keyLabel.h()} <input id="key" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"></label> <label>${urlLabel.h()} <input id="url" type="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://"></label> <button class="go" id="send" type="submit">${send.h()}</button> </form><p id="status" class="hint"></p> </div> <script> var k=document.getElementById('key'),u=document.getElementById('url'),b=document.getElementById('send'),s=document.getElementById('status'); document.getElementById('f').addEventListener('submit',function(){ var body=new URLSearchParams({apiKey:(k.value||'').trim(),serverUrl:(u.value||'').trim()$credentialBody}).toString(); b.disabled=true;s.textContent=${sending.js()}; fetch('/serviceconfig?pin=$pin',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body}) .then(function(res){if(res.ok){return res.text().then(function(t){document.open();document.write(t);document.close();});}b.disabled=false;s.textContent=${failed.js()}.replace('__STATUS__',String(res.status));}) .catch(function(){b.disabled=false;s.textContent=${unreachable.js()};});return false; }); </script>
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<div class="card"><h1>${c.savedHeading.h()}</h1> <p>${context.getString(R.string.companion_service_config_sent).h()}</p> <p><a href="/?pin=$pin">${context.getString(R.string.companion_service_config_again).h()}</a></p> </div>
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<label>${context.getString(R.string.player_subtitles_username).h()} <input id="user" type="text" autocomplete="username" autocapitalize="off" spellcheck="false"></label> <label>${context.getString(R.string.player_subtitles_password).h()} <input id="pass" type="password" autocomplete="current-password"></label>
@@ -42,11 +39,6 @@
 2	core/src/main/java/tv/own/owntv/core/companion/CompanionPayload.kt	\0
 1	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	${CustomizeKeys.CUSTOM_PREFIX}${UUID.randomUUID()}
 1	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	custom:
-2	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	customCats
-2	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	icon
-2	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	id
-2	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	movedFrom
-2	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	name
 6	core/src/main/java/tv/own/owntv/core/customize/RenameRules.kt	\0
 1	core/src/main/java/tv/own/owntv/core/customize/RenameRules.kt	${EDGE_SEPARATORS}\\z
 1	core/src/main/java/tv/own/owntv/core/customize/RenameRules.kt	(?:[\\x{2190}-\\x{21FF}\\x{2300}-\\x{23FF}\\x{25A0}-\\x{25FF}\\x{2600}-\\x{27BF}
@@ -79,7 +71,6 @@
 1	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	liveLatencyCustomSecs
 1	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	liveLatencyMode
 1	core/src/main/java/tv/own/owntv/core/database/OwnTVDatabase.kt	preferHls
-1	core/src/main/java/tv/own/owntv/core/database/dao/ChannelDao.kt	SELECT COUNT(*) FROM channels WHERE sourceId IN (:sourceIds) AND catchup = 1
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	(:type = 'LIVE' AND itemId IN (SELECT id FROM channels WHERE sourceId IN (:sourceIds))) OR
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	(:type = 'LIVE' AND itemId NOT IN (SELECT id FROM channels)) OR
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	(:type = 'MOVIE' AND itemId IN (SELECT id FROM movies WHERE sourceId IN (:sourceIds))) OR
@@ -105,12 +96,6 @@
 2	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	LEFT JOIN channels c ON m.mediaType = 'LIVE' AND m.itemId = c.id
 2	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	LEFT JOIN movies mv ON m.mediaType = 'MOVIE' AND m.itemId = mv.id
 2	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	LEFT JOIN series s ON m.mediaType = 'SERIES' AND m.itemId = s.id
-1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, m.position, c.sortOrder, c.name
-1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, m.position, c.sortOrder, c.name LIMIT :limit
-1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, m.position, mv.sortOrder, mv.name
-1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, m.position, mv.sortOrder, mv.name LIMIT :limit
-1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, m.position, s.sortOrder, s.name
-1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY (CASE WHEN o.position IS NULL THEN 1 ELSE 0 END), o.position, m.position, s.sortOrder, s.name LIMIT :limit
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY m.position, c.sortOrder, c.name
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY m.position, mv.sortOrder, mv.name
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	ORDER BY m.position, s.sortOrder, s.name
@@ -126,7 +111,6 @@
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	SELECT m.profileId AS profileId, m.mediaType AS mediaType, m.itemId AS itemId,
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE c.sourceId = :sourceId OR mv.sourceId = :sourceId OR s.sourceId = :sourceId
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE c.sourceId IN (:sourceIds) AND c.name LIKE '%' || :query || '%'
-1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE m.profileId = :profileId AND m.mediaType = 'LIVE' AND m.contextKey = :contextKey
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE m.profileId = :profileId AND m.mediaType = 'MOVIE' AND m.contextKey = :contextKey
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE m.profileId = :profileId AND m.mediaType = 'SERIES' AND m.contextKey = :contextKey
 1	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	WHERE m.profileId = :profileId AND m.mediaType = :type AND m.contextKey = :contextKey
@@ -190,7 +174,6 @@
 1	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	https://dns.google/dns-query
 1	core/src/main/java/tv/own/owntv/core/network/DnsConfig.kt	https://dns.quad9.net/dns-query
 1	core/src/main/java/tv/own/owntv/core/network/HttpClient.kt	Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36
-1	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	${base(s)}/timeshift/${s.username}/${s.password}/$durationMinutes/${fmt.format(java.util.Date(startMs))}/$streamId.$ext
 1	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	allowed_output_formats
 1	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	fetchAccountDetails failed for source ${s.id}
 2	core/src/main/java/tv/own/owntv/core/parser/XtreamClient.kt	m3u8
@@ -223,14 +206,11 @@
 1	core/src/main/java/tv/own/owntv/core/settings/SubtitleStyle.kt	top_right
 1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	$apiBase?type=epg&action=get_simple_data_table&ch_id=${enc(channelId)}
 1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	&date=${enc(date)}&p=$page&JsHttpRequest=1-xml
-1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	data
 1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	mark_archive
-1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	max_page_items
 1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	start_timestamp
 1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	stop_timestamp
 1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	time
 1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	time_to
-1	core/src/main/java/tv/own/owntv/core/stalker/StalkerClient.kt	total_items
 1	core/src/main/java/tv/own/owntv/core/stalker/StreamUrlResolver.kt	StreamUrlResolver
 1	core/src/main/java/tv/own/owntv/core/stalker/StreamUrlResolver.kt	archive guide lookup failed ch=$channelRemoteId
 1	core/src/main/java/tv/own/owntv/core/stalker/StreamUrlResolver.kt	auto /media/$programmeId.mpg
@@ -246,7 +226,6 @@
 1	core/src/main/java/tv/own/owntv/core/util/CrashRecorder.kt	${Build.MANUFACTURER} ${Build.MODEL} · Android ${Build.VERSION.RELEASE} (API ${Build.VERSION.SDK_INT})
 1	core/src/main/java/tv/own/owntv/core/util/CrashRecorder.kt	--- live diagnostics leading up to the crash ---
 1	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	body="$failureText"
-1	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	decoder failed before first frame (${error.errorCodeName}) — rebuilding the decoder and retrying once
 1	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	decoder rebuild failed: ${it.message}
 1	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	default User-Agent refused — retrying once as ${HttpClient.FALLBACK_USER_AGENT}
 1	player-core/src/main/java/tv/own/owntv/player/LivePreviewEngine.kt	insufficient resource

@@ -70,6 +70,23 @@
     <string name="settings_remote_shortcuts_long_press">長押し</string>
     <string name="settings_remote_shortcuts_unknown_button">リモコンボタン %1$d</string>
     <string name="settings_remote_shortcuts_help">• 標準ではCH+/CH−と巻き戻し/早送りで一覧を移動し、長押しで先頭または末尾へ移動します。\n• 短押しと長押しは別々に割り当てできます。\n• 非常に大きい「すべて」一覧では末尾への移動は無効です。\n• 戻るの長押しは常に再生中へフォーカスし、変更できません。\n• 通常は赤/緑/黄/青、数字、CH+/CH−、巻き戻し/早送りを割り当てできます。\n• 戻る、方向、OK、音量、ホーム、電源ボタンは保護されます。\n• 数字ショートカットは閲覧中に動作し、全画面ではチャンネル番号入力が優先されます。</string>
+    <string name="settings_player_buttons">プレーヤーのボタン</string>
+    <string name="settings_player_hold_ok">プレーヤーでOKを長押し</string>
+    <string name="settings_player_hold_ok_description">操作表示が隠れているときにOKを長押しして開くもの</string>
+    <string name="settings_help_player_hold_ok">全画面のライブプレーヤーで操作表示が隠れているときにOKを長押しすると、チャンネル一覧、番組表、番組情報を開きます。オフではOKは今までどおりです。オンの間は、OKの短押しは離したときに動作します。映画とエピソードではOKはいつもどおりです。</string>
+    <string name="settings_player_short_ok">操作表示が隠れているときのOK</string>
+    <string name="settings_player_short_ok_description">全画面プレーヤーでOKを短く押したときの動作</string>
+    <string name="settings_help_player_short_ok">全画面プレーヤーでOKを短く押すと操作表示が出ます。チャンネル一覧または番組表を選ぶと、ライブチャンネルでは代わりにそれを開きます。プレーヤーが使わないほかのボタンでは、引き続き操作表示が出ます。映画とエピソードでは常に操作表示が出ます。</string>
+    <string name="settings_player_swap_channel_keys">チャンネル上下を入れ替え</string>
+    <string name="settings_player_swap_channel_keys_description">CH+と上で前のチャンネルへ</string>
+    <string name="settings_help_player_swap_channel_keys">通常はCH+と方向キーの上で次のチャンネル、CH−と下で前のチャンネルへ移ります。オンにすると、視聴中に全画面とミニプレーヤーでこれを入れ替えます。一覧の閲覧には影響しません。</string>
+    <string name="settings_player_number_keys_tune">数字キーでチャンネル切替</string>
+    <string name="settings_player_number_keys_tune_description">ライブプレーヤーでチャンネル番号を入力</string>
+    <string name="settings_help_player_number_keys_tune">全画面のライブプレーヤーでリモコンからチャンネル番号を入力すると、そのチャンネルへ移ります。オフにすると、数字ボタンをリモコンショートカット用に空けておけます。番号の入力には、ライブTVの設定でチャンネル番号もオンにする必要があります。</string>
+    <string name="settings_player_ok_channel_list">チャンネル一覧</string>
+    <string name="settings_player_ok_guide">番組表</string>
+    <string name="settings_player_ok_programme_info">番組情報</string>
+    <string name="settings_player_ok_show_controls">操作表示を出す</string>
     <string name="settings_remote_button_channel_up">チャンネル +</string>
     <string name="settings_remote_button_channel_down">チャンネル −</string>
     <string name="settings_remote_button_rewind">巻き戻し</string>
@@ -177,8 +194,9 @@
     <string name="settings_ch_paging">リモコンショートカット</string>
     <string name="settings_ch_paging_description">リモコンの空きボタンにナビゲーション、再生、一覧操作を割り当てます。重要な操作ボタンは保護されます。</string>
     <string name="settings_content_menus_title">長押しメニュー</string>
-    <string name="settings_content_menus_description">チャンネル・映画・シリーズ・エピソードのメニューの項目を並べ替えます</string>
-    <string name="settings_content_menus_hint">項目で OK を長押しするとつかめます。上下で移動し、もう一度 OK で置きます。</string>
+    <string name="settings_content_menus_description">チャンネル・映画・シリーズ・エピソードのメニューの項目を並べ替えたり非表示にしたりします</string>
+    <string name="settings_content_menus_hint">項目で OK を押すと表示と非表示を切り替えます。OK を長押しするとつかめます。上下で移動し、もう一度 OK で置きます。</string>
+    <string name="settings_content_menus_note">一部の項目は、使える場面でのみ表示されます。</string>
     <string name="settings_browsing_lists">ブラウズと一覧</string>
     <string name="settings_browsing_description">ライブTV、映画、シリーズで最後のカテゴリと項目を記憶</string>
     <string name="settings_home_root">ホーム画面</string>
@@ -210,11 +228,17 @@
     <string name="settings_live_preview_description">フォーカスしたチャンネルを自動再生</string>
     <string name="settings_preview_audio">プレビュー音声</string>
     <string name="settings_preview_audio_description">ライブプレビューで音声を再生</string>
+    <string name="settings_preview_on_ok">OK でまずプレビュー</string>
+    <string name="settings_preview_on_ok_description">OK でチャンネルをプレビュー再生し、もう一度 OK で全画面で開きます</string>
     <string name="settings_mini_player_root">ミニプレーヤー</string>
     <string name="settings_mini_player_root_description">ドッキングしたミニプレーヤーのサイズと位置</string>
+    <string name="settings_pip_on_leave">アプリを離れたときのピクチャー イン ピクチャー</string>
+    <string name="settings_pip_on_leave_description">ホームを押すと、動画が小さなウィンドウで再生され続けます</string>
     <string name="settings_prefer_sdr_description">ストリームに SDR と HDR の両方の映像がある場合、SDR を再生します。HDR が白っぽく、または暗すぎて見えるテレビ向けです。HDR のみのストリームは HDR のままです。ExoPlayer のみ。</string>
-    <string name="settings_auto_frame_rate">自動フレームレート</string>
-    <string name="settings_auto_frame_rate_description">全画面表示でライブTVとVODの再生時にTVのリフレッシュレートを動画（24/25/50/60 fps）に合わせ、終了時に元に戻します。チャンネルを切り替えるたびにTVやレシーバーが大きな音を伴ってHDMIを再ハンドシェイクする場合はオフにしてください。</string>
+    <string name="settings_auto_frame_rate_films">映画・シリーズの自動フレームレート</string>
+    <string name="settings_auto_frame_rate_films_description">全画面表示で映画やエピソードの再生時にTVのリフレッシュレートを動画（24/25/50/60 fps）に合わせ、終了時に元に戻します。</string>
+    <string name="settings_auto_frame_rate_live">ライブTVの自動フレームレート</string>
+    <string name="settings_auto_frame_rate_live_description">全画面表示でチャンネルの再生時にTVのリフレッシュレートを映像（25/50/60 fps）に合わせ、終了時に元に戻します。チャンネルを切り替えるたびにTVやレシーバーが大きな音を伴ってHDMIを再ハンドシェイクする場合はオフにしてください。</string>
     <string name="settings_afr_pause">表示切り替え中は一時停止</string>
     <string name="settings_afr_pause_description">映画のみ。テレビが新しい表示モードへ再同期する必要があるとき、冒頭が黒い画面で失われないよう、映画はこの時間だけ待ちます。シームレスな切り替えでは一時停止しません。</string>
     <string name="settings_afr_resolution">解像度を合わせる</string>
@@ -256,12 +280,20 @@
     <string name="settings_check_updates_description">GitHub Releasesから最新バージョンを取得</string>
     <string name="settings_update_startup">起動時に更新を確認</string>
     <string name="settings_update_startup_description">アプリを開いたときに新しいバージョンを確認</string>
+    <string name="settings_auto_start_boot">起動時に自動で開く</string>
+    <string name="settings_auto_start_boot_description">テレビの電源が入ったら OwnTV を開きます</string>
+    <string name="settings_auto_start_wake">スリープ解除時に自動で開く</string>
+    <string name="settings_auto_start_wake_description">テレビがスリープから復帰したら OwnTV を開きます</string>
+    <string name="settings_auto_start_needs_overlay">「他のアプリの上に重ねて表示」が必要です</string>
     <string name="settings_about">アプリについて</string>
     <string name="settings_live_latency">ライブ遅延</string>
     <string name="settings_no_settings_match">「<xliff:g id="query">%1$s</xliff:g>」に一致する設定はありません</string>
+    <string name="settings_search_empty_hint">設定の名前を入力してください</string>
     <string name="settings_breadcrumb"><xliff:g id="group">%1$s</xliff:g> › <xliff:g id="title">%2$s</xliff:g></string>
     <string name="settings_startup_home">ホーム</string>
     <string name="settings_startup_last_channel">最後のチャンネル</string>
+    <string name="settings_startup_last_channel_guide">最後のチャンネル · 番組表</string>
+    <string name="settings_startup_last_channel_live">最後のチャンネル · ライブTV</string>
     <string name="settings_startup_favorites">ライブ · お気に入り</string>
     <string name="settings_startup_specific_channel">指定したチャンネル</string>
     <string name="settings_startup_channel_unavailable">起動チャンネルを利用できません。ホームを開きました。</string>
@@ -362,6 +394,7 @@
     <string name="settings_search_keywords_startup">起動 開く 開始画面</string>
     <string name="settings_search_keywords_updates">GitHub リリース バージョン</string>
     <string name="settings_search_keywords_update_auto">自動 更新 新しいバージョン</string>
+    <string name="settings_search_keywords_auto_start">起動 電源 スリープ 復帰 スタンバイ 自動 開く</string>
     <string name="settings_language_default">デフォルト（英語）</string>
     <string name="settings_language_device">デバイスの言語</string>
     <string name="settings_language_arabic">アラビア語</string>
@@ -582,16 +615,33 @@
     <string name="settings_history_all">すべて</string>
     <string name="settings_browsing_last_category">最後のカテゴリを記憶</string>
     <string name="settings_browsing_last_category_description">セクションを再度開いたとき、「すべて」ではなく最後に表示していたカテゴリを開きます。</string>
+    <string name="settings_guide_follows_live">番組表をライブTVに合わせる</string>
+    <string name="settings_guide_follows_live_description">番組表をライブTVのカテゴリで開きます。</string>
+    <string name="settings_help_guide_follows_live">オン：番組表はライブTVが記憶しているカテゴリで開き、番組表で選んだカテゴリはライブTVのカテゴリにもなります。オフ：番組表は独自のカテゴリを保持します。</string>
     <string name="settings_browsing_last_item">最後の項目を記憶</string>
     <string name="settings_browsing_last_item_description">各カテゴリで先頭からではなく、前回のスクロール位置を復元します。ライブTVでは、最後にフォーカスしていたチャンネルも復元します。</string>
+    <string name="settings_browsing_live_categories">ライブTVのカテゴリ</string>
+    <string name="settings_browsing_live_categories_description">ライブTV、番組表、プレーヤー、マルチビューに表示されます。「すべてのチャンネル」をオフにすると、ライブTVは最初のカテゴリ（カテゴリがない場合はお気に入り）で開きます。</string>
     <string name="settings_catchup_player">見逃し配信の再生方法</string>
     <string name="settings_customize_title">カテゴリと項目をカスタマイズ</string>
     <string name="settings_customize_pin_locked">この画面はPINロックされています。</string>
     <string name="settings_customize_wrong_pin">PINが違います — もう一度お試しください</string>
     <string name="settings_customize_enter_pin">PINを入力</string>
-    <string name="settings_customize_set_pin">🔒 PINを設定</string>
-    <string name="settings_customize_change_pin">🔒 PINを変更</string>
+    <string name="settings_customize_set_pin">🔒 カテゴリロックの PIN を設定</string>
+    <string name="settings_customize_change_pin">🔒 カテゴリロックの PIN を変更</string>
+    <string name="settings_customize_remove_pin">カテゴリロックの PIN を削除</string>
     <string name="settings_customize_remove_lock">ロックを解除</string>
+    <string name="settings_lock">設定ロック</string>
+    <string name="settings_lock_description">設定、バックアップと復元、ローカル同期は専用の PIN を求めます。プロフィールごとに設定します。</string>
+    <string name="settings_line_settings_lock">設定専用の PIN</string>
+    <string name="settings_help_settings_lock">このプロフィールの PIN で、設定、バックアップと復元、ローカル同期を開く前に求められます。プロフィールの PIN でもカテゴリロックの PIN でもありません。ロックごとに PIN があり、どれも他のロックは開けません。「PIN を変更」と「オフにする」は現在の設定 PIN を求めます。</string>
+    <string name="settings_lock_menus">長押しメニューの変更もロック</string>
+    <string name="settings_lock_menus_description">非表示、移動、名前の変更、カテゴリのロック、視聴履歴からの削除でも設定 PIN を求めます。お気に入りと再生では求めません。</string>
+    <string name="settings_line_settings_lock_menus">長押しの変更で設定 PIN を求めます</string>
+    <string name="settings_help_settings_lock_menus">オンにすると、長押しの変更（非表示、移動、名前の変更、カテゴリのロック、視聴履歴から削除）は先に設定 PIN を求めます。正しい PIN を一度入力すれば、アプリを離れるかプロフィールを切り替えるまで有効です。お気に入りへの追加と再生では求めません。</string>
+    <string name="settings_lock_change_pin">PIN を変更</string>
+    <string name="settings_lock_turn_off">オフにする</string>
+    <string name="settings_search_keywords_settings_lock">ロック pin パスワード ペアレンタル 設定</string>
     <string name="settings_customize_description">このプロフィールのチャンネル、映画、シリーズの表示／非表示を切り替え、カテゴリの名前や順序を変更します。再同期後も設定は維持されます。</string>
     <string name="settings_customize_new_category_behavior">新しいカテゴリの動作</string>
     <string name="settings_customize_hide">非表示にする</string>
@@ -634,8 +684,8 @@
     <string name="settings_customize_restore_defaults_title"><xliff:g id="playlist">%2$s</xliff:g>の<xliff:g id="section">%1$s</xliff:g>を復元しますか？</string>
     <string name="settings_customize_restore_defaults_description">非表示のカテゴリと項目は再表示され、名前の変更とカスタム順序は解除され、移動した項目は元に戻ります。統合カテゴリ、お気に入り、番組表の割り当ては保持されます。</string>
     <string name="settings_customize_rename_hint">このプロフィールにのみ適用されます。空欄にすると「<xliff:g id="name">%1$s</xliff:g>」に戻ります。</string>
-    <string name="settings_customize_remove_pin_title">PINロックを解除しますか？</string>
-    <string name="settings_customize_remove_pin_message">今後、カスタマイズ画面を開くときにPINの入力を求められなくなります。</string>
+    <string name="settings_customize_remove_pin_title">カテゴリロックの PIN を削除しますか？</string>
+    <string name="settings_customize_remove_pin_locks">このPINでロックしたカテゴリもすべてロックが解除されます。</string>
     <string name="settings_customize_remove">解除</string>
     <string name="settings_customize_confirm_pin">新しいPINを確認</string>
     <string name="settings_customize_pin_mismatch">PINが一致しません — 入力し直してください</string>
@@ -677,7 +727,16 @@
     <string name="settings_sources_test_trial">体験アカウント</string>
     <string name="settings_sources_test_expiry_none">有効期限の報告はありません</string>
     <string name="settings_sources_info">情報</string>
+    <string name="settings_sources_clean_names">名前</string>
+    <string name="settings_sources_clean_names_title">「<xliff:g id="name">%1$s</xliff:g>」のチャンネル名</string>
+    <string name="settings_sources_clean_names_description">すべての画面でチャンネル名を短く表示します。番組表は引き続きプロバイダーが送る名前で照合し、カスタマイズで名前を変えたチャンネルはその名前のままです。保存するとプレイリストを更新します。</string>
+    <string name="settings_sources_clean_names_toggle">チャンネル名を整理</string>
+    <string name="settings_sources_clean_names_example">先頭の国コードと末尾の画質表記を取り除きます:「UK| News One HD」は「News One」と表示</string>
+    <string name="settings_sources_clean_names_custom">ほかに削除する語</string>
+    <string name="settings_sources_clean_names_custom_hint">; で区切った語(例: VIP; Backup)</string>
     <string name="settings_sources_retest">再テスト</string>
+    <string name="settings_sources_ignore_limit">接続数の上限を無視</string>
+    <string name="settings_sources_ignore_limit_on">接続数の上限を無視しています：マルチビューと録画は、このプレイリストが示す数より多くのストリームを開くことがあります。プロバイダーが拒否したストリームは、これまでどおり表示されます。</string>
     <string name="settings_sources_probe_title">このプレイリストをテストしますか？</string>
     <string name="settings_sources_probe_warning">同時に視聴できるチャンネル数を知らせないプロバイダーは少なくありません。そこで OwnTV はいくつか実際に開き、どれが続くかを見て判断します。再生中のものはすべて停止し、最大で 2 分ほどかかります。</string>
     <string name="settings_sources_probe_running">このプロバイダーが許可するチャンネル数を確認しています…（<xliff:g id="current">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g>）</string>
@@ -740,6 +799,7 @@
     <string name="settings_epg_sources_auto_refresh_title">自動更新</string>
     <string name="settings_epg_sources_auto_refresh_description">オフ、起動時、またはデータが古い場合</string>
     <string name="settings_epg_sources_not_synced">まだ同期されていません</string>
+    <string name="settings_epg_sources_priority">番組表の優先度 <xliff:g id="position">%1$d</xliff:g>/<xliff:g id="total">%2$d</xliff:g>。複数のソースに同じチャンネルがある場合は、このリストで上にあるソースが使われます。</string>
     <string name="settings_epg_refresh_1h">1時間ごと</string>
     <string name="settings_epg_refresh_3h">3時間ごと</string>
     <string name="settings_epg_refresh_6h">6時間ごと</string>
@@ -821,6 +881,7 @@
         <item quantity="other">プレイリストの種類がサポートされていないため、<xliff:g id="count">%1$d</xliff:g>件のソースをスキップしました。</item>
     </plurals>
     <string name="settings_backup_export_error">エクスポートに失敗しました。</string>
+    <string name="settings_backup_no_file_app">この端末にはファイルを保存できるアプリがありません。代わりに「共有」を使ってください。</string>
     <string name="settings_backup_read_error">バックアップファイルを読み取れませんでした。</string>
     <string name="settings_backup_import_error">インポートに失敗しました。</string>
     <string name="settings_backup_invalid_locale">このバックアップには、サポートされていないアプリ言語が含まれていました。復元は完了しましたが、現在の言語が維持されました。</string>
@@ -1256,6 +1317,12 @@
     <string name="settings_nav_hide_after_desc">フローティングのみ：フォーカスが離れてから隠れるまでの時間</string>
     <string name="settings_nav_widen">フォーカス時に広げる</string>
     <string name="settings_nav_widen_desc">固定かつコンパクト時：レールにフォーカスがある間、コンテンツの上に名前を表示</string>
+    <string name="settings_nav_menu_labels">メニューのラベル</string>
+    <string name="settings_nav_menu_labels_desc">アイコンの横のセクション名:表示しない、バーにフォーカスがある間、常に表示</string>
+    <string name="settings_nav_menu_labels_focused">フォーカス時</string>
+    <string name="settings_nav_menu_labels_always">常に</string>
+    <string name="settings_nav_menu_labels_summary">ラベル:<xliff:g id="choice">%1$s</xliff:g></string>
+    <string name="settings_search_keywords_menu_labels">ラベル 名前 テキスト アイコンのみ バー サイドバー メニュー 広げる 広い</string>
     <string name="settings_nav_menu_items">メニュー項目</string>
     <string name="settings_nav_menu_items_desc">動的：プレイリストの内容に合わせる · 固定：自分で選択</string>
     <string name="settings_nav_bar">バー</string>
@@ -1331,7 +1398,7 @@
     <string name="settings_line_guide_width">チャンネル一覧とタイムライン</string>
     <string name="settings_line_browsing">最後のカテゴリと項目を記憶</string>
     <string name="settings_line_home">行を選んで並べ替え、絞り込む</string>
-    <string name="settings_line_content_menus">各メニューの操作を並べ替え</string>
+    <string name="settings_line_content_menus">各メニューの操作を並べ替え・非表示</string>
     <string name="settings_line_remote_shortcuts">リモコンの空きボタンを割り当て</string>
     <string name="settings_line_customize">非表示と再表示、名前の変更、並べ替え</string>
     <string name="settings_line_metadata">映画とシリーズのポスター、あらすじ、出演者、評価</string>
@@ -1344,6 +1411,7 @@
     <string name="settings_line_dns">カスタム DNS サーバー</string>
     <string name="settings_line_quick_live_preview">ライブ TV でフォーカス中のチャンネルを再生</string>
     <string name="settings_line_preview_sound">ライブプレビューの音声</string>
+    <string name="settings_line_preview_on_ok">まずプレビュー、次に全画面</string>
     <string name="settings_line_quick_channel_numbers">リモコンで番号を入力して選局</string>
     <string name="settings_line_prefer_sdr">ストリームに両方あるときは SDR</string>
     <string name="settings_line_quick_autoplay">次のエピソードを自動で開始</string>
@@ -1394,6 +1462,7 @@
     <string name="settings_line_autoplay">次のシーズンへも続けて</string>
     <string name="settings_line_tiles">タイル1つごとにストリームが1つ</string>
     <string name="settings_line_mini">サイズと位置</string>
+    <string name="settings_line_pip">小さなウィンドウで視聴を続ける</string>
     <string name="settings_line_rec_reserve">全接続で録画しない</string>
     <string name="settings_line_rec_watching">2本目のストリームは使わない</string>
     <string name="settings_line_rec_pre_roll">番組の開始前に</string>
@@ -1423,6 +1492,8 @@
     <string name="settings_help_startup">OwnTV の起動時に表示するもの：ホーム、最後に見たチャンネル、お気に入り、または選んだチャンネル。</string>
     <string name="settings_help_check_updates">GitHub で新しい OwnTV を今すぐ探し、インストールを提案します。プレイリスト、お気に入り、設定はそのまま残ります。</string>
     <string name="settings_help_update_startup">OwnTV の起動ごとに新しいバージョンを探し、あれば知らせます。確認なしにインストールされることはありません。</string>
+    <string name="settings_help_auto_start_boot">テレビの起動が終わると、アプリ起動時で選んだ画面で OwnTV を自動で開きます。Android では、他のアプリの上に重ねて表示できるアプリしか自分で開けないため、オンにするとその権限の画面が開きます。この権限がないテレビでは自動起動は使えません。</string>
+    <string name="settings_help_auto_start_wake">テレビがスリープから復帰するたびに OwnTV を開きます。別のアプリのために復帰させた場合も同じです。アプリ起動時でチャンネルを開く設定にしていると、復帰のたびにそのストリームが始まります。オンの間は、OwnTV が音の出ない通知とともに小さなバックグラウンドサービスを動かします。起動時の自動起動と同じく、他のアプリの上に重ねて表示する権限が必要です。</string>
     <string name="settings_help_dns">ネットワーク既定の DNS ではなく、選んだ DNS サーバーでプロバイダーのアドレスを調べます。ネットワークがアドレスをブロックしたり転送したりするときに役立ちます。</string>
     <string name="settings_help_live_engine">ExoPlayer はチャンネルをずっと速く開き、ライブ字幕に対応する唯一のプレーヤーです。mpv は ExoPlayer で再生できないチャンネルや、一部の珍しい音声も再生します。組み合わせの選択肢では、最初のプレーヤーが失敗するともう一方を試します。</string>
     <string name="settings_help_hw">テレビのハードウェアデコーダーを使います。4K がなめらかになり、発熱も減ります。一部のストリームがカクついたりブロックが出たりする場合だけオフにしてください。その場合はソフトウェアデコーダーが処理します。</string>
@@ -1433,9 +1504,11 @@
     <string name="settings_help_sub_lang">ストリームにこの言語の字幕があれば自動でオンになります。なければ、プレーヤーで字幕を選ぶまでオフのままです。</string>
     <string name="settings_help_live_preview">フォーカス中のチャンネルがライブ TV 一覧の横のプレビューで再生され、開く前に何をやっているか分かります。プレビュー用の場所があるレイアウトが必要です。</string>
     <string name="settings_help_preview_audio">プレビューの映像に加えて音声も再生します。オフにすると閲覧中は静かです。</string>
+    <string name="settings_help_preview_on_ok">チャンネルで OK を押すとまずプレビューで再生し、同じチャンネルでもう一度 OK を押すと全画面で開く場所を選びます。ライブ TV では、一覧を移動してもプレビューはそのチャンネルのままです。オフの場所では OK ですぐに全画面で開き、プレビューは選択に合わせて切り替わります。</string>
     <string name="settings_help_timeshift_window">キャッチアップのないチャンネルで、ライブ TV の一時停止と巻き戻しがどこまで戻れるか。長いほど、このデバイスのストレージにチャンネルを多く保存します。</string>
     <string name="settings_help_resume">「再開を確認」では、映画やエピソードに保存位置があると「再開」か「最初から」を選べます。「常に再開」は止めた位置から、「再開しない」は最初から再生します。</string>
     <string name="settings_help_mini">閲覧中も隅でチャンネルを流し続ける小さなプレーヤーです。サイズと置く隅を選べます。</string>
+    <string name="settings_help_pip">全画面またはミニプレーヤーで動画を再生中にホームを押すか別のアプリを開くと、テレビの他の画面の上に小さなウィンドウで再生が続きます。OwnTV をもう一度開くと全画面に戻り、ウィンドウを閉じると再生が止まります。マルチビューは OwnTV の中だけです。</string>
     <string name="settings_key_palette">パレット</string>
     <string name="settings_live_preview_note">行を離れる前から、変更がここに表示されます。</string>
     <string name="settings_synced_at"><xliff:g id="when">%1$s</xliff:g> に同期</string>
@@ -1512,6 +1585,8 @@
     <string name="settings_remote_scan">読み取るかブラウザーで開く</string>
     <string name="settings_remote_or_open">または開く</string>
     <string name="settings_remote_details_note">詳細はここに表示されます。インポートはリモコンで開始します。</string>
+    <string name="settings_remote_edit_note">変更は編集画面に入力されます。「保存」はリモコンで押します。</string>
+    <string name="settings_help_edit_from_phone">同じ Wi-Fi にあるスマートフォン、タブレット、パソコンのブラウザでこのプレイリストを開きます。パスワード、MAC アドレス、M3U プレイリストのアドレスはそこには表示されません。空欄のままにすると保持されます。送信した内容はこの画面に入力され、「保存」を押すまで何も変わりません。</string>
     <string name="settings_key_stop_back">停止して戻る</string>
     <string name="settings_source_type">種類</string>
     <string name="settings_line_source_type">Xtream、M3U、Stalker ポータル</string>

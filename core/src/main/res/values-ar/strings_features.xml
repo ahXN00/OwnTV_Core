@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">صورتك الخاصة</string>
     <string name="profiles_kids">ملف الأطفال الشخصي</string>
     <string name="profiles_kids_description">تصفح مبسّط وآمن</string>
+    <string name="profiles_allow_downloads">السماح بالتنزيلات</string>
+    <string name="profiles_allow_downloads_description">عند الإيقاف تُخفى كل أزرار التنزيل لهذا الملف الشخصي</string>
     <string name="profiles_remove_pin">إزالة قفل PIN</string>
     <string name="profiles_no_pin">يمكن فتح هذا الملف الشخصي من دون PIN</string>
     <string name="profiles_change_pin">تغيير PIN (اتركه فارغًا للاحتفاظ بالحالي)</string>
@@ -22,6 +24,8 @@
     <string name="profiles_gate_subtitle">يحتفظ كل ملف شخصي بمفضلاته وسجله الخاص</string>
     <string name="profiles_wrong_pin">PIN غير صحيح — حاول مجددًا</string>
     <string name="profiles_enter_pin"><xliff:g id="name">%1$s</xliff:g> — أدخل PIN</string>
+    <string name="profiles_protected_include">لهذا الملف قفل ملف شخصي أو قفل إعدادات. أدخل أيًا من الرمزين لتضمينه. من دون رمز، يُستبعد ويبقى كما هو.</string>
+    <string name="profiles_protected_edit">لهذا الملف قفل ملف شخصي أو قفل إعدادات. أدخل أيًا من الرمزين لتغييره.</string>
     <string name="profiles_kids_badge">أطفال</string>
     <string name="profiles_add">إضافة ملف شخصي</string>
     <string name="profiles_title">الملفات الشخصية</string>
@@ -45,6 +49,8 @@
     <string name="search_go_to_movie">الانتقال إلى الفيلم</string>
     <string name="search_clear_recent">مسح عمليات البحث الأخيرة</string>
     <string name="search_field_hint">القنوات والأفلام والمسلسلات</string>
+    <string name="search_voice">البحث الصوتي</string>
+    <string name="search_voice_prompt">قل اسم قناة أو فيلم أو مسلسل</string>
     <string name="search_card_title">اعثر على أي شيء في قوائم التشغيل</string>
     <string name="search_card_body">القنوات والأفلام والمسلسلات من كل قوائم التشغيل المعروضة. اختر نتيجة للانتقال إليها مباشرة، ثم شغّلها أو نزّلها أو افتح خياراتها هناك. يمكن أيضًا العثور على البرامج التلفزيونية المعروضة الآن أو لاحقًا اليوم بعناوينها.</string>
     <string name="search_nothing_found">لم يتم العثور على شيء لـ «<xliff:g id="query">%1$s</xliff:g>»</string>
@@ -71,6 +77,15 @@
     <string name="launcher_recent_live_description">قنوات البث المباشر التي شوهدت مؤخرًا</string>
     <string name="launcher_movie_type">فيلم</string>
     <string name="launcher_episode_number">الحلقة <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="zero">جارٍ تحميل مكتبتك · <xliff:g id="count">%1$s</xliff:g> عنوان حتى الآن</item>
+        <item quantity="one">جارٍ تحميل مكتبتك · <xliff:g id="count">%1$s</xliff:g> عنوان حتى الآن</item>
+        <item quantity="two">جارٍ تحميل مكتبتك · <xliff:g id="count">%1$s</xliff:g> عنوانان حتى الآن</item>
+        <item quantity="few">جارٍ تحميل مكتبتك · <xliff:g id="count">%1$s</xliff:g> عناوين حتى الآن</item>
+        <item quantity="many">جارٍ تحميل مكتبتك · <xliff:g id="count">%1$s</xliff:g> عنوانًا حتى الآن</item>
+        <item quantity="other">جارٍ تحميل مكتبتك · <xliff:g id="count">%1$s</xliff:g> عنوان حتى الآن</item>
+    </plurals>
+    <string name="home_library_loading_trending">سيظهر «الرائج الآن» مع امتلاء مكتبتك.</string>
     <string name="home_no_preview">لا يوجد شيء لمعاينته حتى الآن.</string>
     <string name="home_no_rows">جميع صفوف الشاشة الرئيسية مخفية.</string>
     <string name="home_enable_rows">فعّل الصفوف مجددًا من الإعدادات ← الشاشة الرئيسية.</string>
@@ -213,6 +228,8 @@
     <string name="home_trending_pause">إيقاف مؤقت</string>
     <string name="home_trending_unavailable">لم يعد هذا الإصدار متاحًا</string>
     <string name="recording_notification_title">جارٍ التسجيل</string>
+    <string name="auto_start_notification_channel">التشغيل التلقائي عند الاستيقاظ</string>
+    <string name="auto_start_notification_text">يُفتح OwnTV عندما يستيقظ التلفزيون</string>
     <string name="recording_failed_no_space">توقّف: لا توجد مساحة كافية</string>
     <string name="recording_failed_no_connection">لا يوجد اتصال متاح من مزوّدك</string>
     <string name="recording_failed_clash">كان تسجيل آخر يستخدم الاتصال</string>
@@ -229,6 +246,7 @@
     <string name="recording_group_missed">فائت</string>
     <string name="recording_record">تسجيل</string>
     <string name="recording_stop">إيقاف التسجيل</string>
+    <string name="recording_delete_message">يزيل التسجيل وملفه من هذا الجهاز. لا يمكن التراجع عن ذلك.</string>
     <string name="recording_record_series">تسجيل كل عرض</string>
     <string name="recording_stop_series">إيقاف تسجيل كل عرض</string>
     <string name="recording_from_archive">التسجيل من الأرشيف</string>
@@ -241,6 +259,7 @@
     <string name="recording_scheduled_for">سيسجّل <xliff:g id="time">%1$s</xliff:g></string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line">يجري تسجيل <xliff:g id="title">%1$s</xliff:g></string>
+    <string name="recording_pill_line_locked">يجري التسجيل من فئة مقفلة</string>
     <string name="recording_clash_with">يتعارض مع <xliff:g id="programme">%1$s</xliff:g></string>
     <string name="recording_settings_group">التسجيل</string>
     <string name="settings_recording_reserve">إبقاء اتصال واحد متاحًا للمشاهدة</string>
@@ -341,6 +360,15 @@
     <string name="sports_starting_soon">تبدأ قريبًا</string>
     <string name="sports_hint_match_page">صفحة المباراة</string>
     <string name="sports_hint_follow_remind">متابعة · تذكير</string>
+    <string name="sports_hint_day_matches">مباريات اليوم</string>
+    <string name="sports_hint_day">يوم</string>
+    <string name="sports_hint_week">أسبوع</string>
+    <string name="sports_hint_show_score">إظهار النتيجة</string>
+    <string name="sports_hint_back_to_day">العودة إلى اليوم</string>
+    <string name="sports_hint_open_league">فتح الدوري</string>
+    <string name="sports_hint_sport_chips">أزرار الرياضات</string>
+    <string name="sports_hint_league_chips">أزرار الدوريات</string>
+    <string name="sports_hint_follow_unfollow">متابعة · إلغاء المتابعة</string>
     <string name="sports_reminder_set">تذكير</string>
     <string name="sports_until">حتى <xliff:g id="time">%1$s</xliff:g></string>
     <string name="sports_set">المجموعة <xliff:g id="set">%1$d</xliff:g></string>
@@ -459,7 +487,6 @@
     <string name="sports_next_month">الشهر التالي</string>
     <string name="sports_next">التالي: <xliff:g id="match">%1$s</xliff:g></string>
     <string name="sports_next_badge">التالي</string>
-    <string name="sports_new_badge">جديد</string>
     <string name="sports_no_table_series">لا يوجد ترتيب — السلاسل تتغير كل أسبوع</string>
     <string name="sports_follow_league">متابعة الدوري</string>
     <string name="sports_unfollow_league">إلغاء متابعة الدوري</string>

@@ -44,6 +44,10 @@
     <string name="player_timeshift_resume_message">This channel was saved while you were away.</string>
     <!-- Translators: Action that tunes back to the channel watched before the current one, like a TV remote's "last channel" button. Shown in Remote shortcuts and read out for the phone player's button. -->
     <string name="player_previous_channel">Previous channel</string>
+    <!-- Translators: Player button: the other versions of the channel playing (the same channel in another quality, category or playlist), to switch to. Keep it short. -->
+    <string name="player_tool_sources">Sources</string>
+    <!-- Translators: Shown in the Sources list when the channel playing has no other version. -->
+    <string name="player_sources_none">No other version of this channel was found.</string>
     <!-- Translators: Phone live player button that steps to the next channel in the list being watched, wrapping round at the end. Read out by screen readers. -->
     <string name="player_next_channel_in_list">Next channel</string>
     <!-- Translators: Phone live player button that steps back one channel in the list being watched, wrapping round at the start. Must differ from "Previous channel" (player_previous_channel), which returns to the last channel watched; both buttons are on the same screen. -->
@@ -223,6 +227,8 @@
     <string name="player_error_mpv_open_decode">mpv couldn\'t open or decode this file.</string>
     <!-- Translators: Error when mpv fails to start the stream after multiple retries. -->
     <string name="player_error_mpv_stream_never_started">The stream never started in mpv after several retries.</string>
+    <!-- Translators: Player error for a channel or film the playlist marks as protected with Apple's FairPlay DRM. No Android device can decrypt FairPlay, so this is a limit of the device, not of the app or the provider. Keep "Apple FairPlay", "Android" and "Apple" as they are. -->
+    <string name="player_error_fairplay">This stream is protected by Apple FairPlay, which Android devices can\'t play. The playlist is made for Apple devices.</string>
     <!-- Translators: Notification when the audio output cannot do surround and falls back to stereo. -->
     <string name="player_error_surround">This audio output can\'t do surround \u2014 switched to stereo.</string>
     <!-- Translators: Error when hardware decoding fails and software decoding cannot handle the resolution. "resolution" is a string such as "4K" or "3840x2160". This is a technical diagnostic, not actionable advice for most users. -->

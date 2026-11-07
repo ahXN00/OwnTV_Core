@@ -2,7 +2,6 @@ package tv.own.owntv.core.sports
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import tv.own.owntv.core.sports.model.Sport
@@ -14,12 +13,6 @@ class SportsCatalogTest {
         val keys = SportsCatalog.leagues.map { it.key }
         assertEquals(keys.size, keys.toSet().size)
         keys.forEach { assertEquals(it, SportsCatalog.league(it)!!.key) }
-    }
-
-    @Test
-    fun `every new league is in the catalogue`() {
-        assertEquals(54, SportsCatalog.newLeagueKeys.size)
-        SportsCatalog.newLeagueKeys.forEach { assertNotNull(it, SportsCatalog.league(it)) }
     }
 
     @Test

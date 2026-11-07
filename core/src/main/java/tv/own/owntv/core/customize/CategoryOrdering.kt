@@ -10,7 +10,7 @@ import tv.own.owntv.core.model.MediaType
 
 /**
  * The category rail, exactly as a browse screen shows it: the kids filter, the profile's custom
- * combined categories, hides, renames and the manual order, in one place.
+ * combined categories, hides, renames and the manual order (or A–Z when [alphabetical]), in one place.
  *
  * Both apps' Live / Movies / Series rails read this, and so does [CategoryMove] — which is the
  * point. A move that reorders a list built any other way reorders a list that is not the one on
@@ -19,13 +19,13 @@ import tv.own.owntv.core.model.MediaType
 fun List<CategoryEntity>.railCategories(
     c: SectionCustomizations,
     kids: Boolean,
-    alphaRest: Boolean = false,
+    alphabetical: Boolean = false,
 ): List<CustomizedCategory> {
     val cats = if (kids) filterNot { AdultCategoryClassifier.isAdult(it.name) } else this
     val customs =
         if (kids) c.customCategories.filterNot { AdultCategoryClassifier.isAdult(it.name) }
         else c.customCategories
-    return cats.applyCustomizationsWithCustoms(c, customs, alphaRest)
+    return cats.applyCustomizationsWithCustoms(c.forRail(), customs, alphabetical)
 }
 
 /**
@@ -39,17 +39,19 @@ data class CategoryMove(
     val rows: List<CustomizedCategory>,
     val activeIndex: Int,
     val targetKey: String,
+    /** The categories carried in this move; only these (and ones moved before) keep a position. */
+    val carried: Set<String> = emptySet(),
 ) {
     /** Displayed names, in the order the move has them now. */
     val items: List<String> get() = rows.map { it.displayName }
 
-    /** Stable keys, in the order the move has them now — what [CustomizationStore.setCategoryOrder] takes. */
+    /** Stable keys, in the order the move has them now — what [CustomizationStore.saveCategoryMove] takes. */
     val keys: List<String> get() = rows.map { it.key }
 
     /** The same move one step [kind]-ward, or null when it would run off the end. */
     fun moved(kind: MoveKind): CategoryMove? {
         val next = moveBlock(rows, activeIndex, activeIndex, kind) ?: return null
-        return copy(rows = next, activeIndex = next.indexOfFirst { it.key == targetKey })
+        return copy(rows = next, activeIndex = next.indexOfFirst { it.key == targetKey }, carried = carried + targetKey)
     }
 
     companion object {
@@ -70,6 +72,9 @@ data class CategoryMove(
  * change made here shows up in Customize, and one made there shows up on the rail. The television
  * takes a move step by step through a D-pad overlay ([beginMove]); the phone commits one step at a
  * time from a menu ([move]).
+ *
+ * A move walks the rail as it is shown, in the current sort; the moved category keeps that position in
+ * every sort.
  */
 class CategoryRailEditor(
     private val customize: CustomizationStore,
@@ -84,15 +89,15 @@ class CategoryRailEditor(
     }
 
     /** The rail's categories, exactly as the screen has them. */
-    suspend fun rows(
+    private suspend fun rows(
         profileId: Long,
         sourceIds: List<Long>,
         type: MediaType,
-        alphaRest: Boolean,
+        alphabetical: Boolean,
     ): List<CustomizedCategory> = categoryDao.observe(sourceIds, type).first().railCategories(
         customize.observe(profileId, type).first(),
         kids = profileDao.getById(profileId)?.isKids == true,
-        alphaRest = alphaRest,
+        alphabetical = alphabetical,
     )
 
     suspend fun hide(profileId: Long, type: MediaType, key: LiveKey) {
@@ -104,10 +109,10 @@ class CategoryRailEditor(
         profileId: Long,
         sourceIds: List<Long>,
         type: MediaType,
-        alphaRest: Boolean,
+        alphabetical: Boolean,
         key: LiveKey,
     ): CategoryMove? = CategoryMove.begin(
-        rows(profileId, sourceIds, type, alphaRest),
+        rows(profileId, sourceIds, type, alphabetical),
         customizationKey(key) ?: return null,
     )
 
@@ -116,11 +121,11 @@ class CategoryRailEditor(
         profileId: Long,
         sourceIds: List<Long>,
         type: MediaType,
-        alphaRest: Boolean,
+        alphabetical: Boolean,
         key: LiveKey,
         kind: MoveKind,
     ) {
-        val moved = beginMove(profileId, sourceIds, type, alphaRest, key)?.moved(kind) ?: return
-        customize.setCategoryOrder(profileId, type, moved.keys)
+        val moved = beginMove(profileId, sourceIds, type, alphabetical, key)?.moved(kind) ?: return
+        customize.saveCategoryMove(profileId, type, moved.keys, moved.carried)
     }
 }

@@ -59,7 +59,8 @@ data class PlaybackSettings(
     val defaultZoom: String,
     val defaultVolume: Int,
     val seekStepSec: Int,
-    val autoFrameRate: Boolean,
+    /** Auto frame rate for films and series; Live TV has [autoFrameRateLive]. */
+    val autoFrameRateFilms: Boolean,
     val liveEnginePreference: EnginePreference,
     val liveTuneTimeoutSecs: Int,
     /** Films only; 0 = Auto for the first two. See [FilmNetwork]. */
@@ -76,6 +77,7 @@ data class PlaybackSettings(
     val tunneledPlayback: Boolean,
     /** Keep CPU and Wi-Fi awake while ExoPlayer plays. */
     val backgroundPlayback: Boolean,
+    val autoFrameRateLive: Boolean,
 ) {
     companion object {
         @Volatile private var shared: Pair<SettingsRepository, StateFlow<PlaybackSettings?>>? = null
@@ -99,12 +101,12 @@ data class PlaybackSettings(
                 s.vodEnginePreference, s.measuredStreamStats, s.livePrerollSecs, s.liveBufferSeconds,
                 s.subtitleStyleEnabled, s.subtitleScaleMpv, s.subtitleFont, s.subtitleColor,
                 s.subtitlePosition, s.subtitleBgOpacity, s.audioDelayMs, s.preferredAudioLang,
-                s.preferredSubLang, s.defaultZoom, s.defaultVolume, s.seekStepSec, s.autoFrameRate,
+                s.preferredSubLang, s.defaultZoom, s.defaultVolume, s.seekStepSec, s.autoFrameRateFilms,
                 s.liveEnginePreference, s.liveTuneTimeoutSecs,
                 s.vodBufferSecs, s.vodNetworkTimeoutSecs, s.vodReconnects,
                 s.audioPassthrough, s.nightMode, s.volumeLevelling,
                 s.maxVideoHeight, s.mobileDataMaxVideoHeight, s.tunneledPlayback, s.backgroundPlayback,
-                s.softwareDecodeAbove1080p, s.outputAudioDelays,
+                s.softwareDecodeAbove1080p, s.outputAudioDelays, s.autoFrameRateLive,
             )
             return combine(sources) { v ->
                 PlaybackSettings(
@@ -128,7 +130,7 @@ data class PlaybackSettings(
                     defaultZoom = v[17] as String,
                     defaultVolume = v[18] as Int,
                     seekStepSec = v[19] as Int,
-                    autoFrameRate = v[20] as Boolean,
+                    autoFrameRateFilms = v[20] as Boolean,
                     liveEnginePreference = v[21] as EnginePreference,
                     liveTuneTimeoutSecs = v[22] as Int,
                     vodBufferSecs = v[23] as Int,
@@ -143,6 +145,7 @@ data class PlaybackSettings(
                     backgroundPlayback = v[32] as Boolean,
                     softwareDecodeAbove1080p = v[33] as Boolean,
                     outputAudioDelays = v[34] as OutputAudioDelays,
+                    autoFrameRateLive = v[35] as Boolean,
                 )
             }.stateIn(CoroutineScope(SupervisorJob() + Dispatchers.Default), SharingStarted.Eagerly, null)
         }

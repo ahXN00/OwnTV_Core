@@ -128,7 +128,7 @@ app pins a core version by hand.
 
 ## 🛠️ Building
 
-Requires **JDK 21** and an Android SDK. Put the SDK path in `local.properties`:
+Requires **JDK 25** and an Android SDK. Put the SDK path in `local.properties`:
 
 ```properties
 sdk.dir=C:/Path/To/Android/Sdk

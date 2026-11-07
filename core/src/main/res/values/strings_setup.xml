@@ -157,6 +157,10 @@
     </plurals>
     <!-- Translators: Info text shown on import success when passwords were not restored (user skipped or backup was partially encrypted). -->
     <string name="setup_passwords_omitted">Re-enter any saved passwords afterwards.</string>
+    <!-- Translators: Shown after a restore. "names" is a comma-separated list of playlist names whose password was not in the backup; those playlists are not loaded until the password is entered in the playlist's edit form in Settings. -->
+    <string name="setup_need_password">No saved password, so not loaded yet: <xliff:g id="names">%1$s</xliff:g>. Open the playlist in Settings and enter its password.</string>
+    <!-- Translators: Name given to a new playlist when another playlist already has the same name, e.g. "My IPTV 2". "name" is the playlist name, "number" counts up from 2. -->
+    <string name="setup_name_numbered"><xliff:g id="name">%1$s</xliff:g> <xliff:g id="number">%2$d</xliff:g></string>
     <!-- Translators: Plural warning shown on import success when some sources were skipped due to unsupported playlist types. "count" is the number of skipped sources. -->
     <plurals name="setup_skipped_sources">
         <item quantity="one"><xliff:g id="count">%1$d</xliff:g> source was skipped because this version doesn\'t support its playlist type.</item>
@@ -176,6 +180,8 @@
     <string name="setup_add_source">Add a source</string>
     <!-- Translators: Heading on the AddSourceScreen when editing an existing source. -->
     <string name="setup_edit_source">Edit source</string>
+    <!-- Translators: Row on the TV's Edit source screen that opens a page in a browser on a phone, tablet or computer on the same Wi-Fi, to change this playlist's details there. Matches "Send from another device". -->
+    <string name="setup_edit_from_phone">Edit from another device</string>
     <!-- Translators: Description on the AddSourceScreen when editing an existing source. -->
     <string name="setup_edit_source_description">Update this source\'s details, or change its auto-refresh setting.</string>
     <!-- Translators: Description on the AddSourceScreen when adding a new source. "OwnTV", "Xtream", "M3U", "Stalker" are brand/protocol names that must not be translated. -->
@@ -351,6 +357,18 @@
     <string name="companion_saved_source_body"><xliff:g id="name">%1$s</xliff:g> is now on the TV\'s Add source screen. Check the details there and press Start Import on the remote.</string>
     <!-- Translators: Button on the companion success page to send another source. -->
     <string name="companion_saved_send_another">Send another source</string>
+    <!-- Translators: Browser tab title of the companion page that edits one existing source. OwnTV is the app name. -->
+    <string name="companion_edit_page_title">OwnTV \u2014 Edit source</string>
+    <!-- Translators: Heading on the companion edit page. "name" is the name of the source being edited. -->
+    <string name="companion_edit_heading">Edit <xliff:g id="name">%1$s</xliff:g></string>
+    <!-- Translators: Description on the companion edit page. Send to TV is the button on this page; Save is the button on the TV's edit screen. -->
+    <string name="companion_edit_description">Change what you need and press Send to TV. A field left empty keeps its current value. The changes appear on the TV \u2014 press Save there with the remote.</string>
+    <!-- Translators: Placeholder inside an empty field on the companion edit page (password, MAC address, playlist address): typing nothing keeps the value the TV already has. -->
+    <string name="companion_keep_current">Leave empty to keep the current one</string>
+    <!-- Translators: Body text on the companion success page after an edit was sent. "name" is the source name. Save is the button on the TV's edit screen. -->
+    <string name="companion_saved_edit_body">The changes to <xliff:g id="name">%1$s</xliff:g> are now on the TV\'s edit screen. Check them there and press Save on the remote.</string>
+    <!-- Translators: Link on the companion success page that opens the edit page again. -->
+    <string name="companion_saved_edit_again">Change something else</string>
     <!-- Translators: Body text on the companion success page when a backup was sent. -->
     <string name="companion_saved_backup_body">Your backup is now on the TV. Pick up the remote and choose which parts to restore.</string>
     <!-- Translators: Link text on the companion success page to send a different backup file. -->

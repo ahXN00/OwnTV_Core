@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.first
 import tv.own.owntv.core.customize.CustomizationStore
 import tv.own.owntv.core.customize.CustomizeKeys
 import tv.own.owntv.core.customize.SectionCustomizations
+import tv.own.owntv.core.customize.sealsItemIn
 import tv.own.owntv.core.database.dao.CategoryDao
 import tv.own.owntv.core.database.dao.ChannelDao
 import tv.own.owntv.core.database.dao.ChannelSearchResult
@@ -101,9 +102,9 @@ class SearchReader(
     ): SearchResults {
         if (profileId < 0 || !sources.hasAny) return SearchResults()
         val fts = ftsQuery(query)
-        val custLive = customize.observe(profileId, MediaType.LIVE).first()
-        val custMovie = customize.observe(profileId, MediaType.MOVIE).first()
-        val custSeries = customize.observe(profileId, MediaType.SERIES).first()
+        val custLive = customize.observeVisible(profileId, MediaType.LIVE).first()
+        val custMovie = customize.observeVisible(profileId, MediaType.MOVIE).first()
+        val custSeries = customize.observeVisible(profileId, MediaType.SERIES).first()
         val isKids = profileDao.getById(profileId)?.isKids == true
         val hiddenLiveCats = hiddenCategoryIds(sources.liveSourceIds, MediaType.LIVE, custLive, isKids)
         val hiddenMovieCats = hiddenCategoryIds(sources.movieSourceIds, MediaType.MOVIE, custMovie, isKids)
@@ -207,25 +208,33 @@ class SearchReader(
         limit: Int = LIMIT,
     ): SearchResults {
         if (profileId < 0 || !sources.hasAny) return SearchResults()
+        // Curated lists never dropped user-hidden categories; only a locked one's items are kept out.
+        val live = customize.observeVisible(profileId, MediaType.LIVE).first()
+        val movie = customize.observeVisible(profileId, MediaType.MOVIE).first()
+        val series = customize.observeVisible(profileId, MediaType.SERIES).first()
         return when (intent) {
             SearchIntent.CONTINUE -> SearchResults(
                 channels = channelDao.recentlyWatched(profileId, limit).first()
-                    .filter { it.sourceId in sources.liveSourceIds }
+                    .filter { it.sourceId in sources.liveSourceIds && !live.sealsItemIn(it.categoryId) }
                     .map { ChannelSearchResult(it, null) },
                 movies = if (sources.movieSourceIds.isEmpty()) emptyList()
-                else movieDao.recentlyWatchedSnapshot(profileId, sources.movieSourceIds, limit),
+                else movieDao.recentlyWatchedSnapshot(profileId, sources.movieSourceIds, limit)
+                    .filterNot { movie.sealsItemIn(it.categoryId) },
                 series = if (sources.seriesSourceIds.isEmpty()) emptyList()
-                else seriesDao.recentlyWatchedSnapshot(profileId, sources.seriesSourceIds, limit),
+                else seriesDao.recentlyWatchedSnapshot(profileId, sources.seriesSourceIds, limit)
+                    .filterNot { series.sealsItemIn(it.categoryId) },
             )
             SearchIntent.UNWATCHED -> SearchResults(
                 movies = if (sources.movieSourceIds.isEmpty()) emptyList()
-                else movieDao.unwatchedFavorites(profileId, sources.movieSourceIds, limit),
+                else movieDao.unwatchedFavorites(profileId, sources.movieSourceIds, limit)
+                    .filterNot { movie.sealsItemIn(it.categoryId) },
                 series = if (sources.seriesSourceIds.isEmpty()) emptyList()
-                else seriesDao.unwatchedFavorites(profileId, sources.seriesSourceIds, limit),
+                else seriesDao.unwatchedFavorites(profileId, sources.seriesSourceIds, limit)
+                    .filterNot { series.sealsItemIn(it.categoryId) },
             )
             SearchIntent.CHANNELS -> SearchResults(
                 channels = channelDao.favoritesListAlpha(profileId).first()
-                    .filter { it.sourceId in sources.liveSourceIds }
+                    .filter { it.sourceId in sources.liveSourceIds && !live.sealsItemIn(it.categoryId) }
                     .take(limit)
                     .map { ChannelSearchResult(it, null) },
             )

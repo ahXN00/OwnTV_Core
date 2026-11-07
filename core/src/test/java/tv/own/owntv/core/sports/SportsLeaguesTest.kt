@@ -76,6 +76,23 @@ class SportsLeaguesTest {
     }
 
     @Test
+    fun `where tables rank by wins and losses, the card's leader is the best record in any group`() {
+        val nba = SportsCatalog.league("basketball/nba")!!
+        fun rec(id: String, won: Int, lost: Int) = StandingsRow(0, team(id), won + lost, won, 0, lost, 0, 0, "", -2)
+        // ESPN's basketball groups are not in standings order.
+        val board = SportsBoard(
+            standings = mapOf(
+                nba.key to StandingsTable(
+                    nba.key,
+                    listOf(StandingsGroup("East", listOf(rec("chi", 1, 5), rec("bos", 4, 1))), StandingsGroup("West", listOf(rec("mem", 5, 0), rec("lal", 2, 3)))),
+                ),
+            ),
+        )
+        val card = LeagueCards.card(nba, board, emptyList(), now)
+        assertEquals("mem", card.leader!!.id)
+    }
+
+    @Test
     fun `a ranked league's card leads with the ranking, an empty month leaves no next match`() {
         val board = SportsBoard(rankings = mapOf(f1.key to Ranking(f1.key, listOf(RankingGroup(RankingKind.DRIVERS, listOf(RankingRow(1, team("ant"), 340)))))))
         val card = LeagueCards.card(f1, board, emptyList(), now)

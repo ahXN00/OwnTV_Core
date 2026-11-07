@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">നിങ്ങളുടെ സ്വന്തം ചിത്രം</string>
     <string name="profiles_kids">കുട്ടികളുടെ പ്രൊഫൈൽ</string>
     <string name="profiles_kids_description">ലളിതവും സുരക്ഷിതവുമായ ബ്രൗസിംഗ്</string>
+    <string name="profiles_allow_downloads">ഡൗൺലോഡുകൾ അനുവദിക്കുക</string>
+    <string name="profiles_allow_downloads_description">ഓഫാക്കിയാൽ ഈ പ്രൊഫൈലിൽ എല്ലാ ഡൗൺലോഡ് ബട്ടണുകളും മറയ്ക്കും</string>
     <string name="profiles_remove_pin">PIN ലോക്ക് നീക്കംചെയ്യുക</string>
     <string name="profiles_no_pin">ഈ പ്രൊഫൈൽ PIN ഇല്ലാതെ തുറക്കും</string>
     <string name="profiles_change_pin">PIN മാറ്റുക (ഒഴിഞ്ഞതായി വിട്ടാൽ നിലവിലുള്ളത് നിലനിർത്തും)</string>
@@ -22,6 +24,8 @@
     <string name="profiles_gate_subtitle">ഓരോ പ്രൊഫൈലും സ്വന്തം പ്രിയപ്പെട്ടവയും ചരിത്രവും സൂക്ഷിക്കുന്നു</string>
     <string name="profiles_wrong_pin">തെറ്റായ PIN — വീണ്ടും ശ്രമിക്കുക</string>
     <string name="profiles_enter_pin"><xliff:g id="name">%1$s</xliff:g> — PIN നൽകുക</string>
+    <string name="profiles_protected_include">ഇതിന് പ്രൊഫൈൽ ലോക്കോ ക്രമീകരണ ലോക്കോ ഉണ്ട്. ഉൾപ്പെടുത്താൻ ഏതെങ്കിലും ഒരു PIN നൽകുക. PIN ഇല്ലെങ്കിൽ ഇത് ഒഴിവാക്കപ്പെടും, അതേപടി തുടരും.</string>
+    <string name="profiles_protected_edit">ഇതിന് പ്രൊഫൈൽ ലോക്കോ ക്രമീകരണ ലോക്കോ ഉണ്ട്. മാറ്റാൻ ഏതെങ്കിലും ഒരു PIN നൽകുക.</string>
     <string name="profiles_kids_badge">കുട്ടികൾ</string>
     <string name="profiles_add">പ്രൊഫൈൽ ചേർക്കുക</string>
     <string name="profiles_title">പ്രൊഫൈലുകൾ</string>
@@ -45,6 +49,8 @@
     <string name="search_go_to_movie">സിനിമയിലേക്ക് പോകുക</string>
     <string name="search_clear_recent">സമീപകാല തിരയലുകൾ മായ്ക്കുക</string>
     <string name="search_field_hint">ചാനലുകൾ, സിനിമകൾ, സീരീസുകൾ</string>
+    <string name="search_voice">ശബ്ദ തിരയൽ</string>
+    <string name="search_voice_prompt">ഒരു ചാനലിന്റെയോ സിനിമയുടെയോ സീരീസിന്റെയോ പേര് പറയുക</string>
     <string name="search_card_title">നിങ്ങളുടെ പ്ലേലിസ്റ്റുകളിൽ എന്തും കണ്ടെത്തുക</string>
     <string name="search_card_body">നിങ്ങൾ കാണിക്കുന്ന എല്ലാ പ്ലേലിസ്റ്റുകളിൽ നിന്നുമുള്ള ചാനലുകൾ, സിനിമകൾ, സീരീസുകൾ. നേരിട്ട് അവിടേക്ക് പോകാൻ ഒരു ഫലം തിരഞ്ഞെടുക്കുക, തുടർന്ന് അവിടെ പ്ലേ ചെയ്യുക, ഡൗൺലോഡ് ചെയ്യുക അല്ലെങ്കിൽ അതിന്റെ ഓപ്ഷനുകൾ തുറക്കുക. ഇപ്പോഴോ ഇന്ന് പിന്നീടോ ഉള്ള ടിവി പരിപാടികളും പേരിലൂടെ കണ്ടെത്താം.</string>
     <string name="search_nothing_found">“<xliff:g id="query">%1$s</xliff:g>” എന്നതിന് ഒന്നും കണ്ടെത്തിയില്ല</string>
@@ -63,6 +69,11 @@
     <string name="launcher_recent_live_description">അടുത്തിടെ കണ്ട തത്സമയ ചാനലുകൾ</string>
     <string name="launcher_movie_type">സിനിമ</string>
     <string name="launcher_episode_number">എപ്പിസോഡ് <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">നിങ്ങളുടെ ലൈബ്രറി ലോഡ് ചെയ്യുന്നു · ഇതുവരെ <xliff:g id="count">%1$s</xliff:g> ശീർഷകം</item>
+        <item quantity="other">നിങ്ങളുടെ ലൈബ്രറി ലോഡ് ചെയ്യുന്നു · ഇതുവരെ <xliff:g id="count">%1$s</xliff:g> ശീർഷകങ്ങൾ</item>
+    </plurals>
+    <string name="home_library_loading_trending">ലൈബ്രറി നിറയുന്നതിനനുസരിച്ച് ഇപ്പോൾ ട്രെൻഡിങ് ദൃശ്യമാകും.</string>
     <string name="home_no_preview">പ്രിവ്യൂ ചെയ്യാൻ ഇതുവരെ ഒന്നുമില്ല.</string>
     <string name="home_no_rows">എല്ലാ ഹോം സ്ക്രീൻ നിരകളും മറച്ചിരിക്കുന്നു.</string>
     <string name="home_enable_rows">ക്രമീകരണങ്ങൾ → ഹോം സ്ക്രീൻ എന്നതിൽ നിരകൾ വീണ്ടും ഓണാക്കുക.</string>
@@ -177,6 +188,8 @@
     <string name="home_trending_pause">താൽക്കാലികമായി നിർത്തുക</string>
     <string name="home_trending_unavailable">ഈ version ഇനി ലഭ്യമല്ല</string>
     <string name="recording_notification_title">റെക്കോർഡ് ചെയ്യുന്നു</string>
+    <string name="auto_start_notification_channel">ഉണരുമ്പോൾ സ്വയം തുറക്കുക</string>
+    <string name="auto_start_notification_text">ടിവി ഉണരുമ്പോൾ OwnTV തുറക്കും</string>
     <string name="recording_failed_no_space">നിർത്തി: സ്ഥലം ബാക്കിയില്ല</string>
     <string name="recording_failed_no_connection">ദാതാവിൽ നിന്ന് സൗജന്യ കണക്ഷനില്ല</string>
     <string name="recording_failed_clash">മറ്റൊരു റെക്കോർഡിംഗ് കണക്ഷൻ ഉപയോഗിക്കുകയായിരുന്നു</string>
@@ -193,6 +206,7 @@
     <string name="recording_group_missed">നഷ്ടമായി</string>
     <string name="recording_record">റെക്കോർഡ്</string>
     <string name="recording_stop">റെക്കോർഡിംഗ് നിർത്തുക</string>
+    <string name="recording_delete_message">ഈ ഉപകരണത്തിൽ നിന്ന് റെക്കോർഡിംഗും അതിന്റെ ഫയലും നീക്കംചെയ്യും. ഇത് പഴയപടിയാക്കാനാകില്ല.</string>
     <string name="recording_record_series">എല്ലാ പ്രക്ഷേപണവും റെക്കോർഡ് ചെയ്യുക</string>
     <string name="recording_stop_series">എല്ലാ പ്രക്ഷേപണവും റെക്കോർഡ് ചെയ്യുന്നത് നിർത്തുക</string>
     <string name="recording_from_archive">ആർക്കൈവിൽ നിന്ന് റെക്കോർഡ് ചെയ്യുക</string>
@@ -205,6 +219,7 @@
     <string name="recording_scheduled_for"><xliff:g id="time">%1$s</xliff:g>-ന് റെക്കോർഡ് ചെയ്യും</string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line"><xliff:g id="title">%1$s</xliff:g> റെക്കോർഡ് ചെയ്യുന്നു</string>
+    <string name="recording_pill_line_locked">ലോക്ക് ചെയ്ത വിഭാഗത്തിൽ നിന്ന് റെക്കോർഡ് ചെയ്യുന്നു</string>
     <string name="recording_clash_with"><xliff:g id="programme">%1$s</xliff:g>-മായി ഏറ്റുമുട്ടുന്നു</string>
     <string name="recording_settings_group">റെക്കോർഡിംഗ്</string>
     <string name="settings_recording_reserve">കാണാൻ ഒരു സ്ട്രീം ഒഴിവാക്കി വയ്ക്കുക</string>
@@ -281,6 +296,15 @@
     <string name="sports_starting_soon">ഉടൻ ആരംഭിക്കും</string>
     <string name="sports_hint_match_page">മത്സര പേജ്</string>
     <string name="sports_hint_follow_remind">പിന്തുടരുക · ഓർമ്മിപ്പിക്കുക</string>
+    <string name="sports_hint_day_matches">ദിവസത്തെ മത്സരങ്ങൾ</string>
+    <string name="sports_hint_day">ദിവസം</string>
+    <string name="sports_hint_week">ആഴ്ച</string>
+    <string name="sports_hint_show_score">സ്കോർ കാണിക്കുക</string>
+    <string name="sports_hint_back_to_day">ദിവസത്തിലേക്ക് മടങ്ങുക</string>
+    <string name="sports_hint_open_league">ലീഗ് തുറക്കുക</string>
+    <string name="sports_hint_sport_chips">കായിക ബട്ടണുകൾ</string>
+    <string name="sports_hint_league_chips">ലീഗ് ബട്ടണുകൾ</string>
+    <string name="sports_hint_follow_unfollow">പിന്തുടരുക · പിന്തുടരുന്നത് നിർത്തുക</string>
     <string name="sports_reminder_set">ഓർമ്മപ്പെടുത്തൽ</string>
     <string name="sports_until"><xliff:g id="time">%1$s</xliff:g> വരെ</string>
     <string name="sports_set">സെറ്റ് <xliff:g id="set">%1$d</xliff:g></string>
@@ -387,7 +411,6 @@
     <string name="sports_next_month">അടുത്ത മാസം</string>
     <string name="sports_next">അടുത്തത്: <xliff:g id="match">%1$s</xliff:g></string>
     <string name="sports_next_badge">അടുത്തത്</string>
-    <string name="sports_new_badge">പുതിയത്</string>
     <string name="sports_no_table_series">പട്ടികയില്ല — സീരീസുകൾ ഓരോ ആഴ്ചയും മാറുന്നു</string>
     <string name="sports_follow_league">ലീഗ് പിന്തുടരുക</string>
     <string name="sports_unfollow_league">ലീഗ് പിന്തുടരുന്നത് നിർത്തുക</string>

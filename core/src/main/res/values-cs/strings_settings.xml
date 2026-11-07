@@ -70,6 +70,23 @@
     <string name="settings_remote_shortcuts_long_press">Dlouhý stisk</string>
     <string name="settings_remote_shortcuts_unknown_button">Tlačítko ovladače %1$d</string>
     <string name="settings_remote_shortcuts_help">• Ve výchozím stavu CH+/CH− a zpět/vpřed stránkují seznamy; podržení skočí na první nebo poslední položku.\n• Krátký a dlouhý stisk lze přiřadit zvlášť.\n• Skok na konec zůstává vypnutý ve velmi velkých seznamech „Vše“.\n• Dlouhé podržení Zpět vždy zaměří Právě se přehrává a nelze je změnit.\n• Běžně lze přiřadit červené/zelené/žluté/modré, čísla, CH+/CH− a převíjení zpět/vpřed.\n• Zpět, D-pad, OK, hlasitost, Domů a napájení zůstávají chráněné.\n• Číselné zkratky fungují při procházení; na celé obrazovce má přednost zadání kanálu.</string>
+    <string name="settings_player_buttons">Tlačítka přehrávače</string>
+    <string name="settings_player_hold_ok">Podržení OK v přehrávači</string>
+    <string name="settings_player_hold_ok_description">Co otevře podržení OK, když jsou ovládací prvky skryté</string>
+    <string name="settings_help_player_hold_ok">Podržte OK v živém přehrávači na celé obrazovce se skrytými ovládacími prvky a otevře se seznam kanálů, průvodce nebo informace o pořadu. Vypnuto ponechá OK jako dosud. Dokud je to zapnuté, krátké OK zareaguje po uvolnění. Filmy a epizody si ponechají obvyklé OK.</string>
+    <string name="settings_player_short_ok">OK při skrytých ovládacích prvcích</string>
+    <string name="settings_player_short_ok_description">Co udělá krátké stisknutí OK v přehrávači na celé obrazovce</string>
+    <string name="settings_help_player_short_ok">Krátké stisknutí OK v přehrávači na celé obrazovce zobrazí ovládací prvky. Zvolte Seznam kanálů nebo Průvodce a u živých kanálů se otevře to místo nich; jakékoli jiné tlačítko, které přehrávač nepoužívá, ovládací prvky dál zobrazí. Filmy a epizody vždy zobrazí ovládací prvky.</string>
+    <string name="settings_player_swap_channel_keys">Prohodit kanál nahoru/dolů</string>
+    <string name="settings_player_swap_channel_keys_description">CH+ a Nahoru přejdou na předchozí kanál</string>
+    <string name="settings_help_player_swap_channel_keys">Obvykle CH+ a Nahoru přejdou na další kanál a CH− a Dolů na předchozí. Zapněte, chcete-li je při sledování prohodit, na celé obrazovce i v mini přehrávači. Seznamy při procházení se nemění.</string>
+    <string name="settings_player_number_keys_tune">Číslice přepínají kanály</string>
+    <string name="settings_player_number_keys_tune_description">Zadat číslo kanálu v živém přehrávači</string>
+    <string name="settings_help_player_number_keys_tune">Zadejte číslo kanálu na ovladači v živém přehrávači na celé obrazovce a přejdete na tento kanál. Vypněte, chcete-li číselná tlačítka nechat pro zkratky ovladače. Zadání čísla také vyžaduje zapnutá Čísla kanálů v nastavení Živého vysílání.</string>
+    <string name="settings_player_ok_channel_list">Seznam kanálů</string>
+    <string name="settings_player_ok_guide">Průvodce</string>
+    <string name="settings_player_ok_programme_info">Informace o pořadu</string>
+    <string name="settings_player_ok_show_controls">Zobrazit ovládání</string>
     <string name="settings_remote_button_channel_up">Kanál +</string>
     <string name="settings_remote_button_channel_down">Kanál −</string>
     <string name="settings_remote_button_rewind">Zpět</string>
@@ -180,8 +197,9 @@
     <string name="settings_ch_paging">Zkratky ovladače</string>
     <string name="settings_ch_paging_description">Přiřaďte volná tlačítka ovladače k navigaci, přehrávání a procházení. Základní navigační tlačítka zůstanou chráněná.</string>
     <string name="settings_content_menus_title">Nabídky po dlouhém stisknutí</string>
-    <string name="settings_content_menus_description">Změňte pořadí akcí v nabídkách kanálů, filmů, seriálů a dílů</string>
-    <string name="settings_content_menus_hint">Podržením OK akci uchopte, pak ji posouvejte nahoru a dolů. Dalším stiskem OK ji položíte.</string>
+    <string name="settings_content_menus_description">Změňte pořadí akcí v nabídkách kanálů, filmů, seriálů a dílů, nebo je skryjte</string>
+    <string name="settings_content_menus_hint">Stiskem OK akci zobrazíte nebo skryjete. Podržením OK ji uchopíte, pak ji posouvejte nahoru a dolů a dalším stiskem OK ji položíte.</string>
+    <string name="settings_content_menus_note">Některé akce se zobrazují jen tam, kde dávají smysl.</string>
     <string name="settings_browsing_lists">Procházení a seznamy</string>
     <string name="settings_browsing_description">Pamatovat si poslední kategorii a poslední položku v živém vysílání, filmech a seriálech</string>
     <string name="settings_home_root">Domovská obrazovka</string>
@@ -213,11 +231,17 @@
     <string name="settings_live_preview_description">Automaticky přehrát kanál, když jej zaměříte</string>
     <string name="settings_preview_audio">Zvuk náhledu</string>
     <string name="settings_preview_audio_description">Přehrávat zvuk v živém náhledu</string>
+    <string name="settings_preview_on_ok">OK nejdřív ukáže náhled</string>
+    <string name="settings_preview_on_ok_description">OK přehraje kanál v náhledu, další OK ho otevře na celou obrazovku</string>
     <string name="settings_mini_player_root">Minipřehrávač</string>
     <string name="settings_mini_player_root_description">Velikost a umístění ukotveného minipřehrávače</string>
+    <string name="settings_pip_on_leave">Obraz v obraze při opuštění aplikace</string>
+    <string name="settings_pip_on_leave_description">Po stisknutí Domů hraje video dál v malém okně</string>
     <string name="settings_prefer_sdr_description">Když stream nabízí obraz SDR i HDR, přehraje se SDR: pro televizor, na kterém HDR vypadá vybledle nebo příliš tmavě. Stream jen s HDR zůstane v HDR. Pouze ExoPlayer.</string>
-    <string name="settings_auto_frame_rate">Automatická snímková frekvence</string>
-    <string name="settings_auto_frame_rate_description">Při zobrazení na celé obrazovce přizpůsobit obnovovací frekvenci televizoru videu (24/25/50/60 sn./s) pro živé vysílání i VOD a při ukončení ji obnovit. Vypněte, pokud televizor nebo přijímač při každé změně kanálu rušivě znovu navazuje spojení HDMI.</string>
+    <string name="settings_auto_frame_rate_films">Automatická snímková frekvence pro filmy a seriály</string>
+    <string name="settings_auto_frame_rate_films_description">Při zobrazení na celé obrazovce přizpůsobit obnovovací frekvenci televizoru filmu nebo epizodě (24/25/50/60 sn./s) a při ukončení ji obnovit.</string>
+    <string name="settings_auto_frame_rate_live">Automatická snímková frekvence pro živé vysílání</string>
+    <string name="settings_auto_frame_rate_live_description">Při zobrazení na celé obrazovce přizpůsobit obnovovací frekvenci televizoru kanálu (25/50/60 sn./s) a při ukončení ji obnovit. Vypněte, pokud televizor nebo přijímač při každé změně kanálu rušivě znovu navazuje spojení HDMI.</string>
     <string name="settings_afr_pause">Pozastavit při přepnutí obrazu</string>
     <string name="settings_afr_pause_description">Jen filmy. Když se televizor musí znovu synchronizovat na nový režim obrazu, film tak dlouho počká, aby se jeho začátek neztratil v černé obrazovce. Plynulé přepnutí nikdy nepozastaví.</string>
     <string name="settings_afr_resolution">Přizpůsobit rozlišení</string>
@@ -262,12 +286,20 @@
     <string name="settings_check_updates_description">Získat nejnovější verzi z GitHub Releases</string>
     <string name="settings_update_startup">Kontrolovat aktualizace při spuštění</string>
     <string name="settings_update_startup_description">Při otevření aplikace vyhledat novou verzi</string>
+    <string name="settings_auto_start_boot">Automaticky spustit po zapnutí</string>
+    <string name="settings_auto_start_boot_description">Otevřít OwnTV po zapnutí televize</string>
+    <string name="settings_auto_start_wake">Automaticky spustit po probuzení</string>
+    <string name="settings_auto_start_wake_description">Otevřít OwnTV, když se televize probudí z režimu spánku</string>
+    <string name="settings_auto_start_needs_overlay">Vyžaduje „Zobrazení přes ostatní aplikace“</string>
     <string name="settings_about">O aplikaci</string>
     <string name="settings_live_latency">Zpoždění živého vysílání</string>
     <string name="settings_no_settings_match">Výrazu „<xliff:g id="query">%1$s</xliff:g>“ neodpovídá žádné nastavení</string>
+    <string name="settings_search_empty_hint">Napište název nastavení</string>
     <string name="settings_breadcrumb"><xliff:g id="group">%1$s</xliff:g> › <xliff:g id="title">%2$s</xliff:g></string>
     <string name="settings_startup_home">Domů</string>
     <string name="settings_startup_last_channel">Poslední kanál</string>
+    <string name="settings_startup_last_channel_guide">Poslední kanál · TV program</string>
+    <string name="settings_startup_last_channel_live">Poslední kanál · Živé vysílání</string>
     <string name="settings_startup_favorites">Živé vysílání · Oblíbené</string>
     <string name="settings_startup_specific_channel">Konkrétní kanál</string>
     <string name="settings_startup_channel_unavailable">Spouštěcí kanál není dostupný. Byla otevřena domovská obrazovka.</string>
@@ -368,6 +400,7 @@
     <string name="settings_search_keywords_startup">spuštění otevřít úvodní obrazovka</string>
     <string name="settings_search_keywords_updates">GitHub vydání verze</string>
     <string name="settings_search_keywords_update_auto">automatická aktualizace nová verze</string>
+    <string name="settings_search_keywords_auto_start">spuštění zapnutí probuzení spánek pohotovost automaticky otevřít</string>
     <string name="settings_language_default">Výchozí (angličtina)</string>
     <string name="settings_language_device">Jazyk zařízení</string>
     <string name="settings_language_arabic">Arabština</string>
@@ -591,16 +624,33 @@
     <string name="settings_history_all">vše</string>
     <string name="settings_browsing_last_category">Pamatovat si poslední kategorii</string>
     <string name="settings_browsing_last_category_description">Sekci znovu otevřít v kategorii, kterou jste opustili, nikoli v kategorii Vše.</string>
+    <string name="settings_guide_follows_live">TV program sleduje Živé vysílání</string>
+    <string name="settings_guide_follows_live_description">Otevřít TV program v kategorii Živého vysílání.</string>
+    <string name="settings_help_guide_follows_live">Zapnuto: TV program se otevře v kategorii, kterou si pamatuje Živé vysílání, a kategorie vybraná v TV programu se stane i jeho kategorií. Vypnuto: TV program si drží vlastní kategorii.</string>
     <string name="settings_browsing_last_item">Pamatovat si poslední položku</string>
     <string name="settings_browsing_last_item_description">Každá kategorie si zachová vlastní pozici posunu namísto návratu na začátek. Živé vysílání také obnoví poslední zaměřený kanál.</string>
+    <string name="settings_browsing_live_categories">Kategorie živého vysílání</string>
+    <string name="settings_browsing_live_categories_description">Zobrazují se v živém vysílání, v TV programu, v přehrávači i v režimu Multiview. Když vypnete Všechny kanály, živé vysílání se otevře ve vaší první kategorii, nebo v Oblíbených, pokud žádnou nemáte.</string>
     <string name="settings_catchup_player">Přehrávat TV archiv v</string>
     <string name="settings_customize_title">Přizpůsobení kategorií a položek</string>
     <string name="settings_customize_pin_locked">Tato obrazovka je chráněna zámkem PIN.</string>
     <string name="settings_customize_wrong_pin">Nesprávný PIN — zkuste to znovu</string>
     <string name="settings_customize_enter_pin">Zadejte PIN</string>
-    <string name="settings_customize_set_pin">🔒 Nastavit PIN</string>
-    <string name="settings_customize_change_pin">🔒 Změnit PIN</string>
+    <string name="settings_customize_set_pin">🔒 Nastavit PIN zámku kategorií</string>
+    <string name="settings_customize_change_pin">🔒 Změnit PIN zámku kategorií</string>
+    <string name="settings_customize_remove_pin">Odebrat PIN zámku kategorií</string>
     <string name="settings_customize_remove_lock">Odstranit zámek</string>
+    <string name="settings_lock">Zámek nastavení</string>
+    <string name="settings_lock_description">Nastavení, Záloha a obnovení a Místní synchronizace žádají vlastní PIN. Každý profil si nastaví svůj.</string>
+    <string name="settings_line_settings_lock">Vlastní PIN pro Nastavení</string>
+    <string name="settings_help_settings_lock">PIN tohoto profilu, o který Nastavení, Záloha a obnovení a Místní synchronizace žádají před otevřením. Není to PIN profilu ani PIN zámku kategorií: každý zámek má svůj PIN a žádný neotevře jiný. Změnit PIN a Vypnout žádají aktuální PIN nastavení.</string>
+    <string name="settings_lock_menus">Zamknout i změny v nabídce dlouhého stisku</string>
+    <string name="settings_lock_menus_description">Skrýt, Přesunout, Přejmenovat, zamknutí kategorie a Odebrat z historie také žádají PIN nastavení. Oblíbené a Přehrát nikdy.</string>
+    <string name="settings_line_settings_lock_menus">Změny dlouhým stiskem žádají PIN nastavení</string>
+    <string name="settings_help_settings_lock_menus">Když je zapnuto, změny dlouhým stiskem (Skrýt, Přesunout, Přejmenovat, Zamknout kategorii a Odebrat z historie) nejprve žádají PIN nastavení. Jeden správný PIN je odemkne, dokud neopustíte aplikaci nebo nepřepnete profil. Přidání do oblíbených a přehrávání ho nežádají nikdy.</string>
+    <string name="settings_lock_change_pin">Změnit PIN</string>
+    <string name="settings_lock_turn_off">Vypnout</string>
+    <string name="settings_search_keywords_settings_lock">zámek pin heslo rodičovská nastavení</string>
     <string name="settings_customize_description">Skrývejte a znovu zobrazujte kanály, filmy a seriály a přejmenovávejte nebo měňte pořadí kategorií pro tento profil. Změny se zachovají i po opětovné synchronizaci.</string>
     <string name="settings_customize_new_category_behavior">Chování nových kategorií</string>
     <string name="settings_customize_hide">Skrýt</string>
@@ -646,8 +696,8 @@
     <string name="settings_customize_restore_defaults_title">Obnovit <xliff:g id="section">%1$s</xliff:g> v <xliff:g id="playlist">%2$s</xliff:g>\?</string>
     <string name="settings_customize_restore_defaults_description">Skryté kategorie a položky se znovu zobrazí, přejmenování a vlastní pořadí se vymažou a přesunuté položky se vrátí. Kombinované kategorie, oblíbené a přiřazení EPG zůstanou zachovány.</string>
     <string name="settings_customize_rename_hint">Platí pouze pro tento profil. Ponecháním prázdného pole obnovíte název „<xliff:g id="name">%1$s</xliff:g>“.</string>
-    <string name="settings_customize_remove_pin_title">Odstranit zámek PIN?</string>
-    <string name="settings_customize_remove_pin_message">Obrazovka přizpůsobení se příště otevře bez požadavku na PIN.</string>
+    <string name="settings_customize_remove_pin_title">Odebrat PIN zámku kategorií?</string>
+    <string name="settings_customize_remove_pin_locks">Odemknou se také všechny kategorie uzamčené tímto PINem.</string>
     <string name="settings_customize_remove">Odstranit</string>
     <string name="settings_customize_confirm_pin">Potvrďte nový PIN</string>
     <string name="settings_customize_pin_mismatch">PIN se neshoduje — zadejte jej znovu</string>
@@ -692,7 +742,16 @@
     <string name="settings_sources_test_trial">Zkušební účet</string>
     <string name="settings_sources_test_expiry_none">Datum vypršení nebylo uvedeno</string>
     <string name="settings_sources_info">Informace</string>
+    <string name="settings_sources_clean_names">Názvy</string>
+    <string name="settings_sources_clean_names_title">Názvy kanálů v „<xliff:g id="name">%1$s</xliff:g>“</string>
+    <string name="settings_sources_clean_names_description">Kratší názvy kanálů na všech obrazovkách. Průvodce dál páruje názvy, které posílá váš poskytovatel, a kanály přejmenované v Přizpůsobení si ponechají váš název. Uložení obnoví playlist.</string>
+    <string name="settings_sources_clean_names_toggle">Vyčistit názvy kanálů</string>
+    <string name="settings_sources_clean_names_example">Odstraní předponu země a značku kvality na konci: „UK| News One HD“ se zobrazí jako „News One“</string>
+    <string name="settings_sources_clean_names_custom">Odstranit také</string>
+    <string name="settings_sources_clean_names_custom_hint">Slova oddělená ; např. VIP; Backup</string>
     <string name="settings_sources_retest">Otestovat znovu</string>
+    <string name="settings_sources_ignore_limit">Ignorovat limit připojení</string>
+    <string name="settings_sources_ignore_limit_on">Limit připojení se ignoruje: Multiview a nahrávání mohou otevřít více streamů, než tento playlist uvádí. Stream, který poskytovatel odmítne, to stále oznámí.</string>
     <string name="settings_sources_probe_title">Otestovat tento seznam?</string>
     <string name="settings_sources_probe_warning">Mnozí poskytovatelé nikdy neuvedou, kolik kanálů můžete sledovat najednou, a tak to OwnTV zjistí tím, že jich několik otevře a sleduje, které vydrží. Vše, co právě běží, se zastaví a může to trvat až dvě minuty.</string>
     <string name="settings_sources_probe_running">Zjišťuje se, kolik kanálů tento poskytovatel dovolí… (<xliff:g id="current">%1$d</xliff:g> z <xliff:g id="total">%2$d</xliff:g>)</string>
@@ -764,6 +823,7 @@
     <string name="settings_epg_sources_auto_refresh_title">Automatická aktualizace</string>
     <string name="settings_epg_sources_auto_refresh_description">Vypnuto, při spuštění nebo při zastaralých datech</string>
     <string name="settings_epg_sources_not_synced">Zatím nesynchronizováno</string>
+    <string name="settings_epg_sources_priority">Priorita průvodce <xliff:g id="position">%1$d</xliff:g> z <xliff:g id="total">%2$d</xliff:g>. Když dva zdroje obsahují stejný kanál, použije se ten, který je v tomto seznamu výš.</string>
     <string name="settings_epg_refresh_1h">1 hodina</string>
     <string name="settings_epg_refresh_3h">3 hodiny</string>
     <string name="settings_epg_refresh_6h">6 hodin</string>
@@ -857,6 +917,7 @@
         <item quantity="other"><xliff:g id="count">%1$d</xliff:g> zdrojů bylo přeskočeno, protože jejich typy playlistů nejsou podporovány.</item>
     </plurals>
     <string name="settings_backup_export_error">Export se nezdařil.</string>
+    <string name="settings_backup_no_file_app">Žádná aplikace v tomto telefonu nemůže soubor uložit. Použijte místo toho Sdílet.</string>
     <string name="settings_backup_read_error">Soubor zálohy se nepodařilo přečíst.</string>
     <string name="settings_backup_import_error">Import se nezdařil.</string>
     <string name="settings_backup_invalid_locale">Tato záloha obsahovala nepodporovaný jazyk aplikace. Obnovení proběhlo úspěšně, ale aktuální jazyk zůstal zachován.</string>
@@ -1337,6 +1398,12 @@
     <string name="settings_nav_hide_after_desc">Jen plovoucí: jak dlouho lišta čeká, když ji fokus opustí</string>
     <string name="settings_nav_widen">Rozšířit při výběru</string>
     <string name="settings_nav_widen_desc">Ukotvená a kompaktní: při výběru lišty ukáže názvy přes obsah</string>
+    <string name="settings_nav_menu_labels">Popisky nabídky</string>
+    <string name="settings_nav_menu_labels_desc">Názvy sekcí vedle ikon: nikdy, když má lišta výběr, nebo vždy</string>
+    <string name="settings_nav_menu_labels_focused">Při výběru</string>
+    <string name="settings_nav_menu_labels_always">Vždy</string>
+    <string name="settings_nav_menu_labels_summary">Popisky: <xliff:g id="choice">%1$s</xliff:g></string>
+    <string name="settings_search_keywords_menu_labels">popisky, názvy, text, jen ikony, lišta, postranní panel, nabídka, rozšířit, široká</string>
     <string name="settings_nav_menu_items">Položky nabídky</string>
     <string name="settings_nav_menu_items_desc">Dynamické: podle obsahu playlistu · Pevné: vyberete si sami</string>
     <string name="settings_nav_bar">Lišta</string>
@@ -1415,7 +1482,7 @@
     <string name="settings_line_guide_width">Seznam kanálů a časová osa</string>
     <string name="settings_line_browsing">Pamatovat poslední kategorii a položku</string>
     <string name="settings_line_home">Vyberte, seřaďte a filtrujte řádky</string>
-    <string name="settings_line_content_menus">Přeskupit akce v každé nabídce</string>
+    <string name="settings_line_content_menus">Přeskupit nebo skrýt akce v každé nabídce</string>
     <string name="settings_line_remote_shortcuts">Přiřadit volná tlačítka ovladače</string>
     <string name="settings_line_customize">Skrýt a zobrazit, přejmenovat a seřadit</string>
     <string name="settings_line_metadata">Plakáty, děj, obsazení a hodnocení pro filmy a seriály</string>
@@ -1428,6 +1495,7 @@
     <string name="settings_line_dns">Vlastní server DNS</string>
     <string name="settings_line_quick_live_preview">Přehrát vybraný kanál v živé TV</string>
     <string name="settings_line_preview_sound">Zvuk v živém náhledu</string>
+    <string name="settings_line_preview_on_ok">Nejdřív náhled, pak celá obrazovka</string>
     <string name="settings_line_quick_channel_numbers">Naladit kanál zadáním čísla na ovladači</string>
     <string name="settings_line_prefer_sdr">SDR, když stream nabízí obojí</string>
     <string name="settings_line_quick_autoplay">Další díl se spustí sám</string>
@@ -1478,6 +1546,7 @@
     <string name="settings_line_autoplay">A do další řady</string>
     <string name="settings_line_tiles">Každá dlaždice je další stream</string>
     <string name="settings_line_mini">Velikost a poloha</string>
+    <string name="settings_line_pip">Sledujte dál v malém okně</string>
     <string name="settings_line_rec_reserve">Nikdy nenahrávat na všech připojeních</string>
     <string name="settings_line_rec_watching">Bez druhého streamu</string>
     <string name="settings_line_rec_pre_roll">Před začátkem pořadu</string>
@@ -1507,6 +1576,8 @@
     <string name="settings_help_startup">Co OwnTV zobrazí po spuštění: Domů, naposledy sledovaný kanál, oblíbené, nebo kanál, který vyberete.</string>
     <string name="settings_help_check_updates">Hned vyhledá na GitHubu novější OwnTV a nabídne instalaci. Playlisty, oblíbené a nastavení zůstanou, jak jsou.</string>
     <string name="settings_help_update_startup">Při každém spuštění OwnTV hledá novou verzi a dá vědět, když nějaká je. Bez zeptání se nic nenainstaluje.</string>
+    <string name="settings_help_auto_start_boot">Otevře OwnTV samo, jakmile televize nastartuje, na obrazovce zvolené v nastavení Spuštění aplikace. Android dovolí aplikaci otevřít se sama, jen pokud smí zobrazovat přes ostatní aplikace, proto se po zapnutí otevře obrazovka tohoto oprávnění. Některé televize ho nenabízejí a tam automatické spuštění fungovat nemůže.</string>
+    <string name="settings_help_auto_start_wake">Otevře OwnTV pokaždé, když se televize probudí z režimu spánku, i když jste ji probudili kvůli jiné aplikaci. Pokud Spuštění aplikace otevírá kanál, každé probuzení spustí tento stream. Dokud je to zapnuté, OwnTV udržuje malou službu na pozadí s tichým oznámením. Stejně jako automatické spuštění po zapnutí potřebuje oprávnění zobrazovat přes ostatní aplikace.</string>
     <string name="settings_help_dns">Vyhledává adresy poskytovatele přes zvolený server DNS místo serveru vaší sítě — hodí se, když je síť blokuje nebo přesměrovává.</string>
     <string name="settings_help_live_engine">ExoPlayer otevírá kanály mnohem rychleji a jako jediný umí živé titulky. mpv přehraje kanály, které ExoPlayer nezvládne, včetně neobvyklého zvuku. Kombinované volby zkusí druhý přehrávač, když první selže.</string>
     <string name="settings_help_hw">Používá hardwarový dekodér televize: plynulé 4K a méně tepla. Vypněte jen tehdy, když se některé streamy trhají nebo ukazují kostičky; práci pak převezme softwarový dekodér.</string>
@@ -1517,9 +1588,11 @@
     <string name="settings_help_sub_lang">Titulky v tomto jazyce se zapnou samy, když je stream má. Jinak zůstanou vypnuté, dokud v přehrávači nevyberete stopu.</string>
     <string name="settings_help_live_preview">Vybraný kanál hraje v náhledu vedle seznamu živé TV, takže uvidíte, co běží, dřív než ho otevřete. Vyžaduje rozvržení s místem pro náhled.</string>
     <string name="settings_help_preview_audio">Přehraje zvuk náhledu i jeho obraz. Vypnuto nechá procházení v tichosti.</string>
+    <string name="settings_help_preview_on_ok">Vyberte, kde OK na kanálu nejdřív přehraje kanál v náhledu a další OK na stejném kanálu ho otevře na celou obrazovku. V živé TV pak náhled při procházení zůstane na tom kanálu. Kde je to vypnuté, OK otevře kanál hned na celou obrazovku a náhled sleduje výběr.</string>
     <string name="settings_help_timeshift_window">Jak daleko zpět může Pozastavit a přetočit živou TV jít u kanálu bez archivu. Delší uchová víc z kanálu v úložišti zařízení.</string>
     <string name="settings_help_resume">Zeptat se nabídne Pokračovat nebo Začít znovu, když má film nebo díl uloženou pozici. Vždy pokračovat naváže tam, kde jste skončili; Nikdy nepokračovat začne od začátku.</string>
     <string name="settings_help_mini">Malý přehrávač, který při procházení nechá kanál běžet v rohu. Zvolte jeho velikost a roh, ve kterém je.</string>
+    <string name="settings_help_pip">Stiskněte Domů nebo otevřete jinou aplikaci, když video hraje na celou obrazovku nebo v minipřehrávači, a bude hrát dál v malém okně nad zbytkem televize. Znovu otevřete OwnTV a video se vrátí na celou obrazovku; zavřením okna přehrávání zastavíte. Multiview zůstává v OwnTV.</string>
     <string name="settings_key_palette">Paleta</string>
     <string name="settings_live_preview_note">Změny se tu ukazují hned, ještě než řádek opustíte.</string>
     <string name="settings_synced_at">Synchronizováno <xliff:g id="when">%1$s</xliff:g></string>
@@ -1614,6 +1687,8 @@
     <string name="settings_remote_scan">Naskenujte nebo otevřete v prohlížeči</string>
     <string name="settings_remote_or_open">nebo otevřete</string>
     <string name="settings_remote_details_note">Údaje se zobrazí zde; import spustíte ovladačem.</string>
+    <string name="settings_remote_edit_note">Změny vyplní obrazovku úprav; Uložit stisknete ovladačem.</string>
+    <string name="settings_help_edit_from_phone">Otevře tento playlist v prohlížeči na telefonu, tabletu nebo počítači ve stejné síti Wi-Fi. Hesla, adresy MAC a adresy playlistů M3U se tam nikdy nezobrazují: nechte je prázdné, aby zůstaly. Co odešlete, vyplní tuto obrazovku, a nic se nezmění, dokud nestisknete Uložit.</string>
     <string name="settings_key_stop_back">Zastavit a zpět</string>
     <string name="settings_source_type">Typ</string>
     <string name="settings_line_source_type">Xtream, M3U nebo portál Stalker</string>

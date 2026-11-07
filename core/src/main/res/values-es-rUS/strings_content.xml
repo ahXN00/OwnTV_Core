@@ -70,10 +70,23 @@
     </plurals>
     <string name="content_category_restore_order">Se borrará el orden personalizado</string>
     <string name="content_category_restore_nothing">La categoría ya tiene los valores de la lista</string>
+    <string name="content_category_lock">Bloquear con PIN</string>
+    <string name="content_category_locked_placeholder">Esta categoría está bloqueada</string>
+    <plurals name="content_category_pin_wait">
+        <item quantity="one">Demasiados PIN incorrectos. Inténtalo de nuevo en <xliff:g id="count">%1$d</xliff:g> segundo</item>
+        <item quantity="many">Demasiados PIN incorrectos. Inténtalo de nuevo en <xliff:g id="count">%1$d</xliff:g> segundos</item>
+        <item quantity="other">Demasiados PIN incorrectos. Inténtalo de nuevo en <xliff:g id="count">%1$d</xliff:g> segundos</item>
+    </plurals>
     <string name="content_move_to_category">Mover a una categoría…</string>
     <string name="content_remove_from_category">Eliminar de esta categoría</string>
     <string name="content_download">Descargar</string>
     <string name="content_download_all_episodes">Descargar todos los episodios</string>
+    <plurals name="content_download_episodes_confirm">
+        <item quantity="one">¿Descargar <xliff:g id="count">%1$d</xliff:g> episodio?</item>
+        <item quantity="many">¿Descargar <xliff:g id="count">%1$d</xliff:g> de episodios?</item>
+        <item quantity="other">¿Descargar <xliff:g id="count">%1$d</xliff:g> episodios?</item>
+    </plurals>
+    <string name="content_download_episodes_confirm_message">Se guardan en este dispositivo y ocupan espacio de almacenamiento.</string>
     <string name="content_play">Reproducir</string>
     <string name="content_favorited">En favoritos</string>
     <string name="content_favorite">Agregar a favoritos</string>
@@ -81,9 +94,7 @@
     <string name="content_episodes">Episodios</string>
     <string name="content_oldest_first">Más antiguos primero</string>
     <string name="content_newest_first">Más recientes primero</string>
-    <string name="content_play_external">Reproducir con un reproductor externo</string>
     <string name="content_delete_subtitles">Eliminar subtítulos de OpenSub</string>
-    <string name="content_tmdb_details">Detalles de TMDB</string>
     <string name="content_play_trailer">Reproducir tráiler</string>
     <string name="content_refetch_tmdb">Volver a obtener los detalles de TMDB</string>
     <string name="content_set_tmdb_name">Establecer nombre para TMDB</string>
@@ -134,6 +145,9 @@
     <string name="content_catchup_jump_prompt">Elegí una hora desde la que empezar a ver. No hace falta guía.</string>
     <string name="content_catchup_jump_exact">Elegir hora exacta…</string>
     <string name="content_catchup_jump_hint">Presioná OK en el día, la hora o el minuto, cambialo con arriba y abajo y volvé a presionar OK.</string>
+    <string name="content_catchup_jump_programme_start">Inicio de “<xliff:g id="title">%1$s</xliff:g>”</string>
+    <string name="content_catchup_jump_programme_start_untitled">Inicio del programa</string>
+    <string name="content_catchup_jump_programme_start_at">Comenzó a las <xliff:g id="time">%1$s</xliff:g></string>
     <string name="content_epg_match_prompt">Elige el canal de la guía para “<xliff:g id="channel">%1$s</xliff:g>”.</string>
     <string name="content_epg_match_prompt_current">Elige el canal de la guía para “<xliff:g id="channel">%1$s</xliff:g>”. Actual: <xliff:g id="match">%2$s</xliff:g></string>
     <string name="content_search_guide_channels">Buscar canales de la guía…</string>
@@ -182,6 +196,8 @@
     <string name="content_downloads_ready">Listo para ver</string>
     <string name="content_downloads_paused">En pausa</string>
     <string name="content_downloads_file_missing">Falta el archivo: ya no está en la unidad</string>
+    <string name="content_downloads_delete_title">¿Eliminar “<xliff:g id="name">%1$s</xliff:g>”?</string>
+    <string name="content_downloads_delete_message">Elimina el archivo de este dispositivo. Se puede volver a descargar más tarde.</string>
     <string name="content_downloads_reason_account_busy">Cuenta ocupada: otra transmisión está usando la conexión</string>
     <string name="content_downloads_reason_refused">El servidor rechazó el enlace</string>
     <string name="content_downloads_reason_not_found">El servidor ya no tiene este archivo</string>
@@ -283,7 +299,6 @@
     <string name="content_search_in">Buscar en <xliff:g id="name">%1$s</xliff:g></string>
     <string name="content_live_guide_view">Vista de guía</string>
     <string name="content_key_watch">Ver</string>
-    <string name="content_key_schedule">Programación</string>
     <string name="content_key_options">Opciones</string>
     <string name="content_live_groups">Grupos</string>
     <string name="content_menu_group_watch">Ver</string>
@@ -351,6 +366,9 @@
     <string name="content_sort_date_added_hint">Más recientes primero</string>
     <string name="content_menu_group_library">Biblioteca</string>
     <string name="content_menu_group_details">Detalles</string>
+    <string name="content_programme_details">Detalles del programa</string>
+    <string name="content_programmes_earlier">Antes</string>
+    <string name="content_programmes_later">Después</string>
     <string name="content_movie_details">Detalles de la película</string>
     <string name="content_series_details">Detalles de la serie</string>
     <plurals name="content_vod_title_count">

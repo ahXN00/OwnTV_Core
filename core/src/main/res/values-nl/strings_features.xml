@@ -9,6 +9,8 @@
     <string name="profiles_avatar_own_picture">Je eigen foto</string>
     <string name="profiles_kids">Kinderprofiel</string>
     <string name="profiles_kids_description">Vereenvoudigd en veilig bladeren</string>
+    <string name="profiles_allow_downloads">Downloads toestaan</string>
+    <string name="profiles_allow_downloads_description">Uit verbergt alle downloadknoppen voor dit profiel</string>
     <string name="profiles_remove_pin">PIN-vergrendeling verwijderen</string>
     <string name="profiles_no_pin">Dit profiel wordt zonder PIN geopend</string>
     <string name="profiles_change_pin">PIN wijzigen (leeg = behouden)</string>
@@ -22,6 +24,8 @@
     <string name="profiles_gate_subtitle">Elk profiel heeft eigen favorieten en een eigen geschiedenis</string>
     <string name="profiles_wrong_pin">Onjuiste PIN — probeer het opnieuw</string>
     <string name="profiles_enter_pin"><xliff:g id="name">%1$s</xliff:g> — voer PIN in</string>
+    <string name="profiles_protected_include">Het heeft een profielvergrendeling of een instellingenvergrendeling. Voer een van beide pincodes in om het op te nemen. Zonder pincode wordt het overgeslagen en blijft het zoals het is.</string>
+    <string name="profiles_protected_edit">Het heeft een profielvergrendeling of een instellingenvergrendeling. Voer een van beide pincodes in om het te wijzigen.</string>
     <string name="profiles_kids_badge">KINDEREN</string>
     <string name="profiles_add">Profiel toevoegen</string>
     <string name="profiles_title">Profielen</string>
@@ -45,6 +49,8 @@
     <string name="search_go_to_movie">Naar film</string>
     <string name="search_clear_recent">Recente zoekopdrachten wissen</string>
     <string name="search_field_hint">Zenders, films en series</string>
+    <string name="search_voice">Spraakzoeken</string>
+    <string name="search_voice_prompt">Zeg een zender, film of serie</string>
     <string name="search_card_title">Vind alles in je playlists</string>
     <string name="search_card_body">Zenders, films en series uit alle playlists die je toont. Kies een resultaat om er direct heen te gaan en daar af te spelen, te downloaden of de opties te openen. Ook tv-programma’s die nu of later vandaag uitgezonden worden, vind je op hun titel.</string>
     <string name="search_nothing_found">Niets gevonden voor ‘<xliff:g id="query">%1$s</xliff:g>’</string>
@@ -63,6 +69,11 @@
     <string name="launcher_recent_live_description">Onlangs bekeken livezenders</string>
     <string name="launcher_movie_type">Film</string>
     <string name="launcher_episode_number">Aflevering <xliff:g id="episode">%1$d</xliff:g></string>
+    <plurals name="home_library_loading">
+        <item quantity="one">Je bibliotheek wordt geladen · tot nu toe <xliff:g id="count">%1$s</xliff:g> titel</item>
+        <item quantity="other">Je bibliotheek wordt geladen · tot nu toe <xliff:g id="count">%1$s</xliff:g> titels</item>
+    </plurals>
+    <string name="home_library_loading_trending">Nu populair verschijnt naarmate je bibliotheek zich vult.</string>
     <string name="home_no_preview">Nog geen voorbeeld beschikbaar.</string>
     <string name="home_no_rows">Alle rijen op het startscherm zijn verborgen.</string>
     <string name="home_enable_rows">Schakel rijen weer in via Instellingen → Startscherm.</string>
@@ -177,6 +188,8 @@
     <string name="home_trending_pause">Pauzeren</string>
     <string name="home_trending_unavailable">Deze versie is niet meer beschikbaar</string>
     <string name="recording_notification_title">Opnemen</string>
+    <string name="auto_start_notification_channel">Automatisch starten bij ontwaken</string>
+    <string name="auto_start_notification_text">OwnTV opent wanneer de tv ontwaakt</string>
     <string name="recording_failed_no_space">Gestopt: geen ruimte meer</string>
     <string name="recording_failed_no_connection">Geen vrije verbinding van je provider</string>
     <string name="recording_failed_clash">Een andere opname gebruikte de verbinding</string>
@@ -193,6 +206,7 @@
     <string name="recording_group_missed">Gemist</string>
     <string name="recording_record">Opnemen</string>
     <string name="recording_stop">Opname stoppen</string>
+    <string name="recording_delete_message">Verwijdert de opname en het bestand ervan van dit apparaat. Dit kan niet ongedaan worden gemaakt.</string>
     <string name="recording_record_series">Elke uitzending opnemen</string>
     <string name="recording_stop_series">Niet meer elke uitzending opnemen</string>
     <string name="recording_from_archive">Opnemen uit het archief</string>
@@ -205,6 +219,7 @@
     <string name="recording_scheduled_for">Neemt <xliff:g id="time">%1$s</xliff:g> op</string>
     <string name="recording_badge">REC</string>
     <string name="recording_pill_line"><xliff:g id="title">%1$s</xliff:g> wordt opgenomen</string>
+    <string name="recording_pill_line_locked">Opnemen uit een vergrendelde categorie</string>
     <string name="recording_clash_with">Overlapt met <xliff:g id="programme">%1$s</xliff:g></string>
     <string name="recording_settings_group">Opnemen</string>
     <string name="settings_recording_reserve">Houd één stream vrij om te kijken</string>
@@ -281,6 +296,15 @@
     <string name="sports_starting_soon">Begint binnenkort</string>
     <string name="sports_hint_match_page">Wedstrijdpagina</string>
     <string name="sports_hint_follow_remind">Volgen · Herinneren</string>
+    <string name="sports_hint_day_matches">Wedstrijden van de dag</string>
+    <string name="sports_hint_day">Dag</string>
+    <string name="sports_hint_week">Week</string>
+    <string name="sports_hint_show_score">Uitslag tonen</string>
+    <string name="sports_hint_back_to_day">Terug naar de dag</string>
+    <string name="sports_hint_open_league">Competitie openen</string>
+    <string name="sports_hint_sport_chips">Sportknoppen</string>
+    <string name="sports_hint_league_chips">Competitieknoppen</string>
+    <string name="sports_hint_follow_unfollow">Volgen · Niet meer volgen</string>
     <string name="sports_reminder_set">Herinnering</string>
     <string name="sports_until">tot <xliff:g id="time">%1$s</xliff:g></string>
     <string name="sports_set">Set <xliff:g id="set">%1$d</xliff:g></string>
@@ -387,7 +411,6 @@
     <string name="sports_next_month">Volgende maand</string>
     <string name="sports_next">Hierna: <xliff:g id="match">%1$s</xliff:g></string>
     <string name="sports_next_badge">Hierna</string>
-    <string name="sports_new_badge">Nieuw</string>
     <string name="sports_no_table_series">Geen stand — series wisselen elke week</string>
     <string name="sports_follow_league">Competitie volgen</string>
     <string name="sports_unfollow_league">Competitie niet meer volgen</string>
