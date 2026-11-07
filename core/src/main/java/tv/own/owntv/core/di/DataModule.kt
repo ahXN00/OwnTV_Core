@@ -224,7 +224,8 @@ val dataModule = module {
             discovery = get(),
             autoSync = get(),
             autoServer = get(),
-            protection = get(),
+            settings = get(),
+            profileDao = get(),
         )
     }
     // Automatic sync with paired devices: its agreements, the paired-only listener on its own port,

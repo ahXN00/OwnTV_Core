@@ -900,6 +900,15 @@
     <string name="settings_backup_which_profiles">किन प्रोफ़ाइलों का बैकअप लेना है</string>
     <string name="settings_backup_selected_profiles">बैकअप में केवल चुनी गई प्रोफ़ाइलें और उनका डेटा शामिल होगा। लॉक की गई प्रोफ़ाइलों के लिए उनका PIN आवश्यक है।</string>
     <string name="settings_backup_profile_pin_description">यह आपकी वर्तमान प्रोफ़ाइल नहीं है। इसे बैकअप में शामिल करने के लिए इसका PIN दर्ज करें—PIN के बिना इसके डेटा का बैकअप नहीं लिया जाएगा।</string>
+    <string name="settings_backup_profile_clash_title">“<xliff:g id="name">%1$s</xliff:g>” इस डिवाइस पर पहले से है</string>
+    <string name="settings_backup_profile_clash_body">बैकअप में इसी नाम की एक प्रोफ़ाइल है। उसके साथ क्या करें?</string>
+    <string name="settings_backup_profile_merge">इसमें मिलाएँ</string>
+    <string name="settings_backup_profile_merge_description">यहाँ जो है उसे रखती है और बैकअप जो लाता है उसे जोड़ती है।</string>
+    <string name="settings_backup_profile_replace">इसे बदलें</string>
+    <string name="settings_backup_profile_replace_description">जिन हिस्सों को रीस्टोर किया जा रहा है, उनके लिए यहाँ की पसंदीदा, देखने का इतिहास, फिर से शुरू करने की जगहें, कस्टमाइज़ेशन और मैन्युअल क्रम पहले मिटा दिए जाते हैं।</string>
+    <string name="settings_backup_profile_keep_both">दोनों रखें</string>
+    <string name="settings_backup_profile_keep_both_description">बैकअप की प्रोफ़ाइल नई प्रोफ़ाइल के रूप में आएगी: “<xliff:g id="name">%1$s</xliff:g>”।</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (रीस्टोर की गई)</string>
     <string name="settings_metadata_optional">वैकल्पिक</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">एक साथ नाम बदलें</string>
@@ -1241,6 +1250,7 @@
     <string name="local_sync_last_synced">पिछला सिंक: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">पहले से युग्मित</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">सिर्फ़ चल रही प्रोफ़ाइल सिंक होती है: यहाँ <xliff:g id="profile">%1$s</xliff:g>, दूसरे डिवाइस पर चल रही प्रोफ़ाइल के साथ।</string>
     <string name="local_auto_sync_title">ऑटो-सिंक</string>
     <string name="local_auto_sync_for_device">यह डिवाइस <xliff:g id="device">%1$s</xliff:g> के साथ अपने आप क्या सिंक करता है, और कितनी बार।</string>
     <string name="local_auto_sync_enable">इस डिवाइस के साथ ऑटो-सिंक</string>
@@ -1252,7 +1262,6 @@
     <string name="local_auto_sync_accept">अनुमति दें</string>
     <string name="local_auto_sync_decline">अनुमति न दें</string>
     <string name="local_auto_sync_what_to_sync">यह डिवाइस क्या सिंक करता है</string>
-    <string name="local_auto_sync_what_profiles">कौन-सी प्रोफ़ाइल</string>
     <string name="local_auto_sync_when">कितनी बार</string>
     <string name="local_auto_sync_timing_immediately">जब भी कोई ऐप खुले या बंद हो</string>
     <string name="local_auto_sync_timing_daily">रोज़</string>
@@ -1260,6 +1269,8 @@
     <string name="local_auto_sync_note">ऑटो-सिंक दोनों तरफ़ मिलाता है, और जो हटाया गया वह हटा ही रहता है। हर डिवाइस तय करता है कि वह क्या आने दे: लॉगिन के साथ प्लेलिस्ट और सेटिंग सिर्फ़ वहीं जाती हैं जहाँ वे चुनी गई हों।</string>
     <string name="local_auto_sync_last_run">आख़िरी ऑटो-सिंक: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> सिंक करता है: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">प्रोफ़ाइल: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">इस प्रोफ़ाइल, <xliff:g id="profile">%1$s</xliff:g>, को <xliff:g id="device">%2$s</xliff:g> पर चल रही प्रोफ़ाइल से जोड़ता है।</string>
     <string name="local_auto_sync_turned_off"><xliff:g id="device">%1$s</xliff:g> पर ऑटो-सिंक बंद किया गया</string>
     <string name="local_auto_sync_unreachable"><xliff:g id="device">%1$s</xliff:g> तक नहीं पहुँच सके, फिर से कोशिश होगी</string>
     <string name="local_auto_sync_listen">ऑटो-सिंक के लिए सुनते रहें</string>

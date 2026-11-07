@@ -65,6 +65,8 @@ class LocalAutoSyncRunner(
 
     private suspend fun syncOne(agreement: AutoSyncAgreement) {
         val device = paired.current().firstOrNull { it.id == agreement.deviceId } ?: return
+        // Its profile here was deleted: nothing left to sync, and the other side is told.
+        if (!transfer.profileExists(agreement)) return store.remove(device.id, tellThem = true)
         if (!locks.tryLock(device.id)) return report(device.id, AutoSyncOutcome.SKIPPED)
         var received = 0
         val error = try {

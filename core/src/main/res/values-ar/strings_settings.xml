@@ -948,6 +948,15 @@
     <string name="settings_backup_which_profiles">الملفات الشخصية المراد نسخها احتياطيًا</string>
     <string name="settings_backup_selected_profiles">ستحتوي النسخة الاحتياطية فقط على الملفات الشخصية المحددة وبياناتها. تحتاج الملفات الشخصية المقفلة إلى رمز PIN الخاص بها.</string>
     <string name="settings_backup_profile_pin_description">هذا ليس ملفك الشخصي الحالي. أدخل رمز PIN الخاص به لتضمينه في النسخة الاحتياطية — ودون رمز PIN، لن تُنسخ بياناته احتياطيًا.</string>
+    <string name="settings_backup_profile_clash_title">«<xliff:g id="name">%1$s</xliff:g>» موجود بالفعل على هذا الجهاز</string>
+    <string name="settings_backup_profile_clash_body">تحتوي النسخة الاحتياطية على ملف شخصي بالاسم نفسه. ماذا تريد أن تفعل به؟</string>
+    <string name="settings_backup_profile_merge">الدمج معه</string>
+    <string name="settings_backup_profile_merge_description">يحتفظ بما لديه هنا ويضيف ما تجلبه النسخة الاحتياطية.</string>
+    <string name="settings_backup_profile_replace">استبداله</string>
+    <string name="settings_backup_profile_replace_description">تُمسح أولًا مفضلته وسجل مشاهدته ونقاط الاستئناف والتخصيصات والترتيب اليدوي هنا، للأجزاء التي تُستعاد.</string>
+    <string name="settings_backup_profile_keep_both">الاحتفاظ بالاثنين</string>
+    <string name="settings_backup_profile_keep_both_description">يدخل الملف الشخصي من النسخة الاحتياطية كملف شخصي جديد: «<xliff:g id="name">%1$s</xliff:g>».</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (مستعاد)</string>
     <string name="settings_metadata_optional">اختياري</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">إعادة التسمية المجمّعة</string>
@@ -1325,6 +1334,7 @@
     <string name="local_sync_last_synced">آخر مزامنة: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">مقترن بالفعل</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">لا يُزامَن إلا الملف الشخصي المستخدم: <xliff:g id="profile">%1$s</xliff:g> هنا، مع الملف الشخصي المستخدم على الجهاز الآخر.</string>
     <string name="local_auto_sync_title">المزامنة التلقائية</string>
     <string name="local_auto_sync_for_device">ما يزامنه هذا الجهاز تلقائيًا مع <xliff:g id="device">%1$s</xliff:g>، وكم مرة.</string>
     <string name="local_auto_sync_enable">المزامنة التلقائية مع هذا الجهاز</string>
@@ -1336,7 +1346,6 @@
     <string name="local_auto_sync_accept">السماح</string>
     <string name="local_auto_sync_decline">عدم السماح</string>
     <string name="local_auto_sync_what_to_sync">ما يزامنه هذا الجهاز</string>
-    <string name="local_auto_sync_what_profiles">أي الملفات الشخصية</string>
     <string name="local_auto_sync_when">كم مرة</string>
     <string name="local_auto_sync_timing_immediately">في كل مرة يُفتح فيها أحد التطبيقين أو يُغلق</string>
     <string name="local_auto_sync_timing_daily">يوميًا</string>
@@ -1344,6 +1353,8 @@
     <string name="local_auto_sync_note">تدمج المزامنة التلقائية في الاتجاهين، ويبقى المحذوف محذوفًا. يقرر كل جهاز ما يسمح بمروره: لا تنتقل قوائم التشغيل مع بيانات دخولها والإعدادات إلا حيث تكون محددة.</string>
     <string name="local_auto_sync_last_run">آخر مزامنة تلقائية: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_auto_sync_their_sections">يزامن <xliff:g id="device">%1$s</xliff:g>: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">الملفات الشخصية: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">يربط هذا الملف الشخصي، <xliff:g id="profile">%1$s</xliff:g>، بالملف الشخصي المستخدم على <xliff:g id="device">%2$s</xliff:g>.</string>
     <string name="local_auto_sync_turned_off">أُوقفت المزامنة التلقائية على <xliff:g id="device">%1$s</xliff:g></string>
     <string name="local_auto_sync_unreachable">تعذّر الوصول إلى <xliff:g id="device">%1$s</xliff:g>، ستُعاد المحاولة</string>
     <string name="local_auto_sync_listen">إبقاء المزامنة التلقائية في وضع الاستماع</string>

@@ -912,6 +912,15 @@
     <string name="settings_backup_which_profiles">Profili da includere nel backup</string>
     <string name="settings_backup_selected_profiles">Il backup conterrà solo i profili selezionati e i relativi dati. Per i profili bloccati è necessario il rispettivo PIN.</string>
     <string name="settings_backup_profile_pin_description">Questo non è il tuo profilo attuale. Inserisci il relativo PIN per includerlo nel backup; senza il PIN, i suoi dati non verranno salvati nel backup.</string>
+    <string name="settings_backup_profile_clash_title">«<xliff:g id="name">%1$s</xliff:g>» esiste già su questo dispositivo</string>
+    <string name="settings_backup_profile_clash_body">Il backup contiene un profilo con lo stesso nome. Cosa vuoi farne?</string>
+    <string name="settings_backup_profile_merge">Uniscilo</string>
+    <string name="settings_backup_profile_merge_description">Mantiene ciò che ha qui e aggiunge ciò che porta il backup.</string>
+    <string name="settings_backup_profile_replace">Sostituiscilo</string>
+    <string name="settings_backup_profile_replace_description">Preferiti, cronologia, punti di ripresa, personalizzazioni e ordine manuale qui vengono prima cancellati, per le parti ripristinate.</string>
+    <string name="settings_backup_profile_keep_both">Mantieni entrambi</string>
+    <string name="settings_backup_profile_keep_both_description">Il profilo del backup arriva come nuovo profilo: «<xliff:g id="name">%1$s</xliff:g>».</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (ripristinato)</string>
     <string name="settings_metadata_optional">facoltativo</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">Rinomina in blocco</string>
@@ -1262,6 +1271,7 @@
     <string name="local_sync_last_synced">Ultima sincronizzazione: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Già associato</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">Si sincronizza solo il profilo in uso: <xliff:g id="profile">%1$s</xliff:g> qui, con il profilo in uso sull’altro dispositivo.</string>
     <string name="local_auto_sync_title">Sincronizzazione automatica</string>
     <string name="local_auto_sync_for_device">Cosa sincronizza da solo questo dispositivo con <xliff:g id="device">%1$s</xliff:g>, e ogni quanto.</string>
     <string name="local_auto_sync_enable">Sincronizzazione automatica con questo dispositivo</string>
@@ -1273,7 +1283,6 @@
     <string name="local_auto_sync_accept">Consenti</string>
     <string name="local_auto_sync_decline">Non consentire</string>
     <string name="local_auto_sync_what_to_sync">Cosa sincronizza questo dispositivo</string>
-    <string name="local_auto_sync_what_profiles">Quali profili</string>
     <string name="local_auto_sync_when">Ogni quanto</string>
     <string name="local_auto_sync_timing_immediately">A ogni apertura o chiusura di una delle app</string>
     <string name="local_auto_sync_timing_daily">Ogni giorno</string>
@@ -1281,6 +1290,8 @@
     <string name="local_auto_sync_note">La sincronizzazione automatica unisce nei due sensi, e ciò che è stato eliminato resta eliminato. Ogni dispositivo decide cosa far passare: le playlist con i loro accessi e le Impostazioni viaggiano solo dove sono selezionate.</string>
     <string name="local_auto_sync_last_run">Ultima sincronizzazione automatica: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> sincronizza: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">Profili: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">Abbina questo profilo, <xliff:g id="profile">%1$s</xliff:g>, al profilo in uso su <xliff:g id="device">%2$s</xliff:g>.</string>
     <string name="local_auto_sync_turned_off">Sincronizzazione automatica disattivata su <xliff:g id="device">%1$s</xliff:g></string>
     <string name="local_auto_sync_unreachable">Impossibile raggiungere <xliff:g id="device">%1$s</xliff:g>, nuovo tentativo più tardi</string>
     <string name="local_auto_sync_listen">Mantieni la sincronizzazione automatica in ascolto</string>

@@ -888,6 +888,15 @@
     <string name="settings_backup_which_profiles">要备份哪些用户档案</string>
     <string name="settings_backup_selected_profiles">备份将仅包含所选用户档案及其数据。已锁定的用户档案需要输入 PIN。</string>
     <string name="settings_backup_profile_pin_description">这不是您当前的用户档案。请输入其 PIN 以将其纳入备份；如果没有 PIN，将不会备份其数据。</string>
+    <string name="settings_backup_profile_clash_title">此设备上已有“<xliff:g id="name">%1$s</xliff:g>”</string>
+    <string name="settings_backup_profile_clash_body">备份中有一个同名的用户档案。要如何处理？</string>
+    <string name="settings_backup_profile_merge">合并到其中</string>
+    <string name="settings_backup_profile_merge_description">保留这里已有的内容，并加入备份带来的内容。</string>
+    <string name="settings_backup_profile_replace">替换它</string>
+    <string name="settings_backup_profile_replace_description">对于要恢复的部分，先清空它在这里的收藏、观看记录、续播位置、自定义和手动排序。</string>
+    <string name="settings_backup_profile_keep_both">两个都保留</string>
+    <string name="settings_backup_profile_keep_both_description">备份中的用户档案将作为新用户档案加入：“<xliff:g id="name">%1$s</xliff:g>”。</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g>（已恢复）</string>
     <string name="settings_metadata_optional">可选</string>
     <string name="settings_metadata_test_title">奥本海默</string>
     <string name="settings_bulk_rename_title">批量重命名</string>
@@ -1220,6 +1229,7 @@
     <string name="local_sync_last_synced">上次同步：<xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">已配对</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">只同步正在使用的用户档案：这里的 <xliff:g id="profile">%1$s</xliff:g>，与另一台设备上正在使用的用户档案。</string>
     <string name="local_auto_sync_title">自动同步</string>
     <string name="local_auto_sync_for_device">此设备与 <xliff:g id="device">%1$s</xliff:g> 自动同步的内容和频率。</string>
     <string name="local_auto_sync_enable">与此设备自动同步</string>
@@ -1231,7 +1241,6 @@
     <string name="local_auto_sync_accept">允许</string>
     <string name="local_auto_sync_decline">不允许</string>
     <string name="local_auto_sync_what_to_sync">此设备同步的内容</string>
-    <string name="local_auto_sync_what_profiles">哪些用户档案</string>
     <string name="local_auto_sync_when">频率</string>
     <string name="local_auto_sync_timing_immediately">每次任一应用打开或关闭时</string>
     <string name="local_auto_sync_timing_daily">每天</string>
@@ -1239,6 +1248,8 @@
     <string name="local_auto_sync_note">自动同步会双向合并，已删除的内容保持删除。每台设备自行决定放行什么：带登录信息的播放列表和设置只会传到勾选了它们的一方。</string>
     <string name="local_auto_sync_last_run">上次自动同步：<xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> 同步：<xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">用户档案：<xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">将此用户档案 <xliff:g id="profile">%1$s</xliff:g> 与 <xliff:g id="device">%2$s</xliff:g> 上正在使用的用户档案配对。</string>
     <string name="local_auto_sync_turned_off"><xliff:g id="device">%1$s</xliff:g> 上的自动同步已关闭</string>
     <string name="local_auto_sync_unreachable">无法连接 <xliff:g id="device">%1$s</xliff:g>，稍后将重试</string>
     <string name="local_auto_sync_listen">保持自动同步监听</string>

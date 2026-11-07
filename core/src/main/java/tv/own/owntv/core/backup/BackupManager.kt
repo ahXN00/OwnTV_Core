@@ -91,6 +91,12 @@ class BackupManager(
          * session, not a backup the user can restore from — counting it hid "Never backed up".
          */
         recordAsBackup: Boolean = true,
+        /**
+         * Local sync: each profile's own settings (landing screen, languages, sports, last categories)
+         * travel even when Settings is not ticked — they belong to the viewer, not the device. Its PINs and
+         * download switch never travel this way.
+         */
+        profileSettings: Boolean = false,
     ): Result<String> = withContext(Dispatchers.IO) {
         runCatching {
             // Profile scoping: only the ticked profiles' rows and per-profile data enter the file.
@@ -166,6 +172,7 @@ class BackupManager(
                     userData.exportTombstones(kinds.intersect(UserDataResolver.TOMBSTONE_KINDS), pids)
                         .takeIf { it.length() > 0 }?.let { put("tombstones", it) }
                 }
+                if (profileSettings && Section.SETTINGS !in sections) putProfileSettings(pidKeys)
                 if (Section.SETTINGS in sections) {
                     val s = settings.exportSettings() // non-secret keys, incl. proxy host/port/user/enabled
                     // Proxy password rides here as an encrypted object (key not in the settings whitelist,
@@ -184,12 +191,8 @@ class BackupManager(
                     // Per-profile landing screen + the Customize PIN lock. These moved out of the
                     // SOURCES block in v17: neither is a playlist or a credential, so a user who
                     // deselected "Sources" was silently dropping them. Readers accept both places.
-                put("startupModes", filterByProfile(settings.exportStartupModes(), pidKeys))
-                put("startupChannels", filterByProfile(settings.exportStartupChannels(), pidKeys))
-                put("preferredLanguages", filterByProfile(settings.exportPreferredLanguages(), pidKeys))
-                put("sportsConfigs", filterByProfile(settings.exportSportsConfigs(), pidKeys))
-                put("downloadsAllowed", filterByProfile(settings.exportDownloadsAllowed(), pidKeys))
-                put("lastCategories", filterByProfile(settings.exportLastCategories(), pidKeys))
+                    putProfileSettings(pidKeys)
+                    put("downloadsAllowed", filterByProfile(settings.exportDownloadsAllowed(), pidKeys))
                     // The Customize PIN is stored as a salted hash, but a 4-digit PIN behind one SHA-256
                     // pass is seconds of offline brute force — so it follows the same rule as every other
                     // secret: encrypted with the backup passphrase, or left out entirely.
@@ -561,9 +564,24 @@ class BackupManager(
          * `deviceSettings`. Only meaningful when [sections] has [Section.SETTINGS].
          */
         val fromOtherDevice: Boolean = true,
-        /** This device's profiles the file would change (matched by name, as [import] matches them). */
-        val touchedProfileIds: Set<Long> = emptySet(),
+        /** The file's profiles whose name a profile on this device already has (as [import] matches them). */
+        val clashes: List<ProfileClash> = emptyList(),
     )
+
+    /** A profile in the file named like [deviceProfileId] here: [import] asks for a [ProfileRestoreChoice]. */
+    data class ProfileClash(val fileProfileId: Long, val name: String, val deviceProfileId: Long)
+
+    /** What a restore does with a profile in the file that has the name of one already here. */
+    sealed interface ProfileRestoreChoice {
+        /** Keep what it has here and add what the file brings (the default). */
+        data object Merge : ProfileRestoreChoice
+
+        /** Clear its data here in the restored sections first, then restore the file's. */
+        data object Replace : ProfileRestoreChoice
+
+        /** Restore the file's profile as a new one named [name] (numbered if that is taken too). */
+        data class KeepBoth(val name: String) : ProfileRestoreChoice
+    }
 
     /** True when [file] is a container that cannot be inspected at all without the backup password. */
     suspend fun isSealed(file: File): Boolean = withContext(Dispatchers.IO) {
@@ -634,7 +652,7 @@ class BackupManager(
                 encrypted = root.has("crypto"),
                 sealed = sealed,
                 fromOtherDevice = !DeviceIdentity.sameDevice(DeviceIdentity.fromJson(root.optJSONObject("device")), settings.deviceIdentity()),
-                touchedProfileIds = touchedProfiles(root),
+                clashes = clashes(root),
             )
         }
     }
@@ -668,8 +686,6 @@ class BackupManager(
          * which [import] keeps out unless `deviceSettings` is passed. The confirm step offers them.
          */
         val hasDeviceSettings: Boolean = false,
-        /** This device's profiles the file would change (matched by name). */
-        val touchedProfileIds: Set<Long> = emptySet(),
     ) {
         val isEmpty: Boolean
             get() = newProfiles == 0 && newSources == 0 && newFavorites == 0 && newHistory == 0 &&
@@ -680,6 +696,8 @@ class BackupManager(
         file: File,
         sections: Set<Section> = Section.entries.toSet(),
         backupPassword: String? = null,
+        /** Local sync: count as [import] with the same `intoProfile` would apply it. */
+        intoProfile: Long? = null,
     ): Result<Preview> = withContext(Dispatchers.IO) {
         runCatching {
             val (root, _) = readBackup(file, backupPassword)
@@ -694,8 +712,10 @@ class BackupManager(
             for (i in 0 until fileProfiles.length()) {
                 val incoming = profileFrom(fileProfiles.getJSONObject(i), noSecrets)
                 val existing = deviceProfiles.firstOrNull { profileMatchKey(it.name) == profileMatchKey(incoming.name) }
+                if (intoProfile != null) continue
                 if (existing != null) profileIdByFileId[incoming.id] = existing.id else newProfiles++
             }
+            if (intoProfile != null) syncedFileProfile(root, fileProfiles)?.let { profileIdByFileId[it] = intoProfile }
 
             var newSources = 0
             val sourceIdByFileId = HashMap<Long, Long>()
@@ -779,18 +799,28 @@ class BackupManager(
                     !DeviceIdentity.sameDevice(DeviceIdentity.fromJson(root.optJSONObject("device")), settings.deviceIdentity()) &&
                     (root.optJSONObject("settings")?.let(settings::carriesDeviceSettings) == true ||
                         root.optJSONObject("compatMode")?.keys()?.hasNext() == true),
-                touchedProfileIds = profileIdByFileId.values.toSet(),
             )
         }
     }
 
-    /** The device profiles [root]'s profiles match by name — the ones a restore of it would change. */
-    private suspend fun touchedProfiles(root: JSONObject): Set<Long> {
+    /** The file's profiles that have the name of a profile already on this device. */
+    private suspend fun clashes(root: JSONObject): List<ProfileClash> {
         val byName = profileDao.getAllOnce().associateBy { profileMatchKey(it.name) }
-        val fileProfiles = root.optJSONArray("profiles") ?: return emptySet()
-        return (0 until fileProfiles.length()).mapNotNullTo(mutableSetOf()) { i ->
-            byName[profileMatchKey(fileProfiles.getJSONObject(i).optString("name"))]?.id
+        val fileProfiles = root.optJSONArray("profiles") ?: return emptyList()
+        return (0 until fileProfiles.length()).mapNotNull { i ->
+            val o = fileProfiles.getJSONObject(i)
+            val here = byName[profileMatchKey(o.optString("name"))] ?: return@mapNotNull null
+            ProfileClash(o.optLong("id"), o.optString("name"), here.id)
         }
+    }
+
+    /**
+     * Local sync merges the other device's profile in use into this device's profile in use, whatever
+     * their names: the file's active profile (or its only one) is the one taken; the rest are skipped.
+     */
+    private fun syncedFileProfile(root: JSONObject, fileProfiles: JSONArray): Long? {
+        val ids = (0 until fileProfiles.length()).map { fileProfiles.getJSONObject(it).optLong("id") }
+        return root.optLong("activeProfileId", -1L).takeIf { it in ids } ?: ids.firstOrNull()
     }
 
     /**
@@ -833,6 +863,14 @@ class BackupManager(
          * mapped, so every per-profile block skips them, and the playlists they use are not rewritten.
          */
         holdBack: Set<Long> = emptySet(),
+        /** Restore: what to do with each same-name profile, by its id in the file; [ProfileRestoreChoice.Merge] when absent. */
+        profileChoices: Map<Long, ProfileRestoreChoice> = emptyMap(),
+        /**
+         * Local sync: the profile here that the other device's profile in use merges into, whatever the
+         * names. No profile row is added or changed, its PINs and download switch stay as they are, and
+         * its own settings come along even when Settings is not ticked (see [export]'s `profileSettings`).
+         */
+        intoProfile: Long? = null,
     ): Result<ImportSummary> = withContext(Dispatchers.IO) {
         runCatching {
             val (root, payload) = readBackup(file, backupPassword)
@@ -875,6 +913,8 @@ class BackupManager(
             // the SOURCES section isn't being restored, matching still runs read-only so the other
             // sections can attach to the right device rows; unmatched ids fall through unchanged.
             val profileIdMap = HashMap<Long, Long>()
+            // Profiles here whose data a Replace cleared (their customizations are cleared with the merge).
+            val replacedProfiles = HashSet<Long>()
             // The file's ids of the profiles [holdBack] keeps as they are: left unmapped, and never
             // allowed through the unmapped-id fallback below either.
             val heldBackFileIds = HashSet<Long>()
@@ -916,9 +956,21 @@ class BackupManager(
                 val heldBackSources = if (holdBack.isEmpty()) emptySet() else
                     sourceDao.allLinks().filter { it.profileId in holdBack }.mapTo(mutableSetOf()) { it.sourceId }
                 val takenProfileIds = deviceProfiles.map { it.id }.toMutableSet()
+                val takenNames = deviceProfiles.mapTo(HashSet()) { profileMatchKey(it.name) }
+                val syncedFrom = intoProfile?.let { syncedFileProfile(root, fileProfiles) }
                 for (i in 0 until fileProfiles.length()) {
                     val incoming = profileFrom(fileProfiles.getJSONObject(i), unseal)
+                    if (intoProfile != null) {
+                        if (incoming.id == syncedFrom) profileIdMap[incoming.id] = intoProfile
+                        continue
+                    }
+                    val choice = profileChoices[incoming.id] ?: ProfileRestoreChoice.Merge
                     val existing = byName[profileMatchKey(incoming.name)]
+                        ?.takeIf { choice !is ProfileRestoreChoice.KeepBoth }
+                    if (existing != null && choice == ProfileRestoreChoice.Replace && existing.id !in holdBack) {
+                        clearProfileData(existing.id, sections)
+                        if (Section.CUSTOMIZE in sections) replacedProfiles += existing.id
+                    }
                     if (existing != null && existing.id in holdBack) {
                         heldBackFileIds += incoming.id
                         continue
@@ -947,7 +999,9 @@ class BackupManager(
                         }
                         applySources -> {
                             val keepId = incoming.id > 0 && incoming.id !in takenProfileIds
-                            val rowId = profileDao.insert(if (keepId) incoming else incoming.copy(id = 0))
+                            val named = if (choice is ProfileRestoreChoice.KeepBoth) incoming.copy(name = freeName(choice.name, takenNames)) else incoming
+                            takenNames += profileMatchKey(named.name)
+                            val rowId = profileDao.insert(if (keepId) named else named.copy(id = 0))
                             val deviceId = if (keepId) incoming.id else rowId
                             takenProfileIds += deviceId
                             profileIdMap[incoming.id] = deviceId
@@ -1093,6 +1147,8 @@ class BackupManager(
             }
 
             if (Section.CUSTOMIZE in sections) {
+                // A Replace clears the profile's customizations before the file's are merged in.
+                replacedProfiles.forEach { customize.clearProfile(it) }
                 root.optJSONObject("customizations")?.let { o ->
                     // Remap "cust_<pid>_<TYPE>" keys and the "<sourceId>:…" content keys inside each
                     // value, then MERGE — other profiles' customizations stay untouched.
@@ -1185,6 +1241,9 @@ class BackupManager(
                 }
             }
 
+            if (intoProfile != null && Section.SETTINGS !in sections && fileVersion >= 17) {
+                importProfileSettings(root, profileIdMap, sourceIdMap, profileDao.getAllOnce().map { it.id }.toSet())
+            }
             if (Section.SETTINGS in sections) {
                 // Decision 9: another device's hardware settings — the global ones below and the
                 // per-channel engine pins — only come along when the user ticked them.
@@ -1215,19 +1274,10 @@ class BackupManager(
                 // Per-profile landing screen + Customize PIN lock (v17: moved here from SOURCES).
                 if (fileVersion >= 17) {
                     val pids = profileDao.getAllOnce().map { it.id }.toSet()
-                root.optJSONObject("startupModes")?.let { settings.importStartupModes(remapProfileKeys(it, profileIdMap), pids) }
-                root.optJSONObject("startupChannels")?.let {
-                    settings.importStartupChannels(
-                        remapProfileKeys(it, profileIdMap),
-                        pids,
-                        sourceIdMap,
-                    )
-                }
-                settings.repairSpecificStartupModes(pids)
-                root.optJSONObject("preferredLanguages")?.let { settings.importPreferredLanguages(remapProfileKeys(it, profileIdMap), pids) }
-                root.optJSONObject("sportsConfigs")?.let { settings.importSportsConfigs(remapProfileKeys(it, profileIdMap), pids) }
+                    importProfileSettings(root, profileIdMap, sourceIdMap, pids)
+                    // A profile sync leaves the profile's locks and its download switch as they are here.
+                    if (intoProfile == null) {
                 root.optJSONObject("downloadsAllowed")?.let { settings.importDownloadsAllowed(remapProfileKeys(it, profileIdMap), pids) }
-                root.optJSONObject("lastCategories")?.let { settings.importLastCategories(remapProfileKeys(it, profileIdMap), pids) }
                     // Encrypted-only since v17, so this restores the lock exactly when the passphrase
                     // is available and otherwise leaves the device's own Customize PIN untouched.
                     root.optJSONObject("customizePins")?.let { o ->
@@ -1237,6 +1287,7 @@ class BackupManager(
                         settings.importSettingsLockPins(remapProfileKeys(unsealValues(o, unseal), profileIdMap), pids)
                     }
                     root.optJSONObject("settingsLockMenus")?.let { settings.importSettingsLockMenus(remapProfileKeys(it, profileIdMap), pids) }
+                    }
                 }
                 // Per-item compatibility-mode engine pins. Optional; merged (union) into the current
                 // pins so a restore never drops locally-set pins. Corrupt/non-string entries ignored.
@@ -1494,7 +1545,37 @@ class BackupManager(
         return applied
     }
 
-    /** Confirms the derived key opens at least one encrypted secret in the file (GCM tag check). */
+    /** Each profile's own settings that belong to the viewer, not the device: landing screen, languages, sports, last categories. */
+    private suspend fun JSONObject.putProfileSettings(pidKeys: Set<String>) {
+        put("startupModes", filterByProfile(settings.exportStartupModes(), pidKeys))
+        put("startupChannels", filterByProfile(settings.exportStartupChannels(), pidKeys))
+        put("preferredLanguages", filterByProfile(settings.exportPreferredLanguages(), pidKeys))
+        put("sportsConfigs", filterByProfile(settings.exportSportsConfigs(), pidKeys))
+        put("lastCategories", filterByProfile(settings.exportLastCategories(), pidKeys))
+    }
+
+    /** [putProfileSettings]'s blocks back, onto the profiles they map to. */
+    private suspend fun importProfileSettings(root: JSONObject, profileIdMap: Map<Long, Long>, sourceIdMap: Map<Long, Long>, pids: Set<Long>) {
+        root.optJSONObject("startupModes")?.let { settings.importStartupModes(remapProfileKeys(it, profileIdMap), pids) }
+        root.optJSONObject("startupChannels")?.let { settings.importStartupChannels(remapProfileKeys(it, profileIdMap), pids, sourceIdMap) }
+        settings.repairSpecificStartupModes(pids)
+        root.optJSONObject("preferredLanguages")?.let { settings.importPreferredLanguages(remapProfileKeys(it, profileIdMap), pids) }
+        root.optJSONObject("sportsConfigs")?.let { settings.importSportsConfigs(remapProfileKeys(it, profileIdMap), pids) }
+        root.optJSONObject("lastCategories")?.let { settings.importLastCategories(remapProfileKeys(it, profileIdMap), pids) }
+    }
+
+    /** A Replace: [profileId]'s favorites, history, resume positions and manual order here, for the restored [sections]. */
+    private suspend fun clearProfileData(profileId: Long, sections: Set<Section>) {
+        if (Section.FAVORITES in sections) db.favoriteDao().clearProfile(profileId)
+        if (Section.HISTORY in sections) db.historyDao().clear(profileId)
+        if (Section.RESUME in sections) db.progressDao().clearProfile(profileId)
+        if (Section.MANUAL_REORDER in sections) {
+            db.contentOrderDao().clearProfile(profileId)
+            db.customCategoryDao().clearProfileMembers(profileId)
+        }
+    }
+
+        /** Confirms the derived key opens at least one encrypted secret in the file (GCM tag check). */
     private fun validatePassphrase(root: JSONObject, key: javax.crypto.SecretKey): Boolean {
         firstEncryptedSecret(root)?.let { sealed ->
             return runCatching { BackupCrypto.decrypt(key, sealed); true }.getOrDefault(false)
@@ -2049,4 +2130,12 @@ private fun jsonStrings(arr: JSONArray?): List<String> {
         if (v is String && v.isNotBlank()) out += v
     }
     return out
+}
+
+/** [wanted], or "[wanted] 2", "[wanted] 3"… — the first that no profile here has ([taken] holds match keys). */
+internal fun freeName(wanted: String, taken: Set<String>): String {
+    if (profileMatchKey(wanted) !in taken) return wanted
+    var n = 2
+    while (profileMatchKey("$wanted $n") in taken) n++
+    return "$wanted $n"
 }

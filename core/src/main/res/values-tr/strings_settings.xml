@@ -900,6 +900,15 @@
     <string name="settings_backup_which_profiles">Yedeklenecek profiller</string>
     <string name="settings_backup_selected_profiles">Yedekleme yalnızca seçilen profilleri ve verilerini içerecek. Kilitli profiller için PIN gerekir.</string>
     <string name="settings_backup_profile_pin_description">Bu, geçerli profiliniz değil. Yedeklemeye eklemek için profilin PIN\'ini girin — PIN olmadan verileri yedeklenmez.</string>
+    <string name="settings_backup_profile_clash_title">“<xliff:g id="name">%1$s</xliff:g>” bu cihazda zaten var</string>
+    <string name="settings_backup_profile_clash_body">Yedekte aynı adda bir profil var. Ona ne olsun?</string>
+    <string name="settings_backup_profile_merge">Onunla birleştir</string>
+    <string name="settings_backup_profile_merge_description">Buradakileri korur ve yedeğin getirdiklerini ekler.</string>
+    <string name="settings_backup_profile_replace">Onu değiştir</string>
+    <string name="settings_backup_profile_replace_description">Buradaki favorileri, izleme geçmişi, devam noktaları, özelleştirmeleri ve elle sıralaması geri yüklenen bölümler için önce temizlenir.</string>
+    <string name="settings_backup_profile_keep_both">İkisini de tut</string>
+    <string name="settings_backup_profile_keep_both_description">Yedekteki profil yeni bir profil olarak gelir: “<xliff:g id="name">%1$s</xliff:g>”.</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (geri yüklendi)</string>
     <string name="settings_metadata_optional">isteğe bağlı</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">Toplu yeniden adlandırma</string>
@@ -1241,6 +1250,7 @@
     <string name="local_sync_last_synced">Son eşitleme: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Zaten eşleştirildi</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">Yalnızca kullanılan profil eşitlenir: burada <xliff:g id="profile">%1$s</xliff:g>, diğer cihazda kullanılan profille.</string>
     <string name="local_auto_sync_title">Otomatik eşitleme</string>
     <string name="local_auto_sync_for_device">Bu cihazın <xliff:g id="device">%1$s</xliff:g> ile kendiliğinden neleri ne sıklıkla eşitlediği.</string>
     <string name="local_auto_sync_enable">Bu cihazla otomatik eşitleme</string>
@@ -1252,7 +1262,6 @@
     <string name="local_auto_sync_accept">İzin ver</string>
     <string name="local_auto_sync_decline">İzin verme</string>
     <string name="local_auto_sync_what_to_sync">Bu cihazın eşitledikleri</string>
-    <string name="local_auto_sync_what_profiles">Hangi profiller</string>
     <string name="local_auto_sync_when">Ne sıklıkla</string>
     <string name="local_auto_sync_timing_immediately">Uygulamalardan biri her açılıp kapandığında</string>
     <string name="local_auto_sync_timing_daily">Günlük</string>
@@ -1260,6 +1269,8 @@
     <string name="local_auto_sync_note">Otomatik eşitleme her iki yönde birleştirir ve silinenler silinmiş kalır. Her cihaz neyi geçireceğine kendisi karar verir: girişleriyle birlikte oynatma listeleri ve Ayarlar yalnızca işaretli oldukları yere gider.</string>
     <string name="local_auto_sync_last_run">Son otomatik eşitleme: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> eşitliyor: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">Profiller: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">Bu profili, <xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="device">%2$s</xliff:g> cihazında kullanılan profille eşler.</string>
     <string name="local_auto_sync_turned_off"><xliff:g id="device">%1$s</xliff:g> üzerinde otomatik eşitleme kapatıldı</string>
     <string name="local_auto_sync_unreachable"><xliff:g id="device">%1$s</xliff:g> cihazına ulaşılamadı, yeniden denenecek</string>
     <string name="local_auto_sync_listen">Otomatik eşitlemeyi dinlemeye devam et</string>

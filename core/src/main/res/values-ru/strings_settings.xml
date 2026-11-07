@@ -924,6 +924,15 @@
     <string name="settings_backup_which_profiles">Какие профили включить в резервную копию</string>
     <string name="settings_backup_selected_profiles">Резервная копия будет содержать только выбранные профили и их данные. Для заблокированных профилей требуется PIN.</string>
     <string name="settings_backup_profile_pin_description">Это не ваш текущий профиль. Введите его PIN, чтобы включить профиль в резервную копию — без PIN его данные не будут сохранены.</string>
+    <string name="settings_backup_profile_clash_title">«<xliff:g id="name">%1$s</xliff:g>» уже есть на этом устройстве</string>
+    <string name="settings_backup_profile_clash_body">В резервной копии есть профиль с тем же именем. Что с ним сделать?</string>
+    <string name="settings_backup_profile_merge">Объединить с ним</string>
+    <string name="settings_backup_profile_merge_description">Сохраняет то, что есть здесь, и добавляет то, что есть в копии.</string>
+    <string name="settings_backup_profile_replace">Заменить</string>
+    <string name="settings_backup_profile_replace_description">Его избранное, история, позиции продолжения, настройки вида и ручной порядок здесь сначала очищаются — для восстанавливаемых частей.</string>
+    <string name="settings_backup_profile_keep_both">Оставить оба</string>
+    <string name="settings_backup_profile_keep_both_description">Профиль из копии добавится как новый: «<xliff:g id="name">%1$s</xliff:g>».</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (восстановлен)</string>
     <string name="settings_metadata_optional">необязательно</string>
     <string name="settings_metadata_test_title">Оппенгеймер</string>
     <string name="settings_bulk_rename_title">Массовое переименование</string>
@@ -1283,6 +1292,7 @@
     <string name="local_sync_last_synced">Последняя синхронизация: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Уже сопряжено</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">Синхронизируется только используемый профиль: <xliff:g id="profile">%1$s</xliff:g> здесь — с профилем, используемым на другом устройстве.</string>
     <string name="local_auto_sync_title">Автосинхронизация</string>
     <string name="local_auto_sync_for_device">Что это устройство само синхронизирует с <xliff:g id="device">%1$s</xliff:g> и как часто.</string>
     <string name="local_auto_sync_enable">Автосинхронизация с этим устройством</string>
@@ -1294,7 +1304,6 @@
     <string name="local_auto_sync_accept">Разрешить</string>
     <string name="local_auto_sync_decline">Не разрешать</string>
     <string name="local_auto_sync_what_to_sync">Что синхронизирует это устройство</string>
-    <string name="local_auto_sync_what_profiles">Какие профили</string>
     <string name="local_auto_sync_when">Как часто</string>
     <string name="local_auto_sync_timing_immediately">При каждом открытии или закрытии одного из приложений</string>
     <string name="local_auto_sync_timing_daily">Ежедневно</string>
@@ -1302,6 +1311,8 @@
     <string name="local_auto_sync_note">Автосинхронизация объединяет в обе стороны, а удалённое остаётся удалённым. Каждое устройство само решает, что пропускать: плейлисты с их данными входа и настройки передаются только туда, где они отмечены.</string>
     <string name="local_auto_sync_last_run">Последняя автосинхронизация: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> синхронизирует: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">Профили: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">Связывает этот профиль, <xliff:g id="profile">%1$s</xliff:g>, с профилем, используемым на <xliff:g id="device">%2$s</xliff:g>.</string>
     <string name="local_auto_sync_turned_off">Автосинхронизация выключена на <xliff:g id="device">%1$s</xliff:g></string>
     <string name="local_auto_sync_unreachable">Не удалось связаться с <xliff:g id="device">%1$s</xliff:g>, повтор позже</string>
     <string name="local_auto_sync_listen">Ждать автосинхронизацию</string>

@@ -900,6 +900,15 @@
     <string name="settings_backup_which_profiles">Van welke profielen een back-up maken</string>
     <string name="settings_backup_selected_profiles">De back-up bevat alleen de geselecteerde profielen en hun gegevens. Voor vergrendelde profielen is de PIN vereist.</string>
     <string name="settings_backup_profile_pin_description">Dit is niet uw huidige profiel. Voer de PIN ervan in om het in de back-up op te nemen — zonder de PIN wordt geen back-up van de gegevens gemaakt.</string>
+    <string name="settings_backup_profile_clash_title">‘<xliff:g id="name">%1$s</xliff:g>’ staat al op dit apparaat</string>
+    <string name="settings_backup_profile_clash_body">De back-up heeft een profiel met dezelfde naam. Wat moet ermee gebeuren?</string>
+    <string name="settings_backup_profile_merge">Samenvoegen</string>
+    <string name="settings_backup_profile_merge_description">Houdt wat het hier heeft en voegt toe wat de back-up meebrengt.</string>
+    <string name="settings_backup_profile_replace">Vervangen</string>
+    <string name="settings_backup_profile_replace_description">Zijn favorieten, kijkgeschiedenis, hervatposities, aanpassingen en eigen volgorde hier worden eerst gewist, voor de delen die worden hersteld.</string>
+    <string name="settings_backup_profile_keep_both">Beide behouden</string>
+    <string name="settings_backup_profile_keep_both_description">Het profiel uit de back-up komt erbij als nieuw profiel: ‘<xliff:g id="name">%1$s</xliff:g>’.</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (hersteld)</string>
     <string name="settings_metadata_optional">optioneel</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">Namen in bulk wijzigen</string>
@@ -1241,6 +1250,7 @@
     <string name="local_sync_last_synced">Laatst gesynchroniseerd: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Al gekoppeld</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">Alleen het profiel in gebruik synchroniseert: <xliff:g id="profile">%1$s</xliff:g> hier, met het profiel in gebruik op het andere apparaat.</string>
     <string name="local_auto_sync_title">Automatisch synchroniseren</string>
     <string name="local_auto_sync_for_device">Wat dit apparaat vanzelf met <xliff:g id="device">%1$s</xliff:g> synchroniseert, en hoe vaak.</string>
     <string name="local_auto_sync_enable">Automatisch synchroniseren met dit apparaat</string>
@@ -1252,7 +1262,6 @@
     <string name="local_auto_sync_accept">Toestaan</string>
     <string name="local_auto_sync_decline">Niet toestaan</string>
     <string name="local_auto_sync_what_to_sync">Wat dit apparaat synchroniseert</string>
-    <string name="local_auto_sync_what_profiles">Welke profielen</string>
     <string name="local_auto_sync_when">Hoe vaak</string>
     <string name="local_auto_sync_timing_immediately">Telkens wanneer een van de apps opent of sluit</string>
     <string name="local_auto_sync_timing_daily">Dagelijks</string>
@@ -1260,6 +1269,8 @@
     <string name="local_auto_sync_note">Automatisch synchroniseren voegt in beide richtingen samen, en wat verwijderd is blijft verwijderd. Elk apparaat bepaalt wat het doorlaat: playlists met hun inloggegevens en Instellingen gaan alleen mee waar ze aangevinkt zijn.</string>
     <string name="local_auto_sync_last_run">Laatste automatische synchronisatie: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> synchroniseert: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">Profielen: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">Koppelt dit profiel, <xliff:g id="profile">%1$s</xliff:g>, aan het profiel dat op <xliff:g id="device">%2$s</xliff:g> in gebruik is.</string>
     <string name="local_auto_sync_turned_off">Automatisch synchroniseren uitgezet op <xliff:g id="device">%1$s</xliff:g></string>
     <string name="local_auto_sync_unreachable"><xliff:g id="device">%1$s</xliff:g> niet bereikbaar, wordt later opnieuw geprobeerd</string>
     <string name="local_auto_sync_listen">Automatisch synchroniseren blijven ontvangen</string>

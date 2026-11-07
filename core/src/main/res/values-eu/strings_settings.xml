@@ -999,6 +999,15 @@
     <string name="settings_backup_which_profiles">Zein profilen babeskopia egin</string>
     <string name="settings_backup_selected_profiles">Babeskopiak hautatutako profilak eta haien datuak soilik izango ditu. Blokeatutako profilek PINa behar dute.</string>
     <string name="settings_backup_profile_pin_description">Hau ez da zure uneko profila. Idatzi bere PINa babeskopian sartzeko — PINik gabe, bere datuen babeskopia ez da egingo.</string>
+    <string name="settings_backup_profile_clash_title">“<xliff:g id="name">%1$s</xliff:g>” badago gailu honetan</string>
+    <string name="settings_backup_profile_clash_body">Babeskopiak izen bereko profil bat du. Zer egin harekin?</string>
+    <string name="settings_backup_profile_merge">Batu harekin</string>
+    <string name="settings_backup_profile_merge_description">Hemen duena gordetzen du eta babeskopiak dakarrena gehitzen du.</string>
+    <string name="settings_backup_profile_replace">Ordeztu</string>
+    <string name="settings_backup_profile_replace_description">Hemengo gogokoak, historia, jarraitzeko puntuak, pertsonalizazioak eta eskuzko ordena lehenik garbitzen dira, leheneratzen diren ataletarako.</string>
+    <string name="settings_backup_profile_keep_both">Biak mantendu</string>
+    <string name="settings_backup_profile_keep_both_description">Babeskopiako profila profil berri gisa sartzen da: “<xliff:g id="name">%1$s</xliff:g>”.</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (leheneratua)</string>
     <string name="settings_metadata_optional">aukerakoa</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">Izen-aldaketa masiboa</string>
@@ -1301,6 +1310,7 @@
     <string name="local_sync_last_synced">Azken sinkronizazioa: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Dagoeneko parekatuta</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">Erabiltzen ari den profila bakarrik sinkronizatzen da: hemen <xliff:g id="profile">%1$s</xliff:g>, beste gailuan erabiltzen den profilarekin.</string>
     <string name="local_auto_sync_title">Sinkronizazio automatikoa</string>
     <string name="local_auto_sync_for_device">Gailu honek <xliff:g id="device">%1$s</xliff:g> gailuarekin berez zer sinkronizatzen duen, eta zenbatero.</string>
     <string name="local_auto_sync_enable">Sinkronizazio automatikoa gailu honekin</string>
@@ -1312,7 +1322,6 @@
     <string name="local_auto_sync_accept">Baimendu</string>
     <string name="local_auto_sync_decline">Ez baimendu</string>
     <string name="local_auto_sync_what_to_sync">Gailu honek zer sinkronizatzen duen</string>
-    <string name="local_auto_sync_what_profiles">Zein profil</string>
     <string name="local_auto_sync_when">Zenbatero</string>
     <string name="local_auto_sync_timing_immediately">Aplikazioetako bat ireki edo ixten den bakoitzean</string>
     <string name="local_auto_sync_timing_daily">Egunero</string>
@@ -1320,6 +1329,8 @@
     <string name="local_auto_sync_note">Sinkronizazio automatikoak bi norabideetan bateratzen du, eta ezabatutakoa ezabatuta geratzen da. Gailu bakoitzak erabakitzen du zer uzten duen pasatzen: erreprodukzio-zerrendak beren saioekin eta Ezarpenak markatuta dauden lekura bakarrik doaz.</string>
     <string name="local_auto_sync_last_run">Azken sinkronizazio automatikoa: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> gailuak sinkronizatzen du: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">Profilak: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">Profil hau, <xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="device">%2$s</xliff:g> gailuan erabiltzen den profilarekin parekatzen du.</string>
     <string name="local_auto_sync_turned_off">Sinkronizazio automatikoa desaktibatuta <xliff:g id="device">%1$s</xliff:g> gailuan</string>
     <string name="local_auto_sync_unreachable">Ezin izan da <xliff:g id="device">%1$s</xliff:g> gailura iritsi, berriro saiatuko da</string>
     <string name="local_auto_sync_listen">Mantendu sinkronizazio automatikoa entzuten</string>

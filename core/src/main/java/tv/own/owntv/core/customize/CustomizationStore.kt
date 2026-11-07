@@ -353,6 +353,14 @@ class CustomizationStore(private val context: Context, private val locks: Catego
         }
     }
 
+    /** Drops every customization of [profileId] (its "cust_<id>_<TYPE>" entries): a restore's Replace. */
+    suspend fun clearProfile(profileId: Long) {
+        val prefix = "cust_${profileId}_"
+        context.customizeStore.edit { prefs ->
+            prefs.asMap().keys.filter { it.name.startsWith(prefix) }.forEach { prefs.remove(it) }
+        }
+    }
+
     /** Merge-restore (backup): overwrites only the provided keys, keeping every other profile's
      *  customizations untouched (restore must never wipe profiles that aren't in the file). */
     suspend fun mergeAll(entries: Map<String, String>) {

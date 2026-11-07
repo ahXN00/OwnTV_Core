@@ -37,9 +37,9 @@ class LocalAutoSyncStoreTest {
 
     @Test
     fun termsRoundTripAndKeepTheirRecord() = runBlocking {
-        store.saveTerms(device.id, setOf(Section.HISTORY), setOf(2L), LocalAutoSyncTiming.HOURS_24, setOf(Section.FAVORITES))
+        store.saveTerms(device.id, setOf(Section.HISTORY), 2L, LocalAutoSyncTiming.HOURS_24, setOf(Section.FAVORITES), "Phone")
         store.recordAttempt(device.id, at = 50, success = true)
-        store.saveTerms(device.id, setOf(Section.RESUME), emptySet(), LocalAutoSyncTiming.IMMEDIATELY)
+        store.saveTerms(device.id, setOf(Section.RESUME), 1L, LocalAutoSyncTiming.IMMEDIATELY)
         val a = store.get(device.id)!!
         assertEquals(setOf(Section.RESUME), a.sections)
         assertEquals(setOf(Section.FAVORITES), a.theirSections)
@@ -48,7 +48,7 @@ class LocalAutoSyncStoreTest {
 
     @Test
     fun aFailureMovesOnlyTheAttempt() = runBlocking {
-        store.saveTerms(device.id, AutoSyncAgreement.DEFAULT_SECTIONS, emptySet(), LocalAutoSyncTiming.HOURS_6)
+        store.saveTerms(device.id, AutoSyncAgreement.DEFAULT_SECTIONS, 1L, LocalAutoSyncTiming.HOURS_6)
         store.recordAttempt(device.id, at = 10, success = true)
         store.recordAttempt(device.id, at = 20, success = false)
         val a = store.get(device.id)!!
@@ -59,13 +59,13 @@ class LocalAutoSyncStoreTest {
 
     @Test
     fun turningOffQueuesANoticeAndTheirTurnOffIsShown() = runBlocking {
-        store.saveTerms(device.id, AutoSyncAgreement.DEFAULT_SECTIONS, emptySet(), LocalAutoSyncTiming.HOURS_6)
+        store.saveTerms(device.id, AutoSyncAgreement.DEFAULT_SECTIONS, 1L, LocalAutoSyncTiming.HOURS_6)
         store.remove(device.id, tellThem = true)
         assertNull(store.get(device.id))
         assertTrue(device.id in store.pendingNotices())
         store.noticeDelivered(device.id)
         assertFalse(device.id in store.pendingNotices())
-        store.saveTerms(device.id, AutoSyncAgreement.DEFAULT_SECTIONS, emptySet(), LocalAutoSyncTiming.HOURS_6)
+        store.saveTerms(device.id, AutoSyncAgreement.DEFAULT_SECTIONS, 1L, LocalAutoSyncTiming.HOURS_6)
         store.turnedOffByThem(device.id, at = 99)
         assertNull(store.get(device.id))
         assertEquals(99L, store.turnedOffByThem.first()[device.id])
@@ -73,7 +73,7 @@ class LocalAutoSyncStoreTest {
 
     @Test
     fun anUnpairedDeviceHasNoAgreement() = runBlocking {
-        store.saveTerms(device.id, AutoSyncAgreement.DEFAULT_SECTIONS, emptySet(), LocalAutoSyncTiming.HOURS_6)
+        store.saveTerms(device.id, AutoSyncAgreement.DEFAULT_SECTIONS, 1L, LocalAutoSyncTiming.HOURS_6)
         paired.remove(device.id)
         assertNull(store.get(device.id))
     }

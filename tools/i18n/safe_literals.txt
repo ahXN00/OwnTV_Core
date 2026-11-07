@@ -50,6 +50,7 @@
 1	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	$mapped:${key.substringAfter(':')}
 1	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	$type|${url.trim()}|${username.orEmpty()}
 1	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	$type|${url.trim()}||${normalizeMacForMatch(mac)}
+2	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	$wanted $n
 1	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	${file.name} · ${sections.joinToString(", ") { it.name }}
 1	file-path	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	${file.name}$BAK_SUFFIX
 1	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	${parts[0]}:$it:${parts[2]}
@@ -72,7 +73,7 @@
 1	log	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	Restore: skipping source '${o.optString("name")}' — unknown type '${o.optString("type")}'
 1	log	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	Wallpaper restore failed: ${it.message}
 4	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	a
-2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	activeProfileId
+3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	activeProfileId
 2	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	al
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	avatarColor
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	avatarFile
@@ -113,7 +114,7 @@
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	hlsSupported
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	homeConfigs
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	httpReferer
-7	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	id
+9	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	id
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	ignoreConnectionLimit
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	importPortalEpg
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	isKids
@@ -139,7 +140,7 @@
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	maxConnectionsProbedAt
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	member
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	n
-7	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	name
+8	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	name
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	o
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	off
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	openSubFileId
@@ -321,7 +322,7 @@
 1	technical	core/src/main/java/tv/own/owntv/core/categorylock/MenuChangeGuard.kt	remove_from_category
 1	technical	core/src/main/java/tv/own/owntv/core/categorylock/MenuChangeGuard.kt	remove_history
 1	technical	core/src/main/java/tv/own/owntv/core/categorylock/MenuChangeGuard.kt	rename
-4	empty	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	\0
+8	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	\0
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	(unnamed)
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	.$extension
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	.json
@@ -579,6 +580,7 @@
 1	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	${m.sourceId}:${m.remoteId ?: m.name}
 1	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	${s.sourceId}:${s.remoteId ?: s.name}
 2	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	cust_
+1	preference-key	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	cust_${profileId}_
 1	preference-key	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	cust_${profileId}_${type.name}
 1	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	owntv_customizations
 1	log	core/src/main/java/tv/own/owntv/core/customize/LockedNotificationTitles.kt	$what: unable to check its category lock, so its title stays hidden
@@ -1135,6 +1137,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	COALESCE(c.sourceId, m.sourceId, s.sourceId) AS sourceId,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	DELETE FROM content_order WHERE
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	DELETE FROM content_order WHERE contextKey != :keep
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	DELETE FROM content_order WHERE profileId = :profileId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	DELETE FROM content_order WHERE profileId = :profileId AND mediaType = :type AND contextKey = :contextKey
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	DELETE FROM content_order WHERE profileId = :profileId AND mediaType = :type AND itemId IN (:itemIds) AND (
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	FROM content_order o
@@ -1156,6 +1159,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	AND (categoryId IS NULL OR categoryId NOT IN (:excluded))))
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	AND (categoryId IS NULL OR categoryId NOT IN (:excluded)))) OR
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	AND COALESCE(c.sourceId, mv.sourceId, s.sourceId) IN (:sourceIds)
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	DELETE FROM custom_category_members WHERE profileId = :profileId
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	DELETE FROM custom_category_members WHERE profileId = :profileId AND mediaType = :type AND itemId IN (:itemIds) AND (
 2	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	FROM channels c INNER JOIN custom_category_members m ON m.itemId = c.id AND m.profileId = :profileId AND m.mediaType = 'LIVE' AND m.contextKey = :contextKey
 2	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	FROM movies mv INNER JOIN custom_category_members m ON m.itemId = mv.id AND m.profileId = :profileId AND m.mediaType = 'MOVIE' AND m.contextKey = :contextKey
@@ -1251,6 +1255,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	COALESCE(c.remoteId, m.remoteId, s.remoteId, e.remoteId) AS remoteId,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	COALESCE(c.sourceId, m.sourceId, s.sourceId, episodeSeries.sourceId) AS sourceId,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	DELETE FROM favorites WHERE
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	DELETE FROM favorites WHERE profileId = :profileId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	DELETE FROM favorites WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	DELETE FROM favorites WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId AND (
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	DELETE FROM favorites WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId AND addedAt <= :at
@@ -4915,6 +4920,7 @@
 1	log	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	succeeded=${outcome.succeededCategoryRemoteIds.size} aborted=${outcome.aborted} stoppedEarly=${outcome.stoppedEarly}
 1	log	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	succeeded=${succeeded.size}/${categories.size} aborted=$aborted stoppedEarly=$stoppedEarly
 1	technical	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	unknown
+1	technical	core/src/main/java/tv/own/owntv/core/sync/local/AutoSyncAgreement.kt	\0
 1	file-path	core/src/main/java/tv/own/owntv/core/sync/local/AutoSyncTransfer.kt	${UUID.randomUUID()}.own
 1	file-path	core/src/main/java/tv/own/owntv/core/sync/local/AutoSyncTransfer.kt	auto-sync
 1	file-path	core/src/main/java/tv/own/owntv/core/sync/local/AutoSyncTransfer.kt	auto-sync/${UUID.randomUUID()}
@@ -4994,8 +5000,9 @@
 2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	lastSuccessAt
 1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	notice:
 1	technical	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	owntv_local_auto_sync
-2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	profiles
+2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	profile
 2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	sections
+2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	theirProfile
 2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	theirSections
 2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	timing
 1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	turned_off:
@@ -5050,6 +5057,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	name
 2	file-path	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	outgoing
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	payload
+4	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	profile
 4	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	sections
 1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	session
 2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	timing

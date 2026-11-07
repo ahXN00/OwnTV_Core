@@ -888,6 +888,15 @@
     <string name="settings_backup_which_profiles">백업할 프로필</string>
     <string name="settings_backup_selected_profiles">백업에는 선택한 프로필과 해당 데이터만 포함됩니다. 잠긴 프로필에는 PIN이 필요합니다.</string>
     <string name="settings_backup_profile_pin_description">현재 프로필이 아닙니다. 백업에 포함하려면 해당 프로필의 PIN을 입력하세요. PIN이 없으면 해당 데이터가 백업되지 않습니다.</string>
+    <string name="settings_backup_profile_clash_title">이 기기에 이미 “<xliff:g id="name">%1$s</xliff:g>”이(가) 있습니다</string>
+    <string name="settings_backup_profile_clash_body">백업에 같은 이름의 프로필이 있습니다. 어떻게 할까요?</string>
+    <string name="settings_backup_profile_merge">병합</string>
+    <string name="settings_backup_profile_merge_description">여기 있는 내용은 유지하고 백업의 내용을 추가합니다.</string>
+    <string name="settings_backup_profile_replace">바꾸기</string>
+    <string name="settings_backup_profile_replace_description">복원하는 항목에 대해 여기 있는 즐겨찾기, 시청 기록, 이어보기 위치, 사용자 설정, 수동 순서를 먼저 지웁니다.</string>
+    <string name="settings_backup_profile_keep_both">둘 다 유지</string>
+    <string name="settings_backup_profile_keep_both_description">백업의 프로필이 새 프로필 “<xliff:g id="name">%1$s</xliff:g>”(으)로 추가됩니다.</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (복원됨)</string>
     <string name="settings_metadata_optional">선택 사항</string>
     <string name="settings_metadata_test_title">오펜하이머</string>
     <string name="settings_bulk_rename_title">일괄 이름 변경</string>
@@ -1220,6 +1229,7 @@
     <string name="local_sync_last_synced">마지막 동기화: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">이미 페어링됨</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">사용 중인 프로필만 동기화됩니다: 여기의 <xliff:g id="profile">%1$s</xliff:g>과 다른 기기에서 사용 중인 프로필.</string>
     <string name="local_auto_sync_title">자동 동기화</string>
     <string name="local_auto_sync_for_device">이 기기가 <xliff:g id="device">%1$s</xliff:g>와 알아서 동기화하는 항목과 빈도입니다.</string>
     <string name="local_auto_sync_enable">이 기기와 자동 동기화</string>
@@ -1231,7 +1241,6 @@
     <string name="local_auto_sync_accept">허용</string>
     <string name="local_auto_sync_decline">허용 안 함</string>
     <string name="local_auto_sync_what_to_sync">이 기기가 동기화하는 항목</string>
-    <string name="local_auto_sync_what_profiles">대상 프로필</string>
     <string name="local_auto_sync_when">빈도</string>
     <string name="local_auto_sync_timing_immediately">어느 앱이든 열거나 닫을 때마다</string>
     <string name="local_auto_sync_timing_daily">매일</string>
@@ -1239,6 +1248,8 @@
     <string name="local_auto_sync_note">자동 동기화는 양방향으로 병합하며, 삭제한 항목은 삭제된 상태로 유지됩니다. 무엇을 통과시킬지는 각 기기가 정합니다. 로그인 정보가 포함된 재생목록과 설정은 체크한 곳으로만 이동합니다.</string>
     <string name="local_auto_sync_last_run">마지막 자동 동기화: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> 동기화 항목: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">프로필: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">이 프로필(<xliff:g id="profile">%1$s</xliff:g>)을 <xliff:g id="device">%2$s</xliff:g>에서 사용 중인 프로필과 연결합니다.</string>
     <string name="local_auto_sync_turned_off"><xliff:g id="device">%1$s</xliff:g>에서 자동 동기화가 꺼졌습니다</string>
     <string name="local_auto_sync_unreachable"><xliff:g id="device">%1$s</xliff:g>에 연결할 수 없습니다. 다시 시도합니다</string>
     <string name="local_auto_sync_listen">자동 동기화 대기 유지</string>

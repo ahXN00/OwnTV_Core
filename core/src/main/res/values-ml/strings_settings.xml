@@ -900,6 +900,15 @@
     <string name="settings_backup_which_profiles">ബാക്കപ്പ് ചെയ്യേണ്ട പ്രൊഫൈലുകൾ</string>
     <string name="settings_backup_selected_profiles">തിരഞ്ഞെടുത്ത പ്രൊഫൈലുകളും അവയുടെ ഡാറ്റയും മാത്രമേ ബാക്കപ്പിൽ ഉണ്ടാകൂ. ലോക്ക് ചെയ്ത പ്രൊഫൈലുകൾക്ക് അവയുടെ PIN ആവശ്യമാണ്.</string>
     <string name="settings_backup_profile_pin_description">ഇത് നിങ്ങളുടെ നിലവിലെ പ്രൊഫൈൽ അല്ല. ബാക്കപ്പിൽ ഉൾപ്പെടുത്താൻ അതിന്റെ PIN നൽകുക — PIN ഇല്ലാതെ അതിന്റെ ഡാറ്റ ബാക്കപ്പ് ചെയ്യില്ല.</string>
+    <string name="settings_backup_profile_clash_title">“<xliff:g id="name">%1$s</xliff:g>” ഈ ഉപകരണത്തിൽ ഇതിനകം ഉണ്ട്</string>
+    <string name="settings_backup_profile_clash_body">ബാക്കപ്പിൽ ഇതേ പേരുള്ള ഒരു പ്രൊഫൈൽ ഉണ്ട്. അതിനെ എന്ത് ചെയ്യണം?</string>
+    <string name="settings_backup_profile_merge">ഇതിലേക്ക് ലയിപ്പിക്കുക</string>
+    <string name="settings_backup_profile_merge_description">ഇവിടെയുള്ളത് നിലനിർത്തി ബാക്കപ്പ് കൊണ്ടുവരുന്നത് ചേർക്കുന്നു.</string>
+    <string name="settings_backup_profile_replace">ഇത് മാറ്റിസ്ഥാപിക്കുക</string>
+    <string name="settings_backup_profile_replace_description">പുനഃസ്ഥാപിക്കുന്ന ഭാഗങ്ങൾക്കായി ഇവിടെയുള്ള പ്രിയപ്പെട്ടവ, കണ്ടവയുടെ ചരിത്രം, തുടരാനുള്ള സ്ഥാനങ്ങൾ, ഇഷ്ടാനുസൃതമാക്കലുകൾ, സ്വന്തം ക്രമം എന്നിവ ആദ്യം മായ്ക്കും.</string>
+    <string name="settings_backup_profile_keep_both">രണ്ടും സൂക്ഷിക്കുക</string>
+    <string name="settings_backup_profile_keep_both_description">ബാക്കപ്പിലെ പ്രൊഫൈൽ ഒരു പുതിയ പ്രൊഫൈലായി വരും: “<xliff:g id="name">%1$s</xliff:g>”.</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (പുനഃസ്ഥാപിച്ചത്)</string>
     <string name="settings_metadata_optional">ഐച്ഛികം</string>
     <string name="settings_metadata_test_title">ഓപ്പൻഹൈമർ</string>
     <string name="settings_bulk_rename_title">കൂട്ടമായി പേര് മാറ്റുക</string>
@@ -1241,6 +1250,7 @@
     <string name="local_sync_last_synced">അവസാന സമന്വയം: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">ഇതിനകം ജോടിയാക്കി</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">ഉപയോഗത്തിലുള്ള പ്രൊഫൈൽ മാത്രമേ സമന്വയിപ്പിക്കൂ: ഇവിടെ <xliff:g id="profile">%1$s</xliff:g>, മറ്റേ ഉപകരണത്തിൽ ഉപയോഗത്തിലുള്ള പ്രൊഫൈലുമായി.</string>
     <string name="local_auto_sync_title">ഓട്ടോ-സമന്വയം</string>
     <string name="local_auto_sync_for_device">ഈ ഉപകരണം <xliff:g id="device">%1$s</xliff:g>-മായി സ്വയം എന്ത് സമന്വയിപ്പിക്കുന്നു, എത്ര ഇടവിട്ട്.</string>
     <string name="local_auto_sync_enable">ഈ ഉപകരണവുമായി ഓട്ടോ-സമന്വയം</string>
@@ -1252,7 +1262,6 @@
     <string name="local_auto_sync_accept">അനുവദിക്കുക</string>
     <string name="local_auto_sync_decline">അനുവദിക്കരുത്</string>
     <string name="local_auto_sync_what_to_sync">ഈ ഉപകരണം എന്ത് സമന്വയിപ്പിക്കുന്നു</string>
-    <string name="local_auto_sync_what_profiles">ഏതൊക്കെ പ്രൊഫൈലുകൾ</string>
     <string name="local_auto_sync_when">എത്ര ഇടവിട്ട്</string>
     <string name="local_auto_sync_timing_immediately">ഏതെങ്കിലും ആപ്പ് തുറക്കുമ്പോഴോ അടയ്ക്കുമ്പോഴോ ഓരോ തവണയും</string>
     <string name="local_auto_sync_timing_daily">ദിവസവും</string>
@@ -1260,6 +1269,8 @@
     <string name="local_auto_sync_note">ഓട്ടോ-സമന്വയം രണ്ട് ദിശയിലും ലയിപ്പിക്കുന്നു, ഇല്ലാതാക്കിയവ ഇല്ലാതായിത്തന്നെ തുടരും. ഓരോ ഉപകരണവും എന്ത് കടത്തിവിടണമെന്ന് തീരുമാനിക്കുന്നു: ലോഗിനുകളുള്ള പ്ലേലിസ്റ്റുകളും ക്രമീകരണങ്ങളും ടിക്ക് ചെയ്തിടത്തേക്ക് മാത്രമേ പോകൂ.</string>
     <string name="local_auto_sync_last_run">അവസാന ഓട്ടോ-സമന്വയം: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> സമന്വയിപ്പിക്കുന്നത്: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">പ്രൊഫൈലുകൾ: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">ഈ പ്രൊഫൈൽ, <xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="device">%2$s</xliff:g>-ൽ ഉപയോഗത്തിലുള്ള പ്രൊഫൈലുമായി ജോടിയാക്കുന്നു.</string>
     <string name="local_auto_sync_turned_off"><xliff:g id="device">%1$s</xliff:g>-ൽ ഓട്ടോ-സമന്വയം ഓഫ് ചെയ്തു</string>
     <string name="local_auto_sync_unreachable"><xliff:g id="device">%1$s</xliff:g>-ൽ എത്താനായില്ല, വീണ്ടും ശ്രമിക്കും</string>
     <string name="local_auto_sync_listen">ഓട്ടോ-സമന്വയത്തിനായി കേട്ടുകൊണ്ടിരിക്കുക</string>

@@ -138,7 +138,7 @@ class AutoSyncAgreementTest {
 
     @Test
     fun `an agreement survives its own encoding and an unknown timing reads as the default`() {
-        val agreement = AutoSyncAgreement("d", setOf(Section.HISTORY), setOf(3L), LocalAutoSyncTiming.DAYS_7, setOf(Section.FAVORITES), 5, 4, 1)
+        val agreement = AutoSyncAgreement("d", setOf(Section.HISTORY), 3L, "Phone", LocalAutoSyncTiming.DAYS_7, setOf(Section.FAVORITES), 5, 4, 1)
         assertEquals(agreement, LocalAutoSyncStore.decode(LocalAutoSyncStore.encode(agreement)))
         val odd = LocalAutoSyncStore.encode(agreement).replace("DAYS_7", "FORTNIGHTLY")
         assertEquals(LocalAutoSyncTiming.DEFAULT, LocalAutoSyncStore.decode(odd)!!.timing)

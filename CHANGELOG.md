@@ -32,7 +32,9 @@
 - **🎤 Voice search** (community PR #42 by @Kevsosmooth)
 - **🔒 Lock a category with its own category lock PIN** (community PR #37 by @Kevsosmooth)
 - **🔐 Settings lock: a PIN of its own per profile, optionally for long-press changes too** (community PR #47 by @Kevsosmooth)
-- **🛡️ Protected profiles: new profiles, backups, restores, Local sync and profile edits respect profile and Settings locks**
+- **🛡️ Protected profiles: new profiles, backups, restores and profile edits respect profile and Settings locks**
+- **🔀 Restore: a profile with the same name asks Merge, Replace or Keep both**
+- **👤 Local sync syncs the profile in use with the one in use on the other device**
 - **🔁 Local auto-sync: paired devices keep each other in step by themselves, with what each one allows** (community PR #56 by @igebara)
 - **👂 Keep auto-sync listening, as a switch (off by default)**
 - **🪟 Picture-in-picture when leaving the app** (community PR #39 by @Kevsosmooth)

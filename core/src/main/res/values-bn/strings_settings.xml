@@ -900,6 +900,15 @@
     <string name="settings_backup_which_profiles">কোন প্রোফাইলগুলো ব্যাকআপ করবেন</string>
     <string name="settings_backup_selected_profiles">ব্যাকআপে শুধু নির্বাচিত প্রোফাইল ও সেগুলোর ডেটা থাকবে। লক করা প্রোফাইলের PIN প্রয়োজন।</string>
     <string name="settings_backup_profile_pin_description">এটি আপনার বর্তমান প্রোফাইল নয়। ব্যাকআপে অন্তর্ভুক্ত করতে এর PIN লিখুন—PIN ছাড়া এর ডেটা ব্যাকআপ করা হবে না।</string>
+    <string name="settings_backup_profile_clash_title">“<xliff:g id="name">%1$s</xliff:g>” এই ডিভাইসে আগেই আছে</string>
+    <string name="settings_backup_profile_clash_body">ব্যাকআপে একই নামের একটি প্রোফাইল আছে। এটি নিয়ে কী করা হবে?</string>
+    <string name="settings_backup_profile_merge">এর সঙ্গে মেলান</string>
+    <string name="settings_backup_profile_merge_description">এখানে যা আছে তা রাখে এবং ব্যাকআপ যা আনে তা যোগ করে।</string>
+    <string name="settings_backup_profile_replace">এটি বদলে দিন</string>
+    <string name="settings_backup_profile_replace_description">যে অংশগুলো পুনরুদ্ধার হচ্ছে, তার জন্য এখানের ফেভারিট, দেখার ইতিহাস, চালিয়ে যাওয়ার অবস্থান, কাস্টমাইজেশন ও নিজের সাজানো ক্রম আগে মুছে ফেলা হয়।</string>
+    <string name="settings_backup_profile_keep_both">দুটোই রাখুন</string>
+    <string name="settings_backup_profile_keep_both_description">ব্যাকআপের প্রোফাইল নতুন প্রোফাইল হিসেবে আসবে: “<xliff:g id="name">%1$s</xliff:g>”।</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (পুনরুদ্ধার করা)</string>
     <string name="settings_metadata_optional">ঐচ্ছিক</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">একসঙ্গে নাম পরিবর্তন</string>
@@ -1241,6 +1250,7 @@
     <string name="local_sync_last_synced">শেষ সিঙ্ক: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">ইতিমধ্যে যুক্ত</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">শুধু ব্যবহৃত প্রোফাইলটি সিঙ্ক হয়: এখানে <xliff:g id="profile">%1$s</xliff:g>, অন্য ডিভাইসে ব্যবহৃত প্রোফাইলের সঙ্গে।</string>
     <string name="local_auto_sync_title">অটো-সিঙ্ক</string>
     <string name="local_auto_sync_for_device">এই ডিভাইস <xliff:g id="device">%1$s</xliff:g>-এর সঙ্গে নিজে থেকে কী সিঙ্ক করে, আর কত ঘন ঘন।</string>
     <string name="local_auto_sync_enable">এই ডিভাইসের সঙ্গে অটো-সিঙ্ক</string>
@@ -1252,7 +1262,6 @@
     <string name="local_auto_sync_accept">অনুমতি দিন</string>
     <string name="local_auto_sync_decline">অনুমতি দেবেন না</string>
     <string name="local_auto_sync_what_to_sync">এই ডিভাইস কী সিঙ্ক করে</string>
-    <string name="local_auto_sync_what_profiles">কোন প্রোফাইল</string>
     <string name="local_auto_sync_when">কত ঘন ঘন</string>
     <string name="local_auto_sync_timing_immediately">যেকোনো অ্যাপ খোলা বা বন্ধ হওয়ার সময়</string>
     <string name="local_auto_sync_timing_daily">প্রতিদিন</string>
@@ -1260,6 +1269,8 @@
     <string name="local_auto_sync_note">অটো-সিঙ্ক দুই দিকেই মেলায়, আর মুছে ফেলা জিনিস মোছাই থাকে। প্রতিটি ডিভাইস ঠিক করে কী ঢুকতে দেবে: লগইনসহ প্লেলিস্ট আর সেটিংস শুধু সেখানেই যায় যেখানে টিক দেওয়া আছে।</string>
     <string name="local_auto_sync_last_run">শেষ অটো-সিঙ্ক: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> সিঙ্ক করে: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">প্রোফাইল: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">এই প্রোফাইল, <xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="device">%2$s</xliff:g>-এ ব্যবহৃত প্রোফাইলের সঙ্গে জোড়া দেয়।</string>
     <string name="local_auto_sync_turned_off"><xliff:g id="device">%1$s</xliff:g>-এ অটো-সিঙ্ক বন্ধ করা হয়েছে</string>
     <string name="local_auto_sync_unreachable"><xliff:g id="device">%1$s</xliff:g>-এ পৌঁছানো যায়নি, আবার চেষ্টা করা হবে</string>
     <string name="local_auto_sync_listen">অটো-সিঙ্কের জন্য শুনতে থাকুন</string>

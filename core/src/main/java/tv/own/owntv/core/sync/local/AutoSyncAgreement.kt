@@ -7,7 +7,9 @@ import tv.own.owntv.core.backup.BackupManager
  *
  * Each side keeps — and enforces — its own [sections]: what this device sends out and what it lets in.
  * [theirSections] is the other side's answer as it last said it, for the row to show; it changes
- * nothing here. [profileIds] narrows what leaves this device (empty = every profile it may share).
+ * nothing here. The agreement pairs one profile here ([localProfileId]) with the one in use on the other
+ * device when it was set up ([theirProfileName], for the row): their data is merged as one viewer's,
+ * whatever the names, and switching profile later does not move the pair.
  *
  * [lastSuccessAt] moves only when a pass completed; a failed or unreachable try moves [lastAttemptAt]
  * and [failures] only, so the next try backs off without pretending anything was synced.
@@ -15,7 +17,8 @@ import tv.own.owntv.core.backup.BackupManager
 data class AutoSyncAgreement(
     val deviceId: String,
     val sections: Set<BackupManager.Section> = DEFAULT_SECTIONS,
-    val profileIds: Set<Long> = emptySet(),
+    val localProfileId: Long = -1L,
+    val theirProfileName: String = "",
     val timing: LocalAutoSyncTiming = LocalAutoSyncTiming.DEFAULT,
     val theirSections: Set<BackupManager.Section> = emptySet(),
     val lastAttemptAt: Long = 0,

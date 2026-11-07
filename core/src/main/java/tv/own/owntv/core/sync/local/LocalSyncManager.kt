@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
@@ -93,8 +94,12 @@ class LocalSyncManager(
     private val discovery: LocalSyncDiscovery,
     private val autoSync: LocalAutoSyncStore,
     private val autoServer: LocalAutoSyncServer,
-    private val protection: tv.own.owntv.core.profile.ProfileProtection,
+    private val settings: tv.own.owntv.core.settings.SettingsRepository,
+    private val profileDao: tv.own.owntv.core.database.dao.ProfileDao,
 ) {
+    /** The profile in use here: a sync is between it and the one in use on the other device. */
+    private suspend fun activeProfile(): Long = settings.activeProfileId.first()
+
     private val appContext = context.applicationContext
 
     /**
@@ -160,7 +165,6 @@ class LocalSyncManager(
     suspend fun startHosting(
         port: Int = CompanionLink.DEFAULT_PORT,
         sections: Set<BackupManager.Section> = BackupManager.Section.entries.toSet(),
-        profileIds: Set<Long>? = null,
     ): Result<Unit> = withContext(Dispatchers.IO) {
         val folder = File(cacheDir(), "outgoing").apply {
             mkdirs()
@@ -170,8 +174,8 @@ class LocalSyncManager(
         // for why it stays a local until the container it opens has actually been written.
         val password = PairedDeviceStore.newSecret()
         selfId = paired.selfId()
-        // A protected profile goes out only when it is the one in use here (see ProfileProtection).
-        val exported = backups.export(folder, sections, password, profileIds ?: protection.includableProfileIds(), recordAsBackup = false)
+        // The profile in use only: the other device merges it into its own profile in use.
+        val exported = backups.export(folder, sections, password, setOf(activeProfile()), recordAsBackup = false, profileSettings = true)
             .getOrElse { return@withContext Result.failure(it) }
         // Read once, here, rather than per request: the server asks for these while answering, and a
         // device unpaired mid-session simply stops working on the next session, which is soon enough.
@@ -247,13 +251,18 @@ class LocalSyncManager(
         val name = paired.current().firstOrNull { it.id == deviceId }?.name ?: UNKNOWN_DEVICE_NAME
         val theirSections = LocalAutoSyncStore.sections(request.optJSONArray("sections")).orEmpty()
         val timing = LocalAutoSyncTiming.parse(request.optString("timing"))
-        val accepted = companion.askAutoSync(deviceId, name, theirSections)
+        val theirProfile = request.optString("profile")
+        val accepted = companion.askAutoSync(deviceId, name, theirSections, theirProfile)
         val answer = JSONObject().put("accepted", accepted)
         if (!accepted) return answer
-        val before = autoSync.get(deviceId)
-        val mine = before?.sections ?: AutoSyncAgreement.DEFAULT_SECTIONS
-        autoSync.saveTerms(deviceId, mine, before?.profileIds.orEmpty(), timing, theirSections)
-        return answer.put("sections", org.json.JSONArray(mine.map { it.name })).put("autoPort", AUTO_SYNC_PORT)
+        // Paired with the profile in use here now, for good: switching profile later does not move it.
+        val mine = autoSync.get(deviceId)?.sections ?: AutoSyncAgreement.DEFAULT_SECTIONS
+        val profile = activeProfile()
+        autoSync.saveTerms(deviceId, mine, profile, timing, theirSections, theirProfile)
+        return answer
+            .put("sections", org.json.JSONArray(mine.map { it.name }))
+            .put("autoPort", AUTO_SYNC_PORT)
+            .put("profile", profileName(profile))
     }
 
     /**
@@ -345,7 +354,7 @@ class LocalSyncManager(
                 .mapCatching { file ->
                     // The user's chosen sections, not all of them: a summary that counts favorites
                     // the user just unticked promises a change that the apply will not make.
-                    val preview = backups.previewImport(file, sections, password).getOrThrow()
+                    val preview = backups.previewImport(file, sections, password, intoProfile = activeProfile()).getOrThrow()
                     paired.touch(device.id, device.address, device.port)
                     _progress.value = SyncProgress.Idle
                     SyncPayload(file, preview, password)
@@ -370,7 +379,7 @@ class LocalSyncManager(
         // and quietly drop the playlist logins this change exists to carry.
         val candidates = (acceptedSecrets.keys + paired.secrets()).toList() + listOf(null)
         for (candidate in candidates) {
-            val preview = backups.previewImport(file, sections, candidate).getOrNull() ?: continue
+            val preview = backups.previewImport(file, sections, candidate, intoProfile = activeProfile()).getOrNull() ?: continue
             return@withContext Result.success(SyncPayload(file, preview, candidate))
         }
         Result.failure(LocalSyncHttpException(HTTP_BAD_PAYLOAD))
@@ -390,12 +399,10 @@ class LocalSyncManager(
         password: String? = null,
         /** The user ticked the other device's hardware settings on the confirm step. */
         deviceSettings: Boolean = false,
-        /** Protected profiles here the user unlocked with a PIN; the other protected ones are left as they are. */
-        unlocked: Set<Long> = emptySet(),
     ): Result<BackupManager.ImportSummary> {
         _progress.value = SyncProgress.Applying
-        val holdBack = runCatching { protection.heldBack(unlocked) }.getOrElse { return Result.failure(it) }
-        return backups.import(file, sections, password, BackupManager.ImportMode.MERGE, deviceSettings, holdBack)
+        // Into the profile in use here, whatever the other device calls its own.
+        return backups.import(file, sections, password, BackupManager.ImportMode.MERGE, deviceSettings, intoProfile = activeProfile())
             .onSuccess { _progress.value = SyncProgress.Done(received = it, sent = false) }
             .onFailure { _progress.value = SyncProgress.Failed(failureFor(it)) }
     }
@@ -410,7 +417,6 @@ class LocalSyncManager(
     suspend fun send(
         device: PairedDevice,
         sections: Set<BackupManager.Section>,
-        profileIds: Set<Long>? = null,
     ): Result<Unit> = withContext(Dispatchers.IO) {
         // Sealed with the secret the pairing already established, which is the one key the far side
         // is certain to have. Nothing is asked of the user, and the playlist logins travel.
@@ -422,7 +428,7 @@ class LocalSyncManager(
             mkdirs()
             listFiles()?.forEach { it.delete() }
         }
-        backups.export(folder, sections, password, profileIds ?: protection.includableProfileIds(), recordAsBackup = false)
+        backups.export(folder, sections, password, setOf(activeProfile()), recordAsBackup = false, profileSettings = true)
             .mapCatching { path ->
                 _progress.value = SyncProgress.Transferring
                 client.send(device.address, device.port, device.secret, File(path)).getOrThrow()
@@ -437,30 +443,36 @@ class LocalSyncManager(
     /**
      * Asks [device] — its Local sync page open with Sync mode on — to agree to sync by itself with this
      * one. The person there answers (it waits up to 50 s). On yes, this side's agreement is written
-     * with [sections], [profileIds] and [timing], and the other side's own sections as it answered.
+     * with [sections] and [timing], paired with the profile in use here now, and the other side's own
+     * sections and profile as it answered.
      * Nothing changes on a no or when it cannot be reached.
      */
     suspend fun enableAutoSync(
         device: PairedDevice,
         sections: Set<BackupManager.Section>,
-        profileIds: Set<Long>,
         timing: LocalAutoSyncTiming,
     ): AutoSyncEnableResult {
-        val request = JSONObject().put("sections", org.json.JSONArray(sections.map { it.name })).put("timing", timing.name)
+        val profile = activeProfile()
+        val request = JSONObject()
+            .put("sections", org.json.JSONArray(sections.map { it.name }))
+            .put("timing", timing.name)
+            .put("profile", profileName(profile))
         val answer = client.requestAutoSync(device.address, device.port, device.secret, request)
             .getOrElse { return AutoSyncEnableResult.Failed(failureFor(it)) }
         if (!answer.optBoolean("accepted", false)) return AutoSyncEnableResult.Declined
         val theirs = LocalAutoSyncStore.sections(answer.optJSONArray("sections")).orEmpty()
-        autoSync.saveTerms(device.id, sections, profileIds, timing, theirs)
+        autoSync.saveTerms(device.id, sections, profile, timing, theirs, answer.optString("profile"))
         paired.updateAddress(device.id, device.address, answer.optInt("autoPort", AUTO_SYNC_PORT))
         return AutoSyncEnableResult.Enabled
     }
 
-    /** Changes this side's terms with [deviceId]: its own sections, profiles and timing. */
-    suspend fun updateAutoSync(deviceId: String, sections: Set<BackupManager.Section>, profileIds: Set<Long>, timing: LocalAutoSyncTiming) {
-        if (autoSync.get(deviceId) == null) return
-        autoSync.saveTerms(deviceId, sections, profileIds, timing)
+    /** Changes this side's terms with [deviceId]: what it syncs and how often. The profile pair stays. */
+    suspend fun updateAutoSync(deviceId: String, sections: Set<BackupManager.Section>, timing: LocalAutoSyncTiming) {
+        val agreement = autoSync.get(deviceId) ?: return
+        autoSync.saveTerms(deviceId, sections, agreement.localProfileId, timing)
     }
+
+    private suspend fun profileName(id: Long): String = profileDao.getById(id)?.name.orEmpty()
 
     /**
      * Turns automatic sync with [deviceId] off here. Its next request is refused, and it is also told

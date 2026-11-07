@@ -924,6 +924,15 @@
     <string name="settings_backup_which_profiles">Wybór profili do kopii zapasowej</string>
     <string name="settings_backup_selected_profiles">Kopia zapasowa będzie zawierać wyłącznie dane wybranych profili. Dostęp do zablokowanych profili wymaga podania kodu PIN.</string>
     <string name="settings_backup_profile_pin_description">To nie jest Twój bieżący profil. Wprowadź jego PIN, aby uwzględnić go w kopii zapasowej — bez kodu PIN jego dane nie zostaną zapisane.</string>
+    <string name="settings_backup_profile_clash_title">„<xliff:g id="name">%1$s</xliff:g>” jest już na tym urządzeniu</string>
+    <string name="settings_backup_profile_clash_body">Kopia zapasowa ma profil o tej samej nazwie. Co z nim zrobić?</string>
+    <string name="settings_backup_profile_merge">Scal z nim</string>
+    <string name="settings_backup_profile_merge_description">Zachowuje to, co ma tutaj, i dodaje to, co wnosi kopia.</string>
+    <string name="settings_backup_profile_replace">Zastąp go</string>
+    <string name="settings_backup_profile_replace_description">Jego ulubione, historia, miejsca wznowienia, dostosowania i ręczna kolejność tutaj są najpierw czyszczone dla przywracanych części.</string>
+    <string name="settings_backup_profile_keep_both">Zachowaj oba</string>
+    <string name="settings_backup_profile_keep_both_description">Profil z kopii zostanie dodany jako nowy profil: „<xliff:g id="name">%1$s</xliff:g>”.</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (przywrócony)</string>
     <string name="settings_metadata_optional">opcjonalnie</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">Zbiorcza zmiana nazw</string>
@@ -1283,6 +1292,7 @@
     <string name="local_sync_last_synced">Ostatnia synchronizacja: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Już sparowane</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">Synchronizuje się tylko używany profil: <xliff:g id="profile">%1$s</xliff:g> tutaj, z profilem używanym na drugim urządzeniu.</string>
     <string name="local_auto_sync_title">Automatyczna synchronizacja</string>
     <string name="local_auto_sync_for_device">Co to urządzenie samo synchronizuje z <xliff:g id="device">%1$s</xliff:g> i jak często.</string>
     <string name="local_auto_sync_enable">Automatyczna synchronizacja z tym urządzeniem</string>
@@ -1294,7 +1304,6 @@
     <string name="local_auto_sync_accept">Zezwól</string>
     <string name="local_auto_sync_decline">Nie zezwalaj</string>
     <string name="local_auto_sync_what_to_sync">Co synchronizuje to urządzenie</string>
-    <string name="local_auto_sync_what_profiles">Które profile</string>
     <string name="local_auto_sync_when">Jak często</string>
     <string name="local_auto_sync_timing_immediately">Przy każdym otwarciu lub zamknięciu jednej z aplikacji</string>
     <string name="local_auto_sync_timing_daily">Codziennie</string>
@@ -1302,6 +1311,8 @@
     <string name="local_auto_sync_note">Automatyczna synchronizacja scala w obie strony, a usunięte pozostaje usunięte. Każde urządzenie decyduje, co przepuszcza: playlisty z danymi logowania i Ustawienia trafiają tylko tam, gdzie są zaznaczone.</string>
     <string name="local_auto_sync_last_run">Ostatnia automatyczna synchronizacja: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> synchronizuje: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">Profile: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">Łączy ten profil, <xliff:g id="profile">%1$s</xliff:g>, z profilem używanym na <xliff:g id="device">%2$s</xliff:g>.</string>
     <string name="local_auto_sync_turned_off">Automatyczna synchronizacja wyłączona na <xliff:g id="device">%1$s</xliff:g></string>
     <string name="local_auto_sync_unreachable">Nie można połączyć się z <xliff:g id="device">%1$s</xliff:g>, ponowna próba później</string>
     <string name="local_auto_sync_listen">Nasłuchuj automatycznej synchronizacji</string>

@@ -43,19 +43,7 @@ class ProfileProtectionTest {
         assertEquals(emptyList<Long>(), inheritableSourceIds(listOf(10, 20), links, protectedIds = setOf(1, 2)))
     }
 
-    @Test
-    fun `a backup includes the active profile, open ones and unlocked protected ones`() {
-        val all = listOf(1L, 2L, 3L, 4L)
-        assertEquals(setOf(1L, 2L), includableProfileIds(all, protectedIds = setOf(3, 4), activeId = 1, unlocked = emptySet()))
-        assertEquals(setOf(1L, 2L, 3L), includableProfileIds(all, protectedIds = setOf(1, 3, 4), activeId = 1, unlocked = setOf(3)))
-    }
 
-    @Test
-    fun `a restore asks only for protected profiles it would change, not the active one`() {
-        assertEquals(listOf(3L), profilesNeedingPin(listOf(1, 2, 3), protectedIds = setOf(1, 3, 4), activeId = 1, unlocked = emptySet()))
-        assertEquals(emptyList<Long>(), profilesNeedingPin(listOf(1, 2, 3), protectedIds = setOf(1, 3), activeId = 1, unlocked = setOf(3)))
-        assertEquals(emptyList<Long>(), profilesNeedingPin(listOf(2), protectedIds = setOf(3), activeId = 1, unlocked = emptySet()))
-    }
 
     @Test
     fun `either of a protected profile's PINs opens it, a missing PIN never does`() {

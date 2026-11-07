@@ -924,6 +924,15 @@
     <string name="settings_backup_which_profiles">Které profily zálohovat</string>
     <string name="settings_backup_selected_profiles">Záloha bude obsahovat pouze vybrané profily a jejich data. Uzamčené profily vyžadují svůj PIN.</string>
     <string name="settings_backup_profile_pin_description">Toto není váš aktuální profil. Chcete-li jej zahrnout do zálohy, zadejte jeho PIN — bez PIN nebudou jeho data zálohována.</string>
+    <string name="settings_backup_profile_clash_title">„<xliff:g id="name">%1$s</xliff:g>“ už na tomto zařízení je</string>
+    <string name="settings_backup_profile_clash_body">Záloha obsahuje profil se stejným názvem. Co se s ním má stát?</string>
+    <string name="settings_backup_profile_merge">Sloučit s ním</string>
+    <string name="settings_backup_profile_merge_description">Ponechá, co tu má, a přidá, co přináší záloha.</string>
+    <string name="settings_backup_profile_replace">Nahradit ho</string>
+    <string name="settings_backup_profile_replace_description">Jeho oblíbené, historie, místa pokračování, úpravy a ruční pořadí zde se nejprve vymažou, pro obnovované části.</string>
+    <string name="settings_backup_profile_keep_both">Ponechat oba</string>
+    <string name="settings_backup_profile_keep_both_description">Profil ze zálohy přibude jako nový profil: „<xliff:g id="name">%1$s</xliff:g>“.</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (obnoveno)</string>
     <string name="settings_metadata_optional">volitelné</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">Hromadné přejmenování</string>
@@ -1283,6 +1292,7 @@
     <string name="local_sync_last_synced">Naposledy synchronizováno: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Již spárováno</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">Synchronizuje se jen používaný profil: zde <xliff:g id="profile">%1$s</xliff:g>, s profilem používaným na druhém zařízení.</string>
     <string name="local_auto_sync_title">Automatická synchronizace</string>
     <string name="local_auto_sync_for_device">Co toto zařízení samo synchronizuje se zařízením <xliff:g id="device">%1$s</xliff:g> a jak často.</string>
     <string name="local_auto_sync_enable">Automatická synchronizace s tímto zařízením</string>
@@ -1294,7 +1304,6 @@
     <string name="local_auto_sync_accept">Povolit</string>
     <string name="local_auto_sync_decline">Nepovolit</string>
     <string name="local_auto_sync_what_to_sync">Co toto zařízení synchronizuje</string>
-    <string name="local_auto_sync_what_profiles">Které profily</string>
     <string name="local_auto_sync_when">Jak často</string>
     <string name="local_auto_sync_timing_immediately">Pokaždé, když se některá z aplikací otevře nebo zavře</string>
     <string name="local_auto_sync_timing_daily">Denně</string>
@@ -1302,6 +1311,8 @@
     <string name="local_auto_sync_note">Automatická synchronizace slučuje oběma směry a co bylo smazáno, zůstane smazané. Každé zařízení rozhoduje, co propustí: playlisty s přihlašovacími údaji a Nastavení putují jen tam, kde jsou zaškrtnuté.</string>
     <string name="local_auto_sync_last_run">Poslední automatická synchronizace: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> synchronizuje: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">Profily: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">Spáruje tento profil, <xliff:g id="profile">%1$s</xliff:g>, s profilem používaným na zařízení <xliff:g id="device">%2$s</xliff:g>.</string>
     <string name="local_auto_sync_turned_off">Automatická synchronizace vypnuta na zařízení <xliff:g id="device">%1$s</xliff:g></string>
     <string name="local_auto_sync_unreachable">Zařízení <xliff:g id="device">%1$s</xliff:g> nedostupné, zkusí se to znovu</string>
     <string name="local_auto_sync_listen">Naslouchat automatické synchronizaci</string>

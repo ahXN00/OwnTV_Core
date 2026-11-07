@@ -939,6 +939,15 @@
     <string name="settings_backup_which_profiles">Mely profilokat mentse</string>
     <string name="settings_backup_selected_profiles">A mentés csak a kijelölt profilokat és azok adatait fogja tartalmazni. A zárolt profilokhoz szükséges a PIN-kódjuk.</string>
     <string name="settings_backup_profile_pin_description">Ez nem a jelenlegi profilod. Add meg a PIN-kódját, hogy bekerüljön a mentésbe — PIN nélkül az adatai nem lesznek elmentve.</string>
+    <string name="settings_backup_profile_clash_title">„<xliff:g id="name">%1$s</xliff:g>” már szerepel ezen az eszközön</string>
+    <string name="settings_backup_profile_clash_body">A mentésben van egy ugyanilyen nevű profil. Mi történjen vele?</string>
+    <string name="settings_backup_profile_merge">Összefésülés vele</string>
+    <string name="settings_backup_profile_merge_description">Megtartja, ami itt van, és hozzáadja, amit a mentés hoz.</string>
+    <string name="settings_backup_profile_replace">Csere</string>
+    <string name="settings_backup_profile_replace_description">Itteni kedvencei, előzményei, folytatási pontjai, testreszabásai és kézi sorrendje előbb törlődnek a visszaállított részekre.</string>
+    <string name="settings_backup_profile_keep_both">Mindkettő megtartása</string>
+    <string name="settings_backup_profile_keep_both_description">A mentés profilja új profilként érkezik: „<xliff:g id="name">%1$s</xliff:g>”.</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (visszaállított)</string>
     <string name="settings_metadata_optional">nem kötelező</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">Tömeges átnevezés</string>
@@ -1241,6 +1250,7 @@
     <string name="local_sync_last_synced">Utolsó szinkronizálás: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Már párosítva</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">Csak a használt profil szinkronizálódik: itt <xliff:g id="profile">%1$s</xliff:g>, a másik eszközön használt profillal.</string>
     <string name="local_auto_sync_title">Automatikus szinkronizálás</string>
     <string name="local_auto_sync_for_device">Mit szinkronizál ez az eszköz magától ezzel: <xliff:g id="device">%1$s</xliff:g>, és milyen gyakran.</string>
     <string name="local_auto_sync_enable">Automatikus szinkronizálás ezzel az eszközzel</string>
@@ -1252,7 +1262,6 @@
     <string name="local_auto_sync_accept">Engedélyezés</string>
     <string name="local_auto_sync_decline">Elutasítás</string>
     <string name="local_auto_sync_what_to_sync">Mit szinkronizál ez az eszköz</string>
-    <string name="local_auto_sync_what_profiles">Mely profilok</string>
     <string name="local_auto_sync_when">Milyen gyakran</string>
     <string name="local_auto_sync_timing_immediately">Minden alkalommal, amikor valamelyik alkalmazás megnyílik vagy bezárul</string>
     <string name="local_auto_sync_timing_daily">Naponta</string>
@@ -1260,6 +1269,8 @@
     <string name="local_auto_sync_note">Az automatikus szinkronizálás mindkét irányban összefésül, és ami törölve lett, törölve marad. Minden eszköz maga dönti el, mit enged át: a lejátszási listák a belépési adataikkal és a Beállítások csak oda kerülnek, ahol be vannak jelölve.</string>
     <string name="local_auto_sync_last_run">Utolsó automatikus szinkronizálás: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> ezt szinkronizálja: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">Profilok: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">Összekapcsolja ezt a profilt (<xliff:g id="profile">%1$s</xliff:g>) a(z) <xliff:g id="device">%2$s</xliff:g> eszközön használt profillal.</string>
     <string name="local_auto_sync_turned_off">Az automatikus szinkronizálás kikapcsolva itt: <xliff:g id="device">%1$s</xliff:g></string>
     <string name="local_auto_sync_unreachable"><xliff:g id="device">%1$s</xliff:g> nem érhető el, később újra próbálja</string>
     <string name="local_auto_sync_listen">Automatikus szinkronizálás figyelése</string>

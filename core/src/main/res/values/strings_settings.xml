@@ -1816,6 +1816,24 @@
     <string name="settings_backup_selected_profiles">The backup will contain only the selected profiles and their data. Locked profiles need their PIN.</string>
     <!-- Translators: Description explaining why a PIN is needed for locked profiles in backups. -->
     <string name="settings_backup_profile_pin_description">This isn\'t your current profile. Enter its PIN to include it in the backup — without the PIN, its data won\'t be backed up.</string>
+    <!-- Translators: Restore, a profile in the backup has the name of one already on this device. %1$s is the name. -->
+    <string name="settings_backup_profile_clash_title">“<xliff:g id="name">%1$s</xliff:g>” is already on this device</string>
+    <!-- Translators: Under that title. -->
+    <string name="settings_backup_profile_clash_body">The backup has a profile with the same name. What should happen to it?</string>
+    <!-- Translators: Choice: merge the backup's profile into the one already here. -->
+    <string name="settings_backup_profile_merge">Merge into it</string>
+    <!-- Translators: What merging does. -->
+    <string name="settings_backup_profile_merge_description">Keeps what it has here and adds what the backup brings.</string>
+    <!-- Translators: Choice: clear the profile here, then restore the backup's. -->
+    <string name="settings_backup_profile_replace">Replace it</string>
+    <!-- Translators: What replacing does. -->
+    <string name="settings_backup_profile_replace_description">Its favorites, watch history, resume positions, customizations and manual order here are cleared first, for the parts being restored.</string>
+    <!-- Translators: Choice: keep the profile here and add the backup's as a new profile. -->
+    <string name="settings_backup_profile_keep_both">Keep both</string>
+    <!-- Translators: What keeping both does. %1$s is the new profile's name. -->
+    <string name="settings_backup_profile_keep_both_description">The backup\'s profile comes in as a new profile, “<xliff:g id="name">%1$s</xliff:g>”.</string>
+    <!-- Translators: Name of a restored profile kept beside one with the same name. %1$s is the original name. -->
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (restored)</string>
 
     <!-- Translators: Label for an optional field. Lowercase is intentional. -->
     <string name="settings_metadata_optional">optional</string>
@@ -2343,6 +2361,8 @@
     <string name="local_sync_already_paired">Already paired</string>
     <!-- Translators: A device name followed by a short code, used only when two paired devices are the same model and share a name. %1$s is the device name, %2$s a four-character code. -->
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <!-- Translators: Local sync, before a sync starts: only the profile in use is synced. %1$s is its name. -->
+    <string name="local_sync_profile_note">Only the profile in use syncs: <xliff:g id="profile">%1$s</xliff:g> here, with the profile in use on the other device.</string>
     <!-- Auto-sync: two paired devices syncing by themselves while OwnTV is open on both. -->
     <!-- Translators: Name of the feature, and of the button on a paired device's row in Local sync that opens its settings. -->
     <string name="local_auto_sync_title">Auto-sync</string>
@@ -2366,8 +2386,6 @@
     <string name="local_auto_sync_decline">Don\'t allow</string>
     <!-- Translators: Heading over the sections this device lets travel. -->
     <string name="local_auto_sync_what_to_sync">What this device syncs</string>
-    <!-- Translators: Heading over the profiles whose data leaves this device. -->
-    <string name="local_auto_sync_what_profiles">Which profiles</string>
     <!-- Translators: Heading over the timing choices: the least time between two automatic syncs. -->
     <string name="local_auto_sync_when">How often</string>
     <!-- Translators: Timing choice: every time either device opens or leaves OwnTV. -->
@@ -2382,6 +2400,10 @@
     <string name="local_auto_sync_last_run">Last auto-sync: <xliff:g id="when">%1$s</xliff:g></string>
     <!-- Translators: What the other device lets travel. %1$s is its name, %2$s a list of sections. -->
     <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> syncs: <xliff:g id="sections">%2$s</xliff:g></string>
+    <!-- Translators: The two profiles an auto-sync keeps as one: this device's, then the other device's. -->
+    <string name="local_auto_sync_profiles">Profiles: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <!-- Translators: In an auto-sync's settings before it is on. %1$s is the profile in use here, %2$s the other device. -->
+    <string name="local_auto_sync_profile_hint">Pairs this profile, <xliff:g id="profile">%1$s</xliff:g>, with the profile in use on <xliff:g id="device">%2$s</xliff:g>.</string>
     <!-- Translators: Line under a paired device's row: the other device turned auto-sync off. -->
     <string name="local_auto_sync_turned_off">Auto-sync turned off on <xliff:g id="device">%1$s</xliff:g></string>
     <!-- Translators: Line under a paired device's row: the last automatic sync could not reach it. -->

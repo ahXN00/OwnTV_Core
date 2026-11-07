@@ -900,6 +900,15 @@
     <string name="settings_backup_which_profiles">Vilka profiler som ska säkerhetskopieras</string>
     <string name="settings_backup_selected_profiles">Säkerhetskopian kommer endast att innehålla de valda profilerna och deras data. Låsta profiler kräver sin PIN.</string>
     <string name="settings_backup_profile_pin_description">Det här är inte din aktuella profil. Ange profilens PIN för att ta med den i säkerhetskopian – utan PIN säkerhetskopieras inte dess data.</string>
+    <string name="settings_backup_profile_clash_title">”<xliff:g id="name">%1$s</xliff:g>” finns redan på den här enheten</string>
+    <string name="settings_backup_profile_clash_body">Säkerhetskopian har en profil med samma namn. Vad ska hända med den?</string>
+    <string name="settings_backup_profile_merge">Slå ihop med den</string>
+    <string name="settings_backup_profile_merge_description">Behåller det den har här och lägger till det säkerhetskopian har med sig.</string>
+    <string name="settings_backup_profile_replace">Ersätt den</string>
+    <string name="settings_backup_profile_replace_description">Dess favoriter, visningshistorik, återupptagningspunkter, anpassningar och manuella ordning här rensas först, för de delar som återställs.</string>
+    <string name="settings_backup_profile_keep_both">Behåll båda</string>
+    <string name="settings_backup_profile_keep_both_description">Profilen från säkerhetskopian kommer in som en ny profil: ”<xliff:g id="name">%1$s</xliff:g>”.</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (återställd)</string>
     <string name="settings_metadata_optional">valfritt</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">Massändring av namn</string>
@@ -1241,6 +1250,7 @@
     <string name="local_sync_last_synced">Senast synkroniserad: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Redan parkopplad</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">Bara profilen som används synkroniseras: <xliff:g id="profile">%1$s</xliff:g> här, med profilen som används på den andra enheten.</string>
     <string name="local_auto_sync_title">Automatisk synkronisering</string>
     <string name="local_auto_sync_for_device">Vad den här enheten synkroniserar själv med <xliff:g id="device">%1$s</xliff:g>, och hur ofta.</string>
     <string name="local_auto_sync_enable">Automatisk synkronisering med den här enheten</string>
@@ -1252,7 +1262,6 @@
     <string name="local_auto_sync_accept">Tillåt</string>
     <string name="local_auto_sync_decline">Tillåt inte</string>
     <string name="local_auto_sync_what_to_sync">Vad den här enheten synkroniserar</string>
-    <string name="local_auto_sync_what_profiles">Vilka profiler</string>
     <string name="local_auto_sync_when">Hur ofta</string>
     <string name="local_auto_sync_timing_immediately">Varje gång någon av apparna öppnas eller stängs</string>
     <string name="local_auto_sync_timing_daily">Dagligen</string>
@@ -1260,6 +1269,8 @@
     <string name="local_auto_sync_note">Automatisk synkronisering sammanfogar åt båda hållen, och det som raderats förblir raderat. Varje enhet bestämmer vad den släpper igenom: spellistor med inloggning och Inställningar följer bara med dit de är markerade.</string>
     <string name="local_auto_sync_last_run">Senaste automatiska synkronisering: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> synkroniserar: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">Profiler: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">Parar ihop den här profilen, <xliff:g id="profile">%1$s</xliff:g>, med profilen som används på <xliff:g id="device">%2$s</xliff:g>.</string>
     <string name="local_auto_sync_turned_off">Automatisk synkronisering avstängd på <xliff:g id="device">%1$s</xliff:g></string>
     <string name="local_auto_sync_unreachable">Kunde inte nå <xliff:g id="device">%1$s</xliff:g>, försöker igen</string>
     <string name="local_auto_sync_listen">Lyssna efter automatisk synkronisering</string>
