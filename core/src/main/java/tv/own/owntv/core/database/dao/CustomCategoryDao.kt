@@ -32,6 +32,10 @@ interface CustomCategoryDao {
     @Query("DELETE FROM custom_category_members WHERE profileId = :profileId AND mediaType = :type AND contextKey = :contextKey")
     suspend fun clearContext(profileId: Long, type: MediaType, contextKey: String)
 
+    /** Every custom-category membership of one profile: a restore's Replace, before the backup's are put back. */
+    @Query("DELETE FROM custom_category_members WHERE profileId = :profileId")
+    suspend fun clearProfileMembers(profileId: Long)
+
     /** Context keys that actually have membership rows for this profile/section. */
     @Query("SELECT DISTINCT contextKey FROM custom_category_members WHERE profileId = :profileId AND mediaType = :type")
     fun observeContextKeys(profileId: Long, type: MediaType): Flow<List<String>>

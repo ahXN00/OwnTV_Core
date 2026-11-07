@@ -9,7 +9,8 @@ import kotlinx.coroutines.flow.updateAndGet
 import tv.own.owntv.core.model.MediaType
 
 /**
- * The locked categories the PIN has opened in this session, per profile and section.
+ * The locked categories the PIN has opened in this session, per profile and section, and whether the
+ * Settings PIN has opened the long-press changes.
  *
  * Memory only, never persisted: the app relocks everything when it leaves the screen and when the
  * active profile changes. Only one profile's unlocks are ever held — unlocking for one profile drops
@@ -18,8 +19,15 @@ import tv.own.owntv.core.model.MediaType
 class CategoryUnlockSession {
     private data class Scope(val profileId: Long, val type: MediaType)
 
-    /** [epoch] counts the [relockAll]s, so a PIN checked before one cannot open anything after it. */
-    private data class State(val opened: Map<Scope, Set<String>> = emptyMap(), val epoch: Long = 0)
+    /**
+     * [epoch] counts the [relockAll]s, so a PIN checked before one cannot open anything after it.
+     * [changesOpenFor] is the profile whose Settings PIN opened the long-press changes, if any.
+     */
+    private data class State(
+        val opened: Map<Scope, Set<String>> = emptyMap(),
+        val epoch: Long = 0,
+        val changesOpenFor: Long? = null,
+    )
 
     private val state = MutableStateFlow(State())
 
@@ -53,6 +61,17 @@ class CategoryUnlockSession {
             val keys = current.opened[scope] ?: return@update current
             current.copy(opened = current.opened + (scope to (keys - key)))
         }
+    }
+
+    /** Whether the Settings PIN has opened [profileId]'s long-press changes for this session. */
+    fun changesUnlocked(profileId: Long): Boolean = state.value.changesOpenFor == profileId
+
+    /** Opens the long-press changes for the rest of the session, unless it relocked since [since]. */
+    fun unlockChanges(profileId: Long, since: Long = epoch()): Boolean {
+        val next = state.updateAndGet { current ->
+            if (current.epoch != since) current else current.copy(changesOpenFor = profileId)
+        }
+        return next.epoch == since
     }
 
     fun relockAll() {

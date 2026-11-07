@@ -642,11 +642,21 @@
     <string name="settings_customize_pin_locked">هذه الشاشة مقفلة باستخدام PIN.</string>
     <string name="settings_customize_wrong_pin">رمز PIN غير صحيح — حاول مرة أخرى</string>
     <string name="settings_customize_enter_pin">إدخال PIN</string>
-    <string name="settings_customize_set_pin">🔒 تعيين PIN</string>
-    <string name="settings_customize_change_pin">🔒 تغيير PIN</string>
+    <string name="settings_customize_set_pin">🔒 تعيين رمز PIN لقفل الفئات</string>
+    <string name="settings_customize_change_pin">🔒 تغيير رمز PIN لقفل الفئات</string>
+    <string name="settings_customize_remove_pin">إزالة رمز PIN لقفل الفئات</string>
     <string name="settings_customize_remove_lock">إزالة القفل</string>
-    <string name="settings_customize_settings_pin">طلب رمز PIN لفتح الإعدادات</string>
-    <string name="settings_customize_settings_pin_button">طلب رمز PIN لفتح الإعدادات: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">قفل الإعدادات</string>
+    <string name="settings_lock_description">تطلب الإعدادات والنسخ الاحتياطي والاستعادة والمزامنة المحلية رمز PIN خاصًا بها. يعيّن كل ملف شخصي رمزه الخاص.</string>
+    <string name="settings_line_settings_lock">رمز PIN خاص للإعدادات</string>
+    <string name="settings_help_settings_lock">رمز PIN لهذا الملف الشخصي تطلبه الإعدادات والنسخ الاحتياطي والاستعادة والمزامنة المحلية قبل فتحها. ليس رمز PIN للملف الشخصي ولا رمز PIN لقفل الفئات: لكل قفل رمزه الخاص، ولا يفتح أي منها قفلًا آخر. يطلب تغيير PIN وإيقاف التشغيل رمز PIN الحالي للإعدادات.</string>
+    <string name="settings_lock_menus">قفل تغييرات قائمة الضغط المطوّل أيضًا</string>
+    <string name="settings_lock_menus_description">تطلب أيضًا إخفاء ونقل وإعادة تسمية وقفل فئة والإزالة من سجل المشاهدة رمز PIN للإعدادات. أما المفضلة والتشغيل فلا تطلبه أبدًا.</string>
+    <string name="settings_line_settings_lock_menus">تطلب تغييرات الضغط المطوّل رمز PIN للإعدادات</string>
+    <string name="settings_help_settings_lock_menus">عند تشغيل هذا الخيار، تطلب تغييرات الضغط المطوّل (إخفاء، نقل، إعادة تسمية، قفل الفئة، والإزالة من سجل المشاهدة) رمز PIN للإعدادات أولًا. يفتحها رمز صحيح واحد حتى تغادر التطبيق أو تبدّل الملف الشخصي. لا تطلبه أبدًا الإضافة إلى المفضلة ولا التشغيل.</string>
+    <string name="settings_lock_change_pin">تغيير PIN</string>
+    <string name="settings_lock_turn_off">إيقاف التشغيل</string>
+    <string name="settings_search_keywords_settings_lock">قفل pin كلمة المرور الرقابة الأبوية الإعدادات</string>
     <string name="settings_customize_description">أخفِ القنوات والأفلام والمسلسلات أو أظهرها، وأعد تسمية الفئات أو ترتيبها لهذا الملف الشخصي. تبقى هذه التخصيصات بعد عمليات إعادة المزامنة.</string>
     <string name="settings_customize_new_category_behavior">سلوك الفئات الجديدة</string>
     <string name="settings_customize_hide">إخفاء</string>
@@ -694,8 +704,7 @@
     <string name="settings_customize_restore_defaults_title">استعادة <xliff:g id="section">%1$s</xliff:g> في <xliff:g id="playlist">%2$s</xliff:g>؟</string>
     <string name="settings_customize_restore_defaults_description">تظهر الفئات والعناصر المخفية من جديد، ويُمسح تغيير الأسماء والترتيب المخصّص، وتعود العناصر المنقولة. تبقى الفئات المجمّعة والمفضّلة ومطابقات دليل البرامج كما هي.</string>
     <string name="settings_customize_rename_hint">لهذا الملف الشخصي فقط. اتركه فارغًا لاستعادة «<xliff:g id="name">%1$s</xliff:g>».</string>
-    <string name="settings_customize_remove_pin_title">هل تريد إزالة قفل PIN؟</string>
-    <string name="settings_customize_remove_pin_message">ستُفتح شاشة التخصيص دون طلب رمز PIN مرة أخرى.</string>
+    <string name="settings_customize_remove_pin_title">هل تريد إزالة رمز PIN لقفل الفئات؟</string>
     <string name="settings_customize_remove_pin_locks">سيُلغى أيضًا قفل كل فئة مقفلة بهذا الرمز.</string>
     <string name="settings_customize_remove">إزالة</string>
     <string name="settings_customize_confirm_pin">تأكيد PIN الجديد</string>
@@ -883,7 +892,6 @@
     <string name="settings_backup_kids_profile">ملف الأطفال الشخصي</string>
     <string name="settings_backup_profile_current">«<xliff:g id="name">%1$s</xliff:g>» (الحالي)</string>
     <string name="settings_backup_profile_locked">«<xliff:g id="name">%1$s</xliff:g>» مقفل</string>
-    <string name="settings_backup_profile_pin">PIN الملف الشخصي</string>
     <string name="settings_backup_pin_incorrect">رمز PIN غير صحيح.</string>
     <string name="settings_backup_pin_locked">مقفل باستخدام PIN</string>
     <string name="settings_backup_unlock">فتح القفل</string>
@@ -939,6 +947,15 @@
     <string name="settings_backup_which_profiles">الملفات الشخصية المراد نسخها احتياطيًا</string>
     <string name="settings_backup_selected_profiles">ستحتوي النسخة الاحتياطية فقط على الملفات الشخصية المحددة وبياناتها. تحتاج الملفات الشخصية المقفلة إلى رمز PIN الخاص بها.</string>
     <string name="settings_backup_profile_pin_description">هذا ليس ملفك الشخصي الحالي. أدخل رمز PIN الخاص به لتضمينه في النسخة الاحتياطية — ودون رمز PIN، لن تُنسخ بياناته احتياطيًا.</string>
+    <string name="settings_backup_profile_clash_title">«<xliff:g id="name">%1$s</xliff:g>» موجود بالفعل على هذا الجهاز</string>
+    <string name="settings_backup_profile_clash_body">تحتوي النسخة الاحتياطية على ملف شخصي بالاسم نفسه. ماذا تريد أن تفعل به؟</string>
+    <string name="settings_backup_profile_merge">الدمج معه</string>
+    <string name="settings_backup_profile_merge_description">يحتفظ بما لديه هنا ويضيف ما تجلبه النسخة الاحتياطية.</string>
+    <string name="settings_backup_profile_replace">استبداله</string>
+    <string name="settings_backup_profile_replace_description">تُمسح أولًا مفضلته وسجل مشاهدته ونقاط الاستئناف والتخصيصات والترتيب اليدوي هنا، للأجزاء التي تُستعاد.</string>
+    <string name="settings_backup_profile_keep_both">الاحتفاظ بالاثنين</string>
+    <string name="settings_backup_profile_keep_both_description">يدخل الملف الشخصي من النسخة الاحتياطية كملف شخصي جديد: «<xliff:g id="name">%1$s</xliff:g>».</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (مستعاد)</string>
     <string name="settings_metadata_optional">اختياري</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">إعادة التسمية المجمّعة</string>
@@ -1316,6 +1333,32 @@
     <string name="local_sync_last_synced">آخر مزامنة: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">مقترن بالفعل</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">لا يُزامَن إلا الملف الشخصي المستخدم: <xliff:g id="profile">%1$s</xliff:g> هنا، مع الملف الشخصي المستخدم على الجهاز الآخر.</string>
+    <string name="local_auto_sync_title">المزامنة التلقائية</string>
+    <string name="local_auto_sync_for_device">ما يزامنه هذا الجهاز تلقائيًا مع <xliff:g id="device">%1$s</xliff:g>، وكم مرة.</string>
+    <string name="local_auto_sync_enable">المزامنة التلقائية مع هذا الجهاز</string>
+    <string name="local_auto_sync_enable_hint">افتح المزامنة المحلية على الجهاز الآخر أيضًا: سيُطلب منه السماح بذلك.</string>
+    <string name="local_auto_sync_waiting">في انتظار سماح <xliff:g id="device">%1$s</xliff:g>…</string>
+    <string name="local_auto_sync_declined">لم يسمح <xliff:g id="device">%1$s</xliff:g> بالمزامنة التلقائية.</string>
+    <string name="local_auto_sync_accept_title">السماح بالمزامنة التلقائية؟</string>
+    <string name="local_auto_sync_accept_body">يريد <xliff:g id="device">%1$s</xliff:g> المزامنة تلقائيًا مع هذا الجهاز كلما كان OwnTV مفتوحًا على كليهما. لا يدخل إلا ما تسمح به على هذا الجهاز، ويمكن لأي منهما إيقافها.</string>
+    <string name="local_auto_sync_accept">السماح</string>
+    <string name="local_auto_sync_decline">عدم السماح</string>
+    <string name="local_auto_sync_what_to_sync">ما يزامنه هذا الجهاز</string>
+    <string name="local_auto_sync_when">كم مرة</string>
+    <string name="local_auto_sync_timing_immediately">في كل مرة يُفتح فيها أحد التطبيقين أو يُغلق</string>
+    <string name="local_auto_sync_timing_daily">يوميًا</string>
+    <string name="local_auto_sync_timing_weekly">أسبوعيًا</string>
+    <string name="local_auto_sync_note">تدمج المزامنة التلقائية في الاتجاهين، ويبقى المحذوف محذوفًا. يقرر كل جهاز ما يسمح بمروره: لا تنتقل قوائم التشغيل مع بيانات دخولها والإعدادات إلا حيث تكون محددة.</string>
+    <string name="local_auto_sync_last_run">آخر مزامنة تلقائية: <xliff:g id="when">%1$s</xliff:g></string>
+    <string name="local_auto_sync_their_sections">يزامن <xliff:g id="device">%1$s</xliff:g>: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">الملفات الشخصية: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">يربط هذا الملف الشخصي، <xliff:g id="profile">%1$s</xliff:g>، بالملف الشخصي المستخدم على <xliff:g id="device">%2$s</xliff:g>.</string>
+    <string name="local_auto_sync_turned_off">أُوقفت المزامنة التلقائية على <xliff:g id="device">%1$s</xliff:g></string>
+    <string name="local_auto_sync_unreachable">تعذّر الوصول إلى <xliff:g id="device">%1$s</xliff:g>، ستُعاد المحاولة</string>
+    <string name="local_auto_sync_listen">إبقاء المزامنة التلقائية في وضع الاستماع</string>
+    <string name="local_auto_sync_listen_description">تشغيل: يمكن للأجهزة المقترنة المزامنة مع هذا الجهاز كلما كان OwnTV مفتوحًا هنا. إيقاف: فقط أثناء تشغيل وضع المزامنة.</string>
+    <string name="local_auto_sync_listening">في وضع الاستماع</string>
     <string name="more_pane_last_backup">آخر نسخة احتياطية</string>
     <string name="more_pane_encrypted">مشفّرة</string>
     <string name="more_group_your_things">أشياؤك</string>

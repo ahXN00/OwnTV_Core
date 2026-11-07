@@ -633,11 +633,21 @@
     <string name="settings_customize_pin_locked">Esta pantalla está bloqueada con PIN.</string>
     <string name="settings_customize_wrong_pin">PIN incorrecto — vuelve a intentarlo</string>
     <string name="settings_customize_enter_pin">Ingresar PIN</string>
-    <string name="settings_customize_set_pin">🔒 Establecer PIN</string>
-    <string name="settings_customize_change_pin">🔒 Cambiar PIN</string>
+    <string name="settings_customize_set_pin">🔒 Configurar PIN de bloqueo de categorías</string>
+    <string name="settings_customize_change_pin">🔒 Cambiar PIN de bloqueo de categorías</string>
+    <string name="settings_customize_remove_pin">Quitar PIN de bloqueo de categorías</string>
     <string name="settings_customize_remove_lock">Quitar bloqueo</string>
-    <string name="settings_customize_settings_pin">Pedir PIN para abrir la Configuración</string>
-    <string name="settings_customize_settings_pin_button">Pedir PIN para abrir la Configuración: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">Bloqueo de configuración</string>
+    <string name="settings_lock_description">Configuración, Copia de seguridad y restauración y Sincronización local piden un PIN propio. Cada perfil configura el suyo.</string>
+    <string name="settings_line_settings_lock">Un PIN propio para Configuración</string>
+    <string name="settings_help_settings_lock">Un PIN para este perfil que Configuración, Copia de seguridad y restauración y Sincronización local piden antes de abrirse. No es el PIN del perfil ni el PIN de bloqueo de categorías: cada bloqueo tiene su propio PIN y ninguno abre otro. Cambiar PIN y Desactivar piden el PIN actual de configuración.</string>
+    <string name="settings_lock_menus">Bloquear también los cambios del menú de presión prolongada</string>
+    <string name="settings_lock_menus_description">Ocultar, Mover, Cambiar nombre, bloquear una categoría y Eliminar del historial también piden el PIN de configuración. Favoritos y Reproducir nunca.</string>
+    <string name="settings_line_settings_lock_menus">Los cambios de presión prolongada piden el PIN de configuración</string>
+    <string name="settings_help_settings_lock_menus">Con esto activado, los cambios de presión prolongada (Ocultar, Mover, Cambiar nombre, Bloquear categoría y Eliminar del historial) piden primero el PIN de configuración. Un PIN correcto los desbloquea hasta que salgas de la app o cambies de perfil. Agregar a favoritos y reproducir nunca lo piden.</string>
+    <string name="settings_lock_change_pin">Cambiar PIN</string>
+    <string name="settings_lock_turn_off">Desactivar</string>
+    <string name="settings_search_keywords_settings_lock">bloqueo pin contraseña parental configuración</string>
     <string name="settings_customize_description">Oculta y vuelve a mostrar canales, películas y series, y cambia el nombre o el orden de las categorías de este perfil. Los cambios se conservan después de volver a sincronizar.</string>
     <string name="settings_customize_new_category_behavior">Comportamiento de categorías nuevas</string>
     <string name="settings_customize_hide">Ocultar</string>
@@ -682,8 +692,7 @@
     <string name="settings_customize_restore_defaults_title">¿Restaurar <xliff:g id="section">%1$s</xliff:g> en <xliff:g id="playlist">%2$s</xliff:g>\?</string>
     <string name="settings_customize_restore_defaults_description">Las categorías y los elementos ocultos vuelven a mostrarse, se borran los nombres cambiados y el orden personalizado, y los elementos movidos regresan. Se conservan las categorías combinadas, los favoritos y las asociaciones de la guía.</string>
     <string name="settings_customize_rename_hint">Solo para este perfil. Déjalo en blanco para restaurar “<xliff:g id="name">%1$s</xliff:g>”.</string>
-    <string name="settings_customize_remove_pin_title">¿Quitar el bloqueo con PIN?</string>
-    <string name="settings_customize_remove_pin_message">La pantalla Personalizar volverá a abrirse sin solicitar un PIN.</string>
+    <string name="settings_customize_remove_pin_title">¿Quitar el PIN de bloqueo de categorías?</string>
     <string name="settings_customize_remove_pin_locks">Todas las categorías bloqueadas con este PIN también se desbloquean.</string>
     <string name="settings_customize_remove">Quitar</string>
     <string name="settings_customize_confirm_pin">Confirmar PIN nuevo</string>
@@ -853,7 +862,6 @@
     <string name="settings_backup_kids_profile">Perfil infantil</string>
     <string name="settings_backup_profile_current">“<xliff:g id="name">%1$s</xliff:g>” (actual)</string>
     <string name="settings_backup_profile_locked">“<xliff:g id="name">%1$s</xliff:g>” está bloqueado</string>
-    <string name="settings_backup_profile_pin">PIN del perfil</string>
     <string name="settings_backup_pin_incorrect">PIN incorrecto.</string>
     <string name="settings_backup_pin_locked">Bloqueado con PIN</string>
     <string name="settings_backup_unlock">Desbloquear</string>
@@ -903,6 +911,15 @@
     <string name="settings_backup_which_profiles">Qué perfiles incluir en la copia de seguridad</string>
     <string name="settings_backup_selected_profiles">La copia de seguridad solo contendrá los perfiles seleccionados y sus datos. Los perfiles bloqueados requieren su PIN.</string>
     <string name="settings_backup_profile_pin_description">Este no es tu perfil actual. Ingresa su PIN para incluirlo en la copia de seguridad; sin el PIN, no se hará una copia de sus datos.</string>
+    <string name="settings_backup_profile_clash_title">«<xliff:g id="name">%1$s</xliff:g>» ya existe en este dispositivo</string>
+    <string name="settings_backup_profile_clash_body">La copia de seguridad tiene un perfil con el mismo nombre. ¿Qué hacemos con él?</string>
+    <string name="settings_backup_profile_merge">Combinar con él</string>
+    <string name="settings_backup_profile_merge_description">Conserva lo que tiene aquí y añade lo que trae la copia.</string>
+    <string name="settings_backup_profile_replace">Reemplazarlo</string>
+    <string name="settings_backup_profile_replace_description">Sus favoritos, historial, puntos de reanudación, personalizaciones y orden manual de aquí se borran primero, para las partes que se restauran.</string>
+    <string name="settings_backup_profile_keep_both">Conservar ambos</string>
+    <string name="settings_backup_profile_keep_both_description">El perfil de la copia entra como un perfil nuevo: «<xliff:g id="name">%1$s</xliff:g>».</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (restaurado)</string>
     <string name="settings_metadata_optional">opcional</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">Cambio de nombre masivo</string>
@@ -1253,6 +1270,32 @@
     <string name="local_sync_last_synced">Última sincronización: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Ya vinculado</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">Solo se sincroniza el perfil en uso: <xliff:g id="profile">%1$s</xliff:g> aquí, con el perfil en uso en el otro dispositivo.</string>
+    <string name="local_auto_sync_title">Sincronización automática</string>
+    <string name="local_auto_sync_for_device">Qué sincroniza este dispositivo por sí solo con <xliff:g id="device">%1$s</xliff:g> y con qué frecuencia.</string>
+    <string name="local_auto_sync_enable">Sincronización automática con este dispositivo</string>
+    <string name="local_auto_sync_enable_hint">Abre también Sincronización local en el otro dispositivo: se le pedirá que lo permita.</string>
+    <string name="local_auto_sync_waiting">Esperando a que <xliff:g id="device">%1$s</xliff:g> lo permita…</string>
+    <string name="local_auto_sync_declined"><xliff:g id="device">%1$s</xliff:g> no ha permitido la sincronización automática.</string>
+    <string name="local_auto_sync_accept_title">¿Permitir la sincronización automática?</string>
+    <string name="local_auto_sync_accept_body"><xliff:g id="device">%1$s</xliff:g> quiere sincronizarse por sí solo con este dispositivo siempre que OwnTV esté abierto en los dos. Solo entra lo que permitas en este dispositivo, y cualquiera de los dos puede desactivarlo.</string>
+    <string name="local_auto_sync_accept">Permitir</string>
+    <string name="local_auto_sync_decline">No permitir</string>
+    <string name="local_auto_sync_what_to_sync">Qué sincroniza este dispositivo</string>
+    <string name="local_auto_sync_when">Con qué frecuencia</string>
+    <string name="local_auto_sync_timing_immediately">Cada vez que una de las apps se abre o se cierra</string>
+    <string name="local_auto_sync_timing_daily">A diario</string>
+    <string name="local_auto_sync_timing_weekly">Cada semana</string>
+    <string name="local_auto_sync_note">La sincronización automática combina en ambos sentidos, y lo eliminado sigue eliminado. Cada dispositivo decide qué deja pasar: las listas con sus credenciales y la Configuración solo viajan donde estén marcadas.</string>
+    <string name="local_auto_sync_last_run">Última sincronización automática: <xliff:g id="when">%1$s</xliff:g></string>
+    <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> sincroniza: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">Perfiles: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">Vincula este perfil, <xliff:g id="profile">%1$s</xliff:g>, con el perfil en uso en <xliff:g id="device">%2$s</xliff:g>.</string>
+    <string name="local_auto_sync_turned_off">Sincronización automática desactivada en <xliff:g id="device">%1$s</xliff:g></string>
+    <string name="local_auto_sync_unreachable">No se pudo contactar con <xliff:g id="device">%1$s</xliff:g>, se volverá a intentar</string>
+    <string name="local_auto_sync_listen">Mantener la sincronización automática a la escucha</string>
+    <string name="local_auto_sync_listen_description">Activado: los dispositivos vinculados pueden sincronizarse con este siempre que OwnTV esté abierto aquí. Desactivado: solo mientras el modo de sincronización está activado.</string>
+    <string name="local_auto_sync_listening">A la escucha</string>
     <string name="more_pane_last_backup">Última copia</string>
     <string name="more_pane_encrypted">Cifrada</string>
     <string name="more_group_your_things">Tus cosas</string>

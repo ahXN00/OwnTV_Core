@@ -630,11 +630,21 @@
     <string name="settings_customize_pin_locked">Dieser Bildschirm ist mit einer PIN gesperrt.</string>
     <string name="settings_customize_wrong_pin">Falsche PIN – erneut versuchen</string>
     <string name="settings_customize_enter_pin">PIN eingeben</string>
-    <string name="settings_customize_set_pin">🔒 PIN festlegen</string>
-    <string name="settings_customize_change_pin">🔒 PIN ändern</string>
+    <string name="settings_customize_set_pin">🔒 Kategoriesperre-PIN festlegen</string>
+    <string name="settings_customize_change_pin">🔒 Kategoriesperre-PIN ändern</string>
+    <string name="settings_customize_remove_pin">Kategoriesperre-PIN entfernen</string>
     <string name="settings_customize_remove_lock">Sperre entfernen</string>
-    <string name="settings_customize_settings_pin">PIN zum Öffnen der Einstellungen verlangen</string>
-    <string name="settings_customize_settings_pin_button">PIN zum Öffnen der Einstellungen verlangen: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">Einstellungssperre</string>
+    <string name="settings_lock_description">Einstellungen, Sicherung und Wiederherstellen sowie Lokale Synchronisierung fragen nach einer eigenen PIN. Jedes Profil legt seine eigene fest.</string>
+    <string name="settings_line_settings_lock">Eine eigene PIN für die Einstellungen</string>
+    <string name="settings_help_settings_lock">Eine PIN für dieses Profil, nach der Einstellungen, Sicherung und Wiederherstellen sowie Lokale Synchronisierung vor dem Öffnen fragen. Sie ist weder die Profil-PIN noch die Kategoriesperre-PIN: Jede Sperre hat ihre eigene PIN, und keine öffnet eine andere. PIN ändern und Ausschalten fragen nach der aktuellen Einstellungs-PIN.</string>
+    <string name="settings_lock_menus">Auch Änderungen im Langdruck-Menü sperren</string>
+    <string name="settings_lock_menus_description">Ausblenden, Verschieben, Umbenennen, das Sperren einer Kategorie und Aus dem Wiedergabeverlauf entfernen fragen ebenfalls nach der Einstellungs-PIN. Favoriten und Abspielen nie.</string>
+    <string name="settings_line_settings_lock_menus">Langdruck-Änderungen fragen nach der Einstellungs-PIN</string>
+    <string name="settings_help_settings_lock_menus">Ist dies an, fragen die Langdruck-Änderungen (Ausblenden, Verschieben, Umbenennen, Kategorie sperren und Aus dem Wiedergabeverlauf entfernen) zuerst nach der Einstellungs-PIN. Eine richtige PIN gibt sie frei, bis du die App verlässt oder das Profil wechselst. Zu Favoriten hinzufügen und Abspielen fragen nie.</string>
+    <string name="settings_lock_change_pin">PIN ändern</string>
+    <string name="settings_lock_turn_off">Ausschalten</string>
+    <string name="settings_search_keywords_settings_lock">sperre pin passwort kindersicherung einstellungen</string>
     <string name="settings_customize_description">Sender, Filme und Serien für dieses Profil ein- oder ausblenden sowie Kategorien umbenennen oder neu anordnen. Bleibt auch nach erneuten Synchronisierungen erhalten.</string>
     <string name="settings_customize_new_category_behavior">Verhalten bei neuen Kategorien</string>
     <string name="settings_customize_hide">Ausblenden</string>
@@ -678,8 +688,7 @@
     <string name="settings_customize_restore_defaults_title"><xliff:g id="section">%1$s</xliff:g> in <xliff:g id="playlist">%2$s</xliff:g> wiederherstellen?</string>
     <string name="settings_customize_restore_defaults_description">Ausgeblendete Kategorien und Elemente werden wieder eingeblendet, Umbenennungen und eigene Reihenfolgen gelöscht, und verschobene Elemente kehren zurück. Kombinierte Kategorien, Favoriten und Programmzuordnungen bleiben erhalten.</string>
     <string name="settings_customize_rename_hint">Gilt nur für dieses Profil. Leer lassen, um „<xliff:g id="name">%1$s</xliff:g>“ wiederherzustellen.</string>
-    <string name="settings_customize_remove_pin_title">PIN-Sperre entfernen?</string>
-    <string name="settings_customize_remove_pin_message">Der Anpassungsbildschirm wird künftig geöffnet, ohne erneut nach einer PIN zu fragen.</string>
+    <string name="settings_customize_remove_pin_title">Kategoriesperre-PIN entfernen?</string>
     <string name="settings_customize_remove_pin_locks">Alle mit dieser PIN gesperrten Kategorien werden ebenfalls entsperrt.</string>
     <string name="settings_customize_remove">Entfernen</string>
     <string name="settings_customize_confirm_pin">Neue PIN bestätigen</string>
@@ -843,7 +852,6 @@
     <string name="settings_backup_kids_profile">Kinderprofil</string>
     <string name="settings_backup_profile_current">„<xliff:g id="name">%1$s</xliff:g>“ (aktuell)</string>
     <string name="settings_backup_profile_locked">„<xliff:g id="name">%1$s</xliff:g>“ ist gesperrt</string>
-    <string name="settings_backup_profile_pin">Profil-PIN</string>
     <string name="settings_backup_pin_incorrect">PIN falsch.</string>
     <string name="settings_backup_pin_locked">Mit PIN gesperrt</string>
     <string name="settings_backup_unlock">Entsperren</string>
@@ -891,6 +899,15 @@
     <string name="settings_backup_which_profiles">Zu sichernde Profile</string>
     <string name="settings_backup_selected_profiles">Die Sicherung enthält nur die ausgewählten Profile und deren Daten. Für gesperrte Profile ist die jeweilige PIN erforderlich.</string>
     <string name="settings_backup_profile_pin_description">Dies ist nicht dein aktuelles Profil. Gib seine PIN ein, um es in die Sicherung aufzunehmen – ohne die PIN werden seine Daten nicht gesichert.</string>
+    <string name="settings_backup_profile_clash_title">„<xliff:g id="name">%1$s</xliff:g>“ gibt es auf diesem Gerät schon</string>
+    <string name="settings_backup_profile_clash_body">Die Sicherung enthält ein Profil mit demselben Namen. Was soll damit geschehen?</string>
+    <string name="settings_backup_profile_merge">Damit zusammenführen</string>
+    <string name="settings_backup_profile_merge_description">Behält, was es hier hat, und fügt hinzu, was die Sicherung mitbringt.</string>
+    <string name="settings_backup_profile_replace">Ersetzen</string>
+    <string name="settings_backup_profile_replace_description">Seine Favoriten, sein Wiedergabeverlauf, Fortsetzungspositionen, Anpassungen und eigene Reihenfolge hier werden zuerst geleert, für die wiederhergestellten Teile.</string>
+    <string name="settings_backup_profile_keep_both">Beide behalten</string>
+    <string name="settings_backup_profile_keep_both_description">Das Profil aus der Sicherung kommt als neues Profil hinzu: „<xliff:g id="name">%1$s</xliff:g>“.</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (wiederhergestellt)</string>
     <string name="settings_metadata_optional">optional</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">Mehrere umbenennen</string>
@@ -1232,6 +1249,32 @@
     <string name="local_sync_last_synced">Zuletzt synchronisiert: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Bereits gekoppelt</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">Nur das genutzte Profil wird synchronisiert: hier <xliff:g id="profile">%1$s</xliff:g>, mit dem Profil, das auf dem anderen Gerät genutzt wird.</string>
+    <string name="local_auto_sync_title">Auto-Synchronisierung</string>
+    <string name="local_auto_sync_for_device">Was dieses Gerät von selbst mit <xliff:g id="device">%1$s</xliff:g> synchronisiert, und wie oft.</string>
+    <string name="local_auto_sync_enable">Mit diesem Gerät automatisch synchronisieren</string>
+    <string name="local_auto_sync_enable_hint">Öffne die Lokale Synchronisierung auch auf dem anderen Gerät: Dort wird um Erlaubnis gefragt.</string>
+    <string name="local_auto_sync_waiting">Warte, bis <xliff:g id="device">%1$s</xliff:g> es erlaubt …</string>
+    <string name="local_auto_sync_declined"><xliff:g id="device">%1$s</xliff:g> hat die Auto-Synchronisierung nicht erlaubt.</string>
+    <string name="local_auto_sync_accept_title">Auto-Synchronisierung erlauben?</string>
+    <string name="local_auto_sync_accept_body"><xliff:g id="device">%1$s</xliff:g> möchte sich von selbst mit diesem Gerät synchronisieren, wenn OwnTV auf beiden geöffnet ist. Es kommt nur herein, was du auf diesem Gerät erlaubst, und jedes der beiden Geräte kann es ausschalten.</string>
+    <string name="local_auto_sync_accept">Erlauben</string>
+    <string name="local_auto_sync_decline">Nicht erlauben</string>
+    <string name="local_auto_sync_what_to_sync">Was dieses Gerät synchronisiert</string>
+    <string name="local_auto_sync_when">Wie oft</string>
+    <string name="local_auto_sync_timing_immediately">Bei jedem Öffnen oder Schließen einer der Apps</string>
+    <string name="local_auto_sync_timing_daily">Täglich</string>
+    <string name="local_auto_sync_timing_weekly">Wöchentlich</string>
+    <string name="local_auto_sync_note">Die Auto-Synchronisierung führt in beide Richtungen zusammen, und Gelöschtes bleibt gelöscht. Jedes Gerät entscheidet, was es durchlässt: Playlists mit ihren Zugangsdaten und Einstellungen wandern nur dorthin, wo sie angehakt sind.</string>
+    <string name="local_auto_sync_last_run">Letzte Auto-Synchronisierung: <xliff:g id="when">%1$s</xliff:g></string>
+    <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> synchronisiert: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">Profile: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">Verbindet dieses Profil, <xliff:g id="profile">%1$s</xliff:g>, mit dem Profil, das auf <xliff:g id="device">%2$s</xliff:g> genutzt wird.</string>
+    <string name="local_auto_sync_turned_off">Auto-Synchronisierung auf <xliff:g id="device">%1$s</xliff:g> ausgeschaltet</string>
+    <string name="local_auto_sync_unreachable"><xliff:g id="device">%1$s</xliff:g> nicht erreichbar, neuer Versuch folgt</string>
+    <string name="local_auto_sync_listen">Auf Auto-Synchronisierung warten</string>
+    <string name="local_auto_sync_listen_description">An: Gekoppelte Geräte können sich mit diesem synchronisieren, wann immer OwnTV hier geöffnet ist. Aus: Nur während der Synchronisierungsmodus an ist.</string>
+    <string name="local_auto_sync_listening">Bereit</string>
     <string name="more_pane_last_backup">Letztes Backup</string>
     <string name="more_pane_encrypted">Verschlüsselt</string>
     <string name="more_group_your_things">Deine Sachen</string>

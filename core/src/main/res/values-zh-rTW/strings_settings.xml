@@ -627,11 +627,21 @@
     <string name="settings_customize_pin_locked">此畫面已由 PIN 鎖定。</string>
     <string name="settings_customize_wrong_pin">PIN 錯誤，請再試一次</string>
     <string name="settings_customize_enter_pin">輸入 PIN</string>
-    <string name="settings_customize_set_pin">🔒 設定 PIN</string>
-    <string name="settings_customize_change_pin">🔒 變更 PIN</string>
+    <string name="settings_customize_set_pin">🔒 設定分類鎖 PIN</string>
+    <string name="settings_customize_change_pin">🔒 變更分類鎖 PIN</string>
+    <string name="settings_customize_remove_pin">移除分類鎖 PIN</string>
     <string name="settings_customize_remove_lock">移除鎖定</string>
-    <string name="settings_customize_settings_pin">開啟設定時要求輸入 PIN</string>
-    <string name="settings_customize_settings_pin_button">開啟設定時要求輸入 PIN：<xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">設定鎖</string>
+    <string name="settings_lock_description">設定、備份與還原以及本機同步會要求輸入專用 PIN。每個使用者檔案各自設定。</string>
+    <string name="settings_line_settings_lock">設定專用 PIN</string>
+    <string name="settings_help_settings_lock">此使用者檔案的 PIN，設定、備份與還原以及本機同步在開啟前會要求輸入。它既不是使用者檔案 PIN，也不是分類鎖 PIN：每種鎖都有自己的 PIN，任何一個都打不開另一個。變更 PIN 和關閉需要輸入目前的設定 PIN。</string>
+    <string name="settings_lock_menus">同時鎖定長按選單中的變更</string>
+    <string name="settings_lock_menus_description">隱藏、移動、重新命名、鎖定分類和從觀看記錄中移除也需要設定 PIN。收藏和播放從不需要。</string>
+    <string name="settings_line_settings_lock_menus">長按變更需要設定 PIN</string>
+    <string name="settings_help_settings_lock_menus">開啟後，長按變更（隱藏、移動、重新命名、鎖定分類和從觀看記錄中移除）會先要求輸入設定 PIN。輸入一次正確 PIN 後，在離開應用程式或切換使用者檔案前都保持解鎖。加入收藏和播放從不需要。</string>
+    <string name="settings_lock_change_pin">變更 PIN</string>
+    <string name="settings_lock_turn_off">關閉</string>
+    <string name="settings_search_keywords_settings_lock">鎖 pin 密碼 家長 設定</string>
     <string name="settings_customize_description">為此使用者檔案隱藏或取消隱藏頻道、電影及影集，並重新命名或排列分類。重新同步後仍會保留。</string>
     <string name="settings_customize_new_category_behavior">新分類的顯示方式</string>
     <string name="settings_customize_hide">隱藏</string>
@@ -674,8 +684,7 @@
     <string name="settings_customize_restore_defaults_title">要還原<xliff:g id="playlist">%2$s</xliff:g>中的<xliff:g id="section">%1$s</xliff:g>嗎？</string>
     <string name="settings_customize_restore_defaults_description">已隱藏的分類和項目將重新顯示，重新命名和自訂排序將被清除，移出的項目將返回。複合分類、我的最愛和節目表配對會保留。</string>
     <string name="settings_customize_rename_hint">僅適用於此使用者檔案。留白即可還原為「<xliff:g id="name">%1$s</xliff:g>」。</string>
-    <string name="settings_customize_remove_pin_title">要移除 PIN 鎖定嗎？</string>
-    <string name="settings_customize_remove_pin_message">之後開啟「自訂」畫面時，將不會再要求輸入 PIN。</string>
+    <string name="settings_customize_remove_pin_title">要移除分類鎖 PIN 嗎？</string>
     <string name="settings_customize_remove_pin_locks">以此 PIN 鎖定的所有分類也會一併解除鎖定。</string>
     <string name="settings_customize_remove">移除</string>
     <string name="settings_customize_confirm_pin">確認新的 PIN</string>
@@ -833,7 +842,6 @@
     <string name="settings_backup_kids_profile">兒童使用者檔案</string>
     <string name="settings_backup_profile_current">「<xliff:g id="name">%1$s</xliff:g>」（目前使用）</string>
     <string name="settings_backup_profile_locked">「<xliff:g id="name">%1$s</xliff:g>」已鎖定</string>
-    <string name="settings_backup_profile_pin">使用者檔案 PIN</string>
     <string name="settings_backup_pin_incorrect">PIN 不正確。</string>
     <string name="settings_backup_pin_locked">已由 PIN 鎖定</string>
     <string name="settings_backup_unlock">解鎖</string>
@@ -879,6 +887,15 @@
     <string name="settings_backup_which_profiles">要備份哪些使用者檔案</string>
     <string name="settings_backup_selected_profiles">備份只會包含已選取的使用者檔案及其資料。鎖定的使用者檔案需要輸入 PIN。</string>
     <string name="settings_backup_profile_pin_description">這不是您目前的使用者檔案。請輸入其 PIN 以將它納入備份；若沒有 PIN，將不會備份其資料。</string>
+    <string name="settings_backup_profile_clash_title">此裝置上已有「<xliff:g id="name">%1$s</xliff:g>」</string>
+    <string name="settings_backup_profile_clash_body">備份中有一個同名的使用者檔案。要如何處理？</string>
+    <string name="settings_backup_profile_merge">合併到其中</string>
+    <string name="settings_backup_profile_merge_description">保留這裡已有的內容，並加入備份帶來的內容。</string>
+    <string name="settings_backup_profile_replace">取代它</string>
+    <string name="settings_backup_profile_replace_description">對於要還原的部分，先清空它在這裡的收藏、觀看記錄、續播位置、自訂和手動排序。</string>
+    <string name="settings_backup_profile_keep_both">兩個都保留</string>
+    <string name="settings_backup_profile_keep_both_description">備份中的使用者檔案將作為新的使用者檔案加入：「<xliff:g id="name">%1$s</xliff:g>」。</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g>（已還原）</string>
     <string name="settings_metadata_optional">選填</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">批次重新命名</string>
@@ -1211,6 +1228,32 @@
     <string name="local_sync_last_synced">上次同步：<xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">已配對</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">只同步正在使用的使用者檔案：這裡的 <xliff:g id="profile">%1$s</xliff:g>，與另一台裝置上正在使用的使用者檔案。</string>
+    <string name="local_auto_sync_title">自動同步</string>
+    <string name="local_auto_sync_for_device">此裝置與 <xliff:g id="device">%1$s</xliff:g> 自動同步的內容和頻率。</string>
+    <string name="local_auto_sync_enable">與此裝置自動同步</string>
+    <string name="local_auto_sync_enable_hint">請在另一台裝置上也開啟本機同步：系統會請求其允許。</string>
+    <string name="local_auto_sync_waiting">正在等待 <xliff:g id="device">%1$s</xliff:g> 允許…</string>
+    <string name="local_auto_sync_declined"><xliff:g id="device">%1$s</xliff:g> 未允許自動同步。</string>
+    <string name="local_auto_sync_accept_title">允許自動同步？</string>
+    <string name="local_auto_sync_accept_body"><xliff:g id="device">%1$s</xliff:g> 希望在兩台裝置都開啟 OwnTV 時與此裝置自動同步。只有您在此裝置上允許的內容才會傳入，兩台裝置都可以關閉它。</string>
+    <string name="local_auto_sync_accept">允許</string>
+    <string name="local_auto_sync_decline">不允許</string>
+    <string name="local_auto_sync_what_to_sync">此裝置同步的內容</string>
+    <string name="local_auto_sync_when">頻率</string>
+    <string name="local_auto_sync_timing_immediately">每次任一應用程式開啟或關閉時</string>
+    <string name="local_auto_sync_timing_daily">每天</string>
+    <string name="local_auto_sync_timing_weekly">每週</string>
+    <string name="local_auto_sync_note">自動同步會雙向合併，已刪除的內容保持刪除。每台裝置自行決定放行什麼：含登入資訊的播放清單和設定只會傳到勾選了它們的一方。</string>
+    <string name="local_auto_sync_last_run">上次自動同步：<xliff:g id="when">%1$s</xliff:g></string>
+    <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> 同步：<xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">使用者檔案：<xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">將此使用者檔案 <xliff:g id="profile">%1$s</xliff:g> 與 <xliff:g id="device">%2$s</xliff:g> 上正在使用的使用者檔案配對。</string>
+    <string name="local_auto_sync_turned_off"><xliff:g id="device">%1$s</xliff:g> 上的自動同步已關閉</string>
+    <string name="local_auto_sync_unreachable">無法連線至 <xliff:g id="device">%1$s</xliff:g>，稍後將重試</string>
+    <string name="local_auto_sync_listen">保持自動同步監聽</string>
+    <string name="local_auto_sync_listen_description">開啟：只要此處開啟了 OwnTV，已配對的裝置就能與它同步。關閉：僅在同步模式開啟時。</string>
+    <string name="local_auto_sync_listening">正在監聽</string>
     <string name="more_pane_last_backup">上次備份</string>
     <string name="more_pane_encrypted">已加密</string>
     <string name="more_group_your_things">我的內容</string>

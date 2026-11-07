@@ -50,6 +50,7 @@
 1	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	$mapped:${key.substringAfter(':')}
 1	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	$type|${url.trim()}|${username.orEmpty()}
 1	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	$type|${url.trim()}||${normalizeMacForMatch(mac)}
+2	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	$wanted $n
 1	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	${file.name} · ${sections.joinToString(", ") { it.name }}
 1	file-path	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	${file.name}$BAK_SUFFIX
 1	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	${parts[0]}:$it:${parts[2]}
@@ -72,7 +73,7 @@
 1	log	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	Restore: skipping source '${o.optString("name")}' — unknown type '${o.optString("type")}'
 1	log	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	Wallpaper restore failed: ${it.message}
 4	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	a
-2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	activeProfileId
+3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	activeProfileId
 2	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	al
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	avatarColor
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	avatarFile
@@ -113,7 +114,7 @@
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	hlsSupported
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	homeConfigs
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	httpReferer
-7	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	id
+9	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	id
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	ignoreConnectionLimit
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	importPortalEpg
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	isKids
@@ -139,7 +140,7 @@
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	maxConnectionsProbedAt
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	member
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	n
-6	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	name
+8	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	name
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	o
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	off
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	openSubFileId
@@ -159,7 +160,7 @@
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	preferHls
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	preferredLanguages
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	profileId
-6	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	profiles
+7	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	profiles
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	prog
 4	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	proxy_pass_enc
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	releaseName
@@ -169,6 +170,8 @@
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	selections
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	session
 8	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	settings
+2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	settingsLockMenus
+3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	settingsPins
 3	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	sl
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	sort
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	source
@@ -313,7 +316,13 @@
 1	log	core/src/main/java/tv/own/owntv/core/categorylock/CategoryRelock.kt	CategoryRelock
 1	log	core/src/main/java/tv/own/owntv/core/categorylock/CategoryRelock.kt	category lock state unreadable; relocks check what plays
 1	log	core/src/main/java/tv/own/owntv/core/categorylock/CategoryRelock.kt	relock check failed for category $categoryId; stopping its playback
-4	empty	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	\0
+1	technical	core/src/main/java/tv/own/owntv/core/categorylock/MenuChangeGuard.kt	hide
+1	technical	core/src/main/java/tv/own/owntv/core/categorylock/MenuChangeGuard.kt	move
+1	technical	core/src/main/java/tv/own/owntv/core/categorylock/MenuChangeGuard.kt	move_to_category
+1	technical	core/src/main/java/tv/own/owntv/core/categorylock/MenuChangeGuard.kt	remove_from_category
+1	technical	core/src/main/java/tv/own/owntv/core/categorylock/MenuChangeGuard.kt	remove_history
+1	technical	core/src/main/java/tv/own/owntv/core/categorylock/MenuChangeGuard.kt	rename
+8	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	\0
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	(unnamed)
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	.$extension
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	.json
@@ -407,10 +416,11 @@
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	var mf=document.getElementById('m3uFile'), mu=document.getElementById('m3uUrl'), mb=document.getElementById('m3uSend'), ms=document.getElementById('m3uStatus'); document.getElementById('m3uForm').addEventListener('submit',function(ev){ var file=mf.files&&mf.files[0]; if(!file){ if($urlRequired&&!(mu.value||'').trim()){ms.textContent=${c.playlistUrlOrFile.js()};ev.preventDefault();return false;} return true; // URL only — let the browser submit the form the old way. } ev.preventDefault(); mb.disabled=true; ms.textContent=${c.sending.js()}; var body={}; new FormData(document.getElementById('m3uForm')).forEach(function(v,k){body[k]=v;}); var r=new FileReader(); r.onload=function(){ body.playlistFile=r.result; body.playlistFileName=file.name; fetch('/m3u?pin=$pin',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}) .then(function(res){ if(res.ok){document.open();res.text().then(function(t){document.write(t);document.close();});} else{mb.disabled=false;ms.textContent=${c.uploadFailed.js()}.replace('__STATUS__',String(res.status));} }) .catch(function(){mb.disabled=false;ms.textContent=${c.couldNotReach.js()};}); }; r.onerror=function(){mb.disabled=false;ms.textContent=${c.couldNotRead.js()};}; r.readAsText(file); return false; });
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	xtream
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	}} </select></label>
-2	empty	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	\0
+1	empty	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	\0
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	/background
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	/backup
-1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	1
+1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	/sync/auto/import
+1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	1
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	Body ended at $total of $declared bytes
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	OFF
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	application/json
@@ -459,7 +469,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	username
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	yes
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	{
-7	empty	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	\0
+10	empty	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	\0
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	"
 2	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/background
@@ -470,6 +480,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/lora.ttf
 2	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/m3u
 2	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/stalker
+1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/sync/auto-sync
 1	uri	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/sync/hello
 1	uri	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/sync/pair
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/xtream
@@ -485,15 +496,18 @@
 2	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	Content-Length:
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	Content-Type:
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	Content-Type: application/json; charset=utf-8
+1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	Forbidden
 4	uri	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	GET
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	HTTP/1.1
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	HTTP/1.1 200 OK
+1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	Internal Server Error
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	Not Found
 2	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	OK
-6	uri	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	POST
+7	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	POST
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	Payload Too Large
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	Unauthorized
 1	regex	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	^data:image/([a-zA-Z0-9.+-]+);base64,
+1	json	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	accepted
 1	uri	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	application/json; charset=utf-8
 2	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	bmp
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	content-type
@@ -508,7 +522,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	text/html; charset=utf-8
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	text/plain; charset=utf-8
 2	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	webp
-7	uri	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	x-companion-pin
+8	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	x-companion-pin
 3	uri	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	{}
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionLink.kt	10.
 2	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionLink.kt	127.0.0.1
@@ -566,6 +580,7 @@
 1	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	${m.sourceId}:${m.remoteId ?: m.name}
 1	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	${s.sourceId}:${s.remoteId ?: s.name}
 2	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	cust_
+1	preference-key	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	cust_${profileId}_
 1	preference-key	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	cust_${profileId}_${type.name}
 1	technical	core/src/main/java/tv/own/owntv/core/customize/CustomizationStore.kt	owntv_customizations
 1	log	core/src/main/java/tv/own/owntv/core/customize/LockedNotificationTitles.kt	$what: unable to check its category lock, so its title stays hidden
@@ -1122,6 +1137,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	COALESCE(c.sourceId, m.sourceId, s.sourceId) AS sourceId,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	DELETE FROM content_order WHERE
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	DELETE FROM content_order WHERE contextKey != :keep
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	DELETE FROM content_order WHERE profileId = :profileId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	DELETE FROM content_order WHERE profileId = :profileId AND mediaType = :type AND contextKey = :contextKey
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	DELETE FROM content_order WHERE profileId = :profileId AND mediaType = :type AND itemId IN (:itemIds) AND (
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/ContentOrderDao.kt	FROM content_order o
@@ -1143,6 +1159,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	AND (categoryId IS NULL OR categoryId NOT IN (:excluded))))
 2	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	AND (categoryId IS NULL OR categoryId NOT IN (:excluded)))) OR
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	AND COALESCE(c.sourceId, mv.sourceId, s.sourceId) IN (:sourceIds)
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	DELETE FROM custom_category_members WHERE profileId = :profileId
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	DELETE FROM custom_category_members WHERE profileId = :profileId AND mediaType = :type AND itemId IN (:itemIds) AND (
 2	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	FROM channels c INNER JOIN custom_category_members m ON m.itemId = c.id AND m.profileId = :profileId AND m.mediaType = 'LIVE' AND m.contextKey = :contextKey
 2	sql	core/src/main/java/tv/own/owntv/core/database/dao/CustomCategoryDao.kt	FROM movies mv INNER JOIN custom_category_members m ON m.itemId = mv.id AND m.profileId = :profileId AND m.mediaType = 'MOVIE' AND m.contextKey = :contextKey
@@ -1238,6 +1255,7 @@
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	COALESCE(c.remoteId, m.remoteId, s.remoteId, e.remoteId) AS remoteId,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	COALESCE(c.sourceId, m.sourceId, s.sourceId, episodeSeries.sourceId) AS sourceId,
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	DELETE FROM favorites WHERE
+1	sql	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	DELETE FROM favorites WHERE profileId = :profileId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	DELETE FROM favorites WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId
 1	room-schema	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	DELETE FROM favorites WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId AND (
 1	sql	core/src/main/java/tv/own/owntv/core/database/dao/FavoriteDao.kt	DELETE FROM favorites WHERE profileId = :profileId AND mediaType = :type AND itemId = :itemId AND addedAt <= :at
@@ -3069,10 +3087,14 @@
 1	log	core/src/main/java/tv/own/owntv/core/repository/SourceTester.kt	test sourceId=${source.id} type=${source.type} -> ${result::class.simpleName}
 3	empty	core/src/main/java/tv/own/owntv/core/settings/ClockColors.kt	\0
 1	technical	core/src/main/java/tv/own/owntv/core/settings/ClockColors.kt	accent
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/CustomizePinSettings.kt	$CUSTOMIZE_PREFIX$profileId
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/CustomizePinSettings.kt	$MENUS_PREFIX$profileId
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/CustomizePinSettings.kt	$SETTINGS_LOCK_PIN_PREFIX$profileId
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/CustomizePinSettings.kt	$SETTINGS_ON_PREFIX$profileId
 1	technical	core/src/main/java/tv/own/owntv/core/settings/CustomizePinSettings.kt	customize_pin_
-1	preference-key	core/src/main/java/tv/own/owntv/core/settings/CustomizePinSettings.kt	customize_pin_$pid
-2	preference-key	core/src/main/java/tv/own/owntv/core/settings/CustomizePinSettings.kt	customize_pin_$profileId
-1	preference-key	core/src/main/java/tv/own/owntv/core/settings/CustomizePinSettings.kt	settings_pin_$profileId
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/CustomizePinSettings.kt	settings_lock_menus_
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/CustomizePinSettings.kt	settings_lock_pin_
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/CustomizePinSettings.kt	settings_pin_
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/ProfilePositions.kt	${base}_
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/ProfilePositions.kt	${it}_
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/ProfilePositions.kt	${shared}_$profileId
@@ -4898,8 +4920,95 @@
 1	log	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	succeeded=${outcome.succeededCategoryRemoteIds.size} aborted=${outcome.aborted} stoppedEarly=${outcome.stoppedEarly}
 1	log	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	succeeded=${succeeded.size}/${categories.size} aborted=$aborted stoppedEarly=$stoppedEarly
 1	technical	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	unknown
+1	technical	core/src/main/java/tv/own/owntv/core/sync/local/AutoSyncAgreement.kt	\0
+1	file-path	core/src/main/java/tv/own/owntv/core/sync/local/AutoSyncTransfer.kt	${UUID.randomUUID()}.own
+1	file-path	core/src/main/java/tv/own/owntv/core/sync/local/AutoSyncTransfer.kt	auto-sync
+1	file-path	core/src/main/java/tv/own/owntv/core/sync/local/AutoSyncTransfer.kt	auto-sync/${UUID.randomUUID()}
+1	technical	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncAuth.kt	\0
+1	technical	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncAuth.kt	%02x
+1	technical	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncAuth.kt	HmacSHA256
+1	technical	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncAuth.kt	SHA-256
+1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncAuth.kt	bad-request
+1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncAuth.kt	busy
+1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncAuth.kt	no-agreement
+1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncAuth.kt	not-lan
+1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncAuth.kt	unpaired
+1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncAuth.kt	x-owntv-device
+1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncAuth.kt	x-owntv-nonce
+1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncAuth.kt	x-owntv-signature
+1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncAuth.kt	x-owntv-time
+1	technical	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncAuth.kt	|
+1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncClient.kt	/sync/auto/export
+1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncClient.kt	/sync/auto/hello
+1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncClient.kt	/sync/auto/notice
+1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncClient.kt	Content-Type
+2	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncClient.kt	GET
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncClient.kt	HTTP $code $reason
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncClient.kt	LocalAutoSync
+3	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncClient.kt	POST
+1	mime	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncClient.kt	application/octet-stream
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncClient.kt	auto-sync $path refused: HTTP $code $reason
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncClient.kt	device
+1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncClient.kt	http://
+1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncClient.kt	http://$host:$port$path
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncClient.kt	items
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncClient.kt	name
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncClient.kt	reason
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncClient.kt	sections
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncClient.kt	{"type":"turned-off"}
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncRunner.kt	LocalAutoSync
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncRunner.kt	auto-sync ($reason): ${due.size} due
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncRunner.kt	auto-sync with a paired device: $outcome
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncRunner.kt	not found
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	Bad Request
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	Conflict
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	Forbidden
+2	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	GET
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	HTTP/1.1 $code ${STATUS[code] ?: "OK"} Content-Type: $type Content-Length: ${bytes.size} Connection: close
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	Internal Server Error
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	LocalAutoSync
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	Not Found
+2	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	OK
+2	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	POST
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	Payload Too Large
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	Unauthorized
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	application/json; charset=utf-8
+1	mime	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	application/octet-stream
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	auto-sync listener could not bind port $AUTO_SYNC_PORT
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	auto-sync listener down
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	auto-sync listener up on $AUTO_SYNC_PORT
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	auto-sync request dropped: ${e.javaClass.simpleName}
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	auto-sync request failed
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	device
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	failed
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	items
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	name
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	not-found
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	ok
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	port
+5	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	reason
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	sections
+1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncServer.kt	too-large
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	$AGREEMENT_PREFIX$id
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	$NOTICE_PREFIX$id
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	$TURNED_OFF_PREFIX$id
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	agreement:
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	auto_sync_listener_always
+2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	device
+2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	failures
+2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	lastAttemptAt
+2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	lastSuccessAt
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	notice:
+1	technical	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	owntv_local_auto_sync
+2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	profile
+2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	sections
+2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	theirProfile
+2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	theirSections
+2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	timing
+1	preference-key	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncStore.kt	turned_off:
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	/backup
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	/backup.own
+1	technical	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	/sync/auto-sync
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	/sync/hello
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	/sync/pair
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	Content-Type
@@ -4912,6 +5021,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	POST
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	X-Companion-Pin
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	app
+1	mime	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	application/json
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	application/x-www-form-urlencoded
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	data:application/octet-stream;base64,$encoded
 1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	device
@@ -4923,7 +5033,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	payload
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	secret
 1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	session
-1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	text/plain
+1	mime	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncClient.kt	text/plain
 1	empty	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	\0
 1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	Could not announce this device for local sync (error $errorCode)
 1	compiler	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	DEPRECATION
@@ -4931,23 +5041,30 @@
 1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	Local sync discovery could not start (error $errorCode)
 1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	Local sync discovery failed
 1	log	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	LocalSyncDiscovery
+1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	_owntv-auto._tcp.
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	_owntv._tcp.
 1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncDiscovery.kt	id
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	${Build.MANUFACTURER} ${Build.MODEL}
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	LocalSyncManager
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	OwnTV
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	Pairing failed on the host side
+2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	accepted
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	app
+2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	autoPort
 1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	device
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	incoming-${System.currentTimeMillis()}.own
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	local-sync
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	name
 2	file-path	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	outgoing
 1	protocol	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	payload
+4	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	profile
+4	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	sections
 1	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	session
+2	json	core/src/main/java/tv/own/owntv/core/sync/local/LocalSyncManager.kt	timing
 1	empty	core/src/main/java/tv/own/owntv/core/sync/local/PairedDeviceStore.kt	\0
 1	json	core/src/main/java/tv/own/owntv/core/sync/local/PairedDeviceStore.kt	%02x
 2	json	core/src/main/java/tv/own/owntv/core/sync/local/PairedDeviceStore.kt	address
+2	json	core/src/main/java/tv/own/owntv/core/sync/local/PairedDeviceStore.kt	autoPort
 1	json	core/src/main/java/tv/own/owntv/core/sync/local/PairedDeviceStore.kt	devices
 2	json	core/src/main/java/tv/own/owntv/core/sync/local/PairedDeviceStore.kt	id
 2	json	core/src/main/java/tv/own/owntv/core/sync/local/PairedDeviceStore.kt	lastSyncAt
@@ -5058,6 +5175,14 @@
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	series rules not applied after EPG sync: ${it.message}
 1	preference-key	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	sourceId
 1	technical	core/src/main/java/tv/own/owntv/core/sync/work/EpgSyncWorker.kt	unknown
+1	technical	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncScheduler.kt	local-auto-sync
+1	technical	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncScheduler.kt	owntv-local-auto-sync-hourly
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncStarter.kt	LocalAutoSync
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncStarter.kt	background
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncStarter.kt	could not watch the network
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncStarter.kt	foreground
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncStarter.kt	network
+1	log	core/src/main/java/tv/own/owntv/core/sync/work/LocalAutoSyncWorker.kt	hourly
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/TrendingRefreshWorker.kt	Finished sourceId=$sourceId outcome=${outcome.diagnosticName()}
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/TrendingRefreshWorker.kt	TrendingRefreshWorker
 1	log	core/src/main/java/tv/own/owntv/core/sync/work/TrendingRefreshWorker.kt	Unexpected refresh failure sourceId=$sourceId; preserving snapshot

@@ -67,8 +67,23 @@ class LocalSyncClient {
             }
         }
 
+    /**
+     * Asks the device at [address] — its Local sync page open — to agree to sync by itself with this
+     * one, and waits for the person there to answer. [request] carries this side's sections and
+     * timing; the answer says `accepted`, and on yes the other side's own `sections` and `autoPort`.
+     */
+    suspend fun requestAutoSync(address: String, port: Int, credential: String, request: JSONObject): Result<JSONObject> =
+        withContext(Dispatchers.IO) {
+            runCatching { JSONObject(post(url(address, port, "/sync/auto-sync"), credential, request.toString(), "application/json")) }
+        }
+
     /** Downloads the other device's export into [into]. The file is a backup container, unchanged. */
-    suspend fun fetch(address: String, port: Int, credential: String, into: File): Result<File> =
+    suspend fun fetch(
+        address: String,
+        port: Int,
+        credential: String,
+        into: File,
+    ): Result<File> =
         withContext(Dispatchers.IO) {
             runCatching {
                 val bytes = get(url(address, port, "/backup.own"), credential)
@@ -85,7 +100,12 @@ class LocalSyncClient {
      * that path is text-only by design (see `CompanionController.onBackupUploaded`). It costs a third
      * more bytes on a LAN transfer, which is a fair price for not forking the protocol.
      */
-    suspend fun send(address: String, port: Int, credential: String, file: File): Result<Unit> =
+    suspend fun send(
+        address: String,
+        port: Int,
+        credential: String,
+        file: File,
+    ): Result<Unit> =
         withContext(Dispatchers.IO) {
             runCatching {
                 val encoded = Base64.encodeToString(file.readBytes(), Base64.NO_WRAP)
@@ -106,7 +126,12 @@ class LocalSyncClient {
         inputStream.use { it.readBytes() }.also { disconnect() }
     }
 
-    private fun post(url: URL, credential: String, body: String, contentType: String): String =
+    private fun post(
+        url: URL,
+        credential: String,
+        body: String,
+        contentType: String,
+    ): String =
         open(url, credential).run {
             requestMethod = "POST"
             doOutput = true

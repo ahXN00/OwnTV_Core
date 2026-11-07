@@ -636,11 +636,21 @@
     <string name="settings_customize_pin_locked">Этот экран заблокирован с помощью PIN.</string>
     <string name="settings_customize_wrong_pin">Неверный PIN — попробуйте снова</string>
     <string name="settings_customize_enter_pin">Введите PIN</string>
-    <string name="settings_customize_set_pin">🔒 Установить PIN</string>
-    <string name="settings_customize_change_pin">🔒 Изменить PIN</string>
+    <string name="settings_customize_set_pin">🔒 Задать PIN-код блокировки категорий</string>
+    <string name="settings_customize_change_pin">🔒 Изменить PIN-код блокировки категорий</string>
+    <string name="settings_customize_remove_pin">Удалить PIN-код блокировки категорий</string>
     <string name="settings_customize_remove_lock">Снять блокировку</string>
-    <string name="settings_customize_settings_pin">Запрашивать PIN для открытия настроек</string>
-    <string name="settings_customize_settings_pin_button">Запрашивать PIN для открытия настроек: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">Блокировка настроек</string>
+    <string name="settings_lock_description">Настройки, Резервная копия и восстановление и Локальная синхронизация запрашивают собственный PIN-код. Каждый профиль задаёт свой.</string>
+    <string name="settings_line_settings_lock">Отдельный PIN-код для настроек</string>
+    <string name="settings_help_settings_lock">PIN-код этого профиля, который Настройки, Резервная копия и восстановление и Локальная синхронизация запрашивают перед открытием. Это не PIN-код профиля и не PIN-код блокировки категорий: у каждой блокировки свой PIN-код, и ни один не открывает другую. Изменить PIN и Выключить запрашивают текущий PIN-код настроек.</string>
+    <string name="settings_lock_menus">Блокировать и изменения через долгое нажатие</string>
+    <string name="settings_lock_menus_description">Скрыть, Переместить, Переименовать, блокировка категории и Удалить из истории тоже запрашивают PIN-код настроек. Избранное и Воспроизведение — никогда.</string>
+    <string name="settings_line_settings_lock_menus">Изменения долгим нажатием запрашивают PIN-код настроек</string>
+    <string name="settings_help_settings_lock_menus">Когда это включено, изменения долгим нажатием (Скрыть, Переместить, Переименовать, Заблокировать категорию и Удалить из истории) сначала запрашивают PIN-код настроек. Один верный PIN-код открывает их, пока вы не выйдете из приложения или не смените профиль. Добавление в избранное и воспроизведение его никогда не запрашивают.</string>
+    <string name="settings_lock_change_pin">Изменить PIN</string>
+    <string name="settings_lock_turn_off">Выключить</string>
+    <string name="settings_search_keywords_settings_lock">блокировка pin пароль родительский настройки</string>
     <string name="settings_customize_description">Скрывайте и показывайте каналы, фильмы и сериалы, а также переименовывайте или меняйте порядок категорий для этого профиля. Изменения сохраняются после повторной синхронизации.</string>
     <string name="settings_customize_new_category_behavior">Поведение новых категорий</string>
     <string name="settings_customize_hide">Скрыть</string>
@@ -686,8 +696,7 @@
     <string name="settings_customize_restore_defaults_title">Вернуть настройки: <xliff:g id="section">%1$s</xliff:g> (<xliff:g id="playlist">%2$s</xliff:g>)?</string>
     <string name="settings_customize_restore_defaults_description">Скрытые категории и элементы снова появятся, переименования и свой порядок будут сброшены, а перемещённые элементы вернутся. Объединённые категории, избранное и привязки программы передач сохранятся.</string>
     <string name="settings_customize_rename_hint">Только для этого профиля. Оставьте поле пустым, чтобы восстановить «<xliff:g id="name">%1$s</xliff:g>».</string>
-    <string name="settings_customize_remove_pin_title">Снять блокировку с помощью PIN?</string>
-    <string name="settings_customize_remove_pin_message">Экран настройки категорий и элементов будет открываться без запроса PIN.</string>
+    <string name="settings_customize_remove_pin_title">Удалить PIN-код блокировки категорий?</string>
     <string name="settings_customize_remove_pin_locks">Все категории, заблокированные этим PIN-кодом, тоже будут разблокированы.</string>
     <string name="settings_customize_remove">Удалить</string>
     <string name="settings_customize_confirm_pin">Подтвердите новый PIN</string>
@@ -863,7 +872,6 @@
     <string name="settings_backup_kids_profile">Детский профиль</string>
     <string name="settings_backup_profile_current">«<xliff:g id="name">%1$s</xliff:g>» (текущий)</string>
     <string name="settings_backup_profile_locked">«<xliff:g id="name">%1$s</xliff:g>» заблокирован</string>
-    <string name="settings_backup_profile_pin">PIN профиля</string>
     <string name="settings_backup_pin_incorrect">Неверный PIN.</string>
     <string name="settings_backup_pin_locked">Заблокировано с помощью PIN</string>
     <string name="settings_backup_unlock">Разблокировать</string>
@@ -915,6 +923,15 @@
     <string name="settings_backup_which_profiles">Какие профили включить в резервную копию</string>
     <string name="settings_backup_selected_profiles">Резервная копия будет содержать только выбранные профили и их данные. Для заблокированных профилей требуется PIN.</string>
     <string name="settings_backup_profile_pin_description">Это не ваш текущий профиль. Введите его PIN, чтобы включить профиль в резервную копию — без PIN его данные не будут сохранены.</string>
+    <string name="settings_backup_profile_clash_title">«<xliff:g id="name">%1$s</xliff:g>» уже есть на этом устройстве</string>
+    <string name="settings_backup_profile_clash_body">В резервной копии есть профиль с тем же именем. Что с ним сделать?</string>
+    <string name="settings_backup_profile_merge">Объединить с ним</string>
+    <string name="settings_backup_profile_merge_description">Сохраняет то, что есть здесь, и добавляет то, что есть в копии.</string>
+    <string name="settings_backup_profile_replace">Заменить</string>
+    <string name="settings_backup_profile_replace_description">Его избранное, история, позиции продолжения, настройки вида и ручной порядок здесь сначала очищаются — для восстанавливаемых частей.</string>
+    <string name="settings_backup_profile_keep_both">Оставить оба</string>
+    <string name="settings_backup_profile_keep_both_description">Профиль из копии добавится как новый: «<xliff:g id="name">%1$s</xliff:g>».</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (восстановлен)</string>
     <string name="settings_metadata_optional">необязательно</string>
     <string name="settings_metadata_test_title">Оппенгеймер</string>
     <string name="settings_bulk_rename_title">Массовое переименование</string>
@@ -1274,6 +1291,32 @@
     <string name="local_sync_last_synced">Последняя синхронизация: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Уже сопряжено</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">Синхронизируется только используемый профиль: <xliff:g id="profile">%1$s</xliff:g> здесь — с профилем, используемым на другом устройстве.</string>
+    <string name="local_auto_sync_title">Автосинхронизация</string>
+    <string name="local_auto_sync_for_device">Что это устройство само синхронизирует с <xliff:g id="device">%1$s</xliff:g> и как часто.</string>
+    <string name="local_auto_sync_enable">Автосинхронизация с этим устройством</string>
+    <string name="local_auto_sync_enable_hint">Откройте «Локальную синхронизацию» и на другом устройстве: у него спросят разрешение.</string>
+    <string name="local_auto_sync_waiting">Ожидание разрешения от <xliff:g id="device">%1$s</xliff:g>…</string>
+    <string name="local_auto_sync_declined"><xliff:g id="device">%1$s</xliff:g> не разрешило автосинхронизацию.</string>
+    <string name="local_auto_sync_accept_title">Разрешить автосинхронизацию?</string>
+    <string name="local_auto_sync_accept_body"><xliff:g id="device">%1$s</xliff:g> хочет само синхронизироваться с этим устройством, когда OwnTV открыт на обоих. Поступает только то, что вы разрешите на этом устройстве, и любое из них может её выключить.</string>
+    <string name="local_auto_sync_accept">Разрешить</string>
+    <string name="local_auto_sync_decline">Не разрешать</string>
+    <string name="local_auto_sync_what_to_sync">Что синхронизирует это устройство</string>
+    <string name="local_auto_sync_when">Как часто</string>
+    <string name="local_auto_sync_timing_immediately">При каждом открытии или закрытии одного из приложений</string>
+    <string name="local_auto_sync_timing_daily">Ежедневно</string>
+    <string name="local_auto_sync_timing_weekly">Еженедельно</string>
+    <string name="local_auto_sync_note">Автосинхронизация объединяет в обе стороны, а удалённое остаётся удалённым. Каждое устройство само решает, что пропускать: плейлисты с их данными входа и настройки передаются только туда, где они отмечены.</string>
+    <string name="local_auto_sync_last_run">Последняя автосинхронизация: <xliff:g id="when">%1$s</xliff:g></string>
+    <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> синхронизирует: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">Профили: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">Связывает этот профиль, <xliff:g id="profile">%1$s</xliff:g>, с профилем, используемым на <xliff:g id="device">%2$s</xliff:g>.</string>
+    <string name="local_auto_sync_turned_off">Автосинхронизация выключена на <xliff:g id="device">%1$s</xliff:g></string>
+    <string name="local_auto_sync_unreachable">Не удалось связаться с <xliff:g id="device">%1$s</xliff:g>, повтор позже</string>
+    <string name="local_auto_sync_listen">Ждать автосинхронизацию</string>
+    <string name="local_auto_sync_listen_description">Вкл.: сопряжённые устройства могут синхронизироваться с этим, пока здесь открыт OwnTV. Выкл.: только когда включён режим синхронизации.</string>
+    <string name="local_auto_sync_listening">Ожидает</string>
     <string name="more_pane_last_backup">Последняя копия</string>
     <string name="more_pane_encrypted">Зашифрована</string>
     <string name="more_group_your_things">Ваше</string>

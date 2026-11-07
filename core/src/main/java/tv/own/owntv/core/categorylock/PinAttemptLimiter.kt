@@ -9,7 +9,7 @@ sealed interface PinAttempt {
 }
 
 /**
- * Slows down guessing a category-lock PIN: after [maxFailures] wrong entries in a row every entry is
+ * Slows down guessing a PIN: after [maxFailures] wrong entries in a row every entry is
  * refused, unchecked, for [lockoutMs]. A right entry clears the count. Memory only, so the count is gone
  * when the app process is; [clock] is a monotonic millisecond clock, never the wall clock the user can set.
  */
@@ -41,4 +41,17 @@ class PinAttemptLimiter(
         val left = blockedUntil - clock()
         return if (left <= 0) 0 else ((left + 999) / 1000).toInt()
     }
+}
+
+/** The doors a PIN opens. Each has its own PIN and its own count of wrong entries. */
+enum class PinDoor { PROFILE, CATEGORY, SETTINGS }
+
+/**
+ * One [PinAttemptLimiter] per [PinDoor]: guessing at one door never makes another wait, so a child
+ * trying Settings PINs cannot lock the parent out of a category, and the reverse.
+ */
+class PinAttemptLimiters(clock: () -> Long) {
+    private val limiters = PinDoor.entries.associateWith { PinAttemptLimiter(clock) }
+
+    fun of(door: PinDoor): PinAttemptLimiter = limiters.getValue(door)
 }

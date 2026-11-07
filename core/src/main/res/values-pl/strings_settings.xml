@@ -636,11 +636,21 @@
     <string name="settings_customize_pin_locked">Ten ekran jest zablokowany kodem PIN.</string>
     <string name="settings_customize_wrong_pin">Nieprawidłowy PIN — spróbuj ponownie</string>
     <string name="settings_customize_enter_pin">Wprowadź PIN</string>
-    <string name="settings_customize_set_pin">🔒 Ustaw PIN</string>
-    <string name="settings_customize_change_pin">🔒 Zmień PIN</string>
+    <string name="settings_customize_set_pin">🔒 Ustaw PIN blokady kategorii</string>
+    <string name="settings_customize_change_pin">🔒 Zmień PIN blokady kategorii</string>
+    <string name="settings_customize_remove_pin">Usuń PIN blokady kategorii</string>
     <string name="settings_customize_remove_lock">Usuń blokadę</string>
-    <string name="settings_customize_settings_pin">Pytaj o PIN przy otwieraniu Ustawień</string>
-    <string name="settings_customize_settings_pin_button">Pytaj o PIN przy otwieraniu Ustawień: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">Blokada ustawień</string>
+    <string name="settings_lock_description">Ustawienia, Kopia zapasowa i przywracanie oraz Synchronizacja lokalna proszą o własny PIN. Każdy profil ustawia swój.</string>
+    <string name="settings_line_settings_lock">Własny PIN dla Ustawień</string>
+    <string name="settings_help_settings_lock">PIN tego profilu, o który Ustawienia, Kopia zapasowa i przywracanie oraz Synchronizacja lokalna proszą przed otwarciem. To nie jest PIN profilu ani PIN blokady kategorii: każda blokada ma własny PIN i żadna nie otwiera innej. Zmień PIN i Wyłącz proszą o obecny PIN ustawień.</string>
+    <string name="settings_lock_menus">Blokuj też zmiany z menu długiego naciśnięcia</string>
+    <string name="settings_lock_menus_description">Ukryj, Przenieś, Zmień nazwę, blokowanie kategorii i Usuń z historii również proszą o PIN ustawień. Ulubione i Odtwórz nigdy.</string>
+    <string name="settings_line_settings_lock_menus">Zmiany długim naciśnięciem proszą o PIN ustawień</string>
+    <string name="settings_help_settings_lock_menus">Gdy to jest włączone, zmiany długim naciśnięciem (Ukryj, Przenieś, Zmień nazwę, Zablokuj kategorię i Usuń z historii) najpierw proszą o PIN ustawień. Jeden poprawny PIN odblokowuje je do wyjścia z aplikacji lub zmiany profilu. Dodawanie do ulubionych i odtwarzanie nigdy o niego nie proszą.</string>
+    <string name="settings_lock_change_pin">Zmień PIN</string>
+    <string name="settings_lock_turn_off">Wyłącz</string>
+    <string name="settings_search_keywords_settings_lock">blokada pin hasło rodzicielska ustawienia</string>
     <string name="settings_customize_description">Ukrywaj i pokazuj kanały, filmy oraz seriale, a także zmieniaj nazwy i kolejność kategorii w tym profilu. Ustawienia pozostają zachowane po ponownej synchronizacji.</string>
     <string name="settings_customize_new_category_behavior">Sposób obsługi nowych kategorii</string>
     <string name="settings_customize_hide">Ukryj</string>
@@ -686,8 +696,7 @@
     <string name="settings_customize_restore_defaults_title">Przywrócić <xliff:g id="section">%1$s</xliff:g> w <xliff:g id="playlist">%2$s</xliff:g>\?</string>
     <string name="settings_customize_restore_defaults_description">Ukryte kategorie i elementy znów będą widoczne, zmienione nazwy i własna kolejność zostaną usunięte, a przeniesione elementy wrócą. Połączone kategorie, ulubione i dopasowania przewodnika zostaną zachowane.</string>
     <string name="settings_customize_rename_hint">Tylko w tym profilu. Pozostaw puste, aby przywrócić „<xliff:g id="name">%1$s</xliff:g>”.</string>
-    <string name="settings_customize_remove_pin_title">Usunąć blokadę PIN?</string>
-    <string name="settings_customize_remove_pin_message">Ekran personalizacji będzie odtąd otwierany bez pytania o PIN.</string>
+    <string name="settings_customize_remove_pin_title">Usunąć PIN blokady kategorii?</string>
     <string name="settings_customize_remove_pin_locks">Wszystkie kategorie zablokowane tym PIN-em również zostaną odblokowane.</string>
     <string name="settings_customize_remove">Usuń</string>
     <string name="settings_customize_confirm_pin">Potwierdź nowy PIN</string>
@@ -863,7 +872,6 @@
     <string name="settings_backup_kids_profile">Profil dziecięcy</string>
     <string name="settings_backup_profile_current">„<xliff:g id="name">%1$s</xliff:g>” (bieżący)</string>
     <string name="settings_backup_profile_locked">Profil „<xliff:g id="name">%1$s</xliff:g>” jest zablokowany</string>
-    <string name="settings_backup_profile_pin">PIN profilu</string>
     <string name="settings_backup_pin_incorrect">Nieprawidłowy PIN.</string>
     <string name="settings_backup_pin_locked">Zablokowano kodem PIN</string>
     <string name="settings_backup_unlock">Odblokuj</string>
@@ -915,6 +923,15 @@
     <string name="settings_backup_which_profiles">Wybór profili do kopii zapasowej</string>
     <string name="settings_backup_selected_profiles">Kopia zapasowa będzie zawierać wyłącznie dane wybranych profili. Dostęp do zablokowanych profili wymaga podania kodu PIN.</string>
     <string name="settings_backup_profile_pin_description">To nie jest Twój bieżący profil. Wprowadź jego PIN, aby uwzględnić go w kopii zapasowej — bez kodu PIN jego dane nie zostaną zapisane.</string>
+    <string name="settings_backup_profile_clash_title">„<xliff:g id="name">%1$s</xliff:g>” jest już na tym urządzeniu</string>
+    <string name="settings_backup_profile_clash_body">Kopia zapasowa ma profil o tej samej nazwie. Co z nim zrobić?</string>
+    <string name="settings_backup_profile_merge">Scal z nim</string>
+    <string name="settings_backup_profile_merge_description">Zachowuje to, co ma tutaj, i dodaje to, co wnosi kopia.</string>
+    <string name="settings_backup_profile_replace">Zastąp go</string>
+    <string name="settings_backup_profile_replace_description">Jego ulubione, historia, miejsca wznowienia, dostosowania i ręczna kolejność tutaj są najpierw czyszczone dla przywracanych części.</string>
+    <string name="settings_backup_profile_keep_both">Zachowaj oba</string>
+    <string name="settings_backup_profile_keep_both_description">Profil z kopii zostanie dodany jako nowy profil: „<xliff:g id="name">%1$s</xliff:g>”.</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (przywrócony)</string>
     <string name="settings_metadata_optional">opcjonalnie</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">Zbiorcza zmiana nazw</string>
@@ -1274,6 +1291,32 @@
     <string name="local_sync_last_synced">Ostatnia synchronizacja: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Już sparowane</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">Synchronizuje się tylko używany profil: <xliff:g id="profile">%1$s</xliff:g> tutaj, z profilem używanym na drugim urządzeniu.</string>
+    <string name="local_auto_sync_title">Automatyczna synchronizacja</string>
+    <string name="local_auto_sync_for_device">Co to urządzenie samo synchronizuje z <xliff:g id="device">%1$s</xliff:g> i jak często.</string>
+    <string name="local_auto_sync_enable">Automatyczna synchronizacja z tym urządzeniem</string>
+    <string name="local_auto_sync_enable_hint">Otwórz Synchronizację lokalną także na drugim urządzeniu: zostanie poproszone o zgodę.</string>
+    <string name="local_auto_sync_waiting">Oczekiwanie na zgodę <xliff:g id="device">%1$s</xliff:g>…</string>
+    <string name="local_auto_sync_declined"><xliff:g id="device">%1$s</xliff:g> nie zezwoliło na automatyczną synchronizację.</string>
+    <string name="local_auto_sync_accept_title">Zezwolić na automatyczną synchronizację?</string>
+    <string name="local_auto_sync_accept_body"><xliff:g id="device">%1$s</xliff:g> chce samo synchronizować się z tym urządzeniem, gdy OwnTV jest otwarte na obu. Przychodzi tylko to, na co zezwolisz na tym urządzeniu, a każde z nich może to wyłączyć.</string>
+    <string name="local_auto_sync_accept">Zezwól</string>
+    <string name="local_auto_sync_decline">Nie zezwalaj</string>
+    <string name="local_auto_sync_what_to_sync">Co synchronizuje to urządzenie</string>
+    <string name="local_auto_sync_when">Jak często</string>
+    <string name="local_auto_sync_timing_immediately">Przy każdym otwarciu lub zamknięciu jednej z aplikacji</string>
+    <string name="local_auto_sync_timing_daily">Codziennie</string>
+    <string name="local_auto_sync_timing_weekly">Co tydzień</string>
+    <string name="local_auto_sync_note">Automatyczna synchronizacja scala w obie strony, a usunięte pozostaje usunięte. Każde urządzenie decyduje, co przepuszcza: playlisty z danymi logowania i Ustawienia trafiają tylko tam, gdzie są zaznaczone.</string>
+    <string name="local_auto_sync_last_run">Ostatnia automatyczna synchronizacja: <xliff:g id="when">%1$s</xliff:g></string>
+    <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> synchronizuje: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">Profile: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">Łączy ten profil, <xliff:g id="profile">%1$s</xliff:g>, z profilem używanym na <xliff:g id="device">%2$s</xliff:g>.</string>
+    <string name="local_auto_sync_turned_off">Automatyczna synchronizacja wyłączona na <xliff:g id="device">%1$s</xliff:g></string>
+    <string name="local_auto_sync_unreachable">Nie można połączyć się z <xliff:g id="device">%1$s</xliff:g>, ponowna próba później</string>
+    <string name="local_auto_sync_listen">Nasłuchuj automatycznej synchronizacji</string>
+    <string name="local_auto_sync_listen_description">Wł.: sparowane urządzenia mogą synchronizować się z tym, gdy OwnTV jest tu otwarte. Wył.: tylko gdy tryb synchronizacji jest włączony.</string>
+    <string name="local_auto_sync_listening">Nasłuchuje</string>
     <string name="more_pane_last_backup">Ostatnia kopia zapasowa</string>
     <string name="more_pane_encrypted">Zaszyfrowana</string>
     <string name="more_group_your_things">Twoje rzeczy</string>

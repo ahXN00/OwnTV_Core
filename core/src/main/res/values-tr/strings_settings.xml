@@ -630,11 +630,21 @@
     <string name="settings_customize_pin_locked">Bu ekran PIN ile kilitli.</string>
     <string name="settings_customize_wrong_pin">Yanlış PIN — tekrar deneyin</string>
     <string name="settings_customize_enter_pin">PIN\'i girin</string>
-    <string name="settings_customize_set_pin">🔒 PIN ayarla</string>
-    <string name="settings_customize_change_pin">🔒 PIN\'i değiştir</string>
+    <string name="settings_customize_set_pin">🔒 Kategori kilidi PIN’ini ayarla</string>
+    <string name="settings_customize_change_pin">🔒 Kategori kilidi PIN’ini değiştir</string>
+    <string name="settings_customize_remove_pin">Kategori kilidi PIN’ini kaldır</string>
     <string name="settings_customize_remove_lock">Kilidi kaldır</string>
-    <string name="settings_customize_settings_pin">Ayarları açmak için PIN iste</string>
-    <string name="settings_customize_settings_pin_button">Ayarları açmak için PIN iste: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">Ayarlar kilidi</string>
+    <string name="settings_lock_description">Ayarlar, Yedekleme ve Geri Yükleme ile Yerel eşitleme kendilerine ait bir PIN ister. Her profil kendi PIN’ini belirler.</string>
+    <string name="settings_line_settings_lock">Ayarlar için ayrı bir PIN</string>
+    <string name="settings_help_settings_lock">Ayarlar, Yedekleme ve Geri Yükleme ile Yerel eşitleme açılmadan önce bu profil için istenen PIN. Profil PIN’i de kategori kilidi PIN’i de değildir: her kilidin kendi PIN’i vardır ve hiçbiri diğerini açmaz. PIN’i değiştir ve Kapat, geçerli ayarlar PIN’ini ister.</string>
+    <string name="settings_lock_menus">Uzun basma menüsü değişikliklerini de kilitle</string>
+    <string name="settings_lock_menus_description">Gizle, Taşı, Yeniden adlandır, bir kategoriyi kilitleme ve İzleme geçmişinden kaldır da ayarlar PIN’ini ister. Favoriler ve Oynat asla istemez.</string>
+    <string name="settings_line_settings_lock_menus">Uzun basma değişiklikleri ayarlar PIN’ini ister</string>
+    <string name="settings_help_settings_lock_menus">Bu açıkken uzun basma değişiklikleri (Gizle, Taşı, Yeniden adlandır, Kategoriyi kilitle ve İzleme geçmişinden kaldır) önce ayarlar PIN’ini ister. Doğru bir PIN, uygulamadan çıkana veya profil değiştirene kadar bunları açar. Favorilere ekleme ve oynatma asla istemez.</string>
+    <string name="settings_lock_change_pin">PIN’i değiştir</string>
+    <string name="settings_lock_turn_off">Kapat</string>
+    <string name="settings_search_keywords_settings_lock">kilit pin şifre ebeveyn ayarlar</string>
     <string name="settings_customize_description">Bu profil için kanalları, filmleri ve dizileri gizleyin veya yeniden gösterin; kategorileri yeniden adlandırın ya da sıralayın. Yeniden eşitlemelerden etkilenmez.</string>
     <string name="settings_customize_new_category_behavior">Yeni kategori davranışı</string>
     <string name="settings_customize_hide">Gizle</string>
@@ -678,8 +688,7 @@
     <string name="settings_customize_restore_defaults_title"><xliff:g id="playlist">%2$s</xliff:g> içindeki <xliff:g id="section">%1$s</xliff:g> geri yüklensin mi?</string>
     <string name="settings_customize_restore_defaults_description">Gizli kategoriler ve öğeler yeniden gösterilir, ad değişiklikleri ve özel sıralama temizlenir, taşınan öğeler geri döner. Birleşik kategoriler, favoriler ve rehber eşleşmeleri korunur.</string>
     <string name="settings_customize_rename_hint">Yalnızca bu profil için geçerlidir. “<xliff:g id="name">%1$s</xliff:g>” adını geri yüklemek için boş bırakın.</string>
-    <string name="settings_customize_remove_pin_title">PIN kilidi kaldırılsın mı?</string>
-    <string name="settings_customize_remove_pin_message">Özelleştirme ekranı artık PIN sormadan açılacak.</string>
+    <string name="settings_customize_remove_pin_title">Kategori kilidi PIN’i kaldırılsın mı?</string>
     <string name="settings_customize_remove_pin_locks">Bu PIN ile kilitlenen tüm kategorilerin kilidi de açılır.</string>
     <string name="settings_customize_remove">Kaldır</string>
     <string name="settings_customize_confirm_pin">Yeni PIN\'i doğrulayın</string>
@@ -843,7 +852,6 @@
     <string name="settings_backup_kids_profile">Çocuk profili</string>
     <string name="settings_backup_profile_current">“<xliff:g id="name">%1$s</xliff:g>” (geçerli)</string>
     <string name="settings_backup_profile_locked">“<xliff:g id="name">%1$s</xliff:g>” kilitli</string>
-    <string name="settings_backup_profile_pin">Profil PIN\'i</string>
     <string name="settings_backup_pin_incorrect">PIN yanlış.</string>
     <string name="settings_backup_pin_locked">PIN ile kilitli</string>
     <string name="settings_backup_unlock">Kilidi aç</string>
@@ -891,6 +899,15 @@
     <string name="settings_backup_which_profiles">Yedeklenecek profiller</string>
     <string name="settings_backup_selected_profiles">Yedekleme yalnızca seçilen profilleri ve verilerini içerecek. Kilitli profiller için PIN gerekir.</string>
     <string name="settings_backup_profile_pin_description">Bu, geçerli profiliniz değil. Yedeklemeye eklemek için profilin PIN\'ini girin — PIN olmadan verileri yedeklenmez.</string>
+    <string name="settings_backup_profile_clash_title">“<xliff:g id="name">%1$s</xliff:g>” bu cihazda zaten var</string>
+    <string name="settings_backup_profile_clash_body">Yedekte aynı adda bir profil var. Ona ne olsun?</string>
+    <string name="settings_backup_profile_merge">Onunla birleştir</string>
+    <string name="settings_backup_profile_merge_description">Buradakileri korur ve yedeğin getirdiklerini ekler.</string>
+    <string name="settings_backup_profile_replace">Onu değiştir</string>
+    <string name="settings_backup_profile_replace_description">Buradaki favorileri, izleme geçmişi, devam noktaları, özelleştirmeleri ve elle sıralaması geri yüklenen bölümler için önce temizlenir.</string>
+    <string name="settings_backup_profile_keep_both">İkisini de tut</string>
+    <string name="settings_backup_profile_keep_both_description">Yedekteki profil yeni bir profil olarak gelir: “<xliff:g id="name">%1$s</xliff:g>”.</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (geri yüklendi)</string>
     <string name="settings_metadata_optional">isteğe bağlı</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">Toplu yeniden adlandırma</string>
@@ -1232,6 +1249,32 @@
     <string name="local_sync_last_synced">Son eşitleme: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Zaten eşleştirildi</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">Yalnızca kullanılan profil eşitlenir: burada <xliff:g id="profile">%1$s</xliff:g>, diğer cihazda kullanılan profille.</string>
+    <string name="local_auto_sync_title">Otomatik eşitleme</string>
+    <string name="local_auto_sync_for_device">Bu cihazın <xliff:g id="device">%1$s</xliff:g> ile kendiliğinden neleri ne sıklıkla eşitlediği.</string>
+    <string name="local_auto_sync_enable">Bu cihazla otomatik eşitleme</string>
+    <string name="local_auto_sync_enable_hint">Diğer cihazda da Yerel eşitlemeyi açın: izin vermesi istenir.</string>
+    <string name="local_auto_sync_waiting"><xliff:g id="device">%1$s</xliff:g> izin vermesi bekleniyor…</string>
+    <string name="local_auto_sync_declined"><xliff:g id="device">%1$s</xliff:g> otomatik eşitlemeye izin vermedi.</string>
+    <string name="local_auto_sync_accept_title">Otomatik eşitlemeye izin verilsin mi?</string>
+    <string name="local_auto_sync_accept_body"><xliff:g id="device">%1$s</xliff:g>, OwnTV her ikisinde de açıkken bu cihazla kendiliğinden eşitlemek istiyor. Yalnızca bu cihazda izin verdikleriniz gelir ve iki cihazdan biri onu kapatabilir.</string>
+    <string name="local_auto_sync_accept">İzin ver</string>
+    <string name="local_auto_sync_decline">İzin verme</string>
+    <string name="local_auto_sync_what_to_sync">Bu cihazın eşitledikleri</string>
+    <string name="local_auto_sync_when">Ne sıklıkla</string>
+    <string name="local_auto_sync_timing_immediately">Uygulamalardan biri her açılıp kapandığında</string>
+    <string name="local_auto_sync_timing_daily">Günlük</string>
+    <string name="local_auto_sync_timing_weekly">Haftalık</string>
+    <string name="local_auto_sync_note">Otomatik eşitleme her iki yönde birleştirir ve silinenler silinmiş kalır. Her cihaz neyi geçireceğine kendisi karar verir: girişleriyle birlikte oynatma listeleri ve Ayarlar yalnızca işaretli oldukları yere gider.</string>
+    <string name="local_auto_sync_last_run">Son otomatik eşitleme: <xliff:g id="when">%1$s</xliff:g></string>
+    <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> eşitliyor: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">Profiller: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">Bu profili, <xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="device">%2$s</xliff:g> cihazında kullanılan profille eşler.</string>
+    <string name="local_auto_sync_turned_off"><xliff:g id="device">%1$s</xliff:g> üzerinde otomatik eşitleme kapatıldı</string>
+    <string name="local_auto_sync_unreachable"><xliff:g id="device">%1$s</xliff:g> cihazına ulaşılamadı, yeniden denenecek</string>
+    <string name="local_auto_sync_listen">Otomatik eşitlemeyi dinlemeye devam et</string>
+    <string name="local_auto_sync_listen_description">Açık: eşleştirilmiş cihazlar, OwnTV burada açıkken bununla eşitleme yapabilir. Kapalı: yalnızca eşitleme modu açıkken.</string>
+    <string name="local_auto_sync_listening">Dinliyor</string>
     <string name="more_pane_last_backup">Son yedek</string>
     <string name="more_pane_encrypted">Şifreli</string>
     <string name="more_group_your_things">Senin içeriklerin</string>

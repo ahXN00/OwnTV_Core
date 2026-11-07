@@ -25,8 +25,9 @@ object Pin {
     }
 
     /**
-     * [verify] for the Customize PIN only, which before hashing (July 2026) was saved as plain digits:
-     * such a value is compared as is. Profile and backup PINs were always hashed and use [verify].
+     * [verify] for the Customize (category lock) PIN, which before hashing (July 2026) was saved as plain
+     * digits: such a value is compared as is. A Settings lock carried over from that PIN can hold one too.
+     * Profile and backup PINs were always hashed and use [verify].
      */
     fun verifyCustomize(pin: String, stored: String?): Boolean {
         if (stored.isNullOrBlank() || isHashed(stored)) return verify(pin, stored)

@@ -729,11 +729,21 @@
     <string name="settings_customize_pin_locked">Pantaila hau PINez blokeatuta dago.</string>
     <string name="settings_customize_wrong_pin">PIN okerra — saiatu berriro</string>
     <string name="settings_customize_enter_pin">Idatzi PINa</string>
-    <string name="settings_customize_set_pin">🔒 Ezarri PINa</string>
-    <string name="settings_customize_change_pin">🔒 Aldatu PINa</string>
+    <string name="settings_customize_set_pin">🔒 Ezarri kategoria-blokeoaren PINa</string>
+    <string name="settings_customize_change_pin">🔒 Aldatu kategoria-blokeoaren PINa</string>
+    <string name="settings_customize_remove_pin">Kendu kategoria-blokeoaren PINa</string>
     <string name="settings_customize_remove_lock">Kendu blokeoa</string>
-    <string name="settings_customize_settings_pin">Eskatu PINa Ezarpenak irekitzeko</string>
-    <string name="settings_customize_settings_pin_button">Eskatu PINa Ezarpenak irekitzeko: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">Ezarpenen blokeoa</string>
+    <string name="settings_lock_description">Ezarpenek, Babeskopia eta leheneratzeak eta Tokiko sinkronizazioak PIN propioa eskatzen dute. Profil bakoitzak berea ezartzen du.</string>
+    <string name="settings_line_settings_lock">Ezarpenetarako PIN propioa</string>
+    <string name="settings_help_settings_lock">Profil honen PINa, Ezarpenek, Babeskopia eta leheneratzeak eta Tokiko sinkronizazioak ireki aurretik eskatzen dutena. Ez da profilaren PINa, ezta kategoria-blokeoaren PINa ere: blokeo bakoitzak bere PINa du, eta bakar batek ere ez du beste bat irekitzen. Aldatu PINa eta Desaktibatu aukerek uneko ezarpenen PINa eskatzen dute.</string>
+    <string name="settings_lock_menus">Blokeatu sakatuta edukitzeko menuko aldaketak ere</string>
+    <string name="settings_lock_menus_description">Ezkutatu, Mugitu, Aldatu izena, kategoria bat blokeatzea eta Kendu historiatik aukerek ere ezarpenen PINa eskatzen dute. Gogokoek eta Erreproduzitu aukerak inoiz ez.</string>
+    <string name="settings_line_settings_lock_menus">Sakatuta edukitzeko aldaketek ezarpenen PINa eskatzen dute</string>
+    <string name="settings_help_settings_lock_menus">Aktibatuta dagoenean, sakatuta edukitzeko aldaketek (Ezkutatu, Mugitu, Aldatu izena, Blokeatu kategoria eta Kendu historiatik) ezarpenen PINa eskatzen dute lehenik. PIN zuzen batek desblokeatzen ditu aplikaziotik irten edo profila aldatu arte. Gogokoetara gehitzeak eta erreproduzitzeak ez dute inoiz eskatzen.</string>
+    <string name="settings_lock_change_pin">Aldatu PINa</string>
+    <string name="settings_lock_turn_off">Desaktibatu</string>
+    <string name="settings_search_keywords_settings_lock">blokeoa pin pasahitza gurasoen ezarpenak</string>
     <string name="settings_customize_description">Ezkutatu eta erakutsi kanalak, filmak eta telesailak, eta aldatu izena edo berrantolatu kategoriak profil honetarako. Birsinkronizazioak gainditzen ditu.</string>
     <string name="settings_customize_new_category_behavior">Kategoria berrien portaera</string>
     <string name="settings_customize_hide">Ezkutatu</string>
@@ -777,8 +787,7 @@
     <string name="settings_customize_restore_defaults_title">Berrezarri <xliff:g id="section">%1$s</xliff:g> <xliff:g id="playlist">%2$s</xliff:g> zerrendan erreprodukzio-zerrendaren lehenespenetara?</string>
     <string name="settings_customize_restore_defaults_description">Ezkutuko kategoriak eta elementuak berriro erakusten dira, izen-aldaketak eta ordena pertsonalizatua garbitzen dira, eta kanporatutako elementuak itzultzen dira. Kategoria konbinatuak, gogokoak eta gida-parekatzeak mantentzen dira.</string>
     <string name="settings_customize_rename_hint">Profil honetarako soilik. Utzi hutsik “<xliff:g id="name">%1$s</xliff:g>” berrezartzeko.</string>
-    <string name="settings_customize_remove_pin_title">Kendu PIN blokeoa?</string>
-    <string name="settings_customize_remove_pin_message">Pertsonalizatu pantaila PINik eskatu gabe irekiko da berriro.</string>
+    <string name="settings_customize_remove_pin_title">Kategoria-blokeoaren PINa kendu?</string>
     <string name="settings_customize_remove_pin_locks">PIN honekin blokeatutako kategoria guztiak ere desblokeatuko dira.</string>
     <string name="settings_customize_remove">Kendu</string>
     <string name="settings_customize_confirm_pin">Berretsi PIN berria</string>
@@ -942,7 +951,6 @@
     <string name="settings_backup_kids_profile">Haurren profila</string>
     <string name="settings_backup_profile_current">“<xliff:g id="name">%1$s</xliff:g>” (unekoa)</string>
     <string name="settings_backup_profile_locked">“<xliff:g id="name">%1$s</xliff:g>” blokeatuta dago</string>
-    <string name="settings_backup_profile_pin">Profilaren PINa</string>
     <string name="settings_backup_pin_incorrect">PINa okerra da.</string>
     <string name="settings_backup_pin_locked">PINez blokeatuta</string>
     <string name="settings_backup_unlock">Desblokeatu</string>
@@ -990,6 +998,15 @@
     <string name="settings_backup_which_profiles">Zein profilen babeskopia egin</string>
     <string name="settings_backup_selected_profiles">Babeskopiak hautatutako profilak eta haien datuak soilik izango ditu. Blokeatutako profilek PINa behar dute.</string>
     <string name="settings_backup_profile_pin_description">Hau ez da zure uneko profila. Idatzi bere PINa babeskopian sartzeko — PINik gabe, bere datuen babeskopia ez da egingo.</string>
+    <string name="settings_backup_profile_clash_title">“<xliff:g id="name">%1$s</xliff:g>” badago gailu honetan</string>
+    <string name="settings_backup_profile_clash_body">Babeskopiak izen bereko profil bat du. Zer egin harekin?</string>
+    <string name="settings_backup_profile_merge">Batu harekin</string>
+    <string name="settings_backup_profile_merge_description">Hemen duena gordetzen du eta babeskopiak dakarrena gehitzen du.</string>
+    <string name="settings_backup_profile_replace">Ordeztu</string>
+    <string name="settings_backup_profile_replace_description">Hemengo gogokoak, historia, jarraitzeko puntuak, pertsonalizazioak eta eskuzko ordena lehenik garbitzen dira, leheneratzen diren ataletarako.</string>
+    <string name="settings_backup_profile_keep_both">Biak mantendu</string>
+    <string name="settings_backup_profile_keep_both_description">Babeskopiako profila profil berri gisa sartzen da: “<xliff:g id="name">%1$s</xliff:g>”.</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (leheneratua)</string>
     <string name="settings_metadata_optional">aukerakoa</string>
     <string name="settings_metadata_test_title">Oppenheimer</string>
     <string name="settings_bulk_rename_title">Izen-aldaketa masiboa</string>
@@ -1292,6 +1309,32 @@
     <string name="local_sync_last_synced">Azken sinkronizazioa: <xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">Dagoeneko parekatuta</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">Erabiltzen ari den profila bakarrik sinkronizatzen da: hemen <xliff:g id="profile">%1$s</xliff:g>, beste gailuan erabiltzen den profilarekin.</string>
+    <string name="local_auto_sync_title">Sinkronizazio automatikoa</string>
+    <string name="local_auto_sync_for_device">Gailu honek <xliff:g id="device">%1$s</xliff:g> gailuarekin berez zer sinkronizatzen duen, eta zenbatero.</string>
+    <string name="local_auto_sync_enable">Sinkronizazio automatikoa gailu honekin</string>
+    <string name="local_auto_sync_enable_hint">Ireki Tokiko sinkronizazioa beste gailuan ere: baimena emateko eskatuko zaio.</string>
+    <string name="local_auto_sync_waiting"><xliff:g id="device">%1$s</xliff:g> gailuak baimena eman zain…</string>
+    <string name="local_auto_sync_declined"><xliff:g id="device">%1$s</xliff:g> gailuak ez du sinkronizazio automatikoa baimendu.</string>
+    <string name="local_auto_sync_accept_title">Sinkronizazio automatikoa baimendu?</string>
+    <string name="local_auto_sync_accept_body"><xliff:g id="device">%1$s</xliff:g> gailuak berez sinkronizatu nahi du gailu honekin, OwnTV bietan irekita dagoen bakoitzean. Gailu honetan baimentzen duzuna bakarrik sartzen da, eta bietako edozeinek desaktiba dezake.</string>
+    <string name="local_auto_sync_accept">Baimendu</string>
+    <string name="local_auto_sync_decline">Ez baimendu</string>
+    <string name="local_auto_sync_what_to_sync">Gailu honek zer sinkronizatzen duen</string>
+    <string name="local_auto_sync_when">Zenbatero</string>
+    <string name="local_auto_sync_timing_immediately">Aplikazioetako bat ireki edo ixten den bakoitzean</string>
+    <string name="local_auto_sync_timing_daily">Egunero</string>
+    <string name="local_auto_sync_timing_weekly">Astero</string>
+    <string name="local_auto_sync_note">Sinkronizazio automatikoak bi norabideetan bateratzen du, eta ezabatutakoa ezabatuta geratzen da. Gailu bakoitzak erabakitzen du zer uzten duen pasatzen: erreprodukzio-zerrendak beren saioekin eta Ezarpenak markatuta dauden lekura bakarrik doaz.</string>
+    <string name="local_auto_sync_last_run">Azken sinkronizazio automatikoa: <xliff:g id="when">%1$s</xliff:g></string>
+    <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> gailuak sinkronizatzen du: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">Profilak: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">Profil hau, <xliff:g id="profile">%1$s</xliff:g>, <xliff:g id="device">%2$s</xliff:g> gailuan erabiltzen den profilarekin parekatzen du.</string>
+    <string name="local_auto_sync_turned_off">Sinkronizazio automatikoa desaktibatuta <xliff:g id="device">%1$s</xliff:g> gailuan</string>
+    <string name="local_auto_sync_unreachable">Ezin izan da <xliff:g id="device">%1$s</xliff:g> gailura iritsi, berriro saiatuko da</string>
+    <string name="local_auto_sync_listen">Mantendu sinkronizazio automatikoa entzuten</string>
+    <string name="local_auto_sync_listen_description">Aktibatuta: parekatutako gailuak honekin sinkroniza daitezke OwnTV hemen irekita dagoen bakoitzean. Desaktibatuta: sinkronizazio modua aktibatuta dagoen bitartean bakarrik.</string>
+    <string name="local_auto_sync_listening">Entzuten</string>
     <string name="more_pane_last_backup">Azken babeskopia</string>
     <string name="more_pane_encrypted">Enkriptatuta</string>
     <string name="more_group_your_things">Zure gauzak</string>

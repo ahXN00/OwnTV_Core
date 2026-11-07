@@ -72,6 +72,11 @@ class KoinWorkerFactory : WorkerFactory() {
                 workerParameters,
                 koin.get(),
             )
+            tv.own.owntv.core.sync.work.LocalAutoSyncWorker::class.java.name -> tv.own.owntv.core.sync.work.LocalAutoSyncWorker(
+                appContext,
+                workerParameters,
+                koin.get(),
+            )
             DownloadWorker::class.java.name -> DownloadWorker(
                 appContext,
                 workerParameters,
