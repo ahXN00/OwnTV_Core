@@ -76,7 +76,6 @@ class KoinWorkerFactory : WorkerFactory() {
                 appContext,
                 workerParameters,
                 koin.get(),
-                koin.get(),
             )
             DownloadWorker::class.java.name -> DownloadWorker(
                 appContext,

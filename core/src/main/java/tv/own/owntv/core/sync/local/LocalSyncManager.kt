@@ -8,7 +8,6 @@ import java.io.File
 import java.util.UUID
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -21,7 +20,6 @@ import tv.own.owntv.core.CoreBuildInfo
 import tv.own.owntv.core.backup.BackupManager
 import tv.own.owntv.core.companion.CompanionController
 import tv.own.owntv.core.companion.CompanionLink
-import tv.own.owntv.core.sync.work.LocalAutoSyncScheduler
 
 /** Which way the data goes. Always the user's explicit choice — never inferred. */
 enum class SyncDirection {
@@ -94,7 +92,7 @@ class LocalSyncManager(
     private val client: LocalSyncClient,
     private val discovery: LocalSyncDiscovery,
     private val autoSync: LocalAutoSyncStore,
-    private val scheduler: LocalAutoSyncScheduler,
+    private val autoServer: LocalAutoSyncServer,
     private val protection: tv.own.owntv.core.profile.ProfileProtection,
 ) {
     private val appContext = context.applicationContext
@@ -102,10 +100,8 @@ class LocalSyncManager(
     /**
      * The secrets this listener will accept in place of the PIN, snapshotted when hosting starts and
      * extended as devices pair, mapped to the device each one belongs to. Held in memory because the
-     * server reads it from inside a request.
-     *
-     * The device id is not decoration: it is how an automatic pass is attributed to a paired device,
-     * so a consent can be checked against the caller instead of against "someone with a secret".
+     * server reads it from inside a request. The device id is what an automatic-sync request on this
+     * page is attributed to.
      */
     @Volatile private var acceptedSecrets: Map<String, String> = emptyMap()
 
@@ -136,9 +132,6 @@ class LocalSyncManager(
     /** Outlives a single request: the pairing write is launched here, not awaited on a server thread. */
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
-    /** Merging the containers automatic passes push here. Runs only while this device is hosting. */
-    private var autoSyncIngest: Job? = null
-
     private val _progress = MutableStateFlow<SyncProgress>(SyncProgress.Idle)
     val progress: StateFlow<SyncProgress> = _progress.asStateFlow()
 
@@ -148,11 +141,7 @@ class LocalSyncManager(
     val hostState: Flow<tv.own.owntv.core.companion.CompanionServerState> = companion.state
 
     /** What the other device will call this one. The name the user gave the phone, if they gave one. */
-    val deviceName: String by lazy {
-        val configured = runCatching { Settings.Global.getString(appContext.contentResolver, Settings.Global.DEVICE_NAME) }
-            .getOrNull()
-        configured?.takeIf { it.isNotBlank() } ?: "${Build.MANUFACTURER} ${Build.MODEL}".trim()
-    }
+    val deviceName: String by lazy { localDeviceName(appContext) }
 
     // --- hosting ---------------------------------------------------------------------------------
 
@@ -212,26 +201,16 @@ class LocalSyncManager(
             onPair = { remoteName, remoteAddress, remoteId -> pairFromHost(remoteName, remoteAddress, remoteId) },
             secrets = { acceptedSecrets },
             onAutoSyncAsk = ::askForAutoSync,
-            autoSyncAllowed = { deviceId -> autoSync.allows(deviceId) },
-            // The far side has withdrawn the acceptance our schedule was running on, so stop it
-            // now rather than waiting for the next pass to be refused.
-            onAutoSyncRevoke = { deviceId -> disableAutoSync(deviceId) },
         )
         discovery.advertise(deviceName, port, selfId.orEmpty())
-        // The other half of a pass run by the far device: it pulls this export and pushes its own
-        // container back. That one is merged as it arrives — the consent at the server is the
-        // confirmation, and nobody is standing here to give another.
-        autoSyncIngest?.cancel()
-        autoSyncIngest = scope.launch {
-            companion.autoSyncBackups.collect { file -> mergeIncoming(file) }
-        }
+        // With "Keep auto-sync listening" off, Sync mode is when the automatic-sync listener runs.
+        autoServer.syncMode.value = true
     }
 
     fun stopHosting() {
         discovery.stopAdvertising()
         companion.stop()
-        autoSyncIngest?.cancel()
-        autoSyncIngest = null
+        autoServer.syncMode.value = false
         acceptedSecrets = emptyMap()
         sessionPassword = null
     }
@@ -258,15 +237,23 @@ class LocalSyncManager(
      * A paired device has asked to sync with this one automatically, and the answer is the user's.
      *
      * The question is put on the screen of whichever app is hosting; the far side is waiting on the
-     * HTTP request this runs inside. Accepting writes the consent **here** — where the automatic
-     * passes are checked — before the far side is told yes, so a pass can never arrive between the
-     * answer and the record of it.
+     * HTTP request this runs inside. Accepting writes this side's agreement **before** the far side is
+     * told yes — its own default sections (the viewer's own things; playlists and settings are ticked
+     * by hand on this side's row), the asker's timing and the asker's sections to show — so a pass can
+     * never arrive between the answer and the record of it. The answer carries this side's sections
+     * and its listener's port.
      */
-    private suspend fun askForAutoSync(deviceId: String): Boolean {
+    private suspend fun askForAutoSync(deviceId: String, request: JSONObject): JSONObject {
         val name = paired.current().firstOrNull { it.id == deviceId }?.name ?: UNKNOWN_DEVICE_NAME
-        val accepted = companion.askAutoSync(deviceId, name)
-        if (accepted) autoSync.grantConsent(deviceId)
-        return accepted
+        val theirSections = LocalAutoSyncStore.sections(request.optJSONArray("sections")).orEmpty()
+        val timing = LocalAutoSyncTiming.parse(request.optString("timing"))
+        val accepted = companion.askAutoSync(deviceId, name, theirSections)
+        val answer = JSONObject().put("accepted", accepted)
+        if (!accepted) return answer
+        val before = autoSync.get(deviceId)
+        val mine = before?.sections ?: AutoSyncAgreement.DEFAULT_SECTIONS
+        autoSync.saveTerms(deviceId, mine, before?.profileIds.orEmpty(), timing, theirSections)
+        return answer.put("sections", org.json.JSONArray(mine.map { it.name })).put("autoPort", AUTO_SYNC_PORT)
     }
 
     /**
@@ -327,17 +314,12 @@ class LocalSyncManager(
     }
 
     /**
-     * Forgets a device, and ends that device's schedule with it.
-     *
-     * The settings for it are kept on disk — re-pairing the same device should bring its answer
-     * back — but they no longer count as paired, so the timer stops being derived from them and a
-     * pass stops including them. A timer left running for a device that is no longer there wakes up
-     * to find nothing to do, and keeps waking up.
+     * Forgets a device, and its automatic sync with it. The other device learns at its next request,
+     * which this one no longer recognises.
      */
     suspend fun unpair(id: String) {
         paired.remove(id)
-        autoSync.revokeConsent(id)
-        scheduler.schedule(autoSync.current())
+        autoSync.forget(id)
     }
 
     // --- transferring ----------------------------------------------------------------------------
@@ -349,8 +331,6 @@ class LocalSyncManager(
     suspend fun fetch(
         device: PairedDevice,
         sections: Set<BackupManager.Section> = BackupManager.Section.entries.toSet(),
-        /** True when this is an automatic pass, so the far side can check it has a consent. */
-        autoSync: Boolean = false,
     ): Result<SyncPayload> =
         withContext(Dispatchers.IO) {
             _progress.value = SyncProgress.Connecting
@@ -361,7 +341,7 @@ class LocalSyncManager(
                 .getOrNull()?.sessionPassword?.takeIf { it.isNotBlank() }
             val target = File(cacheDir(), "incoming-${System.currentTimeMillis()}.own")
             _progress.value = SyncProgress.Transferring
-            client.fetch(device.address, device.port, device.secret, target, autoSync)
+            client.fetch(device.address, device.port, device.secret, target)
                 .mapCatching { file ->
                     // The user's chosen sections, not all of them: a summary that counts favorites
                     // the user just unticked promises a change that the apply will not make.
@@ -372,28 +352,6 @@ class LocalSyncManager(
                 }
                 .onFailure { _progress.value = SyncProgress.Failed(failureFor(it)) }
         }
-
-    /**
-     * Merges a container an automatic pass pushed here.
-     *
-     * Unlike [previewIncoming]'s other callers, this one has nobody to show a preview to: the
-     * device that ran the pass already checked that this one accepted automatic sync, and it is
-     * suspended waiting for its upload to land. Every section the container carries is merged —
-     * what the sender left out was never in the file — and the temporary copy is deleted either
-     * way. A container that will not open is logged and dropped; the next pass sends it again.
-     */
-    private suspend fun mergeIncoming(file: File) {
-        try {
-            val payload = previewIncoming(file).getOrNull()
-            if (payload == null) {
-                Log.w(TAG, "Dropped an unreadable automatic sync container")
-                return
-            }
-            apply(payload.file, BackupManager.Section.entries.toSet(), payload.password)
-        } finally {
-            file.delete()
-        }
-    }
 
     /**
      * What a container that was pushed here would change — and the key that opens it.
@@ -453,8 +411,6 @@ class LocalSyncManager(
         device: PairedDevice,
         sections: Set<BackupManager.Section>,
         profileIds: Set<Long>? = null,
-        /** True when this is an automatic pass, so the far side can check it has a consent. */
-        autoSync: Boolean = false,
     ): Result<Unit> = withContext(Dispatchers.IO) {
         // Sealed with the secret the pairing already established, which is the one key the far side
         // is certain to have. Nothing is asked of the user, and the playlist logins travel.
@@ -469,152 +425,49 @@ class LocalSyncManager(
         backups.export(folder, sections, password, profileIds ?: protection.includableProfileIds(), recordAsBackup = false)
             .mapCatching { path ->
                 _progress.value = SyncProgress.Transferring
-                client.send(device.address, device.port, device.secret, File(path), autoSync).getOrThrow()
+                client.send(device.address, device.port, device.secret, File(path)).getOrThrow()
                 paired.touch(device.id, device.address, device.port)
                 _progress.value = SyncProgress.Done(received = null, sent = true)
             }
             .onFailure { _progress.value = SyncProgress.Failed(failureFor(it)) }
     }
 
-    // --- unattended -----------------------------------------------------------------------------
+    // --- automatic ------------------------------------------------------------------------------
 
     /**
-     * Turns auto-sync on for [device] — after the person at that device accepts.
-     *
-     * The acceptance is the whole switch. Until it comes back there is no schedule, no timer and no
-     * background pass; the other device can still be synced with by hand, as any pairing can. On
-     * acceptance the schedule is written here, where the passes run, and the other device keeps the
-     * consent that lets them in. If the request cannot be delivered (the other device is not
-     * hosting, or is gone) this fails and changes nothing: a schedule the far side never agreed to
-     * would only wake up to be refused.
-     *
-     * An automatic pass is always a merge, so the only thing left to choose is when. [timing] is
-     * that choice — today's draft from the sheet — and "never" is not one of its answers: turning
-     * auto-sync *off* is [disableAutoSync]'s job.
+     * Asks [device] — its Local sync page open with Sync mode on — to agree to sync by itself with this
+     * one. The person there answers (it waits up to 50 s). On yes, this side's agreement is written
+     * with [sections], [profileIds] and [timing], and the other side's own sections as it answered.
+     * Nothing changes on a no or when it cannot be reached.
      */
     suspend fun enableAutoSync(
         device: PairedDevice,
-        timing: LocalAutoSyncTiming = LocalAutoSyncTiming.HOURS_24,
+        sections: Set<BackupManager.Section>,
+        profileIds: Set<Long>,
+        timing: LocalAutoSyncTiming,
     ): AutoSyncEnableResult {
-        val accepted = client.requestAutoSync(device.address, device.port, device.secret)
+        val request = JSONObject().put("sections", org.json.JSONArray(sections.map { it.name })).put("timing", timing.name)
+        val answer = client.requestAutoSync(device.address, device.port, device.secret, request)
             .getOrElse { return AutoSyncEnableResult.Failed(failureFor(it)) }
-        if (!accepted) return AutoSyncEnableResult.Declined
-        val chosen = timing.takeIf { it != LocalAutoSyncTiming.OFF } ?: LocalAutoSyncTiming.HOURS_24
-        autoSync.save(device.id, autoSync.current()[device.id].copy(timing = chosen))
-        scheduler.schedule(autoSync.current())
+        if (!answer.optBoolean("accepted", false)) return AutoSyncEnableResult.Declined
+        val theirs = LocalAutoSyncStore.sections(answer.optJSONArray("sections")).orEmpty()
+        autoSync.saveTerms(device.id, sections, profileIds, timing, theirs)
+        paired.updateAddress(device.id, device.address, answer.optInt("autoPort", AUTO_SYNC_PORT))
         return AutoSyncEnableResult.Enabled
     }
 
+    /** Changes this side's terms with [deviceId]: its own sections, profiles and timing. */
+    suspend fun updateAutoSync(deviceId: String, sections: Set<BackupManager.Section>, profileIds: Set<Long>, timing: LocalAutoSyncTiming) {
+        if (autoSync.get(deviceId) == null) return
+        autoSync.saveTerms(deviceId, sections, profileIds, timing)
+    }
+
     /**
-     * Turns this device's own schedule for [deviceId] off. The consent on the far side is that
-     * device's to keep or withdraw; stopping a schedule here does not, and must not, touch it.
+     * Turns automatic sync with [deviceId] off here. Its next request is refused, and it is also told
+     * at this device's next contact with it.
      */
     suspend fun disableAutoSync(deviceId: String) {
-        val config = autoSync.current()[deviceId]
-        if (!config.enabled) return
-        autoSync.save(deviceId, config.copy(timing = LocalAutoSyncTiming.OFF))
-        scheduler.schedule(autoSync.current())
-    }
-
-    /**
-     * Withdraws this device's permission for [deviceId] to sync here automatically, and tells it
-     * best-effort. The local write is what matters: it is checked on the next request, whether or
-     * not this call ever reaches the other device.
-     */
-    suspend fun revokeAutoSyncConsent(deviceId: String) {
-        autoSync.revokeConsent(deviceId)
-        paired.current().firstOrNull { it.id == deviceId }?.let { device ->
-            client.revokeAutoSync(device.address, device.port, device.secret)
-        }
-    }
-
-    /**
-     * One automatic pass: every device in [configs], each with its own answer, reached and synced,
-     * with nobody there to press anything.
-     *
-     * One device's settings do not touch another's: what syncs with the television is whatever the
-     * user chose on the television's row, and what syncs with the tablet is whatever they chose on
-     * the tablet's row. The caller decides who is due — the worker does, from the timings and the
-     * last run — and this only carries out that decision.
-     *
-     * This is the manual flow's three steps — fetch, apply, send — run without a screen, and always
-     * in that order: an automatic pass is a merge by definition, because merging is what the other
-     * device agreed to. The one thing it does *not* do is ask: a container that arrives is merged
-     * rather than previewed, and that is the whole point of the setting, because a preview nobody
-     * answers is a preview that never becomes data. Everything it does is something the user agreed
-     * to when they turned auto-sync on, and the sections and the profiles they left unticked stay
-     * unticked: what leaves this device is scoped at the export, exactly as a manual backup is.
-     *
-     * The far device has to be answering. The pull needs it to be hosting, and so does the push; a
-     * device that is not there is reported as unreachable and the pass moves on: one phone switched
-     * off is not a reason to skip the other one.
-     */
-    suspend fun runAutoSync(
-        configs: Map<String, LocalAutoSyncConfig>,
-    ): LocalAutoSyncReport = withContext(Dispatchers.IO) {
-        val startedAt = System.currentTimeMillis()
-        val all = paired.current().associateBy { it.id }
-        // A device that is not paired is not synced, whatever the settings still say about it.
-        val reports = configs.mapNotNull { (id, config) ->
-            all[id]?.let { device -> syncOne(device, config) }
-        }
-        // A consent withdrawn on the far side is not something to retry: the schedule it belongs to
-        // is turned off here, so the next tick does not wake up just to be refused again. The user
-        // sees the outcome in the row's last-run line rather than a timer that quietly never works.
-        val refused = reports.filter { it.outcome == LocalAutoSyncOutcome.CONSENT_REVOKED }
-        if (refused.isNotEmpty()) {
-            val current = autoSync.current()
-            refused.forEach { report ->
-                val config = current[report.deviceId]
-                if (config.enabled) {
-                    autoSync.save(report.deviceId, config.copy(timing = LocalAutoSyncTiming.OFF))
-                }
-            }
-            scheduler.schedule(autoSync.current())
-        }
-        LocalAutoSyncReport(reports, startedAt, System.currentTimeMillis())
-    }
-
-    /** One device's share of a pass. */
-    private suspend fun syncOne(device: PairedDevice, config: LocalAutoSyncConfig): LocalAutoSyncDeviceReport {
-        // The config's empty set means "every profile"; [send] spells that as null.
-        val profiles = config.profileIds.takeIf { it.isNotEmpty() }
-        val fetched = fetch(device, config.sections, autoSync = true)
-        if (fetched.isFailure) {
-            return LocalAutoSyncDeviceReport(device.id, device.name, outcomeFor(fetched.exceptionOrNull()))
-        }
-        val payload = fetched.getOrThrow()
-        val applied = apply(payload.file, config.sections, payload.password)
-        // The container is a copy of the other device's data sitting in the cache; it is not needed
-        // again and must not be left where the next export could pick it up.
-        payload.file.delete()
-        if (applied.isFailure) {
-            return LocalAutoSyncDeviceReport(device.id, device.name, outcomeFor(applied.exceptionOrNull()))
-        }
-        // The other half of the merge: this device's own data goes back, so both ends end up with
-        // everything either of them chose to share. A send that fails does not undo what was
-        // received: a merge is a merge, not a transaction, and the next pass will send it again.
-        // The one failure that is not just "try again" is a refusal: the far side has withdrawn its
-        // consent since the fetch, and the schedule must stop rather than keep pulling.
-        val sent = send(device, config.sections, profiles, autoSync = true)
-        val refused = sent.isFailure && outcomeFor(sent.exceptionOrNull()) == LocalAutoSyncOutcome.CONSENT_REVOKED
-        return LocalAutoSyncDeviceReport(
-            deviceId = device.id,
-            name = device.name,
-            outcome = if (refused) LocalAutoSyncOutcome.CONSENT_REVOKED else LocalAutoSyncOutcome.SYNCED,
-            items = applied.getOrThrow().items,
-        )
-    }
-
-    /** The same reading of a failure as [failureFor], in the words a pass reports it in. */
-    private fun outcomeFor(t: Throwable?): LocalAutoSyncOutcome = when {
-        t == null -> LocalAutoSyncOutcome.UNKNOWN
-        t is LocalSyncHttpException && t.code == 401 -> LocalAutoSyncOutcome.NOT_AUTHORIZED
-        t is LocalSyncHttpException && t.code == 403 -> LocalAutoSyncOutcome.CONSENT_REVOKED
-        t is LocalSyncHttpException -> LocalAutoSyncOutcome.BAD_PAYLOAD
-        t is BackupManager.WrongPasswordException -> LocalAutoSyncOutcome.BAD_PAYLOAD
-        t is java.io.IOException -> LocalAutoSyncOutcome.UNREACHABLE
-        else -> LocalAutoSyncOutcome.UNKNOWN
+        autoSync.remove(deviceId, tellThem = true)
     }
 
     fun clearProgress() {
@@ -645,4 +498,10 @@ class LocalSyncManager(
         /** Not a real HTTP answer — [SyncFailure.BadPayload] is what the screen has to say. */
         const val HTTP_BAD_PAYLOAD = 422
     }
+}
+
+/** What another device calls this one: the name the user gave it, else its make and model. */
+fun localDeviceName(context: Context): String {
+    val configured = runCatching { Settings.Global.getString(context.contentResolver, Settings.Global.DEVICE_NAME) }.getOrNull()
+    return configured?.takeIf { it.isNotBlank() } ?: "${Build.MANUFACTURER} ${Build.MODEL}".trim()
 }

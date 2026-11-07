@@ -49,16 +49,6 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
     private val _backups = MutableSharedFlow<File>(extraBufferCapacity = 4)
     val backups: SharedFlow<File> = _backups.asSharedFlow()
 
-    /**
-     * Containers pushed by an automatic pass, which are applied as they arrive.
-     *
-     * Kept away from [backups] on purpose: that flow exists so the user can see what would change
-     * before it does, and an automatic pass has nobody to show it to. [LocalSyncManager] merges
-     * these in the background; the consent checked at the server is the entire confirmation.
-     */
-    private val _autoSyncBackups = MutableSharedFlow<File>(extraBufferCapacity = 4)
-    val autoSyncBackups: SharedFlow<File> = _autoSyncBackups.asSharedFlow()
-
     /** Cache folder the remote-export flow writes the backup into before serving it for download. */
     val backupExportDir: File get() = File(appContext.cacheDir, "remote-backup-export").apply { mkdirs() }
 
@@ -81,9 +71,15 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
      * A device waiting for the answer to "may I sync with you automatically?".
      *
      * The request names the device rather than its secret: the secret never leaves the server's auth
-     * check, and all the person answering needs to see is which paired device is asking.
+     * check, and all the person answering needs to see is which paired device is asking, and what it
+     * would sync ([theirSections]).
      */
-    data class AutoSyncRequest(val id: String, val deviceId: String, val deviceName: String)
+    data class AutoSyncRequest(
+        val id: String,
+        val deviceId: String,
+        val deviceName: String,
+        val theirSections: Set<tv.own.owntv.core.backup.BackupManager.Section> = emptySet(),
+    )
 
     private val _autoSyncRequests = MutableStateFlow<List<AutoSyncRequest>>(emptyList())
 
@@ -100,7 +96,11 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
      * Answering `false` on timeout is deliberate: a request nobody saw must not enable anything, and
      * the device that asked is told so rather than left waiting for an answer that is not coming.
      */
-    suspend fun askAutoSync(deviceId: String, deviceName: String): Boolean {
+    suspend fun askAutoSync(
+        deviceId: String,
+        deviceName: String,
+        theirSections: Set<tv.own.owntv.core.backup.BackupManager.Section> = emptySet(),
+    ): Boolean {
         // A device that asks again is asking a fresh question: its previous request belongs to a
         // screen that has already stopped waiting, and leaving it up would put two prompts for the
         // same device in front of the person — who could answer the stale one and believe they
@@ -111,7 +111,7 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
             }
             requests.filterNot { it.deviceId == deviceId }
         }
-        val request = AutoSyncRequest(UUID.randomUUID().toString(), deviceId, deviceName)
+        val request = AutoSyncRequest(UUID.randomUUID().toString(), deviceId, deviceName, theirSections)
         val answer = CompletableDeferred<Boolean>()
         autoSyncAnswers[request.id] = answer
         _autoSyncRequests.update { it + request }
@@ -167,15 +167,13 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
      * Starts the companion server for local sync between two OwnTV devices.
      *
      * The only mode that both receives and serves in one session, because a merge does both: an
-     * uploaded container arrives on [backups] exactly as it does in backup-restore mode — or on
-     * [autoSyncBackups] when it carries the automatic-pass marker — and [file], this device's own
-     * export prepared by the caller, is what the other device downloads.
+     * uploaded container arrives on [backups] exactly as it does in backup-restore mode, and [file],
+     * this device's own export prepared by the caller, is what the other device downloads.
      *
      * [info] answers "who are you", [onPair] mints a lasting secret for a device that presented the
      * right PIN, and [secrets] are the ones already issued, each accepted in place of the PIN so only
-     * the first sync between two devices asks the user for anything. [onAutoSyncAsk] and its two
-     * companions are the consent: asking here, reading the answer back for a later pass, and
-     * stopping this device's schedule when the other side withdraws what it accepted.
+     * the first sync between two devices asks the user for anything. [onAutoSyncAsk] is a paired
+     * device asking to set up automatic sync: it gets the asker's terms and returns the answer.
      */
     fun startForLocalSync(
         port: Int,
@@ -183,9 +181,7 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
         info: () -> String,
         onPair: (name: String, address: String, deviceId: String) -> String?,
         secrets: () -> Map<String, String>,
-        onAutoSyncAsk: suspend (deviceId: String) -> Boolean,
-        autoSyncAllowed: suspend (deviceId: String) -> Boolean,
-        onAutoSyncRevoke: suspend (deviceId: String) -> Unit,
+        onAutoSyncAsk: suspend (deviceId: String, request: org.json.JSONObject) -> org.json.JSONObject,
     ) = startInternal(
         port = port,
         mode = CompanionMode.LOCAL_SYNC,
@@ -194,8 +190,6 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
         onPair = onPair,
         pairedSecrets = secrets,
         onAutoSyncAsk = onAutoSyncAsk,
-        autoSyncAllowed = autoSyncAllowed,
-        onAutoSyncRevoke = onAutoSyncRevoke,
     )
 
     /** Starts the companion server in image-upload mode: the remote device sends a background image, emitted on [images]. */
@@ -211,9 +205,7 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
         syncInfo: () -> String = { "{}" },
         onPair: (name: String, address: String, deviceId: String) -> String? = { _, _, _ -> null },
         pairedSecrets: () -> Map<String, String> = { emptyMap() },
-        onAutoSyncAsk: suspend (deviceId: String) -> Boolean = { false },
-        autoSyncAllowed: suspend (deviceId: String) -> Boolean = { false },
-        onAutoSyncRevoke: suspend (deviceId: String) -> Unit = {},
+        onAutoSyncAsk: suspend (deviceId: String, request: org.json.JSONObject) -> org.json.JSONObject = { _, _ -> org.json.JSONObject() },
         editSource: SourceEntity? = null,
     ) {
         editing = editSource
@@ -240,8 +232,7 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
                     _lastPayload.value = payload
                     _payloads.tryEmit(payload)
                 },
-                onBackup = { text -> onBackupUploaded(text, automatic = false) },
-                onAutoSyncBackup = { text -> onBackupUploaded(text, automatic = true) },
+                onBackup = ::onBackupUploaded,
                 onImage = ::onImageUploaded,
                 onServiceConfig = { config ->
                     when (mode) {
@@ -255,8 +246,6 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
                 onPair = onPair,
                 pairedSecrets = pairedSecrets,
                 onAutoSyncAsk = onAutoSyncAsk,
-                autoSyncAllowed = autoSyncAllowed,
-                onAutoSyncRevoke = onAutoSyncRevoke,
                 onLocked = {
                     // The server has already stopped itself; just reflect it on the TV so the user
                     // knows why the link went away and that restarting gives them a new PIN.
@@ -287,7 +276,7 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
      * backup pasted through verbatim. The extension follows suit so the restore path's format sniff
      * and the temp file agree.
      */
-    private fun onBackupUploaded(text: String, automatic: Boolean = false) {
+    private fun onBackupUploaded(text: String) {
         runCatching {
             val base64 = text.substringAfter("base64,", missingDelimiterValue = "")
                 .takeIf { text.startsWith("data:") && it.isNotBlank() }
@@ -300,7 +289,7 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
             if (bytes != null) file.writeBytes(bytes) else file.writeText(text)
             Log.d(TAG, "Received remote backup (${file.length()} bytes) → ${file.name}")
             file
-        }.onSuccess { file -> (if (automatic) _autoSyncBackups else _backups).tryEmit(file) }
+        }.onSuccess { _backups.tryEmit(it) }
             .onFailure { Log.w(TAG, "Failed to persist uploaded backup", it) }
     }
 

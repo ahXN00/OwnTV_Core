@@ -1,57 +1,25 @@
 package tv.own.owntv.core.sync.local
 
-/**
- * What came of one automatic pass, device by device.
- *
- * A pass that touches three devices and reaches one of them is not a failure and not a success: it
- * is one device that was not there. Saying so is the difference between a user who leaves
- * auto-sync on because it works and one who turns it off after a week of a screen that only ever
- * said "failed".
- */
-data class LocalAutoSyncReport(
-    val devices: List<LocalAutoSyncDeviceReport>,
-    val startedAt: Long,
-    val finishedAt: Long,
-) {
-    /** The devices that actually moved something. */
-    val synced: List<LocalAutoSyncDeviceReport>
-        get() = devices.filter { it.outcome == LocalAutoSyncOutcome.SYNCED }
-
-    /** True when at least one device was reached and synced. */
-    val didAnything: Boolean
-        get() = synced.isNotEmpty()
-}
-
-/** One device's share of a pass. */
-data class LocalAutoSyncDeviceReport(
-    val deviceId: String,
-    val name: String,
-    val outcome: LocalAutoSyncOutcome,
-    /** How many rows landed here. Zero for a send, and for a device that was not there. */
-    val items: Int = 0,
-)
-
-/** How one device's share of a pass ended. */
-enum class LocalAutoSyncOutcome {
-    /** It answered and the data was applied. */
+/** How one automatic pass with one device ended. */
+enum class AutoSyncOutcome {
+    /** Both halves went through. */
     SYNCED,
 
-    /** Nothing answered at that address — the other device is off, or on another network. */
+    /** A pass with that device was already running (here or there). Not a failure: nothing is counted. */
+    SKIPPED,
+
+    /** Nothing answered at its last address, and it was not found on the network. Counted, backs off. */
     UNREACHABLE,
 
-    /** It answered, but did not recognise the pairing any more. */
-    NOT_AUTHORIZED,
+    /** It answered that it has no agreement any more: turned off there. The agreement here ends too. */
+    TURNED_OFF,
 
-    /**
-     * It answered and knows this device, but the acceptance this device is running on has been
-     * withdrawn there. The schedule to it is turned off when this comes back, because a permission
-     * that no longer exists is not a schedule worth waking up for.
-     */
-    CONSENT_REVOKED,
+    /** It no longer knows this device (unpaired there, or paired again). The pairing here is removed. */
+    UNPAIRED,
 
-    /** It answered with something that was not an OwnTV backup. */
-    BAD_PAYLOAD,
-
-    /** Anything else. */
-    UNKNOWN,
+    /** Anything else. Counted, backs off. */
+    FAILED,
 }
+
+/** One pass's result, for the row's status line. [received] is how many rows landed here. */
+data class AutoSyncEvent(val deviceId: String, val outcome: AutoSyncOutcome, val at: Long, val received: Int = 0)

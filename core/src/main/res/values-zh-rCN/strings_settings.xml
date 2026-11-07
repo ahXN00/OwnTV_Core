@@ -632,13 +632,13 @@
     <string name="settings_customize_remove_pin">移除分类锁 PIN</string>
     <string name="settings_customize_remove_lock">移除锁定</string>
     <string name="settings_lock">设置锁</string>
-    <string name="settings_lock_description">设置、备份和恢复以及本地同步会要求输入专用 PIN。每个配置文件各自设置。</string>
+    <string name="settings_lock_description">设置、备份和恢复以及本地同步会要求输入专用 PIN。每个用户档案各自设置。</string>
     <string name="settings_line_settings_lock">设置专用 PIN</string>
-    <string name="settings_help_settings_lock">此配置文件的 PIN，设置、备份和恢复以及本地同步在打开前会要求输入。它既不是配置文件 PIN，也不是分类锁 PIN：每种锁都有自己的 PIN，任何一个都打不开另一个。更改 PIN 和关闭需要输入当前的设置 PIN。</string>
+    <string name="settings_help_settings_lock">此用户档案的 PIN，设置、备份和恢复以及本地同步在打开前会要求输入。它既不是用户档案 PIN，也不是分类锁 PIN：每种锁都有自己的 PIN，任何一个都打不开另一个。更改 PIN 和关闭需要输入当前的设置 PIN。</string>
     <string name="settings_lock_menus">同时锁定长按菜单中的更改</string>
     <string name="settings_lock_menus_description">隐藏、移动、重命名、锁定分类和从观看记录中移除也需要设置 PIN。收藏和播放从不需要。</string>
     <string name="settings_line_settings_lock_menus">长按更改需要设置 PIN</string>
-    <string name="settings_help_settings_lock_menus">开启后，长按更改（隐藏、移动、重命名、锁定分类和从观看记录中移除）会先要求输入设置 PIN。输入一次正确 PIN 后，在离开应用或切换配置文件前都保持解锁。添加到收藏和播放从不需要。</string>
+    <string name="settings_help_settings_lock_menus">开启后，长按更改（隐藏、移动、重命名、锁定分类和从观看记录中移除）会先要求输入设置 PIN。输入一次正确 PIN 后，在离开应用或切换用户档案前都保持解锁。添加到收藏和播放从不需要。</string>
     <string name="settings_lock_change_pin">更改 PIN</string>
     <string name="settings_lock_turn_off">关闭</string>
     <string name="settings_search_keywords_settings_lock">锁 pin 密码 家长 设置</string>
@@ -1220,6 +1220,31 @@
     <string name="local_sync_last_synced">上次同步：<xliff:g id="when">%1$s</xliff:g></string>
     <string name="local_sync_already_paired">已配对</string>
     <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_auto_sync_title">自动同步</string>
+    <string name="local_auto_sync_for_device">此设备与 <xliff:g id="device">%1$s</xliff:g> 自动同步的内容和频率。</string>
+    <string name="local_auto_sync_enable">与此设备自动同步</string>
+    <string name="local_auto_sync_enable_hint">请在另一台设备上也打开本地同步：系统会请求其允许。</string>
+    <string name="local_auto_sync_waiting">正在等待 <xliff:g id="device">%1$s</xliff:g> 允许…</string>
+    <string name="local_auto_sync_declined"><xliff:g id="device">%1$s</xliff:g> 未允许自动同步。</string>
+    <string name="local_auto_sync_accept_title">允许自动同步？</string>
+    <string name="local_auto_sync_accept_body"><xliff:g id="device">%1$s</xliff:g> 希望在两台设备都打开 OwnTV 时与此设备自动同步。只有您在此设备上允许的内容才会传入，两台设备都可以关闭它。</string>
+    <string name="local_auto_sync_accept">允许</string>
+    <string name="local_auto_sync_decline">不允许</string>
+    <string name="local_auto_sync_what_to_sync">此设备同步的内容</string>
+    <string name="local_auto_sync_what_profiles">哪些用户档案</string>
+    <string name="local_auto_sync_when">频率</string>
+    <string name="local_auto_sync_timing_immediately">每次任一应用打开或关闭时</string>
+    <string name="local_auto_sync_timing_daily">每天</string>
+    <string name="local_auto_sync_timing_weekly">每周</string>
+    <string name="local_auto_sync_note">自动同步会双向合并，已删除的内容保持删除。每台设备自行决定放行什么：带登录信息的播放列表和设置只会传到勾选了它们的一方。</string>
+    <string name="local_auto_sync_last_run">上次自动同步：<xliff:g id="when">%1$s</xliff:g></string>
+    <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> 同步：<xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_turned_off"><xliff:g id="device">%1$s</xliff:g> 上的自动同步已关闭</string>
+    <string name="local_auto_sync_unreachable">无法连接 <xliff:g id="device">%1$s</xliff:g>，稍后将重试</string>
+    <string name="local_auto_sync_listen">保持自动同步监听</string>
+    <string name="local_auto_sync_listen_description">开启：只要此处打开了 OwnTV，已配对的设备就能与它同步。关闭：仅在同步模式开启时。</string>
+    <string name="local_auto_sync_listening">正在监听</string>
+    <string name="local_auto_sync_listen_sync_mode">仅在同步模式开启时</string>
     <string name="more_pane_last_backup">上次备份</string>
     <string name="more_pane_encrypted">已加密</string>
     <string name="more_group_your_things">我的内容</string>

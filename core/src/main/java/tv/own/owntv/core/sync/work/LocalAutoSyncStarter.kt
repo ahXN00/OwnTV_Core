@@ -3,68 +3,94 @@ package tv.own.owntv.core.sync.work
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
+import android.net.NetworkCapabilities
 import android.util.Log
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import tv.own.owntv.core.sync.local.LocalAutoSyncStore
+import tv.own.owntv.core.sync.local.LocalAutoSyncRunner
+import tv.own.owntv.core.sync.local.LocalAutoSyncServer
 
 /**
- * Keeps the auto-sync promise at the moments it promises.
+ * The moments an automatic sync is tried, and the listener's conditions. Each app calls [start] once,
+ * after Koin, from the main process only (never `:autostart` or `:restart`).
  *
- * Two of them, and neither of them is the setting being changed:
+ * - OwnTV comes to the front (which includes starting): a pass for every due agreement.
+ * - OwnTV goes to the background: a pass a few seconds later, so what was just watched reaches the
+ *   other device; coming back in that time cancels it (the return runs one anyway).
+ * - Wi-Fi or Ethernet comes back: a pass.
+ * - [periodic] (the phone): an hourly check while on Wi-Fi with the battery not low, which does
+ *   nothing unless an agreement is due.
  *
- *  - **The app starts.** A timer is not kept by the process: a television that was rebooted, or an
- *    app the system killed, comes back with no work scheduled at all. So the schedule is put back
- *    in front of WorkManager here, from the saved settings, rather than only when the user changes
- *    them. It is put back even when every device is off, because that is also the moment to clear a
- *    timer left behind by a scheduling bug or by an older build.
- *  - **The network comes back.** "Immediately" is the one timing that cares, because its promise is
- *    that the content is current *now* — and the moment the Wi-Fi comes back is the moment the other
- *    device can be reached.
- *
- * The network callback is deliberately its own, and not [tv.own.owntv.core.network.ConnectivityObserver]:
- * that one asks whether the internet is *validated*, which is the right question for a stream that
- * comes from the internet and the wrong one for a sync that crosses a LAN. A television with the
- * router's WAN down can still reach the phone two metres away, and must be allowed to.
+ * The network watched is the local one (Wi-Fi or Ethernet), not a validated internet: a sync across
+ * the room needs no internet at all.
  */
 class LocalAutoSyncStarter(
     context: Context,
-    private val store: LocalAutoSyncStore,
+    private val runner: LocalAutoSyncRunner,
+    private val server: LocalAutoSyncServer,
     private val scheduler: LocalAutoSyncScheduler,
 ) {
     private val appContext = context.applicationContext
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private var started = false
+    private var backgroundPass: Job? = null
 
-    @Volatile private var started = false
-
-    /** Call once per process. Safe to call again: it does nothing the second time. */
-    fun start() {
+    /** Main thread, once per process. */
+    fun start(periodic: Boolean) {
         if (started) return
         started = true
-        scope.launch {
-            // [LocalAutoSyncScheduler.schedule] also triggers the "immediately" devices, which is
-            // exactly what the app starting is.
-            val settings = store.current()
-            scheduler.schedule(settings)
-            Log.i(TAG, "schedule restored: ${settings.byDevice.size} device(s)")
-        }
-        val manager = appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager ?: return
-        val callback = object : ConnectivityManager.NetworkCallback() {
-            override fun onAvailable(network: Network) {
-                scope.launch {
-                    if (!store.current().hasStartup) return@launch
-                    scheduler.trigger()
-                    Log.i(TAG, "network back: asking for a run now")
+        server.watch()
+        ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onStart(owner: LifecycleOwner) {
+                server.appVisible.value = true
+                backgroundPass?.cancel()
+                run("foreground")
+            }
+
+            override fun onStop(owner: LifecycleOwner) {
+                server.appVisible.value = false
+                backgroundPass?.cancel()
+                backgroundPass = scope.launch {
+                    delay(BACKGROUND_DELAY_MS)
+                    runner.runDue("background")
                 }
+            }
+        })
+        watchNetwork()
+        if (periodic) scheduler.schedulePeriodic() else scheduler.cancel()
+    }
+
+    private fun watchNetwork() {
+        val manager = appContext.getSystemService(ConnectivityManager::class.java) ?: return
+        val callback = object : ConnectivityManager.NetworkCallback() {
+            override fun onCapabilitiesChanged(network: Network, caps: NetworkCapabilities) {
+                val lan = caps.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) || caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
+                val before = server.onLan.value
+                server.onLan.value = lan
+                if (lan && !before) run("network")
+            }
+
+            override fun onLost(network: Network) {
+                server.onLan.value = false
             }
         }
         runCatching { manager.registerDefaultNetworkCallback(callback) }
             .onFailure { Log.w(TAG, "could not watch the network", it) }
     }
 
+    private fun run(reason: String) {
+        scope.launch { runner.runDue(reason) }
+    }
+
     private companion object {
         const val TAG = "LocalAutoSync"
+        const val BACKGROUND_DELAY_MS = 3_000L
     }
 }

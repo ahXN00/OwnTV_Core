@@ -27,7 +27,7 @@ data class DiscoveredDevice(val name: String, val address: String, val port: Int
  * always offer the address and the QR code as well. A feature that only works on a friendly network
  * is a feature that generates support questions instead of syncs.
  */
-class LocalSyncDiscovery(context: Context) {
+class LocalSyncDiscovery(context: Context, private val serviceType: String = SERVICE_TYPE) {
 
     private val nsd = context.applicationContext.getSystemService(Context.NSD_SERVICE) as? NsdManager
 
@@ -39,7 +39,7 @@ class LocalSyncDiscovery(context: Context) {
         stopAdvertising()
         val info = NsdServiceInfo().apply {
             serviceName = name.take(SERVICE_NAME_LIMIT)
-            serviceType = SERVICE_TYPE
+            serviceType = this@LocalSyncDiscovery.serviceType
             setPort(port)
             // Who this is, so the other device can say "already paired" instead of asking for a PIN
             // it does not need. A service record is public on the LAN, so this carries the id and
@@ -105,7 +105,7 @@ class LocalSyncDiscovery(context: Context) {
         val listener = object : NsdManager.DiscoveryListener {
             override fun onDiscoveryStarted(serviceType: String) = Unit
             override fun onServiceFound(info: NsdServiceInfo) {
-                if (info.serviceType.trimEnd('.').endsWith(SERVICE_TYPE.trimEnd('.'))) {
+                if (info.serviceType.trimEnd('.').endsWith(serviceType.trimEnd('.'))) {
                     pending.addLast(info)
                     resolveNext()
                 }
@@ -119,7 +119,7 @@ class LocalSyncDiscovery(context: Context) {
             override fun onStopDiscoveryFailed(serviceType: String, errorCode: Int) = Unit
         }
 
-        runCatching { manager.discoverServices(SERVICE_TYPE, NsdManager.PROTOCOL_DNS_SD, listener) }
+        runCatching { manager.discoverServices(serviceType, NsdManager.PROTOCOL_DNS_SD, listener) }
             .onFailure {
                 Log.w(TAG, "Local sync discovery failed", it)
                 close()
@@ -127,9 +127,15 @@ class LocalSyncDiscovery(context: Context) {
         awaitClose { runCatching { manager.stopServiceDiscovery(listener) } }
     }
 
-    private companion object {
-        const val TAG = "LocalSyncDiscovery"
-        const val SERVICE_TYPE = "_owntv._tcp."
+    companion object {
+        private const val TAG = "LocalSyncDiscovery"
+        private const val SERVICE_TYPE = "_owntv._tcp."
+
+        /**
+         * The automatic-sync listener's own announcement, so it never shows up in the manual Connect
+         * list — that list is for devices whose Local sync page is open.
+         */
+        const val AUTO_SERVICE_TYPE = "_owntv-auto._tcp."
 
         /** The service-record key carrying [DiscoveredDevice.deviceId]. */
         const val ATTRIBUTE_ID = "id"

@@ -3,207 +3,185 @@ package tv.own.owntv.core.sync.local
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import org.json.JSONArray
 import org.json.JSONObject
 import tv.own.owntv.core.backup.BackupManager
 
 private val Context.localAutoSyncStore: DataStore<Preferences> by preferencesDataStore(name = "owntv_local_auto_sync")
 
-/** One key per paired device, holding that device's whole answer. */
-private const val DEVICE_PREFIX = "device:"
-
-private fun deviceKey(deviceId: String) = stringPreferencesKey("$DEVICE_PREFIX$deviceId")
-
 /**
- * One key per paired device that may sync here automatically. A value rather than a list so
- * granting or revoking one device rewrites one entry.
+ * The automatic-sync agreements this device holds, one per paired device, and what goes with them:
+ * a turn-off still to be told to the other side, the other side having turned it off, and the
+ * "Keep auto-sync listening" switch. Device-local and never in a backup — an agreement is between two
+ * devices, and the switch is about this device's network exposure.
  */
-private const val CONSENT_PREFIX = "consent:"
+class LocalAutoSyncStore internal constructor(
+    private val store: DataStore<Preferences>,
+    private val paired: PairedDeviceStore?,
+) {
+    constructor(context: Context, paired: PairedDeviceStore) : this(context.applicationContext.localAutoSyncStore, paired)
 
-private fun consentKey(deviceId: String) = stringPreferencesKey("$CONSENT_PREFIX$deviceId")
-
-/** Only the presence of the key matters; the value is never read. */
-private const val CONSENT_VALUE = "1"
-
-/**
- * The auto-sync settings, on disk: one record per paired device.
- *
- * Its own file, beside [PairedDeviceStore]'s rather than inside it: a pairing is a credential and
- * a sync schedule is a preference, and one of them must be able to be thrown away without touching
- * the other. It is read against [PairedDeviceStore] all the same, because an answer only means
- * something for a device that is still there — a record left behind by an unpaired device is kept
- * (re-pairing the same device should bring its schedule back) but never reaches the scheduler or a
- * pass.
- *
- * One key per device rather than a list in one value, so saving one device's settings rewrites one
- * record: the device the user is editing cannot roll back the last run of the one next to it.
- *
- * The same file holds **consents**: the paired devices this one has accepted to be synced with
- * automatically. A schedule says "this device syncs with that one"; a consent says "that one may
- * sync with this one". The device that runs a pass holds a schedule; the device that only answers
- * holds a consent. Both are read against the live pairing list, so neither outlives a pairing.
- */
-class LocalAutoSyncStore(context: Context, private val paired: PairedDeviceStore) {
-
-    private val store = context.applicationContext.localAutoSyncStore
-
-    /** Every paired device's answer, kept up to date as either side changes. */
-    val settings: Flow<LocalAutoSyncSettings> =
-        combine(store.data, paired.devices) { prefs, devices ->
-            read(prefs).only(devices.mapTo(mutableSetOf()) { it.id })
+    /** Every agreement with a device that is still paired. */
+    val agreements: Flow<Map<String, AutoSyncAgreement>> =
+        if (paired == null) store.data.map { read(it) }
+        else combine(store.data, paired.devices) { prefs, devices ->
+            val known = devices.mapTo(HashSet()) { it.id }
+            read(prefs).filterKeys { it in known }
         }
 
-    /** The answers as they are right now. */
-    suspend fun current(): LocalAutoSyncSettings = settings.first()
+    suspend fun current(): Map<String, AutoSyncAgreement> = agreements.first()
+
+    suspend fun get(deviceId: String): AutoSyncAgreement? = current()[deviceId]
 
     /**
-     * Writes one device's answer.
-     *
-     * The last run is not written here: it belongs to the pass, not to the settings, and a save
-     * that carried it along would let a settings screen roll the record back to whatever it was
-     * before the last sync. Whatever is already recorded for this device stays recorded.
+     * Writes the terms of [deviceId]'s agreement — what this side syncs, whose profiles, how often, and
+     * the other side's sections as it last said them. The record of past tries is kept.
      */
-    suspend fun save(deviceId: String, config: LocalAutoSyncConfig) {
-        store.edit { prefs ->
-            val key = deviceKey(deviceId)
-            val recorded = prefs[key]?.let { decode(it) }
-            prefs[key] = encode(
-                config.copy(
-                    lastRunAt = recorded?.lastRunAt ?: 0,
-                    lastSuccessAt = recorded?.lastSuccessAt ?: 0,
-                ),
-            )
-        }
-    }
-
-    /**
-     * Notes that a pass with one device happened.
-     *
-     * A failed pass still moves [LocalAutoSyncConfig.lastRunAt] forward — it did happen, and the
-     * user watching the screen afterwards should not be told it never ran — but it leaves
-     * [LocalAutoSyncConfig.lastSuccessAt] alone, because nothing was synced.
-     */
-    suspend fun recordRun(
+    suspend fun saveTerms(
         deviceId: String,
-        at: Long = System.currentTimeMillis(),
-        success: Boolean,
+        sections: Set<BackupManager.Section>,
+        profileIds: Set<Long>,
+        timing: LocalAutoSyncTiming,
+        theirSections: Set<BackupManager.Section>? = null,
     ) {
         store.edit { prefs ->
-            val key = deviceKey(deviceId)
-            // Nothing was ever configured for this device, so there is no record to stamp. A
-            // device without settings is a device that never auto-syncs, and inventing an entry
-            // for it would turn "off" into "off, but with a history".
-            val config = prefs[key]?.let { decode(it) } ?: return@edit
-            prefs[key] = encode(
-                config.copy(
-                    lastRunAt = at,
-                    lastSuccessAt = if (success) at else config.lastSuccessAt,
+            val before = prefs[agreementKey(deviceId)]?.let(::decode) ?: AutoSyncAgreement(deviceId)
+            prefs[agreementKey(deviceId)] = encode(
+                before.copy(
+                    sections = sections,
+                    profileIds = profileIds,
+                    timing = timing,
+                    theirSections = theirSections ?: before.theirSections,
                 ),
             )
+            prefs.remove(turnedOffKey(deviceId))
+            prefs.remove(noticeKey(deviceId))
         }
     }
 
+    /** The other side's sections, as its last answer said them. */
+    suspend fun saveTheirSections(deviceId: String, sections: Set<BackupManager.Section>) {
+        update(deviceId) { it.copy(theirSections = sections) }
+    }
+
+    /** One try with [deviceId]: only a success moves the last success; a failure counts toward the backoff. */
+    suspend fun recordAttempt(deviceId: String, at: Long, success: Boolean) {
+        update(deviceId) { it.afterAttempt(at, success) }
+    }
+
     /**
-     * The paired devices this one has accepted for automatic sync.
-     *
-     * What a consent *means* is decided by the pass that checks it
-     * ([tv.own.owntv.core.sync.local.LocalSyncManager.runAutoSync] sends the marker, and the server
-     * refuses an unconsented one); this is only where the answer is kept.
+     * Ends the agreement with [deviceId] here. [tellThem]: this side turned it off, so the other side is
+     * told at the next contact (its next request is refused meanwhile, so it learns either way).
      */
-    val consents: Flow<Set<String>> =
-        combine(store.data, paired.devices) { prefs, devices ->
-            val known = devices.mapTo(mutableSetOf()) { it.id }
-            prefs.asMap().mapNotNull { (key, value) ->
-                val name = key.name
-                if (value !is String || !name.startsWith(CONSENT_PREFIX)) return@mapNotNull null
-                name.removePrefix(CONSENT_PREFIX).takeIf { it in known }
-            }.toSet()
+    suspend fun remove(deviceId: String, tellThem: Boolean) {
+        store.edit { prefs ->
+            prefs.remove(agreementKey(deviceId))
+            if (tellThem) prefs[noticeKey(deviceId)] = true else prefs.remove(noticeKey(deviceId))
         }
-
-    /** Records that [deviceId] may sync with this device automatically. */
-    suspend fun grantConsent(deviceId: String) {
-        store.edit { prefs -> prefs[consentKey(deviceId)] = CONSENT_VALUE }
     }
 
-    /** Withdraws [deviceId]'s permission. Its next automatic pass is refused. */
-    suspend fun revokeConsent(deviceId: String) {
-        store.edit { prefs -> prefs.remove(consentKey(deviceId)) }
+    /** The other side turned it off: the agreement goes, and the row says so until a new one. */
+    suspend fun turnedOffByThem(deviceId: String, at: Long) {
+        store.edit { prefs ->
+            prefs.remove(agreementKey(deviceId))
+            prefs.remove(noticeKey(deviceId))
+            prefs[turnedOffKey(deviceId)] = at
+        }
     }
 
-    /** The consents as they are right now. */
-    suspend fun currentConsents(): Set<String> = consents.first()
+    /** Devices whose own side has turned the agreement off, by when. */
+    val turnedOffByThem: Flow<Map<String, Long>> = store.data.map { prefs ->
+        prefs.asMap().mapNotNull { (k, v) ->
+            k.name.takeIf { it.startsWith(TURNED_OFF_PREFIX) }?.removePrefix(TURNED_OFF_PREFIX)?.let { id -> (v as? Long)?.let { id to it } }
+        }.toMap()
+    }
 
-    /** True when [deviceId] is still paired and this device has accepted it. */
-    suspend fun allows(deviceId: String): Boolean = currentConsents().contains(deviceId)
+    /** Devices still to be told that this side turned the agreement off. */
+    suspend fun pendingNotices(): Set<String> = store.data.first().asMap().keys
+        .mapNotNullTo(HashSet()) { k -> k.name.takeIf { it.startsWith(NOTICE_PREFIX) }?.removePrefix(NOTICE_PREFIX) }
 
-    private fun read(prefs: Preferences): LocalAutoSyncSettings =
-        LocalAutoSyncSettings(
-            byDevice = buildMap {
-                prefs.asMap().forEach { (key, value) ->
-                    val name = key.name
-                    if (!name.startsWith(DEVICE_PREFIX) || value !is String) return@forEach
-                    val config = decode(value) ?: return@forEach
-                    put(name.removePrefix(DEVICE_PREFIX), config)
-                }
-            },
-        )
+    suspend fun noticeDelivered(deviceId: String) {
+        store.edit { it.remove(noticeKey(deviceId)) }
+    }
 
-    private fun encode(config: LocalAutoSyncConfig): String = JSONObject().apply {
-        put(FIELD_TIMING, config.timing.name)
-        put(FIELD_SECTIONS, JSONArray(config.sections.map { it.name }))
-        put(FIELD_PROFILES, JSONArray(config.profileIds.toList()))
-        put(FIELD_LAST_RUN, config.lastRunAt)
-        put(FIELD_LAST_SUCCESS, config.lastSuccessAt)
-    }.toString()
+    /** Everything about [deviceId], for a device that is unpaired. */
+    suspend fun forget(deviceId: String) {
+        store.edit { prefs ->
+            prefs.remove(agreementKey(deviceId))
+            prefs.remove(noticeKey(deviceId))
+            prefs.remove(turnedOffKey(deviceId))
+        }
+    }
 
-    /**
-     * One record back, or null when it cannot be read at all.
-     *
-     * A field that makes no sense falls back to the same reading an absent key gets — an unknown
-     * timing is off, an unknown section is simply not one — rather than dropping the record: losing
-     * the user's profiles because one enum was renamed would be worse than losing that one field.
-     */
-    private fun decode(raw: String): LocalAutoSyncConfig? = runCatching {
-        val json = JSONObject(raw)
-        LocalAutoSyncConfig(
-            timing = json.optString(FIELD_TIMING)
-                .let { name -> LocalAutoSyncTiming.entries.firstOrNull { it.name == name } }
-                ?: LocalAutoSyncTiming.DEFAULT,
-            // An absent list means "never saved", and that means everything. A list that IS there
-            // is taken at its word, even when it is empty: "the user ticked nothing" and "the user
-            // never said" are different answers, and reading the second one as the first would give
-            // a user who unticked everything the opposite of what they asked for.
-            sections = json.optJSONArray(FIELD_SECTIONS)?.let { array ->
-                (0 until array.length())
-                    .mapNotNull { index ->
-                        val name = array.optString(index)
-                        BackupManager.Section.entries.firstOrNull { it.name == name }
-                    }
-                    .toSet()
-            } ?: BackupManager.Section.entries.toSet(),
-            // The same reading as the sections above. A profile deleted since it was ticked simply
-            // stops matching anything, which is the right answer — it no longer exists.
-            profileIds = json.optJSONArray(FIELD_PROFILES)?.let { array ->
-                (0 until array.length())
-                    .mapNotNull { index -> (array.opt(index) as? Number)?.toLong() }
-                    .toSet()
-            } ?: emptySet(),
-            lastRunAt = json.optLong(FIELD_LAST_RUN, 0),
-            lastSuccessAt = json.optLong(FIELD_LAST_SUCCESS, 0),
-        )
-    }.getOrNull()
+    /** "Keep auto-sync listening": on = whenever OwnTV runs, off = only while Sync mode is on. Off by default. */
+    val listenAlways: Flow<Boolean> = store.data.map { it[LISTEN_ALWAYS] == true }
 
-    private companion object {
-        const val FIELD_TIMING = "timing"
-        const val FIELD_SECTIONS = "sections"
-        const val FIELD_PROFILES = "profiles"
-        const val FIELD_LAST_RUN = "lastRunAt"
-        const val FIELD_LAST_SUCCESS = "lastSuccessAt"
+    suspend fun setListenAlways(on: Boolean) {
+        store.edit { if (on) it[LISTEN_ALWAYS] = true else it.remove(LISTEN_ALWAYS) }
+    }
+
+    private suspend fun update(deviceId: String, change: (AutoSyncAgreement) -> AutoSyncAgreement) {
+        store.edit { prefs ->
+            // No agreement, nothing to stamp: a try that raced a turn-off must not bring one back.
+            val before = prefs[agreementKey(deviceId)]?.let(::decode) ?: return@edit
+            prefs[agreementKey(deviceId)] = encode(change(before))
+        }
+    }
+
+    private fun read(prefs: Preferences): Map<String, AutoSyncAgreement> = buildMap {
+        prefs.asMap().forEach { (key, value) ->
+            val id = key.name.takeIf { it.startsWith(AGREEMENT_PREFIX) }?.removePrefix(AGREEMENT_PREFIX) ?: return@forEach
+            (value as? String)?.let(::decode)?.let { put(id, it) }
+        }
+    }
+
+    internal companion object {
+        const val AGREEMENT_PREFIX = "agreement:"
+        const val NOTICE_PREFIX = "notice:"
+        const val TURNED_OFF_PREFIX = "turned_off:"
+        val LISTEN_ALWAYS = booleanPreferencesKey("auto_sync_listener_always")
+
+        fun agreementKey(id: String) = stringPreferencesKey("$AGREEMENT_PREFIX$id")
+        fun noticeKey(id: String) = booleanPreferencesKey("$NOTICE_PREFIX$id")
+        fun turnedOffKey(id: String) = longPreferencesKey("$TURNED_OFF_PREFIX$id")
+
+        fun encode(a: AutoSyncAgreement): String = JSONObject()
+            .put("device", a.deviceId)
+            .put("sections", JSONArray(a.sections.map { it.name }))
+            .put("profiles", JSONArray(a.profileIds.toList()))
+            .put("timing", a.timing.name)
+            .put("theirSections", JSONArray(a.theirSections.map { it.name }))
+            .put("lastAttemptAt", a.lastAttemptAt)
+            .put("lastSuccessAt", a.lastSuccessAt)
+            .put("failures", a.failures)
+            .toString()
+
+        /** A record back; a field this build does not know reads as its default rather than dropping the agreement. */
+        fun decode(raw: String): AutoSyncAgreement? = runCatching {
+            val o = JSONObject(raw)
+            AutoSyncAgreement(
+                deviceId = o.getString("device"),
+                sections = sections(o.optJSONArray("sections")) ?: AutoSyncAgreement.DEFAULT_SECTIONS,
+                profileIds = o.optJSONArray("profiles")?.let { a -> (0 until a.length()).mapNotNullTo(HashSet()) { (a.opt(it) as? Number)?.toLong() } }.orEmpty(),
+                timing = LocalAutoSyncTiming.parse(o.optString("timing")),
+                theirSections = sections(o.optJSONArray("theirSections")).orEmpty(),
+                lastAttemptAt = o.optLong("lastAttemptAt"),
+                lastSuccessAt = o.optLong("lastSuccessAt"),
+                failures = o.optInt("failures"),
+            )
+        }.getOrNull()
+
+        fun sections(a: JSONArray?): Set<BackupManager.Section>? = a?.let {
+            (0 until it.length()).mapNotNullTo(HashSet()) { i -> BackupManager.Section.entries.firstOrNull { s -> s.name == it.optString(i) } }
+        }
     }
 }
