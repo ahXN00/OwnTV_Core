@@ -9,7 +9,7 @@
 > in one bolded line of its own (e.g. **Database v46 · Backup v24 · Breaking**). The detail — what,
 > why, files and verification — belongs in the commit message, never here.
 
-## core-1.0.70 — unreleased
+## core-1.0.70 — 2026-11-07
 
 **Database v53 · Backup v26 · Backup: two new playlist fields, each profile's last categories, Settings lock PINs · Moved items keep their place**
 
