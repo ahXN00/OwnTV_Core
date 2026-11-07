@@ -33,6 +33,8 @@
 - **🔒 Lock a category with its own category lock PIN** (community PR #37 by @Kevsosmooth)
 - **🔐 Settings lock: a PIN of its own per profile, optionally for long-press changes too** (community PR #47 by @Kevsosmooth)
 - **🛡️ Protected profiles: new profiles, backups, restores, Local sync and profile edits respect profile and Settings locks**
+- **🔁 Local auto-sync: paired devices keep each other in step by themselves, with what each one allows** (community PR #56 by @igebara)
+- **👂 Keep auto-sync listening, as a switch (off by default)**
 - **🪟 Picture-in-picture when leaving the app** (community PR #39 by @Kevsosmooth)
 - **🔑 Stalker portals: an optional username and password**
 - **⌨️ Key hints for the Sports Calendar and Leagues tabs**
