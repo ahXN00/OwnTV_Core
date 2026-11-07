@@ -627,11 +627,21 @@
     <string name="settings_customize_pin_locked">이 화면은 PIN으로 잠겨 있습니다.</string>
     <string name="settings_customize_wrong_pin">PIN이 잘못되었습니다. 다시 시도하세요</string>
     <string name="settings_customize_enter_pin">PIN 입력</string>
-    <string name="settings_customize_set_pin">🔒 PIN 설정</string>
-    <string name="settings_customize_change_pin">🔒 PIN 변경</string>
+    <string name="settings_customize_set_pin">🔒 카테고리 잠금 PIN 설정</string>
+    <string name="settings_customize_change_pin">🔒 카테고리 잠금 PIN 변경</string>
+    <string name="settings_customize_remove_pin">카테고리 잠금 PIN 삭제</string>
     <string name="settings_customize_remove_lock">잠금 해제</string>
-    <string name="settings_customize_settings_pin">설정을 열 때 PIN 요청</string>
-    <string name="settings_customize_settings_pin_button">설정을 열 때 PIN 요청: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">설정 잠금</string>
+    <string name="settings_lock_description">설정, 백업 및 복원, 로컬 동기화는 별도의 PIN을 요구합니다. 프로필마다 직접 설정합니다.</string>
+    <string name="settings_line_settings_lock">설정 전용 PIN</string>
+    <string name="settings_help_settings_lock">설정, 백업 및 복원, 로컬 동기화를 열기 전에 요구하는 이 프로필의 PIN입니다. 프로필 PIN도 카테고리 잠금 PIN도 아닙니다. 잠금마다 고유한 PIN이 있으며 어느 것도 다른 잠금을 열지 않습니다. PIN 변경과 끄기는 현재 설정 PIN을 요구합니다.</string>
+    <string name="settings_lock_menus">길게 누르기 메뉴 변경도 잠금</string>
+    <string name="settings_lock_menus_description">숨기기, 이동, 이름 변경, 카테고리 잠금, 시청 기록에서 삭제도 설정 PIN을 요구합니다. 즐겨찾기와 재생은 요구하지 않습니다.</string>
+    <string name="settings_line_settings_lock_menus">길게 누르기 변경 시 설정 PIN 요구</string>
+    <string name="settings_help_settings_lock_menus">켜면 길게 누르기 변경(숨기기, 이동, 이름 변경, 카테고리 잠금, 시청 기록에서 삭제)이 먼저 설정 PIN을 요구합니다. 올바른 PIN을 한 번 입력하면 앱을 나가거나 프로필을 바꿀 때까지 열려 있습니다. 즐겨찾기 추가와 재생은 요구하지 않습니다.</string>
+    <string name="settings_lock_change_pin">PIN 변경</string>
+    <string name="settings_lock_turn_off">끄기</string>
+    <string name="settings_search_keywords_settings_lock">잠금 pin 비밀번호 자녀 보호 설정</string>
     <string name="settings_customize_description">이 프로필의 채널, 영화 및 시리즈를 숨기거나 다시 표시하고 카테고리의 이름이나 순서를 변경합니다. 다시 동기화한 후에도 유지됩니다.</string>
     <string name="settings_customize_new_category_behavior">새 카테고리 동작</string>
     <string name="settings_customize_hide">숨기기</string>
@@ -674,8 +684,7 @@
     <string name="settings_customize_restore_defaults_title"><xliff:g id="playlist">%2$s</xliff:g>의 <xliff:g id="section">%1$s</xliff:g>을(를) 복원할까요?</string>
     <string name="settings_customize_restore_defaults_description">숨긴 카테고리와 항목이 다시 표시되고, 이름 변경과 사용자 지정 순서가 해제되며, 이동한 항목이 돌아옵니다. 통합 카테고리, 즐겨찾기, 편성표 매칭은 유지됩니다.</string>
     <string name="settings_customize_rename_hint">이 프로필에만 적용됩니다. 비워 두면 “<xliff:g id="name">%1$s</xliff:g>”(으)로 복원됩니다.</string>
-    <string name="settings_customize_remove_pin_title">PIN 잠금을 해제하시겠습니까?</string>
-    <string name="settings_customize_remove_pin_message">앞으로 맞춤 설정 화면을 열 때 PIN을 묻지 않습니다.</string>
+    <string name="settings_customize_remove_pin_title">카테고리 잠금 PIN을 삭제할까요?</string>
     <string name="settings_customize_remove_pin_locks">이 PIN으로 잠근 모든 카테고리도 잠금 해제됩니다.</string>
     <string name="settings_customize_remove">해제</string>
     <string name="settings_customize_confirm_pin">새 PIN 확인</string>

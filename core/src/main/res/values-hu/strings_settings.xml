@@ -669,11 +669,21 @@
     <string name="settings_customize_pin_locked">Ez a képernyő PIN-kóddal védett.</string>
     <string name="settings_customize_wrong_pin">Hibás PIN — próbáld újra</string>
     <string name="settings_customize_enter_pin">Add meg a PIN-kódot</string>
-    <string name="settings_customize_set_pin">🔒 PIN beállítása</string>
-    <string name="settings_customize_change_pin">🔒 PIN módosítása</string>
+    <string name="settings_customize_set_pin">🔒 Kategóriazár PIN-kódjának beállítása</string>
+    <string name="settings_customize_change_pin">🔒 Kategóriazár PIN-kódjának módosítása</string>
+    <string name="settings_customize_remove_pin">Kategóriazár PIN-kódjának eltávolítása</string>
     <string name="settings_customize_remove_lock">Zár eltávolítása</string>
-    <string name="settings_customize_settings_pin">PIN-kód kérése a Beállítások megnyitásához</string>
-    <string name="settings_customize_settings_pin_button">PIN-kód kérése a Beállítások megnyitásához: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">Beállítások zárolása</string>
+    <string name="settings_lock_description">A Beállítások, a Mentés és visszaállítás és a Helyi szinkronizálás saját PIN-kódot kér. Minden profil a sajátját állítja be.</string>
+    <string name="settings_line_settings_lock">Saját PIN-kód a Beállításokhoz</string>
+    <string name="settings_help_settings_lock">A profil PIN-kódja, amelyet a Beállítások, a Mentés és visszaállítás és a Helyi szinkronizálás kér megnyitás előtt. Nem azonos a profil PIN-kódjával és a kategóriazár PIN-kódjával sem: minden zárnak saját PIN-kódja van, és egyik sem nyit meg egy másikat. A PIN módosítása és a Kikapcsolás a jelenlegi beállítási PIN-kódot kéri.</string>
+    <string name="settings_lock_menus">A hosszan nyomott menü módosításainak zárolása is</string>
+    <string name="settings_lock_menus_description">Az Elrejtés, Áthelyezés, Átnevezés, egy kategória zárolása és az Eltávolítás az előzményekből szintén a beállítási PIN-kódot kéri. A Kedvencek és a Lejátszás soha.</string>
+    <string name="settings_line_settings_lock_menus">A hosszan nyomott módosítások a beállítási PIN-kódot kérik</string>
+    <string name="settings_help_settings_lock_menus">Ha be van kapcsolva, a hosszan nyomott módosítások (Elrejtés, Áthelyezés, Átnevezés, Kategória zárolása és Eltávolítás az előzményekből) először a beállítási PIN-kódot kérik. Egy helyes PIN-kód feloldja őket, amíg ki nem lépsz az alkalmazásból vagy profilt nem váltasz. A kedvencekhez adás és a lejátszás soha nem kéri.</string>
+    <string name="settings_lock_change_pin">PIN módosítása</string>
+    <string name="settings_lock_turn_off">Kikapcsolás</string>
+    <string name="settings_search_keywords_settings_lock">zár pin jelszó szülői beállítások</string>
     <string name="settings_customize_description">Csatornák, filmek és sorozatok elrejtése és megjelenítése, valamint kategóriák átnevezése vagy átrendezése ehhez a profilhoz. Az újraszinkronizálást is túléli.</string>
     <string name="settings_customize_new_category_behavior">Új kategóriák kezelése</string>
     <string name="settings_customize_hide">Elrejtés</string>
@@ -717,8 +727,7 @@
     <string name="settings_customize_restore_defaults_title"><xliff:g id="section">%1$s</xliff:g> (<xliff:g id="playlist">%2$s</xliff:g>) visszaállítása?</string>
     <string name="settings_customize_restore_defaults_description">A rejtett kategóriák és elemek újra megjelennek, az átnevezések és az egyéni sorrend törlődnek, az áthelyezett elemek pedig visszakerülnek. A vegyes kategóriák, a kedvencek és a műsorújság-párosítások megmaradnak.</string>
     <string name="settings_customize_rename_hint">Csak ehhez a profilhoz. Hagyd üresen a(z) „<xliff:g id="name">%1$s</xliff:g>” visszaállításához.</string>
-    <string name="settings_customize_remove_pin_title">Eltávolítod a PIN-zárat?</string>
-    <string name="settings_customize_remove_pin_message">A Testreszabás képernyő ezután PIN-kód kérése nélkül nyílik meg.</string>
+    <string name="settings_customize_remove_pin_title">Eltávolítod a kategóriazár PIN-kódját?</string>
     <string name="settings_customize_remove_pin_locks">Az ezzel a PIN-kóddal zárolt összes kategória zárolása is feloldódik.</string>
     <string name="settings_customize_remove">Eltávolítás</string>
     <string name="settings_customize_confirm_pin">Erősítsd meg az új PIN-kódot</string>

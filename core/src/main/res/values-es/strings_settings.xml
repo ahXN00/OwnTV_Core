@@ -633,11 +633,21 @@
     <string name="settings_customize_pin_locked">Esta pantalla está bloqueada con PIN.</string>
     <string name="settings_customize_wrong_pin">PIN incorrecto — vuelve a intentarlo</string>
     <string name="settings_customize_enter_pin">Introduce el PIN</string>
-    <string name="settings_customize_set_pin">🔒 Configurar PIN</string>
-    <string name="settings_customize_change_pin">🔒 Cambiar PIN</string>
+    <string name="settings_customize_set_pin">🔒 Configurar PIN de bloqueo de categorías</string>
+    <string name="settings_customize_change_pin">🔒 Cambiar PIN de bloqueo de categorías</string>
+    <string name="settings_customize_remove_pin">Quitar PIN de bloqueo de categorías</string>
     <string name="settings_customize_remove_lock">Quitar bloqueo</string>
-    <string name="settings_customize_settings_pin">Pedir PIN para abrir los Ajustes</string>
-    <string name="settings_customize_settings_pin_button">Pedir PIN para abrir los Ajustes: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">Bloqueo de ajustes</string>
+    <string name="settings_lock_description">Ajustes, Copia de seguridad y restauración y Sincronización local piden un PIN propio. Cada perfil configura el suyo.</string>
+    <string name="settings_line_settings_lock">Un PIN propio para Ajustes</string>
+    <string name="settings_help_settings_lock">Un PIN para este perfil que Ajustes, Copia de seguridad y restauración y Sincronización local piden antes de abrirse. No es el PIN del perfil ni el PIN de bloqueo de categorías: cada bloqueo tiene su propio PIN y ninguno abre otro. Cambiar PIN y Desactivar piden el PIN actual de ajustes.</string>
+    <string name="settings_lock_menus">Bloquear también los cambios del menú de pulsación larga</string>
+    <string name="settings_lock_menus_description">Ocultar, Mover, Cambiar nombre, bloquear una categoría y Eliminar del historial también piden el PIN de ajustes. Favoritos y Reproducir nunca.</string>
+    <string name="settings_line_settings_lock_menus">Los cambios de pulsación larga piden el PIN de ajustes</string>
+    <string name="settings_help_settings_lock_menus">Con esto activado, los cambios de pulsación larga (Ocultar, Mover, Cambiar nombre, Bloquear categoría y Eliminar del historial) piden primero el PIN de ajustes. Un PIN correcto los desbloquea hasta que salgas de la aplicación o cambies de perfil. Añadir a favoritos y reproducir nunca lo piden.</string>
+    <string name="settings_lock_change_pin">Cambiar PIN</string>
+    <string name="settings_lock_turn_off">Desactivar</string>
+    <string name="settings_search_keywords_settings_lock">bloqueo pin contraseña parental ajustes</string>
     <string name="settings_customize_description">Oculta y vuelve a mostrar canales, películas y series, y cambia el nombre o el orden de las categorías de este perfil. Los cambios se conservan al volver a sincronizar.</string>
     <string name="settings_customize_new_category_behavior">Comportamiento de las categories nuevas</string>
     <string name="settings_customize_hide">Ocultar</string>
@@ -682,8 +692,7 @@
     <string name="settings_customize_restore_defaults_title">¿Restaurar <xliff:g id="section">%1$s</xliff:g> en <xliff:g id="playlist">%2$s</xliff:g>\?</string>
     <string name="settings_customize_restore_defaults_description">Las categorías y los elementos ocultos vuelven a mostrarse, se borran los nombres cambiados y el orden personalizado, y los elementos movidos regresan. Se conservan las categorías combinadas, los favoritos y las asociaciones de la guía.</string>
     <string name="settings_customize_rename_hint">Solo para este perfil. Déjalo en blanco para restaurar «<xliff:g id="name">%1$s</xliff:g>».</string>
-    <string name="settings_customize_remove_pin_title">¿Quitar el bloqueo con PIN?</string>
-    <string name="settings_customize_remove_pin_message">La pantalla Personalizar volverá a abrirse sin solicitar un PIN.</string>
+    <string name="settings_customize_remove_pin_title">¿Quitar el PIN de bloqueo de categorías?</string>
     <string name="settings_customize_remove_pin_locks">Todas las categorías bloqueadas con este PIN también se desbloquean.</string>
     <string name="settings_customize_remove">Quitar</string>
     <string name="settings_customize_confirm_pin">Confirma el PIN nuevo</string>

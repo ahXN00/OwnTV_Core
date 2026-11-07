@@ -91,6 +91,7 @@ class LocalSyncManager(
     private val paired: PairedDeviceStore,
     private val client: LocalSyncClient,
     private val discovery: LocalSyncDiscovery,
+    private val protection: tv.own.owntv.core.profile.ProfileProtection,
 ) {
     private val appContext = context.applicationContext
 
@@ -169,7 +170,8 @@ class LocalSyncManager(
         // for why it stays a local until the container it opens has actually been written.
         val password = PairedDeviceStore.newSecret()
         selfId = paired.selfId()
-        val exported = backups.export(folder, sections, password, profileIds, recordAsBackup = false)
+        // A protected profile goes out only when it is the one in use here (see ProfileProtection).
+        val exported = backups.export(folder, sections, password, profileIds ?: protection.includableProfileIds(), recordAsBackup = false)
             .getOrElse { return@withContext Result.failure(it) }
         // Read once, here, rather than per request: the server asks for these while answering, and a
         // device unpaired mid-session simply stops working on the next session, which is soon enough.
@@ -344,9 +346,12 @@ class LocalSyncManager(
         password: String? = null,
         /** The user ticked the other device's hardware settings on the confirm step. */
         deviceSettings: Boolean = false,
+        /** Protected profiles here the user unlocked with a PIN; the other protected ones are left as they are. */
+        unlocked: Set<Long> = emptySet(),
     ): Result<BackupManager.ImportSummary> {
         _progress.value = SyncProgress.Applying
-        return backups.import(file, sections, password, BackupManager.ImportMode.MERGE, deviceSettings)
+        val holdBack = runCatching { protection.heldBack(unlocked) }.getOrElse { return Result.failure(it) }
+        return backups.import(file, sections, password, BackupManager.ImportMode.MERGE, deviceSettings, holdBack)
             .onSuccess { _progress.value = SyncProgress.Done(received = it, sent = false) }
             .onFailure { _progress.value = SyncProgress.Failed(failureFor(it)) }
     }
@@ -373,7 +378,7 @@ class LocalSyncManager(
             mkdirs()
             listFiles()?.forEach { it.delete() }
         }
-        backups.export(folder, sections, password, profileIds, recordAsBackup = false)
+        backups.export(folder, sections, password, profileIds ?: protection.includableProfileIds(), recordAsBackup = false)
             .mapCatching { path ->
                 _progress.value = SyncProgress.Transferring
                 client.send(device.address, device.port, device.secret, File(path)).getOrThrow()

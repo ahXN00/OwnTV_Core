@@ -1298,16 +1298,36 @@
     <string name="settings_customize_wrong_pin">Wrong PIN — try again</string>
     <!-- Translators: Heading on the Customize PIN entry screen. -->
     <string name="settings_customize_enter_pin">Enter PIN</string>
-    <!-- Translators: Button to set a PIN on the Customize screen. The lock emoji is part of the display. -->
-    <string name="settings_customize_set_pin">🔒 Set PIN</string>
-    <!-- Translators: Button to change the PIN on the Customize screen. The lock emoji is part of the display. -->
-    <string name="settings_customize_change_pin">🔒 Change PIN</string>
+    <!-- Translators: Customize screen menu entry: set the PIN that opens locked categories. The lock emoji is part of the display. -->
+    <string name="settings_customize_set_pin">🔒 Set category lock PIN</string>
+    <!-- Translators: Customize screen menu entry: change the PIN that opens locked categories. The lock emoji is part of the display. -->
+    <string name="settings_customize_change_pin">🔒 Change category lock PIN</string>
+    <!-- Translators: Customize screen menu entry: remove the PIN that opens locked categories (every category lock goes with it). -->
+    <string name="settings_customize_remove_pin">Remove category lock PIN</string>
     <!-- Translators: Button to remove the PIN lock from the Customize screen. -->
     <string name="settings_customize_remove_lock">Remove lock</string>
-    <!-- Translators: Name of the option, in the Customize screen menu, that makes opening Settings ask for the Customize PIN. Also a Settings search result. -->
-    <string name="settings_customize_settings_pin">Ask for PIN to open Settings</string>
-    <!-- Translators: The same option as a Customize menu entry showing its state. "state" is On or Off. -->
-    <string name="settings_customize_settings_pin_button">Ask for PIN to open Settings: <xliff:g id="state">%1$s</xliff:g></string>
+    <!-- Translators: Settings › App row: a PIN of its own that Settings, Backup & Restore and Local sync ask for. Also the popup title. -->
+    <string name="settings_lock">Settings lock</string>
+    <!-- Translators: Description under the Settings lock row and in its popup. -->
+    <string name="settings_lock_description">Settings, Backup &amp; Restore and Local sync ask for a PIN of their own. Each profile sets its own.</string>
+    <!-- Translators: Short line for the Settings lock row on the TV. -->
+    <string name="settings_line_settings_lock">A PIN of its own for Settings</string>
+    <!-- Translators: Help panel text for the Settings lock row. -->
+    <string name="settings_help_settings_lock">A PIN for this profile that Settings, Backup &amp; Restore and Local sync ask for before they open. It is neither the profile PIN nor the category lock PIN: each lock has its own PIN, and none of them opens another. Change PIN and Turn off ask for the current Settings PIN.</string>
+    <!-- Translators: Switch shown under the Settings lock while it is on: the long-press menu's organising actions ask for the Settings PIN too. -->
+    <string name="settings_lock_menus">Also lock long-press menu changes</string>
+    <!-- Translators: Description of the switch above. -->
+    <string name="settings_lock_menus_description">Hide, Move, Rename, locking a category and Remove from History ask for the Settings PIN too. Favorites and Play never do.</string>
+    <!-- Translators: Short line for the long-press switch on the TV. -->
+    <string name="settings_line_settings_lock_menus">Long-press changes ask for the Settings PIN</string>
+    <!-- Translators: Help panel text for the long-press switch. -->
+    <string name="settings_help_settings_lock_menus">With this on, the long-press changes (Hide, Move, Rename, Lock category and Remove from History) ask for the Settings PIN first. One right PIN opens them until you leave the app or switch profile. Adding to Favorites and playing never ask.</string>
+    <!-- Translators: Button in the Settings lock popup: set a new Settings PIN (asks for the current one first). -->
+    <string name="settings_lock_change_pin">Change PIN</string>
+    <!-- Translators: Button in the Settings lock popup: turn the Settings lock off (asks for the current PIN first). -->
+    <string name="settings_lock_turn_off">Turn off</string>
+    <!-- Translators: Settings search keywords for the Settings lock, space-separated, lowercase. -->
+    <string name="settings_search_keywords_settings_lock">lock pin password parental settings</string>
     <!-- Translators: Description of the Customize Categories & Items feature. -->
     <string name="settings_customize_description">Hide &amp; unhide channels, movies and series, and rename or reorder categories for this profile. Survives re-syncs.</string>
     <!-- Translators: Setting label for new-category visibility behavior. -->
@@ -1392,10 +1412,8 @@
     <string name="settings_customize_restore_defaults_description">Hidden categories and items show again, renames and custom order are cleared, and moved-out items return. Combined categories, favorites and guide matches are kept.</string>
     <!-- Translators: Hint text in the rename dialog. 'name' is the current category name. -->
     <string name="settings_customize_rename_hint">Only for this profile. Leave blank to restore “<xliff:g id="name">%1$s</xliff:g>”.</string>
-    <!-- Translators: Dialog title for removing the Customize screen PIN lock. -->
-    <string name="settings_customize_remove_pin_title">Remove PIN lock?</string>
-    <!-- Translators: Description of what removing the PIN lock does. -->
-    <string name="settings_customize_remove_pin_message">The Customize screen will open without asking for a PIN again.</string>
+    <!-- Translators: Dialog title for removing the PIN that opens locked categories. -->
+    <string name="settings_customize_remove_pin_title">Remove the category lock PIN?</string>
     <!-- Translators: Second sentence of the remove-PIN confirmation: categories locked from the Live TV, Movies or Series menu lose their lock as well. -->
     <string name="settings_customize_remove_pin_locks">Every category locked with this PIN is unlocked too.</string>
     <!-- Translators: Button to confirm removal. -->

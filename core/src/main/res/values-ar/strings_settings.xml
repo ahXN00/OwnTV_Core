@@ -642,11 +642,21 @@
     <string name="settings_customize_pin_locked">هذه الشاشة مقفلة باستخدام PIN.</string>
     <string name="settings_customize_wrong_pin">رمز PIN غير صحيح — حاول مرة أخرى</string>
     <string name="settings_customize_enter_pin">إدخال PIN</string>
-    <string name="settings_customize_set_pin">🔒 تعيين PIN</string>
-    <string name="settings_customize_change_pin">🔒 تغيير PIN</string>
+    <string name="settings_customize_set_pin">🔒 تعيين رمز PIN لقفل الفئات</string>
+    <string name="settings_customize_change_pin">🔒 تغيير رمز PIN لقفل الفئات</string>
+    <string name="settings_customize_remove_pin">إزالة رمز PIN لقفل الفئات</string>
     <string name="settings_customize_remove_lock">إزالة القفل</string>
-    <string name="settings_customize_settings_pin">طلب رمز PIN لفتح الإعدادات</string>
-    <string name="settings_customize_settings_pin_button">طلب رمز PIN لفتح الإعدادات: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">قفل الإعدادات</string>
+    <string name="settings_lock_description">تطلب الإعدادات والنسخ الاحتياطي والاستعادة والمزامنة المحلية رمز PIN خاصًا بها. يعيّن كل ملف شخصي رمزه الخاص.</string>
+    <string name="settings_line_settings_lock">رمز PIN خاص للإعدادات</string>
+    <string name="settings_help_settings_lock">رمز PIN لهذا الملف الشخصي تطلبه الإعدادات والنسخ الاحتياطي والاستعادة والمزامنة المحلية قبل فتحها. ليس رمز PIN للملف الشخصي ولا رمز PIN لقفل الفئات: لكل قفل رمزه الخاص، ولا يفتح أي منها قفلًا آخر. يطلب تغيير PIN وإيقاف التشغيل رمز PIN الحالي للإعدادات.</string>
+    <string name="settings_lock_menus">قفل تغييرات قائمة الضغط المطوّل أيضًا</string>
+    <string name="settings_lock_menus_description">تطلب أيضًا إخفاء ونقل وإعادة تسمية وقفل فئة والإزالة من سجل المشاهدة رمز PIN للإعدادات. أما المفضلة والتشغيل فلا تطلبه أبدًا.</string>
+    <string name="settings_line_settings_lock_menus">تطلب تغييرات الضغط المطوّل رمز PIN للإعدادات</string>
+    <string name="settings_help_settings_lock_menus">عند تشغيل هذا الخيار، تطلب تغييرات الضغط المطوّل (إخفاء، نقل، إعادة تسمية، قفل الفئة، والإزالة من سجل المشاهدة) رمز PIN للإعدادات أولًا. يفتحها رمز صحيح واحد حتى تغادر التطبيق أو تبدّل الملف الشخصي. لا تطلبه أبدًا الإضافة إلى المفضلة ولا التشغيل.</string>
+    <string name="settings_lock_change_pin">تغيير PIN</string>
+    <string name="settings_lock_turn_off">إيقاف التشغيل</string>
+    <string name="settings_search_keywords_settings_lock">قفل pin كلمة المرور الرقابة الأبوية الإعدادات</string>
     <string name="settings_customize_description">أخفِ القنوات والأفلام والمسلسلات أو أظهرها، وأعد تسمية الفئات أو ترتيبها لهذا الملف الشخصي. تبقى هذه التخصيصات بعد عمليات إعادة المزامنة.</string>
     <string name="settings_customize_new_category_behavior">سلوك الفئات الجديدة</string>
     <string name="settings_customize_hide">إخفاء</string>
@@ -694,8 +704,7 @@
     <string name="settings_customize_restore_defaults_title">استعادة <xliff:g id="section">%1$s</xliff:g> في <xliff:g id="playlist">%2$s</xliff:g>؟</string>
     <string name="settings_customize_restore_defaults_description">تظهر الفئات والعناصر المخفية من جديد، ويُمسح تغيير الأسماء والترتيب المخصّص، وتعود العناصر المنقولة. تبقى الفئات المجمّعة والمفضّلة ومطابقات دليل البرامج كما هي.</string>
     <string name="settings_customize_rename_hint">لهذا الملف الشخصي فقط. اتركه فارغًا لاستعادة «<xliff:g id="name">%1$s</xliff:g>».</string>
-    <string name="settings_customize_remove_pin_title">هل تريد إزالة قفل PIN؟</string>
-    <string name="settings_customize_remove_pin_message">ستُفتح شاشة التخصيص دون طلب رمز PIN مرة أخرى.</string>
+    <string name="settings_customize_remove_pin_title">هل تريد إزالة رمز PIN لقفل الفئات؟</string>
     <string name="settings_customize_remove_pin_locks">سيُلغى أيضًا قفل كل فئة مقفلة بهذا الرمز.</string>
     <string name="settings_customize_remove">إزالة</string>
     <string name="settings_customize_confirm_pin">تأكيد PIN الجديد</string>

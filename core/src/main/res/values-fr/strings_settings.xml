@@ -633,11 +633,21 @@
     <string name="settings_customize_pin_locked">Cet écran est verrouillé par PIN.</string>
     <string name="settings_customize_wrong_pin">PIN incorrect — réessayez</string>
     <string name="settings_customize_enter_pin">Saisir le PIN</string>
-    <string name="settings_customize_set_pin">🔒 Définir un PIN</string>
-    <string name="settings_customize_change_pin">🔒 Modifier le PIN</string>
+    <string name="settings_customize_set_pin">🔒 Définir le PIN de verrouillage des catégories</string>
+    <string name="settings_customize_change_pin">🔒 Modifier le PIN de verrouillage des catégories</string>
+    <string name="settings_customize_remove_pin">Supprimer le PIN de verrouillage des catégories</string>
     <string name="settings_customize_remove_lock">Supprimer le verrouillage</string>
-    <string name="settings_customize_settings_pin">Demander le PIN pour ouvrir les Paramètres</string>
-    <string name="settings_customize_settings_pin_button">Demander le PIN pour ouvrir les Paramètres : <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">Verrouillage des paramètres</string>
+    <string name="settings_lock_description">Les Paramètres, Sauvegarde et restauration et Synchronisation locale demandent un PIN qui leur est propre. Chaque profil définit le sien.</string>
+    <string name="settings_line_settings_lock">Un PIN propre pour les Paramètres</string>
+    <string name="settings_help_settings_lock">Un PIN pour ce profil, demandé par les Paramètres, Sauvegarde et restauration et Synchronisation locale avant leur ouverture. Ce n’est ni le PIN du profil ni le PIN de verrouillage des catégories : chaque verrouillage a son propre PIN, et aucun n’en ouvre un autre. Modifier le PIN et Désactiver demandent le PIN actuel des paramètres.</string>
+    <string name="settings_lock_menus">Verrouiller aussi les modifications de l’appui long</string>
+    <string name="settings_lock_menus_description">Masquer, Déplacer, Renommer, le verrouillage d’une catégorie et Retirer de l’historique demandent aussi le PIN des paramètres. Favoris et Lecture jamais.</string>
+    <string name="settings_line_settings_lock_menus">Les modifications de l’appui long demandent le PIN des paramètres</string>
+    <string name="settings_help_settings_lock_menus">Lorsque cette option est activée, les modifications de l’appui long (Masquer, Déplacer, Renommer, Verrouiller la catégorie et Retirer de l’historique) demandent d’abord le PIN des paramètres. Un PIN correct les déverrouille jusqu’à ce que vous quittiez l’application ou changiez de profil. L’ajout aux favoris et la lecture ne le demandent jamais.</string>
+    <string name="settings_lock_change_pin">Modifier le PIN</string>
+    <string name="settings_lock_turn_off">Désactiver</string>
+    <string name="settings_search_keywords_settings_lock">verrouillage pin mot de passe parental paramètres</string>
     <string name="settings_customize_description">Masquez et réaffichez des chaînes, des films et des séries, et renommez ou réorganisez les catégories de ce profil. Ces réglages sont conservés après les resynchronisations.</string>
     <string name="settings_customize_new_category_behavior">Comportement des nouvelles catégories</string>
     <string name="settings_customize_hide">Masquer</string>
@@ -682,8 +692,7 @@
     <string name="settings_customize_restore_defaults_title">Rétablir <xliff:g id="section">%1$s</xliff:g> dans <xliff:g id="playlist">%2$s</xliff:g> ?</string>
     <string name="settings_customize_restore_defaults_description">Les catégories et éléments masqués sont de nouveau affichés, les renommages et l’ordre personnalisé sont effacés, et les éléments déplacés reviennent. Les catégories combinées, les favoris et les associations du guide sont conservés.</string>
     <string name="settings_customize_rename_hint">Uniquement pour ce profil. Laissez ce champ vide pour restaurer « <xliff:g id="name">%1$s</xliff:g> ».</string>
-    <string name="settings_customize_remove_pin_title">Supprimer le verrouillage par PIN ?</string>
-    <string name="settings_customize_remove_pin_message">L’écran de personnalisation s’ouvrira désormais sans demander de PIN.</string>
+    <string name="settings_customize_remove_pin_title">Supprimer le PIN de verrouillage des catégories ?</string>
     <string name="settings_customize_remove_pin_locks">Toutes les catégories verrouillées avec ce PIN sont aussi déverrouillées.</string>
     <string name="settings_customize_remove">Supprimer</string>
     <string name="settings_customize_confirm_pin">Confirmer le nouveau PIN</string>

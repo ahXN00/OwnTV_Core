@@ -633,11 +633,21 @@
     <string name="settings_customize_pin_locked">Questa schermata è bloccata con PIN.</string>
     <string name="settings_customize_wrong_pin">PIN errato — riprova</string>
     <string name="settings_customize_enter_pin">Inserisci il PIN</string>
-    <string name="settings_customize_set_pin">🔒 Imposta PIN</string>
-    <string name="settings_customize_change_pin">🔒 Cambia PIN</string>
+    <string name="settings_customize_set_pin">🔒 Imposta PIN di blocco categorie</string>
+    <string name="settings_customize_change_pin">🔒 Cambia PIN di blocco categorie</string>
+    <string name="settings_customize_remove_pin">Rimuovi PIN di blocco categorie</string>
     <string name="settings_customize_remove_lock">Rimuovi blocco</string>
-    <string name="settings_customize_settings_pin">Chiedi il PIN per aprire le Impostazioni</string>
-    <string name="settings_customize_settings_pin_button">Chiedi il PIN per aprire le Impostazioni: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">Blocco impostazioni</string>
+    <string name="settings_lock_description">Impostazioni, Backup e ripristino e Sincronizzazione locale chiedono un PIN tutto loro. Ogni profilo imposta il proprio.</string>
+    <string name="settings_line_settings_lock">Un PIN tutto suo per le Impostazioni</string>
+    <string name="settings_help_settings_lock">Un PIN per questo profilo che Impostazioni, Backup e ripristino e Sincronizzazione locale chiedono prima di aprirsi. Non è né il PIN del profilo né il PIN di blocco categorie: ogni blocco ha il suo PIN e nessuno ne apre un altro. Cambia PIN e Disattiva chiedono il PIN attuale delle impostazioni.</string>
+    <string name="settings_lock_menus">Blocca anche le modifiche dal menu a pressione lunga</string>
+    <string name="settings_lock_menus_description">Nascondi, Sposta, Rinomina, il blocco di una categoria e Rimuovi dalla cronologia chiedono anche il PIN delle impostazioni. Preferiti e Riproduci mai.</string>
+    <string name="settings_line_settings_lock_menus">Le modifiche a pressione lunga chiedono il PIN delle impostazioni</string>
+    <string name="settings_help_settings_lock_menus">Con questa opzione attiva, le modifiche a pressione lunga (Nascondi, Sposta, Rinomina, Blocca categoria e Rimuovi dalla cronologia) chiedono prima il PIN delle impostazioni. Un PIN corretto le sblocca finché non esci dall’app o cambi profilo. L’aggiunta ai preferiti e la riproduzione non lo chiedono mai.</string>
+    <string name="settings_lock_change_pin">Cambia PIN</string>
+    <string name="settings_lock_turn_off">Disattiva</string>
+    <string name="settings_search_keywords_settings_lock">blocco pin password parentale impostazioni</string>
     <string name="settings_customize_description">Nascondi e mostra canali, film e serie e rinomina o riordina le categorie di questo profilo. Le modifiche vengono mantenute dopo le risincronizzazioni.</string>
     <string name="settings_customize_new_category_behavior">Comportamento delle nuove categorie</string>
     <string name="settings_customize_hide">Nascondi</string>
@@ -682,8 +692,7 @@
     <string name="settings_customize_restore_defaults_title">Ripristinare <xliff:g id="section">%1$s</xliff:g> in <xliff:g id="playlist">%2$s</xliff:g>\?</string>
     <string name="settings_customize_restore_defaults_description">Le categorie e gli elementi nascosti vengono mostrati di nuovo, le rinominazioni e l’ordine personalizzato vengono cancellati e gli elementi spostati tornano al loro posto. Categorie combinate, preferiti e abbinamenti della guida restano invariati.</string>
     <string name="settings_customize_rename_hint">Solo per questo profilo. Lascia vuoto per ripristinare “<xliff:g id="name">%1$s</xliff:g>”.</string>
-    <string name="settings_customize_remove_pin_title">Rimuovere il blocco con PIN?</string>
-    <string name="settings_customize_remove_pin_message">La schermata Personalizza si aprirà senza chiedere nuovamente un PIN.</string>
+    <string name="settings_customize_remove_pin_title">Rimuovere il PIN di blocco categorie?</string>
     <string name="settings_customize_remove_pin_locks">Anche tutte le categorie bloccate con questo PIN vengono sbloccate.</string>
     <string name="settings_customize_remove">Rimuovi</string>
     <string name="settings_customize_confirm_pin">Conferma il nuovo PIN</string>

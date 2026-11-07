@@ -627,11 +627,21 @@
     <string name="settings_customize_pin_locked">此界面已启用 PIN 锁。</string>
     <string name="settings_customize_wrong_pin">PIN 错误 — 请重试</string>
     <string name="settings_customize_enter_pin">输入 PIN</string>
-    <string name="settings_customize_set_pin">🔒 设置 PIN</string>
-    <string name="settings_customize_change_pin">🔒 更改 PIN</string>
+    <string name="settings_customize_set_pin">🔒 设置分类锁 PIN</string>
+    <string name="settings_customize_change_pin">🔒 更改分类锁 PIN</string>
+    <string name="settings_customize_remove_pin">移除分类锁 PIN</string>
     <string name="settings_customize_remove_lock">移除锁定</string>
-    <string name="settings_customize_settings_pin">打开设置时要求输入 PIN</string>
-    <string name="settings_customize_settings_pin_button">打开设置时要求输入 PIN：<xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">设置锁</string>
+    <string name="settings_lock_description">设置、备份和恢复以及本地同步会要求输入专用 PIN。每个配置文件各自设置。</string>
+    <string name="settings_line_settings_lock">设置专用 PIN</string>
+    <string name="settings_help_settings_lock">此配置文件的 PIN，设置、备份和恢复以及本地同步在打开前会要求输入。它既不是配置文件 PIN，也不是分类锁 PIN：每种锁都有自己的 PIN，任何一个都打不开另一个。更改 PIN 和关闭需要输入当前的设置 PIN。</string>
+    <string name="settings_lock_menus">同时锁定长按菜单中的更改</string>
+    <string name="settings_lock_menus_description">隐藏、移动、重命名、锁定分类和从观看记录中移除也需要设置 PIN。收藏和播放从不需要。</string>
+    <string name="settings_line_settings_lock_menus">长按更改需要设置 PIN</string>
+    <string name="settings_help_settings_lock_menus">开启后，长按更改（隐藏、移动、重命名、锁定分类和从观看记录中移除）会先要求输入设置 PIN。输入一次正确 PIN 后，在离开应用或切换配置文件前都保持解锁。添加到收藏和播放从不需要。</string>
+    <string name="settings_lock_change_pin">更改 PIN</string>
+    <string name="settings_lock_turn_off">关闭</string>
+    <string name="settings_search_keywords_settings_lock">锁 pin 密码 家长 设置</string>
     <string name="settings_customize_description">为此用户档案隐藏或取消隐藏频道、电影和剧集，以及重命名或重新排序分类。重新同步后仍会保留。</string>
     <string name="settings_customize_new_category_behavior">新分类处理方式</string>
     <string name="settings_customize_hide">隐藏</string>
@@ -674,8 +684,7 @@
     <string name="settings_customize_restore_defaults_title">恢复<xliff:g id="playlist">%2$s</xliff:g>中的<xliff:g id="section">%1$s</xliff:g>？</string>
     <string name="settings_customize_restore_defaults_description">已隐藏的分类和项目将重新显示，重命名和自定义排序将被清除，移出的项目将返回。组合分类、收藏夹和节目指南匹配会保留。</string>
     <string name="settings_customize_rename_hint">仅对此用户档案生效。留空可恢复为“<xliff:g id="name">%1$s</xliff:g>”。</string>
-    <string name="settings_customize_remove_pin_title">移除 PIN 锁？</string>
-    <string name="settings_customize_remove_pin_message">以后打开“自定义”界面时将不再要求输入 PIN。</string>
+    <string name="settings_customize_remove_pin_title">要移除分类锁 PIN 吗？</string>
     <string name="settings_customize_remove_pin_locks">用此 PIN 锁定的所有分类也将一并解锁。</string>
     <string name="settings_customize_remove">移除</string>
     <string name="settings_customize_confirm_pin">确认新 PIN</string>

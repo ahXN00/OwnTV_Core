@@ -94,10 +94,12 @@ val dataModule = module {
     // Category locks: the in-memory unlocks of this session, and the view that applies them (settings,
     // session, categoryDao).
     single { tv.own.owntv.core.customize.CategoryUnlockSession() }
+    single { tv.own.owntv.core.categorylock.MenuChangeGuard(get(), get(), kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.SupervisorJob() + kotlinx.coroutines.Dispatchers.Default)) }
     single { tv.own.owntv.core.customize.CategoryLockView(get(), get(), get()) }
-    // One count of wrong Customize PINs for the whole app, so moving to another category, section or
-    // PIN door does not start a fresh run of guesses. Monotonic clock: changing the time cannot end a wait.
-    single { tv.own.owntv.core.categorylock.PinAttemptLimiter(android.os.SystemClock::elapsedRealtime) }
+    // One count of wrong PINs per lock (profile, category, Settings) for the whole app, so moving to
+    // another category or section does not start a fresh run of guesses, and guessing at one lock never
+    // makes another wait. Monotonic clock: changing the time cannot end a wait.
+    single { tv.own.owntv.core.categorylock.PinAttemptLimiters(android.os.SystemClock::elapsedRealtime) }
     // Which locked category a downloaded or recorded file the player is on belongs to, for the relock.
     single { tv.own.owntv.core.categorylock.PlayingFileCategory() }
     single { CustomizationStore(androidContext(), get()) }
@@ -220,6 +222,7 @@ val dataModule = module {
             paired = get(),
             client = get(),
             discovery = get(),
+            protection = get(),
         )
     }
     single { BulkInsertHelper(get()) }
@@ -387,7 +390,8 @@ val dataModule = module {
     // profileDao, sourceDao, settings, launcherIntegration, openSubtitlesAccounts — creating,
     // editing, switching and deleting a profile, shared by both apps' profile gates.
     single { tv.own.owntv.core.profile.ProfileAvatarStore(androidContext()) }
-    single { tv.own.owntv.core.profile.ProfileManager(get(), get(), get(), get(), get(), get()) }
+    single { tv.own.owntv.core.profile.ProfileProtection(get(), get(), get(), get()) }
+    single { tv.own.owntv.core.profile.ProfileManager(get(), get(), get(), get(), get(), get(), get()) }
     // context, okHttpClient — in-app updates from GitHub Releases
     single { UpdateManager(androidContext(), get(), get()) }
     single { CatalogSyncScheduler(androidContext()) }
@@ -400,5 +404,5 @@ val dataModule = module {
     // profileDao, sourceDao, sourceRepository, backup, settings, connectivity, importFinalizer,
     // launcherIntegration, catalogSyncScheduler, stalkerAuth, xtreamClient, context — onboarding: add a
     // source, sync it, undo it when it fails. Factory, not single: each wizard run owns its own state machine.
-    factory { tv.own.owntv.core.setup.SourceImporter(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), androidContext()) }
+    factory { tv.own.owntv.core.setup.SourceImporter(get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), get(), androidContext()) }
 }

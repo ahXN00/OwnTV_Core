@@ -630,11 +630,21 @@
     <string name="settings_customize_pin_locked">এই স্ক্রিনটি PIN দিয়ে লক করা।</string>
     <string name="settings_customize_wrong_pin">ভুল PIN—আবার চেষ্টা করুন</string>
     <string name="settings_customize_enter_pin">PIN লিখুন</string>
-    <string name="settings_customize_set_pin">🔒 PIN সেট করুন</string>
-    <string name="settings_customize_change_pin">🔒 PIN পরিবর্তন করুন</string>
+    <string name="settings_customize_set_pin">🔒 ক্যাটাগরি লকের PIN সেট করুন</string>
+    <string name="settings_customize_change_pin">🔒 ক্যাটাগরি লকের PIN বদলান</string>
+    <string name="settings_customize_remove_pin">ক্যাটাগরি লকের PIN সরান</string>
     <string name="settings_customize_remove_lock">লক সরান</string>
-    <string name="settings_customize_settings_pin">সেটিংস খুলতে PIN চাওয়া হবে</string>
-    <string name="settings_customize_settings_pin_button">সেটিংস খুলতে PIN চাওয়া হবে: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">সেটিংস লক</string>
+    <string name="settings_lock_description">সেটিংস, ব্যাকআপ ও পুনরুদ্ধার এবং লোকাল সিঙ্ক নিজেদের আলাদা PIN চায়। প্রতিটি প্রোফাইল নিজের PIN সেট করে।</string>
+    <string name="settings_line_settings_lock">সেটিংসের জন্য আলাদা PIN</string>
+    <string name="settings_help_settings_lock">এই প্রোফাইলের একটি PIN, যা সেটিংস, ব্যাকআপ ও পুনরুদ্ধার এবং লোকাল সিঙ্ক খোলার আগে চায়। এটি প্রোফাইলের PIN নয়, ক্যাটাগরি লকের PIN-ও নয়: প্রতিটি লকের নিজস্ব PIN আছে, এবং কোনোটি অন্যটি খোলে না। PIN বদলান ও বন্ধ করুন বর্তমান সেটিংস PIN চায়।</string>
+    <string name="settings_lock_menus">লং-প্রেস মেনুর পরিবর্তনগুলোও লক করুন</string>
+    <string name="settings_lock_menus_description">লুকান, সরান, নাম বদলান, কোনো ক্যাটাগরি লক করা এবং দেখার ইতিহাস থেকে সরানোও সেটিংস PIN চায়। ফেভারিট ও প্লে কখনো চায় না।</string>
+    <string name="settings_line_settings_lock_menus">লং-প্রেসের পরিবর্তন সেটিংস PIN চায়</string>
+    <string name="settings_help_settings_lock_menus">এটি চালু থাকলে লং-প্রেসের পরিবর্তনগুলো (লুকান, সরান, নাম বদলান, ক্যাটাগরি লক করুন এবং দেখার ইতিহাস থেকে সরান) আগে সেটিংস PIN চায়। একটি সঠিক PIN অ্যাপ ছেড়ে যাওয়া বা প্রোফাইল বদলানো পর্যন্ত সেগুলো খুলে রাখে। ফেভারিটে যোগ করা ও প্লে করা কখনো চায় না।</string>
+    <string name="settings_lock_change_pin">PIN বদলান</string>
+    <string name="settings_lock_turn_off">বন্ধ করুন</string>
+    <string name="settings_search_keywords_settings_lock">লক pin পাসওয়ার্ড প্যারেন্টাল সেটিংস</string>
     <string name="settings_customize_description">এই প্রোফাইলের জন্য চ্যানেল, সিনেমা ও সিরিজ লুকান বা আবার দেখান এবং বিভাগগুলোর নাম পরিবর্তন বা ক্রম বদলান। পুনরায় সিঙ্ক করলেও এগুলো বজায় থাকবে।</string>
     <string name="settings_customize_new_category_behavior">নতুন বিভাগের আচরণ</string>
     <string name="settings_customize_hide">লুকান</string>
@@ -678,8 +688,7 @@
     <string name="settings_customize_restore_defaults_title"><xliff:g id="playlist">%2$s</xliff:g>-এর <xliff:g id="section">%1$s</xliff:g> ডিফল্টে ফিরিয়ে আনবেন?</string>
     <string name="settings_customize_restore_defaults_description">লুকানো বিভাগ ও আইটেম আবার দেখাবে, নাম পরিবর্তন ও কাস্টম ক্রম মুছে যাবে এবং সরিয়ে নেওয়া আইটেম ফিরে আসবে। সম্মিলিত বিভাগ, পছন্দেরগুলো ও অনুষ্ঠান নির্দেশিকার মিল অপরিবর্তিত থাকবে।</string>
     <string name="settings_customize_rename_hint">শুধু এই প্রোফাইলের জন্য। “<xliff:g id="name">%1$s</xliff:g>” ফিরিয়ে আনতে ফাঁকা রাখুন।</string>
-    <string name="settings_customize_remove_pin_title">PIN লক সরাবেন?</string>
-    <string name="settings_customize_remove_pin_message">নিজের মতো সাজানোর স্ক্রিনটি আবার PIN না চেয়েই খুলবে।</string>
+    <string name="settings_customize_remove_pin_title">ক্যাটাগরি লকের PIN সরাবেন?</string>
     <string name="settings_customize_remove_pin_locks">এই PIN দিয়ে লক করা সব বিভাগও আনলক হয়ে যাবে।</string>
     <string name="settings_customize_remove">সরান</string>
     <string name="settings_customize_confirm_pin">নতুন PIN নিশ্চিত করুন</string>

@@ -627,11 +627,21 @@
     <string name="settings_customize_pin_locked">この画面はPINロックされています。</string>
     <string name="settings_customize_wrong_pin">PINが違います — もう一度お試しください</string>
     <string name="settings_customize_enter_pin">PINを入力</string>
-    <string name="settings_customize_set_pin">🔒 PINを設定</string>
-    <string name="settings_customize_change_pin">🔒 PINを変更</string>
+    <string name="settings_customize_set_pin">🔒 カテゴリロックの PIN を設定</string>
+    <string name="settings_customize_change_pin">🔒 カテゴリロックの PIN を変更</string>
+    <string name="settings_customize_remove_pin">カテゴリロックの PIN を削除</string>
     <string name="settings_customize_remove_lock">ロックを解除</string>
-    <string name="settings_customize_settings_pin">設定を開くときにPINを要求</string>
-    <string name="settings_customize_settings_pin_button">設定を開くときにPINを要求: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">設定ロック</string>
+    <string name="settings_lock_description">設定、バックアップと復元、ローカル同期は専用の PIN を求めます。プロフィールごとに設定します。</string>
+    <string name="settings_line_settings_lock">設定専用の PIN</string>
+    <string name="settings_help_settings_lock">このプロフィールの PIN で、設定、バックアップと復元、ローカル同期を開く前に求められます。プロフィールの PIN でもカテゴリロックの PIN でもありません。ロックごとに PIN があり、どれも他のロックは開けません。「PIN を変更」と「オフにする」は現在の設定 PIN を求めます。</string>
+    <string name="settings_lock_menus">長押しメニューの変更もロック</string>
+    <string name="settings_lock_menus_description">非表示、移動、名前の変更、カテゴリのロック、視聴履歴からの削除でも設定 PIN を求めます。お気に入りと再生では求めません。</string>
+    <string name="settings_line_settings_lock_menus">長押しの変更で設定 PIN を求めます</string>
+    <string name="settings_help_settings_lock_menus">オンにすると、長押しの変更（非表示、移動、名前の変更、カテゴリのロック、視聴履歴から削除）は先に設定 PIN を求めます。正しい PIN を一度入力すれば、アプリを離れるかプロフィールを切り替えるまで有効です。お気に入りへの追加と再生では求めません。</string>
+    <string name="settings_lock_change_pin">PIN を変更</string>
+    <string name="settings_lock_turn_off">オフにする</string>
+    <string name="settings_search_keywords_settings_lock">ロック pin パスワード ペアレンタル 設定</string>
     <string name="settings_customize_description">このプロフィールのチャンネル、映画、シリーズの表示／非表示を切り替え、カテゴリの名前や順序を変更します。再同期後も設定は維持されます。</string>
     <string name="settings_customize_new_category_behavior">新しいカテゴリの動作</string>
     <string name="settings_customize_hide">非表示にする</string>
@@ -674,8 +684,7 @@
     <string name="settings_customize_restore_defaults_title"><xliff:g id="playlist">%2$s</xliff:g>の<xliff:g id="section">%1$s</xliff:g>を復元しますか？</string>
     <string name="settings_customize_restore_defaults_description">非表示のカテゴリと項目は再表示され、名前の変更とカスタム順序は解除され、移動した項目は元に戻ります。統合カテゴリ、お気に入り、番組表の割り当ては保持されます。</string>
     <string name="settings_customize_rename_hint">このプロフィールにのみ適用されます。空欄にすると「<xliff:g id="name">%1$s</xliff:g>」に戻ります。</string>
-    <string name="settings_customize_remove_pin_title">PINロックを解除しますか？</string>
-    <string name="settings_customize_remove_pin_message">今後、カスタマイズ画面を開くときにPINの入力を求められなくなります。</string>
+    <string name="settings_customize_remove_pin_title">カテゴリロックの PIN を削除しますか？</string>
     <string name="settings_customize_remove_pin_locks">このPINでロックしたカテゴリもすべてロックが解除されます。</string>
     <string name="settings_customize_remove">解除</string>
     <string name="settings_customize_confirm_pin">新しいPINを確認</string>

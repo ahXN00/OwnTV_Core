@@ -630,11 +630,21 @@
     <string name="settings_customize_pin_locked">Dieser Bildschirm ist mit einer PIN gesperrt.</string>
     <string name="settings_customize_wrong_pin">Falsche PIN – erneut versuchen</string>
     <string name="settings_customize_enter_pin">PIN eingeben</string>
-    <string name="settings_customize_set_pin">🔒 PIN festlegen</string>
-    <string name="settings_customize_change_pin">🔒 PIN ändern</string>
+    <string name="settings_customize_set_pin">🔒 Kategoriesperre-PIN festlegen</string>
+    <string name="settings_customize_change_pin">🔒 Kategoriesperre-PIN ändern</string>
+    <string name="settings_customize_remove_pin">Kategoriesperre-PIN entfernen</string>
     <string name="settings_customize_remove_lock">Sperre entfernen</string>
-    <string name="settings_customize_settings_pin">PIN zum Öffnen der Einstellungen verlangen</string>
-    <string name="settings_customize_settings_pin_button">PIN zum Öffnen der Einstellungen verlangen: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">Einstellungssperre</string>
+    <string name="settings_lock_description">Einstellungen, Sicherung und Wiederherstellen sowie Lokale Synchronisierung fragen nach einer eigenen PIN. Jedes Profil legt seine eigene fest.</string>
+    <string name="settings_line_settings_lock">Eine eigene PIN für die Einstellungen</string>
+    <string name="settings_help_settings_lock">Eine PIN für dieses Profil, nach der Einstellungen, Sicherung und Wiederherstellen sowie Lokale Synchronisierung vor dem Öffnen fragen. Sie ist weder die Profil-PIN noch die Kategoriesperre-PIN: Jede Sperre hat ihre eigene PIN, und keine öffnet eine andere. PIN ändern und Ausschalten fragen nach der aktuellen Einstellungs-PIN.</string>
+    <string name="settings_lock_menus">Auch Änderungen im Langdruck-Menü sperren</string>
+    <string name="settings_lock_menus_description">Ausblenden, Verschieben, Umbenennen, das Sperren einer Kategorie und Aus dem Wiedergabeverlauf entfernen fragen ebenfalls nach der Einstellungs-PIN. Favoriten und Abspielen nie.</string>
+    <string name="settings_line_settings_lock_menus">Langdruck-Änderungen fragen nach der Einstellungs-PIN</string>
+    <string name="settings_help_settings_lock_menus">Ist dies an, fragen die Langdruck-Änderungen (Ausblenden, Verschieben, Umbenennen, Kategorie sperren und Aus dem Wiedergabeverlauf entfernen) zuerst nach der Einstellungs-PIN. Eine richtige PIN gibt sie frei, bis du die App verlässt oder das Profil wechselst. Zu Favoriten hinzufügen und Abspielen fragen nie.</string>
+    <string name="settings_lock_change_pin">PIN ändern</string>
+    <string name="settings_lock_turn_off">Ausschalten</string>
+    <string name="settings_search_keywords_settings_lock">sperre pin passwort kindersicherung einstellungen</string>
     <string name="settings_customize_description">Sender, Filme und Serien für dieses Profil ein- oder ausblenden sowie Kategorien umbenennen oder neu anordnen. Bleibt auch nach erneuten Synchronisierungen erhalten.</string>
     <string name="settings_customize_new_category_behavior">Verhalten bei neuen Kategorien</string>
     <string name="settings_customize_hide">Ausblenden</string>
@@ -678,8 +688,7 @@
     <string name="settings_customize_restore_defaults_title"><xliff:g id="section">%1$s</xliff:g> in <xliff:g id="playlist">%2$s</xliff:g> wiederherstellen?</string>
     <string name="settings_customize_restore_defaults_description">Ausgeblendete Kategorien und Elemente werden wieder eingeblendet, Umbenennungen und eigene Reihenfolgen gelöscht, und verschobene Elemente kehren zurück. Kombinierte Kategorien, Favoriten und Programmzuordnungen bleiben erhalten.</string>
     <string name="settings_customize_rename_hint">Gilt nur für dieses Profil. Leer lassen, um „<xliff:g id="name">%1$s</xliff:g>“ wiederherzustellen.</string>
-    <string name="settings_customize_remove_pin_title">PIN-Sperre entfernen?</string>
-    <string name="settings_customize_remove_pin_message">Der Anpassungsbildschirm wird künftig geöffnet, ohne erneut nach einer PIN zu fragen.</string>
+    <string name="settings_customize_remove_pin_title">Kategoriesperre-PIN entfernen?</string>
     <string name="settings_customize_remove_pin_locks">Alle mit dieser PIN gesperrten Kategorien werden ebenfalls entsperrt.</string>
     <string name="settings_customize_remove">Entfernen</string>
     <string name="settings_customize_confirm_pin">Neue PIN bestätigen</string>

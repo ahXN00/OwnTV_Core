@@ -56,4 +56,14 @@ class PinAttemptLimiterTest {
         repeat(4) { assertEquals(PinAttempt.Wrong, wrong()) }
         assertEquals(PinAttempt.Wait(30), wrong())
     }
+
+    @Test
+    fun eachDoorCountsItsOwnWrongEntries() {
+        val doors = PinAttemptLimiters { now }
+        repeat(5) { doors.of(PinDoor.SETTINGS).attempt { false } }
+        assertEquals(30, doors.of(PinDoor.SETTINGS).waitSeconds())
+        assertEquals(0, doors.of(PinDoor.CATEGORY).waitSeconds())
+        assertEquals(0, doors.of(PinDoor.PROFILE).waitSeconds())
+        assertEquals(PinAttempt.Accepted, doors.of(PinDoor.CATEGORY).attempt { true })
+    }
 }

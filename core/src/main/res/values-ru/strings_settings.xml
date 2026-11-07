@@ -636,11 +636,21 @@
     <string name="settings_customize_pin_locked">Этот экран заблокирован с помощью PIN.</string>
     <string name="settings_customize_wrong_pin">Неверный PIN — попробуйте снова</string>
     <string name="settings_customize_enter_pin">Введите PIN</string>
-    <string name="settings_customize_set_pin">🔒 Установить PIN</string>
-    <string name="settings_customize_change_pin">🔒 Изменить PIN</string>
+    <string name="settings_customize_set_pin">🔒 Задать PIN-код блокировки категорий</string>
+    <string name="settings_customize_change_pin">🔒 Изменить PIN-код блокировки категорий</string>
+    <string name="settings_customize_remove_pin">Удалить PIN-код блокировки категорий</string>
     <string name="settings_customize_remove_lock">Снять блокировку</string>
-    <string name="settings_customize_settings_pin">Запрашивать PIN для открытия настроек</string>
-    <string name="settings_customize_settings_pin_button">Запрашивать PIN для открытия настроек: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">Блокировка настроек</string>
+    <string name="settings_lock_description">Настройки, Резервная копия и восстановление и Локальная синхронизация запрашивают собственный PIN-код. Каждый профиль задаёт свой.</string>
+    <string name="settings_line_settings_lock">Отдельный PIN-код для настроек</string>
+    <string name="settings_help_settings_lock">PIN-код этого профиля, который Настройки, Резервная копия и восстановление и Локальная синхронизация запрашивают перед открытием. Это не PIN-код профиля и не PIN-код блокировки категорий: у каждой блокировки свой PIN-код, и ни один не открывает другую. Изменить PIN и Выключить запрашивают текущий PIN-код настроек.</string>
+    <string name="settings_lock_menus">Блокировать и изменения через долгое нажатие</string>
+    <string name="settings_lock_menus_description">Скрыть, Переместить, Переименовать, блокировка категории и Удалить из истории тоже запрашивают PIN-код настроек. Избранное и Воспроизведение — никогда.</string>
+    <string name="settings_line_settings_lock_menus">Изменения долгим нажатием запрашивают PIN-код настроек</string>
+    <string name="settings_help_settings_lock_menus">Когда это включено, изменения долгим нажатием (Скрыть, Переместить, Переименовать, Заблокировать категорию и Удалить из истории) сначала запрашивают PIN-код настроек. Один верный PIN-код открывает их, пока вы не выйдете из приложения или не смените профиль. Добавление в избранное и воспроизведение его никогда не запрашивают.</string>
+    <string name="settings_lock_change_pin">Изменить PIN</string>
+    <string name="settings_lock_turn_off">Выключить</string>
+    <string name="settings_search_keywords_settings_lock">блокировка pin пароль родительский настройки</string>
     <string name="settings_customize_description">Скрывайте и показывайте каналы, фильмы и сериалы, а также переименовывайте или меняйте порядок категорий для этого профиля. Изменения сохраняются после повторной синхронизации.</string>
     <string name="settings_customize_new_category_behavior">Поведение новых категорий</string>
     <string name="settings_customize_hide">Скрыть</string>
@@ -686,8 +696,7 @@
     <string name="settings_customize_restore_defaults_title">Вернуть настройки: <xliff:g id="section">%1$s</xliff:g> (<xliff:g id="playlist">%2$s</xliff:g>)?</string>
     <string name="settings_customize_restore_defaults_description">Скрытые категории и элементы снова появятся, переименования и свой порядок будут сброшены, а перемещённые элементы вернутся. Объединённые категории, избранное и привязки программы передач сохранятся.</string>
     <string name="settings_customize_rename_hint">Только для этого профиля. Оставьте поле пустым, чтобы восстановить «<xliff:g id="name">%1$s</xliff:g>».</string>
-    <string name="settings_customize_remove_pin_title">Снять блокировку с помощью PIN?</string>
-    <string name="settings_customize_remove_pin_message">Экран настройки категорий и элементов будет открываться без запроса PIN.</string>
+    <string name="settings_customize_remove_pin_title">Удалить PIN-код блокировки категорий?</string>
     <string name="settings_customize_remove_pin_locks">Все категории, заблокированные этим PIN-кодом, тоже будут разблокированы.</string>
     <string name="settings_customize_remove">Удалить</string>
     <string name="settings_customize_confirm_pin">Подтвердите новый PIN</string>

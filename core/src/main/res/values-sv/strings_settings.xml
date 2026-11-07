@@ -630,11 +630,21 @@
     <string name="settings_customize_pin_locked">Den här skärmen är låst med PIN.</string>
     <string name="settings_customize_wrong_pin">Fel PIN – försök igen</string>
     <string name="settings_customize_enter_pin">Ange PIN</string>
-    <string name="settings_customize_set_pin">🔒 Ange PIN</string>
-    <string name="settings_customize_change_pin">🔒 Ändra PIN</string>
+    <string name="settings_customize_set_pin">🔒 Ange PIN för kategorilås</string>
+    <string name="settings_customize_change_pin">🔒 Byt PIN för kategorilås</string>
+    <string name="settings_customize_remove_pin">Ta bort PIN för kategorilås</string>
     <string name="settings_customize_remove_lock">Ta bort låset</string>
-    <string name="settings_customize_settings_pin">Fråga efter PIN för att öppna Inställningar</string>
-    <string name="settings_customize_settings_pin_button">Fråga efter PIN för att öppna Inställningar: <xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">Inställningslås</string>
+    <string name="settings_lock_description">Inställningar, Säkerhetskopia och återställning och Lokal synkronisering ber om en egen PIN. Varje profil väljer sin egen.</string>
+    <string name="settings_line_settings_lock">En egen PIN för Inställningar</string>
+    <string name="settings_help_settings_lock">En PIN för den här profilen som Inställningar, Säkerhetskopia och återställning och Lokal synkronisering ber om innan de öppnas. Den är varken profilens PIN eller PIN-koden för kategorilås: varje lås har sin egen PIN, och inget av dem öppnar ett annat. Byt PIN och Stäng av ber om den nuvarande inställnings-PIN-koden.</string>
+    <string name="settings_lock_menus">Lås även ändringar i menyn för långt tryck</string>
+    <string name="settings_lock_menus_description">Dölj, Flytta, Byt namn, låsning av en kategori och Ta bort från visningshistoriken ber också om inställnings-PIN-koden. Favoriter och Spela upp gör det aldrig.</string>
+    <string name="settings_line_settings_lock_menus">Ändringar med långt tryck ber om inställnings-PIN-koden</string>
+    <string name="settings_help_settings_lock_menus">När detta är på ber ändringarna med långt tryck (Dölj, Flytta, Byt namn, Lås kategori och Ta bort från visningshistoriken) först om inställnings-PIN-koden. En rätt PIN öppnar dem tills du lämnar appen eller byter profil. Lägg till i favoriter och uppspelning ber aldrig om den.</string>
+    <string name="settings_lock_change_pin">Byt PIN</string>
+    <string name="settings_lock_turn_off">Stäng av</string>
+    <string name="settings_search_keywords_settings_lock">lås pin lösenord föräldrakontroll inställningar</string>
     <string name="settings_customize_description">Dölj och visa kanaler, filmer och serier samt byt namn på eller ändra ordning på kategorier för den här profilen. Bevaras vid omsynkroniseringar.</string>
     <string name="settings_customize_new_category_behavior">Beteende för nya kategorier</string>
     <string name="settings_customize_hide">Dölj</string>
@@ -678,8 +688,7 @@
     <string name="settings_customize_restore_defaults_title">Återställa <xliff:g id="section">%1$s</xliff:g> i <xliff:g id="playlist">%2$s</xliff:g>\?</string>
     <string name="settings_customize_restore_defaults_description">Dolda kategorier och objekt visas igen, namnbyten och egen ordning rensas, och flyttade objekt kommer tillbaka. Kombinerade kategorier, favoriter och programguidekopplingar behålls.</string>
     <string name="settings_customize_rename_hint">Gäller endast den här profilen. Lämna tomt för att återställa ”<xliff:g id="name">%1$s</xliff:g>”.</string>
-    <string name="settings_customize_remove_pin_title">Ta bort PIN-låset?</string>
-    <string name="settings_customize_remove_pin_message">Skärmen Anpassa kommer att öppnas utan att fråga efter en PIN igen.</string>
+    <string name="settings_customize_remove_pin_title">Ta bort PIN-koden för kategorilås?</string>
     <string name="settings_customize_remove_pin_locks">Alla kategorier som låsts med denna PIN låses också upp.</string>
     <string name="settings_customize_remove">Ta bort</string>
     <string name="settings_customize_confirm_pin">Bekräfta ny PIN</string>

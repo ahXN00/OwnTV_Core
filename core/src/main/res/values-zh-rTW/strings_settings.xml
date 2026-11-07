@@ -627,11 +627,21 @@
     <string name="settings_customize_pin_locked">此畫面已由 PIN 鎖定。</string>
     <string name="settings_customize_wrong_pin">PIN 錯誤，請再試一次</string>
     <string name="settings_customize_enter_pin">輸入 PIN</string>
-    <string name="settings_customize_set_pin">🔒 設定 PIN</string>
-    <string name="settings_customize_change_pin">🔒 變更 PIN</string>
+    <string name="settings_customize_set_pin">🔒 設定分類鎖 PIN</string>
+    <string name="settings_customize_change_pin">🔒 變更分類鎖 PIN</string>
+    <string name="settings_customize_remove_pin">移除分類鎖 PIN</string>
     <string name="settings_customize_remove_lock">移除鎖定</string>
-    <string name="settings_customize_settings_pin">開啟設定時要求輸入 PIN</string>
-    <string name="settings_customize_settings_pin_button">開啟設定時要求輸入 PIN：<xliff:g id="state">%1$s</xliff:g></string>
+    <string name="settings_lock">設定鎖</string>
+    <string name="settings_lock_description">設定、備份與還原以及本機同步會要求輸入專用 PIN。每個設定檔各自設定。</string>
+    <string name="settings_line_settings_lock">設定專用 PIN</string>
+    <string name="settings_help_settings_lock">此設定檔的 PIN，設定、備份與還原以及本機同步在開啟前會要求輸入。它既不是設定檔 PIN，也不是分類鎖 PIN：每種鎖都有自己的 PIN，任何一個都打不開另一個。變更 PIN 和關閉需要輸入目前的設定 PIN。</string>
+    <string name="settings_lock_menus">同時鎖定長按選單中的變更</string>
+    <string name="settings_lock_menus_description">隱藏、移動、重新命名、鎖定分類和從觀看記錄中移除也需要設定 PIN。收藏和播放從不需要。</string>
+    <string name="settings_line_settings_lock_menus">長按變更需要設定 PIN</string>
+    <string name="settings_help_settings_lock_menus">開啟後，長按變更（隱藏、移動、重新命名、鎖定分類和從觀看記錄中移除）會先要求輸入設定 PIN。輸入一次正確 PIN 後，在離開應用程式或切換設定檔前都保持解鎖。加入收藏和播放從不需要。</string>
+    <string name="settings_lock_change_pin">變更 PIN</string>
+    <string name="settings_lock_turn_off">關閉</string>
+    <string name="settings_search_keywords_settings_lock">鎖 pin 密碼 家長 設定</string>
     <string name="settings_customize_description">為此使用者檔案隱藏或取消隱藏頻道、電影及影集，並重新命名或排列分類。重新同步後仍會保留。</string>
     <string name="settings_customize_new_category_behavior">新分類的顯示方式</string>
     <string name="settings_customize_hide">隱藏</string>
@@ -674,8 +684,7 @@
     <string name="settings_customize_restore_defaults_title">要還原<xliff:g id="playlist">%2$s</xliff:g>中的<xliff:g id="section">%1$s</xliff:g>嗎？</string>
     <string name="settings_customize_restore_defaults_description">已隱藏的分類和項目將重新顯示，重新命名和自訂排序將被清除，移出的項目將返回。複合分類、我的最愛和節目表配對會保留。</string>
     <string name="settings_customize_rename_hint">僅適用於此使用者檔案。留白即可還原為「<xliff:g id="name">%1$s</xliff:g>」。</string>
-    <string name="settings_customize_remove_pin_title">要移除 PIN 鎖定嗎？</string>
-    <string name="settings_customize_remove_pin_message">之後開啟「自訂」畫面時，將不會再要求輸入 PIN。</string>
+    <string name="settings_customize_remove_pin_title">要移除分類鎖 PIN 嗎？</string>
     <string name="settings_customize_remove_pin_locks">以此 PIN 鎖定的所有分類也會一併解除鎖定。</string>
     <string name="settings_customize_remove">移除</string>
     <string name="settings_customize_confirm_pin">確認新的 PIN</string>
