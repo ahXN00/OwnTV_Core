@@ -91,15 +91,19 @@ class LocalSyncManager(
     private val paired: PairedDeviceStore,
     private val client: LocalSyncClient,
     private val discovery: LocalSyncDiscovery,
+    private val autoSync: LocalAutoSyncStore,
+    private val autoServer: LocalAutoSyncServer,
     private val protection: tv.own.owntv.core.profile.ProfileProtection,
 ) {
     private val appContext = context.applicationContext
 
     /**
      * The secrets this listener will accept in place of the PIN, snapshotted when hosting starts and
-     * extended as devices pair. Held in memory because the server reads it from inside a request.
+     * extended as devices pair, mapped to the device each one belongs to. Held in memory because the
+     * server reads it from inside a request. The device id is what an automatic-sync request on this
+     * page is attributed to.
      */
-    @Volatile private var acceptedSecrets: Set<String> = emptySet()
+    @Volatile private var acceptedSecrets: Map<String, String> = emptyMap()
 
     /**
      * The passphrase the container prepared by [startHosting] is sealed with, for as long as this
@@ -137,11 +141,7 @@ class LocalSyncManager(
     val hostState: Flow<tv.own.owntv.core.companion.CompanionServerState> = companion.state
 
     /** What the other device will call this one. The name the user gave the phone, if they gave one. */
-    val deviceName: String by lazy {
-        val configured = runCatching { Settings.Global.getString(appContext.contentResolver, Settings.Global.DEVICE_NAME) }
-            .getOrNull()
-        configured?.takeIf { it.isNotBlank() } ?: "${Build.MANUFACTURER} ${Build.MODEL}".trim()
-    }
+    val deviceName: String by lazy { localDeviceName(appContext) }
 
     // --- hosting ---------------------------------------------------------------------------------
 
@@ -175,7 +175,7 @@ class LocalSyncManager(
             .getOrElse { return@withContext Result.failure(it) }
         // Read once, here, rather than per request: the server asks for these while answering, and a
         // device unpaired mid-session simply stops working on the next session, which is soon enough.
-        acceptedSecrets = paired.secrets()
+        acceptedSecrets = paired.current().associate { it.secret to it.id }
         startServing(port, File(exported), password)
         Result.success(Unit)
     }
@@ -200,14 +200,18 @@ class LocalSyncManager(
             },
             onPair = { remoteName, remoteAddress, remoteId -> pairFromHost(remoteName, remoteAddress, remoteId) },
             secrets = { acceptedSecrets },
+            onAutoSyncAsk = ::askForAutoSync,
         )
         discovery.advertise(deviceName, port, selfId.orEmpty())
+        // With "Keep auto-sync listening" off, Sync mode is when the automatic-sync listener runs.
+        autoServer.syncMode.value = true
     }
 
     fun stopHosting() {
         discovery.stopAdvertising()
         companion.stop()
-        acceptedSecrets = emptySet()
+        autoServer.syncMode.value = false
+        acceptedSecrets = emptyMap()
         sessionPassword = null
     }
 
@@ -221,6 +225,38 @@ class LocalSyncManager(
     val incoming: Flow<File> = companion.backups
 
     /**
+     * Devices asking, right now, to sync with this one automatically. Only non-empty while this
+     * device is hosting, because that is the only time another device can reach it.
+     */
+    val autoSyncRequests: Flow<List<CompanionController.AutoSyncRequest>> = companion.autoSyncRequests
+
+    /** The answer to a request that is on this device's screen. */
+    fun answerAutoSync(requestId: String, accepted: Boolean) = companion.answerAutoSync(requestId, accepted)
+
+    /**
+     * A paired device has asked to sync with this one automatically, and the answer is the user's.
+     *
+     * The question is put on the screen of whichever app is hosting; the far side is waiting on the
+     * HTTP request this runs inside. Accepting writes this side's agreement **before** the far side is
+     * told yes — its own default sections (the viewer's own things; playlists and settings are ticked
+     * by hand on this side's row), the asker's timing and the asker's sections to show — so a pass can
+     * never arrive between the answer and the record of it. The answer carries this side's sections
+     * and its listener's port.
+     */
+    private suspend fun askForAutoSync(deviceId: String, request: JSONObject): JSONObject {
+        val name = paired.current().firstOrNull { it.id == deviceId }?.name ?: UNKNOWN_DEVICE_NAME
+        val theirSections = LocalAutoSyncStore.sections(request.optJSONArray("sections")).orEmpty()
+        val timing = LocalAutoSyncTiming.parse(request.optString("timing"))
+        val accepted = companion.askAutoSync(deviceId, name, theirSections)
+        val answer = JSONObject().put("accepted", accepted)
+        if (!accepted) return answer
+        val before = autoSync.get(deviceId)
+        val mine = before?.sections ?: AutoSyncAgreement.DEFAULT_SECTIONS
+        autoSync.saveTerms(deviceId, mine, before?.profileIds.orEmpty(), timing, theirSections)
+        return answer.put("sections", org.json.JSONArray(mine.map { it.name })).put("autoPort", AUTO_SYNC_PORT)
+    }
+
+    /**
      * Called on the HOST when the other device presents the right PIN: mint its secret, remember it,
      * and hand it back.
      *
@@ -231,14 +267,15 @@ class LocalSyncManager(
      */
     private fun pairFromHost(remoteName: String, remoteAddress: String, remoteId: String): String? = runCatching {
         val secret = PairedDeviceStore.newSecret()
-        acceptedSecrets = acceptedSecrets + secret
+        // The far device's own id, so pairing it again REPLACES this row rather than adding a twin.
+        // A random one only where the far side is too old to send one — which brings the duplicate
+        // back, and is still better than refusing to pair.
+        val id = remoteId.takeIf { it.isNotBlank() } ?: UUID.randomUUID().toString()
+        acceptedSecrets = acceptedSecrets + (secret to id)
         scope.launch {
             paired.put(
                 PairedDevice(
-                    // The far device's own id, so pairing it again REPLACES this row rather than
-                    // adding a twin. A random one only where the far side is too old to send one —
-                    // which brings the duplicate back, and is still better than refusing to pair.
-                    id = remoteId.takeIf { it.isNotBlank() } ?: UUID.randomUUID().toString(),
+                    id = id,
                     name = remoteName.ifBlank { UNKNOWN_DEVICE_NAME },
                     // Where it connected FROM, so this device can start a sync towards it later
                     // instead of only ever being the one connected to. Its port is the default one:
@@ -276,7 +313,14 @@ class LocalSyncManager(
         return Result.success(device)
     }
 
-    suspend fun unpair(id: String) = paired.remove(id)
+    /**
+     * Forgets a device, and its automatic sync with it. The other device learns at its next request,
+     * which this one no longer recognises.
+     */
+    suspend fun unpair(id: String) {
+        paired.remove(id)
+        autoSync.forget(id)
+    }
 
     // --- transferring ----------------------------------------------------------------------------
 
@@ -324,7 +368,7 @@ class LocalSyncManager(
         // unseal must be opened sealed: [BackupManager] will read an encrypted file without its
         // passphrase and simply leave every secret field blank, so trying `null` first would "succeed"
         // and quietly drop the playlist logins this change exists to carry.
-        val candidates = (acceptedSecrets + paired.secrets()).toList() + listOf(null)
+        val candidates = (acceptedSecrets.keys + paired.secrets()).toList() + listOf(null)
         for (candidate in candidates) {
             val preview = backups.previewImport(file, sections, candidate).getOrNull() ?: continue
             return@withContext Result.success(SyncPayload(file, preview, candidate))
@@ -388,6 +432,44 @@ class LocalSyncManager(
             .onFailure { _progress.value = SyncProgress.Failed(failureFor(it)) }
     }
 
+    // --- automatic ------------------------------------------------------------------------------
+
+    /**
+     * Asks [device] — its Local sync page open with Sync mode on — to agree to sync by itself with this
+     * one. The person there answers (it waits up to 50 s). On yes, this side's agreement is written
+     * with [sections], [profileIds] and [timing], and the other side's own sections as it answered.
+     * Nothing changes on a no or when it cannot be reached.
+     */
+    suspend fun enableAutoSync(
+        device: PairedDevice,
+        sections: Set<BackupManager.Section>,
+        profileIds: Set<Long>,
+        timing: LocalAutoSyncTiming,
+    ): AutoSyncEnableResult {
+        val request = JSONObject().put("sections", org.json.JSONArray(sections.map { it.name })).put("timing", timing.name)
+        val answer = client.requestAutoSync(device.address, device.port, device.secret, request)
+            .getOrElse { return AutoSyncEnableResult.Failed(failureFor(it)) }
+        if (!answer.optBoolean("accepted", false)) return AutoSyncEnableResult.Declined
+        val theirs = LocalAutoSyncStore.sections(answer.optJSONArray("sections")).orEmpty()
+        autoSync.saveTerms(device.id, sections, profileIds, timing, theirs)
+        paired.updateAddress(device.id, device.address, answer.optInt("autoPort", AUTO_SYNC_PORT))
+        return AutoSyncEnableResult.Enabled
+    }
+
+    /** Changes this side's terms with [deviceId]: its own sections, profiles and timing. */
+    suspend fun updateAutoSync(deviceId: String, sections: Set<BackupManager.Section>, profileIds: Set<Long>, timing: LocalAutoSyncTiming) {
+        if (autoSync.get(deviceId) == null) return
+        autoSync.saveTerms(deviceId, sections, profileIds, timing)
+    }
+
+    /**
+     * Turns automatic sync with [deviceId] off here. Its next request is refused, and it is also told
+     * at this device's next contact with it.
+     */
+    suspend fun disableAutoSync(deviceId: String) {
+        autoSync.remove(deviceId, tellThem = true)
+    }
+
     fun clearProgress() {
         _progress.value = SyncProgress.Idle
     }
@@ -416,4 +498,10 @@ class LocalSyncManager(
         /** Not a real HTTP answer — [SyncFailure.BadPayload] is what the screen has to say. */
         const val HTTP_BAD_PAYLOAD = 422
     }
+}
+
+/** What another device calls this one: the name the user gave it, else its make and model. */
+fun localDeviceName(context: Context): String {
+    val configured = runCatching { Settings.Global.getString(context.contentResolver, Settings.Global.DEVICE_NAME) }.getOrNull()
+    return configured?.takeIf { it.isNotBlank() } ?: "${Build.MANUFACTURER} ${Build.MODEL}".trim()
 }

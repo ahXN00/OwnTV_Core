@@ -222,9 +222,40 @@ val dataModule = module {
             paired = get(),
             client = get(),
             discovery = get(),
+            autoSync = get(),
+            autoServer = get(),
             protection = get(),
         )
     }
+    // Automatic sync with paired devices: its agreements, the paired-only listener on its own port,
+    // the passes, and the moments they are tried. The listener and the runner each announce or look
+    // for the automatic-sync service, never the manual one.
+    single { tv.own.owntv.core.sync.local.LocalAutoSyncStore(androidContext(), get()) }
+    single { tv.own.owntv.core.sync.local.AutoSyncLocks() }
+    single { tv.own.owntv.core.sync.local.LocalAutoSyncClient() }
+    single { tv.own.owntv.core.sync.local.AutoSyncTransfer(get(), get()) { androidContext().cacheDir } }
+    single {
+        tv.own.owntv.core.sync.local.LocalAutoSyncServer(
+            store = get(),
+            paired = get(),
+            transfer = get(),
+            locks = get(),
+            discovery = tv.own.owntv.core.sync.local.LocalSyncDiscovery(androidContext(), tv.own.owntv.core.sync.local.LocalSyncDiscovery.AUTO_SERVICE_TYPE),
+            deviceName = { tv.own.owntv.core.sync.local.localDeviceName(androidContext()) },
+        )
+    }
+    single {
+        tv.own.owntv.core.sync.local.LocalAutoSyncRunner(
+            store = get(),
+            paired = get(),
+            client = get(),
+            transfer = get(),
+            locks = get(),
+            discovery = tv.own.owntv.core.sync.local.LocalSyncDiscovery(androidContext(), tv.own.owntv.core.sync.local.LocalSyncDiscovery.AUTO_SERVICE_TYPE),
+        )
+    }
+    single { tv.own.owntv.core.sync.work.LocalAutoSyncScheduler(androidContext()) }
+    single { tv.own.owntv.core.sync.work.LocalAutoSyncStarter(androidContext(), get(), get(), get()) }
     single { BulkInsertHelper(get()) }
     single {
         tv.own.owntv.core.sync.ImportFinalizer(
