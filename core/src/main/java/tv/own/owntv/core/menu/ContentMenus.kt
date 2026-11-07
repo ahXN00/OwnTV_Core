@@ -12,7 +12,15 @@ import tv.own.owntv.core.model.ContentMenu
  * flips — the menu says "Remove from favourites" on a favourite, this catalogue always says "Add to
  * favourites", because it describes what can appear rather than what a particular item shows.
  */
-data class MenuActionRef(val key: String, @param:StringRes val labelRes: Int)
+data class MenuActionRef(
+    val key: String,
+    @param:StringRes val labelRes: Int,
+    /** Only the television draws it; the phone's Customize list leaves it out. */
+    val tvOnly: Boolean = false,
+)
+
+/** [menu]'s actions as the phone's Customize page lists them: the catalogue without TV-only ones. */
+fun phoneCatalogue(menu: ContentMenu): List<MenuActionRef> = catalogue(menu).filterNot { it.tvOnly }
 
 /**
  * What *can* appear in each menu, in its shipped order.
@@ -33,6 +41,9 @@ fun catalogue(menu: ContentMenu): List<MenuActionRef> = when (menu) {
 }
 
 private val LIVE_ACTIONS = listOf(
+    // The channel's Program details page (its day, each programme with what it can do). TV only:
+    // the phone shows a channel's schedule on its own channel page.
+    MenuActionRef("programme_details", R.string.content_programme_details, tvOnly = true),
     MenuActionRef("catchup", R.string.content_catchup),
     // Record this channel from now. It belongs in the list rather than being added by an app,
     // because this list is what both apps arrange by and what Customize lets the user reorder and
@@ -119,7 +130,9 @@ data class MenuLayout(
      * headings: a heading describes a run of related actions, and a rearranged list has none.
      */
     fun isShippedOrder(menu: ContentMenu): Boolean {
-        val keys = catalogue(menu).map { it.key }
+        // A TV-only action the saved order has never heard of (an order saved on the phone, or before
+        // the action existed) does not count as a rearrangement.
+        val keys = catalogue(menu).filter { !it.tvOnly || it.key in order }.map { it.key }
         return order.isEmpty() || applyMenuOrder(keys, order) { it } == keys
     }
 }

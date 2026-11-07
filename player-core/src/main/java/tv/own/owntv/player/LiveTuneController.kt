@@ -695,7 +695,7 @@ class LiveTuneController(
             else resolveStreamUrl(raw, source)
         // Against the PANEL: the redirect is the provider's, so every later channel starts out knowing.
         if (exoDiscoveredHls) LiveStreamQuirks.rememberHlsRedirect(preferred)
-        val url = if (LiveStreamQuirks.isKnownHlsHost(preferred)) LiveStreamQuirks.toHlsUrl(preferred) else preferred
+        val url = if (LiveStreamQuirks.isKnownHls(preferred)) LiveStreamQuirks.toHlsUrl(preferred) else preferred
         if (!isCurrent(channel)) return // zapped away while minting
         setReconnect(if (stalker) channel else null, source)
         engines.mpvPlay(url, request(channel, source))

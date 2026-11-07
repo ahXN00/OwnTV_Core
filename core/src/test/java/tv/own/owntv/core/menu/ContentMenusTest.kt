@@ -26,7 +26,19 @@ class ContentMenusTest {
 
     @Test
     fun `the live catalogue starts with what the popup puts first`() {
-        assertEquals(listOf("catchup", "record", "schedule_record"), keys(ContentMenu.LIVE).take(3))
+        assertEquals(listOf("programme_details", "catchup", "record", "schedule_record"), keys(ContentMenu.LIVE).take(4))
+    }
+
+    @Test
+    fun `the phone's list leaves out the TV-only actions`() {
+        assertEquals(keys(ContentMenu.LIVE).drop(1), phoneCatalogue(ContentMenu.LIVE).map { it.key })
+        assertEquals(catalogue(ContentMenu.MOVIE), phoneCatalogue(ContentMenu.MOVIE))
+    }
+
+    @Test
+    fun `an order saved without the TV-only action still counts as shipped`() {
+        val phoneOrder = phoneCatalogue(ContentMenu.LIVE).map { it.key }
+        assertTrue(MenuLayout(order = phoneOrder).isShippedOrder(ContentMenu.LIVE))
     }
 
     @Test

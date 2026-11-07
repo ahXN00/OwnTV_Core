@@ -122,6 +122,7 @@ object LiveStreamQuirks {
     )
 
     private val hlsRedirectHosts = ConcurrentHashMap.newKeySet<String>()
+    private val hlsRedirectStreams = urlLessonSet()
     private val mixedHlsHosts = ConcurrentHashMap.newKeySet<String>()
     private val dashRedirectHosts = ConcurrentHashMap.newKeySet<String>()
     private val segmentRefusingHosts = ConcurrentHashMap.newKeySet<String>()
@@ -135,25 +136,105 @@ object LiveStreamQuirks {
     private val uaBlockingHosts = ConcurrentHashMap.newKeySet<String>()
     private val providerMessages = ConcurrentHashMap<String, Pair<Int, String>>()
 
-    /** Record that [url]'s host serves HLS even when its advertised URL says `.ts`. */
+    /**
+     * Record that [url] — and, unless its panel is known to be mixed, every channel on its host — serves
+     * HLS even though the advertised URL says `.ts`.
+     *
+     * Two tiers. The channel itself is always remembered, so on a mixed panel the channels that do
+     * redirect still open as HLS first time instead of each paying a failed TS open again. The host is
+     * remembered only while nothing has proved the panel mixed.
+     */
     fun rememberHlsRedirect(url: String) {
+        hlsRedirectStreams += url
         val key = hostKey(url)
         if (key !in mixedHlsHosts) hlsRedirectHosts += key
     }
 
-    fun isKnownHlsHost(url: String): Boolean = hostKey(url) in hlsRedirectHosts
+    /** Whether [url] should open as HLS on what was learned: its own redirect, or its panel's. */
+    fun isKnownHls(url: String): Boolean = url in hlsRedirectStreams || hostKey(url) in hlsRedirectHosts
 
     /**
-     * Bug 8 — [url]'s panel serves plain TS on some channels and redirects others to a manifest, so the
-     * host-wide lesson is wrong there: drop it and never learn it again this session. Without this one
-     * redirecting channel sent every plain one through a failed HLS open and a failed `.m3u8` retry
-     * before mpv played it.
+     * [url] was proved to be plain TS — it played as TS after the learned HLS route failed — so its
+     * panel serves plain TS on some channels and redirects others to a manifest, and the host-wide lesson
+     * is wrong there: drop it and never learn it again this session. Without this one redirecting
+     * channel sent every plain one through a failed HLS open and a failed `.m3u8` retry before mpv played
+     * it. The redirecting channels keep their own lesson.
      */
     fun forgetHlsRedirect(url: String) {
         val key = hostKey(url)
         mixedHlsHosts += key
         hlsRedirectHosts -= key
+        hlsRedirectStreams -= url
     }
+
+    /**
+     * Whether a first frame proves the panel mixed: only when this load deliberately ignored the learned
+     * HLS route and played on the progressive (plain TS) route. A retry that never shows a picture — a
+     * dead channel, an HTML error page — proves nothing about the panel and must not mark it.
+     */
+    fun firstFrameProvesMixed(lessonIgnored: Boolean, progressiveRoute: Boolean): Boolean =
+        lessonIgnored && progressiveRoute
+
+    /**
+     * Whether a failed HLS open (one chosen because of a learned lesson) suggests *this* channel is plain
+     * TS, so it is worth reopening as TS. Only a response that arrived and would not parse says that. An
+     * HTTP status says nothing about the format: an offline channel on a redirecting panel 404s on its
+     * manifest whatever it is asked for, and taking that as "plain TS" put the panel on the mixed list for
+     * the rest of the session — after which mpv opened every redirected `.ts` with `reconnect_at_eof` and
+     * re-read the same playlist until its open timed out, on every channel. Even then the panel is marked
+     * mixed only once the TS reopen shows a picture ([firstFrameProvesMixed]).
+     */
+    fun disprovesHlsLesson(isFormatFailure: Boolean, httpStatus: Int?): Boolean =
+        isFormatFailure && httpStatus == null
+
+    /**
+     * The offset in FFmpeg's `reconnect_at_eof` line, or null for any other line. Both wordings FFmpeg
+     * has used: "Will reconnect at 222 in 0 second(s), error=End of file." and "Will retry at …".
+     *
+     * A live `.ts` that the panel redirects to a manifest is a short, finite response. Opened as raw TS,
+     * `reconnect_at_eof` re-reads the same few hundred bytes, and FFmpeg resets its retry count on every
+     * read, so nothing ends the loop but the 10 s open timeout. Only ExoPlayer used to learn such a panel,
+     * so on mpv alone every channel there failed. Offsets of 0 and above [MAX_EOF_PROBE_OFFSET] are
+     * ignored: nothing was read, or a feed that delivered that much was a stream that dropped.
+     */
+    fun eofReconnectOffset(line: String): Long? {
+        val offset = EOF_RECONNECT_RX.find(line)?.groupValues?.get(1)?.toLongOrNull() ?: return null
+        return offset.takeIf { it in 1..MAX_EOF_PROBE_OFFSET }
+    }
+
+    private const val MAX_EOF_PROBE_OFFSET = 64L * 1024
+    private val EOF_RECONNECT_RX =
+        Regex("""Will (?:reconnect|retry) at (\d+) in .*End of file""", RegexOption.IGNORE_CASE)
+
+    /** What the first bytes of a live response are, read once to decide what an early EOF meant. */
+    enum class ResponseStart { HLS_PLAYLIST, MPEG_TS, OTHER }
+
+    /**
+     * Classify the first bytes of a response. A playlist only when the body itself starts with `#EXTM3U`
+     * (after an optional byte-order mark and whitespace) — a content type or a URL that says "mpegurl"
+     * is not enough, panels label HTML error pages that way. `0x47` is the MPEG-TS sync byte.
+     */
+    fun classifyResponseStart(bytes: ByteArray): ResponseStart {
+        var i = 0
+        if (bytes.size >= 3 && bytes[0] == 0xEF.toByte() && bytes[1] == 0xBB.toByte() && bytes[2] == 0xBF.toByte()) i = 3
+        if (i == 0 && bytes.isNotEmpty() && bytes[0] == 0x47.toByte()) return ResponseStart.MPEG_TS
+        while (i < bytes.size && bytes[i].toInt().toChar().isWhitespace()) i++
+        val tag = "#EXTM3U".toByteArray(Charsets.US_ASCII)
+        if (bytes.size - i >= tag.size && tag.indices.all { bytes[i + it] == tag[it] }) return ResponseStart.HLS_PLAYLIST
+        return ResponseStart.OTHER
+    }
+
+    /**
+     * Whether an early-EOF line during a live open is worth checking what the response really is: only
+     * while the open is still pending, only for a load that mpv opened as raw `.ts` with
+     * `reconnect_at_eof` (that option is what loops), and once per channel.
+     */
+    fun eofCheckWanted(
+        live: Boolean,
+        opening: Boolean,
+        loopingTsOpen: Boolean,
+        alreadyChecked: Boolean,
+    ): Boolean = live && opening && loopingTsOpen && !alreadyChecked
 
     /**
      * Record that [url]'s host serves DASH manifests from URLs that do not say `.mpd` (v43).
@@ -180,9 +261,9 @@ object LiveStreamQuirks {
 
     /**
      * True when [url] should be treated as HLS regardless of its extension: either it already ends in
-     * `.m3u8`, or its panel has been caught redirecting `.ts` to a manifest.
+     * `.m3u8`, or it or its panel has been caught redirecting `.ts` to a manifest.
      */
-    fun isHlsUrl(url: String): Boolean = isExplicitHlsUrl(url) || isKnownHlsHost(url)
+    fun isHlsUrl(url: String): Boolean = isExplicitHlsUrl(url) || isKnownHls(url)
 
     /** Rewrite an Xtream-style `.ts` live URL to its `.m3u8` sibling; other URLs are returned as-is. */
     fun toHlsUrl(url: String): String {
@@ -394,7 +475,7 @@ object LiveStreamQuirks {
 
     /** Test hook — clears everything. */
     internal fun clearForTest() {
-        hlsRedirectHosts.clear(); mixedHlsHosts.clear(); segmentRefusingHosts.clear(); singleSessionHosts.clear()
+        hlsRedirectHosts.clear(); hlsRedirectStreams.clear(); mixedHlsHosts.clear(); segmentRefusingHosts.clear(); singleSessionHosts.clear()
         brokenTimestampStreams.clear(); softwareArchiveHosts.clear()
         noHlsVariantStreams.clear(); noHlsVariantMpvStreams.clear(); prerollDefeatedStreams.clear()
         tolerantDemuxStreams.clear()

@@ -33,6 +33,8 @@ internal object LiveStartRungs {
     data class Input(
         val containerUnsupported: Boolean,
         val formatFailure: Boolean,
+        /** The HTTP status the failure carried, or null when no response status was involved. */
+        val httpStatus: Int?,
         val decoderFailure: Boolean,
         val decoderExhausted: Boolean,
         /** The HTTP status is an identity refusal (the User-Agent, not the request). */
@@ -60,7 +62,8 @@ internal object LiveStartRungs {
         // Some Xtream panels advertise a `.ts` endpoint but redirect it to an `.m3u8` manifest; content type
         // selection happened before the redirect, so the progressive extractor sees `#EXTM3U`.
         !i.redirectedHlsRetryDone && !i.activeIsHls && i.responseWasHls && i.containerUnsupported -> Rung.REDIRECT_HLS
-        i.hlsFromHostLesson && i.formatFailure -> Rung.DROP_HOST_HLS_LESSON
+        i.hlsFromHostLesson && LiveStreamQuirks.disprovesHlsLesson(i.formatFailure, i.httpStatus) ->
+            Rung.DROP_HOST_HLS_LESSON
         !i.redirectedDashRetryDone && !i.activeIsDash && i.responseWasDash && i.containerUnsupported -> Rung.REDIRECT_DASH
         i.sessionLimitSeen && !i.sessionLimitRetryDone -> Rung.SESSION_WAIT
         else -> null

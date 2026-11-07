@@ -47,6 +47,37 @@ enum class AudioOutputKind {
     }
 }
 
+/**
+ * Whether anything that can be heard is still connected — the signal that a box's television was
+ * switched off. Absent only when **no** audible output remains: an HDMI sink, ARC/eARC, Bluetooth,
+ * wired or USB audio, or the device's own speaker. A television with built-in speakers therefore never
+ * reports absent, and neither does one whose soundbar on ARC drops.
+ */
+// Compared with what the platform reports only, never passed to it — safe on every API level.
+@SuppressLint("InlinedApi")
+object AudioOutputPresence {
+    /**
+     * [types] are the connected output device types. [hdmiPlugged] is the last
+     * `ACTION_HDMI_AUDIO_PLUG` state, null when none was seen: some boxes keep their HDMI device listed
+     * after the sink is gone, so an unplugged state there wins over the list.
+     */
+    fun present(types: Collection<Int>, hdmiPlugged: Boolean?): Boolean = types.any { type ->
+        type in AUDIBLE_NON_HDMI || (type in HDMI_TYPES && hdmiPlugged != false)
+    }
+
+    private val HDMI_TYPES = setOf(
+        AudioDeviceInfo.TYPE_HDMI, AudioDeviceInfo.TYPE_HDMI_ARC, AudioDeviceInfo.TYPE_HDMI_EARC,
+    )
+    private val AUDIBLE_NON_HDMI = setOf(
+        AudioDeviceInfo.TYPE_BUILTIN_SPEAKER, AudioDeviceInfo.TYPE_BUILTIN_SPEAKER_SAFE,
+        AudioDeviceInfo.TYPE_BLUETOOTH_A2DP, AudioDeviceInfo.TYPE_BLUETOOTH_SCO, AudioDeviceInfo.TYPE_HEARING_AID,
+        AudioDeviceInfo.TYPE_BLE_HEADSET, AudioDeviceInfo.TYPE_BLE_SPEAKER, AudioDeviceInfo.TYPE_BLE_BROADCAST,
+        AudioDeviceInfo.TYPE_WIRED_HEADSET, AudioDeviceInfo.TYPE_WIRED_HEADPHONES, AudioDeviceInfo.TYPE_USB_DEVICE,
+        AudioDeviceInfo.TYPE_USB_HEADSET, AudioDeviceInfo.TYPE_USB_ACCESSORY, AudioDeviceInfo.TYPE_LINE_ANALOG,
+        AudioDeviceInfo.TYPE_LINE_DIGITAL, AudioDeviceInfo.TYPE_AUX_LINE, AudioDeviceInfo.TYPE_DOCK,
+    )
+}
+
 /** Extra audio delay per [AudioOutputKind], added on top of the Audio sync setting and any per-item
  *  delay. Stored as `KIND=ms,KIND=ms`; an output with no entry adds nothing. */
 data class OutputAudioDelays(private val byKind: Map<AudioOutputKind, Int>) {
