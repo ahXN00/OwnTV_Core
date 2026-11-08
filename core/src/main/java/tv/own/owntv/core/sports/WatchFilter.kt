@@ -65,8 +65,8 @@ data class WatchList(
          * preferred languages come first ("German first · from Settings"). With [WatchFilter.strict]
          * off, the channels the filter rejects are listed too, after every passing one, so nothing is
          * hidden. Counts are over *every* option, so a choice always says how many it would bring back;
-         * [alsoList] adds languages to list even at zero (the preferred ones). The "likely" switch in
-         * Settings is not a filter the panel offers, so rows it removes are not counted at all.
+         * [alsoList] adds languages to list even at zero (the preferred ones). Rows the "likely" switch
+         * removes are not counted at all: they are switched off, not filtered out.
          */
         fun of(
             options: List<WatchOption>,

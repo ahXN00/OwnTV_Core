@@ -98,7 +98,4 @@ object TeamNames {
     }
 
     fun keyOf(team: Team): Key = Key(variantsOf(team))
-
-    /** A competition or broadcaster, one variant per name ("Bundesliga", "German Bundesliga"). */
-    fun keyOfName(vararg names: String): Key = Key(names.mapNotNull { n -> tokens(n).toSet().takeIf { it.isNotEmpty() } }.distinct())
 }

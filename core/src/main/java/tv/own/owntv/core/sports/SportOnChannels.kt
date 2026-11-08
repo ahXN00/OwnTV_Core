@@ -51,7 +51,8 @@ class SportOnChannels(private val data: WatchData, private val now: () -> Long =
         val keys = matches.map { WatchMatcher.Keys(it) }
         val candidates = data.programmes(t - LOOKBACK_MS, t + SOON_MS, minStop = t).mapNotNull { p ->
             val tokens = TeamNames.tokens(p.title).toSet()
-            if (keys.any { WatchMatcher.hit(it, tokens) == WatchMatcher.Hit.CONFIRMED }) return@mapNotNull null
+            val words = CompetitionNames.words(p.title)
+            if (keys.any { WatchMatcher.hit(it, tokens, words) == WatchMatcher.Hit.CONFIRMED }) return@mapNotNull null
             val sport = sportOf(p.title, p.categories)
             when {
                 sport != null -> Triple(p, sport, false)

@@ -6,6 +6,7 @@ import tv.own.owntv.core.database.entity.matchName
 import tv.own.owntv.core.epg.EpgMatcher
 import tv.own.owntv.core.live.ProviderTags
 import tv.own.owntv.core.sports.model.Match
+import tv.own.owntv.core.sports.model.Sport
 
 /** Why a channel is listed under "Watch live", best first. */
 enum class WatchTier { GUIDE, EVENT, REMEMBERED, LIKELY }
@@ -63,30 +64,31 @@ object WatchMatcher {
     /** How a programme's text relates to a match. */
     enum class Hit { NONE, PARTIAL, CONFIRMED }
 
-    /** A match prepared once: its sides' and competition's name keys. */
+    /**
+     * A match prepared once: its sides' and competition's name keys. A race has no sides to look for:
+     * once it is over ESPN lists its first two drivers as if they were, and no guide titles a race by them.
+     */
     class Keys(val match: Match) {
-        val home: TeamNames.Key? = match.home?.team?.let(TeamNames::keyOf)
-        val away: TeamNames.Key? = match.away?.team?.let(TeamNames::keyOf)
+        private val sides = if (match.sport == Sport.RACING) emptyList() else listOfNotNull(match.home?.team, match.away?.team)
+        val home: TeamNames.Key? = sides.getOrNull(0)?.let(TeamNames::keyOf)
+        val away: TeamNames.Key? = sides.getOrNull(1)?.let(TeamNames::keyOf)
         val competitionNames: List<String> = SportsCatalog.competitionNames(match)
-        val league: TeamNames.Key = TeamNames.keyOfName(*competitionNames.toTypedArray())
-        val broadcasters: List<TeamNames.Key> = match.broadcasts.map { TeamNames.keyOfName(it.name) }
+        val league: CompetitionNames.Key = CompetitionNames.keyOf(competitionNames)
+        val broadcasters: List<CompetitionNames.Key> = match.broadcasts.map { CompetitionNames.broadcasterKey(it.name) }
 
         /** Words for a channel full-text search: one team's word is enough to find "Frankfurt v Köln". */
-        val searchWords: List<String> = buildList {
-            listOfNotNull(match.home?.team, match.away?.team).forEach { t ->
-                addAll(asciiWords(t.shortName)); addAll(asciiWords(t.name))
-            }
-        }.distinct()
+        val searchWords: List<String> = sides.flatMap { t -> asciiWords(t.shortName) + asciiWords(t.name) }.distinct()
     }
 
     /**
      * Both teams, or one team and the competition → confirmed. One team alone → partial, worth reading
-     * the synopsis. A session with no sides (racing) is confirmed by its competition alone.
+     * the synopsis. A session with no sides (racing) is confirmed by its competition alone. [tokens] are
+     * the text's [TeamNames.tokens], [words] its [CompetitionNames.words].
      */
-    fun hit(keys: Keys, tokens: Set<String>): Hit {
+    fun hit(keys: Keys, tokens: Set<String>, words: List<String>): Hit {
         val home = keys.home?.foundIn(tokens) == true
         val away = keys.away?.foundIn(tokens) == true
-        val league = keys.league.foundIn(tokens)
+        val league = keys.league.foundIn(words)
         return when {
             keys.home == null && keys.away == null -> if (league) Hit.CONFIRMED else Hit.NONE
             home && away -> Hit.CONFIRMED
@@ -105,14 +107,17 @@ object WatchMatcher {
     }
 
     /**
-     * A channel that usually carries it: its name carries the competition or a broadcaster ESPN names.
+     * A channel that usually carries it: its name carries the competition, or it is a channel of a
+     * broadcaster ESPN names and nothing else ("PEACOCK EVENT 3", not "APPLE TV+ SERIES 1").
      * Not a channel named for one fixture ("Next | La Clery vs. Vieux Fort South | Premier League"): it
      * shows that fixture, and when it were this one [isEventChannel] has already listed it.
      */
     fun isLikely(keys: Keys, channelName: String): Boolean {
         if (FIXTURE.containsMatchIn(channelName)) return false
-        val tokens = TeamNames.tokens(channelName).toSet()
-        return keys.league.foundIn(tokens) || keys.broadcasters.any { it.foundIn(tokens) }
+        if (keys.league.foundIn(CompetitionNames.words(channelName), channel = true)) return true
+        if (keys.broadcasters.isEmpty()) return false
+        val name = CompetitionNames.words(ProviderTags.parse(channelName).name)
+        return keys.broadcasters.any { it.namesOnly(name) }
     }
 
     /** A playlist's divider row ("##### PREMIER LEAGUE #####"): a heading, never a channel to watch. */

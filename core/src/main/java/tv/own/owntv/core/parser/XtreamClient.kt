@@ -119,13 +119,14 @@ class XtreamClient(private val http: HttpClient) {
     suspend fun vodCategories(s: SourceEntity, onProgress: ((Long, Long?) -> Unit)? = null) = categories(s, "get_vod_categories", onProgress)
     suspend fun seriesCategories(s: SourceEntity, onProgress: ((Long, Long?) -> Unit)? = null) = categories(s, "get_series_categories", onProgress)
 
-    private suspend fun categories(s: SourceEntity, action: String, onProgress: ((Long, Long?) -> Unit)? = null): List<XtCategory> {
+    private suspend fun categories(s: SourceEntity, action: String, onProgress: ((Long, Long?) -> Unit)? = null): List<XtCategory> =
+        http.get(api(s, action), s.userAgent, onProgress, maxAttempts = CATEGORY_MAX_ATTEMPTS) { readCategories(it) }
+
+    internal suspend fun readCategories(input: InputStream): List<XtCategory> {
         val out = ArrayList<XtCategory>()
-        http.get(api(s, action), s.userAgent, onProgress, maxAttempts = CATEGORY_MAX_ATTEMPTS) { input ->
-            streamObjects(input) { m ->
-                val id = m["category_id"] ?: return@streamObjects
-                out.add(XtCategory(id, m["category_name"] ?: id))
-            }
+        streamObjects(input) { m ->
+            val id = m["category_id"] ?: return@streamObjects
+            out.add(XtCategory(id, m["category_name"] ?: id))
         }
         return out
     }
@@ -1200,7 +1201,9 @@ class XtreamClient(private val http: HttpClient) {
                     map[name] = null
                 }
                 JsonToken.BEGIN_ARRAY, JsonToken.BEGIN_OBJECT -> reader.skipValue()
-                else -> map[name] = reader.nextString()
+                // nextScalarStringOrNull, not nextString: a panel sending `"is_adult": false` in its
+                // category list failed the whole import on "Expected a string but was BOOLEAN".
+                else -> map[name] = reader.nextScalarStringOrNull()
             }
         }
         reader.endObject()

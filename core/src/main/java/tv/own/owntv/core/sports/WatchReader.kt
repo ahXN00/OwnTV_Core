@@ -108,10 +108,11 @@ class WatchReader(private val data: WatchData) {
         val keys = slot.map { WatchMatcher.Keys(it) }
         val programmes = data.programmes(start - SLOT_BEFORE_MS, start + SLOT_AFTER_MS, minStop = start)
         val tokens = programmes.associate { it.id to TeamNames.tokens(it.title).toSet() }
+        val words = programmes.associate { it.id to CompetitionNames.words(it.title) }
         val confirmed = HashMap<String, MutableList<EpgProgrammeLite>>()
         val partial = HashMap<Long, MutableList<WatchMatcher.Keys>>()
         for (p in programmes) for (k in keys) {
-            when (WatchMatcher.hit(k, tokens.getValue(p.id))) {
+            when (WatchMatcher.hit(k, tokens.getValue(p.id), words.getValue(p.id))) {
                 WatchMatcher.Hit.CONFIRMED -> confirmed.getOrPut(k.match.key) { mutableListOf() } += p
                 WatchMatcher.Hit.PARTIAL -> partial.getOrPut(p.id) { mutableListOf() } += k
                 WatchMatcher.Hit.NONE -> Unit
@@ -124,8 +125,10 @@ class WatchReader(private val data: WatchData) {
             val byId = programmes.associateBy { it.id }
             for ((id, text) in texts) {
                 val all = tokens.getValue(id) + TeamNames.tokens(text)
+                // The empty word keeps a name from running across the title's end into the synopsis.
+                val allWords = words.getValue(id) + "" + CompetitionNames.words(text)
                 partial[id]?.forEach { k ->
-                    if (WatchMatcher.hit(k, all) == WatchMatcher.Hit.CONFIRMED) {
+                    if (WatchMatcher.hit(k, all, allWords) == WatchMatcher.Hit.CONFIRMED) {
                         confirmed.getOrPut(k.match.key) { mutableListOf() } += byId.getValue(id)
                     }
                 }
@@ -139,9 +142,9 @@ class WatchReader(private val data: WatchData) {
             }
             val event = if (k.searchWords.isEmpty()) emptyList()
             else data.channelsNamingAny(k.searchWords).filter { WatchMatcher.isEventChannel(k, it.name) }
-            // The catalogue's brand name first: "Sky Sport Bundesliga" never says "German".
+            // Every name it goes by, the catalogue's brand name first: "Sky Sport F1" never says "Formula".
             val likely = likelyByLeague.getOrPut(m.leagueSlug) {
-                data.channelsNamingAll(ftsWords(k.competitionNames.first()))
+                k.competitionNames.flatMap { data.channelsNamingAll(ftsWords(it)) }.distinctBy { it.id }
             }.plus(k.broadcasterChannels()).filter { WatchMatcher.isLikely(k, it.name) }
             cache[m.key] = Raw(guide, event, likely)
         }
