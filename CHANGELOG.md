@@ -15,6 +15,8 @@
 
 - **🔎 Sports: competitions are found by every name they go by — F1, EPL, La Liga, Formel 1 and more**
 - **🎚️ "Show likely channels" in a match page's filter**
+- **🎬 Player: title art for the film or show playing, and a 4K check for the badge**
+- **⏺️ Recordings: every "Record every showing" rule, with its channel logo, for a list with Stop**
 
 ### 🐛 Fixes
 
@@ -23,6 +25,7 @@
 - **📺 Sports: a broadcaster's unrelated channels are no longer "likely" (Apple TV+ Series)**
 - **🏎️ Sports: a finished race is matched by its competition, not its first two drivers**
 - **📥 Xtream import no longer fails with "Expected a string but was BOOLEAN" (TV #349)**
+- **📐 Fit: films use the display shape on both engines, so anamorphic wide films are no longer stretched (TV #347)**
 
 ## core-1.0.70 — 2026-11-07
 

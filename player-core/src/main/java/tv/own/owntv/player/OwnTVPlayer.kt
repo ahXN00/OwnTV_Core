@@ -92,7 +92,13 @@ data class MediaMeta(
     /** v44 — what the remembered audio/subtitle language is keyed on: the SERIES for an episode,
      *  so every episode starts on the tracks last picked in that show. Null = [contentKey]. */
     val trackKey: String? = null,
-)
+    /** The film's or show's title art (TMDB logo), drawn in place of its name; null = the name as text.
+     *  Arrives after the load starts — see [OwnTVPlayer.setTitleLogo]. */
+    val titleLogoUrl: String? = null,
+) {
+    /** What title art is keyed on: the show for an episode, so one logo covers the whole queue. */
+    internal val artKey: String? get() = trackKey ?: contentKey
+}
 
 /** An item in a play queue (e.g. a season's episodes), for prev/next.
  *  [resolveUrl] mints the playable URL right before this item loads (Stalker episodes: a per-episode
@@ -1356,6 +1362,22 @@ class OwnTVPlayer(
     private val _currentMeta = MutableStateFlow(MediaMeta())
     val currentMeta: StateFlow<MediaMeta> = _currentMeta.asStateFlow()
 
+    /** The last title art handed in, with the [MediaMeta.artKey] it belongs to. */
+    private var titleLogo: Pair<String, String>? = null
+
+    /**
+     * Title art for the film or show [key] names ([MediaMeta.artKey]). The app looks it up after the
+     * load has started, so playback never waits on it; a late answer for an item no longer playing is
+     * only kept, and shows if that item comes back (the next episode of the same show). A null
+     * [key] or [url] (no provider id, no TMDB match, no logo) changes nothing.
+     */
+    fun setTitleLogo(key: String?, url: String?) {
+        if (key == null || url == null) return
+        titleLogo = key to url
+        val meta = _currentMeta.value
+        if (meta.artKey == key) _currentMeta.value = meta.copy(titleLogoUrl = url)
+    }
+
     private var preMuteVolume = 100
 
     private val _isPlaying = MutableStateFlow(false)
@@ -1618,7 +1640,9 @@ class OwnTVPlayer(
         val w = load.currentWidthPx; val h = load.currentHeightPx
         if (w <= 0 || h <= 0) { _streamChips.value = emptyList(); return }
         val base = ArrayList<String>(5)
-        aspectLabel(w, h)?.let { base += it }
+        // The shape as Fit draws it ([displayAspect]), so the chip and the picture never disagree.
+        val shown = load.displayWidthPx > 0 && load.displayHeightPx > 0
+        (if (shown) aspectLabel(load.displayWidthPx, load.displayHeightPx) else aspectLabel(w, h))?.let { base += it }
         _videoRes.value?.let { base += it }
         val knownFps = _videoFps.value
         val m = mpv
@@ -1773,8 +1797,11 @@ class OwnTVPlayer(
         override fun onSubtitleSelected(selected: Boolean) { _exoSubtitleOn.value = selected }
         override fun onPlayingChanged(playing: Boolean) { _isPlaying.value = playing }
         override fun onBuffering(buffering: Boolean) { _buffering.value = buffering }
-        override fun onVideoSize(width: Int, height: Int) {
+        override fun onVideoSize(width: Int, height: Int, pixelRatio: Float) {
             load.currentWidthPx = width; load.currentHeightPx = height
+            // Fit's shape (see [displayAspect]); a missing or nonsense ratio means square pixels.
+            load.displayWidthPx = Math.round(width * (pixelRatio.takeIf { it > 0f && it.isFinite() } ?: 1f))
+            load.displayHeightPx = height
             if (height > 0) consecutiveHardResets = 0 // successful decode — reset thrash guard
             // Remember heaviness like the mpv path does, so the NEXT load (autoplay/toggle back to mpv)
             // knows a >1080p decoder session just ran on this surface and recreates it first.
@@ -2768,6 +2795,10 @@ class OwnTVPlayer(
             observeProperty("pause", MPVLib.MpvFormat.MPV_FORMAT_FLAG)
             observeProperty("paused-for-cache", MPVLib.MpvFormat.MPV_FORMAT_FLAG)
             observeProperty("height", MPVLib.MpvFormat.MPV_FORMAT_INT64)
+            // The display size, for Fit's shape: width/height are the stored frame, which on an
+            // anamorphic stream is narrower than the picture it carries.
+            observeProperty("dwidth", MPVLib.MpvFormat.MPV_FORMAT_INT64)
+            observeProperty("dheight", MPVLib.MpvFormat.MPV_FORMAT_INT64)
             observeProperty("speed", MPVLib.MpvFormat.MPV_FORMAT_DOUBLE)
             observeProperty("container-fps", MPVLib.MpvFormat.MPV_FORMAT_DOUBLE)
             // Whole seconds: as a double it fired on every packet the demuxer took in, each event a JNI
@@ -3050,7 +3081,8 @@ class OwnTVPlayer(
         currentSeasonNumber = meta.seasonNumber
         currentEpisodeNumber = meta.episodeNumber
         currentRewindStartMs = meta.rewindStartMs
-        _currentMeta.value = meta // reactive — refreshes the HUD title / "now watching" card on every load
+        // reactive — refreshes the HUD title / "now watching" card on every load
+        _currentMeta.value = titleLogo?.takeIf { it.first == meta.artKey }?.let { meta.copy(titleLogoUrl = it.second) } ?: meta
         // Apple FairPlay: no Android device can decrypt it, and neither engine is worth a try. Stop the
         // previous item and say why, as [abandonLive] does.
         if (currentDrm?.scheme == tv.own.owntv.core.drm.DrmConfig.Scheme.FAIRPLAY) {
@@ -4885,6 +4917,14 @@ class OwnTVPlayer(
                 load.currentWidthPx = value.toInt()
                 updateAspect()
             }
+            "dwidth" -> {
+                load.displayWidthPx = value.toInt()
+                updateAspect()
+            }
+            "dheight" -> {
+                load.displayHeightPx = value.toInt()
+                updateAspect()
+            }
             "height" -> {
                 _videoRes.value = resolutionLabel(value.toInt())
                 load.currentHeightPx = value.toInt()
@@ -4930,7 +4970,8 @@ class OwnTVPlayer(
     private fun updateAspect() {
         val w = load.currentWidthPx
         val h = load.currentHeightPx
-        _videoAspect.value = if (w > 0 && h > 0) w.toFloat() / h.toFloat() else null
+        // Fit's shape is the display size's; Original (1:1) and frame-rate matching keep the stored size.
+        _videoAspect.value = displayAspect(w, h, load.displayWidthPx, load.displayHeightPx)
         _videoSize.value = if (w > 0 && h > 0) w to h else null
         updateStreamChips()
     }
@@ -5709,6 +5750,10 @@ internal data class LoadState(
     @field:Volatile var currentVideoCodec: String? = null,
     @field:Volatile var currentHeightPx: Int = 0,
     @field:Volatile var currentWidthPx: Int = 0,
+    /** The size the picture is meant to be shown at — the stored size with the stream's pixel shape
+     *  applied (a wide film kept in a narrower frame). 0 until an engine reports it. */
+    @field:Volatile var displayWidthPx: Int = 0,
+    @field:Volatile var displayHeightPx: Int = 0,
     @field:Volatile var decodeGuardTripped: Boolean = false,
     /** When mpv first reported a video size for this load (elapsedRealtime); 0 = not yet. Timing log only. */
     @field:Volatile var firstVideoAt: Long = 0L,

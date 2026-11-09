@@ -58,7 +58,8 @@ class ExoSubtitleEngine(
     interface Callbacks {
         fun onPlayingChanged(playing: Boolean)
         fun onBuffering(buffering: Boolean)
-        fun onVideoSize(width: Int, height: Int)
+        /** [pixelRatio]: the stream's pixel width over height, 1 for square pixels (see [displayAspect]). */
+        fun onVideoSize(width: Int, height: Int, pixelRatio: Float)
         fun onPositionDuration(positionMs: Long, durationMs: Long, bufferedMs: Long)
         fun onFirstFrame()
         fun onCues(cues: List<Cue>)
@@ -268,7 +269,7 @@ class ExoSubtitleEngine(
 
         override fun onVideoSizeChanged(videoSize: VideoSize) {
             if (videoSize.width > 0 && videoSize.height > 0) {
-                callbacks.onVideoSize(videoSize.width, videoSize.height)
+                callbacks.onVideoSize(videoSize.width, videoSize.height, videoSize.pixelWidthHeightRatio)
             }
             // Report the video frame rate so the display can switch to match it (kills 24fps-on-60Hz judder).
             player?.videoFormat?.frameRate?.let { if (it > 0f) callbacks.onVideoFps(it) }

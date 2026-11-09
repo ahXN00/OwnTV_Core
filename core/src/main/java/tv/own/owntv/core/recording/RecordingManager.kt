@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import tv.own.owntv.core.database.dao.ChannelDao
@@ -15,6 +16,7 @@ import tv.own.owntv.core.database.entity.ChannelEntity
 import tv.own.owntv.core.database.entity.EpgProgrammeEntity
 import tv.own.owntv.core.database.entity.SourceEntity
 import tv.own.owntv.core.epg.CatchupUrl
+import tv.own.owntv.core.epg.displayLogoUrl
 import tv.own.owntv.core.database.entity.RecordingEntity
 import tv.own.owntv.core.database.entity.RecordingRuleEntity
 import tv.own.owntv.core.live.StreamGrant
@@ -30,6 +32,9 @@ import tv.own.owntv.core.storage.MediaRoot
 import tv.own.owntv.core.storage.MediaTarget
 import tv.own.owntv.core.parser.XtreamClient
 import java.util.TimeZone
+
+/** A standing "record every showing" instruction, as the Recordings list shows it. */
+data class SeriesRecording(val rule: RecordingRuleEntity, val channelLogoUrl: String?)
 
 /**
  * The control half of recording — what the apps call. The bytes are [RecordingEngine]'s, running
@@ -247,6 +252,15 @@ class RecordingManager(
 
     /** This profile's standing rules, for the screens that list and cancel them. */
     fun observeRules(profileId: Long): Flow<List<RecordingRuleEntity>> = recordingDao.observeRules(profileId)
+
+    /**
+     * Every "record every showing" instruction [profileId] has, with its channel's logo, for the
+     * Recordings list — the one place a rule can be stopped without finding a showing in the guide.
+     */
+    fun observeSeriesRecordings(profileId: Long): Flow<List<SeriesRecording>> =
+        observeRules(profileId).map { rules ->
+            rules.filter { it.enabled }.map { SeriesRecording(it, channelDao.getById(it.channelId)?.displayLogoUrl) }
+        }
 
     /** The rule covering this programme on this channel, or null when there is none. */
     suspend fun ruleFor(profileId: Long, channelId: Long, title: String): RecordingRuleEntity? =
