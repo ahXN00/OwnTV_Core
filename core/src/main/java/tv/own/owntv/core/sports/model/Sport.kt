@@ -32,6 +32,10 @@ enum class Sport(val path: String) {
  * so [key] is unique everywhere. [country] is an ISO 3166 code where the competition belongs to one
  * country, else null (UCL, F1, ATP). [hasTable] is false for a knockout cup or a run of one-off games,
  * whose `standings` answer is empty every time.
+ *
+ * [aliases] are the other names guides and channel names use for it ("F1", "Formel 1", "EPL",
+ * "La Liga"). [nameMatches] is false when the brand name alone says too little to find it by
+ * ("Championship", "Superliga"), so only its aliases are searched.
  */
 data class League(
     val sport: Sport,
@@ -40,8 +44,13 @@ data class League(
     val abbreviation: String = name,
     val country: String? = null,
     val hasTable: Boolean = true,
+    val aliases: List<String> = emptyList(),
+    val nameMatches: Boolean = true,
 ) {
     val key: String get() = keyOf(sport, slug)
+
+    /** Every name it is searched by: the brand name (unless too generic), then its aliases. */
+    val searchNames: List<String> get() = (if (nameMatches) listOf(name) else emptyList()) + aliases
 
     companion object {
         fun keyOf(sport: Sport, slug: String): String = "${sport.path}/$slug"

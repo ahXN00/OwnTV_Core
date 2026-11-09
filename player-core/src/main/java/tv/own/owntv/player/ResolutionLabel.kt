@@ -18,7 +18,7 @@ internal fun classifyResolution(width: Int, height: Int): String? {
     if (height <= 0) return null
     val effective = if (width > 0) maxOf(height, (width * 9) / 16) else height
     return when {
-        effective >= 2160 -> "4K"
+        effective >= 2160 -> ULTRA_HD
         effective >= 1440 -> "1440p"
         effective >= 1080 -> "1080p"
         effective >= 720 -> "720p"
@@ -26,3 +26,8 @@ internal fun classifyResolution(width: Int, height: Int): String? {
         else -> "${height}p"
     }
 }
+
+private const val ULTRA_HD = "4K"
+
+/** True when an engine's `videoRes` label is 4K — the players then draw it as a badge, not a chip. */
+fun isUltraHd(label: String?): Boolean = label == ULTRA_HD

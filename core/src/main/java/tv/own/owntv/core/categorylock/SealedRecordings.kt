@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.combine
 import tv.own.owntv.core.customize.ItemCategory
 import tv.own.owntv.core.customize.isSealed
 import tv.own.owntv.core.database.entity.RecordingEntity
+import tv.own.owntv.core.recording.SeriesRecording
 
 /**
  * These recordings without those of a channel filed under a [sealed] category. [categoryOf] gives a
@@ -15,7 +16,22 @@ fun Flow<List<RecordingEntity>>.withoutSealed(
     sealed: Flow<Set<Long>>,
     anySealed: Flow<Boolean>,
     categoryOf: suspend (channelId: Long) -> ItemCategory,
-): Flow<List<RecordingEntity>> = combine(this, sealed, anySealed) { rows, ids, any ->
+): Flow<List<RecordingEntity>> = withoutSealedBy(sealed, anySealed, categoryOf) { it.channelId }
+
+/** The same for "record every showing" instructions: a locked channel's show stays out of the list too. */
+@JvmName("seriesWithoutSealed")
+fun Flow<List<SeriesRecording>>.withoutSealed(
+    sealed: Flow<Set<Long>>,
+    anySealed: Flow<Boolean>,
+    categoryOf: suspend (channelId: Long) -> ItemCategory,
+): Flow<List<SeriesRecording>> = withoutSealedBy(sealed, anySealed, categoryOf) { it.rule.channelId }
+
+private fun <T> Flow<List<T>>.withoutSealedBy(
+    sealed: Flow<Set<Long>>,
+    anySealed: Flow<Boolean>,
+    categoryOf: suspend (channelId: Long) -> ItemCategory,
+    channelOf: (T) -> Long,
+): Flow<List<T>> = combine(this, sealed, anySealed) { rows, ids, any ->
     if (ids.isEmpty() && !any) rows
-    else rows.filterNot { categoryOf(it.channelId).isSealed({ any }) { id -> id in ids } }
+    else rows.filterNot { categoryOf(channelOf(it)).isSealed({ any }) { id -> id in ids } }
 }

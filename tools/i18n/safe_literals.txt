@@ -322,6 +322,7 @@
 1	technical	core/src/main/java/tv/own/owntv/core/categorylock/MenuChangeGuard.kt	remove_from_category
 1	technical	core/src/main/java/tv/own/owntv/core/categorylock/MenuChangeGuard.kt	remove_history
 1	technical	core/src/main/java/tv/own/owntv/core/categorylock/MenuChangeGuard.kt	rename
+1	technical	core/src/main/java/tv/own/owntv/core/categorylock/SealedRecordings.kt	seriesWithoutSealed
 8	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	\0
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	(unnamed)
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	.$extension
@@ -3397,6 +3398,32 @@
 1	url	core/src/main/java/tv/own/owntv/core/setup/SourceImporter.kt	file://
 1	technical	core/src/main/java/tv/own/owntv/core/setup/SourceImporter.kt	fresh_add
 1	technical	core/src/main/java/tv/own/owntv/core/setup/SourceImporter.kt	restore
+1	empty	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	\0
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	4k
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	8k
+1	regex	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	[^\\p{L}\\p{N}]+
+1	regex	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	\\p{M}+
+1	regex	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	\\p{N}+
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	alt
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	backup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	channel
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	event
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	events
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	extra
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	fhd
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	hd
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	hdr
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	live
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	plus
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	ppv
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	raw
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	sd
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	sport
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	sports
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	ss
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	tv
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	uhd
+1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	ß
 6	technical	core/src/main/java/tv/own/owntv/core/sports/EspnParser.kt	\0
 1	technical	core/src/main/java/tv/own/owntv/core/sports/EspnParser.kt	$id-$i
 1	technical	core/src/main/java/tv/own/owntv/core/sports/EspnParser.kt	(
@@ -3772,6 +3799,7 @@
 1	file-path	core/src/main/java/tv/own/owntv/core/sports/SportsCalendar.kt	sports
 3	json	core/src/main/java/tv/own/owntv/core/sports/SportsCalendar.kt	ss
 2	json	core/src/main/java/tv/own/owntv/core/sports/SportsCalendar.kt	v
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	1. Bundesliga
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	1. Lig
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	164205
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	17567
@@ -3788,155 +3816,328 @@
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	289234
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	289237
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	3
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	3F Superliga
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	6 Nations
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	ACL Elite
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	ACL Two
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	AFC Asian Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	AFC Champions League
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	AFC Champions League Elite
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	AFC Champions League Two
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	AFCON
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	AFL
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	AR
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	AT
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	ATP
 2	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	AU
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Admiral Bundesliga
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Africa Cup of Nations
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Allsvenskan
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Asian Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Australian Football League
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Austrian Bundesliga
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Autumn Nations Series
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	BE
 2	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	BR
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Bangladesh Premier League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Basketball Bundesliga
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Basketball Champions League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Basketball World Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Basketball-WM
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Belgian Pro League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Biathlon World Cup
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Brasileirão
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Brasileirão Série A
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Brasileirão Série B
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	British & Irish Lions Tour
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	British and Irish Lions
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Bundesliga
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Bundesliga Handball
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	CAF Champions League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	CEV Champions League
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	CH
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Campeonato Brasileiro
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Carabao Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Caribbean Premier League
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Champions Cup
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Champions League
 1	json	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Championship
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Club World Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	College Basketball
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	College Football
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	College Volleyball
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Community Shield
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Concacaf Champions Cup
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Concacaf Gold Cup
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Conference League
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Copa América
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Copa Libertadores
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Copa Mundial
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Copa Sudamericana
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Copa del Rey
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Copa del Rey de Baloncesto
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Copa do Brasil
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Copa do Mundo
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Coppa Italia
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Coupe d'Afrique des Nations
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Coupe de France
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Coupe du Monde
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Coupe du Monde de Rugby
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Credit Suisse Super League
 1	json	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Cricket
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Cricket World Cup
 3	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	DE
 1	json	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	DFB-Pokal
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	DK
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	DP World Tour
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Danish Superliga
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	EFL Championship
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	EFL Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	EFL League One
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	EHF Champions League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	EPCR Challenge Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	EPL
 4	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	ES
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	EURO
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Eliminatorias
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Eliteserien
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	English Championship
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	English Premier League
 1	json	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Eredivisie
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Eredivisie Vrouwen
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Europa League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Europameisterschaft
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	European Challenge Cup
-1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	F1
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	European Championship
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	European Rugby Champions Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	European Tour
+2	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	F1
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	F1 Academy
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	FA Cup
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	FIBA World Cup
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	FIFA Club World Cup
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	FIFA Women's World Cup
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	FIFA World Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	FIS World Cup
 4	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	FR
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Formel 1
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Formula 1
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Formula One
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Formula Uno
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Formule 1
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Frauen-Bundesliga
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Frauen-EM
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Frauen-WM
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Fußball-EM
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Fußball-WM
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Fórmula 1
 11	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	GB
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	GR
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Gallagher PREM
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Gallagher Premiership
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	German Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Gold Cup
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Greek Super League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Handball-Bundesliga
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	ICC World Cup
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	IN
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	ISL
 4	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	IT
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Indian Premier League
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Indian Super League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Indy 500
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Indy Car
 1	json	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	IndyCar
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	International Friendlies
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	International Friendly
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	International Test Matches
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Jupiler Pro League
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	KNVB Beker
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	KNVB Cup
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	King's Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Kings Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Klub-WM
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Königsklasse
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	LIV Golf
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	LPGA
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	LPGA Tour
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	La Liga
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	La Liga 2
 1	json	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	LaLiga
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	LaLiga 2
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	LaLiga Hypermotion
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Lanka Premier League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	League Cup
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	League One
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Leagues Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Libertadores
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Liga MX
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Liga Portugal
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Liga Portugal 2
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Liga Profesional
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Liga Profesional Argentina
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Liga de Campeones
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Ligue 1
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Ligue 2
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Ligue Europa
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Ligue Europa Conférence
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Ligue des Champions
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Ligue des Nations
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Lions Tour
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Länderspiel
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	MLB
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	MLS
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	MLS Next Pro
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	MX
-1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NASCAR
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Major League Baseball
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Major League Soccer
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	March Madness
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Mundial de Clubes
+2	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NASCAR
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NASCAR Craftsman Truck Series
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NASCAR Cup Series
-1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NASCAR O'Reilly
+2	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NASCAR O'Reilly
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NASCAR O'Reilly Auto Parts Series
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NASCAR Truck
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NASCAR Truck Series
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NASCAR Trucks
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NASCAR Xfinity
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NBA
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NBA G League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NBA Summer League
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NCAA Basketball
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NCAA Football
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NCAA Women's Basketball
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NCAA Women's Volleyball
-1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NCAAF
+2	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NCAAF
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NCAAM
 2	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NCAAW
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NFL
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NHL
 2	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NL
-1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NLL
+2	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NLL
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NO
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NRL
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	NWSL
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	National Lacrosse League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	National Rugby League
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Nations Championship
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Nations League
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	ONE
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	ONE Championship
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	ONE Fight Night
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Olympic Ice Hockey
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Olympic Men's Ice Hockey
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Olympic Women's Ice Hockey
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	PFL
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	PGA Tour
-1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	PLL
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	PGA Tour Champions
+2	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	PLL
 2	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	PT
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Premier Lacrosse League
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Premier League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Premier League 2
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Premier League Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Premier League Darts
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Premier League International Cup
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Premiership Rugby
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Primeira Liga
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Primera División
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Pro League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Professional Fighters League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Roshn Saudi League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Rugby Championship
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Rugby League World Cup
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Rugby World Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Rugby-WM
 2	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	SA
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	SE
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	SPFL Premiership
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Saudi Pro League
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Scottish Cup
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Scottish League Cup
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Scottish Premiership
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Segunda División
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Sei Nazioni
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Serie A
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Serie A Femminile
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Serie A Women
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Serie B
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Serie B Femminile
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Serie BKT
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Six Nations
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Six Nations U20
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Ski World Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Sky Bet Championship
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Sky Bet League One
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Stoiximan Super League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Sudamericana
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Summer Nations Series
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Super League Greece
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Super Rugby
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Super Rugby Pacific
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Supercopa de España
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Supercoppa Italiana
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Supercoupe de l'UEFA
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Superliga
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Superligaen
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Swiss Super League
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Süper Lig
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	T20 World Cup
 2	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	TR
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Taça de Portugal
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	The Rugby Championship
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Top 14
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Tournoi des Six Nations
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Turkish Super Lig
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	U20 Six Nations
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	UCL
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	UECL
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	UEFA Champions League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	UEFA Conference League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	UEFA EURO
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	UEFA Europa League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	UEFA Nations League
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	UEFA Super Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	UEFA Supercup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	UEFA Women's Champions League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	UEFA Women's EURO
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	UEL
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	UFC
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	URC
 16	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	US
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	UWCL
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	United Rugby Championship
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Volleyball Bundesliga
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Volleyball Champions League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Vrouwen Eredivisie
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	WM-Qualifikation
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	WNBA
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	WSL
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	WTA
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	William Hill Premiership
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Women's Champions League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Women's College Basketball
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Women's EURO
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Women's Rugby World Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Women's Six Nations
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Women's Super League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Women's World Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Womens Champions League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Womens EURO
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Womens Rugby World Cup
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Womens Super League
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Womens World Cup
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	World Baseball Classic
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	World Cup
+5	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	World Cup Qualifiers
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	World Cup Qualifying – AFC
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	World Cup Qualifying – CAF
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	World Cup Qualifying – CONMEBOL
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	World Cup Qualifying – Concacaf
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	World Cup Qualifying – UEFA
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	World Cup of Darts
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Zweite Bundesliga
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	afc.asian.cup
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	afc.champions
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	afc.cup
@@ -4042,6 +4243,7 @@
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	womens-college-volleyball
 1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	world-baseball-classic
 1	json	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	wta
+1	technical	core/src/main/java/tv/own/owntv/core/sports/SportsCatalog.kt	Österreichische Bundesliga
 2	empty	core/src/main/java/tv/own/owntv/core/sports/SportsConfig.kt	\0
 1	protocol	core/src/main/java/tv/own/owntv/core/sports/SportsConfig.kt	${sport.path}/$id
 4	json	core/src/main/java/tv/own/owntv/core/sports/SportsConfig.kt	ab
@@ -4306,7 +4508,7 @@
 1	technical	core/src/main/java/tv/own/owntv/core/sports/WatchMatcher.kt	USA
 1	technical	core/src/main/java/tv/own/owntv/core/sports/WatchMatcher.kt	[A-Za-z]{4,}
 1	regex	core/src/main/java/tv/own/owntv/core/sports/WatchMatcher.kt	\\s(vs?\\.?|v)\\s
-1	technical	core/src/main/java/tv/own/owntv/core/sports/WatchReader.kt	\0
+2	empty	core/src/main/java/tv/own/owntv/core/sports/WatchReader.kt	\0
 2	technical	core/src/main/java/tv/own/owntv/core/sports/WatchReader.kt	$it*
 1	technical	core/src/main/java/tv/own/owntv/core/sports/WatchReader.kt	${it.id}@${it.lastSyncAt}
 1	technical	core/src/main/java/tv/own/owntv/core/sports/WatchReader.kt	,
@@ -6344,6 +6546,7 @@
 3	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	demuxer-readahead-secs
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	desync
 2	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	detachSurface
+2	protocol	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	dheight
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	direct decoder never engaged on archive
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	direct failed after retries
 1	log	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	direct failed — retries exhausted, showing error
@@ -6356,6 +6559,7 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	dvbsub
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	dvd_subtitle
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	dvdsub
+2	protocol	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	dwidth
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	eia
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	emb:${sub.typeIndex}:${sub.lang ?: ""}
 1	technical	player-core/src/main/java/tv/own/owntv/player/OwnTVPlayer.kt	emb:${t.typeIndex}:${t.lang ?: ""}

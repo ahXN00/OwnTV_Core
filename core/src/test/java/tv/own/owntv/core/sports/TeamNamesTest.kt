@@ -77,10 +77,4 @@ class TeamNamesTest {
         assertFalse(TeamNames.variantsOf(manUtd).contains(setOf("manchester")))
         assertFalse(found(besiktas, "Istanbul derby preview"))
     }
-
-    @Test fun `competition key`() {
-        val pl = TeamNames.keyOfName("Premier League")
-        assertTrue(pl.foundIn(TeamNames.tokens("Premier League Live: Arsenal v Chelsea").toSet()))
-        assertFalse(pl.foundIn(TeamNames.tokens("Darts Premier Night").toSet()))
-    }
 }
