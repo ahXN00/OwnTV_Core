@@ -1,7 +1,1777 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="settings_sort_playlist">Playlist</string>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="settings_sort_playlist">لیستی پەخش</string>
     <string name="settings_sort_alpha">A–Z</string>
-    <string name="settings_sort_rating">نمرە</string>
-    <string name="settings_sort_date_added">بەرواری زیادکراو</string>
+    <string name="settings_sort_rating">هەڵسەنگاندن</string>
+    <string name="settings_sort_date_added">بەرواری زیادکردن</string>
+    <string name="settings_mini_player">مینی-لێدەر</string>
+    <string name="settings_mini_player_description">ئەو لێدەرە بچووکە سەرشاشەییەی کە کاتێک لە کاتی گەڕاندا کەناڵێک دادەنێیت (PiP) دەردەکەوێت. لێرە بیگۆڕە، یان بە دوگمەکانی گەورەکردن / گواستنەوە لەسەر خودی مینی-لێدەرەکە.</string>
+    <string name="settings_size">قەبارە</string>
+    <string name="settings_position">شوێن</string>
+    <string name="settings_home_screen">شاشەی سەرەکی</string>
+    <string name="settings_sections">بەشەکان</string>
+    <string name="settings_hidden_sections">بەشە شاراوەکان لە لیستەکەدا دەمێننەوە بۆ ئەوەی دووبارە بیانکەیتەوە.</string>
+    <string name="settings_keep_watching">بەردەوامبوون لە سەیرکردن</string>
+    <string name="settings_live_keep_watching">کەناڵە ڕاستەوخۆکان لە بەردەوامبوون لە سەیرکردن</string>
+    <string name="settings_live_keep_watching_description">ئەو کەناڵە ڕاستەوخۆیانەی تازە سەیرت کردوون لە ڕیزی سەرەکیدا پیشان بدە.</string>
+    <string name="settings_movies_keep_watching">فیلمەکان لە بەردەوامبوون لە سەیرکردن</string>
+    <string name="settings_movies_keep_watching_description">کارتەکانی بەردەوامبوونی فیلم لە ڕیزی سەرەکیدا پیشان بدە.</string>
+    <string name="settings_series_keep_watching">زنجیرەکان لە بەردەوامبوون لە سەیرکردن</string>
+    <string name="settings_series_keep_watching_description">کارتەکانی بەردەوامبوونی ئەڵقە لە ڕیزی سەرەکیدا پیشان بدە.</string>
+    <string name="settings_hero_preview">پەخشکردنی ڤیدیۆ لە ڕیزی سەرەکیدا</string>
+    <string name="settings_hero_preview_description">دوای چرکەیەک ڤیدیۆی ئایتمی دیاریکراو پێشبینی بکە. بیکوژێنەوە بۆ پاشەکەوتکردنی وزە و بیرگە لە کاتی گەڕان لە شاشەی سەرەکیدا.</string>
+    <string name="settings_android_tv_home">شاشەی سەرەکی Android TV</string>
+    <string name="settings_android_tv_home_description">بەردەوامبوون لە سەیرکردن و کەناڵە ڕاستەوخۆ تازەکان لەسەر شاشەی سەرەکی تیڤی پیشان بدە.</string>
+    <string name="settings_refresh_now">ئێستا نوێی بکەرەوە</string>
+    <string name="settings_refresh_description">کارتەکانی بەردەوامبوون لە سەیرکردن / تازەکان لەسەر شاشەی سەرەکی Android TV دووبارە دروست بکەرەوە.</string>
+    <string name="settings_rebuilding">دووبارە دروستکردنەوە…</string>
+    <string name="settings_done_check">تەواو ✓</string>
+    <string name="settings_mode"><xliff:g id="mode">%1$s</xliff:g></string>
+    <string name="settings_hidden">شاراوە</string>
+    <string name="settings_static">جێگیر</string>
+    <string name="settings_dynamic">ئۆتۆماتیکی</string>
+    <string name="settings_use_proxy">بەکارهێنانی پرۆکسی</string>
+    <string name="settings_proxy_description">هەموو هاتوچۆ و پەخشی OwnTV لە ڕێگەی پرۆکسییەکی HTTP بنێرە.</string>
+    <string name="settings_host">هۆست</string>
+    <string name="settings_proxy_host_hint">proxy.example.com</string>
+    <string name="settings_port">پۆرت</string>
+    <string name="settings_proxy_port_hint">8080</string>
+    <string name="settings_username_optional">ناوی بەکارهێنەر (ئارەزوومەندانە)</string>
+    <string name="settings_password_optional">وشەی نهێنی (ئارەزوومەندانە)</string>
+    <string name="settings_test_proxy">تاقیکردنەوەی پرۆکسی</string>
+    <string name="settings_testing">تاقیکردنەوە…</string>
+    <string name="settings_proxy_privacy">دابینکەری پرۆکسییەکەت دەتوانێت ببینێت بە کام سێرڤەرەکانەوە پەیوەندی دەکەیت، و ناوەڕۆکی هەر هاتوچۆیەک کە HTTPS نەبێت.</string>
+    <string name="settings_proxy_limitations">هێشتا تەنها پرۆکسی HTTP — SOCKS و پرۆکسی بۆ هەر لیستی پەخشێک پشتگیری ناکرێن.</string>
+    <string name="settings_proxy_connected"><xliff:g id="millis">%1$d</xliff:g> ms</string>
+    <string name="settings_proxy_invalid_address">هۆست و پۆرتێکی دروست بنووسە (1–65535).</string>
+    <string name="settings_proxy_host_unreachable">نەتوانرا بە هۆستی پرۆکسی بگەیت.</string>
+    <string name="settings_proxy_timed_out">پەیوەندی بە پرۆکسییەوە کاتی بەسەرچوو.</string>
+    <string name="settings_proxy_connection_failed">نەتوانرا بە پرۆکسییەوە پەیوەندی بکرێت (هۆست/پۆرت بپشکنە).</string>
+    <string name="settings_proxy_http">پرۆکسی HTTP <xliff:g id="code">%1$d</xliff:g>ـی گەڕاندەوە</string>
+    <string name="settings_proxy_failed">تاقیکردنەوەی پرۆکسی سەرکەوتوو نەبوو.</string>
+    <string name="settings_ch_nav_up">ئاستی بازدانی CH+ / Rewind (بەرەو یەکەم)</string>
+    <string name="settings_ch_nav_up_description">بە هەر جارێک CH+/RW دابگیرێت چەند ئایتم بەرەو سەرەوە بازبدات. درێژ دابگرە هەمیشە دەچێتە یەکەم ئایتم.</string>
+    <string name="settings_ch_nav_down">ئاستی بازدانی CH− / Fast-forward (بەرەو کۆتایی)</string>
+    <string name="settings_ch_nav_down_description">بە هەر جارێک CH−/FF دابگیرێت چەند ئایتم بەرەو خوارەوە بازبدات. درێژ دابگرە هەمیشە دەچێتە کۆتا ئایتم.</string>
+    <string name="settings_skip_counts">ژمارەی بازدان</string>
+    <string name="settings_remote_shortcuts">کورتەبڕەکانی ڕیمۆت</string>
+    <string name="settings_remote_shortcuts_description">دوگمە بەکارنەهاتووەکانی ڕیمۆت بدە بە کارەکانی گەڕان، پەخش و پشکنین. دوگمە سەرەکییەکانی گەڕان پارێزراو دەمێننەوە.</string>
+    <string name="settings_remote_shortcuts_enabled">بەکارهێنانی کورتەبڕەکانی ڕیمۆت</string>
+    <string name="settings_remote_shortcuts_enabled_description">هەموو کورتەبڕە تایبەتەکان بکوژێنەوە بەبێ سڕینەوەی دیاریکردنی دوگمەکانت</string>
+    <string name="settings_remote_shortcuts_assignments">دیاریکردنی دوگمەکان</string>
+    <string name="settings_remote_shortcuts_add">زیادکردنی کورتەبڕ</string>
+    <string name="settings_remote_shortcuts_add_description">دوگمەیەکی بەکارنەهاتوو دابگرە یان ڕایبگرە، پاشان هەڵبژێرە چی بکات</string>
+    <string name="settings_remote_shortcuts_reset">گەڕاندنەوەی کورتەبڕە بنەڕەتییەکان</string>
+    <string name="settings_remote_shortcuts_reset_description">لاپەڕەکردنی CH+/CH− و rewind/fast-forward بگەڕێنەرەوە؛ دیاریکردنەکانی تر لابە</string>
+    <string name="settings_remote_shortcuts_capture_title">دوگمەیەکی ڕیمۆت دابگرە</string>
+    <string name="settings_remote_shortcuts_capture_description">بە کورتی دابگرە بۆ کورتەبڕی دابگرتنی کورت، یان ڕایبگرە تا دەیهێڵیتەوە بۆ کورتەبڕی دابگرتنی درێژ. دوگمەکانی Back، D-pad، OK، دەنگ، Home و ڕاگرتن/وزە ناتوانرێن دیاری بکرێن.</string>
+    <string name="settings_remote_shortcuts_choose_action">کارێک هەڵبژێرە</string>
+    <string name="settings_remote_shortcuts_short_press">دابگرتنی کورت</string>
+    <string name="settings_remote_shortcuts_long_press">دابگرتنی درێژ</string>
+    <string name="settings_remote_shortcuts_unknown_button">دوگمەی ڕیمۆت <xliff:g id="number">%1$d</xliff:g></string>
+    <string name="settings_remote_shortcuts_help">• بە شێوەی بنەڕەتی، CH+/CH− و rewind/fast-forward لیستەکانی گەڕان لاپەڕە دەکەن؛ ڕاگرتنیان دەچێتە یەکەم یان کۆتا ئایتم.\n• دابگرتنی کورت و درێژ بە جیا دیاری دەکرێن.\n• بازدان بۆ کۆتایی لەسەر لیستە زۆر گەورەکانی \"All\" ناچالاک دەمێنێتەوە.\n• دابگرتنی درێژی Back هەمیشە فۆکەس دەخاتە سەر Now Playing و ناگۆڕدرێت.\n• دوگمە دیارییکراوە باوەکان سوور/سەوز/زەرد/شین، ژمارەکان، CH+/CH− و rewind/fast-forward ن.\n• دوگمەکانی Back، D-pad، OK، دەنگ، Home و وزە پارێزراو دەمێننەوە.\n• کورتەبڕی ژمارەکان لە کاتی گەڕاندا کار دەکەن؛ نووسینی ژمارە لە شاشەی تەواو ئەولەویەتی گەڕانی کەناڵ دەپارێزێت.</string>
+    <string name="settings_player_buttons">دوگمەکانی لێدەر</string>
+    <string name="settings_player_hold_ok">ڕاگرتنی OK لە لێدەردا</string>
+    <string name="settings_player_hold_ok_description">ڕاگرتنی OK لە کاتی شاردنەوەی کۆنتڕۆڵەکان چی دەکاتەوە</string>
+    <string name="settings_help_player_hold_ok">لە لێدەری ڕاستەوخۆی شاشەی تەواو، کاتێک کۆنتڕۆڵەکان شاراونەتەوە، OK ڕابگرە بۆ کردنەوەی لیستی کەناڵ، ڕێنما یان زانیاری بەرنامە. کوژاوە OK وەک جاران دەهێڵێتەوە. کاتێک ئەمە کراوەیە، OKی کورت کاتێک دەیهێڵیتەوە کار دەکات. فیلم و ئەڵقەکان OKی ئاسایی دەهێڵنەوە.</string>
+    <string name="settings_player_short_ok">OK کاتێک کۆنتڕۆڵەکان شاراوەن</string>
+    <string name="settings_player_short_ok_description">دابگرتنی کورتی OK لە لێدەری شاشەی تەواودا چی دەکات</string>
+    <string name="settings_help_player_short_ok">دابگرتنی کورتی OK لە لێدەری شاشەی تەواودا کۆنتڕۆڵەکان پیشان دەدات. لیستی کەناڵ یان ڕێنما هەڵبژێرە بۆ ئەوەی لەجیاتی ئەوە لەسەر کەناڵە ڕاستەوخۆکان بکرێتەوە؛ هەر دوگمەیەکی تر کە لێدەر بەکاری نەهێنێت هێشتا کۆنتڕۆڵەکان پیشان دەدات. فیلم و ئەڵقەکان هەمیشە کۆنتڕۆڵەکان پیشان دەدەن.</string>
+    <string name="settings_player_swap_channel_keys">گۆڕینی سەرەوە/خوارەوەی کەناڵ</string>
+    <string name="settings_player_swap_channel_keys_description">CH+ و Up دەچنە کەناڵی پێشوو</string>
+    <string name="settings_help_player_swap_channel_keys">بە شێوەی ئاسایی CH+ و D-pad Up دەچنە کەناڵی دواتر و CH− و Down بۆ کەناڵی پێشوو. کراوەی بکە بۆ گۆڕینیان لە کاتی سەیرکردندا، لە شاشەی تەواو و مینی-لێدەردا. لیستەکانی گەڕان کاریان لێ ناکرێت.</string>
+    <string name="settings_player_number_keys_tune">دوگمەی ژمارەکان کەناڵ دەگۆڕن</string>
+    <string name="settings_player_number_keys_tune_description">لە لێدەری ڕاستەوخۆدا ژمارەی کەناڵ بنووسە</string>
+    <string name="settings_help_player_number_keys_tune">لە لێدەری ڕاستەوخۆی شاشەی تەواودا ژمارەی کەناڵ لەسەر ڕیمۆت بنووسە بۆ بازدان بۆ ئەو کەناڵە. بیکوژێنەوە بۆ ئەوەی دوگمەی ژمارەکان بۆ کورتەبڕەکانی ڕیمۆتەکەت بەتاڵ بمێنن. نووسینی ژمارە هەروەها پێویستی بە کراوەبوونی ژمارەی کەناڵەکان هەیە لە ڕێکخستنەکانی تیڤیی ڕاستەوخۆ.</string>
+    <string name="settings_player_ok_channel_list">لیستی کەناڵ</string>
+    <string name="settings_player_ok_guide">ڕێنما</string>
+    <string name="settings_player_ok_programme_info">زانیاری بەرنامە</string>
+    <string name="settings_player_ok_show_controls">پیشاندانی کۆنتڕۆڵەکان</string>
+    <string name="settings_remote_button_channel_up">کەناڵ +</string>
+    <string name="settings_remote_button_channel_down">کەناڵ −</string>
+    <string name="settings_remote_button_rewind">گەڕانەوە (Rewind)</string>
+    <string name="settings_remote_button_fast_forward">خێراکردن (Fast-forward)</string>
+    <string name="settings_remote_button_previous">پێشوو</string>
+    <string name="settings_remote_button_next">دواتر</string>
+    <string name="settings_remote_button_last_channel">دوایین کەناڵ</string>
+    <string name="settings_remote_button_menu">مێنوو</string>
+    <string name="settings_remote_button_red">دوگمەی سوور</string>
+    <string name="settings_remote_button_green">دوگمەی سەوز</string>
+    <string name="settings_remote_button_yellow">دوگمەی زەرد</string>
+    <string name="settings_remote_button_blue">دوگمەی شین</string>
+    <string name="settings_remote_action_continue">بەردەوامبوون لە دوایین سەیرکراو</string>
+    <string name="settings_remote_action_focus_now_playing">فۆکەس لەسەر Now Playing</string>
+    <string name="settings_remote_action_expand_now_playing">گەورەکردنی Now Playing</string>
+    <string name="settings_remote_action_mini_player">گواستنەوە بۆ مینی-لێدەر</string>
+    <string name="settings_remote_action_play_pause">پەخشکردن یان ڕاگرتن</string>
+    <string name="settings_remote_action_page_first">لاپەڕە بەرەو یەکەم ئایتمەکان</string>
+    <string name="settings_remote_action_page_last">لاپەڕە بەرەو کۆتا ئایتمەکان</string>
+    <string name="settings_remote_action_jump_first">بازدان بۆ یەکەم ئایتم</string>
+    <string name="settings_remote_action_jump_last">بازدان بۆ کۆتا ئایتم</string>
+    <string name="settings_large_skips_warning">بازدانی گەورە لە لیستە کورتەکان تێدەپەڕێت و لەسەر تیڤییە لاوازەکان لەوانەیە ناڕێک بێت.</string>
+    <string name="settings_weather">کەشوهەوا</string>
+    <string name="settings_show_weather">پیشاندانی کەشوهەوا</string>
+    <string name="settings_show_weather_description">کەشوهەوای ئێستا لە شریتی سەرەوە پیشان بدە.</string>
+    <string name="settings_custom_location">شوێنی تایبەت</string>
+    <string name="settings_custom_location_description">ئەو شارەی بۆ کەشوهەوا بەکاردێت بگۆڕە. بەتاڵی بهێڵەرەوە بۆ دۆزینەوەی خۆکار، یان شارێک بنووسە (بۆ نموونە London) یان \"lat,lon\" (بۆ نموونە 51.5,-0.12). لەسەر VPN سوودمەندە، کە دۆزینەوەی خۆکار شاری سێرڤەر دەدۆزێتەوە.</string>
+    <string name="settings_temperature_unit">یەکەی پلەی گەرمی</string>
+    <string name="settings_temperature_description">پلەی گەرمی بە سیلیزی یان فارنهایت پیشان بدە.</string>
+    <string name="settings_auto">خۆکار</string>
+    <string name="settings_city_latlon">شار یان lat,lon</string>
+    <string name="settings_location_hint">بەتاڵی بهێڵەرەوە بۆ دۆزینەوەی خۆکار لە IPـی گشتییەوە. شارێک بنووسە (بۆ نموونە London) یان \"lat,lon\" (بۆ نموونە 51.5,-0.12).</string>
+    <string name="settings_metadata">مێتاداتا (TMDB)</string>
+    <string name="settings_metadata_source">سەرچاوەی مێتاداتا</string>
+    <string name="settings_metadata_source_description">هەڵبژێرە وردەکاری فیلم &amp; زنجیرەکان لە کوێوە دێن.</string>
+    <string name="settings_metadata_provider_description">تەنها ئەوە بەکاربهێنە کە لیستی پەخشەکەت دابینی دەکات. بێ گەڕان لە TMDB.</string>
+    <string name="settings_metadata_provider_tmdb_description">زانیاری لیستی پەخشەکەت سەردەکەوێت؛ TMDB بۆشاییەکان پڕ دەکاتەوە و ئەکتەر، ژانر &amp; پاشبنەما زیاد دەکات.</string>
+    <string name="settings_metadata_tmdb_only_description">TMDB بۆ هەموو خانەیەک پێشبخە؛ تەنها کاتێک TMDB هیچی نییە بگەڕێوە بۆ لیستی پەخشەکەت.</string>
+    <string name="settings_metadata_allowance">بەشی هاوبەشی تۆ</string>
+    <string name="settings_metadata_reset_automatic">خۆکارانە دەگەڕێتەوە</string>
+    <string name="settings_metadata_library_details">وردەکاری کتێبخانە</string>
+    <string name="settings_metadata_test_connection">تاقیکردنەوەی پەیوەندی ئێستا</string>
+    <string name="settings_allowance_refills">پڕ دەبێتەوە <xliff:g id="time">%1$s</xliff:g></string>
+    <string name="settings_allowance_minute">خولەک</string>
+    <string name="settings_allowance_hour">کاتژمێر</string>
+    <string name="settings_allowance_day">ڕۆژ</string>
+    <plurals name="settings_allowance_value">
+        <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> ماوە</item>
+        <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> ماوە</item>
+    </plurals>
+    <string name="settings_metadata_active_source">سەرچاوەی چالاک</string>
+    <string name="settings_metadata_shared_worker_description">OwnTV Worker · بێ ڕێکخستن</string>
+    <string name="settings_metadata_connection">پەیوەندی</string>
+    <string name="settings_metadata_remote_advanced">وەرگرتنی زانیاری پێشکەوتووی TMDB</string>
+    <string name="settings_metadata_remote_advanced_description">کلیلی API ی TMDB ی خۆت یان Workerـی خۆ-میوانداری بەکاربهێنە لەجیاتی ئەوەی هاوبەشی بنەڕەتی.</string>
+    <string name="settings_open_subtitles_advanced">هەڵبژاردنە پێشکەوتووەکان</string>
+    <string name="settings_open_subtitles_advanced_description">کلیلی API ی ئەپی خۆت یان Workerـی خۆ-میوانداری OpenSubtitles بەکاربهێنە.</string>
+    <string name="settings_open_subtitles_setup_title">ڕێکخستنی OpenSubtitles</string>
+    <string name="settings_open_subtitles_setup_description">بە هەژماری OpenSubtitlesـەکەتەوە بچۆ ژوورەوە.</string>
+    <string name="settings_open_subtitles_setup_remote">دوورەدەست</string>
+    <string name="settings_open_subtitles_setup_remote_description">وردەکارییەکانت لە وێبگەڕێک لەسەر ئامێرێکی تر لەسەر هەمان Wi-Fi پڕ بکەرەوە — تەلەفۆن، کۆمپیوتەر یان تیڤییەکی تر.</string>
+    <string name="settings_open_subtitles_setup_local">لێرە بینووسە</string>
+    <string name="settings_open_subtitles_setup_local_description">وردەکارییەکانت لەسەر ئەم تیڤییە بە ڕیمۆت بنووسە.</string>
+    <string name="settings_open_subtitles_api_key">کلیلی API ی ئەپی OpenSubtitles</string>
+    <string name="settings_worker_server_url">URLی Worker / سێرڤەر</string>
+    <string name="settings_shared">هاوبەش</string>
+    <string name="settings_open_subtitles_access_priority">هەردووکیان بەتاڵ بهێڵەرەوە بۆ Workerـی هاوبەشی OwnTV. URLی Workerـی تایبەت لە کلیلی API ی ڕاستەوخۆ پێشترە. دانیشتنی هەژمار تایبەتە بە هەر پرۆفایلێک.</string>
+    <string name="settings_remove_custom_access">لابردنی دەستپێگەیشتنی تایبەت</string>
+    <string name="settings_metadata_key_label">کلیل</string>
+    <string name="settings_metadata_server_label">سێرڤەر</string>
+    <string name="settings_metadata_clear_advanced_title">وازهێنان لە بەکارهێنانی کلیلی خۆت؟</string>
+    <string name="settings_metadata_clear_advanced_message">کلیلی API ی TMDB و ناونیشانی سێرڤەری خۆ-میوانداریت لەسەر ئەم ئامێرە دەسڕدرێنەوە، و OwnTV دەگەڕێتەوە بۆ خزمەتگوزاری هاوبەشی ناوەکی بە بەشی ڕۆژانەی خۆی.</string>
+    <string name="settings_metadata_fair_share">خزمەتگوزاری ناوەکی لەنێوان هەموو بەکارهێنەرانی OwnTV هاوبەشە. ئەگەر هەر بەشێکی خولەکی، کاتژمێری یان ڕۆژانە تەواو بێت، وردەکارییەکانی TMDB ڕادەوەستن تا ئەو ماوەیە دووبارە دەست پێدەکاتەوە؛ زانیاری لیستی پەخش بەردەوام کار دەکات. کلیل یان Workerـی خۆت ئەم بەشە لادەبات.</string>
+    <string name="settings_metadata_limit_reached">بەشی ڕۆژانەی مێتاداتا تەواو بوو — کلیلی TMDB ی خۆت لە ڕێکخستنەکان → مێتاداتا زیاد بکە بۆ لابردنی ئەم سنوورە.</string>
+    <string name="settings_metadata_language">زمانی مێتاداتا</string>
+    <string name="settings_metadata_language_description">زمانی چیرۆک، ژانر &amp; ناونیشانەکان لە TMDB. ئەو خانانەی TMDB وەرینەگێڕاون بە ئینگلیزی دەمێننەوە. وردەکارییەکان بۆ هەر زمانێک کاش دەکرێن، بۆیە گەڕانەوە یەکسەرە.</string>
+    <string name="settings_metadata_server_description">هەردووکیان بەتاڵ بهێڵەرەوە بۆ بەکارهێنانی سێرڤەری هاوبەشی ناوەکی (بێ ڕێکخستن). کلیلی API ی TMDB ی خۆت بنووسە بۆ بانگکردنی ڕاستەوخۆی TMDB، یان URLی سێرڤەرێکی خۆ-میوانداری بۆ بەکارهێنانی پرۆکسی/ئاوێنەی خۆت. URL لە کلیل پێشترە.</string>
+    <string name="settings_metadata_key_from_phone">کلیل لە ئامێرێکی ترەوە وەربگرە</string>
+    <string name="settings_metadata_key_from_phone_desc">ناونیشانەکە لە وێبگەڕێکدا لەسەر هەر ئامێرێک بکەرەوە — تەلەفۆن، کۆمپیوتەر یان تیڤییەکی تر — لەوێ بچۆ ژوورەوە بۆ TMDB و کلیلەکە بنێرە. هیچ شتێک بە ڕیمۆت نانووسرێت.</string>
+    <string name="settings_metadata_key_received">کلیلی TMDB وەرگیرا</string>
+    <string name="settings_tmdb_api_key">کلیلی API ی TMDB (v3)</string>
+    <string name="settings_metadata_empty_title">ناونیشانێک بنووسە بۆ گەڕان.</string>
+    <string name="settings_metadata_server_unavailable">نەتوانرا بە سێرڤەری مێتاداتا بگەیت — تۆڕ / کلیل / URL بپشکنە.</string>
+    <string name="settings_metadata_no_match">هیچ هاوتاکردنێکی TMDB نییە بۆ \"<xliff:g id="query">%1$s</xliff:g>\".</string>
+    <string name="settings_metadata_lookup_failed">گەڕان سەرکەوتوو نەبوو.</string>
+    <string name="settings_metadata_match_result"><xliff:g id="title">%1$s</xliff:g><xliff:g id="year">%2$s</xliff:g> · tmdb #<xliff:g id="id">%3$d</xliff:g></string>
+    <string name="settings_metadata_year">(<xliff:g id="year">%1$d</xliff:g>)</string>
+    <string name="settings_lookup_movie">گەڕان بەدوای ناونیشانی فیلمێکدا</string>
+    <string name="settings_test_lookup">تاقیکردنەوەی گەڕان</string>
+    <string name="settings_looking_up">گەڕان…</string>
+    <string name="settings_tmdb_attribution">ئەم بەرهەمە API ی TMDB بەکاردێنێت بەڵام لەلایەن TMDB ەوە پشتگیری یان پەسەندکراو نییە.</string>
+    <string name="settings_metadata_provider_only">تەنها دابینکەر</string>
+    <string name="settings_metadata_provider_plus_tmdb">دابینکەر + TMDB</string>
+    <string name="settings_metadata_tmdb_only">تەنها TMDB</string>
+    <string name="settings_tier_default">خزمەتگوزاری هاوبەشی بنەڕەتی</string>
+    <string name="settings_tier_key">کلیلی TMDB ی تۆ</string>
+    <string name="settings_tier_self_host">خۆ-میوانداری</string>
+    <string name="settings_title">ڕێکخستنەکان</string>
+    <string name="settings_quick_live_preview">پێشبینینی ڕاستەوخۆ</string>
+    <string name="settings_quick_preview_sound">دەنگی پێشبینین</string>
+    <string name="settings_quick_channel_numbers">ژمارەی کەناڵەکان</string>
+    <string name="settings_quick_prefer_sdr">SDR لە پێشینە بێت</string>
+    <string name="settings_quick_autoplay">پەخشی خۆکار</string>
+    <string name="settings_quick_check_update">پشکنینی نوێکردنەوە</string>
+    <string name="settings_row_menu_pin">چەسپاندن بۆ Quick</string>
+    <string name="settings_row_menu_unpin">لابردن لە Quick</string>
+    <string name="settings_row_menu_move_up">بردن بۆ سەرەوە</string>
+    <string name="settings_row_menu_move_down">بردن بۆ خوارەوە</string>
+    <string name="settings_quick_empty_title">هێشتا هیچ شتێک نەچەسپێنراوە</string>
+    <string name="settings_quick_empty_hint">OK ڕابگرە لەسەر هەر ڕێکخستنێک و “چەسپاندن بۆ Quick” هەڵبژێرە.</string>
+    <string name="settings_quick_empty_hint_touch">درێژ دابگرە لەسەر هەر ڕێکخستنێک و “چەسپاندن بۆ Quick” هەڵبژێرە.</string>
+    <plurals name="settings_setting_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> ڕێکخستن</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> ڕێکخستن</item>
+    </plurals>
+    <plurals name="settings_match_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> هاوتا</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> هاوتا</item>
+    </plurals>
+    <string name="settings_language">زمان</string>
+    <string name="settings_language_description">زمانی پیشاندانی ئەپ</string>
+    <string name="settings_language_system_default">بنەڕەتیی سیستەم</string>
+    <string name="settings_language_system_default_description">شوێنکەوتنی زمانی ئامێر</string>
+    <string name="settings_language_search_hint">گەڕان لە زمانەکان…</string>
+    <string name="settings_search_keywords_language">زمان language locale وەرگێڕان translation نێودەوڵەتی international i18n</string>
+    <string name="settings_language_coverage"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="settings_profile_group">پرۆفایل</string>
+    <string name="settings_playlists">لیستە پەخشەکان</string>
+    <string name="settings_playlists_description">لیستە پەخشەکانی M3U / Xtream زیاد بکە، دووبارە هاوکاتیان بکە یان لایان ببە</string>
+    <string name="settings_epg_sources">سەرچاوەکانی EPG</string>
+    <string name="settings_epg_sources_nav_description">فیدی ڕێنمای XMLTV زیاد بکە بۆ ڕێنمای تیڤی</string>
+    <string name="settings_customize">تایبەتمەندکردنی پۆل &amp; ئایتمەکان</string>
+    <string name="settings_customize_nav_description">شاردنەوە &amp; پیشاندانەوەی ئایتمەکان، ناوگۆڕین &amp; ڕیزکردنەوەی پۆلەکان</string>
+    <string name="settings_ch_paging">کورتەبڕەکانی ڕیمۆت</string>
+    <string name="settings_ch_paging_description">دوگمە بەکارنەهاتووەکانی ڕیمۆت دیاری بکە لەکاتێکدا گەڕانی سەرەکی پارێزراو دەمێنێتەوە</string>
+    <string name="settings_content_menus_title">مێنووەکانی درێژ-دابگرتن</string>
+    <string name="settings_content_menus_description">کارەکانی مێنووی کەناڵ، فیلم، زنجیرە &amp; ئەڵقە ڕێک بخەرەوە یان بیانشارەوە</string>
+    <string name="settings_content_menus_hint">OK لەسەر کارێک دابگرە بۆ پیشاندان یان شاردنەوەی. OK ڕابگرە بۆ هەڵگرتنی، پاشان Up و Down بۆ گواستنەوەی؛ دووبارە OK دابگرە بۆ دانانی.</string>
+    <string name="settings_content_menus_note">هەندێک کار تەنها لەو شوێنانەدا دەردەکەون کە پەیوەندییان پێیانەوە هەیە.</string>
+    <string name="settings_browsing_lists">گەڕان &amp; لیستەکان</string>
+    <string name="settings_browsing_description">دوایین پۆل و دوایین ئایتم لە تیڤیی ڕاستەوخۆ، فیلم &amp; زنجیرەکاندا لەبیر بکە</string>
+    <string name="settings_home_root">شاشەی سەرەکی</string>
+    <string name="settings_home_root_description">ڕیزەکانی شاشەی سەرەکی هەڵبژێرە، ڕیزیان بکەرەوە &amp; فلتەریان بکە</string>
+    <string name="settings_metadata_root_description">پۆستەر، چیرۆک، ئەکتەر، ژانر، هەڵسەنگاندن و پاشبنەما بۆ فیلم و زنجیرەکان.</string>
+    <string name="settings_download_folder">بوخچەی داگرتن</string>
+    <string name="settings_backup_restore">پاشەکەوت &amp; گەڕاندنەوە</string>
+    <string name="settings_clear_history">پاککردنەوەی مێژووی سەیرکردن</string>
+    <string name="settings_appearance_group">ڕووکار</string>
+    <string name="settings_theme">ڕووکار (Theme)</string>
+    <string name="settings_theme_description">ڕووناک، تاریک یان شوێنکەوتنی سیستەم</string>
+    <string name="settings_accent">ڕەنگی تەوەری</string>
+    <string name="settings_accent_description">ڕووکار ڕەنگ بکە — ڕێکخراوە، پاڵێت یان کۆدی hex</string>
+    <string name="settings_focus_highlight">دیارکردنی فۆکەس</string>
+    <string name="settings_focus_highlight_description">ڕەنگ و ئەستووری ئەو بازنەیەی دەوری ئایتمی فۆکەسکراو</string>
+    <string name="settings_focus_highlight_chip"><xliff:g id="color">%1$s</xliff:g> · <xliff:g id="thickness">%2$s</xliff:g></string>
+    <string name="settings_focus_thickness">ئەستووری</string>
+    <string name="settings_focus_width_thin">باریک</string>
+    <string name="settings_focus_width_normal">ئاسایی</string>
+    <string name="settings_focus_width_thick">ئەستوور</string>
+    <string name="settings_focus_width_extra">زۆر ئەستوور</string>
+    <string name="settings_focus_highlight_sample">فۆکەسکراو</string>
+    <string name="settings_ui_zoom">زووم ی ڕووکار</string>
+    <string name="settings_ui_zoom_description">هەموو ڕووکارەکە گەورە یان بچووک بکە</string>
+    <string name="settings_font_customization">تایبەتمەندکردنی فۆنت</string>
+    <string name="settings_font_customization_description">قەبارەی دەق و فۆنتەکان بۆ ڕووکاری سەرەکی و پەنجەرە سەرشاشەییەکان</string>
+    <string name="settings_font_size">قەبارەی فۆنت</string>
+    <string name="settings_main_interface_font">فۆنتی ڕووکاری سەرەکی</string>
+    <string name="settings_popup_font">فۆنتی پەنجەرە سەرشاشەییەکان</string>
+    <string name="settings_choose_font">فۆنت هەڵبژێرە</string>
+    <string name="settings_font_size_range">دەقی سەرەکی ئەپ بگۆڕە، نەک پەنجەرە سەرشاشەییەکان، لە <xliff:g id="min">%1$d</xliff:g>%% بۆ <xliff:g id="max">%2$d</xliff:g>%%. ژێرنووسەکان قەبارەی خۆیان دەهێڵنەوە.</string>
+    <string name="settings_popup_font_size">قەبارەی فۆنتی پەنجەرە سەرشاشەییەکان</string>
+    <string name="settings_popup_font_size_description">تەنها دەقی دیالۆگ و مێنووەکان دەگۆڕێت</string>
+    <string name="settings_popup_size">قەبارەی پەنجەرە سەرشاشەییەکان</string>
+    <string name="settings_popup_size_description">دیالۆگ و مێنووەکان گەورە یان بچووک بکە بەبێ گۆڕینی قەبارەی دەقەکانیان</string>
+    <string name="settings_popup_size_range">دیالۆگ و مێنووەکان گەورە یان بچووک بکە (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
+    <string name="settings_font_preview">ڕابواردن، بە سادەیی.</string>
+    <string name="settings_search_keywords_fonts">فۆنت font دەق قەبارەی دەق typeface تایپۆگرافی پەنجەرە سەرشاشەیی خوێندنەوە ئاسانکاری</string>
+    <string name="settings_font_system_sans">System Sans</string>
+    <string name="settings_font_monospace">Monospace</string>
+    <string name="settings_subtitle_font">فۆنتی ژێرنووس</string>
+    <string name="settings_animations">ئەنیمەیشنەکان</string>
+    <string name="settings_animations_description">جووڵەی ڕووکار بکەرەوە یان بیکوژێنەوە — کوژاوە لەسەر بۆکسە لاوازەکانی تیڤی خێراتر هەست پێدەکرێت</string>
+    <string name="settings_weather_description_root">چیپی کەشوهەوا لە شریتی سەرەوە: پیشاندان یان شاردنەوە، شوێنی تایبەت، و سیلیزی / فارنهایت.</string>
+    <string name="settings_playback_group">پەخش</string>
+    <string name="settings_live_preview_description">کاتێک کەناڵێک فۆکەس دەکەیت خۆکارانە پەخشی بکە</string>
+    <string name="settings_preview_audio">دەنگی پێشبینین</string>
+    <string name="settings_preview_audio_description">دەنگ لە پێشبینینی ڕاستەوخۆدا پەخش بکە</string>
+    <string name="settings_preview_on_ok">OK سەرەتا پێشبینین دەکات</string>
+    <string name="settings_preview_on_ok_description">OK کەناڵەکە لە پێشبینیندا پەخش دەکات، دووبارە OK بە شاشەی تەواو دەیکاتەوە</string>
+    <string name="settings_mini_player_root">مینی-لێدەر</string>
+    <string name="settings_mini_player_root_description">قەبارە و شوێنی مینی-لێدەری چەسپاو</string>
+    <string name="settings_prefer_sdr_description">کاتێک پەخشێک هەم وێنەی SDR و هەم HDR دابین دەکات، SDR پەخش بکە: بۆ ئەو تیڤییەی HDRـەکەی ڕەنگ پەڕیو یان زۆر تاریک دەردەکەوێت. پەخشێکی تەنها-HDR هەر HDR دەمێنێتەوە. تەنها ExoPlayer.</string>
+    <string name="settings_pip_on_leave">وێنە-لە-وێنە (Picture-in-picture) لە کاتی جێهێشتنی ئەپ</string>
+    <string name="settings_pip_on_leave_description">کاتێک Home دادەگریت ڤیدیۆکە لە پەنجەرەیەکی بچووکدا بەردەوام بێت</string>
+    <string name="settings_auto_frame_rate_films">ڕێژەی فرەیمی خۆکار بۆ فیلم و زنجیرەکان</string>
+    <string name="settings_auto_frame_rate_films_description">ڕێژەی نوێبوونەوەی تیڤی لەگەڵ فیلم یان ئەڵقەکە بگونجێنە (24/25/50/60 fps) لە شاشەی تەواودا، و لە کاتی دەرچوون بیگەڕێنەرەوە.</string>
+    <string name="settings_auto_frame_rate_live">ڕێژەی فرەیمی خۆکار بۆ تیڤیی ڕاستەوخۆ</string>
+    <string name="settings_auto_frame_rate_live_description">ڕێژەی نوێبوونەوەی تیڤی لەگەڵ کەناڵەکە بگونجێنە (25/50/60 fps) لە شاشەی تەواودا، و لە کاتی دەرچوون بیگەڕێنەرەوە. بیکوژێنەوە ئەگەر تیڤی یان ڕیسیڤەرەکەت لە هەر گۆڕینی کەناڵێکدا HDMI بە دەنگەدەنگەوە دووبارە دەست دەگۆڕێتەوە.</string>
+    <string name="settings_afr_pause">ڕاگرتن لە کاتی گۆڕینی پیشاندان</string>
+    <string name="settings_afr_pause_description">تەنها فیلم. کاتێک تیڤی پێویستە لەگەڵ دۆخی پیشاندانێکی نوێ هاوکات ببێتەوە، فیلمەکە ئەم ماوەیە چاوەڕێ دەکات بۆ ئەوەی سەرەتاکەی لە شاشەی ڕەشدا لەدەست نەچێت. گۆڕینی بێ پچڕان هەرگیز ڕانادەگرێت.</string>
+    <string name="settings_afr_resolution">هاوتاکردنی ڕوونی</string>
+    <string name="settings_afr_resolution_description">تەنها فیلم. کاتێک دۆخی پیشاندان بۆ فیلمێک دەگۆڕێت، تیڤی ڕوونییەکەشی دەگۆڕێت — 1080p بۆ فیلمی HD لەسەر تیڤییەکی 4K — هەرگیز لەو ڕوونییەی لێیەوە دەستی پێکرد بەرزتر نابێت. کوژاوە ڕوونی دەستکاری ناکات و دەهێڵێت تیڤی گەورەی بکاتەوە، کە زۆرجار وێنەیەکی باشترە.</string>
+    <string name="settings_auto_frame_rate_warning_suffix">بۆ ئەم تیڤییە پێشنیار ناکرێت: لە خوار Android 12 ڕێژەکە بە نەرمی ناگۆڕدرێت.</string>
+    <string name="settings_auto_frame_rate_warning_title">بۆ ئەم تیڤییە پێشنیار ناکرێت</string>
+    <string name="settings_auto_frame_rate_warning_title_mobile">بۆ ئەم ئامێرە پێشنیار ناکرێت</string>
+    <string name="settings_auto_frame_rate_warning_description">ئەم ئامێرە ئەندرۆید <xliff:g id="android_version">%1$s</xliff:g> بەکاردەهێنێت. لە خوار ئەندرۆید ١٢ تیڤی ناتوانێت بە ڕێکوپێکی بڵێت کام ڕێژەی نوێبوونەوە بە نەرمی دەتوانێت بگۆڕێت، بۆیە گۆڕینی ڕێژەکە لەوانەیە شاشە بۆ چرکەیەک یان دوو ڕەش بکات - جاری وا هەیە لە بەرنامەدا زیاتر لە جارێک. پێشنیار دەکرێت ڕێژەی فرەیی خۆکار لێرە کوژراوەوە بهێڵرێتەوە. ئەگەر تیڤییەکە بە پاکی دەگۆڕێت، بيكەرەوە و ببینە: هەر کاتێک دەتوانیت بیگەڕێنیتەوە.</string>
+    <string name="settings_auto_frame_rate_warning_description_mobile">ئەم ئامێرە ئەندرۆید <xliff:g id="android_version">%1$s</xliff:g> بەکاردەهێنێت. لە خوار ئەندرۆید ١٢ تیڤی ناتوانێت بە ڕێکوپێکی بڵێت کام ڕێژەی نوێبوونەوە بە نەرمی دەتوانێت بگۆڕێت، بۆیە گۆڕینی ڕێژەکە لەوانەیە شاشە بۆ چرکەیەک یان دوو ڕەش بکات - جاری وا هەیە لە بەرنامەدا زیاتر لە جارێک. پێشنیار دەکرێت ڕێژەی فرەیی خۆکار لێرە کوژراوەوە بهێڵرێتەوە. ئەگەر تیڤییەکە بە پاکی دەگۆڕێت، بيكەرەوە و ببینە: هەر کاتێک دەتوانیت بیگەڕێنیتەوە.</string>
+    <string name="settings_auto_frame_rate_keep_off">کوژاوە بهێڵەرەوە</string>
+    <string name="settings_auto_frame_rate_turn_on_anyway">هەر بیکەرەوە</string>
+    <string name="settings_surround_sound">دەنگی دەورەبەر (Surround)</string>
+    <string name="settings_surround_description_mobile">دیکۆدکردنی Dolby/DTS بۆ دەنگی دەورەبەر (5.1/7.1) بۆ ڕیسیڤەری ڕاستەقینەی 5.1/7.1 کە بەم ئامێرەوە بەستراوە. کوژاوەی بهێڵەرەوە بۆ بەرزکەرەوەی ناوەکی، هێدفۆن یان ساوندباری ستێریۆ — فرە-کەناڵ لەوانەیە دەنگ لە ڤیدیۆ بەدوا بخات. ئەگەر لێی دوور کەوتەوە، لە مێنووی Audio ی لێدەر → A/V sync بیجووڵێنە.</string>
+    <string name="settings_audio_passthrough">تێپەڕاندنی Dolby و DTS</string>
+    <string name="settings_audio_passthrough_description">کراوە: Dolby و DTS بێ دیکۆدکردن بۆ تیڤی، ساوندبار یان ڕیسیڤەر دەنێردرێن کاتێک دەڵێت دەتوانێت پەخشیان بکات (ExoPlayer). کوژاوە: ئەپەکە دیکۆدیان دەکات، هێشتا وەک دەنگی دەورەبەر ئەگەر Surround sound ڕێگە بدات. mpv هەمیشە دیکۆد دەکات. لە کاتی چالاکبوونی Night mode یان Volume leveling بەکار نایەت.</string>
+    <string name="settings_ffmpeg_audio">دەنگی FFmpeg بۆ ExoPlayer</string>
+    <string name="settings_ffmpeg_audio_description">کراوە: ExoPlayer دەتوانێت ئەو دەنگانەش دیکۆد بکات کە ئامێرەکەت دیکۆدەری بۆ نییە، وەک DTS، TrueHD یان MP2. دیکۆدەرەکانی خودی ئامێر هێشتا یەکەمن. کوژاوە: ExoPlayer تەنها دیکۆدەری ئامێر بەکاردێنێت. mpv هەمیشە بە FFmpeg دیکۆد دەکات. گۆڕینی ئەمە OwnTV دووبارە دەست پێدەکاتەوە.</string>
+    <string name="settings_line_ffmpeg_audio">بۆ ئەو دەنگەی ئامێر ناتوانێت دیکۆدی بکات</string>
+    <string name="settings_ffmpeg_audio_restart_message">دیکۆدەری دەنگ دوای دووبارە دەستپێکردنەوەی OwnTV دەگۆڕێت.</string>
+    <string name="settings_night_mode">دۆخی شەو</string>
+    <string name="settings_night_mode_description">دیمەنە بەدەنگەکان نزم دەکاتەوە و قسەی کزەکان بەرز دەکاتەوە، بۆ سەیرکردن بە دەنگێکی نزم.</string>
+    <string name="settings_volume_leveling">هاوسەنگکردنی دەنگ</string>
+    <string name="settings_volume_leveling_description">هەموو کەناڵ و فیلمێک بە هێواشی بۆ هەمان بەرزی دەنگ دەهێنێت، بۆیە گۆڕین بازدانی دەنگی نابێت.</string>
+    <string name="settings_max_video_quality">بەرزترین کوالیتی ڤیدیۆ</string>
+    <string name="settings_max_video_quality_description">بەرزترین وێنە کە پەخش دەکرێت کاتێک کەناڵ یان فیلمێک چەند کوالیتییەک دابین دەکات. پانی باند پاشەکەوت دەکات و دیکۆدەر ئاسان دەکات.</string>
+    <string name="settings_mobile_data_quality">بەرزترین کوالیتی لەسەر داتای مۆبایل</string>
+    <string name="settings_mobile_data_quality_description">لەسەر پەیوەندییەکی سنووردار، زۆرترین ئەم کوالیتییە پەخش دەکات. کوژاوە: هەمان Wi-Fi.</string>
+    <string name="settings_tunneled_playback">پەخشی تونێلکراو (تاقیکارانە)</string>
+    <string name="settings_tunneled_playback_description">تیڤیی ڕاستەوخۆ لەسەر ExoPlayer: هاردوەری خودی تیڤی وێنە و دەنگ پێکەوە دەهێڵێتەوە، بە کارێکی کەمتر بۆ پرۆسێسەر. تەنها لەسەر هەندێک تیڤی کار دەکات، و ئەگەر کەناڵێک پێی سەرکەوتوو نەبوو خۆی دەکوژێتەوە. لە کاتی چالاکبوونیدا ناتوانرێت هاوکاتیی دەنگ بجووڵێندرێت.</string>
+    <string name="settings_tunneled_playback_failed">دوای ئەوەی کەناڵێک لەسەر ئەم ئامێرە پێی سەرکەوتوو نەبوو کوژایەوە.</string>
+    <string name="settings_autoplay_next">پەخشی خۆکاری ئەڵقەی دواتر</string>
+    <string name="settings_autoplay_next_description">کاتێک ئەڵقەیەک تەواو دەبێت، خۆکارانە ئەوی دواتر دەست پێبکە — و بچۆ بۆ وەرزی دواتر. Catch-up بۆ بەرنامەی دواتریش بەردەوام دەبێت.</string>
+    <string name="settings_catchup">Catch-up</string>
+    <plurals name="settings_catchup_supported">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> کەناڵ پشتگیری Catch-up دەکات · ناوچەی کات و لێدەر بۆ پەخشی ئارشیڤ</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> کەناڵ پشتگیری Catch-up دەکەن · ناوچەی کات و لێدەر بۆ پەخشی ئارشیڤ</item>
+    </plurals>
+    <string name="settings_catchup_unavailable">هیچ کەناڵێکی Catch-up لەسەر ئەم لیستی پەخشە بەردەست نییە</string>
+    <string name="settings_device">ئامێر</string>
+    <string name="settings_playback_error_log">لۆگی هەڵە</string>
+    <string name="settings_playback_speed">خێرایی پەخش</string>
+    <string name="settings_player_zoom">زوومی لێدەر</string>
+    <string name="settings_app_group">ئەپ</string>
+    <string name="settings_app_startup">دەستپێکردنی ئەپ</string>
+    <string name="settings_app_startup_description">OwnTV لە کاتی دەستپێکردندا چی دەکاتەوە</string>
+    <string name="settings_check_updates">پشکنینی نوێکردنەوە</string>
+    <string name="settings_check_updates_description">دوایین وەشان لە GitHub Releases وەربگرە</string>
+    <string name="settings_update_startup">لە دەستپێکردندا نوێکردنەوە بپشکنە</string>
+    <string name="settings_update_startup_description">کاتێک ئەپەکە دەکرێتەوە بەدوای وەشانێکی نوێدا بگەڕێ</string>
+    <string name="settings_auto_start_boot">دەستپێکردنی خۆکار لە کاتی بوتدا</string>
+    <string name="settings_auto_start_boot_description">کاتێک تیڤی دەکرێتەوە OwnTV بکەرەوە</string>
+    <string name="settings_auto_start_wake">دەستپێکردنی خۆکار لە کاتی بەخەبەرهاتن</string>
+    <string name="settings_auto_start_wake_description">کاتێک تیڤی لە خەو بەخەبەر دێت OwnTV بکەرەوە</string>
+    <string name="settings_auto_start_needs_overlay">پێویستی بە “Display over other apps” هەیە</string>
+    <string name="settings_about">دەربارە</string>
+    <string name="settings_live_latency">دواکەوتنی ڕاستەوخۆ</string>
+    <string name="settings_no_settings_match">هیچ ڕێکخستنێک لەگەڵ “<xliff:g id="query">%1$s</xliff:g>” نەگونجا</string>
+    <string name="settings_search_empty_hint">ناوی ڕێکخستنێک بنووسە</string>
+    <string name="settings_breadcrumb"><xliff:g id="group">%1$s</xliff:g> › <xliff:g id="title">%2$s</xliff:g></string>
+    <string name="settings_startup_home">شاشەی سەرەکی</string>
+    <string name="settings_startup_last_channel">دوایین کەناڵ</string>
+    <string name="settings_startup_last_channel_guide">دوایین کەناڵ · ڕێنمای تیڤی</string>
+    <string name="settings_startup_last_channel_live">دوایین کەناڵ · تیڤیی ڕاستەوخۆ</string>
+    <string name="settings_startup_favorites">ڕاستەوخۆ · دڵخوازەکان</string>
+    <string name="settings_startup_specific_channel">کەناڵێکی دیاریکراو</string>
+    <string name="settings_startup_channel_unavailable">کەناڵی دەستپێکردن بەردەست نییە. شاشەی سەرەکی کرایەوە.</string>
+    <string name="settings_all_history">هەموو مێژوو</string>
+    <string name="settings_choose_history">هەڵبژێرە چی بسڕدرێتەوە بۆ ئەم پرۆفایلە. لیستە پەخشەکان، دڵخوازەکان و داگرتنەکان کاریان لێ ناکرێت.</string>
+    <string name="settings_clear_history_confirm">مێژووی <xliff:g id="scope">%1$s</xliff:g> بسڕدرێتەوە؟</string>
+    <string name="settings_cannot_undo">ئەمە ناگەڕێندرێتەوە.</string>
+    <string name="settings_no">نەخێر</string>
+    <string name="settings_yes_clear">بەڵێ، بیسڕەوە</string>
+    <string name="settings_presets">ڕێکخراوە پێشوەختەکان</string>
+    <string name="settings_hex_code">کۆدی Hex</string>
+    <string name="settings_apply">جێبەجێکردن</string>
+    <string name="settings_hex_error">6 ژمارەی hex بنووسە، بۆ نموونە 52DBC8</string>
+    <string name="settings_color_picker">هەڵبژێری ڕەنگ</string>
+    <string name="settings_use_color">ئەم ڕەنگە بەکاربهێنە</string>
+    <string name="settings_about_version">وەشان <xliff:g id="version">%1$s</xliff:g></string>
+    <string name="settings_join_telegram">لە Telegram بەشدارمان بە</string>
+    <string name="settings_telegram_qr">کۆدی QR ی گرووپی Telegram</string>
+    <string name="settings_contributions">بەشداریکردن، ڕاپۆرتی هەڵە &amp; ئەستێرە لە GitHub بەخێربێن.</string>
+    <string name="settings_playback_error_description_full">دوایین کڕاش و تازەترین سەرکەوتوونەبوونەکانی پەخش (نوێترین یەکەم). ئەم وردەکارییانە لە کاتی ڕاپۆرتکردنی کێشەیەکدا لەگەڵ بنێرە.</string>
+    <string name="settings_loading">بارکردن…</string>
+    <string name="settings_no_playback_errors">هیچ هەڵەیەکی پەخش تۆمار نەکراوە.</string>
+    <string name="settings_live">ڕاستەوخۆ</string>
+    <string name="settings_vod">VOD</string>
+    <string name="settings_clear_log">سڕینەوەی لۆگ</string>
+    <string name="settings_browsing_description_full">ئەوەی تیڤیی ڕاستەوخۆ، فیلم و زنجیرەکان بۆی دەگەڕێنەوە کاتێک دەگەڕێیتەوە.</string>
+    <string name="settings_catchup_timezone_description">چۆن کاتەکانی Catch-up دەنێردرێن. Automatic ئەو ناوچەی کاتە بەکاردێنێت کە سێرڤەری دابینکەرەکەت ڕایدەگەیەنێت، یان ئی ئامێرەکەت ئەگەر هیچ ڕانەگەیەنێت. دەتوانیت Device هەڵبژێریت، یان خۆت جیاوازییەکە دابنێیت.</string>
+    <string name="settings_manual">دەستی</string>
+    <string name="settings_theme_dark">تاریک</string>
+    <string name="settings_theme_light">ڕووناک</string>
+    <string name="settings_theme_system">سیستەم</string>
+    <string name="settings_accent_teal">شینی سەوز</string>
+    <string name="settings_accent_blue">شین</string>
+    <string name="settings_accent_violet">مۆر</string>
+    <string name="settings_accent_green">سەوز</string>
+    <string name="settings_accent_amber">کەهرەبایی</string>
+    <string name="settings_group_profile">پرۆفایل</string>
+    <string name="settings_group_sources">سەرچاوەکان &amp; ڕێنما</string>
+    <string name="settings_group_layout">ڕێکخستنی شاشە</string>
+    <string name="settings_group_content_metadata">ناوەڕۆک &amp; مێتاداتا</string>
+    <string name="settings_group_appearance">ڕووکار</string>
+    <string name="settings_group_network">تۆڕ</string>
+    <string name="settings_dns">DNS</string>
+    <string name="settings_group_app">ئەپ</string>
+    <string name="settings_group_summary_profile">پرۆفایلەکان و کێ چی سەیر دەکات</string>
+    <string name="settings_group_summary_sources">لیستە پەخشەکان، داتای ڕێنما و کاتەکانیان</string>
+    <string name="settings_group_summary_appearance">ڕووکار، ڕەنگی تەوەر، شووشە، جووڵە و قەبارەی دەق</string>
+    <string name="settings_group_summary_layout">لاتەنیشت، پانێڵەکان، لیستەکان و شاشەی سەرەکی</string>
+    <string name="settings_group_summary_content_metadata">ناونان، وێنەکان و خزمەتگوزارییەکانی ژێرنووس</string>
+    <string name="settings_vp_section_sound">دەنگ</string>
+    <string name="settings_vp_cat_player">لێدەر</string>
+    <string name="settings_vp_cat_picture">وێنە</string>
+    <string name="settings_vp_cat_frame_rate">ڕێژەی فرەیم</string>
+    <string name="settings_vp_cat_frame_rate_summary">شاشەکە لەگەڵ ڤیدیۆکە بگونجێنە</string>
+    <string name="settings_vp_cat_streaming">پەخش</string>
+    <string name="settings_vp_cat_live_tuning">ڕێکخستنی ڕاستەوخۆ</string>
+    <string name="settings_vp_cat_multiview">فرە-دیمەن &amp; مینی-لێدەر</string>
+    <string name="settings_vp_cat_multiview_summary_mobile">چەند کەناڵێکی ڕاستەوخۆ لە یەک کاتدا</string>
+    <string name="settings_vp_cat_languages">زمان &amp; ژێرنووس</string>
+    <string name="settings_group_summary_app">زمان، دەستپێکردن، نوێکردنەوەکان و زانیاری ئەپ</string>
+    <string name="settings_group_quick">خێرا (Quick)</string>
+    <string name="settings_group_summary_quick">ئەو دوگمە گۆڕاوانەی زۆرتر پێویستت پێیانە</string>
+    <string name="settings_group_sound_subtitles">دەنگ &amp; ژێرنووس</string>
+    <string name="settings_group_watching_recording">سەیرکردن &amp; تۆمارکردن</string>
+    <string name="settings_search_guide_logos">لۆگۆی کەناڵەکانی ڕێنما</string>
+    <string name="settings_search_keywords_profiles">بینەران مۆدی منداڵان pin قفڵ هەژمار viewers kids lock account</string>
+    <string name="settings_search_keywords_playlists">لیستی پەخش سەرچاوە هاوکاتکردن زیادکردن لابردن m3u xtream source sync add remove</string>
+    <string name="settings_search_keywords_epg">ڕێنما فید بەرنامە xmltv guide feed program</string>
+    <string name="settings_search_keywords_logos">لۆگۆ ئایکۆن کەناڵ ڕێنما channel logo icon xmltv guide picon playlist</string>
+    <string name="settings_search_keywords_customize">شاردنەوە پیشاندانەوە ناوگۆڕین ڕیزکردنەوە پۆل hide unhide rename reorder categories</string>
+    <string name="settings_search_keywords_ch">کەناڵ سەرەوە خوارەوە بازدان لاپەڕە لیست پۆل channel up down skip page list category</string>
+    <string name="settings_search_keywords_browsing">لەبیرکردنی شوێن سکڕۆڵ پۆل دوایین ئایتم تیڤیی ڕاستەوخۆ فیلم زنجیرە remember position scroll category last item live movies series reset top</string>
+    <string name="settings_search_keywords_home">ڕیزەکان سەرەکی ڕیزکردنەوە فلتەر rows hero reorder filter</string>
+    <string name="settings_search_keywords_metadata">پۆستەر چیرۆک ئەکتەر هەڵسەنگاندن posters plots cast ratings</string>
+    <string name="settings_search_keywords_theme">ڕووناک تاریک سیستەم light dark system</string>
+    <string name="settings_search_keywords_glass">شووشە شەفافی تێکەڵ پاشبنەما glass transparency blur frost translucent background wallpaper</string>
+    <string name="settings_search_keywords_accent">ڕەنگ پاڵێت hex ڕێکخراو tint palette preset</string>
+    <string name="settings_search_keywords_focus">فۆکەس بازنە سنوور هەڵبژاردن focus ring border selection cursor outline</string>
+    <string name="settings_search_keywords_zoom">قەبارە ڕووکار زووم scale interface size</string>
+    <string name="settings_search_keywords_animation">جووڵە خێراتر کارایی motion snappier performance</string>
+    <string name="settings_search_keywords_weather">شریتی سەرەوە چیپ شوێن سیلیزی فارنهایت top bar chip location celsius fahrenheit</string>
+    <string name="settings_search_keywords_live_preview">پەخشی خۆکار فۆکەس کەناڵ auto play focus channel</string>
+    <string name="settings_search_keywords_sound">دەنگ پێشبینینی ڕاستەوخۆ sound live preview</string>
+    <string name="settings_search_keywords_audio">دەنگ بەرز کز ڕاستکردنەوەی لیپ دواکەوتن زمان volume loud quiet lip sync delay audio track language</string>
+    <string name="settings_search_keywords_channel_numbers">ژمارەی کەناڵ بازدانی ڕاستەوخۆ ژمارە channel number direct tune type digits keypad numeric zap lcn</string>
+    <string name="settings_search_keywords_mini">مینی-لێدەر pip قەبارە شوێن گوشە جووڵاندن docked miniplayer size position scale percent corner move</string>
+    <string name="settings_search_keywords_prefer_sdr">hdr sdr وێنەی تاریک ڕەنگ پەڕیو standard dynamic range washed out dark picture</string>
+    <string name="settings_search_keywords_afr">afr ڕێژەی نوێبوونەوە hz فرەیم دۆخی پیشاندان refresh rate judder 24fps 25fps 50hz 60hz display mode match</string>
+    <string name="settings_search_keywords_surround">دەنگی دەورەبەر ڕیسیڤەر dolby dts 5.1 7.1 receiver audio</string>
+    <string name="settings_search_keywords_autoplay">پەخشی خۆکار زنجیرە وەرز autoplay series season</string>
+    <string name="settings_search_keywords_catchup">ئارشیڤ ناوچەی کات لێدەری دەرەکی archive timezone offset catchup external player vlc mx</string>
+    <string name="settings_search_keywords_video">دیکۆدەر ژێرنووس هاوکات decoder subtitles sync</string>
+    <string name="settings_search_keywords_recording">تۆمارکردن تۆمار خشتە ڕاستەوخۆ record recording recordings dvr timer schedule series save live</string>
+    <string name="settings_search_keywords_subtitle_appearance">ژێرنووس قەبارە ڕەنگ شوێن شەفافی پاشبنەما subtitle size color colour position transparency background opacity</string>
+    <string name="settings_search_keywords_latency">ڕاستەوخۆ بەفەر دواکەوتن چرکە live buffer latency delay low latency seconds close to live edge</string>
+    <string name="settings_search_keywords_proxy">پرۆکسی http هاتوچۆ ڕێڕەو traffic route</string>
+    <string name="settings_search_keywords_dns">دۆمەین گەڕان domain lookup resolver doh dns-over-https</string>
+    <string name="settings_search_keywords_startup">دەستپێکردن کردنەوە launch open landing</string>
+    <string name="settings_search_keywords_updates">نوێکردنەوە وەشان github release version</string>
+    <string name="settings_search_keywords_update_auto">نوێکردنەوەی خۆکار وەشانی نوێ auto update new version</string>
+    <string name="settings_search_keywords_auto_start">بوت وزە بەخەبەرهاتن خەو دەستپێکردنی خۆکار boot power on wake sleep standby launch automatically</string>
+    <string name="settings_language_default">بنەڕەتی (ئینگلیزی)</string>
+    <string name="settings_language_device">زمانی ئامێر</string>
+    <string name="settings_language_arabic">عەرەبی</string>
+    <string name="settings_language_bulgarian">بولگاری</string>
+    <string name="settings_language_chinese">چینی</string>
+    <string name="settings_language_croatian">کرواتی</string>
+    <string name="settings_language_czech">چیکی</string>
+    <string name="settings_language_danish">دانیمارکی</string>
+    <string name="settings_language_dutch">هۆڵەندی</string>
+    <string name="settings_language_english">ئینگلیزی</string>
+    <string name="settings_language_estonian">ئێستۆنی</string>
+    <string name="settings_language_finnish">فینلەندی</string>
+    <string name="settings_language_french">فەرەنسی</string>
+    <string name="settings_language_german">ئەڵمانی</string>
+    <string name="settings_language_greek">یۆنانی</string>
+    <string name="settings_language_hebrew">عیبری</string>
+    <string name="settings_language_hindi">هیندی</string>
+    <string name="settings_language_hungarian">مەجاری</string>
+    <string name="settings_language_indonesian">ئیندۆنیزی</string>
+    <string name="settings_language_italian">ئیتاڵی</string>
+    <string name="settings_language_japanese">یابانی</string>
+    <string name="settings_language_korean">کۆری</string>
+    <string name="settings_language_latvian">لاتڤی</string>
+    <string name="settings_language_lithuanian">لیتوانی</string>
+    <string name="settings_language_malay">مالیزی</string>
+    <string name="settings_language_norwegian">نەرویجی</string>
+    <string name="settings_language_persian">فارسی</string>
+    <string name="settings_language_polish">پۆڵەندی</string>
+    <string name="settings_language_portuguese_brazil">پورتوگالی (بەرازیل)</string>
+    <string name="settings_language_portuguese_portugal">پورتوگالی (پورتوگال)</string>
+    <string name="settings_language_romanian">ڕۆمانی</string>
+    <string name="settings_language_russian">ڕووسی</string>
+    <string name="settings_language_serbian">سربی</string>
+    <string name="settings_language_slovak">سلۆڤاکی</string>
+    <string name="settings_language_slovenian">سلۆڤێنی</string>
+    <string name="settings_language_spanish">ئیسپانی</string>
+    <string name="settings_language_spanish_latam">ئیسپانی (ئەمەریکای لاتین)</string>
+    <string name="settings_language_swedish">سویدی</string>
+    <string name="settings_language_thai">تایلەندی</string>
+    <string name="settings_language_turkish">تورکی</string>
+    <string name="settings_language_original">زمانی ڕەسەن</string>
+    <string name="settings_language_ukrainian">ئۆکرانی</string>
+    <string name="settings_language_vietnamese">ڤێتنامی</string>
+    <string name="settings_hardware_decoding">دیکۆدکردنی هاردوەر</string>
+    <string name="settings_hardware_decoding_description">دیکۆدەری هاردوەری تیڤی بەکاربهێنە. بیکوژێنەوە ئەگەر هەندێک پەخش دەوەستن یان ئارتیفاکت پیشان دەدەن.</string>
+    <string name="settings_software_decode_above_1080p">دیکۆدکردنی سۆفتوێر سەروو 1080p</string>
+    <string name="settings_software_decode_above_1080p_description">4K و ڤیدیۆی تری سەروو 1080p بە سۆفتوێر پەخش دەکات کاتێک دیکۆدەری هاردوەری تیڤی کوژاوەیە یان سەرکەوتوو نابێت. پرۆسێسەرێکی خێرای دەوێت: لەسەر زۆربەی تیڤییەکان دەوەستێت.</string>
+    <string name="settings_movies_series_player">لێدەری فیلم &amp; زنجیرە</string>
+    <string name="settings_live_tv_player">لێدەری تیڤیی ڕاستەوخۆ</string>
+    <string name="settings_engine_order"><xliff:g id="first">%1$s</xliff:g>، پاشان <xliff:g id="second">%2$s</xliff:g></string>
+    <string name="settings_engine_only">تەنها <xliff:g id="engine">%1$s</xliff:g></string>
+    <string name="settings_engine_default"><xliff:g id="option">%1$s</xliff:g> (بنەڕەتی)</string>
+    <string name="settings_reset_player_choices">ڕێکخستنەوەی هەڵبژاردنە پاشەکەوتکراوەکانی لێدەر</string>
+    <string name="settings_external_player">لێدەری دەرەکی</string>
+    <string name="settings_default_zoom">زوومی بنەڕەتی</string>
+    <string name="settings_default_zoom_description">ڕێژەی پانی/زووم کە لە کاتی دەستپێکردنی پەخشدا جێبەجێ دەکرێت.</string>
+    <string name="settings_default_volume">دەنگی بنەڕەتی</string>
+    <string name="settings_default_volume_description">ئاستی دەنگ کە لە کاتی دەستپێکردنی پەخشدا جێبەجێ دەکرێت. سەروو 100%% پەخشە کزەکان بەرز دەکرێنەوە.</string>
+    <string name="settings_reset_saved_zoom">ڕێکخستنەوەی زوومی پاشەکەوتکراو</string>
+    <string name="settings_reset_saved_zoom_description">گۆڕینی زووم لە لێدەردا بۆ ئەو کەناڵ، فیلم یان ئەڵقەیە پاشەکەوت دەکرێت. ڕێکخستنەوە وا دەکات هەموو شتێک دووبارە شوێن زوومی بنەڕەتی بکەوێت.</string>
+    <string name="settings_reset_saved_zoom_confirm">زوومی پاشەکەوتکراو ڕێک بخرێتەوە؟</string>
+    <string name="settings_reset_saved_zoom_confirm_description">هەموو کەناڵ، فیلم و ئەڵقەیەک دەگەڕێتەوە بۆ زوومی بنەڕەتی. دەنگە پاشەکەوتکراوەکان دەمێننەوە. هەر کاتێک دەتوانیت یەکێکیان لە لێدەرەوە دووبارە دابنێیت.</string>
+    <string name="settings_reset_saved_volume">ڕێکخستنەوەی دەنگی پاشەکەوتکراو</string>
+    <string name="settings_reset_saved_volume_description">گۆڕینی دەنگ لە لێدەردا بۆ ئەو کەناڵ، فیلم یان ئەڵقەیە پاشەکەوت دەکرێت. ڕێکخستنەوە وا دەکات هەموو شتێک دووبارە شوێن دەنگی بنەڕەتی بکەوێت.</string>
+    <string name="settings_reset_saved_volume_confirm">دەنگی پاشەکەوتکراو ڕێک بخرێتەوە؟</string>
+    <string name="settings_reset_saved_volume_confirm_description">هەموو کەناڵ، فیلم و ئەڵقەیەک دەگەڕێتەوە بۆ دەنگی بنەڕەتی. ڕێکخستنە پاشەکەوتکراوەکانی زووم دەمێننەوە. هەر کاتێک دەتوانیت یەکێکیان لە لێدەرەوە دووبارە دابنێیت.</string>
+    <string name="settings_reset_saved_audio_delay">ڕێکخستنەوەی هاوکاتیی دەنگی پاشەکەوتکراو</string>
+    <string name="settings_reset_saved_audio_delay_description">هەڵبژاردنی ‘Remember this delay’ لە لێدەردا هاوکاتیی دەنگ بۆ ئەو کەناڵ، فیلم یان ئەڵقەیە پاشەکەوت دەکات. ڕێکخستنەوە وا دەکات هەموو شتێک دووبارە شوێن ڕێکخستنی سەرەوە بکەوێت.</string>
+    <string name="settings_reset_saved_audio_delay_confirm">هاوکاتیی دەنگی پاشەکەوتکراو ڕێک بخرێتەوە؟</string>
+    <string name="settings_reset_saved_audio_delay_confirm_description">هەموو کەناڵ، فیلم و ئەڵقەیەک دەگەڕێتەوە بۆ هاوکاتیی دەنگی سەرەوە. ڕێکخستنە پاشەکەوتکراوەکانی زووم و دەنگ دەمێننەوە. هەر کاتێک دەتوانیت یەکێکیان لە لێدەرەوە دووبارە دابنێیت.</string>
+    <string name="settings_seek_step">هەنگاوی بازدان</string>
+    <string name="settings_seek_step_description">گەڕانەوە و پێشخستن لە فیلم یان ئەڵقەیەکدا چەند دەبەزێت.</string>
+    <string name="settings_vod_buffer">بەفەری فیلم</string>
+    <string name="settings_vod_buffer_description">فیلم، ئەڵقە و Catch-up چەند پێشتر بار دەکرێن. Auto ئەوە بەکاردێنێت کە لەگەڵ ئەم ئامێرە دەگونجێت. بەفەرێکی درێژتر پەیوەندییەکی خراپ باشتر تێدەپەڕێنێت؛ بیرگەی ئەم ئامێرە هێشتا سنوورەکە دادەنێت، بۆیە فیلمێکی bitrate بەرز لەوانەیە لەوەی هەڵتبژاردووە کەمتر بگرێت.</string>
+    <string name="settings_vod_network_timeout">کاتی بەسەرچوونی تۆڕ</string>
+    <string name="settings_vod_network_timeout_description">فیلم، ئەڵقە و Catch-up چەند چاوەڕێی سێرڤەرێکی بێدەنگ دەکەن پێش ئەوەی پەیوەندی وەک لەدەستچوو بژمێردرێت. Auto چاوەڕوانیی خودی هەر لێدەرێک دەهێڵێتەوە: 60 چرکە لەسەر mpv، 20 لەسەر ExoPlayer.</string>
+    <string name="settings_vod_reconnects">هەوڵی پەیوەندیی دووبارە</string>
+    <string name="settings_vod_reconnects_description">فیلم یان ئەڵقەیەک کە پەیوەندییەکەی لەدەست دەدات چەند جار لەو شوێنەی وەستا دووبارە دەکرێتەوە پێش ئەوەی هەڵەیەک پیشان بدرێت. خولەکێک پەخشی جێگیر هەوڵەکان دەگەڕێنێتەوە.</string>
+    <string name="settings_vod_network_auto">خۆکار</string>
+    <string name="settings_live_rewind_step">هەنگاوی گەڕانەوەی ڕاستەوخۆ</string>
+    <string name="settings_live_rewind_step_description">گەڕانەوە و پێشخستن لەسەر کەناڵێکی ڕاستەوخۆ چەند دەجووڵێت: لە ئارشیڤی Catch-upـەکەی، یان لەو کۆپییەی بە Pause and rewind live TV پاشەکەوت کراوە.</string>
+    <string name="settings_resume_playback">بەردەوامبوون لە پەخش</string>
+    <string name="settings_resume_playback_description">کاتێک فیلم یان ئەڵقەیەک شوێنێکی پاشەکەوتکراوی هەیە چی بکرێت.</string>
+    <string name="settings_subtitle_appearance">ڕووکاری ژێرنووس</string>
+    <string name="settings_subtitle_appearance_description">قەبارە، ڕەنگی دەق، شوێن لەسەر شاشە و شەفافیی پاشبنەما. لە کاتی کوژاوەییدا ژێرنووسەکان ڕووکاری ئەسڵی خۆیان دەهێڵنەوە — بەلەخۆگرتنی ستایلی ئەوانەی پەخشکەرەکان لە ژێرنووسی تیڤیی ڕاستەوخۆدا دایدەنێن.</string>
+    <string name="settings_subtitle_size">قەبارەی ژێرنووس</string>
+    <string name="settings_subtitle_size_description">دەقی ژێرنووس گەورە یان بچووک بکە.</string>
+    <string name="settings_preferred_subtitle_language">زمانی ژێرنووسی پەسەندکراو</string>
+    <string name="settings_preferred_language_description">ئەم ڕیزی ژێرنووسە خۆکارانە هەڵبژێرە کاتێک بەردەستە.</string>
+    <string name="settings_preferred_audio_language_description">ئەم ڕیزی دەنگە پەخش دەکات کاتێک پەخشەکە هەیەتی. \"Original language\" فیلم و زنجیرەکان بەو زمانە پەخش دەکات کە پێی دروست کراون.</string>
+    <string name="settings_open_subtitles">OpenSubtitles</string>
+    <string name="settings_open_subtitles_connected">پەیوەستە</string>
+    <string name="settings_open_subtitles_reset_in">دوای <xliff:g id="hours">%1$d</xliff:g> کاتژمێر و <xliff:g id="minutes">%2$d</xliff:g> خولەک</string>
+    <string name="settings_open_subtitles_description">چوونەژوورەوە بکە بۆ گەڕان و داگرتنی ژێرنووس، و بەڕێوەبردنی ژێرنووسە داگیراوەکان. بۆ هەر پرۆفایلێک؛ هەژمارێکی بێبەرامبەری opensubtitles.com پێویستە.</string>
+    <string name="settings_preferred_audio_language">زمانی دەنگی پەسەندکراو</string>
+    <string name="settings_audio_sync">هاوکاتیی دەنگ</string>
+    <string name="settings_audio_sync_description">دەنگ پێشتر یان دواتر بجووڵێنە بۆ ئەوەی لەگەڵ ڤیدیۆ بگونجێت. لەگەڵ هەردوو لێدەر کار دەکات (mpv و ExoPlayer).</string>
+    <string name="settings_output_audio_delay">دواکەوتن بۆ ئەم دەرچوونە</string>
+    <string name="settings_output_audio_delay_description">دەخرێتە سەر “Audio sync” و بۆ هەر دەرچوونێک بە جیا دەپارێزرێت — HDMI، ساوندباری سەر HDMI ARC، بلووتووس، بەرزکەرەوە ناوەکییەکان، هێدفۆن. لە کاتی گوێگرتن لەو دەرچوونەی بۆی دیاری دەکرێت دایبنێ.</string>
+    <string name="settings_audio_output_speaker">بەرزکەرەوە ناوەکییەکان</string>
+    <string name="settings_audio_output_other">هێدفۆن یان USB</string>
+    <string name="settings_live_tv">تیڤیی ڕاستەوخۆ</string>
+    <string name="settings_live_latency_description">چەند نزیک لە پەخشی ڕاستەوخۆ پەخش بکرێت. نزمتر واتە نزیکتر لە ڕاستەوخۆ بەڵام بەفەرێکی بچووکتر، بۆیە پەخشە لاوازەکان لەوانەیە زیاتر بوەستن یان دووبارە پەیوەندی بکەنەوە. بۆ کەناڵی دواتر جێبەجێ دەبێت کە دەیکەیتەوە.</string>
+    <string name="settings_live_latency_bitrate_note">لەسەر کەناڵێکی bitrate زۆر بەرز — بەتایبەتی 4K — لەوانەیە بەفەرەکە لەوەی داوات کردووە کەمتر کات بگرێت، چونکە سنوورێک هەیە بۆ ئەوەی چەند ڤیدیۆ لە یەک کاتدا لە بیرگەدا بپارێزرێت.</string>
+    <string name="settings_channel_numbers">ژمارەی کەناڵەکان</string>
+    <string name="settings_channel_numbers_description">ژمارەی کەناڵی دابینکەرەکەت لەتەنیشت ناوەکە لە لیستی تیڤیی ڕاستەوخۆ، ڕووپۆشی لیستی کەناڵ و لێدەردا پیشان بدە — و لە کاتی پەخشی شاشەی تەواودا ژمارەیەک لەسەر ڕیمۆت بنووسە بۆ بازدانی یەکسەر بۆ ئەو کەناڵە (OK یەکسەر دەگۆڕێت، Back هەڵیدەوەشێنێتەوە). کوژاوە هەموو ژمارەکان دەشارێتەوە و دوگمەی ژمارەکان پشتگوێ دەخات؛ هیچ شتێک لەدەست ناچێت، و کردنەوەی دووبارە دەیانگەڕێنێتەوە.</string>
+    <string name="settings_live_left_right_rewinds">چەپ و ڕاست تیڤیی ڕاستەوخۆ دەگەڕێننەوە</string>
+    <string name="settings_live_left_right_rewinds_description">کاتێک کۆنتڕۆڵەکان شاراوەن، چەپ و ڕاست لەسەر ئەو کەناڵانەی دەتوانرێت بگەڕێنرێنەوە (Catch-up، یان پاشەکەوتکراو بە Pause and rewind live TV) دەگەڕێنەوە و پێش دەخەن، لەجیاتی کردنەوەی لیستی کەناڵ و مێژوو.</string>
+    <string name="settings_timeshift">ڕاگرتن و گەڕانەوەی تیڤیی ڕاستەوخۆ</string>
+    <string name="settings_timeshift_description">ئەو کەناڵانەی Catch-upیان نییە لەسەر ئەم ئامێرە پاشەکەوت دەکرێن لە کاتی سەیرکردنیان بە شاشەی تەواو، بۆیە دەتوانیت ڕایانبگریت و بیانگەڕێنیتەوە. هەمیشە لەسەر کۆگا دەنووسێت؛ لانی کەم 1 GB هەمیشە چۆڵ دەمێنێتەوە.</string>
+    <string name="settings_timeshift_window">درێژی گەڕانەوە</string>
+    <string name="settings_timeshift_window_description">چەند دەتوانیت کەناڵێکی بێ Catch-up بگەڕێنیتەوە.</string>
+    <string name="settings_timeshift_resume">بەردەوامبوون لە کەناڵێکی پاشەکەوتکراو</string>
+    <string name="settings_timeshift_resume_description">کاتێک دەگەڕێیتەوە بۆ کەناڵێک کە لە کاتی نەبوونتدا پاشەکەوت کراوە چی ڕوودەدات.</string>
+    <string name="settings_diagnostics">دەستنیشانکردن</string>
+    <string name="settings_measured_stats">ئامارە پێوراوەکانی پەخش</string>
+    <string name="settings_measured_stats_description">fps، bitrate و فرەیمە دابەزیوەکان بە ڕاستەوخۆ لە ڕووپۆشی زانیاری پەخشدا پیشان بدە (لە کاتی کراوەیی ڕووپۆشەکەدا دەپێورێت، بۆ ئەو پەخشانەی ئەم بەهایانە ڕانەگەیەنن). تەنها ئەگەر تیڤییەکی لاواز دەوەستێت بیکوژێنەوە — هەرگیز کاریگەری لەسەر ڤیدیۆی ڕاستەقینە نییە، تەنها ژمارە دەستنیشانکارییەکان.</string>
+    <string name="settings_none_auto">هیچ / خۆکار</string>
+    <string name="settings_view_grid">تۆڕ</string>
+    <string name="settings_view_list">لیست</string>
+    <string name="settings_subtitle_small">بچووک</string>
+    <string name="settings_subtitle_normal">ئاسایی</string>
+    <string name="settings_subtitle_large">گەورە</string>
+    <string name="settings_subtitle_extra_large">زۆر گەورە</string>
+    <string name="settings_live_latency_low">دواکەوتنی کەم</string>
+    <string name="settings_live_latency_balanced">هاوسەنگ</string>
+    <string name="settings_live_latency_stable">جێگیر</string>
+    <string name="settings_live_latency_custom">تایبەت</string>
+    <string name="settings_low_latency_warning">⚠️ دواکەوتنی کەم</string>
+    <string name="settings_low_latency_warning_description">پەخشکردنی نزیکتر لە پەخشی ڕاستەوخۆ بەفەرێکی بچووکتر جێدەهێڵێت. لەسەر پەیوەندی هێواشتر یان پەخشی ناجێگیر ئەمە دەتوانێت بەفەرکردنی زیاتر، وەستان، یان دووبارە پەیوەندیکردنەوە دروست بکات.\n\nBalanced هەڵبژێرە ئەگەر کەناڵێک متمانەپێنەکراو بوو.</string>
+    <string name="settings_low_latency_understand">تێدەگەم</string>
+    <string name="settings_custom_live_buffer">بەفەری ڕاستەوخۆی تایبەت</string>
+    <string name="settings_live_buffer_seconds"><xliff:g id="seconds">%1$d</xliff:g> چرکە</string>
+    <string name="settings_audio_delay"><xliff:g id="delay">%1$d</xliff:g> ms</string>
+    <string name="settings_external_player_description">هەڵبژێرە کام بەشەکان لە ئەپێکی دەرەکیدا دەکرێنەوە.</string>
+    <string name="settings_audio_delay_value"><xliff:g id="delay">%1$d</xliff:g> ms</string>
+    <string name="settings_movies_player_description">mpv (پێشنیارکراو) پشتگیریی فۆرماتی فراوانترینی هەیە — دەنگی DTS/TrueHD، فایلی نائاسایی. ExoPlayer هەندێک پەخش لەسەر هەندێک تیڤی پەخش دەکات کە mpv ناتوانێت، بەڵام ناتوانێت دەنگی DTS/TrueHD دیکۆد بکات. هەڵبژاردنە تێکەڵەکان خۆکارانە لێدەری ئەوی تر تاقی دەکەنەوە کاتێک یەکەمیان سەرکەوتوو نابێت؛ هەڵبژاردنە تاکەکان هەرگیز ئەمە ناکەن، کە چەند چرکەیەک شاشەی ڕەش پاشەکەوت دەکات ئەگەر لێدەری دووەم هەرگیز لەسەر تیڤییەکەت کار نەکات.</string>
+    <string name="settings_movies_player_description_mobile">mpv (پێشنیارکراو) پشتگیریی فۆرماتی فراوانترینی هەیە — دەنگی DTS/TrueHD، فایلی نائاسایی. ExoPlayer هەندێک پەخش لەسەر هەندێک ئامێر پەخش دەکات کە mpv ناتوانێت، بەڵام ناتوانێت دەنگی DTS/TrueHD دیکۆد بکات. هەڵبژاردنە تێکەڵەکان خۆکارانە لێدەری ئەوی تر تاقی دەکەنەوە کاتێک یەکەمیان سەرکەوتوو نابێت؛ هەڵبژاردنە تاکەکان هەرگیز ئەمە ناکەن، کە چەند چرکەیەک شاشەی ڕەش پاشەکەوت دەکات ئەگەر لێدەری دووەم هەرگیز لەسەر ئامێرەکەت کار نەکات.</string>
+    <string name="settings_live_player_description">ExoPlayer (پێشنیارکراو) کەناڵەکان زۆر خێراتر دەکاتەوە و تاکە لێدەرە ژێرنووسی ڕاستەوخۆی هەیە. mpv ئەو کەناڵانە پەخش دەکات کە ExoPlayer ناتوانێت، بەلەخۆگرتنی هەندێکیان بە دەنگی نائاسایی. هەڵبژاردنە تێکەڵەکان خۆکارانە لێدەری ئەوی تر تاقی دەکەنەوە کاتێک یەکەمیان سەرکەوتوو نابێت؛ هەڵبژاردنە تاکەکان هەرگیز ئەمە ناکەن، کە چەند چرکەیەک شاشەی ڕەش پاشەکەوت دەکات ئەگەر لێدەری دووەم هەرگیز لەسەر تیڤییەکەت کار نەکات. کەناڵێک کە خۆت لە لێدەردا دەیگۆڕیت هەڵبژاردنەکەت هەر دەهێڵێتەوە.</string>
+    <string name="settings_reset_player_choices_description">گۆڕینی فیلم یان ئەڵقەیەکی تاک لەنێوان mpv و ExoPlayer لە لێدەردا ئەو هەڵبژاردنە بۆ جاری داهاتوو پاشەکەوت دەکات. ڕێکخستنەوە وا دەکات هەموو شتێک دووبارە شوێن ڕێکخستنی سەرەوە بکەوێت. هەڵبژاردنە پاشەکەوتکراوەکانی کەناڵە ڕاستەوخۆکان دەمێننەوە.</string>
+    <string name="settings_reset_player_choices_none">هیچ پاشەکەوت نەکراوە</string>
+    <plurals name="settings_reset_player_choices_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> پاشەکەوتکراو</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> پاشەکەوتکراو</item>
+    </plurals>
+    <string name="settings_reset_player_choices_confirm">هەڵبژاردنە پاشەکەوتکراوەکانی لێدەر ڕێک بخرێنەوە؟</string>
+    <string name="settings_reset_player_choices_confirm_description">هەموو فیلم و ئەڵقەیەک دەگەڕێتەوە بۆ ڕێکخستنی “لێدەری فیلم &amp; زنجیرە”. هەر کاتێک دەتوانیت یەکێکیان لە لێدەرەوە دووبارە بگۆڕیت.</string>
+    <string name="settings_reset_live_player_choices">ڕێکخستنەوەی هەڵبژاردنە پاشەکەوتکراوەکانی لێدەری تیڤیی ڕاستەوخۆ</string>
+    <string name="settings_reset_live_player_choices_description">گۆڕینی کەناڵێک لەنێوان ExoPlayer و mpv لە لێدەردا ئەو هەڵبژاردنە بۆ ئەو کەناڵە پاشەکەوت دەکات. ڕێکخستنەوە وا دەکات هەموو کەناڵێک دووبارە شوێن ڕێکخستنی “لێدەری تیڤیی ڕاستەوخۆ” بکەوێت. هەڵبژاردنە پاشەکەوتکراوەکانی فیلم و ئەڵقەکان دەمێننەوە.</string>
+    <string name="settings_reset_live_player_choices_confirm">هەڵبژاردنە پاشەکەوتکراوەکانی لێدەری تیڤیی ڕاستەوخۆ ڕێک بخرێنەوە؟</string>
+    <string name="settings_reset_live_player_choices_confirm_description">هەموو کەناڵێک دەگەڕێتەوە بۆ ڕێکخستنی “لێدەری تیڤیی ڕاستەوخۆ”. هەر کاتێک دەتوانیت یەکێکیان لە لێدەرەوە دووبارە بگۆڕیت.</string>
+    <string name="settings_external_player_row_description">پەخش لە ئەپێکی دەرەکیدا بکەرەوە (VLC، MX Player) لەجیاتی لێدەری ناوەکی، بە پێی بەش هەڵبژێردراو. بۆ ئەو پەخشانەی ئەم ئەپە ناتوانێت دیکۆدیان بکات سوودمەندە، یان ئەگەر لێدەرێکی تر پەسەندترە. لە کاتی پەخشی دەرەکیدا شوێنی بەردەوامبوون و پێشوو/دواتر بەردەست نین؛ ئەو پەخشانەی User-Agent یان referer ی تایبەتیان دەوێت لەوانەیە پەخش نەکرێن.</string>
+    <string name="settings_resume_always">هەمیشە بەردەوام بە</string>
+    <string name="settings_resume_ask">بپرسە بۆ بەردەوامبوون</string>
+    <string name="settings_resume_never">هەرگیز بەردەوام مەبە</string>
+    <string name="settings_delete_subtitles">سڕینەوەی ژێرنووسەکان</string>
+    <string name="settings_delete_all">سڕینەوەی هەموو</string>
+    <string name="settings_movies">فیلمەکان</string>
+    <string name="settings_series">زنجیرەکان</string>
+    <string name="settings_no_downloaded_subtitles">هیچ ژێرنووسی داگیراوی <xliff:g id="section">%1$s</xliff:g> نییە.</string>
+    <string name="settings_delete_subtitle">سڕینەوەی ژێرنووس</string>
+    <string name="settings_delete_subtitle_message">ژێرنووسی <xliff:g id="name">%1$s</xliff:g> بۆ “<xliff:g id="title">%2$s</xliff:g>” بسڕدرێتەوە؟ دواتر دەتوانرێت دووبارە دابگیردرێت.</string>
+    <string name="settings_delete_all_subtitles">سڕینەوەی هەموو ژێرنووسەکان</string>
+    <string name="settings_delete_all_movies">سڕینەوەی هەموو فیلمەکان</string>
+    <string name="settings_delete_all_series">سڕینەوەی هەموو زنجیرەکان</string>
+    <string name="settings_section_count"><xliff:g id="section">%1$s</xliff:g> (<xliff:g id="count">%2$d</xliff:g>)</string>
+    <string name="settings_sync_guide_question">ڕێنمای تیڤی ئێستا هاوکات بکرێت؟</string>
+    <string name="settings_sync_guide_description">ڕێنمای بەرنامە (EPG) بۆ “<xliff:g id="source">%1$s</xliff:g>” دابگرە. هەروەها دەتوانیت دواتر ئەمە بکەیت لە ڕێکخستنەکان → سەرچاوەکان &amp; ڕێنما → سەرچاوەکانی EPG.</string>
+    <string name="settings_not_now">ئێستا نا</string>
+    <string name="settings_sync_now">ئێستا هاوکات بکە</string>
+    <string name="settings_syncing_guide">هاوکاتکردنی ڕێنمای تیڤی…</string>
+    <string name="settings_connecting">پەیوەندیکردن…</string>
+    <string name="settings_run_background">لە پاشبنەمادا کاربکات</string>
+    <string name="settings_guide_synced">ڕێنمای تیڤی هاوکات کرا</string>
+    <string name="settings_guide_sync_failed">هاوکاتکردنی ڕێنمای تیڤی سەرکەوتوو نەبوو</string>
+    <string name="settings_restore_remote_title">گەڕاندنەوە لە ئامێرێکی تر</string>
+    <string name="settings_restore_remote_description">لە هەر ئامێرێکدا کە وێبگەڕی هەبێت و لەسەر هەمان Wi-Fi بێت — تەلەفۆن، کۆمپیوتەر یان تیڤییەکی تر — QR سکان بکە (یان URL بکەرەوە)، ئەم PIN بنووسە، فایلی پاشەکەوتی OwnTVـەکەت هەڵبژێرە و بینێرە. پاشان لێرە هەڵدەبژێریت چی بگەڕێنرێتەوە.</string>
+    <string name="settings_try_again">دووبارە هەوڵبدەرەوە</string>
+    <string name="settings_new_pin">دووبارە دەستپێبکەرەوە بە PINێکی نوێ</string>
+    <string name="settings_download_remote_title">داگرتن لەسەر ئامێرێکی تر</string>
+    <string name="settings_download_remote_description">لە هەر ئامێرێکدا کە وێبگەڕی هەبێت و لەسەر هەمان Wi-Fi بێت — تەلەفۆن، کۆمپیوتەر یان تیڤییەکی تر — QR سکان بکە (یان URL بکەرەوە)، ئەم PIN بنووسە، و فایلی پاشەکەوتەکەت دابگرە بۆ پاراستنی.</string>
+    <string name="settings_preparing_backup">ئامادەکردنی پاشەکەوت…</string>
+    <string name="settings_ui_zoom_range">هەموو ڕووکارەکە گەورە یان بچووک بکە (<xliff:g id="min">%1$d</xliff:g>%%–<xliff:g id="max">%2$d</xliff:g>%%).</string>
+    <string name="settings_low_zoom_warning_title">⚠️ ئاگاداریی زوومی نزم</string>
+    <string name="settings_low_zoom_warning">زوومی <xliff:g id="zoom">%1$d</xliff:g>%% زۆر ئایتمی زیاتر لە یەک کاتدا لەسەر شاشە پیشان دەدات. لەسەر ئامێرە بێرگە-سنووردارەکان (بۆ نموونە ستیکی تیڤی 2 GB) ئەمە دەتوانێت ئەپەکە ناجێگیر بکات یان کڕاش بکات، بەتایبەتی لەگەڵ لیستی پەخش و داتای EPG ی گەورە.\n\nOK دابگرە بۆ بەردەوامبوون، یان Back بۆ مانەوە لەسەر <xliff:g id="safe_zoom">%2$d</xliff:g>%%.</string>
+    <string name="settings_low_zoom_warning_mobile">زوومی <xliff:g id="zoom">%1$d</xliff:g>%% زۆر ئایتمی زیاتر لە یەک کاتدا لەسەر شاشە پیشان دەدات. لەسەر ئامێرە بێرگە-سنووردارەکان ئەمە دەتوانێت ئەپەکە ناجێگیر بکات یان کڕاش بکات، بەتایبەتی لەگەڵ لیستی پەخش و داتای EPG ی گەورە.\n\nCancel هەڵبژێرە بۆ مانەوە لەسەر <xliff:g id="safe_zoom">%2$d</xliff:g>%%.</string>
+    <string name="settings_low_zoom_accept">تێدەگەم و مەترسییەکە قبووڵ دەکەم</string>
+    <string name="settings_surface_transparency"><xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="settings_catchup_timezone_automatic">خۆکار</string>
+    <string name="settings_catchup_timezone_device">ئامێر</string>
+    <string name="settings_catchup_player_ask">هەمیشە بپرسە</string>
+    <string name="settings_catchup_player_internal">لێدەری OwnTV</string>
+    <string name="settings_catchup_player_external">لێدەری دەرەکی</string>
+    <string name="settings_download_folder_title">بوخچەی داگرتن هەڵبژێرە</string>
+    <string name="settings_pick_background_title">وێنەی پاشبنەما هەڵبژێرە</string>
+    <string name="settings_theme_dialog">ڕووکار (Theme)</string>
+    <string name="settings_app_startup_dialog">دەستپێکردنی ئەپ</string>
+    <string name="settings_animations_dialog">ئەنیمەیشنەکان</string>
+    <string name="settings_close">داخستن</string>
+    <string name="settings_done">تەواو</string>
+    <string name="settings_reset">ڕێکخستنەوە</string>
+    <string name="settings_device_details"><xliff:g id="model">%1$s</xliff:g> · <xliff:g id="android">%2$s</xliff:g></string>
+    <string name="settings_history_live">Live TV</string>
+    <string name="settings_history_movies">Movies</string>
+    <string name="settings_history_series">Series</string>
+    <string name="settings_history_all">all</string>
+    <string name="settings_browsing_last_category">Remember last category</string>
+    <string name="settings_browsing_last_category_description">Reopen the section on the category you left, not All.</string>
+    <string name="settings_guide_follows_live">TV Guide follows Live TV</string>
+    <string name="settings_guide_follows_live_description">Open the TV Guide on Live TV\'s category.</string>
+    <string name="settings_help_guide_follows_live">On: the TV Guide opens on the category Live TV remembers, and a category you pick in the TV Guide becomes Live TV\'s too. Off: the TV Guide keeps a category of its own.</string>
+    <string name="settings_browsing_last_item">Remember last item</string>
+    <string name="settings_browsing_last_item_description">Each category keeps its own scroll position instead of starting at the top. Live TV also restores the last focused channel.</string>
+    <string name="settings_browsing_live_categories">Live TV categories</string>
+    <string name="settings_browsing_live_categories_description">Shown in Live TV, the guide, the player and Multiview. With All channels off, Live TV opens on your first category, or Favorites if you have none.</string>
+    <string name="settings_catchup_player">Play catch-up in</string>
+    <string name="settings_customize_title">Customize Categories &amp; Items</string>
+    <string name="settings_customize_pin_locked">This screen is PIN-locked.</string>
+    <string name="settings_customize_wrong_pin">Wrong PIN — try again</string>
+    <string name="settings_customize_enter_pin">Enter PIN</string>
+    <string name="settings_customize_set_pin">🔒 Set category lock PIN</string>
+    <string name="settings_customize_change_pin">🔒 Change category lock PIN</string>
+    <string name="settings_customize_remove_pin">Remove category lock PIN</string>
+    <string name="settings_customize_remove_lock">Remove lock</string>
+    <string name="settings_lock">Settings lock</string>
+    <string name="settings_lock_description">Settings, Backup &amp; Restore and Local sync ask for a PIN of their own. Each profile sets its own.</string>
+    <string name="settings_line_settings_lock">A PIN of its own for Settings</string>
+    <string name="settings_help_settings_lock">A PIN for this profile that Settings, Backup &amp; Restore and Local sync ask for before they open. It is neither the profile PIN nor the category lock PIN: each lock has its own PIN, and none of them opens another. Change PIN and Turn off ask for the current Settings PIN.</string>
+    <string name="settings_lock_menus">Also lock long-press menu changes</string>
+    <string name="settings_lock_menus_description">Hide, Move, Rename, locking a category and Remove from History ask for the Settings PIN too. Favorites and Play never do.</string>
+    <string name="settings_line_settings_lock_menus">Long-press changes ask for the Settings PIN</string>
+    <string name="settings_help_settings_lock_menus">With this on, the long-press changes (Hide, Move, Rename, Lock category and Remove from History) ask for the Settings PIN first. One right PIN opens them until you leave the app or switch profile. Adding to Favorites and playing never ask.</string>
+    <string name="settings_lock_change_pin">Change PIN</string>
+    <string name="settings_lock_turn_off">Turn off</string>
+    <string name="settings_search_keywords_settings_lock">lock pin password parental settings</string>
+    <string name="settings_customize_description">Hide &amp; unhide channels, movies and series, and rename or reorder categories for this profile. Survives re-syncs.</string>
+    <string name="settings_customize_new_category_behavior">New category behavior</string>
+    <string name="settings_customize_hide">Hide</string>
+    <string name="settings_customize_show">Show</string>
+    <string name="settings_customize_behavior_hide">Hide</string>
+    <string name="settings_customize_behavior_show">Show</string>
+    <string name="settings_customize_hidden_channels">Hidden channels</string>
+    <string name="settings_customize_hidden_movies">Hidden movies</string>
+    <string name="settings_customize_hidden_series">Hidden series</string>
+    <string name="settings_customize_unhide_description">Unhide to bring an item back to the lists.</string>
+    <string name="settings_customize_categories">Categories</string>
+    <string name="settings_customize_empty">No categories in this section yet — add a source first.</string>
+    <string name="settings_customize_range_hide_start">Span selection started. Press Show/Hide on the end item to select the span.</string>
+    <string name="settings_customize_range_rename_start">Rename span started. Press Rename on the end item to select the span.</string>
+    <string name="settings_customize_range_move_start">Move span started. Press ⤒ ↑ ↓ ⤓ on the end item to move the whole span.</string>
+    <string name="settings_customize_span_hide">Select span to hide or show</string>
+    <string name="settings_customize_span_move">Select span to move</string>
+    <string name="settings_customize_move_top">Move to top</string>
+    <string name="settings_customize_move_bottom">Move to bottom</string>
+    <string name="settings_customize_custom_category">Custom</string>
+    <string name="settings_customize_span_rename">Select span to rename</string>
+    <string name="settings_customize_range_hide_start_touch">Span selection started. Tap the last item, then choose Hide or Show.</string>
+    <string name="settings_customize_range_move_start_touch">Move span started. Tap the last item, then use the arrows to move the whole block.</string>
+    <string name="settings_customize_range_rename_start_touch">Rename span started. Tap the last item to rename everything in between.</string>
+    <plurals name="settings_customize_range_selected">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> category selected. Keep pressing ⤒ ↑ ↓ ⤓ to move it.</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> categories selected. Keep pressing ⤒ ↑ ↓ ⤓ to move them together.</item>
+    </plurals>
+    <string name="settings_customize_rename">Rename</string>
+    <string name="settings_customize_rename_category">Rename category</string>
+    <string name="settings_customize_rename_or_delete_category">Rename or delete category</string>
+    <string name="settings_customize_new_category">＋ New category</string>
+    <string name="settings_customize_sort_button">Sort: <xliff:g id="label">%1$s</xliff:g> ▾</string>
+    <string name="settings_customize_filter_button">Filter: <xliff:g id="label">%1$s</xliff:g> ▾</string>
+    <string name="settings_customize_filter_title">Filter list</string>
+    <string name="settings_customize_filter_all">All</string>
+    <string name="settings_customize_filter_visible">Visible</string>
+    <string name="settings_customize_filter_hidden">Hidden</string>
+    <string name="settings_customize_new_categories_button">New categories: <xliff:g id="label">%1$s</xliff:g> ▾</string>
+    <string name="settings_customize_restore_defaults">Restore playlist defaults</string>
+    <string name="settings_customize_restore_defaults_title">Restore <xliff:g id="section">%1$s</xliff:g> in <xliff:g id="playlist">%2$s</xliff:g> to playlist defaults?</string>
+    <string name="settings_customize_restore_defaults_description">Hidden categories and items show again, renames and custom order are cleared, and moved-out items return. Combined categories, favorites and guide matches are kept.</string>
+    <string name="settings_customize_rename_hint">Only for this profile. Leave blank to restore “<xliff:g id="name">%1$s</xliff:g>”.</string>
+    <string name="settings_customize_remove_pin_title">Remove the category lock PIN?</string>
+    <string name="settings_customize_remove_pin_locks">Every category locked with this PIN is unlocked too.</string>
+    <string name="settings_customize_remove">Remove</string>
+    <string name="settings_customize_confirm_pin">Confirm new PIN</string>
+    <string name="settings_customize_pin_mismatch">PINs don\'t match — re-enter</string>
+    <string name="settings_customize_new_pin">Enter a new PIN</string>
+    <plurals name="settings_customize_selected_categories">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> category selected.</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> categories selected.</item>
+    </plurals>
+    <string name="settings_customize_hide_show_title">Hide or show categories</string>
+    <string name="settings_customize_was">was “<xliff:g id="name">%1$s</xliff:g>”</string>
+    <string name="settings_customize_hidden">Hidden</string>
+    <string name="settings_customize_unhide">Unhide</string>
+    <string name="settings_key_actions">Actions</string>
+    <string name="settings_span_heading">Span / multi-select</string>
+    <string name="settings_span_help">Hold OK on Move, Rename or Hide for the first item, then press the same on the last. Everything in between changes together.</string>
+    <string name="settings_span_ch_help">CH+ / CH− skip a page. Hold CH+ / CH− to jump to the last or first item.</string>
+    <string name="settings_customize_metadata_separator">"  ·  "</string>
+    <string name="settings_sources_title">Sources</string>
+    <string name="settings_sources_empty">No sources yet. Add an M3U or Xtream source.</string>
+    <string name="settings_sources_add">Add Source</string>
+    <string name="settings_sources_import_failed">Import failed</string>
+    <string name="settings_sources_importing">Importing catalog…</string>
+    <string name="settings_sources_preparing">Preparing catalog</string>
+    <string name="settings_sources_deleting">DELETING…</string>
+    <string name="settings_sources_resync">Re-sync</string>
+    <string name="settings_sources_delete_title">Delete “<xliff:g id="name">%1$s</xliff:g>”?</string>
+    <string name="settings_sources_delete_message">This removes the source and all its channels, movies and series from every profile.</string>
+    <string name="settings_sources_type_m3u">M3U · <xliff:g id="url">%1$s</xliff:g></string>
+    <string name="settings_sources_type_xtream">Xtream · <xliff:g id="url">%1$s</xliff:g></string>
+    <string name="settings_sources_type_stalker">Stalker · <xliff:g id="url">%1$s</xliff:g></string>
+    <string name="settings_sources_expiry">Expires <xliff:g id="date">%1$s</xliff:g></string>
+    <string name="settings_sources_test_title">Source test</string>
+    <string name="settings_sources_test_ok">Connection OK</string>
+    <string name="settings_sources_test_auth">The provider rejected these details. Check the username, password or MAC address.</string>
+    <string name="settings_sources_test_expired">This subscription has expired.</string>
+    <string name="settings_sources_test_unreachable">Couldn’t reach the server. Check the address and your internet connection.</string>
+    <string name="settings_sources_test_status">Status: <xliff:g id="status">%1$s</xliff:g></string>
+    <string name="settings_sources_test_connections">Connections: <xliff:g id="used">%1$d</xliff:g> of <xliff:g id="max">%2$d</xliff:g> in use</string>
+    <string name="settings_sources_test_connections_max">Connections: up to <xliff:g id="max">%1$d</xliff:g> at once</string>
+    <string name="settings_sources_test_trial">Trial account</string>
+    <string name="settings_sources_test_expiry_none">No expiry date reported</string>
+    <string name="settings_sources_info">Info</string>
+    <string name="settings_sources_clean_names">Names</string>
+    <string name="settings_sources_clean_names_title">Channel names in “<xliff:g id="name">%1$s</xliff:g>”</string>
+    <string name="settings_sources_clean_names_description">Shorter channel names on every screen. The guide still matches the names your provider sends, and channels you renamed in Customize keep your name. Saving refreshes the playlist.</string>
+    <string name="settings_sources_clean_names_toggle">Clean channel names</string>
+    <string name="settings_sources_clean_names_example">Removes a country prefix and a quality tag at the end: “UK| News One HD” shows as “News One”</string>
+    <string name="settings_sources_clean_names_custom">Also remove</string>
+    <string name="settings_sources_clean_names_custom_hint">Words separated by ; e.g. VIP; Backup</string>
+    <string name="settings_sources_retest">Re-test</string>
+    <string name="settings_sources_ignore_limit">Ignore connection limit</string>
+    <string name="settings_sources_ignore_limit_on">Connection limit ignored: Multiview and recordings may open more streams than this playlist reports. A stream the provider refuses still says so.</string>
+    <string name="settings_sources_probe_title">Test this playlist?</string>
+    <string name="settings_sources_probe_warning">Many providers never say how many channels you may watch at the same time, so OwnTV finds out by opening a few and seeing which ones survive. Anything playing now will stop, and this can take up to two minutes.</string>
+    <string name="settings_sources_probe_running">Checking how many channels this provider allows… (<xliff:g id="current">%1$d</xliff:g> of <xliff:g id="total">%2$d</xliff:g>)</string>
+    <string name="settings_sources_probe_unknown">OwnTV could not work out how many channels this provider allows.</string>
+    <string name="settings_sources_probe_skip">Skip</string>
+    <string name="settings_sources_auto_refresh">⟳ <xliff:g id="mode">%1$s</xliff:g></string>
+    <string name="settings_sources_default">DEFAULT</string>
+    <string name="settings_sources_backup">Backup</string>
+    <string name="settings_sources_details_separator">"  •  "</string>
+    <string name="settings_sources_preparing_detail">Preparing catalog</string>
+    <string name="settings_sources_removing_detail">Removing…</string>
+    <string name="settings_sources_edit">Edit</string>
+    <string name="settings_sources_delete">Delete</string>
+    <string name="settings_sources_cancel">Cancel</string>
+    <string name="settings_sources_try_again">Try again</string>
+    <string name="settings_sources_import_title">Import complete</string>
+    <string name="settings_sources_resync_title_full">Resync “<xliff:g id="name">%1$s</xliff:g>”</string>
+    <string name="settings_sources_resync_now_full">Resync now</string>
+    <string name="settings_sources_resync_remove_full">Resync and remove missing titles</string>
+    <string name="settings_sources_resync_description">Resync now fetches the latest catalog and keeps everything already saved.\n\nResync and remove missing titles also allows removing titles the provider no longer lists. Your favorites, history and resume positions for titles that are still listed are kept.</string>
+    <string name="settings_sources_refresh_off">Off</string>
+    <string name="settings_sources_refresh_startup">Refresh at startup</string>
+    <string name="settings_sources_refresh_6h">6 hours</string>
+    <string name="settings_sources_refresh_12h">12 hours</string>
+    <string name="settings_sources_refresh_manual">Custom interval…</string>
+    <plurals name="settings_sources_refresh_days">
+        <item quantity="one">Every <xliff:g id="count">%1$d</xliff:g> day</item>
+        <item quantity="other">Every <xliff:g id="count">%1$d</xliff:g> days</item>
+    </plurals>
+    <string name="settings_sources_refresh_days_title">Refresh interval</string>
+    <string name="settings_sources_refresh_days_hint">Left and right choose how many days, from 1 to 99.</string>
+    <string name="settings_epg_guide_days">Guide days to keep</string>
+    <string name="settings_epg_guide_days_hint">Left and right choose how many days, from <xliff:g id="min">%1$d</xliff:g> to <xliff:g id="max">%2$d</xliff:g>.</string>
+    <plurals name="settings_epg_guide_days_value">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> day</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> days</item>
+    </plurals>
+    <string name="settings_epg_sources_title">EPG Sources</string>
+    <string name="settings_epg_sources_empty">No EPG sources yet. Add an XMLTV link.</string>
+    <string name="settings_epg_sources_add">Add EPG source</string>
+    <string name="settings_epg_sources_edit">Edit EPG source</string>
+    <string name="settings_epg_sources_add_sync">Add &amp; sync</string>
+    <string name="settings_epg_sources_save_sync">Save &amp; sync</string>
+    <string name="settings_epg_sources_fill_playlist">Fill from playlist</string>
+    <string name="settings_epg_sources_none_playlist">None of your playlists provide an EPG URL.</string>
+    <string name="settings_epg_sources_use_logos">Use this guide\'s channel logos</string>
+    <string name="settings_epg_sources_logos_description">Show logos from this XMLTV feed instead of your playlist\'s. Channels this feed has no logo for keep the playlist one.</string>
+    <string name="settings_epg_sources_name">Name</string>
+    <string name="settings_epg_sources_url">XMLTV URL</string>
+    <string name="settings_epg_sources_portal_guide">Guide from the portal</string>
+    <string name="settings_epg_sources_user_agent">User-Agent (optional)</string>
+    <string name="settings_epg_sources_name_hint">e.g. UK Guide</string>
+    <string name="settings_epg_sources_url_hint">https://…/epg.xml(.gz)</string>
+    <string name="settings_epg_sources_user_agent_hint">Leave blank for default</string>
+    <string name="settings_epg_sources_delete_title">Delete “<xliff:g id="name">%1$s</xliff:g>”?</string>
+    <string name="settings_epg_sources_delete_message">Removes this EPG source and its guide data. Your channels stay.</string>
+    <string name="settings_epg_sources_syncing_percent">Syncing <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <plurals name="settings_epg_sources_catchup">
+        <item quantity="one">Catch-up is available on <xliff:g id="count">%1$d</xliff:g> channel.</item>
+        <item quantity="other">Catch-up is available on <xliff:g id="count">%1$d</xliff:g> channels.</item>
+    </plurals>
+    <string name="settings_epg_sources_error">⚠ <xliff:g id="error">%1$s</xliff:g></string>
+    <string name="settings_epg_sources_auto_refresh_title">Auto refresh</string>
+    <string name="settings_epg_sources_auto_refresh_description">Off, on startup, or when data is stale</string>
+    <string name="settings_epg_sources_not_synced">Not synced yet</string>
+    <string name="settings_epg_sources_priority">Guide priority <xliff:g id="position">%1$d</xliff:g> of <xliff:g id="total">%2$d</xliff:g>. When two sources list the same channel, the one higher in this list is used.</string>
+    <string name="settings_epg_refresh_1h">1 hour</string>
+    <string name="settings_epg_refresh_3h">3 hours</string>
+    <string name="settings_epg_refresh_6h">6 hours</string>
+    <string name="settings_epg_refresh_12h">12 hours</string>
+    <string name="settings_epg_refresh_24h">24 hours</string>
+    <string name="settings_epg_refresh_48h">48 hours</string>
+    <string name="settings_epg_sources_deleting">Deleting…</string>
+    <string name="settings_epg_sources_syncing_label">Syncing</string>
+    <string name="settings_epg_sources_connecting">Connecting…</string>
+    <plurals name="settings_epg_sources_status_count_channels">
+        <item quantity="one">The guide contains <xliff:g id="channels">%1$d</xliff:g> channel.</item>
+        <item quantity="other">The guide contains <xliff:g id="channels">%1$d</xliff:g> channels.</item>
+    </plurals>
+    <plurals name="settings_epg_sources_status_count_programmes">
+        <item quantity="one">It contains <xliff:g id="programmes">%1$d</xliff:g> program.</item>
+        <item quantity="other">It contains <xliff:g id="programmes">%1$d</xliff:g> programs.</item>
+    </plurals>
+    <string name="settings_epg_sources_status_count"><xliff:g id="channels">%1$s</xliff:g> <xliff:g id="programmes">%2$s</xliff:g></string>
+    <string name="settings_epg_sources_status_count_with_catchup"><xliff:g id="counts">%1$s</xliff:g> <xliff:g id="catchup">%2$s</xliff:g></string>
+    <string name="settings_epg_sources_status_synced">Synced, but no programs were found in the time window.</string>
+    <string name="settings_epg_sources_status_synced_with_catchup"><xliff:g id="catchup">%1$s</xliff:g></string>
+    <string name="settings_backup_title">Backup &amp; Restore</string>
+    <string name="settings_backup_working">Working…</string>
+    <string name="settings_backup_what_backup">What to back up</string>
+    <string name="settings_backup_what_restore">What to restore</string>
+    <string name="settings_backup_encrypt_title">Encrypt this backup?</string>
+    <string name="settings_backup_encrypt_message">With a backup password, the whole file is encrypted — playlists, profiles and saved passwords included — and nothing in it can be read without that password. Keep it safe: if you lose it, the backup cannot be opened at all. Without a password the file is not encrypted, and saved passwords and PINs are left out of it.</string>
+    <string name="settings_backup_export_title">Export a backup</string>
+    <string name="settings_backup_restore_title">Restore a backup</string>
+    <string name="settings_backup_password">Backup password</string>
+    <string name="settings_backup_enter_password">Enter backup password</string>
+    <string name="settings_backup_wrong_password">Wrong backup password</string>
+    <string name="settings_backup_password_mismatch">That password didn\'t match. Try again, or skip to restore everything except saved passwords.</string>
+    <string name="settings_backup_password_encrypted_mismatch">That password didn\'t match. This backup is encrypted — it can\'t be opened without the password it was created with.</string>
+    <string name="settings_backup_encrypted_description">This backup is encrypted. Enter the backup password to open it and choose what to restore.</string>
+    <string name="settings_backup_saved_passwords_description">This backup\'s passwords are encrypted. Enter the backup password to restore them, or skip to restore everything else and re-enter passwords later.</string>
+    <string name="settings_backup_choose_folder">Choose a folder to save the backup</string>
+    <string name="settings_backup_choose_folder_action">Choose folder</string>
+    <string name="settings_backup_pick_file">Pick a backup file to restore</string>
+    <string name="settings_backup_remote">Remote</string>
+    <string name="settings_backup_everything">Everything</string>
+    <string name="settings_backup_kids_profile">Kids profile</string>
+    <string name="settings_backup_profile_current">“<xliff:g id="name">%1$s</xliff:g>” (current)</string>
+    <string name="settings_backup_profile_locked">“<xliff:g id="name">%1$s</xliff:g>” is locked</string>
+    <string name="settings_backup_pin_incorrect">PIN incorrect.</string>
+    <string name="settings_backup_pin_locked">PIN locked</string>
+    <string name="settings_backup_unlock">Unlock</string>
+    <string name="settings_backup_continue">Continue</string>
+    <string name="settings_backup_encrypt_export">Encrypt &amp; export</string>
+    <string name="settings_backup_export_unencrypted">Export unencrypted</string>
+    <string name="settings_backup_encrypt_prepare">Encrypt &amp; prepare</string>
+    <string name="settings_backup_prepare_unencrypted">Prepare unencrypted</string>
+    <string name="settings_backup_restore_action">Restore</string>
+    <string name="settings_backup_skip_passwords">Skip (no passwords)</string>
+    <string name="settings_backup_section_sources">Sources</string>
+    <string name="settings_backup_section_sources_desc">Playlists, EPG feeds and credentials</string>
+    <string name="settings_backup_no_sources_warning">Without Sources, this device gets no playlists and has nothing to watch.</string>
+    <string name="settings_backup_section_customize">Customizations</string>
+    <string name="settings_backup_section_customize_desc">Hidden/renamed/reordered categories, channels, EPG matches &amp; custom TMDB names</string>
+    <string name="settings_backup_section_favorites">Favorites</string>
+    <string name="settings_backup_section_favorites_desc">Starred channels, movies and series</string>
+    <string name="settings_backup_section_history">Watch history</string>
+    <string name="settings_backup_section_history_desc">Recently watched lists</string>
+    <string name="settings_backup_section_resume">Resume positions</string>
+    <string name="settings_backup_section_resume_desc">Where you stopped in movies &amp; episodes</string>
+    <string name="settings_backup_section_reorder">Manual reorder</string>
+    <string name="settings_backup_section_reorder_desc">Your Move up/down positions for channels, movies and series</string>
+    <string name="settings_backup_section_settings">App settings</string>
+    <string name="settings_backup_section_settings_desc">Theme, accent, player &amp; layout preferences</string>
+    <string name="settings_backup_device_settings">Hardware settings from the other device</string>
+    <string name="settings_backup_device_settings_desc">Player engine, hardware decoding, frame rate, HDR and surround. Only take them if both devices have the same hardware.</string>
+    <string name="settings_backup_saved_to">Saved to <xliff:g id="path">%1$s</xliff:g>.</string>
+    <string name="settings_backup_saved_to_without_passwords">Saved to <xliff:g id="path">%1$s</xliff:g>. Passwords and PINs were not included.</string>
+    <plurals name="settings_backup_restored">
+        <item quantity="one"><xliff:g id="items">%1$d</xliff:g> item restored.</item>
+        <item quantity="other"><xliff:g id="items">%1$d</xliff:g> items restored.</item>
+    </plurals>
+    <string name="settings_backup_restore_resync">Re-sync your sources to load content.</string>
+    <string name="settings_backup_restore_password_note">Re-enter any saved passwords in Sources/Proxy, and any profile PINs.</string>
+    <plurals name="settings_backup_skipped_sources">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> source was skipped because its playlist type is not supported.</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> sources were skipped because their playlist types are not supported.</item>
+    </plurals>
+    <string name="settings_backup_export_error">Export failed.</string>
+    <string name="settings_backup_no_file_app">No app on this phone can save the file. Use Share instead.</string>
+    <string name="settings_backup_read_error">Couldn\'t read the backup file.</string>
+    <string name="settings_backup_import_error">Import failed.</string>
+    <string name="settings_backup_invalid_locale">This backup contained an unsupported app language. The restore succeeded, but your current language was kept.</string>
+    <string name="settings_backup_which_profiles">Which profiles to back up</string>
+    <string name="settings_backup_selected_profiles">The backup will contain only the selected profiles and their data. Locked profiles need their PIN.</string>
+    <string name="settings_backup_profile_pin_description">This isn\'t your current profile. Enter its PIN to include it in the backup — without the PIN, its data won\'t be backed up.</string>
+    <string name="settings_backup_profile_clash_title">“<xliff:g id="name">%1$s</xliff:g>” is already on this device</string>
+    <string name="settings_backup_profile_clash_body">The backup has a profile with the same name. What should happen to it?</string>
+    <string name="settings_backup_profile_merge">Merge into it</string>
+    <string name="settings_backup_profile_merge_description">Keeps what it has here and adds what the backup brings.</string>
+    <string name="settings_backup_profile_replace">Replace it</string>
+    <string name="settings_backup_profile_replace_description">Its favorites, watch history, resume positions, customizations and manual order here are cleared first, for the parts being restored.</string>
+    <string name="settings_backup_profile_keep_both">Keep both</string>
+    <string name="settings_backup_profile_keep_both_description">The backup\'s profile comes in as a new profile, “<xliff:g id="name">%1$s</xliff:g>”.</string>
+    <string name="settings_backup_profile_restored_name"><xliff:g id="name">%1$s</xliff:g> (restored)</string>
+    <string name="settings_metadata_optional">optional</string>
+    <string name="settings_metadata_test_title">Oppenheimer</string>
+    <string name="settings_bulk_rename_title">Bulk rename</string>
+    <plurals name="settings_bulk_rename_selected">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> name selected. Add rules, or clean it up automatically.</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> names selected. Add rules, or clean them up automatically.</item>
+    </plurals>
+    <string name="settings_bulk_rename_add_rule">✎ Add rule</string>
+    <string name="settings_bulk_rename_auto_cleanup">✨ Auto cleanup</string>
+    <string name="settings_bulk_rename_restore_original">↺ Restore original names</string>
+    <string name="settings_bulk_rename_rules_title">Bulk rename rules</string>
+    <string name="settings_bulk_rename_rules_description">Rules run top to bottom. Separate multiple values with “;” — Add takes exactly one.</string>
+    <string name="settings_bulk_rename_add_single_value_error">“Add” needs exactly one value — semicolons are for Remove rules.</string>
+    <string name="settings_bulk_rename_rule_required">Add at least one rule.</string>
+    <string name="settings_bulk_rename_rule_type">Rule type</string>
+    <string name="settings_bulk_rename_action_add">Add</string>
+    <string name="settings_bulk_rename_action_remove">Remove</string>
+    <string name="settings_bulk_rename_where">Where</string>
+    <string name="settings_bulk_rename_before">Before (prefix)</string>
+    <string name="settings_bulk_rename_after">After (suffix)</string>
+    <string name="settings_bulk_rename_rule_value">Rule value</string>
+    <string name="settings_bulk_rename_value_hint">Separate multiple values with “;” — Add takes exactly one.</string>
+    <string name="settings_bulk_rename_value_example">value;value;value</string>
+    <string name="settings_bulk_rename_add_another_rule">＋ Add another rule</string>
+    <string name="settings_bulk_rename_trim_spaces">Trim leftover spaces</string>
+    <string name="settings_bulk_rename_ignore_case">Ignore upper/lower case</string>
+    <string name="settings_bulk_rename_review">Review renames</string>
+    <string name="settings_bulk_rename_review_description">Nothing is written until you apply a row — Done writes everything applied in one step.</string>
+    <string name="settings_bulk_rename_blank_rejected">blank name rejected — original kept</string>
+    <string name="settings_bulk_rename_unchanged">unchanged — no rule matched</string>
+    <string name="settings_bulk_rename_result">→ <xliff:g id="name">%1$s</xliff:g></string>
+    <string name="settings_bulk_rename_duplicate">duplicate name — another item already uses it</string>
+    <string name="settings_bulk_rename_apply">Apply</string>
+    <string name="settings_bulk_rename_decline">Decline</string>
+    <plurals name="settings_bulk_rename_will_change">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> will change</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> will change</item>
+    </plurals>
+    <plurals name="settings_bulk_rename_unchanged_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> unchanged</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> unchanged</item>
+    </plurals>
+    <plurals name="settings_bulk_rename_duplicates_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> duplicate</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> duplicates</item>
+    </plurals>
+    <string name="settings_bulk_rename_apply_all">Apply all</string>
+    <string name="settings_bulk_rename_decline_all">Decline all</string>
+    <string name="settings_bulk_rename_edit_rules">✎ Edit rules</string>
+    <string name="settings_bulk_rename_restore_title">Restore original names?</string>
+    <string name="settings_bulk_rename_restore_description">Every selected name goes back to the provider\'s original. Only this selection is affected.</string>
+    <string name="settings_bulk_rename_restore">Restore</string>
+    <string name="settings_bulk_rename_too_many_title">Too many items</string>
+    <string name="settings_bulk_rename_too_many_description">This category has too many items for one bulk rename — rename it in smaller spans.</string>
+    <string name="settings_bulk_rename_auto_country_provider">Auto: country/provider tags</string>
+    <string name="settings_bulk_rename_auto_quality_codec">Auto: quality/codec tags anywhere</string>
+    <string name="settings_bulk_rename_auto_emoji_symbols">Auto: emoji and symbols</string>
+    <string name="settings_customize_new_category_title">New category</string>
+    <string name="settings_customize_new_category_description">A combined category for this profile — move channels, movies or series into it.</string>
+    <string name="settings_customize_this_category">this category</string>
+    <string name="settings_customize_sort_categories">Sort categories</string>
+    <string name="settings_customize_delete_category">Delete “<xliff:g id="name">%1$s</xliff:g>”?</string>
+    <string name="settings_customize_delete_category_description">The combined category is removed. Its items stay in their original categories.</string>
+    <string name="settings_customize_channels_description">Channels in this category — rename, reorder, hide or unhide.</string>
+    <string name="settings_customize_movies_description">Movies in this category — reorder, hide or unhide.</string>
+    <string name="settings_customize_series_description">Series in this category — reorder, hide or unhide.</string>
+    <string name="settings_customize_hide_show_items">Hide or show items</string>
+    <plurals name="settings_customize_selected_items">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> item selected.</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> items selected.</item>
+    </plurals>
+    <plurals name="settings_customize_move_items_selected">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> item selected. Keep pressing ⤒ ↑ ↓ ⤓ to move it.</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> items selected. Keep pressing ⤒ ↑ ↓ ⤓ to move them together.</item>
+    </plurals>
+    <string name="settings_customize_rename_item_hint">Only for this profile. Leave blank to restore “<xliff:g id="name">%1$s</xliff:g>”.</string>
+    <string name="settings_customize_item_was">was “<xliff:g id="name">%1$s</xliff:g>”</string>
+    <string name="settings_customize_rename_items">✎ Rename items</string>
+    <string name="settings_customize_move_to">Move to…</string>
+    <string name="settings_customize_back">← Back</string>
+    <string name="settings_move_category_title">Move to category</string>
+    <string name="settings_move_category_description">The item leaves “<xliff:g id="name">%1$s</xliff:g>” unless you keep it there.</string>
+    <string name="settings_move_category_new">＋ New category…</string>
+    <string name="settings_move_category_keep">Keep in “<xliff:g id="name">%1$s</xliff:g>” as well</string>
+    <string name="settings_move_category_action">Move</string>
+    <string name="settings_dns_description">Use a custom DNS server for domain lookups</string>
+    <string name="settings_dns_toggle_description">Resolve all OwnTV domain lookups through a custom DNS server.</string>
+    <string name="settings_dns_use_custom">Use custom DNS</string>
+    <string name="settings_dns_server_missing">Custom DNS is enabled but no server is configured. Enter a server address and select Save, or turn this off.</string>
+    <string name="settings_dns_server">DNS server</string>
+    <string name="settings_dns_server_hint">8.8.8.8 or https://dns.google/dns-query</string>
+    <string name="settings_dns_test">Test DNS</string>
+    <string name="settings_dns_explanation">Custom DNS can help bypass ISP-level domain blocking or enable geo-unblocking via SmartDNS services. DNS-over-HTTPS (DoH) is recommended — it encrypts your lookups.</string>
+    <string name="settings_dns_limitations">This setting only affects OkHttp-based traffic (playlist sync, EPG, API calls, images, ExoPlayer streams). mpv uses the system resolver and is not affected.</string>
+    <string name="settings_dns_resolved">Test passed ✓ (<xliff:g id="millis">%1$d</xliff:g> ms)</string>
+    <string name="settings_dns_enter_server">Enter a DNS server host or a DoH URL.</string>
+    <string name="settings_dns_not_reachable">DNS server not reachable.</string>
+    <string name="settings_dns_timed_out">DNS request timed out.</string>
+    <string name="settings_dns_network_unreachable">Network is unreachable — check the server address.</string>
+    <string name="settings_dns_connection_refused">Connection refused — check the server address and port.</string>
+    <string name="settings_dns_test_failed">DNS test failed — check the server address.</string>
+    <string name="settings_dns_no_addresses">DNS returned no addresses for <xliff:g id="host">%1$s</xliff:g>.</string>
+    <string name="settings_subtitle_customize">Customize subtitles</string>
+    <string name="settings_subtitle_customize_off">Off keeps subtitles exactly as the stream and the player draw them.</string>
+    <string name="settings_subtitle_preview_stock">Preview — stock look</string>
+    <string name="settings_subtitle_reset_all">Reset all</string>
+    <string name="settings_subtitle_color">Subtitle color</string>
+    <string name="settings_subtitle_color_default_description">Default leaves the color to the stream and the player.</string>
+    <string name="settings_subtitle_color_hex_hint">Enter 6 hex digits, e.g. FFEB3B</string>
+    <string name="settings_subtitle_use_default">Use default</string>
+    <string name="settings_subtitle_position">Subtitle position</string>
+    <string name="settings_subtitle_background_transparency">Background transparency</string>
+    <string name="settings_subtitle_preview_sample">The quick brown fox</string>
+    <string name="settings_subtitle_customize_description">Turn this on, then change only what you want — anything left on Default keeps the stock look, including the colors and placement broadcasters embed in Live TV subtitles.</string>
+    <string name="settings_subtitle_default">Default</string>
+    <string name="settings_subtitle_color_short">Color</string>
+    <string name="settings_subtitle_color_description">Text color — a preset, the picker, or a hex code.</string>
+    <string name="settings_subtitle_position_short">Position</string>
+    <string name="settings_subtitle_position_description">Where subtitles sit on screen.</string>
+    <string name="settings_subtitle_background_description">How solid the box behind the text is.</string>
+    <string name="settings_subtitle_hex">Hex</string>
+    <string name="settings_subtitle_position_default_description">Default leaves placement to the stream — including where a broadcaster puts a live caption. Any other choice always wins.</string>
+    <string name="settings_subtitle_background_none">None</string>
+    <string name="settings_subtitle_background_solid">Solid</string>
+    <string name="settings_subtitle_color_white">White</string>
+    <string name="settings_subtitle_color_yellow">Yellow</string>
+    <string name="settings_subtitle_color_cyan">Cyan</string>
+    <string name="settings_subtitle_color_green">Green</string>
+    <string name="settings_subtitle_color_grey">Grey</string>
+    <string name="settings_live_preroll">Pre-buffer live streams</string>
+    <string name="settings_live_preroll_description">Collect this much video before a live channel starts playing, and again after a stutter. This is an amount of video, not a countdown. Off keeps the fastest possible start and is right for most providers. Raise it only if playback actually stutters: many providers publish only a few seconds ahead of live, and asking for more video than they send can make stuttering worse.</string>
+    <string name="settings_live_tune_timeout">Give up on a channel after</string>
+    <string name="settings_live_tune_timeout_description">If a live channel has shown no picture by this time, OwnTV stops trying and tells you, instead of leaving a black screen while it works through every player it has. Never keeps trying, which can take well over a minute on a channel your provider has removed. Waits your provider asks for are not counted.</string>
+    <string name="settings_live_preroll_per_playlist">Pre-buffer per playlist</string>
+    <string name="settings_live_preroll_per_playlist_description">Override the setting above for one playlist while keeping your other playlists fast.</string>
+    <string name="settings_live_engine_per_playlist">Live TV player per playlist</string>
+    <string name="settings_live_engine_per_playlist_description">Override the setting above for one playlist, for a provider whose channels only one of the players handles well.</string>
+    <string name="settings_live_latency_per_playlist">Live latency per playlist</string>
+    <string name="settings_live_latency_per_playlist_description">Override the setting above for one playlist, for a provider that needs a deeper or shallower buffer than the others.</string>
+    <string name="settings_catchup_timezone_per_playlist">Catch-up time zone per playlist</string>
+    <string name="settings_catchup_timezone_per_playlist_description">Override the time zone above for one playlist, for a provider whose archive runs on a different clock.</string>
+    <string name="settings_vod_engine_per_playlist">Movies &amp; Series player per playlist</string>
+    <string name="settings_vod_engine_per_playlist_description">Override the setting above for one playlist, for a provider whose films and episodes only one of the players handles well.</string>
+    <string name="settings_live_tune_timeout_per_playlist">Give up after, per playlist</string>
+    <string name="settings_live_tune_timeout_per_playlist_description">Override the setting above for one playlist, for a provider whose channels are slow to start or often dead.</string>
+    <plurals name="settings_live_preroll_overrides">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> set</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> set</item>
+    </plurals>
+    <string name="settings_surround_stereo">Stereo only</string>
+    <string name="settings_surround_auto_description">Auto — try Dolby/DTS surround, and switch back to stereo automatically if the TV or soundbar does not play it. Recommended.</string>
+    <string name="settings_surround_auto_description_mobile">Auto — try Dolby/DTS surround, and switch back to stereo automatically if the speaker, headphones or connected receiver do not play it. Recommended.</string>
+    <string name="settings_surround_stereo_description">Stereo only — always decode in the app and send plain 2.0 sound. Use this on TV speakers or a stereo soundbar, or if audio lags behind the picture.</string>
+    <string name="settings_surround_stereo_description_mobile">Stereo only — always decode in the app and send plain 2.0 sound. Use this for the built-in speaker, headphones or a stereo soundbar, or if audio lags behind the picture.</string>
+    <string name="settings_surround_forced_description">Surround — send Dolby/DTS to a real 5.1/7.1 receiver. If it goes silent or stutters, OwnTV still falls back to stereo and tells you.</string>
+    <string name="settings_panel_width">Panel widths</string>
+    <string name="settings_panel_width_description">Resize the category, list and preview panels in Live TV, Movies &amp; Series.</string>
+    <string name="settings_vod_layout">Movies &amp; Series layout</string>
+    <string name="settings_vod_layout_description">Separate panels, or one cinematic view with the artwork behind</string>
+    <string name="settings_vod_layout_screen_description">Choose how Movies and Series are laid out. Live TV and the episode list are unchanged.</string>
+    <string name="settings_vod_layout_separate">Separate panels</string>
+    <string name="settings_vod_layout_separate_description">Categories, the title list and a preview side by side. Includes the List and Grid views.</string>
+    <string name="settings_vod_layout_cinematic">Cinematic</string>
+    <string name="settings_vod_layout_cinematic_description">The focused title’s artwork fills the screen, with its details above a poster grid. Grid only.</string>
+    <string name="settings_search_keywords_vod_layout">layout cinematic backdrop artwork panels movies series poster view grid</string>
+    <string name="settings_panel_width_details_height">Details height</string>
+    <string name="settings_panel_width_details_hint">Lower the details height for another row of posters; raise it for more plot and cast.</string>
+    <string name="settings_panel_width_content_area">Content area</string>
+    <string name="settings_guide_width">Guide column widths</string>
+    <string name="settings_guide_width_description">Resize the channel list and EPG timeline in the TV Guide.</string>
+    <string name="settings_search_keywords_guide_width">guide epg channel list timeline column panel width size resize layout</string>
+    <string name="settings_guide_width_summary">Channel list <xliff:g id="channels">%1$d</xliff:g>%% · EPG timeline <xliff:g id="epg">%2$d</xliff:g>%%</string>
+    <string name="settings_guide_width_help">• The channel list and EPG timeline share one row, so their percentages must add up to 100%%.\n• Widening the channel list shows less of the timeline at once; programme lengths and the time scale stay unchanged.\n• Both columns stay at 10%% or more.\n• Reset returns to 10%% channel list and 90%% EPG timeline.\n• Turning customization off restores the standard Guide layout without losing your values.</string>
+    <string name="settings_guide_width_channels">Channel list</string>
+    <string name="settings_search_keywords_epg_offset">epg guide time offset shift timezone east west hours</string>
+    <string name="settings_search_keywords_panel_width">panel width size resize category list preview poster column layout live movies series</string>
+    <string name="settings_search_keywords_live_preroll">prebuffer preroll pre-roll buffering buffer before playing rebuffer stutter freeze per playlist</string>
+    <string name="settings_detailed_playback_logging">Detailed playback logging</string>
+    <string name="settings_search_keywords_detailed_logging">diagnostics verbose trace logcat debug report bug live engine</string>
+    <string name="settings_playback_kind_error">Error</string>
+    <string name="settings_playback_kind_event">Event</string>
+    <string name="settings_playback_kind_report">Report</string>
+    <string name="settings_export">Export</string>
+    <string name="settings_detailed_playback_logging_description">Keep a full trace of what the live engine does — every tune, fallback and reconnect — in Logcat and in the exported report. Leave it off unless you are chasing a problem; it never changes playback, only how much is written down.</string>
+    <string name="settings_live_preroll_playlist_picker">Which playlist?</string>
+    <string name="settings_live_preroll_follow">Follow setting</string>
+    <string name="settings_video_seconds"><xliff:g id="seconds">%1$d</xliff:g>s of video</string>
+    <string name="settings_epg_offset_root_description">Shift the whole guide when a feed’s times don’t match what’s actually on. A single channel can be shifted on its own from its long-press menu (Live TV or Guide) — that’s the one for East/West versions sharing a guide.</string>
+    <string name="settings_epg_offset_dialog_description">Moves every programme in the guide. Use it when the whole feed is on the wrong clock; for a single channel (an East/West version sharing one guide), long-press the channel in Live TV or the Guide and set its own offset there.</string>
+    <string name="settings_panel_width_summary">Category <xliff:g id="category">%1$d</xliff:g>%% · List <xliff:g id="list">%2$d</xliff:g>%% · <xliff:g id="preview_label">%3$s</xliff:g> <xliff:g id="preview">%4$d</xliff:g>%%</string>
+    <string name="settings_panel_width_help">• The panels share one row, so their percentages must add up to 100%%.\n• Set the Preview or Poster panel to 0%% to hide it; Category and List stay at 10%% or more.\n• Widen one panel and you have to take the same amount off another before saving.\n• Reset puts a section back to the standard widths this screen started with.\n• Turning a section off restores its standard layout without losing your values.\n• Movie and series posters re-flow automatically, so a narrower list just shows fewer per row.</string>
+    <string name="settings_panel_width_preview">Preview</string>
+    <string name="settings_panel_width_poster">Poster</string>
+    <string name="settings_panel_width_dialog_title"><xliff:g id="section">%1$s</xliff:g> panel widths</string>
+    <string name="settings_panel_width_customize">Customize panel</string>
+    <string name="settings_panel_width_category">Category panel</string>
+    <string name="settings_panel_width_list">List panel</string>
+    <string name="settings_panel_width_preview_panel"><xliff:g id="label">%1$s</xliff:g> panel</string>
+    <string name="settings_panel_width_total">Total size</string>
+    <string name="settings_panel_width_invalid_total">Total size is <xliff:g id="total">%1$d</xliff:g>%%. It has to be 100%% — please adjust.</string>
+    <string name="settings_panel_width_disable_preview_title">Turn off Live Preview video?</string>
+    <string name="settings_panel_width_disable_preview_description">Live Preview video is currently on. Hiding the Preview panel will turn the video off, and it cannot be turned on again until you give the Preview panel a width in Panel Width Adjustment.</string>
+    <string name="settings_live_preview_panel_hidden_title">Live Preview video is unavailable</string>
+    <string name="settings_live_preview_panel_hidden_description">The Live TV Preview panel is hidden. Give it a width above 0%% in Panel Width Adjustment before turning Preview video on.</string>
+    <string name="settings_language_help_translate">Help translate OwnTV into your language</string>
+    <string name="settings_language_contribution_description">Scan the QR code or open the link to choose any available language and contribute across all six OwnTV translation components.</string>
+    <string name="settings_language_request_workflow">Want to add a language that isn\'t listed? Open a language request first. A maintainer will register it and prepare the base translation files; once it appears on Hosted Weblate, you can start contributing.</string>
+    <string name="settings_language_request_new">Request a new language</string>
+    <string name="settings_language_contribution_qr_description">QR code for the OwnTV translation project overview</string>
+    <string name="settings_language_contribution_qr_failed">The QR code could not be generated. Use the link shown below instead.</string>
+    <string name="settings_language_contribution_copy">Copy link</string>
+    <string name="settings_language_contribution_copied">Link copied</string>
+    <string name="settings_language_contribution_open_failed">The link could not be opened. Copy it instead.</string>
+    <string name="settings_language_contribution_copy_failed">The link could not be copied. Read or type the URL shown above.</string>
+    <string name="settings_ambient_glow">Ambient glow</string>
+    <string name="settings_ambient_glow_description">Adds setup-style radiance to the solid interface</string>
+    <string name="settings_ambient_glow_dialog_description">Adds a soft accent aura to the non-glass interface. Slow pulse gently breathes when animations are enabled.</string>
+    <string name="settings_ambient_glow_effect">Glow</string>
+    <string name="settings_ambient_glow_pulse">Slow pulse</string>
+    <string name="settings_glass_live_preview">Live preview</string>
+    <string name="settings_selection_highlight">Selection highlight</string>
+    <string name="settings_selection_highlight_description">Color and thickness of the ring around the selected item</string>
+    <string name="settings_background_playback">Background playback</string>
+    <string name="settings_background_playback_description">Keep the sound playing after you leave the app</string>
+    <string name="settings_pip">Picture-in-Picture</string>
+    <string name="settings_data_saver">Data saver</string>
+    <string name="settings_data_saver_description">Do not stream over mobile data</string>
+    <string name="settings_gesture_sensitivity">Gesture sensitivity</string>
+    <string name="settings_downloads_wifi_only">Download over Wi-Fi only</string>
+    <string name="settings_downloads_wifi_only_description">Wait for Wi-Fi instead of using mobile data</string>
+    <string name="settings_mini_player_style_description">How playback follows you while you browse</string>
+    <string name="settings_mini_player_style_floating">Floating window</string>
+    <string name="settings_mini_player_style_docked">Docked bar</string>
+    <string name="settings_pip_size">Window size</string>
+    <string name="settings_pip_size_small">Small</string>
+    <string name="settings_pip_size_medium">Medium</string>
+    <string name="settings_pip_size_large">Large</string>
+    <string name="settings_pip_snap">Snap to edges</string>
+    <string name="settings_audio_on_screen_off">Sound only when the screen turns off</string>
+    <string name="settings_audio_on_mobile_data">Sound only on mobile data</string>
+    <string name="settings_audio_on_mobile_data_description">Start without a picture when there is no Wi-Fi</string>
+    <string name="settings_audio_per_channel">Remember sound only per channel</string>
+    <string name="local_sync_title">Local sync</string>
+    <string name="local_sync_host_hint">On your other device, turn Sync mode on too, then tap Connect and pick this one.</string>
+    <string name="local_sync_qr_description">QR code with this device\'s address</string>
+    <string name="local_sync_pin_is">PIN: <xliff:g id="pin">%1$s</xliff:g></string>
+    <string name="local_sync_add_device">Find a device</string>
+    <string name="local_sync_paired_devices">Paired devices</string>
+    <string name="local_sync_working">Working…</string>
+    <string name="local_sync_find_hint">Both devices must be on the same Wi-Fi, and the other one must have Sync mode on.</string>
+    <string name="local_sync_searching">Searching the network…</string>
+    <string name="local_sync_found">Found on your network</string>
+    <string name="local_sync_scan_qr">Scan the code</string>
+    <string name="local_sync_scan_qr_description">Point the camera at the code on your other device</string>
+    <string name="local_sync_camera_denied">Without the camera you can still pick the device from the list, or type its address.</string>
+    <string name="local_sync_manual_address">Or type the address</string>
+    <string name="local_sync_manual_address_label">Address</string>
+    <string name="local_sync_enter_pin">Enter the PIN</string>
+    <string name="local_sync_enter_pin_description">Type the six digits shown on your other device. You only need to do this once.</string>
+    <string name="local_sync_pin_label">PIN</string>
+    <string name="local_sync_pair">Pair</string>
+    <string name="local_sync_send_to">Send to <xliff:g id="device">%1$s</xliff:g></string>
+    <string name="local_sync_send_description">Your data goes there. Nothing here changes.</string>
+    <string name="local_sync_receive_from">Receive from <xliff:g id="device">%1$s</xliff:g></string>
+    <string name="local_sync_receive_description">Its data comes here. Nothing there changes.</string>
+    <string name="local_sync_merge_with">Merge with <xliff:g id="device">%1$s</xliff:g></string>
+    <string name="local_sync_merge_description">Both devices end up with everything</string>
+    <string name="local_sync_unpair">Forget this device</string>
+    <string name="local_sync_unpair_description">You will need the PIN again next time</string>
+    <string name="local_sync_what_to_send">What to send</string>
+    <string name="local_sync_what_to_receive">What to receive</string>
+    <string name="local_sync_what_to_merge">What to merge</string>
+    <string name="local_sync_sections_hint">The same things a backup holds. Untick anything you would rather leave out.</string>
+    <string name="local_sync_everything">Everything</string>
+    <string name="local_sync_confirm_title">What will change</string>
+    <string name="local_sync_confirm_hint">Nothing has been changed yet. This is what applying it would do on this device.</string>
+    <string name="local_sync_nothing_to_change">Both devices already hold the same thing. There is nothing to apply.</string>
+    <string name="local_sync_merge_note">Your own data is sent back afterwards, so both devices end up the same.</string>
+    <string name="local_sync_change_profiles">New profiles: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="local_sync_change_sources">New playlists: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="local_sync_change_favorites">New favorites: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="local_sync_change_history">New history entries: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="local_sync_change_resume">New resume positions: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="local_sync_change_reorder">Ordering changes: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="local_sync_change_settings">Settings that differ: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="local_sync_change_deletions">Items to remove: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="local_sync_change_customize">Your customizations come across too</string>
+    <string name="local_sync_apply">Apply</string>
+    <string name="local_sync_done">Sync finished</string>
+    <string name="local_sync_received_items">Items received: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="local_sync_sent">Your data was sent</string>
+    <string name="local_sync_failed">Sync failed</string>
+    <string name="local_sync_error_unreachable">This device could not be reached. On it, open OwnTV → More → Local sync and turn Sync mode on. Both devices must be on the same Wi-Fi.</string>
+    <string name="local_sync_error_unauthorized">The other device refused. The PIN may be wrong, or it may have forgotten this device.</string>
+    <string name="local_sync_error_bad_payload">What arrived could not be read. If you used a password, check it is the same on both devices.</string>
+    <string name="local_sync_error_unknown">Something went wrong. Try again.</string>
+    <string name="local_sync_mode">Sync mode</string>
+    <string name="local_sync_connect">Connect</string>
+    <string name="local_sync_connect_description">Find another device that has Sync mode on</string>
+    <string name="local_sync_last_synced">Last synced: <xliff:g id="when">%1$s</xliff:g></string>
+    <string name="local_sync_already_paired">Already paired</string>
+    <string name="local_sync_device_with_code"><xliff:g id="name">%1$s</xliff:g> (<xliff:g id="code">%2$s</xliff:g>)</string>
+    <string name="local_sync_profile_note">Only the profile in use syncs: <xliff:g id="profile">%1$s</xliff:g> here, with the profile in use on the other device.</string>
+    <string name="local_auto_sync_title">Auto-sync</string>
+    <string name="local_auto_sync_for_device">What this device syncs with <xliff:g id="device">%1$s</xliff:g> by itself, and how often.</string>
+    <string name="local_auto_sync_enable">Auto-sync with this device</string>
+    <string name="local_auto_sync_enable_hint">Open Local sync on the other device too: it is asked to allow it.</string>
+    <string name="local_auto_sync_waiting">Waiting for <xliff:g id="device">%1$s</xliff:g> to allow…</string>
+    <string name="local_auto_sync_declined"><xliff:g id="device">%1$s</xliff:g> didn\'t allow auto-sync.</string>
+    <string name="local_auto_sync_accept_title">Allow auto-sync?</string>
+    <string name="local_auto_sync_accept_body"><xliff:g id="device">%1$s</xliff:g> wants to sync with this device by itself whenever OwnTV is open on both. Only what you allow on this device comes in, and either device can turn it off.</string>
+    <string name="local_auto_sync_accept">Allow</string>
+    <string name="local_auto_sync_decline">Don\'t allow</string>
+    <string name="local_auto_sync_what_to_sync">What this device syncs</string>
+    <string name="local_auto_sync_when">How often</string>
+    <string name="local_auto_sync_timing_immediately">Each time either app opens or closes</string>
+    <string name="local_auto_sync_timing_daily">Daily</string>
+    <string name="local_auto_sync_timing_weekly">Weekly</string>
+    <string name="local_auto_sync_note">Auto-sync merges both ways, and deletions stay deleted. Each device decides what it lets through: playlists with their logins and Settings travel only where they are ticked.</string>
+    <string name="local_auto_sync_last_run">Last auto-sync: <xliff:g id="when">%1$s</xliff:g></string>
+    <string name="local_auto_sync_their_sections"><xliff:g id="device">%1$s</xliff:g> syncs: <xliff:g id="sections">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profiles">Profiles: <xliff:g id="here">%1$s</xliff:g> ↔ <xliff:g id="there">%2$s</xliff:g></string>
+    <string name="local_auto_sync_profile_hint">Pairs this profile, <xliff:g id="profile">%1$s</xliff:g>, with the profile in use on <xliff:g id="device">%2$s</xliff:g>.</string>
+    <string name="local_auto_sync_turned_off">Auto-sync turned off on <xliff:g id="device">%1$s</xliff:g></string>
+    <string name="local_auto_sync_unreachable">Couldn\'t reach <xliff:g id="device">%1$s</xliff:g>, will try again</string>
+    <string name="local_auto_sync_listen">Keep auto-sync listening</string>
+    <string name="local_auto_sync_listen_description">On: paired devices can auto-sync with this one whenever OwnTV is open here. Off: only while Sync mode is on.</string>
+    <string name="local_auto_sync_listening">Listening</string>
+    <string name="more_pane_last_backup">Last backup</string>
+    <string name="more_pane_encrypted">Encrypted</string>
+    <string name="more_group_your_things">Your things</string>
+    <string name="more_group_keep_safe">Keep it safe</string>
+    <string name="more_profile_switch">Switch</string>
+    <string name="more_fav_movies_series">Movies &amp; Series</string>
+    <string name="more_fav_empty_title">No favorites yet</string>
+    <string name="more_fav_empty_body">Hold OK on a channel, film or show and choose Add to Favorites.</string>
+    <string name="more_fav_empty_body_mobile">Touch and hold a channel, film or show and choose Add to Favorites.</string>
+    <string name="more_history_empty">Nothing watched yet</string>
+    <string name="more_backup_never_title">Never backed up</string>
+    <string name="more_backup_never_body"><xliff:g id="playlists">%1$s</xliff:g>, <xliff:g id="favorites">%2$s</xliff:g>, <xliff:g id="history">%3$s</xliff:g> and every customization live only on this TV.</string>
+    <string name="more_backup_never_body_mobile"><xliff:g id="playlists">%1$s</xliff:g>, <xliff:g id="favorites">%2$s</xliff:g>, <xliff:g id="history">%3$s</xliff:g> and every customization live only on this phone.</string>
+    <string name="more_backup_now">Back up now</string>
+    <string name="more_backup_now_body">Save a file on this TV, or send it by Remote to another device</string>
+    <string name="more_backup_now_body_mobile">Save a file on this phone, or send it to another device</string>
+    <string name="more_backup_file_tv">File on this TV</string>
+    <string name="more_backup_file_tv_mobile">File on this phone</string>
+    <string name="more_restore_body">From a file on this TV, or by Remote from another device</string>
+    <string name="more_restore_body_mobile">From a file on this phone, or by Remote from another device</string>
+    <string name="more_backup_included">What\'s included</string>
+    <string name="more_about_up_to_date">Up to date</string>
+    <string name="more_about_checked">Checked <xliff:g id="value">%1$s</xliff:g></string>
+    <string name="more_settings_pin_hint">Hold OK on a row to pin it to Quick</string>
+    <string name="more_settings_search">Search all settings</string>
+    <string name="settings_card_profile">Viewers, kids mode, PIN locks</string>
+    <string name="settings_card_sources">Playlists, EPG, reminders, catch-up</string>
+    <string name="settings_card_appearance">Theme, accent, glass, text</string>
+    <string name="settings_card_layout">Navigation, panels, Home, menus</string>
+    <string name="settings_card_content">Categories, TMDB, subtitles</string>
+    <string name="settings_card_player">Which player, streaming</string>
+    <string name="settings_card_picture">Decoder, HDR, zoom, frame rate</string>
+    <string name="settings_card_sound">Volume, surround, languages</string>
+    <string name="settings_card_live">Preview, rewind, latency, start-up</string>
+    <string name="settings_card_watching">Skip, resume, multiview, recording</string>
+    <string name="settings_card_app">Language, updates, network, diagnostics</string>
+    <string name="more_sync_description">Share your data with your other device over Wi-Fi. Nothing leaves your home network.</string>
+    <string name="more_sync_mode_description">Lets your other devices find this one. Stays on while this page is open.</string>
+    <string name="more_sync_unpair">Unpair</string>
+    <string name="more_about_license">GPLv3 · free and open source</string>
+    <string name="more_about_description">Your own IPTV player for Android TV. It provides no channels or content; you bring your own legally accessible sources.</string>
+    <string name="more_about_description_mobile">Your own IPTV player for Android. It provides no channels or content; you bring your own legally accessible sources.</string>
+    <string name="more_about_scan">Scan with your phone.</string>
+    <string name="more_about_scan_mobile">Scan, or tap to open</string>
+    <plurals name="more_playlist_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> playlist</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> playlists</item>
+    </plurals>
+    <plurals name="more_count_favorites">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> favorite</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> favorites</item>
+    </plurals>
+    <plurals name="more_count_history">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> history item</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> history items</item>
+    </plurals>
+    <plurals name="more_about_languages">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> language</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> languages</item>
+    </plurals>
+    <plurals name="more_settings_pinned_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> pinned</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> pinned</item>
+    </plurals>
+    <plurals name="more_downloads_running_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> running</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> running</item>
+    </plurals>
+    <string name="settings_backup_location">Location</string>
+    <string name="settings_multiview">Multiview</string>
+    <string name="settings_multiview_description">Watch several live channels at once. You choose how many each time, up to this limit — every tile uses one of your provider\'s connections.</string>
+    <string name="settings_multiview_tiles_max">Most tiles</string>
+    <string name="settings_multiview_tiles_max_value">Max <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_multiview_warning_title">More than two tiles</string>
+    <string name="settings_multiview_warning_description">Three or four tiles need three or four connections from your provider, and a TV box can only decode so many channels at once. If a tile can\'t start it says why, and the other tiles keep playing.</string>
+    <string name="settings_multiview_keep_two">Keep 2</string>
+    <string name="settings_multiview_use_anyway">Use anyway</string>
+    <string name="settings_app_icon">App icon</string>
+    <string name="settings_app_icon_summary">Color of the OwnTV icon and logo</string>
+    <string name="settings_app_icon_sheet_mobile">How OwnTV appears on your home screen. The app restarts once.</string>
+    <string name="settings_brand_accent">Accent-colored logo</string>
+    <string name="app_icon_petrol">Petrol</string>
+    <string name="app_icon_sunflower">Sunflower</string>
+    <string name="app_icon_cobalt">Cobalt</string>
+    <string name="app_icon_tomato">Tomato</string>
+    <string name="app_icon_board">Station Board</string>
+    <string name="app_icon_eggshell">Eggshell</string>
+    <string name="app_icon_olive">Olive</string>
+    <string name="app_icon_olive_cream">Olive on Cream</string>
+    <string name="app_icon_pixel">Pixel</string>
+    <string name="app_icon_restart_title">Restart OwnTV?</string>
+    <string name="app_icon_restart_message">You chose a new icon and logo. They take effect after OwnTV restarts.</string>
+    <string name="app_icon_restart_now">Restart now</string>
+    <string name="settings_navigation">Navigation</string>
+    <string name="settings_navigation_description">How the menu on the left behaves</string>
+    <string name="settings_nav_floating">Floating</string>
+    <string name="settings_nav_floating_desc">Over the content; hides itself while you browse, ◀ at the edge calls it back</string>
+    <string name="settings_nav_docked">Docked</string>
+    <string name="settings_nav_docked_desc">Always on screen; the content makes room</string>
+    <string name="settings_nav_hide_after">Hide after</string>
+    <string name="settings_nav_hide_after_desc">Floating only: how long the rail waits once focus leaves it</string>
+    <string name="settings_nav_widen">Widen on focus</string>
+    <string name="settings_nav_widen_desc">Docked and Compact: shows the names over the content while the rail has focus</string>
+    <string name="settings_nav_menu_labels">Menu labels</string>
+    <string name="settings_nav_menu_labels_desc">The section names beside the icons: off, while the rail has focus, or all the time</string>
+    <string name="settings_nav_menu_labels_focused">When focused</string>
+    <string name="settings_nav_menu_labels_always">Always</string>
+    <string name="settings_nav_menu_labels_summary">Labels: <xliff:g id="choice">%1$s</xliff:g></string>
+    <string name="settings_search_keywords_menu_labels">labels, names, text, icons only, rail, sidebar, menu, widen, wide</string>
+    <string name="settings_nav_menu_items">Menu items</string>
+    <string name="settings_nav_menu_items_desc">Dynamic: follows what the playlist has · Static: you pick them</string>
+    <string name="settings_nav_bar">Bar</string>
+    <string name="settings_nav_labels">Labels</string>
+    <string name="settings_nav_icons_only">Icons only</string>
+    <string name="settings_nav_hide_scrolling">Hide while scrolling</string>
+    <string name="settings_nav_hide_scrolling_desc">The bar slides away as you scroll down, back on the way up</string>
+    <string name="settings_sheet_counts">Show counts</string>
+    <string name="settings_sheet_counts_desc">Channel and title counts in the sheets</string>
+    <string name="settings_search_keywords_navigation">rail, sidebar, menu, navigation, hide, floating, docked, size, compact, wide, length, full height</string>
+    <string name="settings_breadcrumb_eyebrow"><xliff:g id="section">%1$s</xliff:g> · <xliff:g id="group">%2$s</xliff:g></string>
+    <string name="settings_nav_size_desc">Compact: icons · Normal: names · Wide: names and counts · Extra wide: with details</string>
+    <string name="settings_nav_size_compact">Compact</string>
+    <string name="settings_nav_size_normal">Normal</string>
+    <string name="settings_nav_size_wide">Wide</string>
+    <string name="settings_nav_size_extra_wide">Extra wide</string>
+    <string name="settings_nav_length">Length</string>
+    <string name="settings_nav_length_desc">Fit to its items, or the full height of the screen</string>
+    <string name="settings_nav_length_fit">Fit to items</string>
+    <string name="settings_nav_length_full">Full height</string>
+    <string name="settings_nav_hide_after_half">0.5 seconds</string>
+    <plurals name="settings_nav_hide_after_seconds">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> second</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> seconds</item>
+    </plurals>
+    <string name="settings_live_layout">Live TV layout</string>
+    <string name="settings_live_layout_description">Categories as a sheet, or always on screen</string>
+    <string name="settings_live_layout_stage">Stage</string>
+    <string name="settings_live_layout_stage_description">Press Left to open the categories. The channel list and preview get the full width.</string>
+    <string name="settings_live_layout_separate_description">Categories, the channel list and the preview side by side.</string>
+    <string name="settings_search_keywords_live_layout">layout live tv channels categories sheet panels stage</string>
+    <string name="settings_panel_width_live_sheet">Categories sheet</string>
+    <string name="settings_panel_width_live_sheet_hint">How wide the categories open over the list with Left. Not part of the 100%%.</string>
+    <string name="settings_panel_width_summary_stage">Categories sheet <xliff:g id="sheet">%1$d</xliff:g>%% · List <xliff:g id="list">%2$d</xliff:g>%% · Preview <xliff:g id="preview">%3$d</xliff:g>%%</string>
+    <string name="settings_live_opens_in">Live TV opens in</string>
+    <string name="settings_live_opens_in_description">Open Live TV on the channel list or on the guide grid. The Guide view button in Live TV switches it too.</string>
+    <string name="settings_reminders">Program reminders</string>
+    <string name="settings_reminders_description">What happens when a program you set a reminder for is about to start.</string>
+    <string name="settings_reminder_ask">Ask to switch</string>
+    <string name="settings_reminder_switch">Switch</string>
+    <string name="settings_reminder_notify">Notify only</string>
+    <string name="settings_reminder_lead">Reminder time</string>
+    <string name="settings_reminder_lead_description">How long before the program starts the reminder comes.</string>
+    <string name="settings_reminder_at_start">At the start</string>
+    <string name="settings_search_keywords_reminders">reminder remind alert notify program programme start switch</string>
+    <string name="settings_search_keywords_live_opens_in">live tv opens start list guide grid view</string>
+    <string name="settings_panel_width_summary_cinematic">Categories sheet <xliff:g id="sheet">%1$d</xliff:g>%% · Details height <xliff:g id="height">%2$d</xliff:g>%%</string>
+    <string name="settings_panel_width_cinematic_sheet_hint">How wide the categories open over the titles with Left.</string>
+    <string name="settings_key_change">Change</string>
+    <string name="settings_key_switch">Switch</string>
+    <string name="settings_key_open">Open</string>
+    <string name="settings_key_unpin">Unpin</string>
+    <string name="settings_panel_choices">Choices</string>
+    <string name="settings_panel_recommended">Recommended</string>
+    <string name="settings_part_guide_catchup">Guide &amp; catch-up</string>
+    <string name="settings_vp_cat_controls_resume">Controls &amp; resume</string>
+    <string name="settings_pinned_from">Pinned from <xliff:g id="group">%1$s</xliff:g></string>
+    <string name="settings_check_now">Check now</string>
+    <string name="settings_line_epg_offset">Shift the whole guide when a feed’s times are off</string>
+    <string name="settings_line_reminders">What happens when a reminder is due</string>
+    <string name="settings_line_reminder_lead">How early a reminder comes</string>
+    <string name="settings_line_guide_days">How many days ahead the guide keeps</string>
+    <string name="settings_line_catchup">The time zone catch-up archives run on</string>
+    <string name="settings_line_catchup_sources">Override the time zone for one playlist</string>
+    <string name="settings_line_override_playlist">Override for one playlist</string>
+    <string name="settings_line_accent">Tints buttons, focus and highlights everywhere</string>
+    <string name="settings_line_fonts">One family for the main interface and popups</string>
+    <string name="settings_line_popup_size">Scale dialogs and menus without changing their text</string>
+    <string name="settings_line_animations">Off feels snappier on lower-end TV boxes</string>
+    <string name="settings_line_weather">Top-right weather: location and °C / °F</string>
+    <string name="settings_line_live_opens_in">The channel list, or the guide grid</string>
+    <string name="settings_line_vod_layout">Separate panels, or one cinematic view</string>
+    <string name="settings_line_panel_width">Category, list and preview widths</string>
+    <string name="settings_line_guide_width">Channel list and timeline</string>
+    <string name="settings_line_browsing">Remember the last category and item</string>
+    <string name="settings_line_home">Choose, reorder and filter the rows</string>
+    <string name="settings_line_content_menus">Rearrange or hide the actions in each menu</string>
+    <string name="settings_line_remote_shortcuts">Assign spare remote buttons</string>
+    <string name="settings_line_customize">Hide and unhide, rename and reorder</string>
+    <string name="settings_line_metadata">Posters, plots, cast and ratings for Movies and Series</string>
+    <string name="settings_line_open_subtitles">Search and download subtitles</string>
+    <string name="settings_line_app_icon">The launcher icon</string>
+    <string name="settings_line_brand_accent">The logo\'s play triangle in your accent color</string>
+    <string name="settings_line_check_updates">Get the latest version from GitHub</string>
+    <string name="settings_line_when_app_opens">When the app opens</string>
+    <string name="settings_line_proxy">All traffic through an HTTP proxy</string>
+    <string name="settings_line_dns">A custom DNS server</string>
+    <string name="settings_line_quick_live_preview">Play the focused channel in Live TV</string>
+    <string name="settings_line_preview_sound">Sound in the Live preview</string>
+    <string name="settings_line_preview_on_ok">Preview first, then full screen</string>
+    <string name="settings_line_quick_channel_numbers">Type a number on the remote to tune</string>
+    <string name="settings_line_prefer_sdr">SDR when a stream offers both</string>
+    <string name="settings_line_quick_autoplay">Start the next episode by itself</string>
+    <string name="settings_line_live_engine">Which engine opens channels, and the fallback</string>
+    <string name="settings_line_saved_live_choices">Channels you switched by hand</string>
+    <string name="settings_line_vod_engine">Which engine opens films and episodes</string>
+    <string name="settings_line_saved_choices">Films and episodes you switched by hand</string>
+    <string name="settings_line_external">VLC, MX Player… per section</string>
+    <string name="settings_line_vod_buffer">How far ahead films are loaded</string>
+    <string name="settings_line_vod_timeout">Wait on a silent server</string>
+    <string name="settings_line_vod_reconnects">Reopen where it stopped</string>
+    <string name="settings_line_hw">Use the TV’s own decoder</string>
+    <string name="settings_line_max_quality">The highest picture when there are several</string>
+    <string name="settings_line_tunneled">Experimental · Live TV on ExoPlayer</string>
+    <string name="settings_line_zoom">Aspect and zoom when playback starts</string>
+    <string name="settings_line_saved_zoom">Zoom you changed in the player</string>
+    <string name="settings_line_films_only">Films only</string>
+    <string name="settings_line_volume">Above 100%% quiet streams are amplified</string>
+    <string name="settings_line_saved_volume">Volume you changed in the player</string>
+    <string name="settings_line_surround">5.1 and 7.1 as the TV gets them</string>
+    <string name="settings_line_passthrough">Undecoded to the TV or soundbar</string>
+    <string name="settings_line_night_mode">Loud scenes down, dialogue up</string>
+    <string name="settings_line_leveling">Every channel at the same loudness</string>
+    <string name="settings_line_audio_sync">Shift audio earlier or later</string>
+    <string name="settings_line_output_audio_delay">Extra delay for the output playing now</string>
+    <string name="settings_line_saved_audio_sync">Delays you remembered in the player</string>
+    <string name="settings_line_audio_lang">Plays this track when the stream has it</string>
+    <string name="settings_line_sub_lang">Turn on subtitles in this language</string>
+    <string name="settings_line_sub_style">Size, color, position, background</string>
+    <string name="settings_title_fonts">Fonts &amp; text size</string>
+    <string name="settings_title_saved_live_choices">Saved live TV player choices</string>
+    <string name="settings_title_saved_choices">Saved player choices</string>
+    <string name="settings_title_tunneled">Tunneled playback</string>
+    <string name="settings_title_saved_zoom">Saved zoom</string>
+    <string name="settings_title_saved_volume">Saved volume</string>
+    <string name="settings_title_saved_audio_sync">Saved audio sync</string>
+    <string name="settings_line_channel_numbers">The provider’s number beside the name</string>
+    <string name="settings_line_live_preview">Play the focused channel</string>
+    <string name="settings_line_timeshift">Channels without catch-up, saved while you watch</string>
+    <string name="settings_line_timeshift_window">How far back you can go</string>
+    <string name="settings_line_left_right">With the controls hidden</string>
+    <string name="settings_line_latency">How close to live to play</string>
+    <string name="settings_line_preroll">Video collected before a channel starts</string>
+    <string name="settings_line_tune_timeout">Stop trying and say so</string>
+    <string name="settings_line_seek_step">How far rewind and forward jump in a film</string>
+    <string name="settings_line_rewind_step">How far they jump on a live channel</string>
+    <string name="settings_line_resume">When a film has a saved position</string>
+    <string name="settings_line_autoplay">And into the next season</string>
+    <string name="settings_line_tiles">Each tile is another stream</string>
+    <string name="settings_line_mini">Size and position</string>
+    <string name="settings_line_pip">Keep watching in a small window</string>
+    <string name="settings_line_rec_reserve">Never record on every connection</string>
+    <string name="settings_line_rec_watching">Not a second stream</string>
+    <string name="settings_line_rec_pre_roll">Before the program begins</string>
+    <string name="settings_line_rec_post_roll">For programs that overrun</string>
+    <string name="settings_line_measured_stats">Live fps, bitrate and dropped frames</string>
+    <string name="settings_line_logging">A full trace for bug reports</string>
+    <string name="settings_help_profiles">Each viewer keeps their own favorites, watch history, resume points and Home rows. Kids mode shows only the categories you allow; a PIN stops anyone else from opening the profile.</string>
+    <string name="settings_help_playlists">Add a playlist from a link, an Xtream login, a Stalker portal or a file, re-sync one, or remove it.</string>
+    <string name="settings_help_epg_sources">Add an XMLTV guide feed by its link, refresh it, or remove it. Feeds fill the TV Guide and the program lines in Live TV.</string>
+    <string name="settings_help_guide_days">How many days of programs the guide stores ahead. Fewer days make guide refreshes faster and the database smaller.</string>
+    <string name="settings_help_catchup_timezone">Catch-up plays programs from your provider’s archive. Automatic uses the time zone your provider reports, or your TV’s own clock if it reports none; choose a fixed UTC offset if catch-up still starts at the wrong time. This is also where you choose which player catch-up uses.</string>
+    <string name="settings_help_theme">Dark is what OwnTV is designed for. System follows the TV’s own setting where it has one; Light suits a bright room.</string>
+    <string name="settings_help_accent">Tints buttons, the focus glow, progress bars and highlights everywhere. Pick a preset, or press OK for the palette and any hex code.</string>
+    <string name="settings_help_focus">The ring drawn around whatever has focus. Pick its color and thickness so it stays easy to follow from the sofa.</string>
+    <string name="settings_help_fonts">The font used across OwnTV, and how large text is drawn. Popups use the same font.</string>
+    <string name="settings_help_popup_size">Makes popups, menus and dialogs larger or smaller as a whole. Use it when popups feel cramped or cover too much of the screen.</string>
+    <string name="settings_help_zoom">Scales everything on screen. Larger is easier to read from a distance; smaller fits more on screen. Below 85%% low-memory TV boxes can run out of memory.</string>
+    <string name="settings_help_animations">Sheets, menus and focus move smoothly while this is on. Off makes every change instant.</string>
+    <string name="settings_help_weather">Shows the temperature and your town next to the clock. Set a location by hand when the automatic one is wrong — behind a VPN, for example — and choose Celsius or Fahrenheit.</string>
+    <string name="settings_help_navigation">Floating: the menu rests as a small capsule over the content and slides open when you move left. Docked: it always takes its own room. Size sets how much it shows, from icons only to counts and details.</string>
+    <string name="settings_help_live_layout">Stage shows the categories as a sheet that slides in with ◀, so the channel list and preview get the room. Separate keeps the categories on screen beside the list.</string>
+    <string name="settings_help_vod_layout">Cinematic shows the focused title’s artwork behind a grid of posters. Separate shows categories, titles and details side by side.</string>
+    <string name="settings_help_home">Pick which rows Home shows and in what order, and how the Now trending row looks.</string>
+    <string name="settings_help_customize">Hide categories and items you never watch, give categories your own names and put them in your order. Hidden things come back here, never lost.</string>
+    <string name="settings_help_app_icon">The OwnTV icon on your TV’s home screen. The launcher may take a moment to show the change.</string>
+    <string name="settings_help_brand_accent">The OwnTV logo in the menu, About and setup shows its play triangle in your accent color. The icon on the home screen keeps its own colors.</string>
+    <string name="settings_help_startup">What OwnTV shows when it starts: Home, the channel you watched last, your favorites, or a channel you pick.</string>
+    <string name="settings_help_check_updates">Looks on GitHub for a newer OwnTV now and offers to install it. Your playlists, favorites and settings stay as they are.</string>
+    <string name="settings_help_update_startup">Looks for a new version each time OwnTV starts and tells you when there is one. Nothing is installed without asking.</string>
+    <string name="settings_help_auto_start_boot">Opens OwnTV by itself once the TV has started up, on the screen chosen in App startup. Android lets an app open by itself only when it may display over other apps, so turning this on opens that permission’s screen. Some TVs do not offer it, and then auto start cannot work there.</string>
+    <string name="settings_help_auto_start_wake">Opens OwnTV each time the TV wakes from sleep, also when you woke it for another app. If App startup opens a channel, every wake-up starts that stream. While this is on, OwnTV keeps a small background service with a silent notification. Like auto start on boot, it needs permission to display over other apps.</string>
+    <string name="settings_help_dns">Looks up your provider’s addresses with a DNS server of your choice instead of your network’s own — useful when your network blocks or redirects them.</string>
+    <string name="settings_help_live_engine">ExoPlayer opens channels much faster and is the only one with live subtitles. mpv plays channels ExoPlayer can’t, including some unusual audio. The combined options try the other player when the first one fails.</string>
+    <string name="settings_help_hw">Uses the TV’s hardware decoder: smooth 4K and less heat. Turn it off only if some streams stutter or show blocks; the software decoder then does the work.</string>
+    <string name="settings_help_volume">The volume every channel, film and episode starts at. Above 100%% quiet streams are amplified. A volume you change in the player is kept for that title until you reset it.</string>
+    <string name="settings_help_channel_numbers">Shows your provider’s channel number beside the name in the Live TV list, the channel-list overlay and the player, and lets you type a number on the remote in full screen to jump to that channel.</string>
+    <string name="settings_help_seek_step">How far rewind and forward jump in a film or episode with one press. Holding the key keeps jumping.</string>
+    <string name="settings_help_zoom_mode">How the picture fills the screen when playback starts. Fit shows the whole picture; the other choices fill, stretch or force a shape. A zoom changed in the player is kept for that title.</string>
+    <string name="settings_help_sub_lang">Subtitles in this language are switched on by themselves when a stream has them. Otherwise subtitles stay off until you pick a track in the player.</string>
+    <string name="settings_help_live_preview">The focused channel plays in the preview beside the Live TV list, so you see what is on before you open it. Needs a layout with room for the preview.</string>
+    <string name="settings_help_preview_audio">Plays the preview’s sound as well as its picture. Off keeps browsing quiet.</string>
+    <string name="settings_help_preview_on_ok">Pick where OK on a channel first plays it in the preview, and OK on the same channel again opens it full screen. In Live TV the preview then stays on that channel while you browse. Where it is off, OK opens the channel full screen at once and the preview follows the highlight.</string>
+    <string name="settings_help_timeshift_window">How far back Pause and rewind live TV can go on a channel without catch-up. Longer keeps more of the channel in this device’s storage.</string>
+    <string name="settings_help_resume">Ask to resume offers Resume or Start over when a film or episode has a saved position. Always resume carries on where you stopped; Never resume starts from the beginning.</string>
+    <string name="settings_help_mini">The small player that keeps a channel going in a corner while you browse. Choose its size and the corner it sits in.</string>
+    <string name="settings_help_pip">Press Home or open another app while a video plays full screen or in the mini-player, and it keeps playing in a small window over the rest of the TV. Open OwnTV again to bring it back full screen; close the window to stop playback. Multiview stays in OwnTV.</string>
+    <string name="settings_key_palette">Palette</string>
+    <string name="settings_live_preview_note">Changes show here as you move, before you leave the row.</string>
+    <string name="settings_synced_at">Synced <xliff:g id="when">%1$s</xliff:g></string>
+    <string name="settings_profile_in_use">In use</string>
+    <string name="settings_profile_kids">Kids mode</string>
+    <string name="settings_profile_pin_lock">PIN lock</string>
+    <string name="settings_profile_no_lock">No lock</string>
+    <string name="settings_profile_add">Add a profile</string>
+    <string name="settings_profile_add_line">A viewer with their own favorites, history and settings</string>
+    <plurals name="settings_help_language">
+        <item quantity="one">The language of every menu and message in OwnTV. <xliff:g id="count">%1$d</xliff:g> language; follows the TV’s own language until you pick one.</item>
+        <item quantity="other">The language of every menu and message in OwnTV. <xliff:g id="count">%1$d</xliff:g> languages; follows the TV’s own language until you pick one.</item>
+    </plurals>
+    <plurals name="settings_profile_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> profile</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> profiles</item>
+    </plurals>
+    <string name="settings_seg_separate">Separate</string>
+    <string name="settings_seg_guide">Guide</string>
+    <string name="settings_accent_yours">Yours</string>
+    <string name="settings_accent_picker_hint">OK on the field or the hue bar, then the arrows move it; OK or Back to finish.</string>
+    <string name="settings_signed_out">Signed out</string>
+    <plurals name="settings_epg_feed_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> feed</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> feeds</item>
+    </plurals>
+    <string name="settings_title_date_time_weather">Date, time &amp; weather</string>
+    <string name="settings_line_show_weather">Current weather in the top bar</string>
+    <string name="settings_line_custom_location">Blank = auto-detect</string>
+    <string name="settings_line_temperature_unit">Celsius or Fahrenheit</string>
+    <string name="settings_clock_colors">Colors</string>
+    <string name="settings_clock_time_color">Time color</string>
+    <string name="settings_line_clock_time">The clock</string>
+    <string name="settings_clock_date_color">Date color</string>
+    <string name="settings_line_clock_date">The date under the clock</string>
+    <string name="settings_clock_weather_color">Weather color</string>
+    <string name="settings_line_clock_weather">Temperature and city</string>
+    <string name="settings_clock_color_white">White</string>
+    <string name="settings_clock_color_grey">Grey</string>
+    <string name="settings_clock_color_accent">Accent</string>
+    <string name="settings_clock_color_help">OK opens the color picker (presets, palette or a hex code), the same one as Accent color. The preview follows as you move.</string>
+    <string name="settings_key_pick_color">Pick color</string>
+    <string name="settings_line_trending_layout">How the trending row is drawn</string>
+    <string name="settings_home_shown">Shown</string>
+    <string name="settings_home_hide_row">Hide this row</string>
+    <string name="settings_home_show_row">Show this row</string>
+    <string name="settings_home_move_row">Move (▲ ▼, then OK)</string>
+    <string name="settings_line_remote_shortcuts_on">Off keeps your assignments</string>
+    <string name="settings_language_system_help">OwnTV follows the language of the TV (now <xliff:g id="language">%1$s</xliff:g>). Pick one below to use it in OwnTV only.</string>
+    <string name="settings_language_pick_help">Use <xliff:g id="language">%1$s</xliff:g> in OwnTV, whatever language the TV is set to.</string>
+    <string name="settings_key_use">Use</string>
+    <string name="settings_line_metadata_source">Where Movies &amp; Series details come from</string>
+    <string name="settings_line_metadata_language">Plots, genres and titles from TMDB</string>
+    <string name="settings_line_metadata_advanced">Your own key or a self-hosted Worker</string>
+    <string name="settings_line_os_advanced">Your own API key or Worker</string>
+    <string name="settings_line_os_filter">Only your chosen language</string>
+    <string name="settings_line_os_search_language">Shown in search results</string>
+    <string name="settings_subtitle_delete_help">Deleting frees the space; you can download it again from the player.</string>
+    <plurals name="settings_home_row_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> row</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> rows</item>
+    </plurals>
+    <plurals name="settings_subtitles_downloaded_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> downloaded</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> downloaded</item>
+    </plurals>
+    <plurals name="settings_subtitle_file_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> file</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> files</item>
+    </plurals>
+    <string name="settings_line_add_from_phone">Fill the form in a browser on another device</string>
+    <string name="settings_add_type_here">Type it here</string>
+    <string name="settings_line_add_type_here">Xtream, M3U or Stalker with the remote</string>
+    <string name="settings_help_add_from_phone">Open the address or scan the code in a browser on any device on the same Wi-Fi — a phone, a computer or another TV — fill in your playlist there and send it here. Much faster than typing a URL with the remote.</string>
+    <string name="settings_help_add_type_here">Type an Xtream login, an M3U address or a Stalker portal with the remote, then start the import from the panel.</string>
+    <string name="settings_remote_waiting">Waiting for the other device</string>
+    <string name="settings_remote_nothing_yet">Nothing received yet</string>
+    <string name="settings_remote_new_pin">New PIN</string>
+    <string name="settings_line_remote_new_pin">If someone else saw this one</string>
+    <string name="settings_remote_scan">Scan or open in a browser</string>
+    <string name="settings_remote_or_open">or open</string>
+    <string name="settings_remote_details_note">The details appear here; you press Start import with the remote.</string>
+    <string name="settings_remote_edit_note">The changes fill the edit screen; you press Save with the remote.</string>
+    <string name="settings_help_edit_from_phone">Opens this playlist in a browser on a phone, tablet or computer on the same Wi-Fi. Passwords, MAC addresses and M3U playlist addresses are never shown there: leave them empty to keep them. What you send fills this screen, and nothing changes until you press Save.</string>
+    <string name="settings_key_stop_back">Stop and go back</string>
+    <string name="settings_source_type">Type</string>
+    <string name="settings_line_source_type">Xtream, M3U or Stalker portal</string>
+    <string name="settings_choose_local_file">Choose a local file…</string>
+    <string name="settings_line_local_file">.m3u or .m3u8 on this TV</string>
+    <string name="settings_form_optional">Optional</string>
+    <string name="settings_form_field_help">OK opens the keyboard; ▼ moves to the next field.</string>
+    <string name="settings_help_playlist_url">The address of your .m3u or .m3u8 list.</string>
+    <string name="settings_line_fill_from_playlist">Use the guide address your playlist gives</string>
+    <string name="settings_line_epg_auto_refresh">Keep the guide up to date</string>
+    <string name="settings_line_epg_logos">Instead of the playlist’s</string>
+    <string name="settings_help_epg_name">Shown in the guide list and in Pick EPG manually.</string>
+    <string name="settings_glass_bg_title">Glass &amp; background</string>
+    <string name="settings_line_glass_bg">Background, picture look, glass</string>
+    <string name="settings_bg_background">Background</string>
+    <string name="settings_line_bg_background">What sits behind every screen</string>
+    <string name="settings_help_bg_background">Stage draws OwnTV’s own soft colors. Picture shows a picture of yours behind every screen. Plain is a flat dark fill.</string>
+    <string name="settings_bg_stage">Stage</string>
+    <string name="settings_bg_picture">Picture</string>
+    <string name="settings_bg_plain">Plain</string>
+    <string name="settings_line_bg_picture_none">Choose a picture from this TV or by Remote</string>
+    <string name="settings_line_bg_picture_none_mobile">Choose a picture from this phone</string>
+    <string name="settings_bg_picture_from_phone"><xliff:g id="file" example="sunset.jpg">%1$s</xliff:g> · from this phone</string>
+    <string name="settings_bg_change">Change</string>
+    <string name="settings_bg_none">None</string>
+    <string name="settings_bg_look">Picture look</string>
+    <string name="settings_line_bg_look">Sharp, Soft or Dark</string>
+    <string name="settings_bg_sharp">Sharp</string>
+    <string name="settings_bg_soft">Soft</string>
+    <string name="settings_bg_dark">Dark</string>
+    <string name="settings_bg_sharp_desc">The picture as it is, only lightly dimmed</string>
+    <string name="settings_bg_soft_desc">Blurred and dimmed; text is always readable</string>
+    <string name="settings_bg_dark_desc">Mostly black with a hint of the picture</string>
+    <string name="settings_help_bg_look">How your picture sits behind the screens. Rows and text are drawn straight on it, so a bright picture needs Soft or Dark.</string>
+    <string name="settings_bg_picture_only">Picture only</string>
+    <string name="settings_bg_darken">Darken</string>
+    <string name="settings_line_bg_darken">How much the picture is dimmed</string>
+    <string name="settings_bg_blur">Blur</string>
+    <string name="settings_line_bg_blur">How soft the picture is</string>
+    <string name="settings_bg_accent_light">Accent light</string>
+    <string name="settings_line_bg_accent_light">Your accent color glows in the corner</string>
+    <string name="settings_glass_section">Glass</string>
+    <string name="settings_line_glass_switch">Rail, sheets, menus and popups are frosted</string>
+    <string name="settings_line_glass_switch_mobile">Bars, sheets, menus and popups are frosted</string>
+    <string name="settings_help_glass_chrome">Frosts the floating parts: the rail, the category sheets, menus, popups and the pills at the top. Lists and posters stay flat.</string>
+    <string name="settings_glass_opacity">Glass opacity</string>
+    <string name="settings_line_glass_opacity">Lower shows more of the background</string>
+    <string name="settings_line_glass_reset">Stage colors, glass on, <xliff:g id="percent" example="56%">%1$s</xliff:g></string>
+    <string name="settings_bg_preview_note">Live TV with this background. Changes show as you move.</string>
+    <string name="settings_root_hint_mobile">Hold a row to pin it to Quick</string>
+    <string name="settings_card_layout_mobile">Navigation, Home, lists, menus</string>
+    <string name="settings_card_watching_mobile">Skip, resume, mini-player, recording</string>
+    <string name="settings_line_live_preview_mobile">Play the chosen channel at the top of Live TV</string>
+    <string name="settings_line_hw_mobile">Use the phone’s own decoder</string>
+    <string name="settings_line_surround_mobile">5.1 and 7.1 as the phone gets them</string>
+    <string name="settings_line_passthrough_mobile">Undecoded to a connected receiver</string>
+    <string name="settings_line_navigation_mobile">The bar at the bottom: labels, hide while scrolling, items</string>
+    <string name="settings_vod_view_mobile">Movies &amp; Series view</string>
+    <string name="settings_line_vod_view_mobile">How a category opens</string>
+    <string name="settings_guide_size_mobile">TV Guide size</string>
+    <string name="settings_line_guide_size_mobile">How much time the grid shows at once</string>
+    <string name="settings_line_download_folder_mobile">Where films, episodes and recordings go</string>
+    <string name="settings_help_add_from_phone_mobile">Open the address or scan the code in a browser on any device on the same Wi-Fi — a computer, a tablet or a TV — fill in your playlist there and send it here. Much faster than typing a URL on a phone.</string>
+    <string name="settings_line_add_type_here_mobile">Xtream, M3U or Stalker</string>
+    <string name="setup_local_file_hint_mobile">.m3u or .m3u8 on this phone</string>
+    <plurals name="settings_sources_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> source</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> sources</item>
+    </plurals>
+    <string name="settings_sources_status_default">Default</string>
+    <string name="settings_epg_sources_addresses_note">Addresses are shown without the user name and password.</string>
+    <plurals name="settings_customize_categories_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> category</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> categories</item>
+    </plurals>
+    <string name="settings_customize_hold_note_mobile">Hold a row: Rename · Move · Hide · or start a span to change many at once.</string>
+    <string name="settings_catchup_timezone_label">Time zone</string>
+    <string name="settings_browsing_value_both">Both</string>
+    <plurals name="settings_home_rows_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> row</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> rows</item>
+    </plurals>
+    <plurals name="settings_customize_hidden_count">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> hidden</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> hidden</item>
+    </plurals>
+    <string name="settings_line_quick_channel_numbers_mobile">Type a number to tune</string>
+    <string name="settings_line_playlists_mobile">Add, re-sync or remove M3U / Xtream / Stalker</string>
+    <string name="settings_line_accent_mobile">Tints buttons, highlights and bars everywhere</string>
+    <string name="settings_line_glass_bg_mobile">Frosted bars and sheets, background picture</string>
+    <string name="settings_line_popup_size_mobile">Scale sheets and menus without changing their text</string>
+    <string name="settings_line_animations_mobile">Off feels snappier on older phones</string>
+    <string name="settings_line_vod_buffer_mobile">How far ahead films and catch-up are loaded</string>
+    <string name="settings_line_vod_timeout_mobile">How long to wait on a silent server</string>
+    <string name="settings_line_vod_reconnects_mobile">How many times a lost stream is reopened</string>
+    <string name="settings_line_sw_decode_mobile">Above 1080p in software when the hardware decoder fails</string>
+    <string name="settings_line_rec_mobile_data_mobile">Off: a recording that falls on mobile data is skipped</string>
+    <string name="settings_line_pip_mobile">Shrink the video into a window when you leave the app</string>
+    <string name="settings_line_pip_size_mobile">How large the floating window starts</string>
+    <string name="settings_line_pip_snap_mobile">The window settles against the nearest edge</string>
+    <string name="settings_line_audio_screen_off_mobile">Stop decoding video nobody can see</string>
+    <string name="settings_line_audio_per_channel_mobile">Opens that way next time</string>
+    <string name="settings_line_seek_step_mobile">How far one tap of rewind or forward jumps</string>
+    <string name="settings_line_rewind_step_mobile">How far one tap jumps on a live channel</string>
+    <string name="settings_line_gesture_mobile">How far a swipe changes volume, brightness or position</string>
+    <string name="settings_line_rec_watching_mobile">A record button in the player</string>
+    <string name="settings_line_rec_pre_roll_mobile">Begin before the listed start</string>
+    <string name="settings_line_rec_post_roll_mobile">Carry on past the listed end</string>
+    <string name="settings_line_sub_lang_mobile">Auto-select this subtitle track</string>
+    <string name="settings_line_sub_style_mobile">Size, font, color, position, background</string>
+    <string name="settings_customize_short_mobile">Customize</string>
+    <plurals name="settings_epg_line_programmes">
+        <item quantity="one"><xliff:g id="count">%1$s</xliff:g> program</item>
+        <item quantity="other"><xliff:g id="count">%1$s</xliff:g> programs</item>
+    </plurals>
+    <plurals name="settings_epg_line_catchup">
+        <item quantity="one">catch-up on <xliff:g id="count">%1$s</xliff:g></item>
+        <item quantity="other">catch-up on <xliff:g id="count">%1$s</xliff:g></item>
+    </plurals>
 </resources>
