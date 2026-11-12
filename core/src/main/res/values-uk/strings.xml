@@ -46,4 +46,54 @@
     <string name="common_resume_prompt">Продовжити відтворення?</string>
     <string name="sync_error_offline">Схоже, ви не в мережі. Перевірте підключення та спробуйте знову.</string>
     <string name="sync_error_generic">Щось пішло не так. Спробуйте ще раз.</string>
+    <string name="sync_error_timeout">Сервер надто довго не відповідає. Спробуйте ще раз.</string>
+    <string name="sync_error_unreachable">Не вдалося зв’язатися з сервером. Перевірте адресу та підключення до мережі.</string>
+    <string name="sync_error_connection">Не вдалося підключитися до сервера. Можливо, він недоступний або вказано неправильну адресу.</string>
+    <string name="sync_error_interrupted">Сервер перервав завантаження. Спробуйте ще раз.</string>
+    <string name="sync_error_mac">Портал відхилив цю MAC-адресу. Перевірте MAC-адресу (а також дату й час на телевізорі) — або, можливо, закінчився термін дії підписки.</string>
+    <string name="sync_error_invalid_mac">Неправильна MAC-адреса — використовуйте формат AA:BB:CC:DD:EE:FF</string>
+    <string name="sync_counts_separator">"  ·  "</string>
+    <string name="sync_counts_success">Успішно синхронізовано</string>
+    <string name="sync_counts_synced"><xliff:g id="counts">%1$s</xliff:g> синхронізовано</string>
+    <string name="sync_import_warnings">Імпортовано з попередженнями: <xliff:g id="phases">%1$s</xliff:g></string>
+    <string name="sync_warning_phase_error"><xliff:g id="phase">%1$s</xliff:g>: <xliff:g id="message">%2$s</xliff:g></string>
+    <plurals name="sync_warning_catalog_shrink">
+        <item quantity="one">Збережено <xliff:g id="stored">%1$d</xliff:g> наявний елемент — цей імпорт повернув на <xliff:g id="percent">%2$d</xliff:g>%% менше. Синхронізуйте знову або скористайтеся примусовою чистою синхронізацією, якщо постачальник дійсно видалив їх.</item>
+        <item quantity="few">Збережено <xliff:g id="stored">%1$d</xliff:g> наявних елементи — цей імпорт повернув на <xliff:g id="percent">%2$d</xliff:g>%% менше. Синхронізуйте знову або скористайтеся примусовою чистою синхронізацією, якщо постачальник дійсно видалив їх.</item>
+        <item quantity="many">Збережено <xliff:g id="stored">%1$d</xliff:g> наявних елементів — цей імпорт повернув на <xliff:g id="percent">%2$d</xliff:g>%% менше. Синхронізуйте знову або скористайтеся примусовою чистою синхронізацією, якщо постачальник дійсно видалив їх.</item>
+        <item quantity="other">Збережено <xliff:g id="stored">%1$d</xliff:g> наявних елементів — цей імпорт повернув на <xliff:g id="percent">%2$d</xliff:g>%% менше. Синхронізуйте знову або скористайтеся примусовою чистою синхронізацією, якщо постачальник дійсно видалив їх.</item>
+    </plurals>
+    <string name="sync_warning_bulk_truncated">Список постачальника обірвався посередині, тому решту довелося завантажувати по категоріях. Усе на місці, але ця синхронізація тривала довше, ніж зазвичай.</string>
+    <string name="sync_warning_bulk_truncated_partial">Список постачальника обірвався посередині, і не все вдалося відновити. Деякі позиції можуть бути відсутні до наступної синхронізації.</string>
+    <plurals name="sync_warning_page_failures">
+        <item quantity="one"><xliff:g id="count">%1$d</xliff:g> вихідна сторінка не завантажилася; до наступної синхронізації частина контенту може бути відсутньою.</item>
+        <item quantity="few"><xliff:g id="count">%1$d</xliff:g> вихідні сторінки не завантажилися; до наступної синхронізації частина контенту може бути відсутньою.</item>
+        <item quantity="many"><xliff:g id="count">%1$d</xliff:g> вихідних сторінок не завантажилися; до наступної синхронізації частина контенту може бути відсутньою.</item>
+        <item quantity="other"><xliff:g id="count">%1$d</xliff:g> вихідних сторінок не завантажилися; до наступної синхронізації частина контенту може бути відсутньою.</item>
+    </plurals>
+    <string name="sync_remainder_note">Решта каталогу все ще синхронізується у фоновому режимі — ви можете почати перегляд зараз. Прогрес відображається в невеликій панелі внизу екрана.</string>
+    <string name="sync_progress_preparing">Підготовка каталогу</string>
+    <string name="sync_progress_connecting">Підключення до джерела…</string>
+    <string name="sync_progress_syncing">Синхронізація каталогу</string>
+    <string name="sync_progress_percent">Синхронізація: <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="sync_status_catalog">Синхронізація: <xliff:g id="source">%1$s</xliff:g></string>
+    <string name="sync_status_catalog_with_counts">Синхронізація: <xliff:g id="source">%1$s</xliff:g> · <xliff:g id="counts">%2$s</xliff:g></string>
+    <string name="sync_status_epg">Оновлення програми передач · <xliff:g id="source">%1$s</xliff:g></string>
+    <string name="sync_status_epg_with_counts">Оновлення програми передач · <xliff:g id="source">%1$s</xliff:g> · <xliff:g id="counts">%2$s</xliff:g></string>
+    <string name="sync_status_complete">Синхронізацію завершено · <xliff:g id="source">%1$s</xliff:g></string>
+    <string name="sync_status_complete_with_changes">Синхронізацію завершено · <xliff:g id="source">%1$s</xliff:g> · <xliff:g id="changes">%2$s</xliff:g></string>
+    <string name="sync_status_failed">Помилка синхронізації · <xliff:g id="source">%1$s</xliff:g>: <xliff:g id="reason">%2$s</xliff:g></string>
+    <string name="sync_status_cancelled">Синхронізацію скасовано · <xliff:g id="source">%1$s</xliff:g></string>
+    <string name="sync_status_download">Завантаження <xliff:g id="title">%1$s</xliff:g></string>
+    <string name="sync_status_download_with_progress">Завантаження <xliff:g id="title">%1$s</xliff:g> · <xliff:g id="percent">%2$d</xliff:g>%%</string>
+    <string name="sync_status_download_locked">Завантаження з заблокованої категорії</string>
+    <string name="sync_status_download_locked_with_progress">Завантаження з заблокованої категорії · <xliff:g id="percent">%1$d</xliff:g>%%</string>
+    <string name="sync_status_trending_starting">Синхронізацію завершено · <xliff:g id="source">%1$s</xliff:g> · Формування списку популярного</string>
+    <string name="sync_status_trending_detail_waiting">Очікування відповіді від кандидата TMDB</string>
+    <string name="sync_status_trending_detail_received">Кандидати TMDB · Фільми: <xliff:g id="movies">%1$d</xliff:g> · Серіали: <xliff:g id="series">%2$d</xliff:g></string>
+    <string name="sync_status_trending_detail_preparing">Індекс заголовків провайдера · <xliff:g id="processed">%1$d</xliff:g> / <xliff:g id="total">%2$d</xliff:g></string>
+    <string name="sync_status_trending_detail_movies">Перевірка фільмів: <xliff:g id="checked">%1$d</xliff:g>/<xliff:g id="candidates">%2$d</xliff:g> · збіги: <xliff:g id="matched">%3$d</xliff:g>/<xliff:g id="target">%4$d</xliff:g></string>
+    <string name="sync_status_trending_detail_series">Перевірка серіалів: <xliff:g id="checked">%1$d</xliff:g>/<xliff:g id="candidates">%2$d</xliff:g> · збіги: <xliff:g id="matched">%3$d</xliff:g>/<xliff:g id="target">%4$d</xliff:g></string>
+    <string name="sync_status_trending_detail_selected">Вибрано · Фільми: <xliff:g id="movies">%1$d</xliff:g> · Серіали: <xliff:g id="series">%2$d</xliff:g> · Головна: <xliff:g id="home">%3$d</xliff:g></string>
+    <string name="sync_status_trending_detail_completed">Збіги · Фільми: <xliff:g id="movie_matches">%1$d</xliff:g>/<xliff:g id="movie_candidates">%2$d</xliff:g> · Серіали: <xliff:g id="series_matches">%3$d</xliff:g>/<xliff:g id="series_candidates">%4$d</xliff:g></string>
 </resources>
