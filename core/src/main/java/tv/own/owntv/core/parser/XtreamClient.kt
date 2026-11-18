@@ -576,8 +576,34 @@ class XtreamClient(private val http: HttpClient) {
         reader.endArray()
     }
 
-    private fun decodeBase64(s: String): String =
-        runCatching { String(Base64.decode(s, Base64.DEFAULT), Charsets.UTF_8).trim() }.getOrDefault(s)
+    // Panels base64-encode title/description, but some servers send plain UTF-8.
+    // A naive try-decode corrupts short plain titles that happen to be valid
+    // base64 ("News" decodes to 3 garbage bytes and shows as symbols), so only
+    // accept a decode that round-trips to plausible text: correct alphabet and
+    // padding, >= 8 chars (shorter is ambiguous — prefer plain), valid UTF-8
+    // with no replacement chars or controls, and re-encodes to the input.
+    private fun decodeBase64(s: String): String {
+        val t = s.trim()
+        if (t.isEmpty()) return t
+        val compact = t.filterNot { it == ' ' || it == '\n' || it == '\r' || it == '\t' }
+        if (compact.length < 8 || compact.length % 4 != 0) return s
+        if (!compact.all { it in 'A'..'Z' || it in 'a'..'z' || it in '0'..'9' || it == '+' || it == '/' || it == '=' }) return s
+        // Padding only at the very end (max two).
+        val padStart = compact.indexOf('=')
+        if (padStart != -1 && (!compact.substring(padStart).all { it == '=' } || compact.length - padStart > 2)) return s
+        return try {
+            val bytes = Base64.decode(t, Base64.DEFAULT)
+            if (bytes.isEmpty()) return s
+            val decoded = String(bytes, Charsets.UTF_8).trim()
+            if (decoded.isEmpty() || decoded.contains('\uFFFD')) return s
+            if (decoded.any { it.isISOControl() && it != '\n' && it != '\t' }) return s
+            val re = Base64.encodeToString(bytes, Base64.NO_WRAP)
+            if (re != compact && re.trimEnd('=') != compact.trimEnd('=')) return s
+            decoded
+        } catch (_: Exception) {
+            s
+        }
+    }
 
     // --- Stream URL builders ---
     // Live uses the raw MPEG-TS endpoint (.ts) — the universal Xtream live format. The .m3u8/HLS
