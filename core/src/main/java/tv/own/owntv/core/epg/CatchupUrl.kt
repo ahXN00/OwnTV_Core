@@ -158,6 +158,12 @@ object CatchupUrl {
     /**
      * Build the catch-up URL for a [programme] on [channel] given its resolved [source] and the [tz] the
      * provider expects timeshift timestamps in. Shared by the Guide and Live TV catch-up entry points.
+     *
+     * [seekable] picks the form of a Flussonic archive URL (see [forM3u]). Playing one fixed programme
+     * wants the seekable HLS VOD playlist, whose full length is known up front, so a caller that plays a
+     * finished programme passes true. It defaults to false, as in [forM3u], so a new caller never gets the
+     * VOD form by accident: a programme still on air gets a VOD playlist that ends where the recording
+     * is now, and a download wants one finite body. Xtream and the other catch-up types build the same URL either way.
      */
     fun forSource(
         channel: ChannelEntity,
@@ -165,6 +171,7 @@ object CatchupUrl {
         source: SourceEntity,
         tz: TimeZone,
         xtream: XtreamClient,
+        seekable: Boolean = false,
     ): String? {
         if (!channel.catchup) return null
         return when (source.type) {
@@ -187,6 +194,7 @@ object CatchupUrl {
                 programme.stopMs,
                 tz,
                 channel.catchupCorrectionMin,
+                seekable,
             )
             else -> null
         }
@@ -226,7 +234,8 @@ object CatchupUrl {
      *  - **append** — the template is a query fragment joined onto the [liveUrl] (the most common form,
      *    and previously unreachable because the type was never stored).
      *  - **shift / timeshift** — usually typeless: append the standard `?utc=…&lutc=…` pair.
-     *  - **flussonic** — no template at all; the archive lives at a different path on the same server.
+     *  - **flussonic** — no template at all; the archive lives at a different path on the same server
+     *    (see [flussonic] for the two forms [seekable] chooses between).
      *  - **xc** — an Xtream panel behind an M3U playlist: rebuild the URL as `timeshift.php`.
      *
      * A plain template with no type is substituted as-is, exactly as before. A `default` channel with
@@ -234,6 +243,9 @@ object CatchupUrl {
      *
      * [correctionMin] is the playlist's `catchup-correction`: the provider's archive clock is that far
      * from the guide's, so the programme's times are moved by it before any URL is built.
+     *
+     * [seekable] only matters for Flussonic: true returns the VOD playlist, which has a known length and
+     * can be sought; false returns the progressive or sliding-window form. Every other type ignores it.
      */
     fun forM3u(
         liveUrl: String,
@@ -243,6 +255,7 @@ object CatchupUrl {
         endMs: Long,
         tz: TimeZone = TimeZone.getTimeZone("UTC"),
         correctionMin: Int = 0,
+        seekable: Boolean = false,
     ): String? {
         val template = catchupSource?.takeIf { it.isNotBlank() }
         val type = catchupType?.trim()?.lowercase()?.takeIf { it.isNotEmpty() }
@@ -254,7 +267,7 @@ object CatchupUrl {
             template != null -> fromTemplate(template, start, end, tz = tz)
             type == "shift" || type == "timeshift" || type == "default" ->
                 joinQuery(liveUrl, fromTemplate(SHIFT_TEMPLATE, start, end))
-            type != null && type.startsWith("flussonic") -> flussonic(liveUrl, start, end)
+            type != null && type.startsWith("flussonic") -> flussonic(liveUrl, start, end, seekable)
             type == "xc" || type == "xtream" -> xtreamStyle(liveUrl, start, end, tz)
             else -> null
         }
@@ -278,12 +291,19 @@ object CatchupUrl {
     }
 
     /**
-     * Flussonic: the archive is a sibling of the live playlist —
-     * `…/channel/index.m3u8` → `…/channel/timeshift_abs-<start>.m3u8`, and the MPEG-TS forms
-     * (`…/channel/mpegts`, `…/channel/index.ts`) → `…/channel/archive-<start>-<duration>.ts`.
+     * Flussonic: the archive is a sibling of the live playlist, in one of two forms.
+     *
+     * With [seekable] false, as the live shape suggests: `…/channel/index.m3u8` →
+     * `…/channel/timeshift_abs-<start>.m3u8` (a sliding window of a few segments), and the MPEG-TS forms
+     * (`…/channel/mpegts`, `…/channel/index.ts`) → `…/channel/archive-<start>-<duration>.ts` (no
+     * Content-Length and no Range support, so a player guesses the length and cannot seek).
+     *
+     * With [seekable] true, both live shapes give `…/channel/index-<start>-<duration>.m3u8`, a VOD
+     * playlist that ends at the programme's end: the full length is known and seeking works.
+     *
      * Any query string is preserved. Returns null when the URL doesn't look like one of those.
      */
-    private fun flussonic(liveUrl: String, startMs: Long, endMs: Long): String? {
+    private fun flussonic(liveUrl: String, startMs: Long, endMs: Long, seekable: Boolean): String? {
         val query = liveUrl.substringAfter('?', "").let { if (it.isEmpty()) "" else "?$it" }
         val path = liveUrl.substringBefore('?')
         val slash = path.lastIndexOf('/')
@@ -292,9 +312,12 @@ object CatchupUrl {
         val prefix = path.substring(0, slash + 1)
         val startS = startMs / 1000
         val durationS = ((endMs - startMs) / 1000).coerceAtLeast(1)
+        val isHls = last.endsWith(".m3u8")
+        val isTs = last == "mpegts" || last.endsWith(".ts")
         return when {
-            last.endsWith(".m3u8") -> "${prefix}timeshift_abs-$startS.m3u8$query"
-            last == "mpegts" || last.endsWith(".ts") -> "${prefix}archive-$startS-$durationS.ts$query"
+            seekable && (isHls || isTs) -> "${prefix}index-$startS-$durationS.m3u8$query"
+            isHls -> "${prefix}timeshift_abs-$startS.m3u8$query"
+            isTs -> "${prefix}archive-$startS-$durationS.ts$query"
             else -> null
         }
     }

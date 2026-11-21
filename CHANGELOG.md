@@ -43,6 +43,7 @@
 - **🏈 Sports: a followed college team opens its own league, not the NFL**
 - **📊 Sports: a team page's table no longer disappears after a refresh**
 - **🌍 Central Kurdish: the rest of the app translated**
+- **📺 Catch-up on Flussonic: a past programme shows its full length and can be sought**
 - **⏪ Timeshift: leaving a channel while it is still opening no longer leaves its download running**
 - **⏱️ Timeshift: "Give up after" now counts the wait for the saved copy**
 - **▶️ Timeshift: "Resume" on a channel you came back to no longer freezes after half a minute**

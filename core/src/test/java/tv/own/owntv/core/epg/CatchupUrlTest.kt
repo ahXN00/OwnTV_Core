@@ -144,6 +144,29 @@ class CatchupUrlTest {
         assertNull(CatchupUrl.forM3u("http://x", "flussonic", null, start, end))
     }
 
+    /** `seekable` turns Flussonic's archive into the HLS VOD playlist `index-<start>-<dur>.m3u8`; other types are untouched. */
+    @Test
+    fun forM3u_seekableFlussonicUsesTheVodIndex() {
+        class Row(val live: String, val type: String, val source: String?, val correctionMin: Int, val expected: String?)
+        val rows = listOf(
+            Row("http://x/ch1/mpegts", "flussonic-ts", null, 0, "http://x/ch1/index-1609459200-3600.m3u8"),
+            Row("http://x/ch1/index.ts", "flussonic", null, 0, "http://x/ch1/index-1609459200-3600.m3u8"),
+            Row("http://x/ch1/index.m3u8?token=abc", "flussonic-hls", null, 0, "http://x/ch1/index-1609459200-3600.m3u8?token=abc"),
+            Row("http://x/ch1/index.m3u8", "flussonic", null, 30, "http://x/ch1/index-1609461000-3600.m3u8"),
+            Row("http://x/live.ts", "append", "?utc=\${start}", 0, "http://x/live.ts?utc=1609459200"),
+            Row("http://x", "flussonic", null, 0, null),
+        )
+        for (r in rows) {
+            val msg = "${r.type} ${r.live} correction=${r.correctionMin}"
+            assertEquals(msg, r.expected, CatchupUrl.forM3u(r.live, r.type, r.source, start, end, correctionMin = r.correctionMin, seekable = true))
+        }
+        // Non-Flussonic types give the same URL with and without seekable.
+        assertEquals(
+            CatchupUrl.forM3u("http://x/live.ts", "append", "?utc=\${start}", start, end, seekable = false),
+            CatchupUrl.forM3u("http://x/live.ts", "append", "?utc=\${start}", start, end, seekable = true),
+        )
+    }
+
     @Test
     fun forM3u_xcRebuildsTheTimeshiftEndpoint() {
         assertEquals(

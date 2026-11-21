@@ -1918,6 +1918,7 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	${g[1]}/streaming/timeshift.php?username=${g[2]}&password=${g[3]}&stream=${g[4]}
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	${g[1]}/streaming/timeshift.php?username=${queryValue(g[2])}&password=${queryValue(g[3])}&stream=${g[6]}&start=${g[5]}&duration=${g[4]}
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	${prefix}archive-$startS-$durationS.ts$query
+1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	${prefix}index-$startS-$durationS.m3u8$query
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	${prefix}timeshift_abs-$startS.m3u8$query
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	%2B
 1	protocol	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	&
