@@ -3363,4 +3363,62 @@
         <item quantity="one">catch-up on <xliff:g id="count">%1$s</xliff:g></item>
         <item quantity="other">catch-up on <xliff:g id="count">%1$s</xliff:g></item>
     </plurals>
+    <!-- Translators: Settings heading (Metadata screen) for the skip intro, recap, credits and preview options. -->
+    <string name="settings_skip_group">Skip intro &amp; credits</string>
+    <!-- Translators: Settings row: what happens when a film or episode's intro plays. -->
+    <string name="settings_skip_intro">Intro</string>
+    <!-- Translators: Settings row: what happens when an episode's 'previously on' recap plays. -->
+    <string name="settings_skip_recap">Recap</string>
+    <!-- Translators: Settings row: what happens when the end credits play. -->
+    <string name="settings_skip_credits">End credits</string>
+    <!-- Translators: Settings row: what happens when a preview of the next episode plays. -->
+    <string name="settings_skip_preview">Preview</string>
+    <!-- Translators: One-line description under each skip row (Intro, Recap, End credits, Preview). -->
+    <string name="settings_line_skip_part">Off, a button, or skipped automatically</string>
+    <!-- Translators: Help text for the skip rows. TheIntroDB is a service name: keep it as is. -->
+    <string name="settings_skip_part_description">What happens when this part plays. Skip times come from TheIntroDB, shared by viewers, for films and episodes matched with movie and series details.</string>
+    <!-- Translators: Choice for a skip row: show a skip button while the part plays. -->
+    <string name="settings_skip_mode_button">Show a button</string>
+    <!-- Translators: Choice for a skip row: skip the part without asking. -->
+    <string name="settings_skip_mode_auto">Skip automatically</string>
+    <!-- Translators: Settings row: how long the skip button stays on screen. -->
+    <string name="settings_skip_button_show">Skip button</string>
+    <!-- Translators: One-line description under the Skip button row. -->
+    <string name="settings_line_skip_button_show">How long the button stays on screen</string>
+    <!-- Translators: Choice: the skip button shows for the first 10 seconds of the part (and again when the controls open). -->
+    <string name="settings_skip_button_start">First 10 seconds</string>
+    <!-- Translators: Choice: the skip button shows for the whole part. -->
+    <string name="settings_skip_button_whole">Whole part</string>
+    <!-- Translators: Settings row and dialog title for the optional TheIntroDB API key. TheIntroDB is a service name. -->
+    <string name="settings_theintrodb_account">TheIntroDB account</string>
+    <!-- Translators: One-line description under the TheIntroDB account row. -->
+    <string name="settings_line_theintrodb">Optional key for more lookups</string>
+    <!-- Translators: Label of the text field for the user's own TheIntroDB API key. -->
+    <string name="settings_theintrodb_api_key">TheIntroDB API key</string>
+    <!-- Translators: Steps to get a TheIntroDB key. 'Docs' and 'Your API Key' are the English labels on theintrodb.org: keep them in English. -->
+    <string name="settings_theintrodb_key_steps">Not needed: skip times work without a key. To use your own, sign in at theintrodb.org, open Docs and copy “Your API Key”.</string>
+    <!-- Translators: Button that checks the entered TheIntroDB key and shows how many lookups are left today. -->
+    <string name="settings_theintrodb_check">Check key</string>
+    <!-- Translators: Status after a successful key check. 'count' is how many skip times this account has submitted. -->
+    <string name="settings_theintrodb_connected">Connected · submissions: <xliff:g id="count">%1$d</xliff:g></string>
+    <!-- Translators: Status when no TheIntroDB key is entered: lookups use the free daily allowance of the current internet connection. -->
+    <string name="settings_theintrodb_no_key">No key · the free allowance of this network</string>
+    <!-- Translators: Status when TheIntroDB refuses the entered key. -->
+    <string name="settings_theintrodb_invalid">Key not accepted</string>
+    <!-- Translators: Status when the key check could not reach TheIntroDB. -->
+    <string name="settings_theintrodb_unreachable">TheIntroDB could not be reached</string>
+    <!-- Translators: Toast on the TV when a TheIntroDB key arrives from another device. -->
+    <string name="settings_theintrodb_key_received">TheIntroDB key received</string>
+    <!-- Translators: Credit line under the TheIntroDB logo on the Metadata screen. TheIntroDB is a service name. -->
+    <string name="settings_theintrodb_attribution">Skip times are provided by TheIntroDB and its community. This product is not endorsed by TheIntroDB.</string>
+    <!-- Translators: Heading in Settings > Content & metadata above the TMDB and TheIntroDB rows. -->
+    <string name="settings_heading_metadata">Metadata</string>
+    <!-- Translators: Settings row opening the TMDB (The Movie Database) settings. A service name: keep it as is. -->
+    <string name="settings_tmdb">TMDB</string>
+    <!-- Translators: Settings row and screen title for the TheIntroDB skip-intro settings. A service name: keep it as is. -->
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <!-- Translators: Description under the TheIntroDB settings row. -->
+    <string name="settings_theintrodb_root_description">Skip intro, recap and credits</string>
+    <!-- Translators: Note under the TheIntroDB logo and in the Check TheIntroDB result. theintrodb.org is a web address: keep it. -->
+    <string name="settings_theintrodb_contribute">TheIntroDB doesn’t have every film and series: its times are added by viewers. If one is missing, you can add it yourself — sign in at theintrodb.org and submit the times, and everyone watching it gets the skip button.</string>
 </resources>

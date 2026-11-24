@@ -83,6 +83,7 @@ private val MOVIE_ACTIONS = listOf(
     MenuActionRef("tmdb_details", R.string.content_movie_details),
     MenuActionRef("refetch_tmdb", R.string.content_refetch_tmdb),
     MenuActionRef("set_tmdb_name", R.string.content_set_tmdb_name),
+    MenuActionRef(CHECK_THEINTRODB_ACTION, R.string.content_check_theintrodb),
     MenuActionRef("delete_subtitles", R.string.content_delete_subtitles),
 )
 
@@ -97,6 +98,7 @@ private val SERIES_ACTIONS = listOf(
     MenuActionRef("tmdb_details", R.string.content_series_details),
     MenuActionRef("refetch_tmdb", R.string.content_refetch_tmdb),
     MenuActionRef("set_tmdb_name", R.string.content_set_tmdb_name),
+    MenuActionRef(CHECK_THEINTRODB_ACTION, R.string.content_check_theintrodb),
 )
 
 private val EPISODE_ACTIONS = listOf(
@@ -106,8 +108,12 @@ private val EPISODE_ACTIONS = listOf(
     MenuActionRef("mark_watched", R.string.content_mark_watched),
     MenuActionRef("tmdb_details", R.string.content_episode_details),
     MenuActionRef("refetch_tmdb", R.string.content_refetch_tmdb),
+    MenuActionRef(CHECK_THEINTRODB_ACTION, R.string.content_check_theintrodb),
     MenuActionRef("delete_subtitles", R.string.content_delete_subtitles),
 )
+
+/** The key of "Check TheIntroDB" in the film, series and episode menus: whether TheIntroDB has skip times. */
+const val CHECK_THEINTRODB_ACTION = "check_theintrodb"
 
 /** The key of the Download action in the film, series and episode menus. */
 const val DOWNLOAD_ACTION = "download"

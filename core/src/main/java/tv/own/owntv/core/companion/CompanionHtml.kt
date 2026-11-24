@@ -507,11 +507,34 @@ internal object CompanionHtml {
      * almost nobody switches to their own key. TMDB's own signup is not mobile-optimised either, so
      * the page links straight to the API settings page rather than making the user find it.
      */
-    fun serviceConfigPage(context: Context, pin: String, openSubtitles: Boolean): String {
-        val title = context.getString(if (openSubtitles) R.string.settings_open_subtitles_setup_title else R.string.settings_metadata_remote_advanced)
-        val description = context.getString(if (openSubtitles) R.string.companion_open_subtitles_description else R.string.settings_metadata_remote_advanced_description)
-        val keyLabel = context.getString(if (openSubtitles) R.string.settings_open_subtitles_api_key else R.string.settings_tmdb_api_key)
+    fun serviceConfigPage(context: Context, pin: String, mode: CompanionMode): String {
+        val openSubtitles = mode == CompanionMode.OPEN_SUBTITLES_CONFIG
+        val theIntroDb = mode == CompanionMode.THEINTRODB_CONFIG
+        val title = context.getString(
+            when {
+                openSubtitles -> R.string.settings_open_subtitles_setup_title
+                theIntroDb -> R.string.settings_theintrodb_account
+                else -> R.string.settings_metadata_remote_advanced
+            },
+        )
+        val description = context.getString(
+            when {
+                openSubtitles -> R.string.companion_open_subtitles_description
+                theIntroDb -> R.string.settings_theintrodb_key_steps
+                else -> R.string.settings_metadata_remote_advanced_description
+            },
+        )
+        val keyLabel = context.getString(
+            when {
+                openSubtitles -> R.string.settings_open_subtitles_api_key
+                theIntroDb -> R.string.settings_theintrodb_api_key
+                else -> R.string.settings_tmdb_api_key
+            },
+        )
         val urlLabel = context.getString(R.string.settings_worker_server_url)
+        // TheIntroDB has no server of its own to point at: its page is the key alone.
+        val urlField = if (theIntroDb) "" else
+            """<label>${urlLabel.h()} <input id="url" type="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://"></label>"""
         // OpenSubtitles is an account, not just a key: the credentials are the whole point of doing
         // this from a browser instead of a remote. TMDB has no account, so it keeps the two fields.
         val credentialFields = if (!openSubtitles) "" else """
@@ -531,14 +554,14 @@ internal object CompanionHtml {
               <form id="f" onsubmit="return false">
                 $credentialFields
                 <label>${keyLabel.h()} <input id="key" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"></label>
-                <label>${urlLabel.h()} <input id="url" type="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://"></label>
+                $urlField
                 <button class="go" id="send" type="submit">${send.h()}</button>
               </form><p id="status" class="hint"></p>
             </div>
             <script>
               var k=document.getElementById('key'),u=document.getElementById('url'),b=document.getElementById('send'),s=document.getElementById('status');
               document.getElementById('f').addEventListener('submit',function(){
-                var body=new URLSearchParams({apiKey:(k.value||'').trim(),serverUrl:(u.value||'').trim()$credentialBody}).toString();
+                var body=new URLSearchParams({apiKey:(k.value||'').trim(),serverUrl:(u?(u.value||''):'').trim()$credentialBody}).toString();
                 b.disabled=true;s.textContent=${sending.js()};
                 fetch('/serviceconfig?pin=$pin',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body})
                   .then(function(res){if(res.ok){return res.text().then(function(t){document.open();document.write(t);document.close();});}b.disabled=false;s.textContent=${failed.js()}.replace('__STATUS__',String(res.status));})

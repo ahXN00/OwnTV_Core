@@ -171,7 +171,7 @@
 1	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	sections
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	selections
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	session
-8	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	settings
+9	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	settings
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	settingsLockMenus
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	settingsPins
 3	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	sl
@@ -192,6 +192,7 @@
 4	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	syncMovies
 4	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	syncSeries
 4	technical	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	t
+4	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	theintrodb_key_enc
 2	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	timings
 3	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	tmdbOverrides
 4	json	core/src/main/java/tv/own/owntv/core/backup/BackupManager.kt	tmdb_key_enc
@@ -346,7 +347,7 @@
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	owntv-remote-restore
 1	file-path	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	remote-backup-export
 1	json	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	{}
-13	empty	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	\0
+14	empty	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	\0
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	"
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	${field(c.name, "name", prefill.name, c.defaultIptv)} ${field(c.serverUrl, "server", prefill.server, c.serverExample)} <div class="grid"> ${field(c.username, "user", prefill.user, attrs = noFill)} ${field(c.passwordKeep, "pass", placeholder = c.keepCurrent, attrs = secret)} </div> ${field(c.userAgent, "userAgent", prefill.userAgent, c.optional)} ${field(c.epgUrl, "epgUrl", prefill.epgUrl, c.optional)}
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	${field(c.name, "name", prefill.name, c.defaultPlaylist)} <label>${c.playlistUrl.h()} <input id="m3uUrl" name="server" placeholder="${c.keepCurrent.h()}"></label> <label>${c.playlistFile.h()} <input id="m3uFile" type="file" accept=".m3u,.m3u8,audio/x-mpegurl,application/vnd.apple.mpegurl,text/plain"></label> ${field(c.userAgent, "userAgent", prefill.userAgent, c.optional)} ${field(c.epgUrl, "epgUrl", prefill.epgUrl, c.optional)}
@@ -369,6 +370,7 @@
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<div class="card"> <h1>${c.savedHeading.h()}</h1> <p>${body.h()}</p> <p><a href="/?pin=$pin">${c.savedSendAnother.h()}</a></p> </div>
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<div class="card"> <h1>${context.getString(R.string.companion_edit_heading, prefill.name).h()}</h1> <p>${c.editDescription.h()}</p> <form class="panel active"$formId method="post" action="/$path?pin=$pin"> <input type="hidden" name="type" value="$path"> $fields <button class="go"$sendId type="submit">${c.sendToTv.h()}</button> $status </form> </div> $script
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<div class="card"> <h1>${heading.h()}</h1> <p>${description.h()}</p> <form id="f" onsubmit="return false"> <label>${fileLabel.h()} <input id="file" type="file" accept="$accept" required></label> <button class="go" id="send" type="submit">${c.sendToTv.h()}</button> </form> <p id="status" class="hint"></p> </div> <script> var f=document.getElementById('file'), b=document.getElementById('send'), s=document.getElementById('status'); document.getElementById('f').addEventListener('submit',function(){ var file=f.files&&f.files[0]; if(!file){s.textContent=${choose.js()};return false;} ${if (!backup) "if(file.size>25*1024*1024){s.textContent=${c.imageTooLarge.js()};return false;}" else ""} b.disabled=true; s.textContent=${c.sending.js()}; var r=new FileReader(); r.onload=function(){ fetch('$endpoint?pin=$pin',{method:'POST',headers:{'Content-Type':'$contentType'},body:r.result}) .then(function(res){ if(res.ok){document.open();res.text().then(function(t){document.write(t);document.close();});} else{b.disabled=false;s.textContent=${c.uploadFailed.js()}.replace('__STATUS__',String(res.status));} }) .catch(function(){b.disabled=false;s.textContent=${c.couldNotReach.js()};}); }; r.onerror=function(){b.disabled=false;s.textContent=${c.couldNotRead.js()};}; r.readAsDataURL(file); return false; }); </script>
+1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<div class="card"> <h1>${title.h()}</h1><p>${description.h()}</p> <form id="f" onsubmit="return false"> $credentialFields <label>${keyLabel.h()} <input id="key" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"></label> $urlField <button class="go" id="send" type="submit">${send.h()}</button> </form><p id="status" class="hint"></p> </div> <script> var k=document.getElementById('key'),u=document.getElementById('url'),b=document.getElementById('send'),s=document.getElementById('status'); document.getElementById('f').addEventListener('submit',function(){ var body=new URLSearchParams({apiKey:(k.value||'').trim(),serverUrl:(u?(u.value||''):'').trim()$credentialBody}).toString(); b.disabled=true;s.textContent=${sending.js()}; fetch('/serviceconfig?pin=$pin',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body}) .then(function(res){if(res.ok){return res.text().then(function(t){document.open();document.write(t);document.close();});}b.disabled=false;s.textContent=${failed.js()}.replace('__STATUS__',String(res.status));}) .catch(function(){b.disabled=false;s.textContent=${unreachable.js()};});return false; }); </script>
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<div class="card"><h1>${c.downloadHeading.h()}</h1> <p>${c.downloadDescription.h()}</p> <a class="go" href="/backup.own?pin=$pin" download="owntv-backup.own" style="display:block;text-align:center;text-decoration:none">${c.downloadBackup.h()}</a> </div>
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<div class="card"><h1>${c.savedHeading.h()}</h1> <p>${c.savedBackupBody.h()}</p><p><a href="/?pin=$pin">${c.savedBackupLink.h()}</a></p> </div>
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<div class="card"><h1>${c.savedHeading.h()}</h1> <p>${c.savedImageBody.h()}</p><p><a href="/?pin=$pin">${c.savedImageLink.h()}</a></p> </div>
@@ -376,6 +378,7 @@
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<label>${c.autoRefresh.h()} <select name="autoRefresh"> <option value="OFF" selected>${c.off.h()}</option> <option value="STARTUP">${c.refreshStartup.h()}</option> <option value="HOURS_6">${c.refresh6.h()}</option> <option value="HOURS_12">${c.refresh12.h()}</option> ${c.refreshDays.entries.joinToString("\\n ") { (days, label) ->
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<label>${label.h()} <input name="$name" value="${value.h()}" placeholder="${placeholder.h()}"$attrs></label>
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<label>${label.h()} <select name="$name"> ${option("now", c.now)}${option("later", c.later)}${option("off", c.off)} </select></label>
+1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<label>${urlLabel.h()} <input id="url" type="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://"></label>
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<option value="$value"${if (value == selected) " selected" else ""}>${text.h()}</option>
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<p class="err">${error.h()}</p>
 1	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<p id="m3uStatus" class="hint"></p>
@@ -509,6 +512,7 @@
 7	technical	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	POST
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	Payload Too Large
 1	protocol	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	Unauthorized
+1	regex	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	^[A-Za-z0-9._:-]{8,256}$
 1	regex	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	^data:image/([a-zA-Z0-9.+-]+);base64,
 1	json	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	accepted
 1	uri	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	application/json; charset=utf-8
@@ -2279,6 +2283,7 @@
 1	log	core/src/main/java/tv/own/owntv/core/live/WatchSession.kt	watch open sourceId=$sourceId watching=${_watching.value}
 1	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	add_to_multiview
 1	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	catchup
+1	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	check_theintrodb
 2	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	delete_subtitles
 1	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	download
 1	preference-key	core/src/main/java/tv/own/owntv/core/menu/ContentMenus.kt	epg_offset
@@ -3176,7 +3181,12 @@
 1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsImportRules.kt	player_hold_ok
 1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsImportRules.kt	player_short_ok
 1	technical	core/src/main/java/tv/own/owntv/core/settings/SettingsImportRules.kt	seek_step_sec
-37	empty	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	\0
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsImportRules.kt	skip_button_show
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsImportRules.kt	skip_credits
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsImportRules.kt	skip_intro
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsImportRules.kt	skip_preview
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsImportRules.kt	skip_recap
+39	empty	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	\0
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	$DOWNLOADS_ALLOWED_PREFIX$profileId
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	$SPORTS_CONFIG_PREFIX$profileId
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	${SettingsRepository.Keys.RECENT_SEARCHES.name}_$profileId
@@ -3414,6 +3424,11 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	settings_menu_order_${menu.name.lowercase()}
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	settings_quick_pinned
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	sheet_counts
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	skip_button_show
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	skip_credits
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	skip_intro
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	skip_preview
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	skip_recap
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	software_decode_above_1080p
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	sort_guide
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	sort_live
@@ -3438,6 +3453,7 @@
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	subtitle_folder_auto_load
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	surround_mode
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	surround_sound
+1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	theintrodb_api_key
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	theme_mode
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	timeshift_enabled
 1	preference-key	core/src/main/java/tv/own/owntv/core/settings/SettingsRepository.kt	timeshift_resume_mode
@@ -3477,6 +3493,38 @@
 1	url	core/src/main/java/tv/own/owntv/core/setup/SourceImporter.kt	file://
 1	technical	core/src/main/java/tv/own/owntv/core/setup/SourceImporter.kt	fresh_add
 1	technical	core/src/main/java/tv/own/owntv/core/setup/SourceImporter.kt	restore
+1	json	core/src/main/java/tv/own/owntv/core/skip/SkipSegments.kt	credits
+1	json	core/src/main/java/tv/own/owntv/core/skip/SkipSegments.kt	end_ms
+1	json	core/src/main/java/tv/own/owntv/core/skip/SkipSegments.kt	intro
+1	json	core/src/main/java/tv/own/owntv/core/skip/SkipSegments.kt	preview
+1	json	core/src/main/java/tv/own/owntv/core/skip/SkipSegments.kt	recap
+1	json	core/src/main/java/tv/own/owntv/core/skip/SkipSegments.kt	start_ms
+1	url	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	$BASE/user/stats
+1	url	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	&duration_ms=
+1	url	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	&episode=
+1	url	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	&season=
+1	url	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	/media?tmdb_id=
+1	protocol	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	Accept
+1	protocol	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	Authorization
+1	protocol	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	Bearer $it
+1	protocol	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	OwnTV
+1	log	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	TheIntroDB
+1	protocol	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	User-Agent
+1	protocol	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	X-RateLimit-Reset
+1	protocol	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	X-UsageLimit-Limit
+1	protocol	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	X-UsageLimit-Remaining
+2	protocol	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	X-UsageLimit-Reset
+1	protocol	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	X-UsageLimit-SpecificMedia-Reset
+1	json	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	accepted
+1	mime	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	application/json
+1	json	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	code
+1	json	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	error
+1	url	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	https://api.theintrodb.org/v4
+1	log	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	key check failed: ${e.message}
+1	log	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	lookup answered HTTP ${response.code}
+1	log	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	lookup failed: ${e.message}
+1	json	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	media_not_found
+1	json	core/src/main/java/tv/own/owntv/core/skip/TheIntroDbClient.kt	total
 1	empty	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	\0
 1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	4k
 1	technical	core/src/main/java/tv/own/owntv/core/sports/CompetitionNames.kt	8k
@@ -7213,6 +7261,10 @@
 1	technical	player-core/src/main/java/tv/own/owntv/player/SdrVariants.kt	HLG
 1	technical	player-core/src/main/java/tv/own/owntv/player/SdrVariants.kt	PQ
 1	technical	player-core/src/main/java/tv/own/owntv/player/SdrVariants.kt	VIDEO-RANGE="?([A-Za-z]+)
+1	log	player-core/src/main/java/tv/own/owntv/player/SkipSegmentController.kt	${it.kind} ${it.startMs / 1000}-${it.endMs / 1000}s
+1	log	player-core/src/main/java/tv/own/owntv/player/SkipSegmentController.kt	OwnTV-Skip
+1	log	player-core/src/main/java/tv/own/owntv/player/SkipSegmentController.kt	none
+1	log	player-core/src/main/java/tv/own/owntv/player/SkipSegmentController.kt	times for tmdb=$tmdbId s=${key.season} e=${key.episode}: ${segments.joinToString { "${it.kind} ${it.startMs / 1000}-${it.endMs / 1000}s" }.ifEmpty { "none" }}
 1	empty	player-core/src/main/java/tv/own/owntv/player/SmartBuffer.kt	\0
 1	technical	player-core/src/main/java/tv/own/owntv/player/SmartBuffer.kt	${roundUpToMib(bytes) / MIB}MiB
 1	regex	player-core/src/main/java/tv/own/owntv/player/SmartBuffer.kt	(\\d+)\\s*([KkMmGg]i[Bb])?

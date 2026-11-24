@@ -9,6 +9,15 @@
 > in one bolded line of its own (e.g. **Database v46 · Backup v24 · Breaking**). The detail — what,
 > why, files and verification — belongs in the commit message, never here.
 
+## core-1.0.73 — unreleased
+
+### ✨ New features
+
+- **⏭️ Skip intro, recap, end credits and preview, from TheIntroDB**
+- **🎬 End credits start the next-episode countdown and count as watched**
+- **🔑 TheIntroDB settings: per-part choice, skip button timing, optional API key with daily quota, key from the phone**
+- **🔍 "Check TheIntroDB" in the film, series and episode long-press menus**
+
 ## core-1.0.72 — 2026-11-22
 
 **Database v57 · Backup v28**

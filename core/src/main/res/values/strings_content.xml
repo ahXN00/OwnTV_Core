@@ -704,4 +704,16 @@
     <string name="content_poster_size">Poster size</string>
     <!-- Translators: Small heading on a movie's page above more posters from the same category: "More in Disney+ Kids Movies". Shown in capitals by the style. -->
     <string name="content_vod_more_in">More in <xliff:g id="category">%1$s</xliff:g></string>
+    <!-- Translators: Long-press menu action on a film, series or episode: asks TheIntroDB whether it has skip times. TheIntroDB is a service name. -->
+    <string name="content_check_theintrodb">Check TheIntroDB</string>
+    <!-- Translators: Result of Check TheIntroDB. 'parts' is a list such as 'Intro • End credits'. -->
+    <string name="theintrodb_check_found">TheIntroDB has skip times for: <xliff:g id="parts">%1$s</xliff:g></string>
+    <!-- Translators: Result of Check TheIntroDB when no times were submitted yet. -->
+    <string name="theintrodb_check_none">TheIntroDB knows this title but has no skip times for it yet.</string>
+    <!-- Translators: Result of Check TheIntroDB when the title is not in TheIntroDB at all. -->
+    <string name="theintrodb_check_unlisted">TheIntroDB doesn’t list this title yet.</string>
+    <!-- Translators: Result of Check TheIntroDB when the title has no TMDB match. 'Set TMDB name' is another action in the same menu. -->
+    <string name="theintrodb_check_no_tmdb">This title isn’t matched with TMDB, so TheIntroDB can’t be checked. Set TMDB name can fix the match.</string>
+    <!-- Translators: The title's TMDB identifier shown in the Check TheIntroDB result, e.g. 'TMDB ID 1399'. -->
+    <string name="theintrodb_check_tmdb_id">TMDB ID <xliff:g id="id">%1$d</xliff:g></string>
 </resources>
