@@ -81,6 +81,45 @@ class StreamUrlResolverTest {
         assertEquals("no file → nothing to link", 0, client.createLinkCalls)
     }
 
+    // --- A portal that throttles: the request that starts playback is asked again ---
+
+    @Test fun resolve_vodEpisodeAsksAgainWhenThePortalThrottles() = runBlocking {
+        val client = RecordingClient(resolved = "http://realhost/ep/playlist.m3u8").apply { throttledAnswers = 2 }
+        val waits = mutableListOf<Long>()
+        val stored = StalkerClient.vodEpisodeRef("45258", "31971", "998626")
+        assertEquals("http://realhost/ep/playlist.m3u8", resolver(client, waits).resolve(stalkerSource(stored), stored, vod = true, episode = 1))
+        assertEquals("/media/file_998882.mpg", client.lastCmd)
+        assertEquals("two refusals, then the answer", 3, client.vodEpisodeFileCalls)
+        assertEquals(listOf(1_000L, 2_000L), waits)
+    }
+
+    @Test fun resolve_filmFileLookupAsksAgainInsteadOfFallingBackToTheCatalogueCmd() = runBlocking {
+        val client = RecordingClient().apply { throttledAnswers = 1 }
+        val waits = mutableListOf<Long>()
+        val stored = "/media/340945.mpg"
+        resolver(client, waits).resolve(stalkerSource(stored), stored, vod = true, movieId = "340945")
+        assertEquals("the file, not the catalogue cmd", "/media/file_998882.mpg", client.lastCmd)
+        assertEquals(listOf(1_000L), waits)
+    }
+
+    @Test fun resolve_throttledWaitFollowsRetryAfterUpToTheCap() = runBlocking {
+        val client = RecordingClient().apply { throttledAnswers = 1; throttledRetryAfterMs = 60_000L }
+        val waits = mutableListOf<Long>()
+        val stored = StalkerClient.vodEpisodeRef("1", "2", "3")
+        resolver(client, waits).resolve(stalkerSource(stored), stored, vod = true, episode = 1)
+        assertEquals(listOf(5_000L), waits)
+    }
+
+    @Test fun resolve_givesUpAfterFourThrottledAnswers() {
+        val client = RecordingClient().apply { throttledAnswers = 10 }
+        val waits = mutableListOf<Long>()
+        val stored = StalkerClient.vodEpisodeRef("1", "2", "3")
+        val failure = runCatching { runBlocking { resolver(client, waits).resolve(stalkerSource(stored), stored, vod = true, episode = 1) } }.exceptionOrNull()
+        assertEquals(429, (failure as StalkerClient.StalkerHttpException).code)
+        assertEquals(4, client.vodEpisodeFileCalls)
+        assertEquals(listOf(1_000L, 2_000L, 3_000L), waits)
+    }
+
     // --- A film: its file first, as a MAG box does, then create_link of that file ---
 
     @Test fun resolve_filmListsItsFileThenLinksIt() = runBlocking {
@@ -366,6 +405,7 @@ class StreamUrlResolverTest {
     /** A minimal fake auth manager that runs the block with a synthetic session (no network). */
     private fun resolver(
         client: RecordingClient = RecordingClient(),
+        waits: MutableList<Long> = mutableListOf(),
     ): StreamUrlResolver {
         val auth = object : StalkerAuthManager(client) {
             // Bypass the real handshake/profile; just hand the block a session whose apiBase/token the
@@ -382,7 +422,7 @@ class StreamUrlResolverTest {
                 ),
             )
         }
-        return StreamUrlResolver(auth, client)
+        return StreamUrlResolver(auth, client, throttleWait = { waits.add(it) })
     }
 
     /**
@@ -403,6 +443,7 @@ class StreamUrlResolverTest {
             apiBase: String, mac: String, token: String, userAgent: String?, cmd: String, type: String, episode: Int?,
         ): String {
             createLinkCalls++
+            if (throttledAnswers > 0) { throttledAnswers--; throw StalkerHttpException(429, "HTTP 429", throttledRetryAfterMs) }
             lastCmd = cmd
             lastType = type
             lastEpisode = episode
@@ -414,11 +455,18 @@ class StreamUrlResolverTest {
         var vodEpisodeFile: String? = "/media/file_998882.mpg"
         var lastVodEpisodeQuery: List<String>? = null
         var vodEpisodeFileFails = false
+        var vodEpisodeFileCalls = 0
+
+        /** How many of the next portal calls answer HTTP 429, and the `Retry-After` they carry. */
+        var throttledAnswers = 0
+        var throttledRetryAfterMs: Long? = null
 
         override suspend fun getVodEpisodeFileCmd(
             apiBase: String, mac: String, token: String, userAgent: String?, movieId: String, seasonId: String, episodeId: String,
         ): String? {
             lastVodEpisodeQuery = listOf(movieId, seasonId, episodeId)
+            vodEpisodeFileCalls++
+            if (throttledAnswers > 0) { throttledAnswers--; throw StalkerHttpException(429, "HTTP 429", throttledRetryAfterMs) }
             if (vodEpisodeFileFails) throw java.net.SocketTimeoutException("timeout")
             return vodEpisodeFile
         }

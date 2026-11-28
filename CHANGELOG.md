@@ -26,6 +26,7 @@
 - **🔄 Local sync: an episode watched on the other device reaches Continue Watching without opening the show (ahXN00/OwnTV#394)**
 - **🛟 "Restore did not finish" no longer flashes during a local sync (ahXN00/OwnTV#394)**
 - **🌐 Update check asks again when GitHub briefly fails**
+- **⏳ Stalker: Play asks the portal again when a running sync gets it refused (HTTP 429)**
 
 ## core-1.0.72 — 2026-11-22
 

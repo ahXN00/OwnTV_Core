@@ -18,6 +18,8 @@ import tv.own.owntv.core.model.SourceType
 class StreamUrlResolver(
     private val stalkerAuth: StalkerAuthManager,
     private val stalkerClient: StalkerClient,
+    /** Waits between the retries of a throttled call ([retryThrottled]); a test passes its own. */
+    private val throttleWait: suspend (Long) -> Unit = { kotlinx.coroutines.delay(it) },
 ) {
     /** True when this source needs play-time resolution (so callers can skip the work entirely). */
     fun needsResolve(source: SourceEntity?): Boolean = source?.type == SourceType.STALKER
@@ -52,10 +54,34 @@ class StreamUrlResolver(
         val film = vod && episode == null && !movieId.isNullOrBlank()
         return stalkerAuth.withAuthRetry(creds) { session ->
             val cmd = if (film) filmFileCmd(session, mac, creds.userAgent, movieId) ?: storedUrl else storedUrl
-            stalkerClient.createLink(
-                session.apiBase, mac, session.token, creds.userAgent, cmd,
-                type = if (vod) "vod" else "itv", episode = episode,
-            )
+            retryThrottled {
+                stalkerClient.createLink(
+                    session.apiBase, mac, session.token, creds.userAgent, cmd,
+                    type = if (vod) "vod" else "itv", episode = episode,
+                )
+            }
+        }
+    }
+
+    /**
+     * Run a play-time portal call again when the portal answers HTTP 429. A portal that rate-limits
+     * counts the catalogue sync's page requests against the same budget, so the one request that
+     * starts playback is refused while a sync or backfill is running — and without this the film's
+     * file lookup fell back to the catalogue cmd and an episode failed outright. The viewer pressing
+     * Play outranks the sync: wait [THROTTLE_RETRY_MS] × attempt (or the portal's longer
+     * `Retry-After`, up to [THROTTLE_MAX_WAIT_MS]) and ask again, [THROTTLE_ATTEMPTS] times in all.
+     * Any other failure, and the last 429, is thrown to the caller as before.
+     */
+    private suspend fun <T> retryThrottled(call: suspend () -> T): T {
+        var attempt = 1
+        while (true) {
+            try {
+                return call()
+            } catch (e: StalkerClient.StalkerHttpException) {
+                if (e.code != HTTP_TOO_MANY_REQUESTS || attempt >= THROTTLE_ATTEMPTS) throw e
+                throttleWait(maxOf(e.retryAfterMs ?: 0L, THROTTLE_RETRY_MS * attempt).coerceAtMost(THROTTLE_MAX_WAIT_MS))
+                attempt++
+            }
         }
     }
 
@@ -67,7 +93,9 @@ class StreamUrlResolver(
      */
     private suspend fun filmFileCmd(session: StalkerSession, mac: String, userAgent: String?, movieId: String): String? =
         try {
-            stalkerClient.getVodEpisodeFileCmd(session.apiBase, mac, session.token, userAgent, movieId, seasonId = "0", episodeId = "0")
+            retryThrottled {
+                stalkerClient.getVodEpisodeFileCmd(session.apiBase, mac, session.token, userAgent, movieId, seasonId = "0", episodeId = "0")
+            }
         } catch (e: StalkerClient.StalkerAuthException) {
             throw e
         } catch (e: java.io.IOException) {
@@ -85,10 +113,12 @@ class StreamUrlResolver(
             ?: throw java.io.IOException("Stalker source ${source.id} has no valid MAC")
         val creds = source.stalkerCredentials(mac)
         return stalkerAuth.withAuthRetry(creds) { session ->
-            val cmd = stalkerClient.getVodEpisodeFileCmd(
-                session.apiBase, mac, session.token, creds.userAgent, ref.movieId, ref.seasonId, ref.episodeId,
-            ) ?: throw java.io.IOException("Portal listed no file for episode ${ref.episodeId}")
-            stalkerClient.createLink(session.apiBase, mac, session.token, creds.userAgent, cmd, type = "vod")
+            val cmd = retryThrottled {
+                stalkerClient.getVodEpisodeFileCmd(
+                    session.apiBase, mac, session.token, creds.userAgent, ref.movieId, ref.seasonId, ref.episodeId,
+                )
+            } ?: throw java.io.IOException("Portal listed no file for episode ${ref.episodeId}")
+            retryThrottled { stalkerClient.createLink(session.apiBase, mac, session.token, creds.userAgent, cmd, type = "vod") }
         }
     }
 
@@ -205,6 +235,17 @@ class StreamUrlResolver(
 
         /** How far a portal listing may sit from our XMLTV start and still be the same programme. */
         const val MATCH_TOLERANCE_MS = 15 * 60 * 1000L
+
+        const val HTTP_TOO_MANY_REQUESTS = 429
+
+        /** Attempts at a throttled play-time call: the first one and three more. */
+        const val THROTTLE_ATTEMPTS = 4
+
+        /** The wait before the first repeat; the second and third wait two and three times as long. */
+        const val THROTTLE_RETRY_MS = 1_000L
+
+        /** The longest one wait, whatever `Retry-After` says: somebody is looking at a spinner. */
+        const val THROTTLE_MAX_WAIT_MS = 5_000L
     }
 
     /**
