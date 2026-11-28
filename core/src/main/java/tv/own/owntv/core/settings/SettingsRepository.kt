@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.sync.withLock
 import tv.own.owntv.core.brand.AppIcon
 import tv.own.owntv.core.CoreBuildInfo
 import tv.own.owntv.core.i18n.LocaleStore
@@ -2474,15 +2475,42 @@ class SettingsRepository(private val context: Context, private val localeStore: 
      * before the first write and removed after the last one, so a value still present at the next
      * launch means "that restore didn't finish". The value is the backup file name plus the sections
      * that were being applied — enough to tell the user what to re-run, and never a secret.
+     *
+     * Only the value found at launch means anything. Every import of this run sets and clears the
+     * marker too — a local auto-sync pass several times a session — so watching it live flashed the
+     * "restore did not finish" notice over the screen for as long as each import took.
      */
-    val restoreInProgress: Flow<String?> = prefsFlow { it[Keys.RESTORE_IN_PROGRESS] }
+    suspend fun restoreMarkerAtLaunch(): String? = launchMarkerLock.withLock { launchMarkerLocked() }
 
     suspend fun markRestoreStarted(description: String) {
+        // Read what the last run left behind before this run's first import overwrites it.
+        launchMarkerLock.withLock { launchMarkerLocked() }
         context.dataStore.edit { prefs -> prefs[Keys.RESTORE_IN_PROGRESS] = description }
     }
 
     suspend fun clearRestoreMarker() {
         context.dataStore.edit { prefs -> prefs.remove(Keys.RESTORE_IN_PROGRESS) }
+    }
+
+    /** The user has read the notice about [restoreMarkerAtLaunch]; it is not shown again. */
+    suspend fun dismissLaunchRestoreMarker() {
+        launchMarkerLock.withLock {
+            launchMarkerLocked()
+            launchMarker = null
+        }
+        clearRestoreMarker()
+    }
+
+    private val launchMarkerLock = kotlinx.coroutines.sync.Mutex()
+    private var launchMarkerRead = false
+    private var launchMarker: String? = null
+
+    private suspend fun launchMarkerLocked(): String? {
+        if (!launchMarkerRead) {
+            launchMarker = context.dataStore.data.first()[Keys.RESTORE_IN_PROGRESS]
+            launchMarkerRead = true
+        }
+        return launchMarker
     }
 
     private inline fun <reified E : Enum<E>> parseRefreshMap(raw: String?, valueOf: (String) -> E): Map<Long, E> {

@@ -81,6 +81,54 @@ class StreamUrlResolverTest {
         assertEquals("no file → nothing to link", 0, client.createLinkCalls)
     }
 
+    // --- A film: its file first, as a MAG box does, then create_link of that file ---
+
+    @Test fun resolve_filmListsItsFileThenLinksIt() = runBlocking {
+        val client = RecordingClient(resolved = "http://realhost/film/index.m3u8?token=fresh")
+        val r = resolver(client = client)
+        val stored = "/media/340945.mpg"
+        assertEquals("http://realhost/film/index.m3u8?token=fresh", r.resolve(stalkerSource(stored), stored, vod = true, movieId = "340945"))
+        assertEquals(listOf("340945", "0", "0"), client.lastVodEpisodeQuery)
+        assertEquals("/media/file_998882.mpg", client.lastCmd)
+        assertEquals("vod", client.lastType)
+        assertNull(client.lastEpisode)
+    }
+
+    @Test fun resolve_filmWithNoListedFileLinksItsOwnCmd() = runBlocking {
+        val client = RecordingClient().apply { vodEpisodeFile = null }
+        val r = resolver(client = client)
+        val stored = "/media/340945.mpg"
+        r.resolve(stalkerSource(stored), stored, vod = true, movieId = "340945")
+        assertEquals(stored, client.lastCmd)
+        assertEquals(1, client.createLinkCalls)
+    }
+
+    @Test fun resolve_filmWhoseFileLookupFailsLinksItsOwnCmd() = runBlocking {
+        val client = RecordingClient().apply { vodEpisodeFileFails = true }
+        val r = resolver(client = client)
+        val stored = "/media/340945.mpg"
+        r.resolve(stalkerSource(stored), stored, vod = true, movieId = "340945")
+        assertEquals(stored, client.lastCmd)
+    }
+
+    @Test fun resolve_filmWithoutIdKeepsTheDirectCreateLink() = runBlocking {
+        val client = RecordingClient()
+        val r = resolver(client = client)
+        val stored = "/media/340945.mpg"
+        r.resolve(stalkerSource(stored), stored, vod = true)
+        assertNull("no id, no lookup", client.lastVodEpisodeQuery)
+        assertEquals(stored, client.lastCmd)
+    }
+
+    @Test fun resolve_filmDirectPlayUrlIsNotLookedUp() = runBlocking {
+        val client = RecordingClient()
+        val r = resolver(client = client)
+        val cmd = "ffmpeg http://host/movie/u/p/77.mkv?play_token=x"
+        assertEquals("http://host/movie/u/p/77.mkv?play_token=x", r.resolve(stalkerSource(cmd), cmd, vod = true, movieId = "77"))
+        assertNull(client.lastVodEpisodeQuery)
+        assertEquals(0, client.createLinkCalls)
+    }
+
     @Test fun vodEpisodeRef_roundTripsAndRejectsOtherUrls() {
         assertEquals(
             StalkerClient.VodEpisodeRef("45258", "31971", "998626"),
@@ -365,11 +413,13 @@ class StreamUrlResolverTest {
         /** The file the fake portal lists for any tree episode; null lists none. */
         var vodEpisodeFile: String? = "/media/file_998882.mpg"
         var lastVodEpisodeQuery: List<String>? = null
+        var vodEpisodeFileFails = false
 
         override suspend fun getVodEpisodeFileCmd(
             apiBase: String, mac: String, token: String, userAgent: String?, movieId: String, seasonId: String, episodeId: String,
         ): String? {
             lastVodEpisodeQuery = listOf(movieId, seasonId, episodeId)
+            if (vodEpisodeFileFails) throw java.net.SocketTimeoutException("timeout")
             return vodEpisodeFile
         }
 

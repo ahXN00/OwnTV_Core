@@ -108,15 +108,16 @@ data class DrmConfig(
          *  - Only the plain passthrough request/response templates. Kodi's `license_key` may carry
          *    `url|headers|postDataTemplate|responseTemplate`; anything but an empty or `R{SSM}`/`B`
          *    template means the portal expects a request body we do not build.
+         *
+         * Newer playlists write the same thing the way inputstream.adaptive 21 documents it, and those
+         * are read first: `drm_legacy=<key system>|<licence URL or kid:key pairs>|<headers>`, and
+         * `drm={"<key system>":{"license":{"server_url":…,"req_headers":…,"keyids":{kid:key}}}}`. The
+         * same rules hold: one we cannot fully honour falls back to the older lines, else to nothing.
          */
         fun fromKodiProps(props: Map<String, String>): DrmConfig? {
-            val type = props[PROP_LICENSE_TYPE]?.lowercase().orEmpty()
-            val scheme = when {
-                type.contains("widevine") -> Scheme.WIDEVINE
-                type.contains("clearkey") -> Scheme.CLEARKEY
-                type.contains("fairplay") || type.contains("com.apple.fps") -> Scheme.FAIRPLAY
-                else -> return null
-            }
+            props[PROP_DRM]?.let(::fromDrmJson)?.let { return it }
+            props[PROP_DRM_LEGACY]?.let(::fromDrmLegacy)?.let { return it }
+            val scheme = schemeOf(props[PROP_LICENSE_TYPE].orEmpty()) ?: return null
             val raw = props[PROP_LICENSE_KEY]?.trim()?.takeIf { it.isNotEmpty() }
             if (scheme == Scheme.FAIRPLAY) {
                 raw?.let(::inlineClearKeys)?.let { return DrmConfig(Scheme.CLEARKEY, licenseUrl = "", clearKeys = it) }
@@ -136,6 +137,90 @@ data class DrmConfig(
             val headers = parts.getOrNull(1)?.let { parseLicenseHeaders(it) } ?: emptyMap()
             return DrmConfig(scheme, url, headers)
         }
+
+        private fun schemeOf(keySystem: String): Scheme? {
+            val type = keySystem.lowercase()
+            return when {
+                type.contains("widevine") -> Scheme.WIDEVINE
+                type.contains("clearkey") -> Scheme.CLEARKEY
+                type.contains("fairplay") || type.contains("com.apple.fps") -> Scheme.FAIRPLAY
+                else -> null
+            }
+        }
+
+        /**
+         * A key system with its licence [target] — an `http(s)` URL, or inline keys — as a config.
+         * FairPlay with inline keys is ClearKey key material (see [fromKodiProps]).
+         */
+        private fun configFor(scheme: Scheme, target: String, headers: Map<String, String>): DrmConfig? {
+            if (scheme == Scheme.FAIRPLAY) {
+                inlineClearKeys(target)?.let { return DrmConfig(Scheme.CLEARKEY, licenseUrl = "", clearKeys = it) }
+                return DrmConfig(Scheme.FAIRPLAY, licenseUrl = "")
+            }
+            if (scheme == Scheme.CLEARKEY) {
+                inlineClearKeys(target)?.let { return DrmConfig(scheme, licenseUrl = "", clearKeys = it) }
+            }
+            if (!target.startsWith("http://", ignoreCase = true) && !target.startsWith("https://", ignoreCase = true)) return null
+            return DrmConfig(scheme, target, headers)
+        }
+
+        /** `org.w3.clearkey|kid:key,kid:key` or `com.widevine.alpha|https://host/licence|Header=Value&…`. */
+        private fun fromDrmLegacy(value: String): DrmConfig? {
+            val parts = value.trim().split('|')
+            if (parts.size > 3) return null
+            val scheme = schemeOf(parts[0].trim()) ?: return null
+            val target = parts.getOrNull(1)?.trim().orEmpty()
+            val headers = parts.getOrNull(2)?.let(::parseLicenseHeaders).orEmpty()
+            return configFor(scheme, target, headers)
+        }
+
+        /**
+         * `{"<key system>":{"license":{…}}, …}`: the key systems are tried in their own `priority`
+         * order (1 first), else as written, as Kodi does; the first one we can honour wins.
+         */
+        private fun fromDrmJson(value: String): DrmConfig? {
+            val root = runCatching { JSONObject(value.trim()) }.getOrNull() ?: return null
+            val systems = root.keys().asSequence().toList().mapIndexedNotNull { index, name ->
+                val entry = root.optJSONObject(name) ?: return@mapIndexedNotNull null
+                Triple(name, entry, entry.optInt("priority", Int.MAX_VALUE) to index)
+            }.sortedWith(compareBy({ it.third.first }, { it.third.second }))
+            for ((name, entry, _) in systems) {
+                val scheme = schemeOf(name) ?: continue
+                drmJsonEntry(scheme, entry)?.let { return it }
+            }
+            return null
+        }
+
+        private fun drmJsonEntry(scheme: Scheme, entry: JSONObject): DrmConfig? {
+            val license = entry.optJSONObject("license")
+            if (license == null) return if (scheme == Scheme.FAIRPLAY) DrmConfig(Scheme.FAIRPLAY, licenseUrl = "") else null
+            // A request body, query parameters or a wrapped answer we would have to build or unwrap:
+            // the portal expects more than a plain licence request, as with the older templates.
+            if (license.optString("req_data").let { it.isNotBlank() && !isPassthroughTemplate(it) && !isPassthroughTemplate(base64Text(it)) }) return null
+            if (license.optString("req_params").isNotBlank() || license.optString("unwrapper").isNotBlank()) return null
+            val keys = license.optJSONObject("keyids")?.let { k ->
+                k.keys().asSequence().joinToString(",") { kid -> "$kid:${k.optString(kid)}" }
+            }
+            if (!keys.isNullOrEmpty() && (scheme == Scheme.CLEARKEY || scheme == Scheme.FAIRPLAY)) {
+                return configFor(scheme, keys, emptyMap())
+            }
+            // `Key=Value&…` as in the older spec, or an object of header names to values.
+            val headerObject = license.optJSONObject("req_headers")
+            val headers = if (headerObject != null) {
+                buildMap {
+                    headerObject.keys().forEach { k ->
+                        val name = StreamHeaders.canonicalName(k) ?: return@forEach
+                        headerObject.optString(k).trim().takeIf { it.isNotEmpty() }?.let { put(name, it) }
+                    }
+                }
+            } else {
+                parseLicenseHeaders(license.optString("req_headers"))
+            }
+            return configFor(scheme, license.optString("server_url").trim(), headers)
+        }
+
+        private fun base64Text(value: String): String =
+            runCatching { String(java.util.Base64.getDecoder().decode(value.trim()), Charsets.UTF_8) }.getOrDefault("")
 
         /**
          * Inline ClearKey keys → hex key ID to hex key, or null when [raw] is not inline key data
@@ -200,8 +285,10 @@ data class DrmConfig(
 
         const val PROP_LICENSE_TYPE = "license_type"
         const val PROP_LICENSE_KEY = "license_key"
+        const val PROP_DRM = "drm"
+        const val PROP_DRM_LEGACY = "drm_legacy"
 
-        private val DRM_PROPS = setOf(PROP_LICENSE_TYPE, PROP_LICENSE_KEY)
+        private val DRM_PROPS = setOf(PROP_LICENSE_TYPE, PROP_LICENSE_KEY, PROP_DRM, PROP_DRM_LEGACY)
 
         private const val KEY_SCHEME = "scheme"
         private const val KEY_LICENSE = "license"

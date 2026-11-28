@@ -3,6 +3,11 @@ package tv.own.owntv.core.sync.local
 import java.io.File
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import tv.own.owntv.core.backup.BackupManager
 
 /**
@@ -16,8 +21,13 @@ import tv.own.owntv.core.backup.BackupManager
 class AutoSyncTransfer(
     private val backups: BackupManager,
     private val profileDao: tv.own.owntv.core.database.dao.ProfileDao,
+    private val series: tv.own.owntv.core.repository.SeriesRepository,
     private val cacheDir: () -> File,
 ) {
+    /** Outlives a pass: the episode loads after an import must not hold the other device's request open. */
+    private val background = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private var episodeLoad: Job? = null
+
     /** Whether the agreement's profile is still here; one that was deleted ends the agreement. */
     suspend fun profileExists(agreement: AutoSyncAgreement): Boolean = profileDao.getById(agreement.localProfileId) != null
 
@@ -36,11 +46,22 @@ class AutoSyncTransfer(
         val inFile = backups.sectionsIn(file, secret).getOrThrow().sections
         val allowed = AutoSyncAgreement.allowedIn(agreement.sections, inFile)
         if (allowed.isEmpty()) return 0
-        return backups.import(
+        val items = backups.import(
             file, allowed, secret, BackupManager.ImportMode.MERGE,
             deviceSettings = false,
             intoProfile = agreement.localProfileId,
         ).getOrThrow().items
+        // An episode watched on the other device waits for its episode row, which Xtream and Stalker
+        // fetch only when the show is opened; fetch those few shows now so it reaches Continue Watching.
+        synchronized(this) {
+            if (episodeLoad?.isActive != true) {
+                episodeLoad = background.launch {
+                    runCatching { series.loadEpisodesForPendingRecords() }
+                        .onFailure { android.util.Log.w("AutoSyncTransfer", "pending episode load failed", it) }
+                }
+            }
+        }
+        return items
     }
 
     /** A place for a container on its way in. Delete it after use. */

@@ -247,7 +247,7 @@ val dataModule = module {
     single { tv.own.owntv.core.sync.local.LocalAutoSyncStore(androidContext(), get()) }
     single { tv.own.owntv.core.sync.local.AutoSyncLocks() }
     single { tv.own.owntv.core.sync.local.LocalAutoSyncClient() }
-    single { tv.own.owntv.core.sync.local.AutoSyncTransfer(get(), get()) { androidContext().cacheDir } }
+    single { tv.own.owntv.core.sync.local.AutoSyncTransfer(get(), get(), get()) { androidContext().cacheDir } }
     single {
         tv.own.owntv.core.sync.local.LocalAutoSyncServer(
             store = get(),

@@ -31,7 +31,14 @@ class StreamUrlResolver(
      * ("resolve fresh"). For direct-play portals the fresh URL equals the stored one
      * (their embedded token is static); for placeholder-cmd portals it's a brand-new `create_link`.
      */
-    suspend fun resolve(source: SourceEntity, storedUrl: String, vod: Boolean = false, episode: Int? = null): String {
+    suspend fun resolve(
+        source: SourceEntity,
+        storedUrl: String,
+        vod: Boolean = false,
+        episode: Int? = null,
+        /** A film's portal id: its file is looked up first, as a MAG box does (see [filmFileCmd]). */
+        movieId: String? = null,
+    ): String {
         if (source.type != SourceType.STALKER) return storedUrl
         StalkerClient.parseVodEpisodeRef(storedUrl)?.let { return resolveVodEpisode(source, it) }
         // Many portals embed the full playable URL right in the channel cmd — play it as-is. Only a
@@ -42,13 +49,31 @@ class StreamUrlResolver(
         if (episode == null && StalkerClient.isDirectPlayUrl(direct)) return direct
         val mac = source.mac?.let { StalkerClient.canonicalizeMac(it) } ?: return direct
         val creds = source.stalkerCredentials(mac)
+        val film = vod && episode == null && !movieId.isNullOrBlank()
         return stalkerAuth.withAuthRetry(creds) { session ->
+            val cmd = if (film) filmFileCmd(session, mac, creds.userAgent, movieId) ?: storedUrl else storedUrl
             stalkerClient.createLink(
-                session.apiBase, mac, session.token, creds.userAgent, storedUrl,
+                session.apiBase, mac, session.token, creds.userAgent, cmd,
                 type = if (vod) "vod" else "itv", episode = episode,
             )
         }
     }
+
+    /**
+     * The film's first file, `/media/file_<id>.mpg` — what a MAG box links instead of the catalogue
+     * cmd. Some portals never answer `create_link` for the catalogue cmd of a film that has files
+     * (a 20 s timeout and nothing on screen), while others accept either. Null when the portal lists
+     * none or the lookup fails for any reason but the session, so the catalogue cmd is tried as before.
+     */
+    private suspend fun filmFileCmd(session: StalkerSession, mac: String, userAgent: String?, movieId: String): String? =
+        try {
+            stalkerClient.getVodEpisodeFileCmd(session.apiBase, mac, session.token, userAgent, movieId, seasonId = "0", episodeId = "0")
+        } catch (e: StalkerClient.StalkerAuthException) {
+            throw e
+        } catch (e: java.io.IOException) {
+            android.util.Log.w(TAG, "film file lookup failed movieId=$movieId — linking the catalogue cmd", e)
+            null
+        }
 
     /**
      * An episode of a show from the film catalogue's three-level tree: list the episode's files for

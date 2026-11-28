@@ -15,6 +15,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -104,9 +105,8 @@ class UpdateManager(
                     .header("Accept", "application/vnd.github+json")
                     .header("User-Agent", "OwnTV")
                     .build()
-                client.newCall(request).execute().use { resp ->
-                    if (!resp.isSuccessful) throw CheckHttpException(resp.code)
-                    val body = resp.body.string()
+                run {
+                    val body = latestReleaseBody(request)
                     if (body.isBlank()) throw InvalidReleaseResponseException()
                     val o = runCatching { JSONObject(body) }.getOrElse { throw InvalidReleaseResponseException() }
                     val version = o.optString("tag_name").removePrefix("v").takeIf { it.isNotBlank() }
@@ -137,6 +137,25 @@ class UpdateManager(
                 Log.w(TAG, "update check failed: ${error.message}", error)
                 _state.value = State.Failed(failureFor(error, checking = true))
             }
+        }
+    }
+
+    /**
+     * The latest-release answer. A 5xx is GitHub itself briefly failing — it happens for a few
+     * seconds at a time — so it is asked again before the user is shown the code; anything else
+     * (a 403 rate limit, a 404) would answer the same again and fails at once.
+     */
+    private suspend fun latestReleaseBody(request: Request): String {
+        var attempt = 0
+        while (true) {
+            val (code, retryAfter, body) = client.newCall(request).execute().use { resp ->
+                Triple(resp.code, resp.header("Retry-After"), if (resp.isSuccessful) resp.body.string() else null)
+            }
+            if (body != null) return body
+            val wait = checkRetryDelayMs(code, retryAfter, attempt) ?: throw CheckHttpException(code)
+            Log.i(TAG, "update check got HTTP $code — asking again in $wait ms")
+            delay(wait)
+            attempt++
         }
     }
 
@@ -306,5 +325,22 @@ class UpdateManager(
         private const val TAG = "UpdateManager"
         private const val SESSION_ENTRY = "owntv-update"
         private const val INSTALL_STATUS_ACTION = "tv.own.owntv.UPDATE_INSTALL_STATUS"
+
+        /** Two more tries after the first answer, so a short outage costs a few seconds, not a failure. */
+        private const val CHECK_RETRIES = 2
+        private const val CHECK_RETRY_BASE_MS = 1_500L
+        /** A `Retry-After` longer than this is not waited out behind a "Checking…" card. */
+        private const val CHECK_RETRY_MAX_MS = 10_000L
+
+        /**
+         * How long to wait before asking again after HTTP [code] on try [attempt] (0 = the first), or
+         * null to give up: only a 5xx is retried, at most [CHECK_RETRIES] times, after the server's own
+         * `Retry-After` seconds when it gives them, else a growing pause.
+         */
+        internal fun checkRetryDelayMs(code: Int, retryAfter: String?, attempt: Int): Long? {
+            if (code !in 500..599 || attempt >= CHECK_RETRIES) return null
+            val asked = retryAfter?.trim()?.toLongOrNull()?.takeIf { it >= 0 }?.times(1_000)
+            return (asked ?: (CHECK_RETRY_BASE_MS * (attempt + 1))).coerceAtMost(CHECK_RETRY_MAX_MS)
+        }
     }
 }

@@ -29,6 +29,10 @@ enum class RemoteShortcutAction {
     OPEN_AUDIO_CONTROLS,
     OPEN_ASPECT_CONTROLS,
     TOGGLE_PLAYBACK_INFO,
+    /** Add or remove a favorite: the picture on screen, else the channel, film or show under the cursor. */
+    TOGGLE_FAVORITE,
+    /** Record a channel from now (or stop it), or download a film, an episode, or a whole show. */
+    RECORD_OR_DOWNLOAD,
 }
 
 enum class RemoteShortcutPress { SHORT, LONG }

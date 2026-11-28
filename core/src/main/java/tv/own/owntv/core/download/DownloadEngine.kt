@@ -466,13 +466,15 @@ class DownloadEngine(
      * cmd will then fail → FAILED, which is the honest outcome).
      */
     private suspend fun resolveTarget(d: DownloadEntity): Resolved {
+        // A film's portal id, so a Stalker film links its file as playback does.
+        var movieId: String? = null
         val (sourceId, episode) = when (d.mediaType) {
             MediaType.EPISODE -> {
                 val ep = seriesDao.getEpisodeById(d.itemId)
                 val show = ep?.let { seriesDao.getSeriesById(it.seriesId) }
                 show?.sourceId to ep?.episodeNumber
             }
-            else -> movieDao.getById(d.itemId)?.sourceId to null
+            else -> movieDao.getById(d.itemId)?.also { movieId = it.remoteId }?.sourceId to null
         }
         val source = sourceId?.let { sourceDao.getById(it) }
         val max = source?.maxConnections ?: 0
@@ -480,7 +482,7 @@ class DownloadEngine(
             return Resolved(d.streamUrl, HttpClient.DEFAULT_USER_AGENT, sourceId, max)
         }
         val ua = source.userAgent?.takeIf { it.isNotBlank() } ?: StalkerClient.DEFAULT_MAG_USER_AGENT
-        val url = withContext(Dispatchers.IO) { streamUrlResolver.resolve(source, d.streamUrl, vod = true, episode = episode) }
+        val url = withContext(Dispatchers.IO) { streamUrlResolver.resolve(source, d.streamUrl, vod = true, episode = episode, movieId = movieId) }
         return Resolved(url, ua, sourceId, max)
     }
 

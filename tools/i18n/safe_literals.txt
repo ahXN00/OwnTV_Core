@@ -236,11 +236,11 @@
 12	json	core/src/main/java/tv/own/owntv/core/backup/UserDataResolver.kt	rid
 3	json	core/src/main/java/tv/own/owntv/core/backup/UserDataResolver.kt	sdesc
 6	json	core/src/main/java/tv/own/owntv/core/backup/UserDataResolver.kt	season
-5	json	core/src/main/java/tv/own/owntv/core/backup/UserDataResolver.kt	sname
+6	json	core/src/main/java/tv/own/owntv/core/backup/UserDataResolver.kt	sname
 9	json	core/src/main/java/tv/own/owntv/core/backup/UserDataResolver.kt	sort
-12	json	core/src/main/java/tv/own/owntv/core/backup/UserDataResolver.kt	src
-5	json	core/src/main/java/tv/own/owntv/core/backup/UserDataResolver.kt	srid
-16	json	core/src/main/java/tv/own/owntv/core/backup/UserDataResolver.kt	t
+13	json	core/src/main/java/tv/own/owntv/core/backup/UserDataResolver.kt	src
+6	json	core/src/main/java/tv/own/owntv/core/backup/UserDataResolver.kt	srid
+17	json	core/src/main/java/tv/own/owntv/core/backup/UserDataResolver.kt	t
 1	json	core/src/main/java/tv/own/owntv/core/backup/UserDataWriter.kt	fav
 4	json	core/src/main/java/tv/own/owntv/core/backup/UserDataWriter.kt	his
 1	json	core/src/main/java/tv/own/owntv/core/backup/UserDataWriter.kt	member
@@ -1900,8 +1900,10 @@
 1	protocol	core/src/main/java/tv/own/owntv/core/download/DownloadReasons.kt	No space left
 1	log	core/src/main/java/tv/own/owntv/core/download/DownloadReasons.kt	download failed: $reason${httpCode?.let { " (HTTP $it)" } ?: ""}
 1	log	core/src/main/java/tv/own/owntv/core/download/DownloadWorker.kt	owntv-downloads
-6	empty	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	\0
+11	empty	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	\0
+1	protocol	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	$kid:${k.optString(kid)}
 1	technical	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	%02x
+1	protocol	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	,
 1	technical	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	-
 1	protocol	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	B
 1	protocol	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	R
@@ -1911,17 +1913,26 @@
 1	json	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	clearKeys
 2	protocol	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	clearkey
 1	protocol	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	com.apple.fps
+1	protocol	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	drm
+1	protocol	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	drm_legacy
 2	protocol	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	fairplay
 1	json	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	headers
-1	protocol	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	http://
-1	protocol	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	https://
+2	url	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	http://
+2	url	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	https://
 1	json	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	k
+1	json	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	keyids
 1	json	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	keys
 1	json	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	kid
-1	json	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	license
+2	json	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	license
 1	protocol	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	license_key
 1	protocol	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	license_type
+1	json	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	priority
+1	json	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	req_data
+2	json	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	req_headers
+1	json	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	req_params
 1	json	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	scheme
+1	json	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	server_url
+1	json	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	unwrapper
 2	protocol	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	widevine
 1	technical	core/src/main/java/tv/own/owntv/core/drm/DrmConfig.kt	{
 2	empty	core/src/main/java/tv/own/owntv/core/epg/CatchupUrl.kt	\0
@@ -4887,8 +4898,10 @@
 1	json	core/src/main/java/tv/own/owntv/core/stalker/StalkerExpiry.kt	null
 1	json	core/src/main/java/tv/own/owntv/core/stalker/StalkerExpiry.kt	phone
 1	json	core/src/main/java/tv/own/owntv/core/stalker/StalkerExpiry.kt	tariff_expired_date
+2	protocol	core/src/main/java/tv/own/owntv/core/stalker/StreamUrlResolver.kt	0
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StreamUrlResolver.kt	Portal listed no file for episode ${ref.episodeId}
 3	protocol	core/src/main/java/tv/own/owntv/core/stalker/StreamUrlResolver.kt	Stalker source ${source.id} has no valid MAC
+1	log	core/src/main/java/tv/own/owntv/core/stalker/StreamUrlResolver.kt	film file lookup failed movieId=$movieId — linking the catalogue cmd
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StreamUrlResolver.kt	itv
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StreamUrlResolver.kt	resolveCatchup is Stalker-only
 1	protocol	core/src/main/java/tv/own/owntv/core/stalker/StreamUrlResolver.kt	shortEpg is Stalker-only
@@ -5374,8 +5387,10 @@
 1	technical	core/src/main/java/tv/own/owntv/core/sync/XtreamSyncer.kt	unknown
 1	technical	core/src/main/java/tv/own/owntv/core/sync/local/AutoSyncAgreement.kt	\0
 1	file-path	core/src/main/java/tv/own/owntv/core/sync/local/AutoSyncTransfer.kt	${UUID.randomUUID()}.own
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/AutoSyncTransfer.kt	AutoSyncTransfer
 1	file-path	core/src/main/java/tv/own/owntv/core/sync/local/AutoSyncTransfer.kt	auto-sync
 1	file-path	core/src/main/java/tv/own/owntv/core/sync/local/AutoSyncTransfer.kt	auto-sync/${UUID.randomUUID()}
+1	log	core/src/main/java/tv/own/owntv/core/sync/local/AutoSyncTransfer.kt	pending episode load failed
 1	technical	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncAuth.kt	\0
 1	technical	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncAuth.kt	%02x
 1	technical	core/src/main/java/tv/own/owntv/core/sync/local/LocalAutoSyncAuth.kt	HmacSHA256
@@ -5945,6 +5960,7 @@
 1	technical	core/src/main/java/tv/own/owntv/core/update/UpdateManager.kt	.apk
 1	technical	core/src/main/java/tv/own/owntv/core/update/UpdateManager.kt	Accept
 2	technical	core/src/main/java/tv/own/owntv/core/update/UpdateManager.kt	OwnTV
+1	protocol	core/src/main/java/tv/own/owntv/core/update/UpdateManager.kt	Retry-After
 1	log	core/src/main/java/tv/own/owntv/core/update/UpdateManager.kt	UpdateManager
 2	technical	core/src/main/java/tv/own/owntv/core/update/UpdateManager.kt	User-Agent
 1	mime	core/src/main/java/tv/own/owntv/core/update/UpdateManager.kt	application/vnd.github+json
@@ -5962,6 +5978,7 @@
 1	uri	core/src/main/java/tv/own/owntv/core/update/UpdateManager.kt	tv.own.owntv.UPDATE_INSTALL_STATUS
 1	log	core/src/main/java/tv/own/owntv/core/update/UpdateManager.kt	unparseable APK (${apk.length()} bytes)
 1	log	core/src/main/java/tv/own/owntv/core/update/UpdateManager.kt	update check failed: ${error.message}
+1	log	core/src/main/java/tv/own/owntv/core/update/UpdateManager.kt	update check got HTTP $code — asking again in $wait ms
 1	log	core/src/main/java/tv/own/owntv/core/update/UpdateManager.kt	update download failed: ${error.message}
 1	log	core/src/main/java/tv/own/owntv/core/update/UpdateManager.kt	update installed
 1	file-path	core/src/main/java/tv/own/owntv/core/update/UpdateManager.kt	updates

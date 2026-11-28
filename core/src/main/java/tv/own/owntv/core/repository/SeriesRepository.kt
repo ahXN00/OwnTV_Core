@@ -98,6 +98,19 @@ class SeriesRepository(
     }
 
     /**
+     * Loads the episodes of the shows that synced history or resume records are waiting on (see
+     * [tv.own.owntv.core.backup.UserDataResolver.showsWithPendingEpisodes]); each load resolves the
+     * records as it lands. One show at a time and a handful at most: this runs after a sync from
+     * another device, and a provider is not asked for a whole library on its behalf.
+     */
+    suspend fun loadEpisodesForPendingRecords() {
+        for (id in userData.showsWithPendingEpisodes(MAX_PENDING_SHOWS)) {
+            val show = seriesDao.getSeriesById(id) ?: continue
+            loadEpisodes(show)
+        }
+    }
+
+    /**
      * Writes a fetched list over the stored one, preserving the row id of every episode that
      * survives — see [planEpisodeMerge]. Rebuilding the rows wholesale would detach watch history,
      * resume positions and next-episode autoplay on every single refresh.
@@ -294,6 +307,9 @@ class SeriesRepository(
 
     private companion object {
         const val TAG = "SeriesRepository"
+
+        /** Shows loaded after one sync for the records waiting on them. */
+        const val MAX_PENDING_SHOWS = 8
 
         /** Safety cap on season paging (a show never has hundreds of season pages). */
         const val MAX_SEASON_PAGES = 20

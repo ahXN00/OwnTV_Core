@@ -373,6 +373,30 @@ class UserDataResolver(
     }
 
     /**
+     * The local shows that pending episode records belong to, newest record first, at most [limit].
+     *
+     * An episode record waits until its episode row exists, and Xtream and Stalker load a show's
+     * episodes only when the show is opened — so an episode watched on another device stayed out of
+     * Continue Watching until someone opened that show here. Loading these shows' episodes resolves it.
+     */
+    suspend fun showsWithPendingEpisodes(limit: Int): List<Long> {
+        val raw = context.pendingStore.data.first()[PENDING_KEY] ?: return emptyList()
+        val entries = runCatching { JSONArray(raw) }.getOrNull() ?: return emptyList()
+        val shows = LinkedHashSet<Long>()
+        for (i in entries.length() - 1 downTo 0) {
+            val e = entries.optJSONObject(i) ?: continue
+            if (e.optString("t") != MediaType.EPISODE.name) continue
+            val src = e.optLong("src", -1)
+            val show = e.optStringOrNull("srid")?.let { seriesDao.findSeriesByRemote(src, it) }
+                ?: e.optStringOrNull("sname")?.let { seriesDao.findSeriesByName(src, it) }
+                ?: continue
+            shows.add(show.id)
+            if (shows.size >= limit) break
+        }
+        return shows.toList()
+    }
+
+    /**
      * Tries to attach pending records to current content rows. Called after every successful source
      * sync and after a show's episodes load; resolved records are inserted (idempotently — the user
      * data tables have unique (profile, type, item) indices) and removed from the pending set.
