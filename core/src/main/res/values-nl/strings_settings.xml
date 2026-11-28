@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">Pagina naar laatste items</string>
     <string name="settings_remote_action_jump_first">Naar eerste item</string>
     <string name="settings_remote_action_jump_last">Naar laatste item</string>
+    <string name="settings_remote_action_toggle_favorite">Favoriet toevoegen of verwijderen</string>
+    <string name="settings_remote_action_record_or_download">Opnemen of downloaden</string>
     <string name="settings_large_skips_warning">Bij grote sprongen schiet je voorbij het einde van korte lijsten en kan de navigatie op minder krachtige tv\'s schokkerig aanvoelen.</string>
     <string name="settings_weather">Weer</string>
     <string name="settings_show_weather">Weer tonen</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">Minuut</string>
     <string name="settings_allowance_hour">Uur</string>
     <string name="settings_allowance_day">Dag</string>
+    <string name="settings_allowance_unlimited">Geen daglimiet</string>
     <plurals name="settings_allowance_value">
         <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> over</item>
         <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> over</item>
@@ -1779,4 +1782,33 @@
         <item quantity="one">terugkijken op <xliff:g id="count">%1$s</xliff:g></item>
         <item quantity="other">terugkijken op <xliff:g id="count">%1$s</xliff:g></item>
     </plurals>
+    <string name="settings_skip_group">Intro en aftiteling overslaan</string>
+    <string name="settings_skip_intro">Intro</string>
+    <string name="settings_skip_recap">Terugblik</string>
+    <string name="settings_skip_credits">Aftiteling</string>
+    <string name="settings_skip_preview">Vooruitblik</string>
+    <string name="settings_line_skip_part">Uit, een knop of automatisch overslaan</string>
+    <string name="settings_skip_part_description">Wat er gebeurt als dit deel speelt. De tijden komen van TheIntroDB, gedeeld door kijkers, voor films en afleveringen die met film- en seriedetails zijn gekoppeld.</string>
+    <string name="settings_skip_mode_button">Knop tonen</string>
+    <string name="settings_skip_mode_auto">Automatisch overslaan</string>
+    <string name="settings_skip_button_show">Overslaanknop</string>
+    <string name="settings_line_skip_button_show">Hoe lang de knop zichtbaar blijft</string>
+    <string name="settings_skip_button_start">Eerste 10 seconden</string>
+    <string name="settings_skip_button_whole">Hele deel</string>
+    <string name="settings_theintrodb_account">TheIntroDB-account</string>
+    <string name="settings_line_theintrodb">Optionele sleutel voor meer opzoekingen</string>
+    <string name="settings_theintrodb_api_key">TheIntroDB-API-sleutel</string>
+    <string name="settings_theintrodb_key_steps">Niet nodig: de tijden werken zonder sleutel. Voor een eigen sleutel: log in op theintrodb.org, open ‘Docs’ en kopieer ‘Your API Key’.</string>
+    <string name="settings_theintrodb_check">Sleutel controleren</string>
+    <string name="settings_theintrodb_connected">Verbonden · inzendingen: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">Geen sleutel · het gratis tegoed van dit netwerk</string>
+    <string name="settings_theintrodb_invalid">Sleutel niet geaccepteerd</string>
+    <string name="settings_theintrodb_unreachable">TheIntroDB is niet bereikbaar</string>
+    <string name="settings_theintrodb_key_received">TheIntroDB-sleutel ontvangen</string>
+    <string name="settings_theintrodb_attribution">De tijden om over te slaan komen van TheIntroDB en zijn community. Dit product wordt niet onderschreven door TheIntroDB.</string>
+    <string name="settings_heading_metadata">Metadata</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">Intro, terugblik en aftiteling overslaan</string>
+    <string name="settings_theintrodb_contribute">TheIntroDB heeft niet elke film en serie: de tijden worden door kijkers toegevoegd. Mist er een, dan kun je die zelf toevoegen: log in op theintrodb.org en stuur de tijden in, dan krijgt iedereen de overslaanknop.</string>
 </resources>

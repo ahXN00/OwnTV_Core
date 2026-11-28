@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">Lapozás az utolsó elemek felé</string>
     <string name="settings_remote_action_jump_first">Ugrás az első elemre</string>
     <string name="settings_remote_action_jump_last">Ugrás az utolsó elemre</string>
+    <string name="settings_remote_action_toggle_favorite">Kedvenc hozzáadása vagy eltávolítása</string>
+    <string name="settings_remote_action_record_or_download">Felvétel vagy letöltés</string>
     <string name="settings_large_skips_warning">A nagy ugrások túllőnek a rövid listákon, és gyengébb TV-ken akadozónak tűnhetnek.</string>
     <string name="settings_weather">Időjárás</string>
     <string name="settings_show_weather">Időjárás megjelenítése</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">Perc</string>
     <string name="settings_allowance_hour">Óra</string>
     <string name="settings_allowance_day">Nap</string>
+    <string name="settings_allowance_unlimited">Nincs napi korlát</string>
     <plurals name="settings_allowance_value">
         <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> maradt</item>
         <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> maradt</item>
@@ -1779,4 +1782,33 @@
         <item quantity="one">visszanézés <xliff:g id="count">%1$s</xliff:g> csatornán</item>
         <item quantity="other">visszanézés <xliff:g id="count">%1$s</xliff:g> csatornán</item>
     </plurals>
+    <string name="settings_skip_group">Intró és stáblista kihagyása</string>
+    <string name="settings_skip_intro">Intró</string>
+    <string name="settings_skip_recap">Összefoglaló</string>
+    <string name="settings_skip_credits">Stáblista</string>
+    <string name="settings_skip_preview">Előzetes</string>
+    <string name="settings_line_skip_part">Ki, gomb vagy automatikus kihagyás</string>
+    <string name="settings_skip_part_description">Mi történjen, amikor ez a rész megy. Az időpontok a TheIntroDB-ből származnak, nézők osztják meg őket, a film- és sorozatadatokkal párosított filmekhez és epizódokhoz.</string>
+    <string name="settings_skip_mode_button">Gomb megjelenítése</string>
+    <string name="settings_skip_mode_auto">Automatikus kihagyás</string>
+    <string name="settings_skip_button_show">Kihagyás gomb</string>
+    <string name="settings_line_skip_button_show">Meddig marad a gomb a képernyőn</string>
+    <string name="settings_skip_button_start">Első 10 másodperc</string>
+    <string name="settings_skip_button_whole">Az egész rész</string>
+    <string name="settings_theintrodb_account">TheIntroDB-fiók</string>
+    <string name="settings_line_theintrodb">Opcionális kulcs több lekérdezéshez</string>
+    <string name="settings_theintrodb_api_key">TheIntroDB API-kulcs</string>
+    <string name="settings_theintrodb_key_steps">Nem szükséges: az időpontok kulcs nélkül is működnek. Saját kulcshoz jelentkezzen be a theintrodb.org oldalon, nyissa meg a „Docs” részt, és másolja ki a „Your API Key” értéket.</string>
+    <string name="settings_theintrodb_check">Kulcs ellenőrzése</string>
+    <string name="settings_theintrodb_connected">Csatlakozva · beküldések: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">Nincs kulcs · a hálózat ingyenes kerete</string>
+    <string name="settings_theintrodb_invalid">A kulcsot nem fogadta el</string>
+    <string name="settings_theintrodb_unreachable">A TheIntroDB nem érhető el</string>
+    <string name="settings_theintrodb_key_received">TheIntroDB-kulcs megérkezett</string>
+    <string name="settings_theintrodb_attribution">A kihagyási időpontokat a TheIntroDB és közössége biztosítja. Ezt a terméket a TheIntroDB nem támogatja.</string>
+    <string name="settings_heading_metadata">Metaadatok</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">Intró, összefoglaló és stáblista kihagyása</string>
+    <string name="settings_theintrodb_contribute">A TheIntroDB nem tartalmaz minden filmet és sorozatot: az időpontokat nézők adják hozzá. Ha valami hiányzik, te is hozzáadhatod – jelentkezz be a theintrodb.org oldalon és küldd be az időpontokat, így mindenki megkapja a kihagyás gombot.</string>
 </resources>

@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">لاپەڕە بەرەو کۆتا ئایتمەکان</string>
     <string name="settings_remote_action_jump_first">بازدان بۆ یەکەم ئایتم</string>
     <string name="settings_remote_action_jump_last">بازدان بۆ کۆتا ئایتم</string>
+    <string name="settings_remote_action_toggle_favorite">زیادکردن یان لابردن لە دڵخوازەکان</string>
+    <string name="settings_remote_action_record_or_download">تۆمارکردن یان داگرتن</string>
     <string name="settings_large_skips_warning">بازدانی گەورە لە لیستە کورتەکان تێدەپەڕێت و لەسەر تیڤییە لاوازەکان لەوانەیە ناڕێک بێت.</string>
     <string name="settings_weather">کەشوهەوا</string>
     <string name="settings_show_weather">پیشاندانی کەشوهەوا</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">خولەک</string>
     <string name="settings_allowance_hour">کاتژمێر</string>
     <string name="settings_allowance_day">ڕۆژ</string>
+    <string name="settings_allowance_unlimited">سنووری ڕۆژانە نییە</string>
     <plurals name="settings_allowance_value">
         <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> ماوە</item>
         <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> ماوە</item>
@@ -1779,4 +1782,33 @@
         <item quantity="one">catch-up on <xliff:g id="count">%1$s</xliff:g></item>
         <item quantity="other">catch-up on <xliff:g id="count">%1$s</xliff:g></item>
     </plurals>
+    <string name="settings_skip_group">تێپەڕاندنی پێشەکی و ناوی بەشداران</string>
+    <string name="settings_skip_intro">پێشەکی</string>
+    <string name="settings_skip_recap">کورتە</string>
+    <string name="settings_skip_credits">ناوی بەشدارانی کۆتایی</string>
+    <string name="settings_skip_preview">پێشبینین</string>
+    <string name="settings_line_skip_part">کوژاوە، دوگمەیەک، یان تێپەڕاندنی خۆکار</string>
+    <string name="settings_skip_part_description">ئەوەی کاتێک ئەم بەشە لێدەدرێت ڕوودەدات. کاتەکان لە TheIntroDB ـەوە دێن، بینەران هاوبەشیان دەکەن، بۆ فیلم و ئەڵقەکانێک کە لەگەڵ وردەکاریی فیلم و زنجیرەکان گونجێنراون.</string>
+    <string name="settings_skip_mode_button">دوگمەیەک پیشان بدە</string>
+    <string name="settings_skip_mode_auto">بە خۆکاری تێپەڕێنە</string>
+    <string name="settings_skip_button_show">دوگمەی تێپەڕاندن</string>
+    <string name="settings_line_skip_button_show">دوگمەکە چەند لەسەر شاشە دەمێنێتەوە</string>
+    <string name="settings_skip_button_start">یەکەم 10 چرکە</string>
+    <string name="settings_skip_button_whole">هەموو بەشەکە</string>
+    <string name="settings_theintrodb_account">هەژماری TheIntroDB</string>
+    <string name="settings_line_theintrodb">کلیلی ئارەزوومەندانە بۆ گەڕانی زیاتر</string>
+    <string name="settings_theintrodb_api_key">کلیلی API ی TheIntroDB</string>
+    <string name="settings_theintrodb_key_steps">پێویست نییە: کاتەکان بێ کلیل کار دەکەن. بۆ بەکارهێنانی کلیلی خۆت، لە theintrodb.org بچۆ ژوورەوە، «Docs» بکەرەوە و «Your API Key» کۆپی بکە.</string>
+    <string name="settings_theintrodb_check">پشکنینی کلیل</string>
+    <string name="settings_theintrodb_connected">پەیوەستە · ناردنەکان: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">کلیل نییە · بەشی بەخۆڕایی ئەم تۆڕە</string>
+    <string name="settings_theintrodb_invalid">کلیلەکە پەسەند نەکرا</string>
+    <string name="settings_theintrodb_unreachable">نەتوانرا بگاتە TheIntroDB</string>
+    <string name="settings_theintrodb_key_received">کلیلی TheIntroDB وەرگیرا</string>
+    <string name="settings_theintrodb_attribution">کاتەکانی تێپەڕاندن لەلایەن TheIntroDB و کۆمەڵگاکەیەوە دابین دەکرێن. ئەم بەرهەمە لەلایەن TheIntroDB ـەوە پشتگیری نەکراوە.</string>
+    <string name="settings_heading_metadata">مێتاداتا</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">تێپەڕاندنی پێشەکی، کورتە و ناوی بەشداران</string>
+    <string name="settings_theintrodb_contribute">TheIntroDB هەموو فیلم و زنجیرەیەکی تێدا نییە: کاتەکان بینەران زیادیان دەکەن. ئەگەر یەکێک نەبوو، دەتوانیت خۆت زیادی بکەیت — لە theintrodb.org بچۆ ژوورەوە و کاتەکان بنێرە، ئیتر هەمووان دوگمەی تێپەڕاندن وەردەگرن.</string>
 </resources>

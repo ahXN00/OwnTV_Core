@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">向後段項目翻頁</string>
     <string name="settings_remote_action_jump_first">跳到第一項</string>
     <string name="settings_remote_action_jump_last">跳到最後一項</string>
+    <string name="settings_remote_action_toggle_favorite">加入或移除我的最愛</string>
+    <string name="settings_remote_action_record_or_download">錄影或下載</string>
     <string name="settings_large_skips_warning">較大的跳轉數會越過短清單中的項目，在低階電視上也可能顯得不夠流暢。</string>
     <string name="settings_weather">天氣</string>
     <string name="settings_show_weather">顯示天氣</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">分鐘</string>
     <string name="settings_allowance_hour">小時</string>
     <string name="settings_allowance_day">天</string>
+    <string name="settings_allowance_unlimited">無每日上限</string>
     <plurals name="settings_allowance_value">
         <item quantity="other">剩餘 <xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g></item>
     </plurals>
@@ -1739,4 +1742,33 @@
     <plurals name="settings_epg_line_catchup">
         <item quantity="other"><xliff:g id="count">%1$s</xliff:g> 個頻道可回看</item>
     </plurals>
+    <string name="settings_skip_group">略過片頭與片尾</string>
+    <string name="settings_skip_intro">片頭</string>
+    <string name="settings_skip_recap">前情提要</string>
+    <string name="settings_skip_credits">片尾字幕</string>
+    <string name="settings_skip_preview">預告</string>
+    <string name="settings_line_skip_part">關閉、按鈕或自動略過</string>
+    <string name="settings_skip_part_description">播放此部分時的處理方式。時間來自觀眾分享的 TheIntroDB，適用於已透過影視詳細資料配對的電影和劇集。</string>
+    <string name="settings_skip_mode_button">顯示按鈕</string>
+    <string name="settings_skip_mode_auto">自動略過</string>
+    <string name="settings_skip_button_show">略過按鈕</string>
+    <string name="settings_line_skip_button_show">按鈕在畫面上停留多久</string>
+    <string name="settings_skip_button_start">前 10 秒</string>
+    <string name="settings_skip_button_whole">整個部分</string>
+    <string name="settings_theintrodb_account">TheIntroDB 帳戶</string>
+    <string name="settings_line_theintrodb">選用金鑰，可取得更多查詢次數</string>
+    <string name="settings_theintrodb_api_key">TheIntroDB API 金鑰</string>
+    <string name="settings_theintrodb_key_steps">不需要金鑰也能使用。如要使用自己的金鑰，請登入 theintrodb.org，開啟「Docs」並複製「Your API Key」。</string>
+    <string name="settings_theintrodb_check">檢查金鑰</string>
+    <string name="settings_theintrodb_connected">已連線 · 提交數：<xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">無金鑰 · 使用此網路的免費額度</string>
+    <string name="settings_theintrodb_invalid">金鑰未被接受</string>
+    <string name="settings_theintrodb_unreachable">無法連線至 TheIntroDB</string>
+    <string name="settings_theintrodb_key_received">已收到 TheIntroDB 金鑰</string>
+    <string name="settings_theintrodb_attribution">略過時間由 TheIntroDB 及其社群提供。本產品未獲 TheIntroDB 認可。</string>
+    <string name="settings_heading_metadata">中繼資料</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">略過片頭、前情提要和片尾</string>
+    <string name="settings_theintrodb_contribute">TheIntroDB 並未收錄所有電影和劇集：時間由觀眾新增。如有缺漏，你也可以自己新增——登入 theintrodb.org 並提交時間，所有人都能使用略過按鈕。</string>
 </resources>

@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">Stránka k posledním položkám</string>
     <string name="settings_remote_action_jump_first">Přejít na první položku</string>
     <string name="settings_remote_action_jump_last">Přejít na poslední položku</string>
+    <string name="settings_remote_action_toggle_favorite">Přidat do oblíbených nebo odebrat</string>
+    <string name="settings_remote_action_record_or_download">Nahrát nebo stáhnout</string>
     <string name="settings_large_skips_warning">Velké přeskoky mohou přeskočit krátké seznamy a na méně výkonných televizorech působit trhaně.</string>
     <string name="settings_weather">Počasí</string>
     <string name="settings_show_weather">Zobrazovat počasí</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">Minuta</string>
     <string name="settings_allowance_hour">Hodina</string>
     <string name="settings_allowance_day">Den</string>
+    <string name="settings_allowance_unlimited">Bez denního limitu</string>
     <plurals name="settings_allowance_value">
         <item quantity="one">zbývá <xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g></item>
         <item quantity="few">zbývá <xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g></item>
@@ -1859,4 +1862,33 @@
         <item quantity="many">catch-up na <xliff:g id="count">%1$s</xliff:g></item>
         <item quantity="other">catch-up na <xliff:g id="count">%1$s</xliff:g></item>
     </plurals>
+    <string name="settings_skip_group">Přeskakování úvodu a titulků</string>
+    <string name="settings_skip_intro">Úvod</string>
+    <string name="settings_skip_recap">Shrnutí</string>
+    <string name="settings_skip_credits">Závěrečné titulky</string>
+    <string name="settings_skip_preview">Upoutávka</string>
+    <string name="settings_line_skip_part">Vypnuto, tlačítko nebo automatické přeskočení</string>
+    <string name="settings_skip_part_description">Co se stane, když se tato část přehrává. Časy pocházejí z TheIntroDB, sdílené diváky, pro filmy a epizody spárované s podrobnostmi o filmech a seriálech.</string>
+    <string name="settings_skip_mode_button">Zobrazit tlačítko</string>
+    <string name="settings_skip_mode_auto">Přeskočit automaticky</string>
+    <string name="settings_skip_button_show">Tlačítko přeskočení</string>
+    <string name="settings_line_skip_button_show">Jak dlouho zůstane tlačítko na obrazovce</string>
+    <string name="settings_skip_button_start">Prvních 10 sekund</string>
+    <string name="settings_skip_button_whole">Celá část</string>
+    <string name="settings_theintrodb_account">Účet TheIntroDB</string>
+    <string name="settings_line_theintrodb">Volitelný klíč pro více dotazů</string>
+    <string name="settings_theintrodb_api_key">API klíč TheIntroDB</string>
+    <string name="settings_theintrodb_key_steps">Není potřeba: časy fungují bez klíče. Pro vlastní klíč se přihlaste na theintrodb.org, otevřete „Docs“ a zkopírujte „Your API Key“.</string>
+    <string name="settings_theintrodb_check">Ověřit klíč</string>
+    <string name="settings_theintrodb_connected">Připojeno · příspěvky: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">Bez klíče · bezplatný limit této sítě</string>
+    <string name="settings_theintrodb_invalid">Klíč nebyl přijat</string>
+    <string name="settings_theintrodb_unreachable">TheIntroDB není dostupná</string>
+    <string name="settings_theintrodb_key_received">Klíč TheIntroDB přijat</string>
+    <string name="settings_theintrodb_attribution">Časy přeskakování poskytuje TheIntroDB a jeho komunita. Tento produkt není schválen TheIntroDB.</string>
+    <string name="settings_heading_metadata">Metadata</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">Přeskakování úvodu, shrnutí a titulků</string>
+    <string name="settings_theintrodb_contribute">TheIntroDB nemá všechny filmy a seriály: časy přidávají diváci. Pokud nějaký chybí, můžete ho přidat sami – přihlaste se na theintrodb.org a odešlete časy, a všichni dostanou tlačítko přeskočení.</string>
 </resources>

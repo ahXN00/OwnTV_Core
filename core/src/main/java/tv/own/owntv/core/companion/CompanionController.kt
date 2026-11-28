@@ -60,6 +60,8 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
     val tmdbConfigs: SharedFlow<CompanionServiceConfig> = _tmdbConfigs.asSharedFlow()
     private val _openSubtitlesConfigs = MutableSharedFlow<CompanionServiceConfig>(extraBufferCapacity = 4)
     val openSubtitlesConfigs: SharedFlow<CompanionServiceConfig> = _openSubtitlesConfigs.asSharedFlow()
+    private val _theIntroDbConfigs = MutableSharedFlow<CompanionServiceConfig>(extraBufferCapacity = 4)
+    val theIntroDbConfigs: SharedFlow<CompanionServiceConfig> = _theIntroDbConfigs.asSharedFlow()
 
     /** The playlist [startForSourceEdit] is editing; a submission's empty fields are filled from it. */
     @Volatile private var editing: SourceEntity? = null
@@ -200,6 +202,7 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
 
     fun startForTmdbConfig(port: Int) = startInternal(port, CompanionMode.TMDB_CONFIG)
     fun startForOpenSubtitlesConfig(port: Int) = startInternal(port, CompanionMode.OPEN_SUBTITLES_CONFIG)
+    fun startForTheIntroDbConfig(port: Int) = startInternal(port, CompanionMode.THEINTRODB_CONFIG)
 
     private fun startInternal(
         port: Int,
@@ -241,6 +244,7 @@ class CompanionController(context: Context, localeStore: LocaleStore) {
                     when (mode) {
                         CompanionMode.TMDB_CONFIG -> _tmdbConfigs.tryEmit(config)
                         CompanionMode.OPEN_SUBTITLES_CONFIG -> _openSubtitlesConfigs.tryEmit(config)
+                        CompanionMode.THEINTRODB_CONFIG -> _theIntroDbConfigs.tryEmit(config)
                         else -> Unit
                     }
                 },

@@ -90,6 +90,9 @@ have numbers that can disagree.
 - Zero-copy **4K HDR** direct rendering, frame-rate matching, throughput tracking, resolution and
   codec reporting, volume boost, subtitle shift and language selection
 - Live timeline geometry for catch-up/rewind, hero and preview engines for browse screens
+- **Skip intro, recap, end credits and preview** — times from [TheIntroDB](https://theintrodb.org/),
+  asked from the device with the user's optional key, kept in memory only; the end credits drive the
+  next-episode card
 
 ### 🗄️ Data & sync (`:core`)
 - **Room** database with the full migration chain, plus paging
@@ -273,6 +276,12 @@ Movie & series metadata and trailers are provided by [TMDB](https://www.themovie
 <img src="extras/partner-logos/opensubtitles_logo.svg" alt="OpenSubtitles" width="200">
 
 Subtitle search and downloads are powered by [OpenSubtitles](https://www.opensubtitles.com/).
+
+<img src="extras/partner-logos/theintrodb_logo.svg" alt="TheIntroDB" height="120">
+
+Skip times for intros, recaps, end credits and previews come from [TheIntroDB](https://theintrodb.org/),
+a free database built by its community — anyone can add the times a title is still missing there. The
+TheIntroDB logo is the project's own artwork, used unchanged under CC BY-SA 4.0.
 
 ### ▶️ Playback engines
 

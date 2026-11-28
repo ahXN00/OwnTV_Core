@@ -1324,6 +1324,12 @@ class OwnTVPlayer(
     /** HUD "Cancel" on the next-episode countdown: skip the automatic advance for the current item. */
     fun cancelAutoNext() { item.autoNextCancelled = true }
 
+    /** True once the viewer cancelled this item's automatic advance (the card's Cancel / Watch credits). */
+    val autoNextCancelled: Boolean get() = item.autoNextCancelled
+
+    /** A catch-up or live-rewind archive programme is loaded — never a film or an episode. */
+    val isArchiveItem: Boolean get() = item.archiveThisItem
+
     // Emitted when the LAST item of an episode queue finishes naturally and auto-play is on, so the
     // series ViewModel can continue into the next season (it has the full series; the player only has
     // the current season's queue). Within-season advance is handled by the player itself.
@@ -3833,6 +3839,17 @@ class OwnTVPlayer(
     fun seekBy(deltaMs: Long) {
         if (exoActive) { exoEngine?.seekBy(deltaMs); return }
         if (initialized) mpvAsync { command(arrayOf("seek", (deltaMs / 1000).toString(), "relative")) }
+    }
+
+    /**
+     * Jump to an exact point of the playing film or episode — the end of an intro, recap or preview
+     * being skipped. Exact on both engines (mpv's absolute seek, ExoPlayer's default): a skip lands
+     * once, and a keyframe snap could put the viewer seconds back inside the part they just skipped.
+     */
+    fun seekTo(positionMs: Long) {
+        if (isLiveContent) return
+        if (exoActive) { exoEngine?.seekTo(positionMs); return }
+        if (initialized) mpvAsync { command(MpvLoadCommand.seekTo(positionMs.coerceAtLeast(0))) }
     }
 
     fun setSpeed(speed: Double) {

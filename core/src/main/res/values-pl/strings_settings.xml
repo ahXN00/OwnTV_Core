@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">Strona ku ostatnim elementom</string>
     <string name="settings_remote_action_jump_first">Przejdź do pierwszego elementu</string>
     <string name="settings_remote_action_jump_last">Przejdź do ostatniego elementu</string>
+    <string name="settings_remote_action_toggle_favorite">Dodaj do ulubionych lub usuń</string>
+    <string name="settings_remote_action_record_or_download">Nagraj lub pobierz</string>
     <string name="settings_large_skips_warning">Duże wartości mogą powodować przeskakiwanie poza krótkie listy i sprawiać wrażenie gwałtownego działania na słabszych telewizorach.</string>
     <string name="settings_weather">Pogoda</string>
     <string name="settings_show_weather">Pokazuj pogodę</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">Minuta</string>
     <string name="settings_allowance_hour">Godzina</string>
     <string name="settings_allowance_day">Dzień</string>
+    <string name="settings_allowance_unlimited">Bez dziennego limitu</string>
     <plurals name="settings_allowance_value">
         <item quantity="one">pozostało <xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g></item>
         <item quantity="few">pozostało <xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g></item>
@@ -1859,4 +1862,33 @@
         <item quantity="many">catch-up na <xliff:g id="count">%1$s</xliff:g></item>
         <item quantity="other">catch-up na <xliff:g id="count">%1$s</xliff:g></item>
     </plurals>
+    <string name="settings_skip_group">Pomijanie czołówki i napisów</string>
+    <string name="settings_skip_intro">Czołówka</string>
+    <string name="settings_skip_recap">Streszczenie</string>
+    <string name="settings_skip_credits">Napisy końcowe</string>
+    <string name="settings_skip_preview">Zapowiedź</string>
+    <string name="settings_line_skip_part">Wyłączone, przycisk lub automatyczne pominięcie</string>
+    <string name="settings_skip_part_description">Co się dzieje, gdy odtwarzana jest ta część. Czasy pochodzą z TheIntroDB, udostępnione przez widzów, dla filmów i odcinków dopasowanych do szczegółów filmów i seriali.</string>
+    <string name="settings_skip_mode_button">Pokaż przycisk</string>
+    <string name="settings_skip_mode_auto">Pomijaj automatycznie</string>
+    <string name="settings_skip_button_show">Przycisk pomijania</string>
+    <string name="settings_line_skip_button_show">Jak długo przycisk jest widoczny</string>
+    <string name="settings_skip_button_start">Pierwsze 10 sekund</string>
+    <string name="settings_skip_button_whole">Cała część</string>
+    <string name="settings_theintrodb_account">Konto TheIntroDB</string>
+    <string name="settings_line_theintrodb">Opcjonalny klucz dla większej liczby zapytań</string>
+    <string name="settings_theintrodb_api_key">Klucz API TheIntroDB</string>
+    <string name="settings_theintrodb_key_steps">Niepotrzebny: czasy działają bez klucza. Aby użyć własnego, zaloguj się na theintrodb.org, otwórz „Docs” i skopiuj „Your API Key”.</string>
+    <string name="settings_theintrodb_check">Sprawdź klucz</string>
+    <string name="settings_theintrodb_connected">Połączono · zgłoszenia: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">Brak klucza · darmowy limit tej sieci</string>
+    <string name="settings_theintrodb_invalid">Klucz nie został przyjęty</string>
+    <string name="settings_theintrodb_unreachable">Nie można połączyć się z TheIntroDB</string>
+    <string name="settings_theintrodb_key_received">Odebrano klucz TheIntroDB</string>
+    <string name="settings_theintrodb_attribution">Czasy pomijania pochodzą z TheIntroDB i jego społeczności. Ten produkt nie jest wspierany przez TheIntroDB.</string>
+    <string name="settings_heading_metadata">Metadane</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">Pomijanie czołówki, streszczenia i napisów</string>
+    <string name="settings_theintrodb_contribute">TheIntroDB nie ma wszystkich filmów i seriali: czasy dodają widzowie. Jeśli czegoś brakuje, możesz to dodać sam – zaloguj się na theintrodb.org i prześlij czasy, a wszyscy dostaną przycisk pomijania.</string>
 </resources>

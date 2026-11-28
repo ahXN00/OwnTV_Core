@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">向后部项目翻页</string>
     <string name="settings_remote_action_jump_first">跳到第一项</string>
     <string name="settings_remote_action_jump_last">跳到最后一项</string>
+    <string name="settings_remote_action_toggle_favorite">添加或移除收藏</string>
+    <string name="settings_remote_action_record_or_download">录制或下载</string>
     <string name="settings_large_skips_warning">较大的跳过数量会越过短列表中的项目，并且在低端电视上可能显得卡顿突兀。</string>
     <string name="settings_weather">天气</string>
     <string name="settings_show_weather">显示天气</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">分钟</string>
     <string name="settings_allowance_hour">小时</string>
     <string name="settings_allowance_day">天</string>
+    <string name="settings_allowance_unlimited">无每日上限</string>
     <plurals name="settings_allowance_value">
         <item quantity="other">剩余 <xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g></item>
     </plurals>
@@ -1739,4 +1742,33 @@
     <plurals name="settings_epg_line_catchup">
         <item quantity="other"><xliff:g id="count">%1$s</xliff:g> 个频道可回看</item>
     </plurals>
+    <string name="settings_skip_group">跳过片头和片尾</string>
+    <string name="settings_skip_intro">片头</string>
+    <string name="settings_skip_recap">前情提要</string>
+    <string name="settings_skip_credits">片尾字幕</string>
+    <string name="settings_skip_preview">预告</string>
+    <string name="settings_line_skip_part">关闭、按钮或自动跳过</string>
+    <string name="settings_skip_part_description">播放此部分时的处理方式。时间来自观众共享的 TheIntroDB，适用于已通过影视详情匹配的电影和剧集。</string>
+    <string name="settings_skip_mode_button">显示按钮</string>
+    <string name="settings_skip_mode_auto">自动跳过</string>
+    <string name="settings_skip_button_show">跳过按钮</string>
+    <string name="settings_line_skip_button_show">按钮在屏幕上停留多久</string>
+    <string name="settings_skip_button_start">前 10 秒</string>
+    <string name="settings_skip_button_whole">整个部分</string>
+    <string name="settings_theintrodb_account">TheIntroDB 账户</string>
+    <string name="settings_line_theintrodb">可选密钥，可获得更多查询次数</string>
+    <string name="settings_theintrodb_api_key">TheIntroDB API 密钥</string>
+    <string name="settings_theintrodb_key_steps">无需密钥即可使用。如需使用自己的密钥，请登录 theintrodb.org，打开“Docs”并复制“Your API Key”。</string>
+    <string name="settings_theintrodb_check">检查密钥</string>
+    <string name="settings_theintrodb_connected">已连接 · 提交数：<xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">无密钥 · 使用此网络的免费额度</string>
+    <string name="settings_theintrodb_invalid">密钥未被接受</string>
+    <string name="settings_theintrodb_unreachable">无法连接 TheIntroDB</string>
+    <string name="settings_theintrodb_key_received">已收到 TheIntroDB 密钥</string>
+    <string name="settings_theintrodb_attribution">跳过时间由 TheIntroDB 及其社区提供。本产品未获得 TheIntroDB 的认可。</string>
+    <string name="settings_heading_metadata">元数据</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">跳过片头、前情提要和片尾</string>
+    <string name="settings_theintrodb_contribute">TheIntroDB 并未收录所有电影和剧集：时间由观众添加。如有缺失，你也可以自己添加——登录 theintrodb.org 并提交时间，所有人都能用上跳过按钮。</string>
 </resources>

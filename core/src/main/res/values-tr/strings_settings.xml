@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">Son öğelere doğru sayfala</string>
     <string name="settings_remote_action_jump_first">İlk öğeye git</string>
     <string name="settings_remote_action_jump_last">Son öğeye git</string>
+    <string name="settings_remote_action_toggle_favorite">Favorilere ekle veya kaldır</string>
+    <string name="settings_remote_action_record_or_download">Kaydet veya indir</string>
     <string name="settings_large_skips_warning">Büyük atlama değerleri kısa listelerin sonunu aşar ve düşük donanımlı TV\'lerde geçişlerin fazla sıçramalı hissedilmesine neden olabilir.</string>
     <string name="settings_weather">Hava durumu</string>
     <string name="settings_show_weather">Hava durumunu göster</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">Dakika</string>
     <string name="settings_allowance_hour">Saat</string>
     <string name="settings_allowance_day">Gün</string>
+    <string name="settings_allowance_unlimited">Günlük sınır yok</string>
     <plurals name="settings_allowance_value">
         <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> kaldı</item>
         <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> kaldı</item>
@@ -1779,4 +1782,33 @@
         <item quantity="one"><xliff:g id="count">%1$s</xliff:g> kanalda geçmiş yayın</item>
         <item quantity="other"><xliff:g id="count">%1$s</xliff:g> kanalda geçmiş yayın</item>
     </plurals>
+    <string name="settings_skip_group">Giriş ve jeneriği atla</string>
+    <string name="settings_skip_intro">Giriş</string>
+    <string name="settings_skip_recap">Özet</string>
+    <string name="settings_skip_credits">Kapanış jeneriği</string>
+    <string name="settings_skip_preview">Fragman</string>
+    <string name="settings_line_skip_part">Kapalı, bir düğme veya otomatik atla</string>
+    <string name="settings_skip_part_description">Bu bölüm oynarken ne olacağı. Süreler, izleyicilerin paylaştığı TheIntroDB’den gelir; film ve dizi ayrıntılarıyla eşleşen filmler ve bölümler için.</string>
+    <string name="settings_skip_mode_button">Düğme göster</string>
+    <string name="settings_skip_mode_auto">Otomatik atla</string>
+    <string name="settings_skip_button_show">Atla düğmesi</string>
+    <string name="settings_line_skip_button_show">Düğmenin ekranda ne kadar kalacağı</string>
+    <string name="settings_skip_button_start">İlk 10 saniye</string>
+    <string name="settings_skip_button_whole">Tüm bölüm</string>
+    <string name="settings_theintrodb_account">TheIntroDB hesabı</string>
+    <string name="settings_line_theintrodb">Daha fazla sorgu için isteğe bağlı anahtar</string>
+    <string name="settings_theintrodb_api_key">TheIntroDB API anahtarı</string>
+    <string name="settings_theintrodb_key_steps">Gerekmez: süreler anahtarsız çalışır. Kendi anahtarınızı kullanmak için theintrodb.org’da oturum açın, “Docs” sayfasını açın ve “Your API Key” değerini kopyalayın.</string>
+    <string name="settings_theintrodb_check">Anahtarı denetle</string>
+    <string name="settings_theintrodb_connected">Bağlı · gönderimler: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">Anahtar yok · bu ağın ücretsiz kotası</string>
+    <string name="settings_theintrodb_invalid">Anahtar kabul edilmedi</string>
+    <string name="settings_theintrodb_unreachable">TheIntroDB’ye ulaşılamadı</string>
+    <string name="settings_theintrodb_key_received">TheIntroDB anahtarı alındı</string>
+    <string name="settings_theintrodb_attribution">Atlama süreleri TheIntroDB ve topluluğu tarafından sağlanır. Bu ürün TheIntroDB tarafından onaylanmamıştır.</string>
+    <string name="settings_heading_metadata">Meta veriler</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">Giriş, özet ve jeneriği atla</string>
+    <string name="settings_theintrodb_contribute">TheIntroDB’de her film ve dizi yok: süreleri izleyiciler ekliyor. Eksik biri varsa kendin ekleyebilirsin; theintrodb.org’da oturum açıp süreleri gönder, herkes atla düğmesini alsın.</string>
 </resources>

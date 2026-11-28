@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">마지막 항목 방향으로 페이지</string>
     <string name="settings_remote_action_jump_first">첫 항목으로 이동</string>
     <string name="settings_remote_action_jump_last">마지막 항목으로 이동</string>
+    <string name="settings_remote_action_toggle_favorite">즐겨찾기 추가/삭제</string>
+    <string name="settings_remote_action_record_or_download">녹화 또는 다운로드</string>
     <string name="settings_large_skips_warning">건너뛸 항목 수가 크면 짧은 목록을 지나칠 수 있고 사양이 낮은 TV에서는 움직임이 불안정하게 느껴질 수 있습니다.</string>
     <string name="settings_weather">날씨</string>
     <string name="settings_show_weather">날씨 표시</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">분</string>
     <string name="settings_allowance_hour">시간</string>
     <string name="settings_allowance_day">일</string>
+    <string name="settings_allowance_unlimited">일일 한도 없음</string>
     <plurals name="settings_allowance_value">
         <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> 남음</item>
     </plurals>
@@ -1739,4 +1742,33 @@
     <plurals name="settings_epg_line_catchup">
         <item quantity="other"><xliff:g id="count">%1$s</xliff:g>개 채널 다시보기</item>
     </plurals>
+    <string name="settings_skip_group">인트로 및 크레딧 건너뛰기</string>
+    <string name="settings_skip_intro">인트로</string>
+    <string name="settings_skip_recap">요약</string>
+    <string name="settings_skip_credits">엔딩 크레딧</string>
+    <string name="settings_skip_preview">예고</string>
+    <string name="settings_line_skip_part">끄기, 버튼 또는 자동 건너뛰기</string>
+    <string name="settings_skip_part_description">이 부분이 재생될 때의 동작입니다. 시간은 시청자가 공유하는 TheIntroDB에서 가져오며, 영화 및 시리즈 정보로 매칭된 영화와 에피소드에 적용됩니다.</string>
+    <string name="settings_skip_mode_button">버튼 표시</string>
+    <string name="settings_skip_mode_auto">자동으로 건너뛰기</string>
+    <string name="settings_skip_button_show">건너뛰기 버튼</string>
+    <string name="settings_line_skip_button_show">버튼이 화면에 표시되는 시간</string>
+    <string name="settings_skip_button_start">처음 10초</string>
+    <string name="settings_skip_button_whole">전체 구간</string>
+    <string name="settings_theintrodb_account">TheIntroDB 계정</string>
+    <string name="settings_line_theintrodb">더 많은 조회를 위한 선택 키</string>
+    <string name="settings_theintrodb_api_key">TheIntroDB API 키</string>
+    <string name="settings_theintrodb_key_steps">필요하지 않습니다. 키 없이도 작동합니다. 직접 키를 쓰려면 theintrodb.org에 로그인하고 “Docs”를 연 다음 “Your API Key”를 복사하세요.</string>
+    <string name="settings_theintrodb_check">키 확인</string>
+    <string name="settings_theintrodb_connected">연결됨 · 제출: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">키 없음 · 이 네트워크의 무료 한도</string>
+    <string name="settings_theintrodb_invalid">키가 거부되었습니다</string>
+    <string name="settings_theintrodb_unreachable">TheIntroDB에 연결할 수 없습니다</string>
+    <string name="settings_theintrodb_key_received">TheIntroDB 키를 받았습니다</string>
+    <string name="settings_theintrodb_attribution">건너뛰기 시간은 TheIntroDB와 커뮤니티가 제공합니다. 이 제품은 TheIntroDB의 보증을 받지 않았습니다.</string>
+    <string name="settings_heading_metadata">메타데이터</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">인트로, 요약, 크레딧 건너뛰기</string>
+    <string name="settings_theintrodb_contribute">TheIntroDB에 모든 영화와 시리즈가 있는 것은 아닙니다. 시간은 시청자가 추가합니다. 빠진 작품은 직접 추가할 수 있습니다. theintrodb.org에 로그인해 시간을 제출하면 모두가 건너뛰기 버튼을 쓸 수 있습니다.</string>
 </resources>

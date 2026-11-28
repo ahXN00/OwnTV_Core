@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.sync.withLock
 import tv.own.owntv.core.brand.AppIcon
 import tv.own.owntv.core.CoreBuildInfo
 import tv.own.owntv.core.i18n.LocaleStore
@@ -574,6 +575,14 @@ class SettingsRepository(private val context: Context, private val localeStore: 
         val METADATA_SERVER_URL = stringPreferencesKey("metadata_server_url")
         val OPEN_SUBTITLES_API_KEY = stringPreferencesKey("open_subtitles_api_key")
         val OPEN_SUBTITLES_SERVER_URL = stringPreferencesKey("open_subtitles_server_url")
+        // Skip intro & credits: one SkipMode name per part, how long the button shows, and the user's own
+        // TheIntroDB key (blank = keyless).
+        val SKIP_INTRO = stringPreferencesKey("skip_intro")
+        val SKIP_RECAP = stringPreferencesKey("skip_recap")
+        val SKIP_CREDITS = stringPreferencesKey("skip_credits")
+        val SKIP_PREVIEW = stringPreferencesKey("skip_preview")
+        val SKIP_BUTTON_SHOW = stringPreferencesKey("skip_button_show")
+        val THEINTRODB_API_KEY = stringPreferencesKey("theintrodb_api_key")
         // TMDB content language (ISO 639-1, optionally with region — e.g. "el", "pt-BR"). Blank = the
         // TMDB default (en-US), which is what every install used before this setting existed, so leaving
         // it blank keeps existing users' metadata exactly as it was. "auto" = follow the device locale.
@@ -1044,6 +1053,37 @@ class SettingsRepository(private val context: Context, private val localeStore: 
 
     suspend fun currentOpenSubtitlesApiKey(): String = context.dataStore.data.first()[Keys.OPEN_SUBTITLES_API_KEY] ?: ""
     suspend fun currentOpenSubtitlesServerUrl(): String = context.dataStore.data.first()[Keys.OPEN_SUBTITLES_SERVER_URL] ?: ""
+
+    /** Skip intro & credits: what each part does, and how long the skip button stays. */
+    val skipChoices: Flow<tv.own.owntv.core.skip.SkipChoices> = prefsFlow { p ->
+        fun mode(key: Preferences.Key<String>) = tv.own.owntv.core.skip.SkipMode.fromName(p[key])
+        tv.own.owntv.core.skip.SkipChoices(
+            intro = mode(Keys.SKIP_INTRO),
+            recap = mode(Keys.SKIP_RECAP),
+            credits = mode(Keys.SKIP_CREDITS),
+            preview = mode(Keys.SKIP_PREVIEW),
+            buttonShow = tv.own.owntv.core.skip.SkipButtonShow.fromName(p[Keys.SKIP_BUTTON_SHOW]),
+        )
+    }
+
+    suspend fun setSkipMode(kind: tv.own.owntv.core.skip.SkipKind, mode: tv.own.owntv.core.skip.SkipMode) {
+        val key = when (kind) {
+            tv.own.owntv.core.skip.SkipKind.INTRO -> Keys.SKIP_INTRO
+            tv.own.owntv.core.skip.SkipKind.RECAP -> Keys.SKIP_RECAP
+            tv.own.owntv.core.skip.SkipKind.CREDITS -> Keys.SKIP_CREDITS
+            tv.own.owntv.core.skip.SkipKind.PREVIEW -> Keys.SKIP_PREVIEW
+        }
+        context.dataStore.edit { it[key] = mode.name }
+    }
+
+    suspend fun setSkipButtonShow(show: tv.own.owntv.core.skip.SkipButtonShow) {
+        context.dataStore.edit { it[Keys.SKIP_BUTTON_SHOW] = show.name }
+    }
+
+    /** The user's own TheIntroDB key; blank = keyless (the per-network allowance). */
+    val theIntroDbApiKey: Flow<String> = prefsFlow { it[Keys.THEINTRODB_API_KEY] ?: "" }
+    suspend fun setTheIntroDbApiKey(key: String) { context.dataStore.edit { it[Keys.THEINTRODB_API_KEY] = key.trim() } }
+    suspend fun currentTheIntroDbApiKey(): String = context.dataStore.data.first()[Keys.THEINTRODB_API_KEY] ?: ""
 
     /**
      * TMDB content language. Blank = TMDB's own default (en-US) — the pre-existing behaviour, so an
@@ -2435,15 +2475,42 @@ class SettingsRepository(private val context: Context, private val localeStore: 
      * before the first write and removed after the last one, so a value still present at the next
      * launch means "that restore didn't finish". The value is the backup file name plus the sections
      * that were being applied — enough to tell the user what to re-run, and never a secret.
+     *
+     * Only the value found at launch means anything. Every import of this run sets and clears the
+     * marker too — a local auto-sync pass several times a session — so watching it live flashed the
+     * "restore did not finish" notice over the screen for as long as each import took.
      */
-    val restoreInProgress: Flow<String?> = prefsFlow { it[Keys.RESTORE_IN_PROGRESS] }
+    suspend fun restoreMarkerAtLaunch(): String? = launchMarkerLock.withLock { launchMarkerLocked() }
 
     suspend fun markRestoreStarted(description: String) {
+        // Read what the last run left behind before this run's first import overwrites it.
+        launchMarkerLock.withLock { launchMarkerLocked() }
         context.dataStore.edit { prefs -> prefs[Keys.RESTORE_IN_PROGRESS] = description }
     }
 
     suspend fun clearRestoreMarker() {
         context.dataStore.edit { prefs -> prefs.remove(Keys.RESTORE_IN_PROGRESS) }
+    }
+
+    /** The user has read the notice about [restoreMarkerAtLaunch]; it is not shown again. */
+    suspend fun dismissLaunchRestoreMarker() {
+        launchMarkerLock.withLock {
+            launchMarkerLocked()
+            launchMarker = null
+        }
+        clearRestoreMarker()
+    }
+
+    private val launchMarkerLock = kotlinx.coroutines.sync.Mutex()
+    private var launchMarkerRead = false
+    private var launchMarker: String? = null
+
+    private suspend fun launchMarkerLocked(): String? {
+        if (!launchMarkerRead) {
+            launchMarker = context.dataStore.data.first()[Keys.RESTORE_IN_PROGRESS]
+            launchMarkerRead = true
+        }
+        return launchMarker
     }
 
     private inline fun <reified E : Enum<E>> parseRefreshMap(raw: String?, valueOf: (String) -> E): Map<Long, E> {
@@ -3225,6 +3292,8 @@ class SettingsRepository(private val context: Context, private val localeStore: 
             // secret and is deliberately NOT backed up in plaintext (same policy as the proxy password).
             Keys.METADATA_SERVER_URL, Keys.METADATA_MODE, Keys.METADATA_LANGUAGE,
             Keys.OPEN_SUBTITLES_SERVER_URL,
+            // Skip intro & credits choices. The TheIntroDB key is a secret: BackupManager seals it.
+            Keys.SKIP_INTRO, Keys.SKIP_RECAP, Keys.SKIP_CREDITS, Keys.SKIP_PREVIEW, Keys.SKIP_BUTTON_SHOW,
             // Download folder. Backed up so a same-device reinstall keeps the chosen folder; on a different
             // device a path that no longer exists is harmless — StorageAccess.resolveRoot falls back to app
             // storage, so a stale restore never breaks downloads.

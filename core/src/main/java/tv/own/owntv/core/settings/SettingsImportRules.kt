@@ -36,6 +36,9 @@ internal object SettingsImportRules {
         "player_hold_ok" -> v.takeIf { value -> PlayerHoldOkAction.entries.any { it.name == value } }
         "player_short_ok" -> v.takeIf { value -> PlayerShortOkAction.entries.any { it.name == value } }
         "player_dpad_up_down" -> v.takeIf { value -> PlayerDpadUpDownAction.entries.any { it.name == value } }
+        "skip_intro", "skip_recap", "skip_credits", "skip_preview" ->
+            v.takeIf { value -> tv.own.owntv.core.skip.SkipMode.entries.any { it.name == value } }
+        "skip_button_show" -> v.takeIf { value -> tv.own.owntv.core.skip.SkipButtonShow.entries.any { it.name == value } }
         else -> v
     }
 

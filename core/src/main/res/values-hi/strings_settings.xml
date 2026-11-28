@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">आखिरी आइटम की ओर पेज</string>
     <string name="settings_remote_action_jump_first">पहले आइटम पर जाएँ</string>
     <string name="settings_remote_action_jump_last">आखिरी आइटम पर जाएँ</string>
+    <string name="settings_remote_action_toggle_favorite">पसंदीदा में जोड़ें या हटाएँ</string>
+    <string name="settings_remote_action_record_or_download">रिकॉर्ड या डाउनलोड करें</string>
     <string name="settings_large_skips_warning">बड़ी छलाँग छोटी सूचियों के अंत से आगे निकल जाती है और कम क्षमता वाले TV पर झटकेदार लग सकती है।</string>
     <string name="settings_weather">मौसम</string>
     <string name="settings_show_weather">मौसम दिखाएँ</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">मिनट</string>
     <string name="settings_allowance_hour">घंटा</string>
     <string name="settings_allowance_day">दिन</string>
+    <string name="settings_allowance_unlimited">कोई दैनिक सीमा नहीं</string>
     <plurals name="settings_allowance_value">
         <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> शेष</item>
         <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> शेष</item>
@@ -1779,4 +1782,33 @@
         <item quantity="one"><xliff:g id="count">%1$s</xliff:g> पर कैच-अप</item>
         <item quantity="other"><xliff:g id="count">%1$s</xliff:g> पर कैच-अप</item>
     </plurals>
+    <string name="settings_skip_group">इंट्रो और क्रेडिट छोड़ें</string>
+    <string name="settings_skip_intro">इंट्रो</string>
+    <string name="settings_skip_recap">रीकैप</string>
+    <string name="settings_skip_credits">अंतिम क्रेडिट</string>
+    <string name="settings_skip_preview">प्रीव्यू</string>
+    <string name="settings_line_skip_part">बंद, एक बटन, या अपने आप छोड़ें</string>
+    <string name="settings_skip_part_description">यह हिस्सा चलने पर क्या होता है। समय TheIntroDB से आते हैं, जिन्हें दर्शक साझा करते हैं, उन फ़िल्मों और एपिसोड के लिए जो फ़िल्म और सीरीज़ विवरण से मिलाए गए हैं।</string>
+    <string name="settings_skip_mode_button">बटन दिखाएँ</string>
+    <string name="settings_skip_mode_auto">अपने आप छोड़ें</string>
+    <string name="settings_skip_button_show">छोड़ें बटन</string>
+    <string name="settings_line_skip_button_show">बटन स्क्रीन पर कितनी देर रहता है</string>
+    <string name="settings_skip_button_start">पहले 10 सेकंड</string>
+    <string name="settings_skip_button_whole">पूरा हिस्सा</string>
+    <string name="settings_theintrodb_account">TheIntroDB खाता</string>
+    <string name="settings_line_theintrodb">अधिक खोजों के लिए वैकल्पिक कुंजी</string>
+    <string name="settings_theintrodb_api_key">TheIntroDB API कुंजी</string>
+    <string name="settings_theintrodb_key_steps">ज़रूरी नहीं: समय बिना कुंजी के काम करते हैं। अपनी कुंजी के लिए theintrodb.org पर साइन इन करें, “Docs” खोलें और “Your API Key” कॉपी करें।</string>
+    <string name="settings_theintrodb_check">कुंजी जाँचें</string>
+    <string name="settings_theintrodb_connected">जुड़ा हुआ · सबमिशन: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">कोई कुंजी नहीं · इस नेटवर्क का मुफ़्त कोटा</string>
+    <string name="settings_theintrodb_invalid">कुंजी स्वीकार नहीं हुई</string>
+    <string name="settings_theintrodb_unreachable">TheIntroDB तक नहीं पहुँच सके</string>
+    <string name="settings_theintrodb_key_received">TheIntroDB कुंजी मिली</string>
+    <string name="settings_theintrodb_attribution">छोड़ने के समय TheIntroDB और उसके समुदाय द्वारा दिए जाते हैं। यह उत्पाद TheIntroDB द्वारा समर्थित नहीं है।</string>
+    <string name="settings_heading_metadata">मेटाडेटा</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">इंट्रो, रीकैप और क्रेडिट छोड़ें</string>
+    <string name="settings_theintrodb_contribute">TheIntroDB में हर फ़िल्म और सीरीज़ नहीं है: समय दर्शक जोड़ते हैं। कोई छूटा हो तो आप खुद जोड़ सकते हैं — theintrodb.org पर साइन इन करके समय भेजें, और सबको छोड़ें बटन मिलेगा।</string>
 </resources>

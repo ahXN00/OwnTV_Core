@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">Página para os últimos itens</string>
     <string name="settings_remote_action_jump_first">Ir ao primeiro item</string>
     <string name="settings_remote_action_jump_last">Ir ao último item</string>
+    <string name="settings_remote_action_toggle_favorite">Adicionar ou remover dos favoritos</string>
+    <string name="settings_remote_action_record_or_download">Gravar ou baixar</string>
     <string name="settings_large_skips_warning">Saltos grandes ultrapassam listas curtas e podem parecer bruscos em TVs de baixo desempenho.</string>
     <string name="settings_weather">Clima</string>
     <string name="settings_show_weather">Mostrar clima</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">Minuto</string>
     <string name="settings_allowance_hour">Hora</string>
     <string name="settings_allowance_day">Dia</string>
+    <string name="settings_allowance_unlimited">Sem limite diário</string>
     <plurals name="settings_allowance_value">
         <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> restantes</item>
         <item quantity="many"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> restantes</item>
@@ -1819,4 +1822,33 @@
         <item quantity="many">catch-up em <xliff:g id="count">%1$s</xliff:g></item>
         <item quantity="other">catch-up em <xliff:g id="count">%1$s</xliff:g></item>
     </plurals>
+    <string name="settings_skip_group">Pular abertura e créditos</string>
+    <string name="settings_skip_intro">Abertura</string>
+    <string name="settings_skip_recap">Resumo</string>
+    <string name="settings_skip_credits">Créditos finais</string>
+    <string name="settings_skip_preview">Prévia</string>
+    <string name="settings_line_skip_part">Desativado, um botão ou pular automaticamente</string>
+    <string name="settings_skip_part_description">O que acontece quando esta parte toca. Os tempos vêm do TheIntroDB, compartilhados por espectadores, para filmes e episódios associados aos detalhes de filmes e séries.</string>
+    <string name="settings_skip_mode_button">Mostrar um botão</string>
+    <string name="settings_skip_mode_auto">Pular automaticamente</string>
+    <string name="settings_skip_button_show">Botão Pular</string>
+    <string name="settings_line_skip_button_show">Por quanto tempo o botão fica na tela</string>
+    <string name="settings_skip_button_start">Primeiros 10 segundos</string>
+    <string name="settings_skip_button_whole">Parte inteira</string>
+    <string name="settings_theintrodb_account">Conta do TheIntroDB</string>
+    <string name="settings_line_theintrodb">Chave opcional para mais consultas</string>
+    <string name="settings_theintrodb_api_key">Chave de API do TheIntroDB</string>
+    <string name="settings_theintrodb_key_steps">Não é necessária: os tempos funcionam sem chave. Para usar a sua, entre em theintrodb.org, abra “Docs” e copie “Your API Key”.</string>
+    <string name="settings_theintrodb_check">Verificar chave</string>
+    <string name="settings_theintrodb_connected">Conectado · envios: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">Sem chave · a cota gratuita desta rede</string>
+    <string name="settings_theintrodb_invalid">Chave não aceita</string>
+    <string name="settings_theintrodb_unreachable">Não foi possível acessar o TheIntroDB</string>
+    <string name="settings_theintrodb_key_received">Chave do TheIntroDB recebida</string>
+    <string name="settings_theintrodb_attribution">Os tempos para pular são fornecidos pelo TheIntroDB e sua comunidade. Este produto não é endossado pelo TheIntroDB.</string>
+    <string name="settings_heading_metadata">Metadados</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">Pular abertura, resumo e créditos</string>
+    <string name="settings_theintrodb_contribute">O TheIntroDB não tem todos os filmes e séries: os tempos são enviados por espectadores. Se faltar algum, você mesmo pode adicionar: entre em theintrodb.org e envie os tempos, e todos terão o botão Pular.</string>
 </resources>

@@ -221,7 +221,7 @@
     <string name="player_error_image_format">Image subtitles aren\'t available for this file\'s format.</string>
     <!-- Translators: Error when image-based subtitles cannot be rendered for the file. -->
     <string name="player_error_image_show">Couldn\'t show image subtitles for this file.</string>
-    <!-- Translators: Toast when an external player cannot open the stream URL. -->
+    <!-- Translators: Toast when a film cannot be opened: the provider gave no playable link for it, so neither the app's player nor an external player can start. -->
     <string name="player_external_could_not_open">Could not open this stream.</string>
     <!-- Translators: Toast when no external player app is installed. "VLC" and "MX Player" are brand names. -->
     <string name="player_external_not_found">No external player found \u2014 install VLC or MX Player.</string>
@@ -619,4 +619,26 @@
     <string name="player_lock_screen">Lock screen</string>
     <!-- Translators: Phone player, a small pill shown when the locked screen is tapped: press and hold it to unlock. -->
     <string name="player_hold_to_unlock">Hold to unlock</string>
+    <!-- Translators: Button on the player while a film or episode's intro plays; skips to its end. -->
+    <string name="player_skip_intro">Skip intro</string>
+    <!-- Translators: Button on the player while an episode's 'previously on' recap plays; skips to its end. -->
+    <string name="player_skip_recap">Skip recap</string>
+    <!-- Translators: Button on the player during credits; skips past them (or finishes a film whose credits run to the end). -->
+    <string name="player_skip_credits">Skip credits</string>
+    <!-- Translators: Button on the player while a preview of the next episode plays; skips to its end. -->
+    <string name="player_skip_preview">Skip preview</string>
+    <!-- Translators: Short notice after the player skipped an intro automatically. -->
+    <string name="player_skipped_intro">Intro skipped</string>
+    <!-- Translators: Short notice after the player skipped a recap automatically. -->
+    <string name="player_skipped_recap">Recap skipped</string>
+    <!-- Translators: Short notice after the player skipped credits automatically. -->
+    <string name="player_skipped_credits">Credits skipped</string>
+    <!-- Translators: Short notice after the player skipped a preview automatically. -->
+    <string name="player_skipped_preview">Preview skipped</string>
+    <!-- Translators: Button on the next-episode card shown when the end credits start: stay on this episode and watch the credits. -->
+    <string name="player_watch_credits">Watch credits</string>
+    <!-- Translators: TV: hint under the 3-second 'Next episode' notice; pressing any remote key stays on the credits. -->
+    <string name="player_keep_credits">Press any key to watch the credits</string>
+    <!-- Translators: Phone: hint under the 3-second 'Next episode' notice; tapping stays on the credits. -->
+    <string name="player_keep_credits_mobile">Tap to watch the credits</string>
 </resources>

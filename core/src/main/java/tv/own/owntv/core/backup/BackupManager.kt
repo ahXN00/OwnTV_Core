@@ -184,6 +184,8 @@ class BackupManager(
                     if (seal != null && tmdbKey.isNotEmpty()) s.put("tmdb_key_enc", seal(tmdbKey))
                     val openSubtitlesKey = settings.currentOpenSubtitlesApiKey()
                     if (seal != null && openSubtitlesKey.isNotEmpty()) s.put("opensub_api_key_enc", seal(openSubtitlesKey))
+                    val theIntroDbKey = settings.currentTheIntroDbApiKey()
+                    if (seal != null && theIntroDbKey.isNotEmpty()) s.put("theintrodb_key_enc", seal(theIntroDbKey))
                     put("settings", s)
                     // Which device wrote this, so a restore can hold back the hardware settings when
                     // it lands somewhere else (see DeviceIdentity).
@@ -1268,6 +1270,9 @@ class BackupManager(
             if (s.has("opensub_api_key_enc")) {
                 unseal(s.opt("opensub_api_key_enc"))?.let { settings.setOpenSubtitlesApiKey(it) }
             }
+            if (s.has("theintrodb_key_enc")) {
+                unseal(s.opt("theintrodb_key_enc"))?.let { settings.setTheIntroDbApiKey(it) }
+            }
                     count += s.length()
                 }
                 // After importSettings, because that is what wrote the file's (device-local) bg path.
@@ -1618,6 +1623,7 @@ class BackupManager(
         root.optJSONObject("settings")?.opt("proxy_pass_enc")?.let { if (BackupCrypto.isEncrypted(it)) return it as JSONObject }
         root.optJSONObject("settings")?.opt("tmdb_key_enc")?.let { if (BackupCrypto.isEncrypted(it)) return it as JSONObject }
         root.optJSONObject("settings")?.opt("opensub_api_key_enc")?.let { if (BackupCrypto.isEncrypted(it)) return it as JSONObject }
+        root.optJSONObject("settings")?.opt("theintrodb_key_enc")?.let { if (BackupCrypto.isEncrypted(it)) return it as JSONObject }
         // A per-profile OpenSubtitles login is encrypted too — probe it so an all-OpenSubtitles backup validates.
         root.optJSONArray("openSubtitles")?.let { arr ->
             for (i in 0 until arr.length()) {

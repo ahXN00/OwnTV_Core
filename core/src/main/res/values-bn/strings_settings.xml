@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">শেষ আইটেমগুলোর দিকে পেজ</string>
     <string name="settings_remote_action_jump_first">প্রথম আইটেমে যান</string>
     <string name="settings_remote_action_jump_last">শেষ আইটেমে যান</string>
+    <string name="settings_remote_action_toggle_favorite">পছন্দেরগুলোতে যোগ করুন বা সরান</string>
+    <string name="settings_remote_action_record_or_download">রেকর্ড বা ডাউনলোড</string>
     <string name="settings_large_skips_warning">বেশি সংখ্যক আইটেম এড়িয়ে গেলে ছোট তালিকার শেষ পেরিয়ে যেতে পারে এবং কম ক্ষমতার TV-তে নেভিগেশন ঝাঁকুনিপূর্ণ মনে হতে পারে।</string>
     <string name="settings_weather">আবহাওয়া</string>
     <string name="settings_show_weather">আবহাওয়া দেখান</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">মিনিট</string>
     <string name="settings_allowance_hour">ঘণ্টা</string>
     <string name="settings_allowance_day">দিন</string>
+    <string name="settings_allowance_unlimited">দৈনিক কোনো সীমা নেই</string>
     <plurals name="settings_allowance_value">
         <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> বাকি</item>
         <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> বাকি</item>
@@ -1779,4 +1782,33 @@
         <item quantity="one"><xliff:g id="count">%1$s</xliff:g>টিতে ক্যাচ-আপ</item>
         <item quantity="other"><xliff:g id="count">%1$s</xliff:g>টিতে ক্যাচ-আপ</item>
     </plurals>
+    <string name="settings_skip_group">ইন্ট্রো ও ক্রেডিট বাদ দিন</string>
+    <string name="settings_skip_intro">ইন্ট্রো</string>
+    <string name="settings_skip_recap">রিক্যাপ</string>
+    <string name="settings_skip_credits">শেষের ক্রেডিট</string>
+    <string name="settings_skip_preview">প্রিভিউ</string>
+    <string name="settings_line_skip_part">বন্ধ, একটি বোতাম, বা স্বয়ংক্রিয়ভাবে বাদ</string>
+    <string name="settings_skip_part_description">এই অংশ চললে কী হবে। সময়গুলো TheIntroDB থেকে আসে, দর্শকেরা শেয়ার করেন, সেই সিনেমা ও পর্বের জন্য যা সিনেমা ও সিরিজের বিবরণের সঙ্গে মেলানো হয়েছে।</string>
+    <string name="settings_skip_mode_button">একটি বোতাম দেখান</string>
+    <string name="settings_skip_mode_auto">স্বয়ংক্রিয়ভাবে বাদ দিন</string>
+    <string name="settings_skip_button_show">বাদ দেওয়ার বোতাম</string>
+    <string name="settings_line_skip_button_show">বোতাম কতক্ষণ স্ক্রিনে থাকবে</string>
+    <string name="settings_skip_button_start">প্রথম ১০ সেকেন্ড</string>
+    <string name="settings_skip_button_whole">পুরো অংশ</string>
+    <string name="settings_theintrodb_account">TheIntroDB অ্যাকাউন্ট</string>
+    <string name="settings_line_theintrodb">আরও অনুসন্ধানের জন্য ঐচ্ছিক কী</string>
+    <string name="settings_theintrodb_api_key">TheIntroDB API কী</string>
+    <string name="settings_theintrodb_key_steps">প্রয়োজন নেই: কী ছাড়াই সময় কাজ করে। নিজের কী ব্যবহার করতে theintrodb.org-এ সাইন ইন করুন, “Docs” খুলুন এবং “Your API Key” কপি করুন।</string>
+    <string name="settings_theintrodb_check">কী যাচাই করুন</string>
+    <string name="settings_theintrodb_connected">সংযুক্ত · জমা: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">কোনো কী নেই · এই নেটওয়ার্কের বিনামূল্যের কোটা</string>
+    <string name="settings_theintrodb_invalid">কী গৃহীত হয়নি</string>
+    <string name="settings_theintrodb_unreachable">TheIntroDB-এ পৌঁছানো যায়নি</string>
+    <string name="settings_theintrodb_key_received">TheIntroDB কী পাওয়া গেছে</string>
+    <string name="settings_theintrodb_attribution">বাদ দেওয়ার সময় TheIntroDB এবং এর কমিউনিটি সরবরাহ করে। এই পণ্যটি TheIntroDB দ্বারা অনুমোদিত নয়।</string>
+    <string name="settings_heading_metadata">মেটাডেটা</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">ইন্ট্রো, রিক্যাপ ও ক্রেডিট বাদ দিন</string>
+    <string name="settings_theintrodb_contribute">TheIntroDB-তে সব সিনেমা ও সিরিজ নেই: সময়গুলো দর্শকেরা যোগ করেন। কোনোটি না থাকলে আপনি নিজেই যোগ করতে পারেন — theintrodb.org-এ সাইন ইন করে সময় জমা দিন, তাহলে সবাই বাদ দেওয়ার বোতাম পাবে।</string>
 </resources>

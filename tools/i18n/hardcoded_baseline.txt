@@ -18,7 +18,6 @@
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionController.kt	playlist-${System.currentTimeMillis()}.m3u
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	%1$d
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	,username:(document.getElementById('user').value||''),password:(document.getElementById('pass').value||'')
-1	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<div class="card"> <h1>${title.h()}</h1><p>${description.h()}</p> <form id="f" onsubmit="return false"> $credentialFields <label>${keyLabel.h()} <input id="key" type="text" autocomplete="off" autocapitalize="off" spellcheck="false"></label> <label>${urlLabel.h()} <input id="url" type="url" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="https://"></label> <button class="go" id="send" type="submit">${send.h()}</button> </form><p id="status" class="hint"></p> </div> <script> var k=document.getElementById('key'),u=document.getElementById('url'),b=document.getElementById('send'),s=document.getElementById('status'); document.getElementById('f').addEventListener('submit',function(){ var body=new URLSearchParams({apiKey:(k.value||'').trim(),serverUrl:(u.value||'').trim()$credentialBody}).toString(); b.disabled=true;s.textContent=${sending.js()}; fetch('/serviceconfig?pin=$pin',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:body}) .then(function(res){if(res.ok){return res.text().then(function(t){document.open();document.write(t);document.close();});}b.disabled=false;s.textContent=${failed.js()}.replace('__STATUS__',String(res.status));}) .catch(function(){b.disabled=false;s.textContent=${unreachable.js()};});return false; }); </script>
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<div class="card"><h1>${c.savedHeading.h()}</h1> <p>${context.getString(R.string.companion_service_config_sent).h()}</p> <p><a href="/?pin=$pin">${context.getString(R.string.companion_service_config_again).h()}</a></p> </div>
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	<label>${context.getString(R.string.player_subtitles_username).h()} <input id="user" type="text" autocomplete="username" autocapitalize="off" spellcheck="false"></label> <label>${context.getString(R.string.player_subtitles_password).h()} <input id="pass" type="password" autocomplete="current-password"></label>
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionHtml.kt	__STATUS__
@@ -28,7 +27,6 @@
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	playlist_file
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpProtocol.kt	playlist_file_name
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	/serviceconfig
-1	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	^[A-Za-z0-9._-]{8,256}$
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	apiKey
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	https
 1	core/src/main/java/tv/own/owntv/core/companion/CompanionHttpServer.kt	password

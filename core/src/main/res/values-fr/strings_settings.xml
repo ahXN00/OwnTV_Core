@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">Page vers les derniers éléments</string>
     <string name="settings_remote_action_jump_first">Aller au premier élément</string>
     <string name="settings_remote_action_jump_last">Aller au dernier élément</string>
+    <string name="settings_remote_action_toggle_favorite">Ajouter ou retirer des favoris</string>
+    <string name="settings_remote_action_record_or_download">Enregistrer ou télécharger</string>
     <string name="settings_large_skips_warning">Les grands sauts dépassent les listes courtes et peuvent sembler saccadés sur les téléviseurs d’entrée de gamme.</string>
     <string name="settings_weather">Météo</string>
     <string name="settings_show_weather">Afficher la météo</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">Minute</string>
     <string name="settings_allowance_hour">Heure</string>
     <string name="settings_allowance_day">Jour</string>
+    <string name="settings_allowance_unlimited">Aucune limite quotidienne</string>
     <plurals name="settings_allowance_value">
         <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> restant</item>
         <item quantity="many"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> restants</item>
@@ -1819,4 +1822,33 @@
         <item quantity="many">replay sur <xliff:g id="count">%1$s</xliff:g></item>
         <item quantity="other">replay sur <xliff:g id="count">%1$s</xliff:g></item>
     </plurals>
+    <string name="settings_skip_group">Passer l’intro et le générique</string>
+    <string name="settings_skip_intro">Intro</string>
+    <string name="settings_skip_recap">Récap</string>
+    <string name="settings_skip_credits">Générique de fin</string>
+    <string name="settings_skip_preview">Aperçu</string>
+    <string name="settings_line_skip_part">Désactivé, un bouton ou passé automatiquement</string>
+    <string name="settings_skip_part_description">Ce qui se passe quand cette partie est lue. Les temps viennent de TheIntroDB, partagés par les spectateurs, pour les films et épisodes associés aux détails des films et séries.</string>
+    <string name="settings_skip_mode_button">Afficher un bouton</string>
+    <string name="settings_skip_mode_auto">Passer automatiquement</string>
+    <string name="settings_skip_button_show">Bouton Passer</string>
+    <string name="settings_line_skip_button_show">Durée d’affichage du bouton</string>
+    <string name="settings_skip_button_start">10 premières secondes</string>
+    <string name="settings_skip_button_whole">Toute la partie</string>
+    <string name="settings_theintrodb_account">Compte TheIntroDB</string>
+    <string name="settings_line_theintrodb">Clé facultative pour plus de recherches</string>
+    <string name="settings_theintrodb_api_key">Clé API TheIntroDB</string>
+    <string name="settings_theintrodb_key_steps">Inutile : les temps fonctionnent sans clé. Pour utiliser la vôtre, connectez-vous sur theintrodb.org, ouvrez « Docs » et copiez « Your API Key ».</string>
+    <string name="settings_theintrodb_check">Vérifier la clé</string>
+    <string name="settings_theintrodb_connected">Connecté · contributions : <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">Pas de clé · le quota gratuit de ce réseau</string>
+    <string name="settings_theintrodb_invalid">Clé refusée</string>
+    <string name="settings_theintrodb_unreachable">TheIntroDB est injoignable</string>
+    <string name="settings_theintrodb_key_received">Clé TheIntroDB reçue</string>
+    <string name="settings_theintrodb_attribution">Les temps à passer sont fournis par TheIntroDB et sa communauté. Ce produit n’est pas approuvé par TheIntroDB.</string>
+    <string name="settings_heading_metadata">Métadonnées</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">Passer l’intro, le récap et le générique</string>
+    <string name="settings_theintrodb_contribute">TheIntroDB n’a pas tous les films et séries : les temps sont ajoutés par les spectateurs. S’il en manque un, vous pouvez l’ajouter vous-même : connectez-vous sur theintrodb.org et envoyez les temps, et tout le monde aura le bouton Passer.</string>
 </resources>

@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">末尾方向へページ移動</string>
     <string name="settings_remote_action_jump_first">最初の項目へ移動</string>
     <string name="settings_remote_action_jump_last">最後の項目へ移動</string>
+    <string name="settings_remote_action_toggle_favorite">お気に入りに追加/削除</string>
+    <string name="settings_remote_action_record_or_download">録画またはダウンロード</string>
     <string name="settings_large_skips_warning">スキップ数が大きいと短い一覧を飛び越え、低性能のTVでは動きがぎこちなく感じられることがあります。</string>
     <string name="settings_weather">天気</string>
     <string name="settings_show_weather">天気を表示</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">分</string>
     <string name="settings_allowance_hour">時間</string>
     <string name="settings_allowance_day">日</string>
+    <string name="settings_allowance_unlimited">1日の上限なし</string>
     <plurals name="settings_allowance_value">
         <item quantity="other">残り <xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g></item>
     </plurals>
@@ -1739,4 +1742,33 @@
     <plurals name="settings_epg_line_catchup">
         <item quantity="other"><xliff:g id="count">%1$s</xliff:g> チャンネルで見逃し配信</item>
     </plurals>
+    <string name="settings_skip_group">イントロとクレジットのスキップ</string>
+    <string name="settings_skip_intro">イントロ</string>
+    <string name="settings_skip_recap">あらすじ</string>
+    <string name="settings_skip_credits">エンドクレジット</string>
+    <string name="settings_skip_preview">予告</string>
+    <string name="settings_line_skip_part">オフ、ボタン、または自動スキップ</string>
+    <string name="settings_skip_part_description">この部分の再生時の動作です。時間は視聴者が共有する TheIntroDB から取得され、映画とシリーズの詳細で照合された映画とエピソードに使われます。</string>
+    <string name="settings_skip_mode_button">ボタンを表示</string>
+    <string name="settings_skip_mode_auto">自動でスキップ</string>
+    <string name="settings_skip_button_show">スキップボタン</string>
+    <string name="settings_line_skip_button_show">ボタンを表示する長さ</string>
+    <string name="settings_skip_button_start">最初の10秒</string>
+    <string name="settings_skip_button_whole">部分全体</string>
+    <string name="settings_theintrodb_account">TheIntroDB アカウント</string>
+    <string name="settings_line_theintrodb">検索回数を増やすための任意のキー</string>
+    <string name="settings_theintrodb_api_key">TheIntroDB API キー</string>
+    <string name="settings_theintrodb_key_steps">不要です。キーがなくても動作します。自分のキーを使うには theintrodb.org にサインインし、「Docs」を開いて「Your API Key」をコピーしてください。</string>
+    <string name="settings_theintrodb_check">キーを確認</string>
+    <string name="settings_theintrodb_connected">接続済み · 投稿数: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">キーなし · このネットワークの無料枠</string>
+    <string name="settings_theintrodb_invalid">キーが受け付けられませんでした</string>
+    <string name="settings_theintrodb_unreachable">TheIntroDB に接続できません</string>
+    <string name="settings_theintrodb_key_received">TheIntroDB キーを受信しました</string>
+    <string name="settings_theintrodb_attribution">スキップの時間は TheIntroDB とそのコミュニティが提供しています。本製品は TheIntroDB の承認を受けていません。</string>
+    <string name="settings_heading_metadata">メタデータ</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">イントロ、あらすじ、クレジットをスキップ</string>
+    <string name="settings_theintrodb_contribute">TheIntroDB にはすべての映画やシリーズがあるわけではありません。時間は視聴者が追加しています。足りない作品は自分で追加できます。theintrodb.org にサインインして時間を送信すると、みんながスキップボタンを使えるようになります。</string>
 </resources>

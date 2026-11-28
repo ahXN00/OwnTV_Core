@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">Zu letzten Einträgen blättern</string>
     <string name="settings_remote_action_jump_first">Zum ersten Eintrag</string>
     <string name="settings_remote_action_jump_last">Zum letzten Eintrag</string>
+    <string name="settings_remote_action_toggle_favorite">Favorit hinzufügen oder entfernen</string>
+    <string name="settings_remote_action_record_or_download">Aufnehmen oder herunterladen</string>
     <string name="settings_large_skips_warning">Große Sprünge überspringen bei kurzen Listen das Ziel und können auf leistungsschwachen Fernsehern ruckartig wirken.</string>
     <string name="settings_weather">Wetter</string>
     <string name="settings_show_weather">Wetter anzeigen</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">Minute</string>
     <string name="settings_allowance_hour">Stunde</string>
     <string name="settings_allowance_day">Tag</string>
+    <string name="settings_allowance_unlimited">Kein Tageslimit</string>
     <plurals name="settings_allowance_value">
         <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> übrig</item>
         <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> übrig</item>
@@ -1779,4 +1782,33 @@
         <item quantity="one">Catch-up auf <xliff:g id="count">%1$s</xliff:g></item>
         <item quantity="other">Catch-up auf <xliff:g id="count">%1$s</xliff:g></item>
     </plurals>
+    <string name="settings_skip_group">Intro &amp; Abspann überspringen</string>
+    <string name="settings_skip_intro">Intro</string>
+    <string name="settings_skip_recap">Rückblick</string>
+    <string name="settings_skip_credits">Abspann</string>
+    <string name="settings_skip_preview">Vorschau</string>
+    <string name="settings_line_skip_part">Aus, eine Schaltfläche oder automatisch überspringen</string>
+    <string name="settings_skip_part_description">Was passiert, wenn dieser Teil läuft. Die Zeiten stammen von TheIntroDB, geteilt von Zuschauern, für Filme und Folgen, die über Film- und Seriendetails zugeordnet sind.</string>
+    <string name="settings_skip_mode_button">Schaltfläche zeigen</string>
+    <string name="settings_skip_mode_auto">Automatisch überspringen</string>
+    <string name="settings_skip_button_show">Überspringen-Schaltfläche</string>
+    <string name="settings_line_skip_button_show">Wie lange die Schaltfläche sichtbar bleibt</string>
+    <string name="settings_skip_button_start">Erste 10 Sekunden</string>
+    <string name="settings_skip_button_whole">Ganzer Teil</string>
+    <string name="settings_theintrodb_account">TheIntroDB-Konto</string>
+    <string name="settings_line_theintrodb">Optionaler Schlüssel für mehr Abfragen</string>
+    <string name="settings_theintrodb_api_key">TheIntroDB-API-Schlüssel</string>
+    <string name="settings_theintrodb_key_steps">Nicht nötig: Die Zeiten funktionieren ohne Schlüssel. Für einen eigenen auf theintrodb.org anmelden, „Docs“ öffnen und „Your API Key“ kopieren.</string>
+    <string name="settings_theintrodb_check">Schlüssel prüfen</string>
+    <string name="settings_theintrodb_connected">Verbunden · Einreichungen: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">Kein Schlüssel · das freie Kontingent dieses Netzwerks</string>
+    <string name="settings_theintrodb_invalid">Schlüssel nicht akzeptiert</string>
+    <string name="settings_theintrodb_unreachable">TheIntroDB ist nicht erreichbar</string>
+    <string name="settings_theintrodb_key_received">TheIntroDB-Schlüssel empfangen</string>
+    <string name="settings_theintrodb_attribution">Die Zeiten zum Überspringen stammen von TheIntroDB und seiner Community. Dieses Produkt wird nicht von TheIntroDB unterstützt.</string>
+    <string name="settings_heading_metadata">Metadaten</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">Intro, Rückblick und Abspann überspringen</string>
+    <string name="settings_theintrodb_contribute">TheIntroDB hat nicht jeden Film und jede Serie: Die Zeiten tragen Zuschauer ein. Fehlt einer, kannst du ihn selbst ergänzen – melde dich auf theintrodb.org an und trage die Zeiten ein, dann bekommt jeder die Überspringen-Schaltfläche.</string>
 </resources>

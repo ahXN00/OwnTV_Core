@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">Página hacia los últimos</string>
     <string name="settings_remote_action_jump_first">Ir al primer elemento</string>
     <string name="settings_remote_action_jump_last">Ir al último elemento</string>
+    <string name="settings_remote_action_toggle_favorite">Agregar o quitar de Favoritos</string>
+    <string name="settings_remote_action_record_or_download">Grabar o descargar</string>
     <string name="settings_large_skips_warning">Los saltos grandes se pasan del final de las listas cortas y pueden sentirse bruscos en televisores de gama baja.</string>
     <string name="settings_weather">Clima</string>
     <string name="settings_show_weather">Mostrar el clima</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">Minuto</string>
     <string name="settings_allowance_hour">Hora</string>
     <string name="settings_allowance_day">Día</string>
+    <string name="settings_allowance_unlimited">Sin límite diario</string>
     <plurals name="settings_allowance_value">
         <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> restantes</item>
         <item quantity="many"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> restantes</item>
@@ -1819,4 +1822,33 @@
         <item quantity="many">catch-up en <xliff:g id="count">%1$s</xliff:g></item>
         <item quantity="other">catch-up en <xliff:g id="count">%1$s</xliff:g></item>
     </plurals>
+    <string name="settings_skip_group">Omitir intro y créditos</string>
+    <string name="settings_skip_intro">Intro</string>
+    <string name="settings_skip_recap">Resumen</string>
+    <string name="settings_skip_credits">Créditos finales</string>
+    <string name="settings_skip_preview">Avance</string>
+    <string name="settings_line_skip_part">Desactivado, un botón u omitir automáticamente</string>
+    <string name="settings_skip_part_description">Qué pasa cuando se reproduce esta parte. Los tiempos vienen de TheIntroDB, compartidos por espectadores, para películas y episodios asociados con los detalles de películas y series.</string>
+    <string name="settings_skip_mode_button">Mostrar un botón</string>
+    <string name="settings_skip_mode_auto">Omitir automáticamente</string>
+    <string name="settings_skip_button_show">Botón Omitir</string>
+    <string name="settings_line_skip_button_show">Cuánto tiempo se ve el botón</string>
+    <string name="settings_skip_button_start">Primeros 10 segundos</string>
+    <string name="settings_skip_button_whole">Toda la parte</string>
+    <string name="settings_theintrodb_account">Cuenta de TheIntroDB</string>
+    <string name="settings_line_theintrodb">Clave opcional para más consultas</string>
+    <string name="settings_theintrodb_api_key">Clave API de TheIntroDB</string>
+    <string name="settings_theintrodb_key_steps">No es necesaria: los tiempos funcionan sin clave. Para usar la tuya, inicia sesión en theintrodb.org, abre “Docs” y copia “Your API Key”.</string>
+    <string name="settings_theintrodb_check">Verificar clave</string>
+    <string name="settings_theintrodb_connected">Conectado · aportes: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">Sin clave · la cuota gratuita de esta red</string>
+    <string name="settings_theintrodb_invalid">Clave no aceptada</string>
+    <string name="settings_theintrodb_unreachable">No se pudo conectar con TheIntroDB</string>
+    <string name="settings_theintrodb_key_received">Clave de TheIntroDB recibida</string>
+    <string name="settings_theintrodb_attribution">Los tiempos para omitir los proporcionan TheIntroDB y su comunidad. Este producto no está respaldado por TheIntroDB.</string>
+    <string name="settings_heading_metadata">Metadatos</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">Omitir intro, resumen y créditos</string>
+    <string name="settings_theintrodb_contribute">TheIntroDB no tiene todas las películas y series: los tiempos los agregan los espectadores. Si falta alguno, puedes agregarlo tú: inicia sesión en theintrodb.org y envía los tiempos, y todos tendrán el botón Omitir.</string>
 </resources>

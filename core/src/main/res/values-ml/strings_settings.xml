@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">അവസാന ഇനങ്ങളിലേക്ക് പേജ്</string>
     <string name="settings_remote_action_jump_first">ആദ്യ ഇനത്തിലേക്ക് പോകുക</string>
     <string name="settings_remote_action_jump_last">അവസാന ഇനത്തിലേക്ക് പോകുക</string>
+    <string name="settings_remote_action_toggle_favorite">പ്രിയപ്പെട്ടവയിൽ ചേർക്കുക അല്ലെങ്കിൽ നീക്കുക</string>
+    <string name="settings_remote_action_record_or_download">റെക്കോർഡ് ചെയ്യുക അല്ലെങ്കിൽ ഡൗൺലോഡ് ചെയ്യുക</string>
     <string name="settings_large_skips_warning">വലിയ മറികടക്കൽ മൂല്യങ്ങൾ ചെറിയ പട്ടികകളുടെ അറ്റം കടക്കുകയും ശേഷി കുറഞ്ഞ ടിവികളിൽ ചലനം അസ്വാഭാവികമായി തോന്നുകയും ചെയ്യാം.</string>
     <string name="settings_weather">കാലാവസ്ഥ</string>
     <string name="settings_show_weather">കാലാവസ്ഥ കാണിക്കുക</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">മിനിറ്റ്</string>
     <string name="settings_allowance_hour">മണിക്കൂർ</string>
     <string name="settings_allowance_day">ദിവസം</string>
+    <string name="settings_allowance_unlimited">ദൈനംദിന പരിധിയില്ല</string>
     <plurals name="settings_allowance_value">
         <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> ശേഷിക്കുന്നു</item>
         <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> ശേഷിക്കുന്നു</item>
@@ -1779,4 +1782,33 @@
         <item quantity="one"><xliff:g id="count">%1$s</xliff:g> ചാനലിൽ ക്യാച്ച്-അപ്പ്</item>
         <item quantity="other"><xliff:g id="count">%1$s</xliff:g> ചാനലുകളിൽ ക്യാച്ച്-അപ്പ്</item>
     </plurals>
+    <string name="settings_skip_group">ഇൻട്രോയും ക്രെഡിറ്റുകളും ഒഴിവാക്കുക</string>
+    <string name="settings_skip_intro">ഇൻട്രോ</string>
+    <string name="settings_skip_recap">റീക്യാപ്പ്</string>
+    <string name="settings_skip_credits">അവസാന ക്രെഡിറ്റുകൾ</string>
+    <string name="settings_skip_preview">പ്രിവ്യൂ</string>
+    <string name="settings_line_skip_part">ഓഫ്, ഒരു ബട്ടൺ, അല്ലെങ്കിൽ സ്വയം ഒഴിവാക്കുക</string>
+    <string name="settings_skip_part_description">ഈ ഭാഗം പ്ലേ ചെയ്യുമ്പോൾ എന്ത് സംഭവിക്കുമെന്ന്. സമയങ്ങൾ പ്രേക്ഷകർ പങ്കിടുന്ന TheIntroDB-ൽ നിന്നാണ്, സിനിമ, സീരീസ് വിവരങ്ങളുമായി പൊരുത്തപ്പെടുത്തിയ സിനിമകൾക്കും എപ്പിസോഡുകൾക്കും.</string>
+    <string name="settings_skip_mode_button">ഒരു ബട്ടൺ കാണിക്കുക</string>
+    <string name="settings_skip_mode_auto">സ്വയം ഒഴിവാക്കുക</string>
+    <string name="settings_skip_button_show">ഒഴിവാക്കൽ ബട്ടൺ</string>
+    <string name="settings_line_skip_button_show">ബട്ടൺ എത്ര നേരം സ്ക്രീനിൽ നിൽക്കും</string>
+    <string name="settings_skip_button_start">ആദ്യ 10 സെക്കൻഡ്</string>
+    <string name="settings_skip_button_whole">മുഴുവൻ ഭാഗം</string>
+    <string name="settings_theintrodb_account">TheIntroDB അക്കൗണ്ട്</string>
+    <string name="settings_line_theintrodb">കൂടുതൽ തിരയലുകൾക്ക് ഐച്ഛിക കീ</string>
+    <string name="settings_theintrodb_api_key">TheIntroDB API കീ</string>
+    <string name="settings_theintrodb_key_steps">ആവശ്യമില്ല: കീ ഇല്ലാതെയും സമയങ്ങൾ പ്രവർത്തിക്കും. സ്വന്തം കീ ഉപയോഗിക്കാൻ theintrodb.org-ൽ സൈൻ ഇൻ ചെയ്ത് “Docs” തുറന്ന് “Your API Key” പകർത്തുക.</string>
+    <string name="settings_theintrodb_check">കീ പരിശോധിക്കുക</string>
+    <string name="settings_theintrodb_connected">കണക്റ്റ് ചെയ്തു · സമർപ്പണങ്ങൾ: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">കീ ഇല്ല · ഈ നെറ്റ്‌വർക്കിന്റെ സൗജന്യ പരിധി</string>
+    <string name="settings_theintrodb_invalid">കീ സ്വീകരിച്ചില്ല</string>
+    <string name="settings_theintrodb_unreachable">TheIntroDB-ൽ എത്താനായില്ല</string>
+    <string name="settings_theintrodb_key_received">TheIntroDB കീ ലഭിച്ചു</string>
+    <string name="settings_theintrodb_attribution">ഒഴിവാക്കൽ സമയങ്ങൾ TheIntroDB-ഉം അതിന്റെ കമ്മ്യൂണിറ്റിയും നൽകുന്നതാണ്. ഈ ഉൽപ്പന്നത്തിന് TheIntroDB-യുടെ അംഗീകാരമില്ല.</string>
+    <string name="settings_heading_metadata">മെറ്റാഡാറ്റ</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">ഇൻട്രോ, റീക്യാപ്പ്, ക്രെഡിറ്റുകൾ ഒഴിവാക്കുക</string>
+    <string name="settings_theintrodb_contribute">TheIntroDB-ൽ എല്ലാ സിനിമകളും സീരീസുകളും ഇല്ല: സമയങ്ങൾ ചേർക്കുന്നത് പ്രേക്ഷകരാണ്. ഏതെങ്കിലും ഇല്ലെങ്കിൽ നിങ്ങൾക്കുതന്നെ ചേർക്കാം — theintrodb.org-ൽ സൈൻ ഇൻ ചെയ്ത് സമയം സമർപ്പിക്കുക, എല്ലാവർക്കും ഒഴിവാക്കൽ ബട്ടൺ ലഭിക്കും.</string>
 </resources>

@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">Листать к концу</string>
     <string name="settings_remote_action_jump_first">К первому элементу</string>
     <string name="settings_remote_action_jump_last">К последнему элементу</string>
+    <string name="settings_remote_action_toggle_favorite">Добавить в избранное или удалить</string>
+    <string name="settings_remote_action_record_or_download">Записать или скачать</string>
     <string name="settings_large_skips_warning">При больших значениях короткие списки могут проскакивать слишком быстро, а на маломощных телевизорах навигация может казаться дёрганой.</string>
     <string name="settings_weather">Погода</string>
     <string name="settings_show_weather">Показывать погоду</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">Минута</string>
     <string name="settings_allowance_hour">Час</string>
     <string name="settings_allowance_day">Сутки</string>
+    <string name="settings_allowance_unlimited">Без суточного лимита</string>
     <plurals name="settings_allowance_value">
         <item quantity="one">осталось <xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g></item>
         <item quantity="few">осталось <xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g></item>
@@ -1859,4 +1862,33 @@
         <item quantity="many">архив на <xliff:g id="count">%1$s</xliff:g></item>
         <item quantity="other">архив на <xliff:g id="count">%1$s</xliff:g></item>
     </plurals>
+    <string name="settings_skip_group">Пропуск заставки и титров</string>
+    <string name="settings_skip_intro">Заставка</string>
+    <string name="settings_skip_recap">Пересказ</string>
+    <string name="settings_skip_credits">Финальные титры</string>
+    <string name="settings_skip_preview">Анонс</string>
+    <string name="settings_line_skip_part">Выкл., кнопка или автоматический пропуск</string>
+    <string name="settings_skip_part_description">Что происходит, когда идёт эта часть. Время берётся из TheIntroDB, им делятся зрители, для фильмов и серий, сопоставленных с данными о фильмах и сериалах.</string>
+    <string name="settings_skip_mode_button">Показывать кнопку</string>
+    <string name="settings_skip_mode_auto">Пропускать автоматически</string>
+    <string name="settings_skip_button_show">Кнопка пропуска</string>
+    <string name="settings_line_skip_button_show">Сколько кнопка остаётся на экране</string>
+    <string name="settings_skip_button_start">Первые 10 секунд</string>
+    <string name="settings_skip_button_whole">Всю часть</string>
+    <string name="settings_theintrodb_account">Аккаунт TheIntroDB</string>
+    <string name="settings_line_theintrodb">Необязательный ключ для большего числа запросов</string>
+    <string name="settings_theintrodb_api_key">API-ключ TheIntroDB</string>
+    <string name="settings_theintrodb_key_steps">Не обязателен: время работает и без ключа. Чтобы использовать свой, войдите на theintrodb.org, откройте «Docs» и скопируйте «Your API Key».</string>
+    <string name="settings_theintrodb_check">Проверить ключ</string>
+    <string name="settings_theintrodb_connected">Подключено · отправлено: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">Без ключа · бесплатный лимит этой сети</string>
+    <string name="settings_theintrodb_invalid">Ключ не принят</string>
+    <string name="settings_theintrodb_unreachable">Не удалось связаться с TheIntroDB</string>
+    <string name="settings_theintrodb_key_received">Ключ TheIntroDB получен</string>
+    <string name="settings_theintrodb_attribution">Время для пропуска предоставляют TheIntroDB и его сообщество. Этот продукт не одобрен TheIntroDB.</string>
+    <string name="settings_heading_metadata">Метаданные</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">Пропуск заставки, пересказа и титров</string>
+    <string name="settings_theintrodb_contribute">В TheIntroDB есть не все фильмы и сериалы: время добавляют зрители. Если чего-то не хватает, вы можете добавить сами — войдите на theintrodb.org и отправьте время, и кнопка пропуска появится у всех.</string>
 </resources>

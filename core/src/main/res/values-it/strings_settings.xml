@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">Pagina verso gli ultimi elementi</string>
     <string name="settings_remote_action_jump_first">Vai al primo elemento</string>
     <string name="settings_remote_action_jump_last">Vai all’ultimo elemento</string>
+    <string name="settings_remote_action_toggle_favorite">Aggiungi o rimuovi dai preferiti</string>
+    <string name="settings_remote_action_record_or_download">Registra o scarica</string>
     <string name="settings_large_skips_warning">I salti ampi superano la fine degli elenchi brevi e possono risultare bruschi sui TV meno potenti.</string>
     <string name="settings_weather">Meteo</string>
     <string name="settings_show_weather">Mostra meteo</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">Minuto</string>
     <string name="settings_allowance_hour">Ora</string>
     <string name="settings_allowance_day">Giorno</string>
+    <string name="settings_allowance_unlimited">Nessun limite giornaliero</string>
     <plurals name="settings_allowance_value">
         <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> rimanenti</item>
         <item quantity="many"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> rimanenti</item>
@@ -1819,4 +1822,33 @@
         <item quantity="many">catch-up su <xliff:g id="count">%1$s</xliff:g></item>
         <item quantity="other">catch-up su <xliff:g id="count">%1$s</xliff:g></item>
     </plurals>
+    <string name="settings_skip_group">Salta intro e titoli</string>
+    <string name="settings_skip_intro">Intro</string>
+    <string name="settings_skip_recap">Riassunto</string>
+    <string name="settings_skip_credits">Titoli di coda</string>
+    <string name="settings_skip_preview">Anteprima</string>
+    <string name="settings_line_skip_part">Disattivato, un pulsante o salto automatico</string>
+    <string name="settings_skip_part_description">Cosa succede quando viene riprodotta questa parte. I tempi arrivano da TheIntroDB, condivisi dagli spettatori, per film ed episodi associati ai dettagli di film e serie.</string>
+    <string name="settings_skip_mode_button">Mostra un pulsante</string>
+    <string name="settings_skip_mode_auto">Salta automaticamente</string>
+    <string name="settings_skip_button_show">Pulsante Salta</string>
+    <string name="settings_line_skip_button_show">Per quanto tempo resta visibile il pulsante</string>
+    <string name="settings_skip_button_start">Primi 10 secondi</string>
+    <string name="settings_skip_button_whole">Tutta la parte</string>
+    <string name="settings_theintrodb_account">Account TheIntroDB</string>
+    <string name="settings_line_theintrodb">Chiave facoltativa per più ricerche</string>
+    <string name="settings_theintrodb_api_key">Chiave API TheIntroDB</string>
+    <string name="settings_theintrodb_key_steps">Non serve: i tempi funzionano senza chiave. Per usarne una tua, accedi a theintrodb.org, apri “Docs” e copia “Your API Key”.</string>
+    <string name="settings_theintrodb_check">Verifica chiave</string>
+    <string name="settings_theintrodb_connected">Connesso · contributi: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">Nessuna chiave · la quota gratuita di questa rete</string>
+    <string name="settings_theintrodb_invalid">Chiave non accettata</string>
+    <string name="settings_theintrodb_unreachable">TheIntroDB non è raggiungibile</string>
+    <string name="settings_theintrodb_key_received">Chiave TheIntroDB ricevuta</string>
+    <string name="settings_theintrodb_attribution">I tempi da saltare sono forniti da TheIntroDB e dalla sua community. Questo prodotto non è approvato da TheIntroDB.</string>
+    <string name="settings_heading_metadata">Metadati</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">Salta intro, riassunto e titoli</string>
+    <string name="settings_theintrodb_contribute">TheIntroDB non ha tutti i film e le serie: i tempi li aggiungono gli spettatori. Se ne manca uno, puoi aggiungerlo tu: accedi a theintrodb.org e invia i tempi, così tutti avranno il pulsante Salta.</string>
 </resources>

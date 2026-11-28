@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">Bladr mod sidste elementer</string>
     <string name="settings_remote_action_jump_first">Gå til første element</string>
     <string name="settings_remote_action_jump_last">Gå til sidste element</string>
+    <string name="settings_remote_action_toggle_favorite">Tilføj eller fjern favorit</string>
+    <string name="settings_remote_action_record_or_download">Optag eller download</string>
     <string name="settings_large_skips_warning">Store spring kan gå forbi korte lister og kan føles hakkende på mindre kraftige tv\'er.</string>
     <string name="settings_weather">Vejr</string>
     <string name="settings_show_weather">Vis vejret</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">Minut</string>
     <string name="settings_allowance_hour">Time</string>
     <string name="settings_allowance_day">Dag</string>
+    <string name="settings_allowance_unlimited">Ingen daglig grænse</string>
     <plurals name="settings_allowance_value">
         <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> tilbage</item>
         <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> tilbage</item>
@@ -1779,4 +1782,33 @@
         <item quantity="one">catch-up på <xliff:g id="count">%1$s</xliff:g></item>
         <item quantity="other">catch-up på <xliff:g id="count">%1$s</xliff:g></item>
     </plurals>
+    <string name="settings_skip_group">Spring intro og rulletekster over</string>
+    <string name="settings_skip_intro">Intro</string>
+    <string name="settings_skip_recap">Resumé</string>
+    <string name="settings_skip_credits">Rulletekster</string>
+    <string name="settings_skip_preview">Forhåndsvisning</string>
+    <string name="settings_line_skip_part">Fra, en knap eller spring automatisk over</string>
+    <string name="settings_skip_part_description">Hvad der sker, når denne del spiller. Tiderne kommer fra TheIntroDB, delt af seere, for film og afsnit, der er matchet med film- og seriedetaljer.</string>
+    <string name="settings_skip_mode_button">Vis en knap</string>
+    <string name="settings_skip_mode_auto">Spring automatisk over</string>
+    <string name="settings_skip_button_show">Spring over-knap</string>
+    <string name="settings_line_skip_button_show">Hvor længe knappen bliver på skærmen</string>
+    <string name="settings_skip_button_start">Første 10 sekunder</string>
+    <string name="settings_skip_button_whole">Hele delen</string>
+    <string name="settings_theintrodb_account">TheIntroDB-konto</string>
+    <string name="settings_line_theintrodb">Valgfri nøgle til flere opslag</string>
+    <string name="settings_theintrodb_api_key">TheIntroDB API-nøgle</string>
+    <string name="settings_theintrodb_key_steps">Ikke nødvendig: tiderne virker uden nøgle. Vil du bruge din egen, så log ind på theintrodb.org, åbn »Docs« og kopiér »Your API Key«.</string>
+    <string name="settings_theintrodb_check">Tjek nøgle</string>
+    <string name="settings_theintrodb_connected">Forbundet · indsendelser: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">Ingen nøgle · den gratis kvote for dette netværk</string>
+    <string name="settings_theintrodb_invalid">Nøglen blev ikke accepteret</string>
+    <string name="settings_theintrodb_unreachable">TheIntroDB kunne ikke nås</string>
+    <string name="settings_theintrodb_key_received">TheIntroDB-nøgle modtaget</string>
+    <string name="settings_theintrodb_attribution">Tiderne leveres af TheIntroDB og fællesskabet bag. Dette produkt er ikke godkendt af TheIntroDB.</string>
+    <string name="settings_heading_metadata">Metadata</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">Spring intro, resumé og rulletekster over</string>
+    <string name="settings_theintrodb_contribute">TheIntroDB har ikke alle film og serier: tiderne tilføjes af seere. Mangler en, kan du selv tilføje den – log ind på theintrodb.org og indsend tiderne, så får alle spring over-knappen.</string>
 </resources>

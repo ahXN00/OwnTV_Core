@@ -113,6 +113,8 @@
     <string name="settings_remote_action_page_last">Bla mot siste elementer</string>
     <string name="settings_remote_action_jump_first">Gå til første element</string>
     <string name="settings_remote_action_jump_last">Gå til siste element</string>
+    <string name="settings_remote_action_toggle_favorite">Legg til eller fjern favoritt</string>
+    <string name="settings_remote_action_record_or_download">Ta opp eller last ned</string>
     <string name="settings_large_skips_warning">Store hopp går forbi korte lister og kan oppleves rykkete på enklere TV-er.</string>
     <string name="settings_weather">Vær</string>
     <string name="settings_show_weather">Vis været</string>
@@ -138,6 +140,7 @@
     <string name="settings_allowance_minute">Minutt</string>
     <string name="settings_allowance_hour">Time</string>
     <string name="settings_allowance_day">Dag</string>
+    <string name="settings_allowance_unlimited">Ingen daglig grense</string>
     <plurals name="settings_allowance_value">
         <item quantity="one"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> igjen</item>
         <item quantity="other"><xliff:g id="remaining">%1$d</xliff:g> / <xliff:g id="limit">%2$d</xliff:g> igjen</item>
@@ -1779,4 +1782,33 @@
         <item quantity="one">catch-up på <xliff:g id="count">%1$s</xliff:g></item>
         <item quantity="other">catch-up på <xliff:g id="count">%1$s</xliff:g></item>
     </plurals>
+    <string name="settings_skip_group">Hopp over intro og rulletekst</string>
+    <string name="settings_skip_intro">Intro</string>
+    <string name="settings_skip_recap">Sammendrag</string>
+    <string name="settings_skip_credits">Rulletekst</string>
+    <string name="settings_skip_preview">Forhåndsvisning</string>
+    <string name="settings_line_skip_part">Av, en knapp eller hopp over automatisk</string>
+    <string name="settings_skip_part_description">Hva som skjer når denne delen spilles. Tidene kommer fra TheIntroDB, delt av seere, for filmer og episoder som er koblet med film- og seriedetaljer.</string>
+    <string name="settings_skip_mode_button">Vis en knapp</string>
+    <string name="settings_skip_mode_auto">Hopp over automatisk</string>
+    <string name="settings_skip_button_show">Hopp over-knapp</string>
+    <string name="settings_line_skip_button_show">Hvor lenge knappen blir på skjermen</string>
+    <string name="settings_skip_button_start">Første 10 sekunder</string>
+    <string name="settings_skip_button_whole">Hele delen</string>
+    <string name="settings_theintrodb_account">TheIntroDB-konto</string>
+    <string name="settings_line_theintrodb">Valgfri nøkkel for flere oppslag</string>
+    <string name="settings_theintrodb_api_key">TheIntroDB API-nøkkel</string>
+    <string name="settings_theintrodb_key_steps">Ikke nødvendig: tidene virker uten nøkkel. For å bruke din egen, logg inn på theintrodb.org, åpne «Docs» og kopier «Your API Key».</string>
+    <string name="settings_theintrodb_check">Sjekk nøkkel</string>
+    <string name="settings_theintrodb_connected">Tilkoblet · innsendinger: <xliff:g id="count">%1$d</xliff:g></string>
+    <string name="settings_theintrodb_no_key">Ingen nøkkel · gratiskvoten for dette nettverket</string>
+    <string name="settings_theintrodb_invalid">Nøkkelen ble ikke godtatt</string>
+    <string name="settings_theintrodb_unreachable">Kunne ikke nå TheIntroDB</string>
+    <string name="settings_theintrodb_key_received">TheIntroDB-nøkkel mottatt</string>
+    <string name="settings_theintrodb_attribution">Tidene leveres av TheIntroDB og fellesskapet. Dette produktet er ikke godkjent av TheIntroDB.</string>
+    <string name="settings_heading_metadata">Metadata</string>
+    <string name="settings_tmdb">TMDB</string>
+    <string name="settings_theintrodb">TheIntroDB</string>
+    <string name="settings_theintrodb_root_description">Hopp over intro, sammendrag og rulletekst</string>
+    <string name="settings_theintrodb_contribute">TheIntroDB har ikke alle filmer og serier: tidene legges inn av seere. Mangler en, kan du legge den inn selv – logg inn på theintrodb.org og send inn tidene, så får alle hopp over-knappen.</string>
 </resources>

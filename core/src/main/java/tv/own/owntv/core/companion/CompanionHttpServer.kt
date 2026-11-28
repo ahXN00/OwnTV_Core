@@ -386,7 +386,8 @@ class CompanionHttpServer(
                         else R.string.companion_service_config_empty
                     ))
                 }
-                if (key.isNotBlank() && !Regex("^[A-Za-z0-9._-]{8,256}$").matches(key)) return sendText(socket, 400, localized(R.string.companion_service_config_invalid_key))
+                // ':' because a TheIntroDB key is "theintrodb:user_…:…".
+                if (key.isNotBlank() && !Regex("^[A-Za-z0-9._:-]{8,256}$").matches(key)) return sendText(socket, 400, localized(R.string.companion_service_config_invalid_key))
                 if (url.isNotBlank() && runCatching { java.net.URI(url).let { it.scheme == "https" && !it.host.isNullOrBlank() } }.getOrDefault(false).not()) return sendText(socket, 400, localized(R.string.companion_service_config_invalid_url))
                 // Length-bounded only. A password may legitimately contain anything, and OpenSubtitles
                 // does not publish a username charset — rejecting on a guessed pattern would lock real
@@ -491,8 +492,8 @@ class CompanionHttpServer(
         CompanionMode.BACKUP_RESTORE -> CompanionHtml.backupUploadPage(context, pin)
         CompanionMode.BACKUP_DOWNLOAD -> CompanionHtml.backupDownloadPage(context, pin)
         CompanionMode.IMAGE_UPLOAD -> CompanionHtml.imageUploadPage(context, pin)
-        CompanionMode.TMDB_CONFIG -> CompanionHtml.serviceConfigPage(context, pin, openSubtitles = false)
-        CompanionMode.OPEN_SUBTITLES_CONFIG -> CompanionHtml.serviceConfigPage(context, pin, openSubtitles = true)
+        CompanionMode.TMDB_CONFIG, CompanionMode.OPEN_SUBTITLES_CONFIG, CompanionMode.THEINTRODB_CONFIG ->
+            CompanionHtml.serviceConfigPage(context, pin, mode)
         // Local sync has no browser side. Someone who opens the address in a browser and types the
         // PIN gets told so rather than a blank page.
         CompanionMode.LOCAL_SYNC -> CompanionHtml.localSyncPage(context)

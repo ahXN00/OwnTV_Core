@@ -289,4 +289,106 @@ class DrmConfigTest {
         val entries = parse("#EXTM3U\n#EXTINF:-1,Plain\nhttp://host/a.ts")
         assertNull(entries[0].drm)
     }
+
+    // --- inputstream.adaptive 21: drm_legacy and drm ---
+
+    @Test
+    fun `drm_legacy carries clearkey keys inline`() {
+        val cfg = DrmConfig.fromKodiProps(
+            mapOf("drm_legacy" to "org.w3.clearkey|e4cce7421f2843fe94915343372ba185:a55effc1eb5ccf1af1c4f09abbb1cd39"),
+        )
+        assertEquals(DrmConfig.Scheme.CLEARKEY, cfg?.scheme)
+        assertEquals(mapOf("e4cce7421f2843fe94915343372ba185" to "a55effc1eb5ccf1af1c4f09abbb1cd39"), cfg?.clearKeys)
+    }
+
+    @Test
+    fun `drm_legacy carries a widevine licence url and its headers`() {
+        val cfg = DrmConfig.fromKodiProps(
+            mapOf("drm_legacy" to "com.widevine.alpha|https://lic.host/wv|User-Agent=Foo&Referer=https%3A%2F%2Fsite%2F"),
+        )
+        assertEquals(DrmConfig.Scheme.WIDEVINE, cfg?.scheme)
+        assertEquals("https://lic.host/wv", cfg?.licenseUrl)
+        assertEquals("Foo", cfg?.headers?.get("User-Agent"))
+        assertEquals("https://site/", cfg?.headers?.get("Referer"))
+    }
+
+    @Test
+    fun `drm json carries clearkey keyids`() {
+        val cfg = DrmConfig.fromKodiProps(
+            mapOf("drm" to """{"org.w3.clearkey":{"license":{"keyids":{"e4cce7421f2843fe94915343372ba185":"a55effc1eb5ccf1af1c4f09abbb1cd39"}}}}"""),
+        )
+        assertEquals(DrmConfig.Scheme.CLEARKEY, cfg?.scheme)
+        assertEquals("", cfg?.licenseUrl)
+        assertEquals(mapOf("e4cce7421f2843fe94915343372ba185" to "a55effc1eb5ccf1af1c4f09abbb1cd39"), cfg?.clearKeys)
+    }
+
+    @Test
+    fun `drm json carries a widevine server and its headers`() {
+        val cfg = DrmConfig.fromKodiProps(
+            mapOf("drm" to """{"com.widevine.alpha":{"license":{"server_url":"https://lic.host/wv","req_headers":"User-Agent=Foo"}}}"""),
+        )
+        assertEquals(DrmConfig.Scheme.WIDEVINE, cfg?.scheme)
+        assertEquals("https://lic.host/wv", cfg?.licenseUrl)
+        assertEquals(mapOf("User-Agent" to "Foo"), cfg?.headers)
+    }
+
+    @Test
+    fun `drm json tries the key systems in their priority order`() {
+        val cfg = DrmConfig.fromKodiProps(
+            mapOf(
+                "drm" to """{"com.widevine.alpha":{"priority":2,"license":{"server_url":"https://lic.host/wv"}},""" +
+                    """"org.w3.clearkey":{"priority":1,"license":{"keyids":{"e4cce7421f2843fe94915343372ba185":"a55effc1eb5ccf1af1c4f09abbb1cd39"}}}}""",
+            ),
+        )
+        assertEquals(DrmConfig.Scheme.CLEARKEY, cfg?.scheme)
+    }
+
+    @Test
+    fun `drm json that needs a request we do not build is dropped`() {
+        assertNull(
+            DrmConfig.fromKodiProps(
+                mapOf("drm" to """{"com.widevine.alpha":{"license":{"server_url":"https://lic.host/wv","unwrapper":"json"}}}"""),
+            ),
+        )
+        assertNull(
+            DrmConfig.fromKodiProps(
+                mapOf("drm" to """{"com.widevine.alpha":{"license":{"server_url":"https://lic.host/wv","req_params":"a=1"}}}"""),
+            ),
+        )
+    }
+
+    @Test
+    fun `an unusable drm value falls back to the older lines`() {
+        val cfg = DrmConfig.fromKodiProps(
+            mapOf(
+                "drm" to "not json",
+                "license_type" to "com.widevine.alpha",
+                "license_key" to "https://host/live/key/144",
+            ),
+        )
+        assertEquals("https://host/live/key/144", cfg?.licenseUrl)
+    }
+
+    @Test
+    fun `a playlist written the inputstream adaptive 21 way is read`() {
+        val entries = parse(
+            """
+            #EXTM3U
+            #EXTINF:-1 group-title="DRM test" tvg-id="SIC.pt",SIC (DRM)
+            #EXTVLCOPT:http-user-agent="Mozilla/5.0 (X11; Linux x86_64; rv:160.0) Gecko/20100101 Firefox/160.0"
+            #EXTVLCOPT:http-origin=https://opto.sic.pt/
+            #EXTVLCOPT:http-referrer=https://opto.sic.pt/
+            #KODIPROP:inputstream.adaptive.drm={"org.w3.clearkey":{"license":{"keyids":{"e4cce7421f2843fe94915343372ba185":"a55effc1eb5ccf1af1c4f09abbb1cd39"}}}}
+            https://host/out/v1/index.mpd
+            #EXTINF:-1 group-title="DRM test" tvg-id="SIC.pt",SIC (DRM legacy)
+            #KODIPROP:inputstream.adaptive.drm_legacy=org.w3.clearkey|e4cce7421f2843fe94915343372ba185:a55effc1eb5ccf1af1c4f09abbb1cd39
+            https://host/out/v1/index.mpd
+            """.trimIndent(),
+        )
+        assertEquals(2, entries.size)
+        entries.forEach { e ->
+            assertEquals(DrmConfig.Scheme.CLEARKEY, e.drm?.scheme)
+            assertEquals("a55effc1eb5ccf1af1c4f09abbb1cd39", e.drm?.clearKeys?.get("e4cce7421f2843fe94915343372ba185"))
+        }
+    }
 }

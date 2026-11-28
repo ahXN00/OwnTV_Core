@@ -154,6 +154,19 @@ val dataModule = module {
     // context, client, accountManager, okHttpClient, subtitleDao — search/download/cache orchestration
     single { tv.own.owntv.core.subtitles.SubtitleRepository(androidContext(), get(), get(), get(), get()) }
     single { WeatherRepository(get(), get()) }
+    // Skip intro & credits: TheIntroDB straight from the device on the shared client (its terms forbid a
+    // server in between), answers kept in memory only. The user's own key is read per lookup.
+    single { tv.own.owntv.core.skip.TheIntroDbClient(get()) }
+    single {
+        val client = get<tv.own.owntv.core.skip.TheIntroDbClient>()
+        val settings = get<tv.own.owntv.core.settings.SettingsRepository>()
+        tv.own.owntv.core.skip.SkipSegmentRepository(lookup = { key, durationMs ->
+            client.media(key.tmdbId, key.season, key.episode, durationMs, settings.currentTheIntroDbApiKey())
+        })
+    }
+    single { tv.own.owntv.core.skip.TheIntroDbAccount(get(), get(), get()) }
+    // client, metadata, settings — the long-press "Check TheIntroDB" in both apps.
+    single { tv.own.owntv.core.skip.TheIntroDbCheck(get(), get(), get()) }
     // Sports Hub: ESPN straight from the device on the shared client (no Worker, no key). Lazy like
     // everything here — none of it exists, let alone fetches, until a sports screen asks (startup zero-work).
     single<tv.own.owntv.core.sports.SportsSource> { tv.own.owntv.core.sports.EspnSportsSource(get()) }
@@ -234,7 +247,7 @@ val dataModule = module {
     single { tv.own.owntv.core.sync.local.LocalAutoSyncStore(androidContext(), get()) }
     single { tv.own.owntv.core.sync.local.AutoSyncLocks() }
     single { tv.own.owntv.core.sync.local.LocalAutoSyncClient() }
-    single { tv.own.owntv.core.sync.local.AutoSyncTransfer(get(), get()) { androidContext().cacheDir } }
+    single { tv.own.owntv.core.sync.local.AutoSyncTransfer(get(), get(), get()) { androidContext().cacheDir } }
     single {
         tv.own.owntv.core.sync.local.LocalAutoSyncServer(
             store = get(),

@@ -9,6 +9,24 @@
 > in one bolded line of its own (e.g. **Database v46 · Backup v24 · Breaking**). The detail — what,
 > why, files and verification — belongs in the commit message, never here.
 
+## core-1.0.73 — unreleased
+
+### ✨ New features
+
+- **⏭️ Skip intro, recap, end credits and preview, from TheIntroDB**
+- **🎬 End credits start the next-episode countdown and count as watched**
+- **🔑 TheIntroDB settings: per-part choice, skip button timing, optional API key with daily quota, key from the phone**
+- **🔍 "Check TheIntroDB" in the film, series and episode long-press menus**
+- **❤️ Remote shortcuts "Add or remove favorite" and "Record or download"** (rebuilt from community PR #95 by @Pax24fr)
+- **🔐 DRM: the newer Kodi `drm` and `drm_legacy` playlist lines (ahXN00/OwnTV#393)**
+
+### 🐛 Fixes
+
+- **🎬 Stalker films: the film's file is linked first, as a MAG box does (ahXN00/OwnTV#390)**
+- **🔄 Local sync: an episode watched on the other device reaches Continue Watching without opening the show (ahXN00/OwnTV#394)**
+- **🛟 "Restore did not finish" no longer flashes during a local sync (ahXN00/OwnTV#394)**
+- **🌐 Update check asks again when GitHub briefly fails**
+
 ## core-1.0.72 — 2026-11-22
 
 **Database v57 · Backup v28**
