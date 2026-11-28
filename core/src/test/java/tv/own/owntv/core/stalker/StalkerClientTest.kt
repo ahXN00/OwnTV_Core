@@ -382,4 +382,35 @@ class StalkerClientTest {
         assertEquals(0, StalkerClient.archiveDays("-5"))
         assertEquals(0, StalkerClient.archiveDays("lots"))
     }
+
+    // ---- film / episode file cmd ----
+
+    /** A portal that lists the storage URL as the file's cmd: create_link only answers the file id. */
+    @Test
+    fun vodFileCmd_urlCmdBecomesFileIdPath() {
+        val row = mapOf(
+            "id" to "1276510", "video_id" to "194054", "protocol" to "custom", "tmp_link_type" to "flussonic",
+            "is_file" to "true", "cmd" to "http://cdn.example:55034/abc/video.m3u8",
+        )
+        assertEquals("/media/file_1276510.mpg", StalkerClient.vodFileCmd(row))
+    }
+
+    @Test
+    fun vodFileCmd_keepsMediaPathCmd() {
+        assertEquals("/media/file_998882.mpg", StalkerClient.vodFileCmd(mapOf("id" to "998882", "cmd" to "/media/file_998882.mpg")))
+        assertEquals("ffmpeg /media/7.mpg", StalkerClient.vodFileCmd(mapOf("id" to "9", "cmd" to "ffmpeg /media/7.mpg")))
+    }
+
+    @Test
+    fun vodFileCmd_fileWithoutCmdUsesItsId() {
+        assertEquals("/media/file_42.mpg", StalkerClient.vodFileCmd(mapOf("id" to "42", "is_file" to "true")))
+    }
+
+    /** Season and episode rows have an id but are not files: nothing to link. */
+    @Test
+    fun vodFileCmd_seasonOrEpisodeRowIsNull() {
+        assertNull(StalkerClient.vodFileCmd(mapOf("id" to "50212", "is_season" to "true")))
+        assertNull(StalkerClient.vodFileCmd(mapOf("id" to "1134113", "is_episode" to "true")))
+        assertNull(StalkerClient.vodFileCmd(emptyMap()))
+    }
 }
