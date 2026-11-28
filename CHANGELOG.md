@@ -23,6 +23,7 @@
 ### 🐛 Fixes
 
 - **🎬 Stalker films: the film's file is linked first, as a MAG box does (ahXN00/OwnTV#390)**
+- **🎞️ Stalker films and episodes: a file listed with its storage URL is linked by its file id**
 - **🔄 Local sync: an episode watched on the other device reaches Continue Watching without opening the show (ahXN00/OwnTV#394)**
 - **🛟 "Restore did not finish" no longer flashes during a local sync (ahXN00/OwnTV#394)**
 - **🌐 Update check asks again when GitHub briefly fails**

@@ -512,13 +512,14 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
 
     /**
      * `…&movie_id=<show>&season_id=<season>&episode_id=<episode>` → the episode's files. Returns the
-     * first file's cmd (`/media/file_<id>.mpg`), which [createLink] turns into a URL like a film's.
+     * first file's cmd (`/media/file_<id>.mpg`, see [vodFileCmd]), which [createLink] turns into a
+     * URL like a film's.
      */
     open suspend fun getVodEpisodeFileCmd(
         apiBase: String, mac: String, token: String, userAgent: String?, movieId: String, seasonId: String, episodeId: String,
     ): String? {
         val url = "$apiBase?type=vod&action=get_ordered_list&movie_id=${enc(movieId)}&season_id=${enc(seasonId)}&episode_id=${enc(episodeId)}&p=1&JsHttpRequest=1-xml"
-        val files = request(url, mac, token, userAgent) { reader -> readScalarPage(reader) { f -> f["cmd"]?.takeIf { it.isNotBlank() } } }
+        val files = request(url, mac, token, userAgent) { reader -> readScalarPage(reader) { f -> vodFileCmd(f) } }
         return files.items.firstOrNull()
     }
 
@@ -1245,6 +1246,21 @@ open class StalkerClient(okHttpClient: OkHttpClient) {
          */
         fun vodEpisodeRef(movieId: String, seasonId: String, episodeId: String): String =
             "$VOD_EPISODE_SCHEME$movieId/$seasonId/$episodeId"
+
+        /**
+         * The cmd `create_link` takes for one row of a film's or episode's file list: always
+         * `/media/file_<id>.mpg`, the form a MAG box sends. Some portals put the storage URL itself
+         * in the file's `cmd` (`protocol=custom`, `tmp_link_type=flussonic`); `create_link` answers
+         * that URL with `error=nothing_to_play` and an empty cmd, while `/media/file_<id>.mpg` gets
+         * the signed link. A cmd that already is a `/media/` path is kept. A row with neither a cmd
+         * nor `is_file` (a season or an episode) gives null.
+         */
+        internal fun vodFileCmd(f: Map<String, String>): String? {
+            val cmd = f["cmd"]?.takeIf { it.isNotBlank() }
+            if (cmd != null && stripCmdPrefix(cmd).startsWith("/media/")) return cmd
+            val id = f["id"]?.trim()?.takeIf { it.isNotEmpty() } ?: return cmd
+            return if (cmd != null || isFlagSet(f["is_file"])) "/media/file_$id.mpg" else null
+        }
 
         /** The parts of a [vodEpisodeRef], or null for any other stored URL. */
         fun parseVodEpisodeRef(stored: String): VodEpisodeRef? {
